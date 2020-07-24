@@ -1,10 +1,10 @@
 import React from 'react';
 
-function CheckAvailablityPage() {
+function CheckStatusPage() {
   return (
     <>
       <div className="jumbotron">
-        <h1>Check AvailablityPage</h1>
+        <h1>check status Page</h1>
         <p>React, Flux, and React Router for ultra-responsive web apps.</p>
         <a href="/about">About</a>
       </div>
@@ -12,4 +12,4 @@ function CheckAvailablityPage() {
   );
 }
 
-export default CheckAvailablityPage;
+export default CheckStatusPage;

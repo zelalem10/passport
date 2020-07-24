@@ -12,4 +12,26 @@ code {
     monospace;
 }
 
+.col-example {
+  padding: 1rem;
+  text-align: left;
+}
+.headerNav .collapse .container-fluid .navbar-nav .nav-item.active > .nav-link {
+  border-bottom: 3px solid #ffd700;
+  transition: transform 0.5s ease-in-out;
+  background-color: unset !important;
+}
+.headerNav .collapse .container-fluid .navbar-nav .nav-item .nav-link:hover {
+  border-bottom: 3px solid #ffd700;
+  transition: transform 0.5s ease-in-out;
+  background-color: unset !important;
+}
 
+.headerNav {
+  padding: unset !important;
+}
+.headerNav .collapse .container-fluid .navbar-nav .nav-item .nav-link {
+  padding-top: unset !important;
+  padding-bottom: unset !important;
+  margin-bottom: -17px;
+}
