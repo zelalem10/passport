@@ -35,3 +35,40 @@ code {
   padding-bottom: unset !important;
   margin-bottom: -17px;
 }
+.page-footer .container-fluid .row .col-md-4 > ul .list-unstyled {
+  padding: 3px 0;
+}
+.page-footer .container-fluid .row .col-md-4 > ul .list-unstyled > a:hover {
+  color: #ffd700;
+}
+.passport-CarouselCaption {
+  padding-bottom: 0 !important;
+  top: 10%;
+  bottom: auto !important;
+  background: rgba(0, 0, 0, 0.35);
+  width: 50%;
+  height: auto;
+  text-align: left !important;
+  padding: 0.5em 1em;
+  font-size: 2em;
+  text-shadow: 1px 1px 11px #000;
+}
+.passport-CarouselCaption .passport-btn {
+  background-color: #ffd700 !important;
+  color: #747f8a;
+  border-radius: 25px;
+}
+.passport-card .card {
+  background-color: #3f51b5;
+  color: #ffffff !important;
+  text-align: center;
+}
+.passport-card .card .card-body .card-text {
+  color: #ffffff !important;
+}
+.passport-card-deck {
+  margin-top: -2%;
+}
+.Passport-Carousel .carousel .carousel-inner {
+  z-index: -1;
+}

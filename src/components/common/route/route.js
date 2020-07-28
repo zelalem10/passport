@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import HomePage from '../../HomePage';
+import HomePage from '../../Home/HomePage';
 import AboutPage from '../../ServicePage';
 import CoursesPage from '../../RequestAppointmentPage';
 import CheckAvailablityPage from '../../CheckAvailablityPage';
