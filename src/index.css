@@ -30,10 +30,12 @@ code {
 .headerNav {
   padding: unset !important;
 }
-.headerNav .collapse .container-fluid .navbar-nav .nav-item .nav-link {
-  padding-top: unset !important;
-  padding-bottom: unset !important;
-  margin-bottom: -17px;
+@media only screen and (min-width: 600px) {
+  .headerNav .collapse .container-fluid .navbar-nav .nav-item .nav-link {
+    padding-top: unset !important;
+    padding-bottom: unset !important;
+    margin-bottom: -17px;
+  }
 }
 .page-footer .container-fluid .row .col-md-4 > ul .list-unstyled {
   padding: 3px 0;
@@ -71,4 +73,130 @@ code {
 }
 .Passport-Carousel .carousel .carousel-inner {
   z-index: -1;
+}
+.passport-card .card {
+  border-radius: 10px !important;
+}
+.passport-card .card .card-body .card-title {
+  font-weight: 300;
+}
+.passport-card .card .card-body .card-text {
+  font-weight: 300;
+}
+.Passport-Carousel .carousel .carousel-indicators {
+  top: 85%;
+}
+
+.Passport-Carousel .carousel .carousel-indicators .active {
+  border: 2px solid #fff;
+  background: #ffd700;
+}
+
+.Passport-Carousel .carousel .carousel-indicators li {
+  border: 2px solid #fff;
+  background: #5e5e5e;
+  border-radius: 8px !important;
+  margin: 0;
+  opacity: 1;
+  margin-left: 2px;
+}
+.Passport-Carousel .carousel .carousel-indicators {
+  position: absolute;
+  left: 50%;
+  z-index: 15;
+  width: 60%;
+  margin-left: -30%;
+  padding-left: 0;
+  list-style: none;
+  text-align: center;
+}
+.Passport-accordion .makeStyles-root-1 .MuiPaper-root .border-top-left {
+  box-shadow: unset;
+}
+.passport-accordion-heading {
+  text-align: center;
+  font-weight: 500;
+}
+.passport-accordion-heading .Underline {
+  border-bottom: 4px solid #ffd700;
+}
+.Passport-accordion
+  .makeStyles-root-1
+  .MuiPaper-root
+  .MuiButtonBase-root
+  .MuiAccordionSummary-content
+  .makeStyles-heading-2 {
+  font-size: 1rem;
+  font-weight: 500;
+}
+.box-container {
+  background-color: #e0e0e0;
+}
+.passport-box-heading {
+  text-align: left;
+  font-weight: 500;
+}
+.passport-box-row .col-md-6 {
+  flex-basis: 44%;
+  padding-left: unset;
+}
+.passport-box-col {
+  margin-top: 5%;
+}
+.passport-box-col .btn-outline-primary {
+  border-radius: 10px;
+}
+.Passport-accordion .makeStyles-root-1 .MuiPaper-elevation1 {
+  box-shadow: unset !important;
+}
+.Passport-accordion .makeStyles-root-1 .MuiAccordion-root.Mui-expanded:before {
+  opacity: 1;
+}
+.Passport-accordion .MuiPaper-root.Mui-expanded {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+}
+.passport-container {
+  width: 80% !important;
+}
+@media only screen and (max-width: 600px) {
+  .passport-container {
+    width: 100% !important;
+  }
+}
+@media only screen and (max-width: 640px) {
+  .carousel-caption {
+    height: auto !important;
+    z-index: 99999 !important;
+    top: 2px !important;
+    width: 97% !important;
+    position: absolute !important;
+    left: 50% !important;
+    -webkit-transform: translateX(-50%) !important;
+    transform: translateX(-50%) !important;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .carousel-caption {
+    padding: 6px 10px !important;
+    text-align: center;
+    line-height: 1.5;
+    margin-bottom: 0px !important;
+    font-size: 2em !important;
+    bottom: unset !important;
+    position: absolute;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .passport-CarouselCaption > h3 {
+    font-size: 0.4em !important;
+  }
+  .passport-CarouselCaption .h3-responsive > br {
+    display: none;
+  }
+  .Passport-Carousel .carousel .carousel-indicators {
+    top: 100%;
+  }
+  .passport-card-deck {
+    margin-top: 5%;
+  }
 }

@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const CardExample = () => {
   return (
-    <MDBContainer className="passport-card-deck" fluid style={{ width: '80%' }}>
+    <MDBContainer className="passport-card-deck passport-container" fluid>
       <MDBCardGroup className="passport-card">
         <MDBCard className="mr-4">
           <MDBCardBody>

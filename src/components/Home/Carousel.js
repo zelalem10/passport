@@ -41,7 +41,9 @@ const CarouselPage = () => {
                 Welcome to Ethiopian <br></br>
                 e-passport Services
               </h3>
-              <MDBBtn className="passport-btn">Request Appointment</MDBBtn>
+              <MDBBtn className="passport-btn d-none d-sm-block">
+                Request Appointment
+              </MDBBtn>
             </MDBCarouselCaption>
           </MDBCarouselItem>
           <MDBCarouselItem itemId="2">
@@ -58,7 +60,9 @@ const CarouselPage = () => {
                 Welcome to Ethiopian <br></br>
                 e-passport Services
               </h3>
-              <MDBBtn className="passport-btn">Request Appointment</MDBBtn>
+              <MDBBtn className="passport-btn d-none d-sm-block">
+                Request Appointment
+              </MDBBtn>
             </MDBCarouselCaption>
           </MDBCarouselItem>
           <MDBCarouselItem itemId="3">
@@ -75,7 +79,9 @@ const CarouselPage = () => {
                 Welcome to Ethiopian <br></br>
                 e-passport Services
               </h3>
-              <MDBBtn className="passport-btn">Request Appointment</MDBBtn>
+              <MDBBtn className="passport-btn d-none d-sm-block">
+                Request Appointment
+              </MDBBtn>
             </MDBCarouselCaption>
           </MDBCarouselItem>
         </MDBCarouselInner>
