@@ -1,4 +1,6 @@
 import React from "react";
+import ServiceSelection from './ServiceSelection';
+import './requestAppointment.css'
 function CoursesPage() {
   
 
@@ -6,7 +8,7 @@ function CoursesPage() {
 
   return (
     <>
-      <h2>Courses</h2>
+      <ServiceSelection />
     </>
   );
 }

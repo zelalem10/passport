@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import HomePage from '../../Home/HomePage';
 import AboutPage from '../../ServicePage';
-import CoursesPage from '../../RequestAppointmentPage';
+import CoursesPage from '../../Request Appointment/RequestAppointmentPage';
 import CheckAvailablityPage from '../../CheckAvailablityPage';
 import ManageBookingPage from '../../ManageBooking';
 import CheckStatusPage from '../../CheckStatusPage';
