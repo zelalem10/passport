@@ -12,7 +12,7 @@ function RenewPassport(props){
     return(
 <MDBContainer className="passport-container pt-3" id="request-an-appointment"  fluid>
 <MDBRow>
-    <MDBCol sm="12" md="8" lg="7">
+    <MDBCol sm="12" lg="7">
     <app-doctor-type-step  class="ng-trigger ng-trigger-stepTransitions ng-tns-c1-0 ng-star-inserted" >
    <div class="multistep-form__step renew-passport-multistep">
       <h2 className="h1">Which type of issue are you facing?</h2>

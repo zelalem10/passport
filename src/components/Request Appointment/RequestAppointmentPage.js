@@ -1,14 +1,9 @@
-import React from "react";
-import ServiceSelection from './ServiceSelection';
-import './requestAppointment.css'
+import React from 'react';
+import HorizontalLinearStepper from './serviceSelection';
 function CoursesPage() {
-  
-
-  
-
   return (
     <>
-      <ServiceSelection />
+      <HorizontalLinearStepper />
     </>
   );
 }

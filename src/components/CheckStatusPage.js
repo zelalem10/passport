@@ -1,15 +1,8 @@
 import React from 'react';
+import MyApp from './Request Appointment/appointment/appointmentDate';
 
 function CheckStatusPage() {
-  return (
-    <>
-      <div className="jumbotron">
-        <h1>check status Page</h1>
-        <p>React, Flux, and React Router for ultra-responsive web apps.</p>
-        <a href="/about">About</a>
-      </div>
-    </>
-  );
+  return <MyApp />;
 }
 
 export default CheckStatusPage;
