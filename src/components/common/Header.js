@@ -90,10 +90,10 @@ class NavbarPage extends Component {
             </MDBNavbarNav>
             <MDBNavbarNav right>
               <MDBNavItem>
-                <MDBNavLink to="#!">Register &nbsp;&nbsp;|</MDBNavLink>
+                <MDBNavLink to="/signUp">Register &nbsp;&nbsp;|</MDBNavLink>
               </MDBNavItem>
               <MDBNavItem>
-                <MDBNavLink to="#!">Login</MDBNavLink>
+                <MDBNavLink to="/signIn">Login</MDBNavLink>
               </MDBNavItem>
             </MDBNavbarNav>
           </MDBCollapse>

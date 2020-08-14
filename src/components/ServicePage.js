@@ -18,6 +18,7 @@ export default function ServiceList() {
       , { id: 1, name: "Damaged" }
       , { id: 1, name: "Correction" }],
   });
+
   useEffect(() => {
     axios.get("/RequestTypes")
       .then((todo) => setList(todo.data.requestTypes))
@@ -42,7 +43,7 @@ export default function ServiceList() {
                   With supporting text below as a natural lead-in to additional
                   content.
                    </MDBCardText>
-                <MDBLink to='/request-appointment' link>
+                <MDBLink to='/' link>
                   Apply now
                     </MDBLink>
               </MDBCardBody>
