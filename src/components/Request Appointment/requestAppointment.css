@@ -671,3 +671,12 @@ ul.list--single-line li .icon {
   color: #fff;
   text-align: center;
 }
+.accordion__button:hover {
+  color: #00a0af;
+}
+.accordion__button.edit {
+  right: -3%;
+}
+.multistep-form__step .card {
+  border: unset !important;
+}

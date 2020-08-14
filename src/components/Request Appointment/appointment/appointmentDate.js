@@ -33,8 +33,8 @@ function MyApp() {
     setShowAvailableTimeSlots(true);
   };
   const availableDates = [
-    new Date(2020, 7, 16).toString(),
-    new Date(2020, 7, 5).toString(),
+    new Date(2020, 7, 19).toString(),
+    new Date(2020, 7, 21).toString(),
   ];
   let disabledDates = [];
   const getDates = (startDate, stopDate) => {
@@ -68,7 +68,7 @@ function MyApp() {
     startDate.getDate();
   getDates(
     new Date(formatedDate),
-    new Date(new Date().setTime(new Date().getTime() + 5 * 86400000))
+    new Date(new Date().setTime(new Date().getTime() + 10 * 86400000))
   );
   const dateValue = state.date.toString();
   return (
@@ -89,7 +89,7 @@ function MyApp() {
               }
               maxDate={
                 new Date(
-                  new Date().setTime(new Date().getTime() + 5 * 86400000)
+                  new Date().setTime(new Date().getTime() + 10 * 86400000)
                 )
               }
               tileDisabled={({ date, view }) =>
