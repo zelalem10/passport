@@ -70,7 +70,7 @@ function MyApp() {
     new Date(formatedDate),
     new Date(new Date().setTime(new Date().getTime() + 5 * 86400000))
   );
-  const dateValue = state.date.toString('dddd, dd MMMM yyyy');
+  const dateValue = state.date.toString();
   return (
     <div>
       <MDBContainer className="passport-container pt-3" fluid>

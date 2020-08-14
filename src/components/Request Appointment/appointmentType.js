@@ -6,7 +6,6 @@ function AppointmetType(props) {
     e.preventDefault();
     props.nextStep();
   };
-
   const backTo = (e) => {
     e.preventDefault();
     props.prevStep();
