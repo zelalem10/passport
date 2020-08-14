@@ -1,24 +1,17 @@
 import React from 'react';
 import './App.css';
-import HomePage from './components/HomePage';
-import AboutPage from './components/ServicePage';
 import NavbarPage from './components/common/Header';
-import CoursesPage from './components/RequestAppointmentPage';
-import SignInPage from './components/UserManagement/SignIn'
-import SignUpPage from './components/UserManagement/SignUp'
-import RequestStepper from './components/RequestStepper/RequestStepper'
-import { Route } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import FooterPage from './components/common/footer';
+import PassportRoute from './components/common/route/route';
 
 function App() {
+  const location = useLocation();
   return (
     <>
-      <NavbarPage />
-      <Route path="/" exact component={RequestStepper} />
-      <Route path="/request-appointment" component={CoursesPage} />
-      <Route path="/service" component={AboutPage} />
-
-      <Route path="/signIn" component={SignInPage} />
-      <Route path="/signUp" component={SignUpPage} />
+      <NavbarPage location={location} />
+      <PassportRoute />
+      <FooterPage />
     </>
   );
 }

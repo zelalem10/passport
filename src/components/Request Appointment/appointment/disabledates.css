@@ -1,0 +1,57 @@
+input[type='button'] {
+  border-radius: 4px;
+}
+.btn_select {
+  background: #007fa3;
+  color: #fff;
+  border: 1px solid #007fa3;
+  display: inline-block;
+  padding: 6px 12px;
+  text-decoration: none;
+  cursor: pointer;
+  vertical-align: middle;
+}
+.btn_select:active {
+  outline: 3px solid #ffb81c;
+  box-shadow: none;
+  border: 1px solid #333;
+  outline-offset: 0;
+}
+#displayMorningAppts,
+#displayAfternoonAppts {
+  width: 50%;
+}
+.btn_select:hover {
+  outline: 3px solid #ffb81c;
+  box-shadow: none;
+  border: 1px solid #333;
+  outline-offset: 0;
+}
+@media screen and (min-width: 768px) {
+  #apptTable td {
+    display: table-cell;
+    width: auto;
+    float: none;
+    clear: none;
+  }
+}
+#apptTable td {
+  border: none;
+}
+#chooseAppointments {
+  margin-bottom: 24px;
+  border: 1px solid #ddd;
+  padding: 16px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
+    0 1px 3px 0 rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+}
+.bg-info {
+  background-color: #d9edf7;
+}
+
+.text-info {
+  color: #31708f;
+}
