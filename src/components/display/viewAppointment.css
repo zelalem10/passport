@@ -1,0 +1,23 @@
+.personal-information {
+  margin-left: 2rem;
+}
+.personal-information .form-group {
+  margin-right: 2rem;
+  margin-left: 2rem;
+}
+.display-information .MuiAccordionDetails-root {
+  display: inherit !important;
+}
+.personal-information .form-group > label {
+  font-weight: 500 !important;
+}
+.display-information .MuiTypography-body1 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.personal-information .form-group .form-control:disabled {
+  background-color: #ffffff;
+}
+.display-information .MuiCollapse-wrapperInner {
+    background-color: beige;
+}

@@ -25,6 +25,7 @@ function HorizontalLinearStepper() {
     setState({
       step: step + 2,
     });
+    setGroup(false);
     if (type === 'individual') {
       indentifier = identifyGroupVsIndividual(type);
     } else {
@@ -58,12 +59,13 @@ function HorizontalLinearStepper() {
     }
   };
 
-  const handleApplicants = (input) => (e) => {
+  const handleApplicants = (e) => {
+    debugger;
     setApplicants(e.target.value);
   };
 
   const handleChange = (input) => (e) => {
-    setState({ [input]: e.target.value });
+    setApplicants({ [input]: e.target.value });
   };
 
   const { step } = state;
@@ -84,6 +86,8 @@ function HorizontalLinearStepper() {
           nextStep={nextStep}
           handleChange={handleApplicants}
           prevStep={prevStep}
+          values={applicants}
+          isItGroup={group}
         />
       );
     case 3:
@@ -92,7 +96,8 @@ function HorizontalLinearStepper() {
           nextStep={nextStep}
           handleChange={handleChange}
           prevStep={prevStep}
-          values={groupValue}
+          isItGroup={group}
+          values={applicants}
         />
       );
     case 4:
@@ -101,6 +106,8 @@ function HorizontalLinearStepper() {
           nextStep={nextStep}
           handleChange={handleChange}
           prevStep={prevStep}
+          isItGroup={group}
+          values={applicants}
         />
       );
     default:

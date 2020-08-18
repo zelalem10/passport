@@ -10,6 +10,8 @@ function AppointmetType(props) {
     e.preventDefault();
     props.prevStep();
   };
+  const { isItGroup } = props;
+  const { values } = props;
   return (
     <MDBContainer
       className="passport-container pt-3"
@@ -160,7 +162,9 @@ function AppointmetType(props) {
             </h4>
             <ul class="list--no-indent list--no-bullets ng-star-inserted">
               <li>
-                <strong>Requestor:{props.values}</strong>
+                <strong>
+                  Requestor:{isItGroup ? ' Group / ' + values : ' Individual'}
+                </strong>
               </li>
             </ul>
           </div>

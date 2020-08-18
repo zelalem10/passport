@@ -680,3 +680,12 @@ ul.list--single-line li .icon {
 .multistep-form__step .card {
   border: unset !important;
 }
+.multistep-form__step .MuiPaper-elevation1 {
+  box-shadow: unset !important;
+}
+.multistep-form__step .MuiAccordion-root:before {
+  background-color: unset !important;
+}
+.multistep-form__step .md-form .validate {
+  margin-bottom: 0 !important;
+}
