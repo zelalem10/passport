@@ -6,6 +6,9 @@ import CoursesPage from '../../Request Appointment/RequestAppointmentPage';
 import CheckAvailablityPage from '../../CheckAvailablityPage';
 import ManageBookingPage from '../../ManageBooking';
 import CheckStatusPage from '../../CheckStatusPage';
+import RequestStepper from '../../RequestStepper/RequestStepper'
+import Login from '../../UserManagement/SignIn'
+import SignUp from '../../UserManagement/SignUp'
 
 function PassportRoute() {
   return (
@@ -16,6 +19,10 @@ function PassportRoute() {
       <Route path="/check-availablity" exact component={CheckAvailablityPage} />
       <Route path="/manage-booking" component={ManageBookingPage} />
       <Route path="/check-status" component={CheckStatusPage} />
+      <Route path="/request-stepper" component={RequestStepper} />
+      <Route path="/SignIn" component={Login} />
+      <Route path="/SignUp" component={SignUp} />
+
     </>
   );
 }

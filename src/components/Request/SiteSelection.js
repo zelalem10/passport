@@ -3,11 +3,9 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
 import * as ReactBootstrap from 'react-bootstrap';
-import { BsStarFill } from "react-icons/bs";
 
 import API from '../Utils/API'
-import { red } from '@material-ui/core/colors';
-
+export const SiteSelectionContext = React.createContext(true);
 
 export default function SiteSelection() {
     const useStyles = makeStyles((theme) => ({
@@ -20,18 +18,16 @@ export default function SiteSelection() {
     }));
     const [countryList, setCountryList] = useState([]);
     const [regionList, setRegionList] = useState([]);
-    const [cityList, setCityList] = useState([]);
     const [officeList, setOOfficeList] = useState([]);
     const [selectedRegionId, setSelectedRegionId] = useState(0);
     const [selectedCountryId, setSelectedCountryId] = useState(0);
-    const [selectedCityId, setSelectedCityId] = useState();
     const [officeName, setOfficeName] = useState("");
     const [officeAddress, setOfficeAddress] = useState("");
     const [officeContact, setOfficeContact] = useState("");
     const classes = useStyles();
-    const officeURL="http://svdrbas03:2222/Master/api/V1.0/Office/GetByCountryId?id=358"
+    const officeURL = "http://svdrbas03:2222/Master/api/V1.0/Office/GetByCountryId?id=358"
     const config = {
-        headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk3Mjk4OTA1LCJleHAiOjE1OTczMTMzMDUsImlhdCI6MTU5NzI5ODkwNX0.-t1bww3h3gA_iYqwCXC5NQlW4PlpI6ri4_W7EQp-rCs` }
+        headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk3OTAyOTQwLCJleHAiOjE1OTc5MTczNDAsImlhdCI6MTU5NzkwMjk0MH0.j0j-mIlOcTP0DOYWmbi4q-Z2rS1xT5elvmLtv26YVLU` }
     };
 
     const handleRegionChange = (event) => {
@@ -57,7 +53,7 @@ export default function SiteSelection() {
             })
     }
 
-    function handelOfficeChange(event){
+    function handelOfficeChange(event) {
         setOfficeName("MainImmegration")
         setOfficeAddress("Test Address")
         setOfficeContact("Test contact")
@@ -97,8 +93,8 @@ export default function SiteSelection() {
 
                             <ReactBootstrap.Col>
                                 <ReactBootstrap.Form.Label>Office name </ReactBootstrap.Form.Label>
-                                <div style={{ borderStyle: "outset", height:"50px" }} as="textarea" disabled aria-label="With textarea">
-                                <h5 style={{ color: "purple" }}>{officeName}</h5>
+                                <div style={{ borderStyle: "outset", height: "50px" }} as="textarea" disabled aria-label="With textarea">
+                                    <h5 style={{ color: "purple" }}>{officeName}</h5>
                                 </div>
                             </ReactBootstrap.Col>
                         </ReactBootstrap.Row>
@@ -116,8 +112,8 @@ export default function SiteSelection() {
                             </ReactBootstrap.Col>
                             <ReactBootstrap.Col>
                                 <ReactBootstrap.Form.Label>Office Address </ReactBootstrap.Form.Label>
-                                <div style={{ borderStyle: "outset", height:"100px" }} as="textarea" disabled aria-label="With textarea">
-                                <h5 style={{ color: "purple" }}>{officeAddress}</h5>
+                                <div style={{ borderStyle: "outset", height: "100px" }} as="textarea" disabled aria-label="With textarea">
+                                    <h5 style={{ color: "purple" }}>{officeAddress}</h5>
                                 </div>
                             </ReactBootstrap.Col>
                         </ReactBootstrap.Row>
@@ -135,14 +131,17 @@ export default function SiteSelection() {
                             </ReactBootstrap.Col>
                             <ReactBootstrap.Col>
                                 <ReactBootstrap.Form.Label>Contact Number </ReactBootstrap.Form.Label>
-                                <div style={{ borderStyle: "outset", height:"50px" }} as="textarea" disabled aria-label="With textarea">
-                                <h5 style={{ color: "purple" }}>{officeContact}</h5>
+                                <div style={{ borderStyle: "outset", height: "50px" }} as="textarea" disabled aria-label="With textarea">
+                                    <h5 style={{ color: "purple" }}>{officeContact}</h5>
                                 </div>
                             </ReactBootstrap.Col>
                         </ReactBootstrap.Row>
                     </ReactBootstrap.Form.Group>
                 </blockquote>
+                <SiteSelectionContext.Provider value={true}></SiteSelectionContext.Provider>
             </ReactBootstrap.Card.Body>
         </ReactBootstrap.Card>
+
     );
 }
+

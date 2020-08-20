@@ -9,7 +9,6 @@ import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import configureStore from './redux/configureStore';
 import { Provider as ReduxProvider } from 'react-redux';
-import './components/Request Appointment/requestAppointment.css';
 
 const store = configureStore();
 ReactDOM.render(

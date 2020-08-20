@@ -4,6 +4,7 @@ import NumberOfApplicant from './NumberOfApplicants';
 import AppointmetType from './appointmentType';
 import RenewPassport from './RenewPassport';
 import { connect } from 'react-redux';
+
 import * as serviceSelectionActions from '../../redux/actions/serviceActions';
 
 let indentifier = false;
