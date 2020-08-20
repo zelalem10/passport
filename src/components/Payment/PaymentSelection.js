@@ -1,61 +1,63 @@
-import React, { useState } from 'react';
-import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBRow } from 'mdbreact';
+import React, { useState, useEffect } from 'react';
+import { MDBBtn, MDBCard,MDBCardHeader, MDBContainer, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBRow } from 'mdbreact';
 import PayWithAmole from '../Payment/PayWithAmole'
+import API from '../Utils/API'
 function getSelectedOption(optionName) {
     switch (optionName) {
-        case "amole":
+        case "Amole":
             return <PayWithAmole />;
         default:
-            return 'Unknown stepIndex';
+            return <h3>Unkown payment option</h3>;
     }
 }
-
 const CardExample = () => {
     const [selectedOption, setSelectedOption] = useState();
     const [optionSelected, setOptionSelected] = useState(false);
+    const [paymentOptions, setPaymentOptions] = useState([]);
+    const config = {
+        headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk3OTM3OTcwLCJleHAiOjE1OTc5NTIzNzAsImlhdCI6MTU5NzkzNzk3MH0.NaOnvIzcrptGUf1_EoXRfRHZe0CwHNEd0UwhATjiUZM` }
+    };
+    useEffect(() => {
+        API.get("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/GetPaymentOptions", config)
+            .then((todo) => setPaymentOptions(todo.data.paymentOptions))
+            .catch((err) => {
+                console.log("AXIOS ERROR: ", err);
+            })
 
-
-    const handelClick = () => {
-        setSelectedOption("amole");
+    }, [])
+    const handelClick = (optionCode) => {
+        setSelectedOption(optionCode);
         setOptionSelected(true)
     }
     return (
         optionSelected === false ?
-            (<MDBRow>
-                <MDBCol style={{ maxWidth: "22rem" }}>
-                    <MDBCard>
-                        <MDBCardImage className="img-fluid" src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
-                            waves />
+            (
+                <MDBContainer>
+                    <MDBCard style={{marginTop: "1rem" }}>
+                        <MDBCardHeader color="primary-color" tag="h3">
+                            Select payment option to pay
+                  </MDBCardHeader>
                         <MDBCardBody>
-                            <MDBCardTitle>Amole</MDBCardTitle>
-                            <MDBCardText>Some quick example text to build on the card title and make up the bulk of the card's content.</MDBCardText>
-                            <MDBBtn href="#" onClick={handelClick}>Select</MDBBtn>
+                            <MDBRow>
+                                {paymentOptions.map((paymentOption) =>
+                                    <MDBCol md="4" style={{ marginBottom: "5px" }}>
+                                        <MDBCard>
+                                            <MDBCardImage className="img-fluid" src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
+                                                waves />
+                                            <MDBCardBody>
+                                                <MDBCardTitle>{paymentOption.name}</MDBCardTitle>instruction
+                    <MDBCardText></MDBCardText>
+                                                <MDBBtn href="#" onClick={() => handelClick(paymentOption.code)}>Select</MDBBtn>
+                                            </MDBCardBody>
+                                        </MDBCard>
+                                    </MDBCol>
+                                )
+                                }
+                            </MDBRow>
                         </MDBCardBody>
                     </MDBCard>
-                </MDBCol>
-                <MDBCol style={{ maxWidth: "22rem" }}>
-                    <MDBCard>
-                        <MDBCardImage className="img-fluid" src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
-                            waves />
-                        <MDBCardBody>
-                            <MDBCardTitle>United bank</MDBCardTitle>
-                            <MDBCardText>Some quick example text to build on the card title and make up the bulk of the card's content.</MDBCardText>
-                            <MDBBtn href="#">Select</MDBBtn>
-                        </MDBCardBody>
-                    </MDBCard>
-                </MDBCol>
-                <MDBCol style={{ maxWidth: "22rem" }}>
-                    <MDBCard>
-                        <MDBCardImage className="img-fluid" src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
-                            waves />
-                        <MDBCardBody>
-                            <MDBCardTitle>CBE birr</MDBCardTitle>
-                            <MDBCardText>Some quick example text to build on the card title and make up the bulk of the card's content.</MDBCardText>
-                            <MDBBtn href="#"> Select</MDBBtn>
-                        </MDBCardBody>
-                    </MDBCard>
-                </MDBCol>
-            </MDBRow>) : (
+                </MDBContainer>
+            ) : (
                 <div>{getSelectedOption(selectedOption)}</div>
             )
     )

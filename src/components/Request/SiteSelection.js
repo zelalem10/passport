@@ -3,8 +3,8 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
 import * as ReactBootstrap from 'react-bootstrap';
-
 import API from '../Utils/API'
+
 export const SiteSelectionContext = React.createContext(true);
 
 export default function SiteSelection() {
@@ -50,8 +50,7 @@ export default function SiteSelection() {
             })
             .catch((err) => {
                 console.log("AXIOS ERROR: ", err);
-            })
-    }
+            })    }
 
     function handelOfficeChange(event) {
         setOfficeName("MainImmegration")
