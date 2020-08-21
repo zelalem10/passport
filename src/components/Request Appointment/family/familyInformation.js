@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import FamilyForm from './familyForm';
+import { useDispatch, useSelector } from 'react-redux';
+import * as familyActions from '../../../redux/actions/addFamilyActiion';
 
 function FamilyInformation() {
+  const counter = useSelector((family) => family);
+  // console.log(counter.service[counter.family.length - 1]);
+  const dispatch = useDispatch();
   const [state, setState] = useState({
     fname: '',
     lname: '',
@@ -51,9 +56,22 @@ function FamilyInformation() {
         lastName: state.lname,
       },
     ]);
+    dispatch(
+      familyActions.addFamily({
+        ...familiesInfo,
+        id: familiesInfo.length,
+        firstName: state.fname,
+        lastName: state.lname,
+      })
+    );
   };
   const removeFamilyMember = (ids) => {
     var array = [...familiesInfo];
+    dispatch(
+      familyActions({
+        ...familiesInfo,
+      })
+    );
     array.splice(ids, 1);
     setFamiliesInfo(array);
   };

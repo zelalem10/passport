@@ -11,7 +11,6 @@ function NumberOfApplicant(props) {
     props.prevStep();
   };
   const { isItGroup } = props;
-  console.log(props.isItGroup);
   return (
     <MDBContainer
       className="passport-container pt-3"

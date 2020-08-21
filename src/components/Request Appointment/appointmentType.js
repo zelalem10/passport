@@ -10,6 +10,7 @@ function AppointmetType(props) {
     e.preventDefault();
     props.prevStep();
   };
+  const { handleAppointmentType } = props;
   const { isItGroup } = props;
   const { values } = props;
   return (
@@ -50,7 +51,9 @@ function AppointmetType(props) {
                   </a>
                   <a
                     class="small-12 column row card--link vertical-margin-1"
-                    onClick={continueTo}
+                    onClick={
+                      (() =>  handleAppointmentType('Replace'))
+                    }
                   >
                     <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
                       <strong>Replace Appointment</strong>
