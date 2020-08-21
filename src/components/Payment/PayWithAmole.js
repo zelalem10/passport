@@ -10,6 +10,9 @@ const CardExample = () => {
     function hadndelBack() {
         setReturnBack(true)
     }
+    function handelRequest(){
+        setResquestSent(true)
+    }
     return (
         returnBack === true ? (<PaymentSelection />) : (<MDBRow>
             <MDBCol md="1"></MDBCol>
@@ -35,9 +38,9 @@ const CardExample = () => {
                                 <Form.Control type="text" placeholder="enter OTP" />
                             </Form.Group>) : (null)}
                             <MDBRow>
-                                <Button variant="warning" type="button" onClick={hadndelBack}> Back to selection </Button>
+                            <MDBBtn color="warning" size="sm"onClick={hadndelBack}> Back to selection </MDBBtn>
                                 <MDBCol md="4"></MDBCol>
-                                <Button variant="primary" type="submit"> Get OTP </Button>
+                                <MDBBtn color="primary" size="sm"onClick={handelRequest}> Get OTP </MDBBtn>
 
                             </MDBRow>
                         </Form>
@@ -51,7 +54,7 @@ const CardExample = () => {
                             Instruction
     </MDBCardHeader>
                         <MDBCardBody>
-                            <MDBCardTitle>LOCAL MONEY / WIRE TRANSFER</MDBCardTitle>
+                            <MDBCardTitle>Pay with Amole</MDBCardTitle>
                             <MDBCardText>
                                 Money transfer (remittance) service is one of the main areas of operations carried out by the Bank. Remittances of funds through banks from one town to another at the request of customers are referred Domestic Money Transfer or Remittances. There are various modes of effecting Money Transfer. However, the most common means of remitting funds from one spot to the other within the country are:
 

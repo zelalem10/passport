@@ -80,7 +80,7 @@ export default function RequestStepper() {
         <Row>
           <Col md={3}></Col>
           <Col md={2}>
-            <Button variant="secondary" onClick={handelPrevious}><BsArrowLeftShort /> previous</Button>{' '}
+            <Button variant="primary" onClick={handelPrevious}><BsArrowLeftShort /> previous</Button>{' '}
           </Col>
           <Col md={5}></Col>
           <Col md={2}>

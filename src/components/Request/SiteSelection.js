@@ -27,7 +27,7 @@ export default function SiteSelection() {
     const classes = useStyles();
     const officeURL = "http://svdrbas03:2222/Master/api/V1.0/Office/GetByCountryId?id=358"
     const config = {
-        headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk3OTAyOTQwLCJleHAiOjE1OTc5MTczNDAsImlhdCI6MTU5NzkwMjk0MH0.j0j-mIlOcTP0DOYWmbi4q-Z2rS1xT5elvmLtv26YVLU` }
+        headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk3OTkxNzIwLCJleHAiOjE1OTgwMDYxMjAsImlhdCI6MTU5Nzk5MTcyMH0.Xc6nC7c55OXbJluL_JBfEGhj6vhAH1YYlTjjHCdy_ik` }
     };
 
     const handleRegionChange = (event) => {
