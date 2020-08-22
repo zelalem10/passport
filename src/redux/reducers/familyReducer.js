@@ -5,7 +5,8 @@ export default function familyReducer(family = [], action) {
       return [...family, { ...action.family }];
     case types.DELETE_FAMILY:
       return family.filter((fam) => fam.id !== action.family);
-
+    case types.EDIT_FAMILY:
+      return [...family, { ...action.family }];
     default:
       return family;
   }

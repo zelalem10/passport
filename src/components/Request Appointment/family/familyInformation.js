@@ -3,6 +3,7 @@ import FamilyForm from './familyForm';
 import { useDispatch, useSelector } from 'react-redux';
 import * as familyActions from '../../../redux/actions/addFamilyActiion';
 import * as deletefamilyActions from '../../../redux/actions/deleteFamilyActiion';
+import * as editfamilyActions from '../../../redux/actions/editFamilyActiion';
 
 function FamilyInformation() {
   const counter = useSelector((family) => family);
@@ -105,6 +106,7 @@ function FamilyInformation() {
       }
     }
     setFamiliesInfo(newfamiliesInfo);
+    dispatch(editfamilyActions.editFamily(newfamiliesInfo));
   };
   function getIndex(idNo) {
     for (var i = 0; i < familiesInfo.length; i++) {
