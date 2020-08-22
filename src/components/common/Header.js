@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useContext } from 'react';
 import {
   MDBNavbar,
   MDBNavbarNav,
@@ -8,24 +8,25 @@ import {
   MDBCollapse,
   MDBCol,
   MDBNav,
+  MDBContainer,
 } from 'mdbreact';
 
-class NavbarPage extends Component {
-  state = {
-    isOpen: false,
+const NavbarPage = (props) => {
+  const navPath = props.location.pathname;
+  const [navOpen, toggleOpen] = useState(false);
+  const closeNav = () => {
+    toggleOpen(false);
   };
 
-  toggleCollapse = () => {
-    this.setState({ isOpen: !this.state.isOpen });
-  };
-  style = {
+  let style = {
     color: 'black',
     'font-weight': '400',
   };
-  render() {
-    return (
-      <>
-        <MDBNavbar>
+  // const { activePath } = appContext;
+  return (
+    <>
+      <MDBNavbar>
+        <MDBContainer fluid style={{ width: '80%' }}>
           <MDBNavbarNav left>
             <MDBCol md="4">
               <img
@@ -37,70 +38,78 @@ class NavbarPage extends Component {
           </MDBNavbarNav>
           <MDBNav right>
             <MDBNavItem>
-              <MDBNavLink style={this.style} to="#!">
+              <MDBNavLink style={style} to="#!">
                 E-visa
               </MDBNavLink>
             </MDBNavItem>
             <MDBNavItem>
-              <MDBNavLink
-                style={this.style}
-                to="https://www.ethiopianairlines.com"
-              >
+              <MDBNavLink style={style} to="https://www.ethiopianairlines.com">
                 Ethioian Airlines
               </MDBNavLink>
             </MDBNavItem>
             <MDBNavItem>
               <MDBNavLink
-                style={this.style}
+                style={style}
                 to="https://www.ethiopianskylighthotel.com"
               >
                 Ethioian Skylight Hotel
               </MDBNavLink>
             </MDBNavItem>
           </MDBNav>
-        </MDBNavbar>
-        <MDBNavbar className="headerNav" color="indigo" dark expand="md">
-          <MDBNavbarToggler onClick={this.toggleCollapse} />
-          <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
-            <MDBNavbarNav left>
-              <MDBNavItem active>
+        </MDBContainer>
+      </MDBNavbar>
+      <MDBNavbar className="headerNav" color="indigo" dark expand="md">
+        <MDBNavbarToggler onClick={() => toggleOpen(!navOpen)} />
+        <MDBCollapse id="navbarCollapse3" isOpen={navOpen} navbar>
+          <MDBContainer fluid style={{ width: '80%' }}>
+            <MDBNavbarNav className="d-flex col-example" left>
+              <MDBNavItem className={navPath == '/' ? 'active' : ''}>
                 <MDBNavLink to="/" activeClassName="active">
                   Home
                 </MDBNavLink>
               </MDBNavItem>
-              <MDBNavItem>
+              <MDBNavItem
+                className={navPath == '/request-appointment' ? 'active' : ''}
+              >
                 <MDBNavLink to="/request-appointment">
                   Request Appointment
                 </MDBNavLink>
               </MDBNavItem>
-              <MDBNavItem>
+              <MDBNavItem className={navPath == '/service' ? 'active' : ''}>
                 <MDBNavLink to="/service">Service</MDBNavLink>
               </MDBNavItem>
-              <MDBNavItem>
-                <MDBNavLink to="../CheckAvailablityPage">
+              <MDBNavItem
+                className={navPath == '/check-availablity' ? 'active' : ''}
+              >
+                <MDBNavLink to="/check-availablity">
                   Check Availablity
                 </MDBNavLink>
               </MDBNavItem>
-              <MDBNavItem>
-                <MDBNavLink to="#!">Check Status</MDBNavLink>
+              <MDBNavItem
+                className={navPath == '/check-status' ? 'active' : ''}
+              >
+                <MDBNavLink to="/check-status">Check Status</MDBNavLink>
               </MDBNavItem>
-              <MDBNavItem>
-                <MDBNavLink to="#!">Manage Booking</MDBNavLink>
+              <MDBNavItem
+                className={navPath == '/manage-booking' ? 'active' : ''}
+              >
+                <MDBNavLink to="/manage-booking">Manage Booking</MDBNavLink>
               </MDBNavItem>
             </MDBNavbarNav>
+
             <MDBNavbarNav right>
               <MDBNavItem>
-                <MDBNavLink to="#!">Register &nbsp;&nbsp;|</MDBNavLink>
+                <MDBNavLink to="/signUp">Register &nbsp;&nbsp;|</MDBNavLink>
               </MDBNavItem>
               <MDBNavItem>
-                <MDBNavLink to="#!">Login</MDBNavLink>
+                <MDBNavLink to="/signIn">Login</MDBNavLink>
               </MDBNavItem>
             </MDBNavbarNav>
-          </MDBCollapse>
-        </MDBNavbar>
-     </>
-    );
-  }
-}
+          </MDBContainer>
+        </MDBCollapse>
+      </MDBNavbar>
+    </>
+  );
+};
 
 export default NavbarPage;
