@@ -1,6 +1,5 @@
 import React from 'react';
-import HorizontalLinearStepper from './serviceSelection';
-
+import HorizontalLinearStepper from './ServiceSelection';
 function CoursesPage() {
   return (
     <>

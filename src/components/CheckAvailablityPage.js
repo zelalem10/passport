@@ -1,15 +1,8 @@
 import React from 'react';
+import FamilyInformation from './Request Appointment/family/familyInformation';
 
 function CheckAvailablityPage() {
-  return (
-    <>
-      <div className="jumbotron">
-        <h1>Check AvailablityPage</h1>
-        <p>React, Flux, and React Router for ultra-responsive web apps.</p>
-        <a href="/about">About</a>
-      </div>
-    </>
-  );
+  return <FamilyInformation />;
 }
 
 export default CheckAvailablityPage;
