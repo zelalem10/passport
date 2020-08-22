@@ -28,6 +28,7 @@ export default function Address() {
                     <Form noValidate validated={validated} onSubmit={handleSubmit}>
                         <Form.Row>
                             <Form.Group as={Col} md="4" controlId="validationCustom02">
+                            {/* Size of the image should be less than 2MB and in JPEG, JPG, PNG, GIF or BMP format */}
                             <Form.File id="exampleFormControlFile1" label="Birth certificate" />
                             </Form.Group>
                             <Form.Group as={Col} md="4" controlId="validationCustom02">

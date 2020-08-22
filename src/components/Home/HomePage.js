@@ -5,12 +5,12 @@ import SimpleAccordion from './information';
 import BoxPage from './box';
 
 function HomePage() {
-  return (
+  return ( 
     <>
-      <CarouselPage />
-      <CardExample />
-      <SimpleAccordion />
-      <BoxPage />
+    <CarouselPage />
+    <CardExample />
+    <SimpleAccordion />
+    <BoxPage />
     </>
   );
 }

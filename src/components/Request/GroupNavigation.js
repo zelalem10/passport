@@ -11,6 +11,7 @@ export default function RequestStepper() {
     const [indexValue, setIndexValue] = useState(0);
     const [formCompleted, setFormCompleted] = useState([false, false, false]);
     const activeKey = ["first", "second", "third"];
+    const applicants=["Applicant 1","Applicant 2","Applicant 3"]
     function handelNext() {
         setIndexValue(indexValue + 1)
         formCompleted[indexValue] = true
@@ -27,7 +28,7 @@ export default function RequestStepper() {
                         <Card>
                             <Card.Header>
                                 <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                                    Atalay Tilahun{ formCompleted[0] ? <BsCheck /> : null }
+                                 {applicants[0]} { formCompleted[0] ? <BsCheck /> : null }
                                 </Accordion.Toggle>
                             </Card.Header>
                             <Accordion.Collapse eventKey="0">
@@ -39,7 +40,7 @@ export default function RequestStepper() {
                         <Card>
                             <Card.Header>
                                 <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                    Yisacc Abraham{ formCompleted[0] ? <BsCheck /> : null }
+                                {applicants[1]} { formCompleted[0] ? <BsCheck /> : null }
                                 </Accordion.Toggle>
                             </Card.Header>
                             <Accordion.Collapse eventKey="1">
@@ -49,7 +50,7 @@ export default function RequestStepper() {
                         <Card>
                             <Card.Header>
                                 <Accordion.Toggle as={Button} variant="link" eventKey="2">
-                                    Abebe Mekonen{ formCompleted[0] ? <BsCheck /> : null }
+                                {applicants[2]}{ formCompleted[0] ? <BsCheck /> : null }
                                 </Accordion.Toggle>
                             </Card.Header>
                             <Accordion.Collapse eventKey="2">
