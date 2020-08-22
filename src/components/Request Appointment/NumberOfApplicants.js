@@ -10,7 +10,7 @@ function NumberOfApplicant(props) {
     e.preventDefault();
     props.prevStep();
   };
-
+  const { isItGroup } = props;
   return (
     <MDBContainer
       className="passport-container pt-3"
@@ -25,7 +25,7 @@ function NumberOfApplicant(props) {
             <div>
               <select
                 className="browser-default custom-select"
-                onChange={props.handleChange()}
+                onChange={(e) => props.handleChange(e)}
                 value={props.values}
               >
                 <option>Number Of Applicants</option>
@@ -108,7 +108,7 @@ function NumberOfApplicant(props) {
             </h4>
             <ul class="list--no-indent list--no-bullets ng-star-inserted">
               <li>
-                <strong>Requestor:</strong>
+                <strong>Requestor:{isItGroup ? ' Group' : 'Individual'}</strong>
               </li>
             </ul>
           </div>

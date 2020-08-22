@@ -2,10 +2,8 @@ import React from 'react';
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdbreact';
 
 function AvailableTimeSlot(props) {
-  const { selectedDate } = props;
   const { timeLists } = props;
   const { showAndHide } = props;
-  console.log(timeLists);
   if (showAndHide === true) {
     return (
       <div id="chooseAppointments">

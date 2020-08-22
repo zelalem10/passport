@@ -6,6 +6,7 @@ import CoursesPage from '../../Request Appointment/RequestAppointmentPage';
 import CheckAvailablityPage from '../../CheckAvailablityPage';
 import ManageBookingPage from '../../ManageBooking';
 import CheckStatusPage from '../../CheckStatusPage';
+import CustomizedAccordions from '../../display/viewAppointment';
 import SignUp from '../../UserManagement/SignUp';
 import ApplicationList from '../../Application List/ApplicationList';
 import FAQ from '../../Help and Support/FAQ';
@@ -17,7 +18,7 @@ function PassportRoute() {
     <>
       <Route path="/" exact component={HomePage} />
       <Route path="/request-appointment" component={CoursesPage} />
-      <Route path="/service" component={AboutPage} />
+      <Route path="/service" component={CustomizedAccordions} />
       <Route path="/check-availablity" exact component={CheckAvailablityPage} />
       <Route path="/manage-booking" component={ManageBookingPage} />
       <Route path="/check-status" component={CheckStatusPage} />
