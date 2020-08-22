@@ -1,0 +1,13 @@
+.accordion-item {
+    border-left: .625rem solid #224b9f;
+    box-shadow: 0 0 0.625rem hsla(0,0%,4%,.25) !important;
+    transition: border-left-color .25s;
+}
+.accordion-title {
+    color: #224b9f;
+    cursor: pointer;
+    transition: color .2s;
+}
+.faq-accordion .makeStyles-root-1 .MuiPaper-elevation1 {
+    box-shadow: 0 0 0.625rem hsla(0,0%,4%,.25) !important;
+}

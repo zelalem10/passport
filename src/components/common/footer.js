@@ -59,7 +59,7 @@ const FooterPage = () => {
             </h5>
             <ul style={{ 'padding-left': 0 }}>
               <li className="list-unstyled">
-                <a href="#!">FAQ</a>
+                <a href="Faq">FAQ</a>
               </li>
               <li className="list-unstyled">
                 <a href="#!">Terms and Conditions</a>
