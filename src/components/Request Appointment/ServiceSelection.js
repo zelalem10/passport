@@ -3,6 +3,9 @@ import IndividualandGroup from './IndividualandGroup';
 import NumberOfApplicant from './NumberOfApplicants';
 import AppointmetType from './appointmentType';
 import RenewPassport from './RenewPassport';
+import { connect } from 'react-redux';
+
+import * as serviceSelectionActions from '../../redux/actions/serviceActions';
 import { useDispatch, useSelector } from 'react-redux';
 import * as serviceActions from '../../redux/actions/serviceActions';
 import PropTypes from 'prop-types';

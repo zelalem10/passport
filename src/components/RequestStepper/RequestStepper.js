@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import SiteSelection from '../Request/SiteSelection'
+import {SiteSelectionContext} from '../Request/SiteSelection'
 import DateSelection from '../Request/DateSelection'
 import PersonalInfo from '../Request/PersonalInfo'
 import GroupNavigation from '../Request/GroupNavigation'
+import PaymentSelection from '../Payment/PaymentSelection'
 import { Tab, Row, Nav, Col, Button, Card } from 'react-bootstrap';
 import {BsCheck,BsArrowRightShort, BsArrowLeftShort,BsHouseFill, BsPeopleCircle, BsCalendar, BsWallet} from 'react-icons/bs'
 
@@ -10,6 +12,12 @@ export default function RequestStepper() {
   const [indexValue, setIndexValue] = useState(0);
   const [formCompleted, setFormCompleted] = useState([false, false, false, false]);
   const activeKey = ["first", "second", "third", "fourth"];
+
+  const siteSelectionCompleted = useContext(SiteSelectionContext)
+  
+  useEffect(() => {
+    console.log(siteSelectionCompleted)
+  }, [])
   function handelNext(){
     setIndexValue(indexValue + 1)
     formCompleted[indexValue]=true
@@ -64,7 +72,7 @@ export default function RequestStepper() {
                 <DateSelection />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[3]}>
-                <DateSelection />
+                <PaymentSelection />
               </Tab.Pane>
             </Tab.Content>
           </Col>
@@ -72,11 +80,11 @@ export default function RequestStepper() {
         <Row>
           <Col md={3}></Col>
           <Col md={2}>
-            <Button variant="secondary" onClick={handelPrevious}><BsArrowLeftShort /> previous</Button>{' '}
+            <Button variant="primary" onClick={handelPrevious}><BsArrowLeftShort /> previous</Button>{' '}
           </Col>
           <Col md={5}></Col>
           <Col md={2}>
-            <Button variant="primary" onClick={handelNext}>Next<BsArrowRightShort /></Button>{' '}
+            <Button variant="primary" onClick={handelNext} disabled={siteSelectionCompleted === true ? false : true} >Next<BsArrowRightShort /></Button>{' '}
           </Col>
         </Row>
       </div>
