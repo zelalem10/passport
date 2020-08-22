@@ -18,7 +18,7 @@ function MyApp() {
   const [showAvailableTimeSlots, setShowAvailableTimeSlots] = useState(false);
   const baseUrl = 'http://svdrbas03:2222';
   const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk3OTk0NzI4LCJleHAiOjE1OTgwMDkxMjgsImlhdCI6MTU5Nzk5NDcyOH0.Jt1ltNQS28T2YqEXRY_bblTSLZhAtO8ZkIqShhmKE8E';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk4MDc4MDUyLCJleHAiOjE1OTgwOTI0NTIsImlhdCI6MTU5ODA3ODA1Mn0.pjBXXzp5qOXTWU099tyaz50cn_tw3YnHYb1-xFKFwPU';
   const availableDates = [];
   let advancedRestrictionData = {};
   let disabledDates = [];

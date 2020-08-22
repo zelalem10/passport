@@ -2,10 +2,17 @@ import React, { useState } from 'react';
 import FamilyForm from './familyForm';
 import { useDispatch, useSelector } from 'react-redux';
 import * as familyActions from '../../../redux/actions/addFamilyActiion';
+import * as deletefamilyActions from '../../../redux/actions/deleteFamilyActiion';
 
 function FamilyInformation() {
   const counter = useSelector((family) => family);
-  // console.log(counter.service[counter.family.length - 1]);
+  if (
+    counter.familyReducer !== undefined ||
+    counter.familyReducer.length != 0
+  ) {
+    debugger;
+    console.log(counter.familyReducer[counter.familyReducer.length - 1]);
+  }
   const dispatch = useDispatch();
   const [state, setState] = useState({
     fname: '',
@@ -66,14 +73,16 @@ function FamilyInformation() {
     );
   };
   const removeFamilyMember = (ids) => {
+    debugger;
     var array = [...familiesInfo];
-    dispatch(
-      familyActions({
-        ...familiesInfo,
+    let pos = familiesInfo
+      .map(function (e) {
+        return e.id;
       })
-    );
-    array.splice(ids, 1);
+      .indexOf(ids);
+    array.splice(pos, 1);
     setFamiliesInfo(array);
+    dispatch(deletefamilyActions.deleteFamily(pos));
   };
   const editFamilyMember = (familyid) => {
     let editableFamilyInfo = getIndex(familyid);
