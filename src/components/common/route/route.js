@@ -6,9 +6,9 @@ import CoursesPage from '../../Request Appointment/RequestAppointmentPage';
 import CheckAvailablityPage from '../../CheckAvailablityPage';
 import ManageBookingPage from '../../ManageBooking';
 import CheckStatusPage from '../../CheckStatusPage';
-import RequestStepper from '../../RequestStepper/RequestStepper'
-import Login from '../../UserManagement/SignIn'
-import SignUp from '../../UserManagement/SignUp'
+import RequestStepper from '../../RequestStepper/RequestStepper';
+import Login from '../../UserManagement/SignIn';
+// import SignUp from '../../UserManagement/SignUp'
 import CustomizedAccordions from '../../display/viewAppointment';
 import SignUp from '../../UserManagement/SignUp';
 import ApplicationList from '../../Application List/ApplicationList';
