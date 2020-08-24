@@ -16,16 +16,33 @@ function MyApp() {
 
   const [timeSlots, setTimeSlots] = useState([]);
   const [showAvailableTimeSlots, setShowAvailableTimeSlots] = useState(false);
+const [selectTime,setSelectTime]=useState();
+const [activeTimeSlot,setActiveTImeSlot]=useState({key:'',active:false});
+
+
+const toggleClass=(e)=> {
+  debugger;
+  const currentState = e.target.className==='btn_select active'?true:false;
+  setActiveTImeSlot( {key:e.target.id,active:!currentState} );
+};
+console.log(activeTimeSlot);
+
   const baseUrl = 'http://svdrbas03:2222';
   const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk4MTA1NzQ1LCJleHAiOjE1OTgxMjAxNDUsImlhdCI6MTU5ODEwNTc0NX0.uZP0o0KMeYkjYDwKhQYBsUMJxCK6sbgee9rxMUFaaZE';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk4MjY5NjQ4LCJleHAiOjE1OTgyODQwNDgsImlhdCI6MTU5ODI2OTY0OH0.VIMLTXdi17C7OiXt1BeWC0xdaSrqhgSMjp9-w5SL7yQ';
   const availableDates = [];
   let advancedRestrictionData = {};
   let disabledDates = [];
   let availabletIMES = [];
 
-  useEffect(async (two = 2) => {
-    await axios({
+  const handleTimeSelect=(e)=>{
+    debugger;
+    setSelectTime(e.target.value);
+    toggleClass(e);
+  }
+console.log(selectTime);
+  useEffect((two = 2) => {
+     axios({
       headers: {
         Authorization: 'Bearer ' + token,
       },
@@ -39,7 +56,7 @@ function MyApp() {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + token,
         };
-        await axios({
+         axios({
           headers: headers,
           method: 'post',
           url: baseUrl + '/Schedule/api/V1.0/Schedule/GetAvailableDateAndTimes',
@@ -148,10 +165,13 @@ function MyApp() {
       let stringFormatedavDate = new Date(formatedavDate).toString();
       if (stringFormatedavDate === stringDate) {
         for (let l = 0; l < availableTimes[i].durations.length; l++) {
-          timeSlotsForSpecificDate.push(
-            availableTimes[i].durations[l].startTime +
+          timeSlotsForSpecificDate.push({
+           time: availableTimes[i].durations[l].startTime +
               ' - ' +
-              availableTimes[i].durations[l].endTime
+              availableTimes[i].durations[l].endTime,
+              id:availableTimes[i].durations[l].id,
+              isMorning:availableTimes[i].durations[l].isMorning,
+          }
           );
         }
       }
@@ -203,6 +223,9 @@ function MyApp() {
               selectedDate={dateValue}
               timeLists={timeSlots}
               showAndHide={showAvailableTimeSlots}
+              handleTimeSelect={handleTimeSelect}
+              activeTimeSlot={activeTimeSlot}
+              toggleClass={toggleClass}
             />
           </MDBCol>
         </MDBRow>
