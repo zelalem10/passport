@@ -13,7 +13,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 function ApplicationList () {
 
   const config = {
-    headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk4MDA5MzY3LCJleHAiOjE1OTgwMjM3NjcsImlhdCI6MTU5ODAwOTM2N30.VjdrCbqxYgY1OdiXvF5B__YdRQ0m8Ton7scWTxARQ4E` }
+    headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk4MTkzMjAxLCJleHAiOjE1OTgyMDc2MDEsImlhdCI6MTU5ODE5MzIwMX0.g7TuPzd8d4UDnhN7EQCuuk2UpDoIhsE9F1cOSUeZjow` }
   };
 
   const [users, setusers] = useState([]);

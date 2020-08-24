@@ -71,7 +71,7 @@ const NavbarPage = (props) => {
               <MDBNavItem
                 className={navPath == '/request-appointment' ? 'active' : ''}
               >
-                <MDBNavLink to="/request-stepper">
+                <MDBNavLink to="/request-appointment">
                   Request Appointment
                 </MDBNavLink>
               </MDBNavItem>
@@ -93,7 +93,7 @@ const NavbarPage = (props) => {
               <MDBNavItem
                 className={navPath == '/manage-booking' ? 'active' : ''}
               >
-                <MDBNavLink to="/manage-booking">Manage Booking</MDBNavLink>
+                <MDBNavLink to="/Application-List">Application List</MDBNavLink>
               </MDBNavItem>
             </MDBNavbarNav>
 

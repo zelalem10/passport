@@ -5,7 +5,7 @@ function AddFamily(props) {
   return (
     <MDBContainer className="passport-container pt-3" id="raa-form" fluid>
       <MDBRow>
-        <MDBCol className="medium-8" sm="12" lg="7">
+        <MDBCol sm="12">
           <div className="multistep-form__step">
             <h2 className="h1">Family Details</h2>
             <div className="accordion accordion--form">

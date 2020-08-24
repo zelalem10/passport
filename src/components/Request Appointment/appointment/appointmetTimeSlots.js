@@ -27,17 +27,21 @@ function AvailableTimeSlot(props) {
                   </MDBTableHead>
                   <MDBTableBody>
                     {timeLists.map((time) => {
+                      if(time.isMorning===true){
                       return (
                         <tr>
                           <td>
                             <input
                               type="button"
-                              class="btn_select"
-                              value={time}
+                              id={time.id}
+                              value={time.time}
+                              onClick={props.handleTimeSelect}
+                              className={props.activeTimeSlot.active ? 'btn_select active': 'btn_select'}
                             />
                           </td>
                         </tr>
                       );
+                      }
                     })}
                   </MDBTableBody>
                 </MDBTable>
@@ -51,17 +55,23 @@ function AvailableTimeSlot(props) {
                   </MDBTableHead>
                   <MDBTableBody>
                     {timeLists.map((time) => {
+                      if(time.isMorning===false){
                       return (
                         <tr>
                           <td>
                             <input
                               type="button"
                               class="btn_select"
-                              value={time}
+                              id={time.id}
+                              value={time.time}
+                              onClick={props.handleTimeSelect}
+                              
+                              className={props.activeTimeSlot.active && props.activeTimeSlot.key ===time.id  ? 'btn_select active': 'btn_select'}
                             />
                           </td>
                         </tr>
                       );
+                      }
                     })}
                   </MDBTableBody>
                 </MDBTable>

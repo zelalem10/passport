@@ -182,7 +182,7 @@ p .video__toggle {
   display: inline-block;
   vertical-align: middle;
 }
-.card {
+.multistep-form__step .card {
   flex-direction: unset !important;
 }
 
@@ -270,9 +270,9 @@ p .video__toggle {
   box-shadow: 0 0 0.625rem hsla(0, 0%, 4%, 0.25);
   padding: 1rem;
 }
-.MuiPaper-root.MuiStepper-root.MuiStepper-horizontal.MuiPaper-elevation0 {
+/* .MuiPaper-root.MuiStepper-root.MuiStepper-horizontal.MuiPaper-elevation0 {
   display: none;
-}
+} */
 .request-type .row {
   margin-right: 0 !important;
   margin-left: 0 !important;
