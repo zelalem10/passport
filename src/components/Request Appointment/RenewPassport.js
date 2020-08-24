@@ -95,7 +95,7 @@ function RenewPassport(props) {
                             validate
                           />
                         </MDBRow>
-                        <a class="specialty-next-step button vertical-margin-2">
+                        <a onClick={props.nextStep} class="specialty-next-step button vertical-margin-2">
                           {' '}
                           Next <i class="fas fa-arrow-right"></i>
                         </a>
@@ -165,7 +165,7 @@ function RenewPassport(props) {
                             validate
                           />
                         </MDBRow>
-                        <a class="specialty-next-step button vertical-margin-2">
+                        <a onClick={props.nextStep} class="specialty-next-step button vertical-margin-2">
                           {' '}
                           Next <i class="fas fa-arrow-right"></i>
                         </a>
@@ -235,7 +235,7 @@ function RenewPassport(props) {
                             validate
                           />
                         </MDBRow>
-                        <a class="specialty-next-step button vertical-margin-2">
+                        <a onClick={props.nextStep} class="specialty-next-step button vertical-margin-2">
                           {' '}
                           Next <i class="fas fa-arrow-right"></i>
                         </a>
