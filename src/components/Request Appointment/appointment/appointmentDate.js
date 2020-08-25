@@ -29,7 +29,7 @@ console.log(activeTimeSlot);
 
   const baseUrl = 'http://svdrbas03:2222';
   const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk4MjY5NjQ4LCJleHAiOjE1OTgyODQwNDgsImlhdCI6MTU5ODI2OTY0OH0.VIMLTXdi17C7OiXt1BeWC0xdaSrqhgSMjp9-w5SL7yQ';
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk3MjEzNTU5LCJleHAiOjE1OTcyMjc5NTksImlhdCI6MTU5NzIxMzU1OX0.IJihXj3WJQEsNjFjYIL8-Z2LmtKvT250dl04L8YmIIw';
   const availableDates = [];
   let advancedRestrictionData = {};
   let disabledDates = [];
