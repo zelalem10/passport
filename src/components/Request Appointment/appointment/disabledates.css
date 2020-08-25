@@ -11,17 +11,18 @@ input[type='button'] {
   cursor: pointer;
   vertical-align: middle;
 }
-.btn_select:active {
-  outline: 3px solid #ffb81c;
-  box-shadow: none;
-  border: 1px solid #333;
-  outline-offset: 0;
-}
+
 #displayMorningAppts,
 #displayAfternoonAppts {
   width: 50%;
 }
 .btn_select:hover {
+  outline: 3px solid #ffb81c;
+  box-shadow: none;
+  border: 1px solid #333;
+  outline-offset: 0;
+}
+.btn_select.active {
   outline: 3px solid #ffb81c;
   box-shadow: none;
   border: 1px solid #333;

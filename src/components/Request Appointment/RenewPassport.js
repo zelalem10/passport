@@ -35,7 +35,10 @@ function RenewPassport(props) {
                     aria-controls="panel1d-content"
                     id="panel1d-header"
                   >
-                    <a class="small-12 column row card--link">
+                    <a
+                      class="small-12 column row card--link"
+                      onClick={() => props.handleReplacmentReason('Expired')}
+                    >
                       <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
                         <strong>Expired</strong>
                         <div class="text-center vertical-margin-half">
@@ -64,38 +67,49 @@ function RenewPassport(props) {
                           <MDBInput
                             icon="passport"
                             group
+                            name="oldPassportFile"
                             type="file"
                             validate
                             error="wrong"
                             success="right"
+                            onChange={props.replacmentReasonInputs}
                           />
                           <MDBInput
                             label="Passport Number"
                             icon="passport"
+                            name="passportNumber"
                             group
                             type="number"
                             validate
                             error="wrong"
                             success="right"
+                            onChange={props.replacmentReasonInputs}
                           />
                           <MDBInput
                             label="Expiration date"
                             icon="calendar"
                             group
+                            name="expirationDate"
                             type="date"
                             validate
                             error="wrong"
                             success="right"
+                            onChange={props.replacmentReasonInputs}
                           />
                           <MDBInput
                             label="Issue date"
                             icon="calendar"
                             group
+                            name="issuedDate"
                             type="date"
                             validate
+                            onChange={props.replacmentReasonInputs}
                           />
                         </MDBRow>
-                        <a onClick={props.nextStep} class="specialty-next-step button vertical-margin-2">
+                        <a
+                          onClick={props.nextStep}
+                          class="specialty-next-step button vertical-margin-2"
+                        >
                           {' '}
                           Next <i class="fas fa-arrow-right"></i>
                         </a>
@@ -112,7 +126,10 @@ function RenewPassport(props) {
                     aria-controls="panel2d-content"
                     id="panel2d-header"
                   >
-                    <a class="small-12 column row card--link vertical-margin-1">
+                    <a
+                      class="small-12 column row card--link vertical-margin-1"
+                      onClick={() => props.handleReplacmentReason('Page Left')}
+                    >
                       <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
                         <strong>Page Left</strong>
                         <div class="text-center vertical-margin-half">
@@ -134,38 +151,49 @@ function RenewPassport(props) {
                           <MDBInput
                             icon="passport"
                             group
+                            name="oldPassportFile"
                             type="file"
                             validate
                             error="wrong"
                             success="right"
+                            onChange={props.replacmentReasonInputs}
                           />
                           <MDBInput
                             label="Passport Number"
                             icon="passport"
+                            name="passportNumber"
                             group
                             type="number"
                             validate
                             error="wrong"
                             success="right"
+                            onChange={props.replacmentReasonInputs}
                           />
                           <MDBInput
                             label="Expiration date"
                             icon="calendar"
                             group
+                            name="expirationDate"
                             type="date"
                             validate
                             error="wrong"
                             success="right"
+                            onChange={props.replacmentReasonInputs}
                           />
                           <MDBInput
                             label="Issue date"
                             icon="calendar"
                             group
+                            name="issuedDate"
                             type="date"
                             validate
+                            onChange={props.replacmentReasonInputs}
                           />
                         </MDBRow>
-                        <a onClick={props.nextStep} class="specialty-next-step button vertical-margin-2">
+                        <a
+                          onClick={props.nextStep}
+                          class="specialty-next-step button vertical-margin-2"
+                        >
                           {' '}
                           Next <i class="fas fa-arrow-right"></i>
                         </a>
@@ -182,7 +210,10 @@ function RenewPassport(props) {
                     aria-controls="panel3d-content"
                     id="panel3d-header"
                   >
-                    <a class="small-12 column row card--link vertical-margin-1">
+                    <a
+                      class="small-12 column row card--link vertical-margin-1"
+                      onClick={() => props.handleReplacmentReason('Damaged')}
+                    >
                       <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
                         <strong>Damaged</strong>
                         <div class="text-center vertical-margin-half">
@@ -204,38 +235,49 @@ function RenewPassport(props) {
                           <MDBInput
                             icon="passport"
                             group
+                            name="oldPassportFile"
                             type="file"
                             validate
                             error="wrong"
                             success="right"
+                            onChange={props.replacmentReasonInputs}
                           />
                           <MDBInput
                             label="Passport Number"
                             icon="passport"
+                            name="passportNumber"
                             group
                             type="number"
                             validate
                             error="wrong"
                             success="right"
+                            onChange={props.replacmentReasonInputs}
                           />
                           <MDBInput
                             label="Expiration date"
                             icon="calendar"
                             group
+                            name="expirationDate"
                             type="date"
                             validate
                             error="wrong"
                             success="right"
+                            onChange={props.replacmentReasonInputs}
                           />
                           <MDBInput
                             label="Issue date"
                             icon="calendar"
                             group
+                            name="issuedDate"
                             type="date"
                             validate
+                            onChange={props.replacmentReasonInputs}
                           />
                         </MDBRow>
-                        <a onClick={props.nextStep} class="specialty-next-step button vertical-margin-2">
+                        <a
+                          onClick={props.nextStep}
+                          class="specialty-next-step button vertical-margin-2"
+                        >
                           {' '}
                           Next <i class="fas fa-arrow-right"></i>
                         </a>

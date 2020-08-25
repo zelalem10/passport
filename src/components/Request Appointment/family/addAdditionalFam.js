@@ -39,6 +39,16 @@ function AddFamily(props) {
                             validate
                             onChange={props.handleInputAdd}
                           />
+                          <select
+                            name="famType"
+                            onChange={props.handleInputAdd}
+                            className="browser-default custom-select"
+                          >
+                            <option>Choose your option</option>
+                            <option value="Mother">Mother</option>
+                            <option value="Father">Father</option>
+                            <option value="Sister">Sister</option>
+                          </select>
                         </div>
                       </div>
                     </div>

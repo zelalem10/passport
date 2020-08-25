@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import FamilyForm from './familyForm';
 import { useDispatch, useSelector } from 'react-redux';
-import * as familyActions from '../../../redux/actions/addFamilyActiion';
-import * as deletefamilyActions from '../../../redux/actions/deleteFamilyActiion';
+import * as familyActions from '../../../redux/actions/addFamilyAction';
+import * as deletefamilyActions from '../../../redux/actions/deleteFamilyAction';
 import * as editfamilyActions from '../../../redux/actions/editFamilyActiion';
 
 function FamilyInformation() {
@@ -11,13 +11,13 @@ function FamilyInformation() {
     counter.familyReducer !== undefined ||
     counter.familyReducer.length != 0
   ) {
-    debugger;
-    console.log(counter.familyReducer[counter.familyReducer.length - 1]);
+    // console.log(counter.familyReducer[counter.familyReducer.length - 1]);
   }
   const dispatch = useDispatch();
   const [state, setState] = useState({
     fname: '',
     lname: '',
+    famType: '',
   });
   const [familiesInfo, setFamiliesInfo] = useState([]);
   const [checkFamily, setCheckFamily] = useState(false);
@@ -27,6 +27,7 @@ function FamilyInformation() {
     fName: '',
     lName: '',
     idCardNum: '',
+    familyType: '',
   });
   const handleUserInput = (e) => {
     const { name, value } = e.target;
@@ -62,6 +63,7 @@ function FamilyInformation() {
         id: familiesInfo.length,
         firstName: state.fname,
         lastName: state.lname,
+        familyRelationType: state.famType,
       },
     ]);
     dispatch(
@@ -70,11 +72,11 @@ function FamilyInformation() {
         id: familiesInfo.length,
         firstName: state.fname,
         lastName: state.lname,
+        familyRelationType: state.famType,
       })
     );
   };
   const removeFamilyMember = (ids) => {
-    debugger;
     var array = [...familiesInfo];
     let pos = familiesInfo
       .map(function (e) {
@@ -92,6 +94,7 @@ function FamilyInformation() {
       fName: editableFamilyInfo.firstName,
       lName: editableFamilyInfo.lastName,
       idCardNum: editableFamilyInfo.id,
+      familyType: editableFamilyInfo.familyRelationType,
     }));
     setMoreFamily(true);
     setIsEdit(true);
@@ -103,10 +106,11 @@ function FamilyInformation() {
       if (newfamiliesInfo[i]['id'] === id) {
         newfamiliesInfo[i].firstName = editdata.fName;
         newfamiliesInfo[i].lastName = editdata.lName;
+        newfamiliesInfo[i].familyRelationType = editdata.famType;
       }
+      dispatch(editfamilyActions.editFamily(newfamiliesInfo[i]));
     }
     setFamiliesInfo(newfamiliesInfo);
-    dispatch(editfamilyActions.editFamily(newfamiliesInfo));
   };
   function getIndex(idNo) {
     for (var i = 0; i < familiesInfo.length; i++) {
