@@ -33,7 +33,7 @@ export default function ServiceList() {
         </p>
       <MDBRow>
         {list.map((requestType) =>
-          <MDBCol md="4">
+          <MDBCol md="4" style={{marginBottom: "3rem" }} >
             <MDBCard>
               <MDBCardHeader backgraound="transparent-color" tag="h5">
                 {requestType.name}
@@ -43,7 +43,7 @@ export default function ServiceList() {
                   With supporting text below as a natural lead-in to additional
                   content.
                    </MDBCardText>
-                <MDBLink to='/' link>
+                <MDBLink to='/request-appointment' link>
                   Apply now
                     </MDBLink>
               </MDBCardBody>

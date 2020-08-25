@@ -13,7 +13,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 function ApplicationList () {
 
   const config = {
-    headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk4MTkzMjAxLCJleHAiOjE1OTgyMDc2MDEsImlhdCI6MTU5ODE5MzIwMX0.g7TuPzd8d4UDnhN7EQCuuk2UpDoIhsE9F1cOSUeZjow` }
+    headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk4MzU5Mzg5LCJleHAiOjE1OTgzNzM3ODksImlhdCI6MTU5ODM1OTM4OX0.TYF8Nl24q44lS8wbnW3ZExE94RL_RTM7buU7ksMKNRc` }
   };
 
   const [users, setusers] = useState([]);
@@ -28,7 +28,7 @@ function ApplicationList () {
     setOpen(false);
   };
     useEffect(() => {
-      axios.get('http://svdrbas03:2222/Request/api/V1.0/Request/GetAllRequests', config)
+      axios.get('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/GetAllRequests', config)
       .then(Response => {
         console.log(Response.data)
         setusers(Response.data.serviceResponseList)
