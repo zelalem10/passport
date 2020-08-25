@@ -5,9 +5,9 @@ import ServicePage from '../../ServicePage';
 import CheckAvailablityPage from '../../CheckAvailablityPage';
 import ManageBookingPage from '../../ManageBooking';
 import CheckStatusPage from '../../CheckStatusPage';
-import RequestStepper from '../../RequestStepper/RequestStepper'
-import Login from '../../UserManagement/SignIn'
-import SignUp from '../../UserManagement/SignUp'
+import RequestStepper from '../../RequestStepper/RequestStepper';
+import Login from '../../UserManagement/SignIn';
+import SignUp from '../../UserManagement/SignUp';
 import CustomizedAccordions from '../../display/viewAppointment';
 import ApplicationList from '../../Application List/ApplicationList';
 import FAQ from '../../Help and Support/FAQ';
