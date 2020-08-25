@@ -15,11 +15,11 @@ export default function RequestStepper() {
   const activeKey = ["first", "second", "third", "fourth"];
   const siteSelectionCompleted = useContext(SiteSelectionContext)
   const counter = useSelector((state) => state);
-  const serviceVal=counter.service[counter.service.length - 1]
+  const serviceVal=counter.service[counter.service.length - 1].numberOfApplicants
   const isGroup=counter.service[counter.service.length - 1].isGroup
-  console.log(serviceVal);
+  // console.log(serviceVal);
   useEffect(() => {
-    console.log(serviceVal.numberOfApplicants);
+    // console.log(serviceVal.numberOfApplicants);
   }, [])
   function handelNext(){
     setIndexValue(indexValue + 1)
