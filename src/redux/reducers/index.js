@@ -4,7 +4,8 @@ import family from './familyReducer';
 import appointmentDate from './appointmentDateReducer';
 import replacment from './replacmentReducers';
 import familyReducer from './familyReducer';
-import personalInfoReducer from './personalInfoReducer'
+import personalInfoReducer from './personalInfoReducer';
+import applicationList from './applicationListReducer';
 const rootReducer = combineReducers({
   service,
   familyReducer,
@@ -12,5 +13,6 @@ const rootReducer = combineReducers({
   family,
   appointmentDate,
   replacment,
+  applicationList,
 });
 export default rootReducer;
