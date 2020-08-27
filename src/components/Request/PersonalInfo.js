@@ -17,7 +17,7 @@ import API from '../Utils/API'
 import { red } from '@material-ui/core/colors';
 import { useDispatch, useSelector } from 'react-redux';
 import addPersonalInfo from '../../redux/actions/addPersonalInfoAction';
-import { useForm } from "react-hook-form";
+// import { useForm } from "react-hook-form";
 
 
 const config = {

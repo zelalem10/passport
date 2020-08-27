@@ -3,9 +3,7 @@ import IndividualandGroup from './IndividualandGroup';
 import NumberOfApplicant from './NumberOfApplicants';
 import AppointmetType from './appointmentType';
 import RenewPassport from './RenewPassport';
-import './requestAppointment.css';
 import RequestStepper from '../RequestStepper/RequestStepper';
-
 import * as serviceSelectionActions from '../../redux/actions/serviceActions';
 import { useDispatch, useSelector } from 'react-redux';
 import * as serviceActions from '../../redux/actions/serviceActions';
@@ -29,7 +27,7 @@ function HorizontalLinearStepper() {
     step: 1,
     isGroup: false,
     appointemntType: '',
-    numberOfApplicants: 0,
+    numberOfApplicants: '1',
   });
   const [Replace, setReplace] = React.useState({
     reasonForReplacment: '',
@@ -47,6 +45,7 @@ function HorizontalLinearStepper() {
   }
   const [group, setGroup] = React.useState(false);
   const [applicantsState, setApplicants] = React.useState(1);
+  const [appointemntType, setAppointmentType] = React.useState(1);
 
   const individualNextStep = (type) => {
     const { step } = state;
@@ -67,7 +66,6 @@ function HorizontalLinearStepper() {
 
   const nextStep = (type) => {
     const { step } = state;
-
     setState({
       step: step + 1,
     });
@@ -90,14 +88,28 @@ function HorizontalLinearStepper() {
     }
   };
 
-  const DoubleNextStep = () => {
+  const DoubleNextStep = (value) => {
     const { step } = state;
 
     setState({
       step: step + 2,
     });
+    debugger;
+    dispatch(
+      serviceActions.selectService({
+        ...data,
+        appointemntType: value,
+        step: step + 2,
+      })
+    );
   };
+  const replaceNext = () => {
+    const { step } = state;
 
+    setState({
+      step: step + 1,
+    });
+  };
   const handleAppointmentType = (value) => {
     setState({
       step: step + 1,
@@ -112,6 +124,7 @@ function HorizontalLinearStepper() {
   };
 
   const replacmentReason = (value) => {
+    debugger;
     setReplace({ ...Replace, reasonForReplacment: value });
     dispatch(
       resonsForReplacment({
@@ -143,7 +156,6 @@ function HorizontalLinearStepper() {
   };
 
   const handleApplicants = (e) => {
-    debugger;
     setApplicants(e.target.value);
     dispatch(
       serviceActions.selectService({
@@ -158,7 +170,6 @@ function HorizontalLinearStepper() {
   };
 
   const { step } = state;
-  const groupValue = group;
   switch (step) {
     case 1:
       return (
@@ -201,6 +212,7 @@ function HorizontalLinearStepper() {
           values={applicantsState}
           handleReplacmentReason={replacmentReason}
           replacmentReasonInputs={replacmentReasonInputs}
+          replaceNext={replaceNext}
         />
       );
     case 5:

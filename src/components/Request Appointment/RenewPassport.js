@@ -107,7 +107,7 @@ function RenewPassport(props) {
                           />
                         </MDBRow>
                         <a
-                          onClick={props.nextStep}
+                          onClick={props.replaceNext}
                           class="specialty-next-step button vertical-margin-2"
                         >
                           {' '}
@@ -191,7 +191,7 @@ function RenewPassport(props) {
                           />
                         </MDBRow>
                         <a
-                          onClick={props.nextStep}
+                          onClick={props.replaceNext}
                           class="specialty-next-step button vertical-margin-2"
                         >
                           {' '}
@@ -275,7 +275,7 @@ function RenewPassport(props) {
                           />
                         </MDBRow>
                         <a
-                          onClick={props.nextStep}
+                          onClick={props.replaceNext}
                           class="specialty-next-step button vertical-margin-2"
                         >
                           {' '}
@@ -321,7 +321,7 @@ function RenewPassport(props) {
                         <span class="show-for-sr">Call us at:</span>
                         <i
                           aria-hidden="true"
-                          class="icon icon--phone orange"
+                          class="fas fa-phone fa-rotate-180"
                         ></i>{' '}
                         800-881-7385{' '}
                       </a>
@@ -331,7 +331,7 @@ function RenewPassport(props) {
                         <span class="show-for-sr">Call us at:</span>
                         <i
                           aria-hidden="true"
-                          class="icon icon--phone orange"
+                          class="fas fa-phone fa-rotate-180"
                         ></i>{' '}
                         614-722-6200{' '}
                       </a>
