@@ -96,13 +96,15 @@ function IndividualandGroup(props) {
                       <li>
                         <a href="tel:8008817385">
                           <span class="show-for-sr">Call us at:</span>
-                          <i class="fas fa-phone"></i> 800-881-7385{' '}
+                          <i class="fas fa-phone fa-rotate-180"></i>{' '}
+                          800-881-7385{' '}
                         </a>
                       </li>
                       <li>
                         <a href="tel:6147226200">
                           <span class="show-for-sr">Call us at:</span>
-                          <i class="fas fa-phone"></i> 614-722-6200{' '}
+                          <i class="fas fa-phone fa-rotate-180"></i>{' '}
+                          614-722-6200{' '}
                         </a>
                       </li>
                       <li>

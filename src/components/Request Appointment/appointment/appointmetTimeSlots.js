@@ -91,7 +91,7 @@ function AvailableTimeSlot(props) {
       </div>
     );
   } else {
-    return <p className="bg-info">Please select a date</p>;
+    return <p className="bg-info text">Please select a date</p>;
   }
 }
 
