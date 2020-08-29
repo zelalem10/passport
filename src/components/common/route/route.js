@@ -22,7 +22,7 @@ function PassportRoute() {
       <Route path="/service" component={ServicePage} />
       <Route path="/check-availablity" exact component={ViewAppointment} />
       <Route path="/manage-booking" component={ManageBookingPage} />
-      <Route path="/check-status" component={CustomizedAccordions} />
+      <Route path="/check-status" component={CheckStatusPage} />
       <Route path="/request-stepper" component={RequestStepper} />
       <Route path="/SignIn" component={Login} />
       <Route path="/SignUp" component={SignUp} />

@@ -7,7 +7,6 @@ import familyReducer from './familyReducer';
 import personalInfoReducer from './personalInfoReducer'
 import address from './addressReducer'
 import groupPersonalInfo from './GroupRequest/groupPersonalInfoReducer'
-import personalInfoReducer from './personalInfoReducer';
 import applicationList from './applicationListReducer';
 const rootReducer = combineReducers({
   service,

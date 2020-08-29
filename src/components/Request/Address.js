@@ -25,6 +25,7 @@ const Address = forwardRef((props, ref) => {
     });
     const dispatch = useDispatch();
     const counter = useSelector((state) => state);
+    const personRef = React.useRef();
     if(counter.address.length===0){
         dispatch(addAddressInfo(addressInfo));
     }
@@ -87,20 +88,21 @@ const Address = forwardRef((props, ref) => {
                                 <Form.Control
                                     required
                                     type="text"
+                                    name="country"
                                     placeholder="Country"
                                 />
                                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group as={Col} md="3" controlId="validationCustom03">
                                 <Form.Label>City<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control type="text" placeholder="City" required />
+                                <Form.Control type="text" name="city" placeholder="City" required />
                                 <Form.Control.Feedback type="invalid">
                                     Please provide a valid city.
                                 </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group as={Col} md="3" controlId="validationCustom04">
                                 <Form.Label>State<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control type="text" placeholder="State" required />
+                                <Form.Control type="text" name="state" placeholder="State" required />
                                 <Form.Control.Feedback type="invalid">
                                     Please provide a valid state.
                                 </Form.Control.Feedback>

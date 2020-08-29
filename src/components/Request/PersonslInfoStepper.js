@@ -44,8 +44,8 @@ const initialDispatcher=(personalInfo)=>{
 };
 const personRef = useRef();
   const handleNext = () => {
-    // personRef.current.saveData();
-    // personRef.current.Validate();
+    personRef.current.saveData();
+    personRef.current.Validate();
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -64,7 +64,7 @@ alert("Post Here")
       case 0:
         return <PersonalInfo ref={personRef} />;
       case 1:
-        return <AddressInfo />;
+        return <AddressInfo ref={personRef} />;
       case 2:
         return <FamilyInformation />;
       case 3:
