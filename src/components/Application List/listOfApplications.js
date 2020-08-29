@@ -8,7 +8,15 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default function ListOfApplications(props) {
-  const { users, openModal, handleClose, cancelSchedule, open } = props;
+  const {
+    users,
+    openModal,
+    handleClose,
+    cancelSchedule,
+    open,
+    handleDisplay,
+  } = props;
+  console.log(users);
   return (
     <div className="my-5">
       <div className="container">
@@ -101,7 +109,10 @@ export default function ListOfApplications(props) {
                                 <i class="fas fa-edit fa-lg"></i>
                               </div>
                             </a>
-                            <a href="#">
+                            <a
+                              href="#"
+                              onClick={() => handleDisplay(user.requestId)}
+                            >
                               {' '}
                               <div class="float-right mr-4">
                                 <i class="fas fa-eye fa-lg"></i>

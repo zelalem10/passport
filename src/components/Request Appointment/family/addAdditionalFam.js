@@ -2,6 +2,7 @@ import React from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdbreact';
 
 function AddFamily(props) {
+  const { familyType } = props;
   return (
     <MDBContainer className="passport-container pt-3" id="raa-form" fluid>
       <MDBRow>
@@ -44,10 +45,12 @@ function AddFamily(props) {
                             onChange={props.handleInputAdd}
                             className="browser-default custom-select"
                           >
-                            <option>Choose your option</option>
-                            <option value="Mother">Mother</option>
-                            <option value="Father">Father</option>
-                            <option value="Sister">Sister</option>
+                            <option style={{ display: 'none' }}>
+                              Choose your option
+                            </option>
+                            {familyType.map((item) => (
+                              <option value={item.id}>{item.type}</option>
+                            ))}
                           </select>
                         </div>
                       </div>

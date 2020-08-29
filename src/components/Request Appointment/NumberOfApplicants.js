@@ -28,7 +28,9 @@ function NumberOfApplicant(props) {
                 onChange={(e) => props.handleChange(e)}
                 value={props.values}
               >
-                <option>Number Of Applicants</option>
+                <option style={{ display: 'none' }}>
+                  Number Of Applicants
+                </option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>

@@ -12,11 +12,10 @@ import {
   MDBCardText,
   MDBCardGroup,
   MDBCard,
-  MDBBtn,
-  MDBCardImage,
 } from 'mdbreact';
 import './viewAppointment.css';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { useSelector } from 'react-redux';
 
 const Accordion = withStyles({
   root: {
@@ -59,8 +58,22 @@ const AccordionDetails = withStyles((theme) => ({
   },
 }))(MuiAccordionDetails);
 
-export default function ViewAppointment() {
+export default function ViewAppointment(props) {
   const [expanded, setExpanded] = React.useState('panel1');
+  const data = useSelector((state) => state);
+  const appList = data.applicationList[0];
+  let displayedApplication = {};
+  const { displayRequestId } = props;
+
+  for (let item in appList) {
+    if (appList[item].requestId == displayRequestId) {
+      displayedApplication = appList[item];
+    }
+  }
+
+  const personalInformation = displayedApplication.personResponses[0];
+  const addressInformation = personalInformation.address;
+  const familyInformation = personalInformation.familyResponses;
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -88,7 +101,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Yisacc"
+                value={personalInformation.firstName}
                 disabled
               />
             </div>
@@ -98,7 +111,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Aberham"
+                value={personalInformation.lastName}
                 disabled
               />
             </div>
@@ -108,7 +121,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Markos"
+                value={personalInformation.middleName}
                 disabled
               />
             </div>
@@ -118,7 +131,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="19/02/1997"
+                value={personalInformation.dateOfBirth}
                 disabled
               />
             </div>
@@ -130,7 +143,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Male"
+                value={personalInformation.gender}
                 disabled
               />
             </div>
@@ -140,7 +153,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Ethiopian"
+                value={personalInformation.nationality}
                 disabled
               />
             </div>
@@ -150,7 +163,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="1.73 cm"
+                value={personalInformation.height}
                 disabled
               />
             </div>
@@ -160,7 +173,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Brown"
+                value={personalInformation.eyeColor}
                 disabled
               />
             </div>
@@ -172,7 +185,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Dark Black"
+                value={personalInformation.hairColor}
                 disabled
               />
             </div>
@@ -182,7 +195,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Developer"
+                value={personalInformation.occupation}
                 disabled
               />
             </div>
@@ -192,7 +205,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Brown"
+                value={personalInformation.halfCast}
                 disabled
               />
             </div>
@@ -202,7 +215,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="17/08/2020"
+                value={personalInformation.enrolmentDate}
                 disabled
               />
             </div>
@@ -214,7 +227,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Ethiopia"
+                value={personalInformation.birthCountry}
                 disabled
               />
             </div>
@@ -224,7 +237,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Emdiber"
+                value={personalInformation.birthCity}
                 disabled
               />
             </div>
@@ -257,7 +270,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Ethiopia"
+                value={addressInformation.country}
                 disabled
               />
             </div>
@@ -267,7 +280,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Addis Abeba"
+                value={addressInformation.city}
                 disabled
               />
             </div>
@@ -277,7 +290,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Bole"
+                value={addressInformation.state}
                 disabled
               />
             </div>
@@ -287,7 +300,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="03"
+                value={addressInformation.zone}
                 disabled
               />
             </div>
@@ -299,7 +312,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Ethiopia"
+                value={addressInformation.wereda}
                 disabled
               />
             </div>
@@ -309,7 +322,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Addis Abeba"
+                value={addressInformation.street}
                 disabled
               />
             </div>
@@ -319,7 +332,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Bole"
+                value={addressInformation.houseNo}
                 disabled
               />
             </div>
@@ -329,7 +342,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="03"
+                value={addressInformation.poBox}
                 disabled
               />
             </div>
@@ -341,7 +354,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Ethiopia"
+                value={addressInformation.phoneNumber}
                 disabled
               />
             </div>
@@ -351,7 +364,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Addis Abeba"
+                value={addressInformation.email}
                 disabled
               />
             </div>
@@ -361,7 +374,7 @@ export default function ViewAppointment() {
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
-                value="Bole"
+                value={addressInformation.requestPlace}
                 disabled
               />
             </div>
@@ -388,44 +401,16 @@ export default function ViewAppointment() {
         </AccordionSummary>
         <AccordionDetails>
           <MDBCardGroup>
-            <MDBCard className="mr-3">
-              <MDBCardBody>
-                <MDBCardTitle tag="h5">Panel title</MDBCardTitle>
-                <MDBCardText>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </MDBCardText>
-                <MDBBtn color="primary" size="md">
-                  read more
-                </MDBBtn>
-              </MDBCardBody>
-            </MDBCard>
-
-            <MDBCard className="mr-3">
-              <MDBCardBody>
-                <MDBCardTitle tag="h5">Panel title</MDBCardTitle>
-                <MDBCardText>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </MDBCardText>
-                <MDBBtn color="primary" size="md">
-                  read more
-                </MDBBtn>
-              </MDBCardBody>
-            </MDBCard>
-
-            <MDBCard className="mr-3">
-              <MDBCardBody>
-                <MDBCardTitle tag="h5">Panel title</MDBCardTitle>
-                <MDBCardText>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </MDBCardText>
-                <MDBBtn color="primary" size="md">
-                  read more
-                </MDBBtn>
-              </MDBCardBody>
-            </MDBCard>
+            {familyInformation.map((family) => (
+              <MDBCard className="mr-3">
+                <MDBCardBody>
+                  <MDBCardTitle tag="h5">
+                    {family.firstName + ' ' + ' ' + family.lastName}
+                  </MDBCardTitle>
+                  <MDBCardText>{family.familtyType}</MDBCardText>
+                </MDBCardBody>
+              </MDBCard>
+            ))}
           </MDBCardGroup>
         </AccordionDetails>
       </Accordion>
