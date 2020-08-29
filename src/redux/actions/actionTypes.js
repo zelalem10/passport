@@ -1,3 +1,5 @@
 export const SELECT_SERVICE = 'SELECT_SERVICE';
 export const ADD_FAMILY = 'ADD_FAMILY';
 export const DELETE_FAMILY = 'DELETE_FAMILY';
+export const LOGIN_USER_DATA = 'LOGIN_USER_DATA';
+export const LOGOUT_USER_DATA = 'LOGOUT_USER_DATA';

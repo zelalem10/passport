@@ -3,8 +3,9 @@
     "",
     "\\src",
     "\\src\\components",
-    "\\src\\components\\Application List"
+    "\\src\\components\\Application List",
+    "\\src\\components\\Status"
   ],
-  "SelectedNode": "\\src\\components\\Application List\\ApplicationList.js",
+  "SelectedNode": "\\src\\components\\Status\\Status.js",
   "PreviewInSolutionExplorer": false
 }

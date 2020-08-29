@@ -182,7 +182,7 @@ p .video__toggle {
   display: inline-block;
   vertical-align: middle;
 }
-.card {
+.multistep-form__step .card {
   flex-direction: unset !important;
 }
 
