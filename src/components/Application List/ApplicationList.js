@@ -107,7 +107,7 @@ id="request-an-appointment"
            
                 <a href="#" onClick={()=>openModal(user.requestId)} > <div class="float-right mr-4"><i class="far fa-trash-alt fa-lg" ></i></div></a>
                 <a href="#"> <div class="float-right mr-4"><i class="fas fa-edit fa-lg"></i></div></a>
-                <a href="#"> <div class="float-right mr-4"><i class="fas fa-eye fa-lg"></i></div></a>
+                <a href="/check-status"> <div class="float-right mr-4"><i class="fas fa-eye fa-lg"></i></div></a>
           
             <Dialog open={open}
         onClose={handleClose}

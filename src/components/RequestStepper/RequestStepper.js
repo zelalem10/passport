@@ -3,7 +3,7 @@ import SiteSelection from '../Request/SiteSelection'
 import {SiteSelectionContext} from '../Request/SiteSelection'
 import DateSelection from '../Request Appointment/appointment/appointmentDate'
 import PersonalInfoStepper from '../Request/PersonslInfoStepper'
-import GroupNavigation from '../Request/GroupNavigation'
+import GroupNavigation from '../GroupRequest/GroupNavigation'
 import PaymentSelection from '../Payment/PaymentSelection'
 import { Tab, Row, Nav, Col, Button, Card } from 'react-bootstrap';
 import {BsCheck,BsArrowRightShort, BsArrowLeftShort,BsHouseFill, BsPeopleCircle, BsCalendar, BsWallet} from 'react-icons/bs'
@@ -69,7 +69,7 @@ export default function RequestStepper() {
                 <SiteSelection />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[1]}>
-                {isGroup===true?(<GroupNavigation />):(<PersonalInfoStepper />)}
+                {isGroup===true?(<GroupNavigation />):(<PersonalInfoStepper  />)}
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[2]}>
                 <DateSelection />

@@ -27,13 +27,13 @@ export default function SiteSelection() {
     'http://svdrbas03:2222/Master/api/V1.0/Office/GetByCountryId?id=358';
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk3OTkxNzIwLCJleHAiOjE1OTgwMDYxMjAsImlhdCI6MTU5Nzk5MTcyMH0.Xc6nC7c55OXbJluL_JBfEGhj6vhAH1YYlTjjHCdy_ik`,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk4NTk5Mjg5LCJleHAiOjE1OTg2MTM2ODksImlhdCI6MTU5ODU5OTI4OX0.pPEG7jiWamDb--6JhtNkdKOuNYqok8H6wMA11qVrM4Y`,
     },
   };
 
   const handleRegionChange = (event) => {
     setSelectedRegionId(event.currentTarget.value);
-    API.get('http://svdrbas03:2222/Master/api/V1.0/Country/GetAll', config)
+    API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/Country/GetAll', config)
       .then((todo) => {
         setCountryList(todo.data.countrys);
         setSelectedCountryId(0);
@@ -65,7 +65,7 @@ export default function SiteSelection() {
       username: 'atalay',
       password: 'Atie@1234',
     };
-    API.get('http://svdrbas03:2222/Master/api/V1.0/Region/GetAll', config)
+    API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/Region/GetAll', config)
       .then((todo) => setRegionList(todo.data.regionSer))
       .catch((err) => {
         console.log('AXIOS ERROR: ', err);

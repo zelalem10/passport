@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { MDBBtn, MDBCard, MDBContainer, MDBCardHeader, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBRow } from 'mdbreact';
 import { Button, Form } from 'react-bootstrap';
 import PaymentSelection from '../Payment/PaymentSelection'
+import API from '../Utils/API'
 
 
 const CardExample = () => {
@@ -13,6 +14,32 @@ const CardExample = () => {
     function handelRequest(){
         setResquestSent(true)
     }
+    useEffect(() => {
+        const config = {
+            headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk4NjI0MjgwLCJleHAiOjE1OTg2Mzg2ODAsImlhdCI6MTU5ODYyNDI4MH0.ElxSHh-MPb6dDk68EtfOK7AqGn47K8mhjAdajZ2ni2M` }
+        };
+        const body = {
+            firstName: 'atalay',
+            lastName: 'Tilahun',
+            phone:"0932876051",
+            amount:10,
+            currency:"ETB",
+            city:"Addis Ababa",
+            country:"Ethiopia",
+            channel:"amole",
+            paymentOptionsId:1,
+            selectedPaymentOption:"amole",
+            traceNumbers:"",
+            expireyDate:"",
+            otp:"",
+          };
+        API.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
+            .then((todo) => console.log(todo.data))
+            .catch((err) => {
+                console.log("AXIOS ERROR: ", err);
+            })
+
+    }, [])
     return (
         returnBack === true ? (<PaymentSelection />) : (<MDBRow>
             <MDBCol md="1"></MDBCol>

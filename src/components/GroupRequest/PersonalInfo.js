@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Form, Card, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import addPersonalInfo from '../../redux/actions/addPersonalInfoAction';
+import addGroupPersonalInfo from '../../redux/actions/GroupRequest/addGroupPersonalInfoAction';
 
 
 const config = {
@@ -23,6 +23,7 @@ const config = {
 
 const PersonalInfo = forwardRef((props, ref) => {
     const [personalInfo, setPersonalInfo] = useState({
+        applicantNumber:props.applicantNumber,
         firstName:"",
         middleName:"",
         lastName:"",
@@ -43,19 +44,17 @@ const PersonalInfo = forwardRef((props, ref) => {
     const dispatch = useDispatch();
     const counter = useSelector((state) => state);
     const personRef = React.useRef();
-    if(counter.personalInfoReducer.length===0){
-        dispatch(addPersonalInfo(personalInfo));
-    }
+    
       useImperativeHandle(ref, () => ({
         saveData() {
           setPersonalInfo((prevState) =>({
             ...prevState,
             dataSaved: true,
             }));
-        dispatch(addPersonalInfo(personalInfo));
+        dispatch(addGroupPersonalInfo({personalInfo}));
         },
         Validate() {
-            //alert("Validation")
+            //console.log(counter.groupPersonalInfo)
         }
       }));
 
@@ -65,11 +64,15 @@ const PersonalInfo = forwardRef((props, ref) => {
              ...prevState,
               [name]: value,
              }))
-        dispatch(addPersonalInfo(personalInfo));
+        //dispatch(addGroupPersonalInfo(personalInfo));
 
     }
-    var prevInfo=counter.personalInfoReducer[counter.personalInfoReducer.length - 1]
-        useEffect(() => {
+    var prevInfo=counter.groupPersonalInfo[counter.groupPersonalInfo.length - 1]
+       
+    useEffect(() => {
+        if(counter.groupPersonalInfo.length===0){
+            dispatch(addGroupPersonalInfo({personalInfo}));
+        } 
             setPersonalInfo((prevState) =>({
                 ...prevState,
                  firstName: prevInfo? prevInfo.firstName:null,
