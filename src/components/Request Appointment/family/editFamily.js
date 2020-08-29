@@ -2,11 +2,10 @@ import React from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdbreact';
 
 function EditFamily(props) {
-  console.log(props.editFamilyData);
   return (
     <MDBContainer className="passport-container pt-3" id="raa-form" fluid>
       <MDBRow>
-        <MDBCol className="medium-8" sm="12" lg="7">
+        <MDBCol sm="12">
           <div className="multistep-form__step">
             <h2 className="h1">Family Details</h2>
 
@@ -43,6 +42,17 @@ function EditFamily(props) {
                             onChange={props.handleEditInput}
                             value={props.editFamilyData.lName}
                           />
+                          <select
+                            name="famType"
+                            onChange={props.handleEditInput}
+                            value={props.editFamilyData.familyType}
+                            className="browser-default custom-select"
+                          >
+                            <option>Choose your option</option>
+                            <option value="Mother">Mother</option>
+                            <option value="Father">Father</option>
+                            <option value="Sister">Sister</option>
+                          </select>
                         </div>
                       </div>
                     </div>

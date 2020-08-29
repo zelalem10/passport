@@ -11,17 +11,18 @@ input[type='button'] {
   cursor: pointer;
   vertical-align: middle;
 }
-.btn_select:active {
-  outline: 3px solid #ffb81c;
-  box-shadow: none;
-  border: 1px solid #333;
-  outline-offset: 0;
-}
+
 #displayMorningAppts,
 #displayAfternoonAppts {
   width: 50%;
 }
 .btn_select:hover {
+  outline: 3px solid #ffb81c;
+  box-shadow: none;
+  border: 1px solid #333;
+  outline-offset: 0;
+}
+.btn_select.active {
   outline: 3px solid #ffb81c;
   box-shadow: none;
   border: 1px solid #333;
@@ -48,8 +49,11 @@ input[type='button'] {
     0 1px 3px 0 rgba(0, 0, 0, 0.12);
   border-radius: 4px;
 }
-.bg-info {
-  background-color: #d9edf7;
+.bg-info.text {
+  background-color: #3f51b5 !important;
+}
+.bg-info.text {
+  color: #fff !important;
 }
 
 .text-info {

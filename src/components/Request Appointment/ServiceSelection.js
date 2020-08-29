@@ -3,13 +3,13 @@ import IndividualandGroup from './IndividualandGroup';
 import NumberOfApplicant from './NumberOfApplicants';
 import AppointmetType from './appointmentType';
 import RenewPassport from './RenewPassport';
-import { connect } from 'react-redux';
-
-import './requestAppointment.css';
+import RequestStepper from '../RequestStepper/RequestStepper';
 import * as serviceSelectionActions from '../../redux/actions/serviceActions';
 import { useDispatch, useSelector } from 'react-redux';
 import * as serviceActions from '../../redux/actions/serviceActions';
 import PropTypes from 'prop-types';
+import './requestAppointment.css';
+import resonsForReplacment from '../../redux/actions/replaceActions';
 
 let indentifier = false;
 function identifyGroupVsIndividual(selected) {
@@ -20,14 +20,21 @@ function identifyGroupVsIndividual(selected) {
 }
 function HorizontalLinearStepper() {
   const counter = useSelector((state) => state);
-  console.log(counter.service[counter.service.length - 1]);
+  // console.log(counter.service[counter.service.length - 1]);
   const dispatch = useDispatch();
 
   const [data, setData] = React.useState({
     step: 1,
     isGroup: false,
     appointemntType: '',
-    numberOfApplicants: 0,
+    numberOfApplicants: '1',
+  });
+  const [Replace, setReplace] = React.useState({
+    reasonForReplacment: '',
+    passportNumber: '',
+    oldPassportFile: '',
+    expirationDate: '',
+    issuedDate: '',
   });
 
   const [state, setState] = React.useState({
@@ -37,7 +44,8 @@ function HorizontalLinearStepper() {
     dispatch(serviceActions.selectService({ ...data, step: 1 }));
   }
   const [group, setGroup] = React.useState(false);
-  const [applicants, setApplicants] = React.useState(2);
+  const [applicantsState, setApplicants] = React.useState(1);
+  const [appointemntType, setAppointmentType] = React.useState(1);
 
   const individualNextStep = (type) => {
     const { step } = state;
@@ -58,7 +66,6 @@ function HorizontalLinearStepper() {
 
   const nextStep = (type) => {
     const { step } = state;
-
     setState({
       step: step + 1,
     });
@@ -70,10 +77,39 @@ function HorizontalLinearStepper() {
         serviceActions.selectService({ ...data, isGroup: true, step: step + 1 })
       );
     } else {
-      dispatch(serviceActions.selectService({ ...data, step: step + 1 }));
+      dispatch(
+        serviceActions.selectService({
+          ...data,
+          step: step + 1,
+          numberOfApplicants:
+            counter.service[counter.service.length - 1].numberOfApplicants,
+        })
+      );
     }
   };
 
+  const DoubleNextStep = (value) => {
+    const { step } = state;
+
+    setState({
+      step: step + 2,
+    });
+    debugger;
+    dispatch(
+      serviceActions.selectService({
+        ...data,
+        appointemntType: value,
+        step: step + 2,
+      })
+    );
+  };
+  const replaceNext = () => {
+    const { step } = state;
+
+    setState({
+      step: step + 1,
+    });
+  };
   const handleAppointmentType = (value) => {
     setState({
       step: step + 1,
@@ -85,6 +121,22 @@ function HorizontalLinearStepper() {
         step: step + 1,
       })
     );
+  };
+
+  const replacmentReason = (value) => {
+    debugger;
+    setReplace({ ...Replace, reasonForReplacment: value });
+    dispatch(
+      resonsForReplacment({
+        ...Replace,
+        reasonForReplacment: value,
+      })
+    );
+  };
+  const replacmentReasonInputs = (event) => {
+    const { name, value } = event.target;
+    setReplace({ ...Replace, [name]: value });
+    dispatch(resonsForReplacment({ ...Replace, [name]: value }));
   };
 
   // Go back to prev step
@@ -106,7 +158,10 @@ function HorizontalLinearStepper() {
   const handleApplicants = (e) => {
     setApplicants(e.target.value);
     dispatch(
-      serviceActions.selectService({ ...data, applicants: e.target.value })
+      serviceActions.selectService({
+        ...data,
+        numberOfApplicants: e.target.value,
+      })
     );
   };
 
@@ -115,7 +170,6 @@ function HorizontalLinearStepper() {
   };
 
   const { step } = state;
-  const groupValue = group;
   switch (step) {
     case 1:
       return (
@@ -123,7 +177,7 @@ function HorizontalLinearStepper() {
           nextStep={nextStep}
           handleChange={handleChange}
           individualNextStep={individualNextStep}
-          values={applicants}
+          values={applicantsState}
         />
       );
     case 2:
@@ -132,7 +186,7 @@ function HorizontalLinearStepper() {
           nextStep={nextStep}
           handleChange={handleApplicants}
           prevStep={prevStep}
-          values={applicants}
+          values={applicantsState}
           isItGroup={group}
         />
       );
@@ -143,8 +197,9 @@ function HorizontalLinearStepper() {
           handleChange={handleChange}
           prevStep={prevStep}
           isItGroup={group}
-          values={applicants}
+          values={applicantsState}
           handleAppointmentType={handleAppointmentType}
+          DoubleNextStep={DoubleNextStep}
         />
       );
     case 4:
@@ -154,9 +209,14 @@ function HorizontalLinearStepper() {
           handleChange={handleChange}
           prevStep={prevStep}
           isItGroup={group}
-          values={applicants}
+          values={applicantsState}
+          handleReplacmentReason={replacmentReason}
+          replacmentReasonInputs={replacmentReasonInputs}
+          replaceNext={replaceNext}
         />
       );
+    case 5:
+      return <RequestStepper />;
     default:
       console.log('This is a multi-step form built with React.');
   }

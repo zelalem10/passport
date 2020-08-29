@@ -28,7 +28,10 @@ function AppointmetType(props) {
             <div className="row align-center vertical-margin-2">
               <div className="small-11 column request-type">
                 <div class="request-card card card--small-gutters card--shadow text-center row ">
-                  <a class="small-12 column row card--link">
+                  <a
+                    onClick={() => props.DoubleNextStep('New')}
+                    class="small-12 column row card--link"
+                  >
                     <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
                       <strong>New Appointment</strong>
                       <div class="text-center vertical-margin-half">
@@ -51,9 +54,7 @@ function AppointmetType(props) {
                   </a>
                   <a
                     class="small-12 column row card--link vertical-margin-1"
-                    onClick={
-                      (() =>  handleAppointmentType('Replace'))
-                    }
+                    onClick={() => handleAppointmentType('Replace')}
                   >
                     <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
                       <strong>Replace Appointment</strong>
@@ -68,7 +69,10 @@ function AppointmetType(props) {
                       </p>
                     </div>
                   </a>
-                  <a class="small-12 column row card--link vertical-margin-1">
+                  <a
+                    onClick={() => props.DoubleNextStep('Lost')}
+                    class="small-12 column row card--link vertical-margin-1"
+                  >
                     <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
                       <strong>Lost/Stolen Appointment</strong>
                       <div class="text-center vertical-margin-half">
@@ -83,7 +87,10 @@ function AppointmetType(props) {
                       </p>
                     </div>
                   </a>
-                  <a class="small-12 column row card--link vertical-margin-1 ">
+                  <a
+                    onClick={() => props.DoubleNextStep('Correction')}
+                    class="small-12 column row card--link vertical-margin-1 "
+                  >
                     <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
                       <strong>Correction Appointment</strong>
                       <div class="text-center vertical-margin-half">
@@ -135,7 +142,7 @@ function AppointmetType(props) {
                         <span class="show-for-sr">Call us at:</span>
                         <i
                           aria-hidden="true"
-                          class="icon icon--phone orange"
+                          class="fas fa-phone fa-rotate-180"
                         ></i>{' '}
                         800-881-7385{' '}
                       </a>
@@ -145,7 +152,7 @@ function AppointmetType(props) {
                         <span class="show-for-sr">Call us at:</span>
                         <i
                           aria-hidden="true"
-                          class="icon icon--phone orange"
+                          class="fas fa-phone fa-rotate-180"
                         ></i>{' '}
                         614-722-6200{' '}
                       </a>

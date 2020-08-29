@@ -5,9 +5,11 @@ import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import axios from 'axios';
 import AvailableTimeSlot from './appointmetTimeSlots';
 import './disabledates.css';
+import { useDispatch, useSelector } from 'react-redux';
+import addAppointmentDate from '../../../redux/actions/addAppointmetntDate';
 
 function MyApp() {
-  const [state, setState] = useState({ date: new Date() });
+  const [state, setState] = useState({ date: new Date(), time: '' });
   const [respone, setResponse] = useState({});
   const [disabledDate, setDisabledDate] = useState([]);
   const [availableDatess, setAvailableDates] = useState([]);
@@ -16,16 +18,36 @@ function MyApp() {
 
   const [timeSlots, setTimeSlots] = useState([]);
   const [showAvailableTimeSlots, setShowAvailableTimeSlots] = useState(false);
-  const baseUrl = 'http://svdrbas03:2222';
+  const [selectTime, setSelectTime] = useState();
+  const [activeTimeSlot, setActiveTImeSlot] = useState({
+    key: '',
+    active: false,
+  });
+
+  const toggleClass = (e) => {
+    const currentState =
+      e.target.className === 'btn_select active' ? true : false;
+    setActiveTImeSlot({ key: e.target.id, active: !currentState });
+  };
+
+  const dispatch = useDispatch();
+  const baseUrl = 'https://epassportservices.azurewebsites.net/';
   const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk4MDc4MDUyLCJleHAiOjE1OTgwOTI0NTIsImlhdCI6MTU5ODA3ODA1Mn0.pjBXXzp5qOXTWU099tyaz50cn_tw3YnHYb1-xFKFwPU';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTgzNTg4OTcsImV4cCI6MTU5ODM3MzI5NywiaWF0IjoxNTk4MzU4ODk3fQ.DfexJQ55kzMwaiavgvseNPfA50P4YG9K_-GpthPrB5Y';
   const availableDates = [];
   let advancedRestrictionData = {};
   let disabledDates = [];
   let availabletIMES = [];
 
-  useEffect(async (two = 2) => {
-    await axios({
+  const handleTimeSelect = (e) => {
+    setState({ ...state, time: e.target.value });
+    setSelectTime(e.target.value);
+    toggleClass(e);
+    dispatch(addAppointmentDate({ ...state, time: e.target.value }));
+  };
+  console.log(selectTime);
+  useEffect((two = 2) => {
+    axios({
       headers: {
         Authorization: 'Bearer ' + token,
       },
@@ -33,13 +55,13 @@ function MyApp() {
       url: baseUrl + '/Master/api/V1.0/AdvancedRestriction/GetAll',
     })
       .then(async (response) => {
-        advancedRestrictionData = response.data.advancedRestrictions[1];
-        setResponse(response.data.advancedRestrictions[1]);
+        advancedRestrictionData = response.data.advancedRestrictions[0];
+        setResponse(response.data.advancedRestrictions[0]);
         const headers = {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + token,
         };
-        await axios({
+        axios({
           headers: headers,
           method: 'post',
           url: baseUrl + '/Schedule/api/V1.0/Schedule/GetAvailableDateAndTimes',
@@ -47,17 +69,17 @@ function MyApp() {
             startDate: new Date(
               new Date().setTime(
                 new Date().getTime() +
-                  response.data.advancedRestrictions[1].minDays * 86400000
+                  response.data.advancedRestrictions[0].minDays * 86400000
               )
             ),
             endDate: new Date(
               new Date().setTime(
                 new Date().getTime() +
-                  response.data.advancedRestrictions[1].maxDays * 86400000
+                  response.data.advancedRestrictions[0].maxDays * 86400000
               )
             ),
-            requestTypeId: 1,
-            officeId: 64,
+            requestTypeId: 2,
+            officeId: 3,
           },
         })
           .then((responses) => {
@@ -131,8 +153,10 @@ function MyApp() {
       });
   }, []);
   const onChange = (date) => {
-    setState({ date });
+    debugger;
+    setState({ ...state, date: date });
     showTimeSlots(date);
+    dispatch(addAppointmentDate({ ...state, date: date }));
   };
   const showTimeSlots = (date) => {
     let timeSlotsForSpecificDate = [];
@@ -148,11 +172,14 @@ function MyApp() {
       let stringFormatedavDate = new Date(formatedavDate).toString();
       if (stringFormatedavDate === stringDate) {
         for (let l = 0; l < availableTimes[i].durations.length; l++) {
-          timeSlotsForSpecificDate.push(
-            availableTimes[i].durations[l].startTime +
+          timeSlotsForSpecificDate.push({
+            time:
+              availableTimes[i].durations[l].startTime +
               ' - ' +
-              availableTimes[i].durations[l].endTime
-          );
+              availableTimes[i].durations[l].endTime,
+            id: availableTimes[i].durations[l].id,
+            isMorning: availableTimes[i].durations[l].isMorning,
+          });
         }
       }
     }
@@ -203,6 +230,9 @@ function MyApp() {
               selectedDate={dateValue}
               timeLists={timeSlots}
               showAndHide={showAvailableTimeSlots}
+              handleTimeSelect={handleTimeSelect}
+              activeTimeSlot={activeTimeSlot}
+              toggleClass={toggleClass}
             />
           </MDBCol>
         </MDBRow>

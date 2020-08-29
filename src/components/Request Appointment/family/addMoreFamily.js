@@ -15,7 +15,7 @@ function AddMoreFamily(props) {
   return (
     <MDBContainer className="passport-container pt-3" id="raa-form" fluid>
       <MDBRow>
-        <MDBCol className="medium-8" sm="12" lg="7">
+        <MDBCol sm="12">
           <div className="multistep-form__step">
             <h2 className="h1">Family Details</h2>
             {data.map((item) => (
@@ -41,12 +41,8 @@ function AddMoreFamily(props) {
                     {item.firstName + ' ' + item.lastName}
                   </MDBCardTitle>
                   <h5 className="indigo-text">
-                    <strong>Photography</strong>
+                    <strong>{item.familyRelationType}</strong>
                   </h5>
-                  <MDBCardText>
-                    Sed ut perspiciatis unde omnis iste natus sit voluptatem
-                    accusantium doloremque laudantium, totam rem aperiam.
-                  </MDBCardText>
                 </MDBCardBody>
               </MDBCard>
             ))}
@@ -82,6 +78,16 @@ function AddMoreFamily(props) {
                             validate
                             onChange={props.handleInput}
                           />
+                          <select
+                            name="famType"
+                            onChange={props.handleInput}
+                            className="browser-default custom-select"
+                          >
+                            <option>Choose your option</option>
+                            <option value="Mother">Mother</option>
+                            <option value="Father">Father</option>
+                            <option value="Sister">Sister</option>
+                          </select>
                         </div>
                       </div>
                     </div>

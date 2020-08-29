@@ -1,22 +1,25 @@
 import React, { useState, useContext, useEffect } from 'react';
 import SiteSelection from '../Request/SiteSelection'
 import {SiteSelectionContext} from '../Request/SiteSelection'
-import DateSelection from '../Request/DateSelection'
-import PersonalInfo from '../Request/PersonalInfo'
+import DateSelection from '../Request Appointment/appointment/appointmentDate'
+import PersonalInfoStepper from '../Request/PersonslInfoStepper'
 import GroupNavigation from '../Request/GroupNavigation'
 import PaymentSelection from '../Payment/PaymentSelection'
 import { Tab, Row, Nav, Col, Button, Card } from 'react-bootstrap';
 import {BsCheck,BsArrowRightShort, BsArrowLeftShort,BsHouseFill, BsPeopleCircle, BsCalendar, BsWallet} from 'react-icons/bs'
+import {  useSelector } from 'react-redux';
 
 export default function RequestStepper() {
   const [indexValue, setIndexValue] = useState(0);
   const [formCompleted, setFormCompleted] = useState([false, false, false, false]);
   const activeKey = ["first", "second", "third", "fourth"];
-
   const siteSelectionCompleted = useContext(SiteSelectionContext)
-  
+  const counter = useSelector((state) => state);
+  const serviceVal=counter.service[counter.service.length - 1].numberOfApplicants
+  const isGroup=counter.service[counter.service.length - 1].isGroup
+  // console.log(serviceVal);
   useEffect(() => {
-    console.log(siteSelectionCompleted)
+    // console.log(serviceVal.numberOfApplicants);
   }, [])
   function handelNext(){
     setIndexValue(indexValue + 1)
@@ -66,7 +69,7 @@ export default function RequestStepper() {
                 <SiteSelection />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[1]}>
-                <GroupNavigation />
+                {isGroup===true?(<GroupNavigation />):(<PersonalInfoStepper />)}
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[2]}>
                 <DateSelection />

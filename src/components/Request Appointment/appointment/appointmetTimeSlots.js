@@ -27,17 +27,26 @@ function AvailableTimeSlot(props) {
                   </MDBTableHead>
                   <MDBTableBody>
                     {timeLists.map((time) => {
-                      return (
-                        <tr>
-                          <td>
-                            <input
-                              type="button"
-                              class="btn_select"
-                              value={time}
-                            />
-                          </td>
-                        </tr>
-                      );
+                      if (time.isMorning === true) {
+                        return (
+                          <tr>
+                            <td>
+                              <input
+                                type="button"
+                                id={time.id}
+                                value={time.time}
+                                onClick={props.handleTimeSelect}
+                                className={
+                                  props.activeTimeSlot.active &&
+                                  props.activeTimeSlot.key == time.id
+                                    ? 'btn_select active'
+                                    : 'btn_select'
+                                }
+                              />
+                            </td>
+                          </tr>
+                        );
+                      }
                     })}
                   </MDBTableBody>
                 </MDBTable>
@@ -51,17 +60,27 @@ function AvailableTimeSlot(props) {
                   </MDBTableHead>
                   <MDBTableBody>
                     {timeLists.map((time) => {
-                      return (
-                        <tr>
-                          <td>
-                            <input
-                              type="button"
-                              class="btn_select"
-                              value={time}
-                            />
-                          </td>
-                        </tr>
-                      );
+                      if (time.isMorning === false) {
+                        return (
+                          <tr>
+                            <td>
+                              <input
+                                type="button"
+                                class="btn_select"
+                                id={time.id}
+                                value={time.time}
+                                onClick={props.handleTimeSelect}
+                                className={
+                                  props.activeTimeSlot.active &&
+                                  props.activeTimeSlot.key == time.id
+                                    ? 'btn_select active'
+                                    : 'btn_select drill'
+                                }
+                              />
+                            </td>
+                          </tr>
+                        );
+                      }
                     })}
                   </MDBTableBody>
                 </MDBTable>
@@ -72,7 +91,7 @@ function AvailableTimeSlot(props) {
       </div>
     );
   } else {
-    return <p className="bg-info">Please select a date</p>;
+    return <p className="bg-info text">Please select a date</p>;
   }
 }
 
