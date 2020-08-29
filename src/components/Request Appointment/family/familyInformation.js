@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FamilyForm from './familyForm';
 import { useDispatch, useSelector } from 'react-redux';
 import * as familyActions from '../../../redux/actions/addFamilyAction';
 import * as deletefamilyActions from '../../../redux/actions/deleteFamilyAction';
 import * as editfamilyActions from '../../../redux/actions/editFamilyActiion';
+import axios from 'axios';
 
 function FamilyInformation() {
   const counter = useSelector((family) => family);
@@ -29,6 +30,26 @@ function FamilyInformation() {
     idCardNum: '',
     familyType: '',
   });
+  const [familyType, setFamilyType] = useState();
+  const baseUrl = 'https://epassportservices.azurewebsites.net/';
+  const token =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTg2MTY4NzQsImV4cCI6MTU5ODYzMTI3NCwiaWF0IjoxNTk4NjE2ODc0fQ.OQ8vG45cIr8QFz3JEUfhCnqMO6b8ONy0LTPMpWAKle8';
+
+  useEffect((two = 2) => {
+    axios({
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+      method: 'get',
+      url: baseUrl + '/Person/api/V1.0/Person/GetAllFamilyType',
+    })
+      .then(async (response) => {
+        setFamilyType(response.data.familyTypesResponse);
+      })
+      .catch((error) => {
+        console.log('error' + error);
+      });
+  }, []);
   const handleUserInput = (e) => {
     const { name, value } = e.target;
     setState((prevState) => ({
@@ -135,6 +156,7 @@ function FamilyInformation() {
       editFamilyData={editdata}
       saveEditedData={saveEdited}
       handleEditInput={handleUserEditInput}
+      familyType={familyType}
     />
   );
 }

@@ -6,21 +6,26 @@ import AddMoreFamily from './addMoreFamily';
 import AddFirstFamily from './startAddingFamily';
 
 function FamilyForm(props) {
-  const { data } = props;
-  const { addAdditionalFamily } = props;
-  const { handleInput } = props;
-  const { editThisFamily } = props;
-  const { deleteThisFamily } = props;
-  const { addFamilyHandle } = props;
-  const { editFamilyData } = props;
-  const { saveEditedData } = props;
-  const { handleEditInput } = props;
+  const {
+    data,
+    familyType,
+    addAdditionalFamily,
+    handleInput,
+    editThisFamily,
+    deleteThisFamily,
+    addFamilyHandle,
+    editFamilyData,
+    saveEditedData,
+    handleEditInput,
+  } = props;
+  console.log(familyType);
 
   if (props.doWeHaveFamily === true && addAdditionalFamily === false) {
     return (
       <AddFamily
         handleInputAdd={handleInput}
         addAdditionalFamilyHandlerAdd={props.addAdditionalFamilyHandler}
+        familyType={familyType}
       />
     );
   } else if (
@@ -35,6 +40,7 @@ function FamilyForm(props) {
         addAdditionalFamilyHandler={props.addAdditionalFamilyHandler}
         deleteThisFamily={deleteThisFamily}
         editThisFamily={editThisFamily}
+        familyType={familyType}
       />
     );
   } else if (
@@ -50,6 +56,7 @@ function FamilyForm(props) {
         editFamilyData={editFamilyData}
         saveEditedData={saveEditedData}
         handleEditInput={handleEditInput}
+        familyType={familyType}
       />
     );
   } else {

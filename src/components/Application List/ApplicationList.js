@@ -4,16 +4,23 @@ import axios from 'axios';
 import addApplicationList from '../../redux/actions/addApplicationLIst';
 import { useDispatch, useSelector } from 'react-redux';
 import ListOfApplications from './listOfApplications';
+import ViewAppointment from './viewAppointment';
+
 function ApplicationList() {
   const dispatch = useDispatch();
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTg1MTU5NTYsImV4cCI6MTU5ODUzMDM1NiwiaWF0IjoxNTk4NTE1OTU2fQ.Aa1ACKbDbkpHcPbg_q6R2Oh4ztIBiISnI6JmyfUi420`,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTg2MzEwNzQsImV4cCI6MTU5ODY0NTQ3NCwiaWF0IjoxNTk4NjMxMDc0fQ.iZn3Q_g2DWQLkfqtVXzf-kNSZ7KXDLWqv1lwLio32wA`,
     },
   };
 
   const [users, setusers] = useState([]);
   const [open, setOpen] = useState(false);
+  const [displayRequestId, setDisplayRequestId] = useState('');
+
+  const handleDisplay = (id) => {
+    setDisplayRequestId(id);
+  };
 
   function openModal() {
     setOpen(true);
@@ -29,7 +36,6 @@ function ApplicationList() {
         config
       )
       .then((Response) => {
-        console.log(Response.data);
         setusers(Response.data.serviceResponseList);
         dispatch(addApplicationList(Response.data.serviceResponseList));
       });
@@ -49,15 +55,19 @@ function ApplicationList() {
         setOpen(false);
       });
   }
-  return (
-    <ListOfApplications
-      users={users}
-      openModal={openModal}
-      handleClose={handleClose}
-      cancelSchedule={cancelSchedule}
-      open={open}
-    />
-  );
+  if (!displayRequestId) {
+    return (
+      <ListOfApplications
+        users={users}
+        openModal={openModal}
+        handleClose={handleClose}
+        cancelSchedule={cancelSchedule}
+        open={open}
+        handleDisplay={handleDisplay}
+      />
+    );
+  }
+  return <ViewAppointment displayRequestId={displayRequestId} />;
 }
 
 export default ApplicationList;

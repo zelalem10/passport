@@ -11,7 +11,7 @@ import {
 } from 'mdbreact';
 
 function AddMoreFamily(props) {
-  const { data } = props;
+  const { data, familyType } = props;
   return (
     <MDBContainer className="passport-container pt-3" id="raa-form" fluid>
       <MDBRow>
@@ -41,7 +41,12 @@ function AddMoreFamily(props) {
                     {item.firstName + ' ' + item.lastName}
                   </MDBCardTitle>
                   <h5 className="indigo-text">
-                    <strong>{item.familyRelationType}</strong>
+                    {familyType.map((val) => {
+                      debugger;
+                      if (val.id == item.familyRelationType) {
+                        return <strong> {val.type}</strong>;
+                      }
+                    })}
                   </h5>
                 </MDBCardBody>
               </MDBCard>
@@ -83,10 +88,12 @@ function AddMoreFamily(props) {
                             onChange={props.handleInput}
                             className="browser-default custom-select"
                           >
-                            <option>Choose your option</option>
-                            <option value="Mother">Mother</option>
-                            <option value="Father">Father</option>
-                            <option value="Sister">Sister</option>
+                            <option style={{ display: 'none' }}>
+                              Choose your option
+                            </option>
+                            {familyType.map((item) => (
+                              <option value={item.id}>{item.type}</option>
+                            ))}
                           </select>
                         </div>
                       </div>
