@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState, useImperativeHandle,forwardRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody, MDBCardText, MDBCardTitle } from 'mdbreact';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -8,7 +8,7 @@ import { Form, Card, Row, Col, InputGroup, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import addAddressInfo from '../../redux/actions/addAddressInfoAction';
 
-const Address = forwardRef((props, ref) => {
+export default function Address() {
     const [addressInfo, setAddressInfo] = useState({
         country:"",
         city:"",
@@ -28,25 +28,13 @@ const Address = forwardRef((props, ref) => {
     if(counter.address.length===0){
         dispatch(addAddressInfo(addressInfo));
     }
-    // const handleSave = (event) => {
-    //     setAddressInfo((prevState) =>({
-    //         ...prevState,
-    //         dataSaved: true,
-    //         }));
-    //     dispatch(addAddressInfo(addressInfo));
-    // }
-    useImperativeHandle(ref, () => ({
-        saveData() {
-            setAddressInfo((prevState) =>({
+    const handleSave = (event) => {
+        setAddressInfo((prevState) =>({
             ...prevState,
             dataSaved: true,
             }));
         dispatch(addAddressInfo(addressInfo));
-        },
-        Validate() {
-            //alert("Validation")
-        }
-      }));
+    }
     const handleChange = (event) => {
         const { name, value } = event.target;
         setAddressInfo((prevState) =>({
@@ -172,15 +160,13 @@ const Address = forwardRef((props, ref) => {
                                 </Form.Control.Feedback>
                             </Form.Group>
                         </Form.Row>
-                        {/* <Row>
+                        <Row>
                             <Col md="5"></Col>
                             <Button variant="success"  onClick={handleSave}>Save</Button>
-                        </Row> */}
+                        </Row>
                     </Form>
                 </blockquote>
             </Card.Body>
         </Card>
     );
-});
-
-export default Address
+}

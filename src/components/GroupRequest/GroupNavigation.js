@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import SiteSelection from '../Request/SiteSelection'
-import DateSelection from '../Request/DateSelection'
-import PersonalInfo from '../Request/PersonalInfo'
 import { Tab, Row, Accordion, Col, Button, Card } from 'react-bootstrap';
-import HorizontalStepper from '../Request/PersonslInfoStepper'
+import HorizontalStepper from '../GroupRequest/PersonslInfoStepper'
 import { BsCheck } from 'react-icons/bs'
 import { useSelector } from 'react-redux';
 
-
-
 export default function RequestStepper() {
+
     const [indexValue, setIndexValue] = useState(0);
     const [formCompleted, setFormCompleted] = useState([false, false, false]);
     const activeKey = ["first", "second", "third"];
@@ -17,8 +13,7 @@ export default function RequestStepper() {
     const numberOfApplicants = parseInt(counter.service[counter.service.length - 1].numberOfApplicants, 10);
     const applicantList = [];
     function handelNext() {
-        setIndexValue(indexValue + 1)
-        formCompleted[indexValue] = true
+        console.log(counter.groupPersonalInfo)
     }
     function handelPrevious() {
         setIndexValue(indexValue - 1)
@@ -30,22 +25,20 @@ export default function RequestStepper() {
                 <blockquote className="blockquote mb-0">
                     <Accordion>
                         {(() => {
-                            console.log(numberOfApplicants)
                             for (let i = 1; i <= numberOfApplicants; i++) {
-                                applicantList.push("Applicant " + i)
-
+                                applicantList.push(i)
                             }
                         })()}
-                        {applicantList.map((applicant) =>
+                        {applicantList.map((applicantNumber) =>
                             <Card>
                                 <Card.Header>
-                                    <Accordion.Toggle as={Button} variant="link" eventKey={applicant}>
-                                        {applicant} {formCompleted[0] ? <BsCheck /> : null}
+                                    <Accordion.Toggle as={Button} variant="link" eventKey={applicantNumber}>
+                                        {"Applicant "+ applicantNumber} {formCompleted[0] ? <BsCheck /> : null}
                                     </Accordion.Toggle>
                                 </Card.Header>
-                                <Accordion.Collapse eventKey={applicant}>
+                                <Accordion.Collapse eventKey={applicantNumber}>
                                     <Card.Body>
-                                        <HorizontalStepper />
+                                        <HorizontalStepper applicantNumber={applicantNumber} handeler={handelNext} />
                                     </Card.Body>
                                 </Accordion.Collapse>
                             </Card>

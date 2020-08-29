@@ -30,22 +30,19 @@ const useStyles = makeStyles((theme) => ({
 function getSteps() {
   return ['Personal Detail', 'Address', 'Family','Travel plan', 'Attachment'];
 }
-export default function HorizontalLabelPositionBelowStepper() {
+export default function HorizontalLabelPositionBelowStepper(props) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
 
 const dispatch = useDispatch();
 const counter = useSelector((state) => state);
-const initialDispatcher=(personalInfo)=>{
-  if(counter.personalInfoReducer.length===0){
-    dispatch(addPersonalInfo(personalInfo));
-}
-};
+
 const personRef = useRef();
   const handleNext = () => {
-    // personRef.current.saveData();
-    // personRef.current.Validate();
+    // personRef.current.saveData()
+    // personRef.current.Validate()
+    props.handeler()
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -56,13 +53,13 @@ const personRef = useRef();
   const handleReset = () => {
     setActiveStep(0);
   };
-  const handleFinish= ()=>{
-alert("Post Here")
+  const handleFinish=() =>{
+    alert("Finish Here")
   }
   function getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
-        return <PersonalInfo ref={personRef} />;
+        return <PersonalInfo ref={personRef} applicantNumber={props.applicantNumber} />;
       case 1:
         return <AddressInfo />;
       case 2:
