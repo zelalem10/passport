@@ -6,17 +6,12 @@ import { useSelector } from 'react-redux';
 
 export default function RequestStepper() {
 
-    const [indexValue, setIndexValue] = useState(0);
     const [formCompleted, setFormCompleted] = useState([false, false, false]);
-    const activeKey = ["first", "second", "third"];
     const counter = useSelector((state) => state);
     const numberOfApplicants = parseInt(counter.service[counter.service.length - 1].numberOfApplicants, 10);
     const applicantList = [];
     function handelNext() {
         console.log(counter.groupPersonalInfo)
-    }
-    function handelPrevious() {
-        setIndexValue(indexValue - 1)
     }
     return (
         <Card>

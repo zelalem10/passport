@@ -6,6 +6,7 @@ import replacment from './replacmentReducers';
 import familyReducer from './familyReducer';
 import personalInfoReducer from './personalInfoReducer'
 import address from './addressReducer'
+import travelPlan from './travelPlanReducer'
 import groupPersonalInfo from './GroupRequest/groupPersonalInfoReducer'
 import applicationList from './applicationListReducer';
 const rootReducer = combineReducers({
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   replacment,
   applicationList,
   address,
+  travelPlan,
   groupPersonalInfo,
 });
 export default rootReducer;

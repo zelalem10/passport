@@ -29,13 +29,6 @@ const Address = forwardRef((props, ref) => {
     if(counter.address.length===0){
         dispatch(addAddressInfo(addressInfo));
     }
-    // const handleSave = (event) => {
-    //     setAddressInfo((prevState) =>({
-    //         ...prevState,
-    //         dataSaved: true,
-    //         }));
-    //     dispatch(addAddressInfo(addressInfo));
-    // }
     useImperativeHandle(ref, () => ({
         saveData() {
             setAddressInfo((prevState) =>({
@@ -59,8 +52,6 @@ const Address = forwardRef((props, ref) => {
     }
     var prevInfo=counter.address[counter.address.length-1]
         useEffect(() => {
-            dispatch(addAddressInfo(addressInfo));
-
             setAddressInfo((prevState) =>({
                 ...prevState,
                  country: prevInfo? prevInfo.country:null,
@@ -89,27 +80,27 @@ const Address = forwardRef((props, ref) => {
                                     required
                                     type="text"
                                     name="country"
-                                    placeholder="Country"
+                                    defaultValue={prevInfo? prevInfo.country:null} onChange={handleChange}
                                 />
                                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group as={Col} md="3" controlId="validationCustom03">
                                 <Form.Label>City<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control type="text" name="city" placeholder="City" required />
+                                <Form.Control type="text" name="city" defaultValue={prevInfo? prevInfo.city:null} onChange={handleChange} required />
                                 <Form.Control.Feedback type="invalid">
                                     Please provide a valid city.
                                 </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group as={Col} md="3" controlId="validationCustom04">
                                 <Form.Label>State<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control type="text" name="state" placeholder="State" required />
+                                <Form.Control type="text" name="state" defaultValue={prevInfo? prevInfo.state:null} onChange={handleChange} required />
                                 <Form.Control.Feedback type="invalid">
                                     Please provide a valid state.
                                 </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group as={Col} md="3" controlId="validationCustom04">
                                 <Form.Label>Zone<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control type="text" placeholder="Zone" required />
+                                <Form.Control type="text" name="zone" defaultValue={prevInfo? prevInfo.zone:null} onChange={handleChange} required />
                                 <Form.Control.Feedback type="invalid">
                                     Please provide a valid state.
                                 </Form.Control.Feedback>
@@ -122,27 +113,28 @@ const Address = forwardRef((props, ref) => {
                                 <Form.Control
                                     required
                                     type="text"
-                                    placeholder="Woreda"
+                                    name="woreda"
+                                    defaultValue={prevInfo? prevInfo.woreda:null} onChange={handleChange}
                                 />
                                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group as={Col} md="3" controlId="validationCustom03">
                                 <Form.Label>Street<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control type="text" placeholder="Street" required />
+                                <Form.Control type="text" name="street" defaultValue={prevInfo? prevInfo.street:null} onChange={handleChange} required />
                                 <Form.Control.Feedback type="invalid">
                                     Please provide a valid city.
                                 </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group as={Col} md="3" controlId="validationCustom04">
                                 <Form.Label>HouseNo<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control type="text" placeholder="HouseNo" required />
+                                <Form.Control type="text" name="houseNo" defaultValue={prevInfo? prevInfo.houseNo:null} onChange={handleChange} required />
                                 <Form.Control.Feedback type="invalid">
                                     Please provide a valid state.
                                 </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group as={Col} md="3" controlId="validationCustom04">
                                 <Form.Label>PoBox<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control type="text" placeholder="PoBox" required />
+                                <Form.Control type="text" name="poBox" defaultValue={prevInfo? prevInfo.poBox:null} onChange={handleChange} required />
                                 <Form.Control.Feedback type="invalid">
                                     Please provide a valid state.
                                 </Form.Control.Feedback>
@@ -155,20 +147,21 @@ const Address = forwardRef((props, ref) => {
                                 <Form.Control
                                     required
                                     type="text"
-                                    placeholder="PhoneNumber"
+                                    name="phoneNumber"
+                                    defaultValue={prevInfo? prevInfo.phoneNumber:null} onChange={handleChange}
                                 />
                                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group as={Col} md="3" controlId="validationCustom03">
                                 <Form.Label>Email<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control type="email" placeholder="Email" required />
+                                <Form.Control type="email" name="email" defaultValue={prevInfo? prevInfo.email:null} onChange={handleChange} required />
                                 <Form.Control.Feedback type="invalid">
                                     Please provide a valid city.
                                 </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group as={Col} md="3" controlId="validationCustom04">
                                 <Form.Label>Request Place<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control type="text" placeholder="Request Place" required />
+                                <Form.Control type="text" name="requestPlace" defaultValue={prevInfo? prevInfo.requestPlace:null} onChange={handleChange} required />
                                 <Form.Control.Feedback type="invalid">
                                     Please provide a valid state.
                                 </Form.Control.Feedback>
