@@ -11,7 +11,7 @@ function ApplicationList() {
   const dispatch = useDispatch();
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTg5NzI1MDMsImV4cCI6MTU5ODk4NjkwMywiaWF0IjoxNTk4OTcyNTAzfQ.F5wFUs08M2Yf8ZMQp-prE3MYe0xnGZ77PKfwPIghE0o`,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTkwNjQwMTMsImV4cCI6MTU5OTA3ODQxMywiaWF0IjoxNTk5MDY0MDEzfQ.uIMR6jXaKwH4byLwABlimJ9gUUQav9xI3fM_qMV09k8`,
     },
   };
 

@@ -29,7 +29,7 @@ function AddMoreFamily(props) {
                       aria-hidden="true"
                       className="accordion__button icon icon--expand"
                     >
-                      <i class="fas fa-minus-circle fa-lg"></i>
+                      <i class="fas fa-trash-alt fa-lg"></i>
                     </button>
                     <button
                       aria-hidden="true"

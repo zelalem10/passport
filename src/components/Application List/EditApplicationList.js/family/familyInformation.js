@@ -7,7 +7,6 @@ import React, {
 import FamilyForm from './familyForm';
 import { useDispatch, useSelector } from 'react-redux';
 import editAddFamilyData from '../../../../redux/actions/editAddFamilyAction';
-import editDeleteFamilyData from '../../../../redux/actions/editDeleteFamilyAction';
 import axios from 'axios';
 const FamilyInformation = forwardRef((props, ref) => {
   const counter = useSelector((family) => family);
@@ -30,8 +29,8 @@ const FamilyInformation = forwardRef((props, ref) => {
     idCardNum: '',
     familyType: '',
     familtyTypeId: '',
+    personId: '',
   });
-  debugger;
 
   if (
     familiesInfo.length === 0 &&
@@ -47,14 +46,13 @@ const FamilyInformation = forwardRef((props, ref) => {
   ) {
     setFamiliesInfo(counter.editFamilyData[counter.editFamilyData.length - 1]);
   }
-  console.log(counter.editFamilyData.length);
   if (counter.editFamilyData.length === 0) {
     dispatch(editAddFamilyData(familyInformation));
   }
   const [familyType, setFamilyType] = useState([]);
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
   const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTg5NzI1MDMsImV4cCI6MTU5ODk4NjkwMywiaWF0IjoxNTk4OTcyNTAzfQ.F5wFUs08M2Yf8ZMQp-prE3MYe0xnGZ77PKfwPIghE0o';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTkwNjQwMTMsImV4cCI6MTU5OTA3ODQxMywiaWF0IjoxNTk5MDY0MDEzfQ.uIMR6jXaKwH4byLwABlimJ9gUUQav9xI3fM_qMV09k8';
 
   useEffect(() => {
     axios({
@@ -136,6 +134,7 @@ const FamilyInformation = forwardRef((props, ref) => {
     var array = [...familiesInfo];
     array.splice(ids, 1);
     setFamiliesInfo(array);
+    console.log(familiesInfo);
   };
   const editFamilyMember = (familyid) => {
     let editableFamilyInfo = getIndex(familyid);
@@ -146,26 +145,30 @@ const FamilyInformation = forwardRef((props, ref) => {
       idCardNum: familyid,
       familyType: editableFamilyInfo.familtyType,
       familtyTypeId: editableFamilyInfo.familtyTypeId,
+      personId: editableFamilyInfo.personId,
     }));
+
+    removeFamilyMember(familyid);
     setMoreFamily(true);
     setIsEdit(true);
     setCheckFamily(true);
   };
-  const saveEdited = (id) => {
+  const saveEdited = async (id) => {
     setIsEdit(false);
     setMoreFamily(true);
-    const newfamiliesInfo = [...familiesInfo];
 
-    for (var i = 0; i < newfamiliesInfo.length; i++) {
-      if (i == id) {
-        newfamiliesInfo[i].firstName = editdata.fName;
-        newfamiliesInfo[i].lastName = editdata.lName;
-        newfamiliesInfo[i].familtyType = editdata.familyType;
-        newfamiliesInfo[i].familtyTypeId = editdata.familtyTypeId;
-      }
-    }
-    setFamiliesInfo(newfamiliesInfo);
+    await setFamiliesInfo([
+      ...familiesInfo,
+      {
+        personId: editdata.personId,
+        firstName: editdata.fName,
+        lastName: editdata.lName,
+        familtyType: editdata.familyType,
+        familtyTypeId: editdata.familtyTypeId,
+      },
+    ]);
   };
+  console.log(familiesInfo);
   function getIndex(idNo) {
     for (var i = 0; i < familiesInfo.length; i++) {
       if (i === idNo) {

@@ -92,29 +92,32 @@ export default function HorizontalLabelPositionBelowStepper(props) {
       counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
 
     var addressInfo = counter.address[counter.address.length - 1];
+    var familyInfo = counter.editFamilyData[counter.editFamilyData.length - 1];
 
     const config = {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTg5NDE5NzQsImV4cCI6MTU5ODk1NjM3NCwiaWF0IjoxNTk4OTQxOTc0fQ.Np3qPRvqRXaTWT8AiCGORAh5USa3BQO-5TfkjDujO3w`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTkwNjQwMTMsImV4cCI6MTU5OTA3ODQxMywiaWF0IjoxNTk5MDY0MDEzfQ.uIMR6jXaKwH4byLwABlimJ9gUUQav9xI3fM_qMV09k8`,
       },
     };
 
     const requestBody = {
-      requestId: 0,
-
-      requestMode: 0,
-
+      // requestId: displayedApplication.requestId,
+      requestMode: displayedApplication.requestMode,
       requestTypeId: 2,
+      requestTypeId: displayedApplication.requestTypeId,
 
-      userName: '',
+      userName: displayedApplication.user,
 
       status: 0,
 
-      confirmationNumber: '',
+      confirmationNumber: displayedApplication.confirmationNumber,
+
+      flightDate: '2020-09-02T08:49:02.683Z',
+      flightNumber: 'string',
 
       personRequest: [
         {
-          personId: 0,
+          personId: 8,
 
           firstName: personalInfo ? personalInfo.firstName : null,
 
@@ -157,9 +160,9 @@ export default function HorizontalLabelPositionBelowStepper(props) {
           isAdoption: true,
 
           address: {
-            personId: 0,
+            personId: personalInformation.id,
 
-            addressId: 0,
+            addressId: 1,
 
             city: addressInfo ? addressInfo.city : null,
 
@@ -182,33 +185,17 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             email: addressInfo ? addressInfo.email : null,
 
             requestPlace: addressInfo ? addressInfo.requestPlace : null,
-          }, //,
+          },
 
-          // familyRequests: [
-
-          //   // {
-
-          //   //   familyId: 0,
-
-          //   //   personId: 0,
-
-          //   //   familtyTypeId: 0,
-
-          //   //   firstName: "string",
-
-          //   //   lastName: "string"
-
-          //   // }
-
-          // ]
+          familyRequests: familyInfo,
         },
       ],
     };
 
     debugger;
-
-    API.post(
-      'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest',
+    console.log(requestBody);
+    API.put(
+      'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/UpdateRequest',
       requestBody,
       config
     )
