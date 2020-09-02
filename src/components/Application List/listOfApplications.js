@@ -15,6 +15,7 @@ export default function ListOfApplications(props) {
     cancelSchedule,
     open,
     handleDisplay,
+    handleEdit,
   } = props;
   console.log(users);
   return (
@@ -103,7 +104,10 @@ export default function ListOfApplications(props) {
                                 <i class="far fa-trash-alt fa-lg"></i>
                               </div>
                             </a>
-                            <a href="#">
+                            <a
+                              href="#"
+                              onClick={() => handleEdit(user.requestId)}
+                            >
                               {' '}
                               <div class="float-right mr-4">
                                 <i class="fas fa-edit fa-lg"></i>

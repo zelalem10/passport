@@ -80,361 +80,461 @@ export default function ViewAppointment(props) {
   };
 
   return (
-    <MDBContainer className="mt-4 passport-container display-information" fluid>
-      <Accordion
-        square
-        expanded={expanded === 'panel1'}
-        onChange={handleChange('panel1')}
+    <MDBContainer className="passport-container pt-3" fluid>
+      <div class="div-title text-center mywizardcss pt-3">
+        <h4>Request Type: {displayedApplication.type}</h4>
+        <h4>Request Status: {displayedApplication.requestStatus}</h4>
+        <h4>Request Date: {displayedApplication.requestDate}</h4>
+        <h4>Appointement Date: {}</h4>
+      </div>
+      <div
+        class="wizard-display setup-content"
+        id="step-5"
+        style={{ display: 'block' }}
       >
-        <AccordionSummary
-          aria-controls="panel1d-content"
-          id="panel1d-header"
-          expandIcon={<ExpandMoreIcon />}
-        >
-          <Typography>Personal Information</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <MDBRow className="personal-information">
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">First Name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={personalInformation.firstName}
-                disabled
-              />
+        <div class="row pt-4">
+          <div class="col-md-8">
+            <h4 class="text-primary">Personal Information</h4>
+            <hr class="text-primary" />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                First Name
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {personalInformation.firstName}
+                </label>
+              </b>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Last Name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={personalInformation.lastName}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Last Name
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {personalInformation.middleName}
+                </label>
+              </b>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Middle Name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={personalInformation.middleName}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Last Name
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {personalInformation.lastName}
+                </label>
+              </b>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Date of Birth</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={personalInformation.dateOfBirth}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Date of Birth
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {personalInformation.dateOfBirth}
+                </label>
+              </b>
             </div>
-          </MDBRow>
-          <MDBRow className="personal-information">
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Gender</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={personalInformation.gender}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Gender
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {personalInformation.gender}
+                </label>
+              </b>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Nationality</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={personalInformation.nationality}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Nationality
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {personalInformation.nationality}
+                </label>
+              </b>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Height</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={personalInformation.height}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Height
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {personalInformation.height}
+                </label>
+              </b>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Eye Color</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={personalInformation.eyeColor}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Eye Color
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {personalInformation.eyeColor}
+                </label>
+              </b>
             </div>
-          </MDBRow>
-          <MDBRow className="personal-information">
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Hair Color</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={personalInformation.hairColor}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Hair Color
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {personalInformation.hairColor}
+                </label>
+              </b>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Occupation</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={personalInformation.occupation}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Occupation
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {personalInformation.occupation}
+                </label>
+              </b>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Half Cast</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={personalInformation.halfCast}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Half Cast
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {personalInformation.halfCast}
+                </label>
+              </b>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Enrollment Date</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={personalInformation.enrolmentDate}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Enrollment Date
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {personalInformation.enrolmentDate}
+                </label>
+              </b>
             </div>
-          </MDBRow>
-          <MDBRow className="personal-information">
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Birth Country</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={personalInformation.birthCountry}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Birth Country
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {personalInformation.birthCountry}
+                </label>
+              </b>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Birth City</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={personalInformation.birthCity}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Birth City
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {personalInformation.birthCity}
+                </label>
+              </b>
             </div>
-            <div className="multistep-form__step">
-              <a class="specialty-next-step button float-right vertical-margin-2">
-                {' '}
-                Edit <i class="fas fa-arrow-right"></i>
-              </a>
+
+            <h4 class="text-primary">Address Information</h4>
+            <hr class="text-primary" />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Country
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {addressInformation.country}
+                </label>
+              </b>
             </div>
-          </MDBRow>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion
-        square
-        expanded={expanded === 'panel2'}
-        onChange={handleChange('panel2')}
-      >
-        <AccordionSummary
-          aria-controls="panel2d-content"
-          id="panel2d-header"
-          expandIcon={<ExpandMoreIcon />}
-        >
-          <Typography>Address Information</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <MDBRow className="personal-information">
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Country</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={addressInformation.country}
-                disabled
-              />
+
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                City
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {addressInformation.city}
+                </label>
+              </b>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">City</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={addressInformation.city}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                State
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {addressInformation.state}
+                </label>
+              </b>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">State</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={addressInformation.state}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Zone
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {addressInformation.zone}
+                </label>
+              </b>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Zone</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={addressInformation.zone}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Wereda
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {addressInformation.wereda}
+                </label>
+              </b>
             </div>
-          </MDBRow>
-          <MDBRow className="personal-information">
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Wereda</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={addressInformation.wereda}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Street
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {addressInformation.street}
+                </label>
+              </b>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Street</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={addressInformation.street}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                HouseNo
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {addressInformation.houseNo}
+                </label>
+              </b>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">HouseNo</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={addressInformation.houseNo}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                PoBox
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {addressInformation.poBox}
+                </label>
+              </b>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">PoBox</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={addressInformation.poBox}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Phone Number
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {addressInformation.phoneNumber}
+                </label>
+              </b>
             </div>
-          </MDBRow>
-          <MDBRow className="personal-information">
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Phone Number</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={addressInformation.phoneNumber}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Email
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {addressInformation.email}
+                </label>
+              </b>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Email</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={addressInformation.email}
-                disabled
-              />
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Request Place
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {addressInformation.requestPlace}
+                </label>
+              </b>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Request Place</label>
-              <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                value={addressInformation.requestPlace}
-                disabled
-              />
+
+            <h4 class="text-primary">Family Information</h4>
+            <hr class="text-primary" />
+
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Accommodation Type
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold" id="AccommodationTyppe">
+                  Hotel
+                </label>
+              </b>
             </div>
-            <div className="multistep-form__step">
-              <a class="specialty-next-step button float-right vertical-margin-2">
-                {' '}
-                Edit <i class="fas fa-arrow-right"></i>
-              </a>
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Accommodation Name
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold" id="AccommodationNamme">
+                  dinner
+                </label>
+              </b>
             </div>
-          </MDBRow>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion
-        square
-        expanded={expanded === 'panel3'}
-        onChange={handleChange('panel3')}
-      >
-        <AccordionSummary
-          aria-controls="panel3d-content"
-          id="panel3d-header"
-          expandIcon={<ExpandMoreIcon />}
-        >
-          <Typography>Family Information</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <MDBCardGroup>
-            {familyInformation.map((family) => (
-              <MDBCard className="mr-3">
-                <MDBCardBody>
-                  <MDBCardTitle tag="h5">
-                    {family.firstName + ' ' + ' ' + family.lastName}
-                  </MDBCardTitle>
-                  <MDBCardText>{family.familtyType}</MDBCardText>
-                </MDBCardBody>
-              </MDBCard>
-            ))}
-          </MDBCardGroup>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion
-        square
-        expanded={expanded === 'panel4'}
-        onChange={handleChange('panel4')}
-      >
-        <AccordionSummary
-          aria-controls="panel4d-content"
-          id="panel4d-header"
-          expandIcon={<ExpandMoreIcon />}
-        >
-          <Typography>Attachments</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
-            lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Accommodation City
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold" id="AccommodationCitty">
+                  Addis Ababa
+                </label>
+              </b>
+            </div>
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Accommodation Phone Number
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold" id="AccommodationPhoneNumbber">
+                  0937656015
+                </label>
+              </b>
+            </div>
+            <div class="form-group form-inline">
+              <label
+                asp-for="AccommodationStreetAddress"
+                class="control-label col-sm-4 p-0 pr-2 justify-content-end"
+              >
+                Accommodation Street Address
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label
+                  class="font-weight-bold"
+                  id="AccommodationStreetAddrress"
+                >
+                  addis
+                </label>
+              </b>
+            </div>
+
+            <h4 class="text-primary">Attachments</h4>
+            <hr class="text-primary" />
+
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                First Name
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold" id="newFirstName">
+                  Yisacc
+                </label>
+              </b>
+            </div>
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Surname
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold" id="newSurName">
+                  aberham
+                </label>
+              </b>
+            </div>
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Gender
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold" id="newGender">
+                  male
+                </label>
+              </b>
+            </div>
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Date of Birth
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold" id="newBirthDate">
+                  August 17 2020
+                </label>
+              </b>
+            </div>
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Country of Birth
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold" id="newCountryOfBirthId">
+                  Albania
+                </label>
+              </b>
+            </div>
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Place of Birth
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold" id="newPlaceOfBirth">
+                  ddddfd
+                </label>
+              </b>
+            </div>
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Address Country
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold" id="newAddressCountryId">
+                  Ethiopia
+                </label>
+              </b>
+            </div>
+            <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Address City
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <lable class="font-weight-bold" id="newAddressCity">
+                  addis ababa
+                </lable>
+              </b>
+            </div>
+          </div>
+        </div>
+      </div>
     </MDBContainer>
   );
 }

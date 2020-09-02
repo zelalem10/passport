@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useImperativeHandle,
+  forwardRef,
+} from 'react';
 import FamilyForm from './familyForm';
 import { useDispatch, useSelector } from 'react-redux';
-import * as familyActions from '../../../redux/actions/addFamilyAction';
-import * as deletefamilyActions from '../../../redux/actions/deleteFamilyAction';
-import * as editfamilyActions from '../../../redux/actions/editFamilyActiion';
+import editAddFamilyData from '../../../../redux/actions/editAddFamilyAction';
+import editDeleteFamilyData from '../../../../redux/actions/editDeleteFamilyAction';
 import axios from 'axios';
-
-function FamilyInformation() {
+const FamilyInformation = forwardRef((props, ref) => {
   const counter = useSelector((family) => family);
-  if (
-    counter.familyReducer !== undefined ||
-    counter.familyReducer.length != 0
-  ) {
-    // console.log(counter.familyReducer[counter.familyReducer.length - 1]);
-  }
+  const { familyInformation } = props;
+
   const dispatch = useDispatch();
   const [state, setState] = useState({
     fname: '',
@@ -24,16 +23,38 @@ function FamilyInformation() {
   const [checkFamily, setCheckFamily] = useState(false);
   const [moreFamily, setMoreFamily] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [isOnLoad, setIsOnLoad] = useState(true);
   const [editdata, setEditdata] = useState({
     fName: '',
     lName: '',
     idCardNum: '',
     familyType: '',
+    familtyTypeId: '',
   });
+  debugger;
+
+  if (
+    familiesInfo.length === 0 &&
+    isOnLoad === true &&
+    counter.editFamilyData.length === 1
+  ) {
+    setFamiliesInfo(familyInformation);
+    setIsOnLoad(false);
+  } else if (
+    familiesInfo.length === 0 &&
+    isOnLoad === true &&
+    counter.editFamilyData.length > 1
+  ) {
+    setFamiliesInfo(counter.editFamilyData[counter.editFamilyData.length - 1]);
+  }
+  console.log(counter.editFamilyData.length);
+  if (counter.editFamilyData.length === 0) {
+    dispatch(editAddFamilyData(familyInformation));
+  }
   const [familyType, setFamilyType] = useState([]);
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
   const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTg3MDU0MTAsImV4cCI6MTU5ODcxOTgxMCwiaWF0IjoxNTk4NzA1NDEwfQ.S5RJ8vEIQ_7pkYqa_77hiArv9TswtjwNeNBMtiJYoSs';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTg5NzI1MDMsImV4cCI6MTU5ODk4NjkwMywiaWF0IjoxNTk4OTcyNTAzfQ.F5wFUs08M2Yf8ZMQp-prE3MYe0xnGZ77PKfwPIghE0o';
 
   useEffect(() => {
     axios({
@@ -43,13 +64,23 @@ function FamilyInformation() {
       method: 'get',
       url: baseUrl + '/Person/api/V1.0/Person/GetAllFamilyType',
     })
-      .then(async (response) => {
+      .then((response) => {
         setFamilyType(response.data.familyTypesResponse);
       })
       .catch((error) => {
         console.log('error' + error);
       });
   }, []);
+
+  useImperativeHandle(ref, () => ({
+    saveData() {
+      dispatch(editAddFamilyData(familiesInfo));
+    },
+    Validate() {
+      //alert("Validation")
+    },
+  }));
+
   const handleUserInput = (e) => {
     const { name, value } = e.target;
     setState((prevState) => ({
@@ -57,8 +88,21 @@ function FamilyInformation() {
       [name]: value,
     }));
   };
+  const getFamilyType = (id) => {
+    for (let index = 0; index < familyType.length; index++) {
+      if (familyType[index].id == id) {
+        return familyType[index].type;
+      }
+    }
+  };
   const handleUserEditInput = (e) => {
     const { name, value } = e.target;
+    if (name == 'familtyTypeId') {
+      setEditdata((prevState) => ({
+        ...prevState,
+        familyType: getFamilyType(value),
+      }));
+    }
     setEditdata((prevState) => ({
       ...prevState,
       [name]: value,
@@ -84,29 +128,14 @@ function FamilyInformation() {
         id: familiesInfo.length,
         firstName: state.fname,
         lastName: state.lname,
-        familyRelationType: state.famType,
+        familtyType: getFamilyType(state.famType),
       },
     ]);
-    dispatch(
-      familyActions.addFamily({
-        ...familiesInfo,
-        id: familiesInfo.length,
-        firstName: state.fname,
-        lastName: state.lname,
-        familyRelationType: state.famType,
-      })
-    );
   };
   const removeFamilyMember = (ids) => {
     var array = [...familiesInfo];
-    let pos = familiesInfo
-      .map(function (e) {
-        return e.id;
-      })
-      .indexOf(ids);
-    array.splice(pos, 1);
+    array.splice(ids, 1);
     setFamiliesInfo(array);
-    dispatch(deletefamilyActions.deleteFamily(pos));
   };
   const editFamilyMember = (familyid) => {
     let editableFamilyInfo = getIndex(familyid);
@@ -114,28 +143,32 @@ function FamilyInformation() {
       ...prevState,
       fName: editableFamilyInfo.firstName,
       lName: editableFamilyInfo.lastName,
-      idCardNum: editableFamilyInfo.id,
-      familyType: editableFamilyInfo.familyRelationType,
+      idCardNum: familyid,
+      familyType: editableFamilyInfo.familtyType,
+      familtyTypeId: editableFamilyInfo.familtyTypeId,
     }));
     setMoreFamily(true);
     setIsEdit(true);
+    setCheckFamily(true);
   };
   const saveEdited = (id) => {
     setIsEdit(false);
+    setMoreFamily(true);
     const newfamiliesInfo = [...familiesInfo];
+
     for (var i = 0; i < newfamiliesInfo.length; i++) {
-      if (newfamiliesInfo[i]['id'] === id) {
+      if (i == id) {
         newfamiliesInfo[i].firstName = editdata.fName;
         newfamiliesInfo[i].lastName = editdata.lName;
-        newfamiliesInfo[i].familyRelationType = editdata.famType;
+        newfamiliesInfo[i].familtyType = editdata.familyType;
+        newfamiliesInfo[i].familtyTypeId = editdata.familtyTypeId;
       }
-      dispatch(editfamilyActions.editFamily(newfamiliesInfo[i]));
     }
     setFamiliesInfo(newfamiliesInfo);
   };
   function getIndex(idNo) {
     for (var i = 0; i < familiesInfo.length; i++) {
-      if (familiesInfo[i]['id'] === idNo) {
+      if (i === idNo) {
         return familiesInfo[i];
       }
     }
@@ -159,5 +192,5 @@ function FamilyInformation() {
       familyType={familyType}
     />
   );
-}
+});
 export default FamilyInformation;

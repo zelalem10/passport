@@ -5,23 +5,28 @@ import addApplicationList from '../../redux/actions/addApplicationLIst';
 import { useDispatch, useSelector } from 'react-redux';
 import ListOfApplications from './listOfApplications';
 import ViewAppointment from './viewAppointment';
+import HorizontalLabelPositionBelowStepper from './EditApplicationList.js/PersonslInfoStepper';
 
 function ApplicationList() {
   const dispatch = useDispatch();
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTg2MzEwNzQsImV4cCI6MTU5ODY0NTQ3NCwiaWF0IjoxNTk4NjMxMDc0fQ.iZn3Q_g2DWQLkfqtVXzf-kNSZ7KXDLWqv1lwLio32wA`,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTg5NzI1MDMsImV4cCI6MTU5ODk4NjkwMywiaWF0IjoxNTk4OTcyNTAzfQ.F5wFUs08M2Yf8ZMQp-prE3MYe0xnGZ77PKfwPIghE0o`,
     },
   };
 
   const [users, setusers] = useState([]);
   const [open, setOpen] = useState(false);
   const [displayRequestId, setDisplayRequestId] = useState('');
+  const [isEdit, setIsEdit] = useState(false);
 
   const handleDisplay = (id) => {
     setDisplayRequestId(id);
   };
-
+  const handleEdit = (id) => {
+    setDisplayRequestId(id);
+    setIsEdit(true);
+  };
   function openModal() {
     setOpen(true);
   }
@@ -55,7 +60,7 @@ function ApplicationList() {
         setOpen(false);
       });
   }
-  if (!displayRequestId) {
+  if (!displayRequestId && !isEdit) {
     return (
       <ListOfApplications
         users={users}
@@ -64,6 +69,13 @@ function ApplicationList() {
         cancelSchedule={cancelSchedule}
         open={open}
         handleDisplay={handleDisplay}
+        handleEdit={handleEdit}
+      />
+    );
+  } else if (displayRequestId && isEdit) {
+    return (
+      <HorizontalLabelPositionBelowStepper
+        displayRequestId={displayRequestId}
       />
     );
   }
