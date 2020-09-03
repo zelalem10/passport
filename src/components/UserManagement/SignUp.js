@@ -112,7 +112,7 @@ class SignUp extends Component {
 
           method: 'post',
 
-          url: 'https://epassportservices.azurewebsites.net/api/Register/V1.0/UserRegistration/RegisterUser',
+          url: 'https://epassportservices.azurewebsites.net/api/Request/V1.0/RequestAttachments/UploadAttachment',
 
           data: this.state,
 
@@ -140,6 +140,12 @@ class SignUp extends Component {
         return (
            
     <MDBContainer className='my-5'>
+        {/* <div class="alert alert-success" role="alert">
+          Your request is success!
+        </div>
+        <div class="alert alert-danger" role="alert">
+          your request is fail!
+        </div> */}
       <MDBRow>
       <MDBCol lg="3">
         </MDBCol>

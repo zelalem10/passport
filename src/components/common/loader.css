@@ -1,4 +1,4 @@
-#loader:not([hidden]),
+#loader,
 #loader:before,
 #loader:after {
   border-radius: 50%;
@@ -9,8 +9,8 @@
   -webkit-animation: load7 1.8s infinite ease-in-out;
   animation: load7 1.8s infinite ease-in-out;
 }
-#loader:not([hidden]) {
-  color: #0000a0;
+#loader{
+  color: #004d99;;
   font-size: 10px;
   margin: 80px auto;
   position: relative;

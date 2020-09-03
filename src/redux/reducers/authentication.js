@@ -5,8 +5,6 @@ export default function authentication(user = [], action) {
 
   let token = action.userData;
 
-  console.log(action.userData);
-
   switch (action.type) {
     case types.LOGIN_USER_DATA:
     

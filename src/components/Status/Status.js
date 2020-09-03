@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBIcon, MDBListGroup, MDBListGroupItem } from 'mdbreact';
 import axios from 'axios';
-import loader from '../common/loader.css'
+import Spinner from '../common/Spinner'
 
 const Errorstyle = {
   fontSize: "1.2rem",
@@ -13,6 +13,8 @@ const Status = () => {
   const config = {
     headers: { Authorization: `Bearer ` + accesstoken }
   };
+  const [loading, setloading] = useState(false)
+
   const [showPassportNumberResults, setShowPassportNumberResults] = useState(false)
   const [showApplicationNumberResults, setShowApplicationNumberResults] = useState(false)
   const [showConfirmationNumberDataResults, setShowConfirmationNumberDataResults] = useState(false)
@@ -54,12 +56,15 @@ const Status = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setloading(true);
     const isValid = validate();
     if (isValid) {
 
       setPassportNumber(PassportNumber)
       setApplicationNumber(ApplicationNumber)
       setConfirmationNumber(ConfirmationNumber)
+
+      
 
       if (PassportNumber) {
         axios.get(`https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/GetRequestsByPassportNumber?passportNumber=${PassportNumber}`, config)
@@ -70,6 +75,7 @@ const Status = () => {
               setShowForm(false)
               setShowPassportNumberResults(true)
               setclearbutton(true);
+              setloading(false);
             }
 
             console.log(response.data);
@@ -88,6 +94,7 @@ const Status = () => {
                 setShowForm(false)
                 setShowApplicationNumberResults(true)
                 setclearbutton(true);
+                setloading(false);
               }
 
               console.log(response.data);
@@ -106,6 +113,7 @@ const Status = () => {
                   setShowForm(false)
                   setShowConfirmationNumberDataResults(true)
                   setclearbutton(true);
+                  setloading(false);
                 }
 
                 console.log(response.data);
@@ -125,6 +133,10 @@ const Status = () => {
     setShowConfirmationNumberDataResults(false);
     setShowForm(true);
   };
+
+
+
+
   return (
     <>
       {
@@ -170,6 +182,7 @@ const Status = () => {
                         <MDBBtn
                           type="submit"
                           className="btn-block btn-info"
+                          
                         >
                           Search
                   </MDBBtn>
@@ -190,8 +203,10 @@ const Status = () => {
 
         <div>
           {showPassportNumberResults &&
-
-            <MDBContainer className="passport-container pt-3 applist"
+            <div>
+              {
+              loading ? <Spinner/> :
+              <MDBContainer className="passport-container pt-3 applist"
               id="request-an-appointment">
               <div className="header py-3 textBackground m-4">
                 <MDBRow className="d-flex justify-content-center">
@@ -255,6 +270,9 @@ const Status = () => {
                       </MDBRow>
         
             </MDBContainer>
+           
+              }
+             </div>
           }
         </div>
 
@@ -263,8 +281,10 @@ const Status = () => {
       {
         <div>
           {showApplicationNumberResults &&
-
-            <MDBContainer
+            <div>
+              {
+              loading ? <Spinner/> :
+              <MDBContainer
               className="passport-container pt-3 applist"
               id="request-an-appointment"
             >
@@ -329,14 +349,19 @@ const Status = () => {
                 </MDBCol>
                       </MDBRow>
             </MDBContainer>
+         
           }
+          </div>
+         }
         </div>
       }
 
       {
         <div>
           {showConfirmationNumberDataResults &&
-
+          <div>
+            {
+            loading ? <Spinner/> :
             <MDBContainer
               className="passport-container pt-3 applist"
               id="request-an-appointment"
@@ -402,7 +427,9 @@ const Status = () => {
                 </MDBCol>
                       </MDBRow>
             </MDBContainer>
-          }
+            }
+          </div>
+         }
         </div>
 
       }
