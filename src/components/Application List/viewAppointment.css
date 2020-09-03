@@ -19,11 +19,25 @@
   background-color: #ffffff;
 }
 .display-information .MuiCollapse-wrapperInner {
-    background-color: beige;
+  background-color: beige;
 }
 .mywizardcss {
   background-color: #004d99;
   color: #fff;
   margin-bottom: -20px;
   margin-top: -25px;
+  border-radius: 25px;
+}
+fieldset {
+  width: 500px;
+  border: 4px ridge #ff0000;
+  font-family: Arial, sans-serif;
+  padding: lOpx;
+}
+legend {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: bold;
+}
+label {
+  padding-left: lOpx;
 }

@@ -96,7 +96,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
     const config = {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTkwNjQwMTMsImV4cCI6MTU5OTA3ODQxMywiaWF0IjoxNTk5MDY0MDEzfQ.uIMR6jXaKwH4byLwABlimJ9gUUQav9xI3fM_qMV09k8`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTkxMTY1NjAsImV4cCI6MTU5OTEzMDk2MCwiaWF0IjoxNTk5MTE2NTYwfQ.6DRok4IPLKMYZcKvYQTrPU6F1Iq61fKoRqaprRpeYC4`,
       },
     };
 
