@@ -89,6 +89,7 @@ function HorizontalLinearStepper() {
   };
 
   const DoubleNextStep = (value) => {
+    const { numberOfApplicants } = counter.service[counter.service.length - 1];
     const { step } = state;
 
     setState({
@@ -100,6 +101,7 @@ function HorizontalLinearStepper() {
         ...data,
         appointemntType: value,
         step: step + 2,
+        numberOfApplicants: numberOfApplicants,
       })
     );
   };
@@ -111,6 +113,7 @@ function HorizontalLinearStepper() {
     });
   };
   const handleAppointmentType = (value) => {
+    const { numberOfApplicants } = counter.service[counter.service.length - 1];
     setState({
       step: step + 1,
     });
@@ -119,6 +122,7 @@ function HorizontalLinearStepper() {
         ...data,
         appointemntType: value,
         step: step + 1,
+        numberOfApplicants:numberOfApplicants,
       })
     );
   };

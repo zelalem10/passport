@@ -33,7 +33,7 @@ function MyApp() {
   const dispatch = useDispatch();
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
   const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTgzNTg4OTcsImV4cCI6MTU5ODM3MzI5NywiaWF0IjoxNTk4MzU4ODk3fQ.DfexJQ55kzMwaiavgvseNPfA50P4YG9K_-GpthPrB5Y';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTg2ODYyNzQsImV4cCI6MTU5ODcwMDY3NCwiaWF0IjoxNTk4Njg2Mjc0fQ.HHWiTuIm0uAg39SuRo-X9ly0P11HlSKQxQVsooqG7i8';
   const availableDates = [];
   let advancedRestrictionData = {};
   let disabledDates = [];
