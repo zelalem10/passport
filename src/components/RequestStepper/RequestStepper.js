@@ -1,6 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import SiteSelection from '../Request/SiteSelection'
-import {SiteSelectionContext} from '../Request/SiteSelection'
 import DateSelection from '../Request Appointment/appointment/appointmentDate'
 import PersonalInfoStepper from '../Request/PersonslInfoStepper'
 import GroupNavigation from '../GroupRequest/GroupNavigation'
@@ -13,17 +12,20 @@ export default function RequestStepper() {
   const [indexValue, setIndexValue] = useState(0);
   const [formCompleted, setFormCompleted] = useState([false, false, false, false]);
   const activeKey = ["first", "second", "third", "fourth"];
-  const siteSelectionCompleted = useContext(SiteSelectionContext)
   const counter = useSelector((state) => state);
   const serviceVal=counter.service[counter.service.length - 1].numberOfApplicants
   const isGroup=counter.service[counter.service.length - 1].isGroup
-  // console.log(serviceVal);
-  useEffect(() => {
-    // console.log(serviceVal.numberOfApplicants);
-  }, [])
+  const childRef = useRef();
   function handelNext(){
+    if(childRef.current.isCompleted()==true)
+    {
     setIndexValue(indexValue + 1)
     formCompleted[indexValue]=true
+    }
+    else{
+      alert("Please Complete the form")
+    }
+    
   }
   function handelPrevious(){
     setIndexValue(indexValue - 1)
@@ -66,7 +68,7 @@ export default function RequestStepper() {
           <Col sm={9}>
             <Tab.Content>
               <Tab.Pane eventKey={activeKey[0]}>
-                <SiteSelection />
+                <SiteSelection ref={childRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[1]}>
                 {isGroup===true?(<GroupNavigation />):(<PersonalInfoStepper  />)}
@@ -83,11 +85,11 @@ export default function RequestStepper() {
         <Row>
           <Col md={3}></Col>
           <Col md={2}>
-            <Button variant="primary" onClick={handelPrevious}><BsArrowLeftShort /> previous</Button>{' '}
+            <Button variant="primary" onClick={handelPrevious} disabled={indexValue==0?true:false}><BsArrowLeftShort /> previous</Button>{' '}
           </Col>
           <Col md={5}></Col>
           <Col md={2}>
-            <Button variant="primary" onClick={handelNext} disabled={siteSelectionCompleted === true ? false : true} >Next<BsArrowRightShort /></Button>{' '}
+            <Button variant="primary" onClick={handelNext}>Next<BsArrowRightShort /></Button>{' '}
           </Col>
         </Row>
       </div>

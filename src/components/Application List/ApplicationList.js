@@ -10,7 +10,7 @@ function ApplicationList() {
   const dispatch = useDispatch();
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTg2MzEwNzQsImV4cCI6MTU5ODY0NTQ3NCwiaWF0IjoxNTk4NjMxMDc0fQ.iZn3Q_g2DWQLkfqtVXzf-kNSZ7KXDLWqv1lwLio32wA`,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk4ODU5OTI4LCJleHAiOjE1OTg4NzQzMjgsImlhdCI6MTU5ODg1OTkyOH0.8k2CtoSGMBp2eQQC-f9Ivwlvw31GixsADDUwttviQns`,
     },
   };
 

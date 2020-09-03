@@ -36,25 +36,24 @@ const PersonalInfo = forwardRef((props, ref) => {
         formCompleted: false
     });
     const [notCompleted, setNotCompleted] = useState({
-        firstName: true,
-        middleName: true,
-        lastName: true,
-        birthCountry: true,
-        birthCity: true,
-        birthDate: true,
-        gender: true,
-        height: true,
-        eyeColor: true,
-        hairColor: true,
-        communicationMethod: true,
-        occupation: true,
-        halfCast: true,
-        enrolmentDate: true,
-        nationality: true
-    });
+    firstName: true,
+    middleName: true,
+    lastName: true,
+    birthCountry: true,
+    birthCity: true,
+    birthDate: true,
+    gender: true,
+    height: true,
+    eyeColor: true,
+    hairColor: true,
+    communicationMethod: true,
+    occupation: true,
+    halfCast: true,
+    enrolmentDate: true,
+    nationality: true});
+
     const dispatch = useDispatch();
     const counter = useSelector((state) => state);
-    const personRef = React.useRef();
     const isRequired = "is required!"
     if (counter.personalInfoReducer.length === 0) {
         dispatch(addPersonalInfo(personalInfo));
@@ -68,6 +67,22 @@ const PersonalInfo = forwardRef((props, ref) => {
             dispatch(addPersonalInfo(personalInfo));
         },
         Validate() {
+            setNotCompleted({
+        firstName: personalInfo.firstName==="" ? true: false,
+        middleName: personalInfo.middleName==="" ? true: false,
+        lastName: personalInfo.lastName==="" ? true: false,
+        birthCountry: personalInfo.birthCountry==="" ? true: false,
+        birthCity: personalInfo.birthCity==="" ? true: false,
+        birthDate: personalInfo.birthDate==="" ? true: false,
+        gender: personalInfo.gender==="" ? true: false,
+        height: personalInfo.height==="" ? true: false,
+        eyeColor: personalInfo.eyeColor==="" ? true: false,
+        hairColor: personalInfo.hairColor==="" ? true: false,
+        communicationMethod: personalInfo.communicationMethod==="" ? true: false,
+        occupation: personalInfo.occupation==="" ? true: false,
+        halfCast: personalInfo.halfCast==="" ? true: false,
+        enrolmentDate: personalInfo.enrolmentDate==="" ? true: false,
+        nationality: personalInfo.nationality==="" ? true: false})
             if (notCompleted.firstName == true || notCompleted.lastName || notCompleted.middleName == true || notCompleted.birthCountry == true
                 || notCompleted.birthCity == true || notCompleted.birthDate == true || notCompleted.height == true
                 || notCompleted.eyeColor == true || notCompleted.hairColor == true || notCompleted.communicationMethod == true

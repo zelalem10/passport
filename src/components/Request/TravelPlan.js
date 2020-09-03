@@ -32,7 +32,7 @@ import addTravelPlan from '../../redux/actions/addTravelPlanAction';
         dispatch(addTravelPlan(travelPlan));
         },
         Validate() {
-            //alert("Validation")
+            return true
         }
       }));
     const handleChange = (event) => {

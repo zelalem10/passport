@@ -33,6 +33,8 @@ function getSteps() {
 export default function HorizontalLabelPositionBelowStepper() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
+  const [formCompleted, setFormCompleted] = useState(false);
+
   const steps = getSteps();
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
@@ -63,12 +65,12 @@ export default function HorizontalLabelPositionBelowStepper() {
     var personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1]
     var addressInfo = counter.address[counter.address.length - 1]
     const config = {
-      headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk4Nzg3MDU3LCJleHAiOjE1OTg4MDE0NTcsImlhdCI6MTU5ODc4NzA1N30.NgqbtmYz80wNp7YH5yT7DQB354y-Qy3o9JYTO7C0KPw` }
+      headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTg5NDE5NzQsImV4cCI6MTU5ODk1NjM3NCwiaWF0IjoxNTk4OTQxOTc0fQ.Np3qPRvqRXaTWT8AiCGORAh5USa3BQO-5TfkjDujO3w` }
       };
     const requestBody={
       requestId: 0,
       requestMode: 0,
-      requestTypeId: 1,
+      requestTypeId: 2,
       userName: "",
       status: 0,
       confirmationNumber: "",
@@ -78,7 +80,7 @@ export default function HorizontalLabelPositionBelowStepper() {
           firstName:personalInfo? personalInfo.firstName:null,
           middleName: personalInfo? personalInfo.middleName:null,
           lastName: personalInfo? personalInfo.lastName:null,
-          dateOfBirth: personalInfo? personalInfo.dateOfBirth:null,
+          dateOfBirth: "2020-08-31T12:42:45.259Z",
           gender: personalInfo? personalInfo.gender:null,
           nationality: personalInfo? personalInfo.nationality:null,
           height: personalInfo? personalInfo.height:null,
@@ -86,15 +88,13 @@ export default function HorizontalLabelPositionBelowStepper() {
           hairColor: personalInfo? personalInfo.hairColor:null,
           occupation: personalInfo? personalInfo.occupation:null,
           halfCast: personalInfo? personalInfo.halfCast:null,
-          enrolmentDate: personalInfo? personalInfo.enrolmentDate:null,
+          enrolmentDate: "2020-08-31T12:42:45.259Z",
           birthCountry: personalInfo? personalInfo.birthCountry:null,
           birthCity: personalInfo? personalInfo.birthCity:null,
           photoPath: "",
-          communicationMethodId: 3,
           employeeID: "",
           applicationNumber: "",
           organizationID: "",
-          userId: 0,
           isUnder18: true,
           isAdoption: true,
           address: {
@@ -111,19 +111,20 @@ export default function HorizontalLabelPositionBelowStepper() {
             phoneNumber: addressInfo? addressInfo.phoneNumber:null,
             email: addressInfo? addressInfo.email:null,
             requestPlace: addressInfo? addressInfo.requestPlace:null
-          },
-          familyRequests: [
-            // {
-            //   familyId: 0,
-            //   personId: 0,
-            //   familtyTypeId: 0,
-            //   firstName: "string",
-            //   lastName: "string"
-            // }
-          ]
+           }//,
+          // familyRequests: [
+          //   // {
+          //   //   familyId: 0,
+          //   //   personId: 0,
+          //   //   familtyTypeId: 0,
+          //   //   firstName: "string",
+          //   //   lastName: "string"
+          //   // }
+          // ]
         }
       ]
       };
+      debugger
       API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest', requestBody, config)
       .then((todo) => {
         console.log(todo.data);
