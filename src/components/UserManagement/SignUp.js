@@ -1,18 +1,19 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Redirect } from "react-router-dom";
 
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
 
-
-    const accesstoken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk4MDgyODAwLCJleHAiOjE1OTgwOTcyMDAsImlhdCI6MTU5ODA4MjgwMH0.4Ua-uDj1UUwnTAWhReLKOne_2ArNOFBVmBS13CFilPw`;
+const Errorstyle = {
+    marginTop: "-2rem",
+    marginLeft: "2.5rem",
+    };
 
 
 // intial state
 const intialState = {
   personRequest : {
     firstName:'',
-    MiddleName:'',
+    middleName:'',
     lastName:'',
     firstNameError : '',
     MiddleNameError:'',
@@ -22,8 +23,10 @@ const intialState = {
   userRequest : {
     email:'',
     password: '',
+    passwordTwo: '',
     emailError :'',
-    passwordError : ''
+    passwordError : '',
+    passwordTwoError : ''
   },
 }
 
@@ -31,37 +34,47 @@ class SignUp extends Component {
 
       state = intialState
 
-
     //validate form
     validate = () => {
       let firstNameError = '';
+      let MiddleNameError='';
       let lastNameError = '';
       let emailError ='';
       let passwordError = '';
-      let MiddleNameError='';
+      let passwordTwoError = '';
 
       if (!this.state.personRequest.firstName){
-        firstNameError = 'Please enter your first name.';
+        firstNameError = 'Please Enter Your First Name.';
       }
-      if (!this.state.personRequest.MiddleName){
-        MiddleNameError = 'Please enter your Middle Name.';
+      if (!this.state.personRequest.middleName){
+        MiddleNameError = 'Please Enter Your Middle Name.';
       }
       
       if (!this.state.personRequest.lastName){
-        lastNameError = 'Please enter your last name.';
+        lastNameError = 'Please Enter Your Last Name.';
       }
       if (!this.state.userRequest.email){
-        emailError = 'Please enter email address.';
+        emailError = 'Please Enter Your Email Address.';
       }
       if (!this.state.userRequest.password){
-        passwordError = 'please enter password.';
+        passwordError = 'Please Enter Your Password.';
       }
       else if (this.state.userRequest.password.length < 6){
-        passwordError = 'Please enter at least 6 charachter.';
+        passwordError = 'Please Enter at Least 6 Charachter.';
+      }
+      if (!this.state.userRequest.passwordTwo){
+        passwordTwoError = 'Please Enter Your Password.';
+      }
+      else if (this.state.userRequest.passwordTwo.length < 6){
+        passwordTwoError = 'Please enter at least 6 charachter.';
+      }
+      else if(this.state.userRequest.password !== this.state.userRequest.passwordTwo)
+      {
+        passwordTwoError = 'Passwords Do Not Match.';
       }
 
-      if(firstNameError || lastNameError || emailError || passwordError){
-        this.setState({firstNameError, MiddleNameError, lastNameError, emailError, passwordError})
+      if(firstNameError || lastNameError || emailError || passwordError || passwordTwoError){
+        this.setState({firstNameError, MiddleNameError, lastNameError, emailError, passwordError, passwordTwoError})
 
         return false;
       }
@@ -97,11 +110,9 @@ class SignUp extends Component {
 
         axios({
 
-          headers: { 'Authorization': 'Bearer ' + accesstoken },
-
           method: 'post',
 
-          url: 'http://svdrbas03:2222/api/Register/V1.0/UserRegistration/RegisterUser',
+          url: 'https://epassportservices.azurewebsites.net/api/Request/V1.0/RequestAttachments/UploadAttachment',
 
           data: this.state,
 
@@ -109,7 +120,7 @@ class SignUp extends Component {
         .then(Response => {
             console.log(Response);
             alert('success');
-          // window.location.href = "./signIn";
+          window.location.href = "./signIn";
             
         })
         .catch(err => {
@@ -129,24 +140,30 @@ class SignUp extends Component {
         return (
            
     <MDBContainer className='my-5'>
+        {/* <div class="alert alert-success" role="alert">
+          Your request is success!
+        </div>
+        <div class="alert alert-danger" role="alert">
+          your request is fail!
+        </div> */}
       <MDBRow>
       <MDBCol lg="3">
         </MDBCol>
         <MDBCol lg="6">
         <MDBCard>
         <MDBCardBody>
-              <form onSubmit ={this.submitHandler}>
-              <div className="header pt-3 blue-gradient mb-5">
-                <MDBRow className="d-flex justify-content-center">
+              <form className='SignUp' onSubmit ={this.submitHandler}>
+              <div className="header pt-3 mb-5 textBackground" >
+                <MDBRow className="d-flex justify-content-center white-text">
+                   
                   <h4 className="white-text my-3 py-3 font-weight-bold">
-                      Sign Up
-                </h4>
+                  <span class="fa fa-user-plus mr-2"></span> Sign Up </h4>
                 </MDBRow>
               </div>
             
                 <div className="grey-text">
                   <MDBInput
-                    label="Your First Name"
+                    label="First Name"
                     name='firstName'
                     value= {personRequest.firstName}
                     icon="user"
@@ -158,12 +175,12 @@ class SignUp extends Component {
                     onChange={this.changeHandler}
                   />
                   {this.state.firstNameError? (
-                  <div className='red-text'>{this.state.firstNameError}</div>
+                  <div className='red-text' style={Errorstyle}>{this.state.firstNameError}</div>
                   ) : null}
                      <MDBInput
-                    label="Your Middle Name"
-                    name='MiddleName'
-                    value= {personRequest.MiddleName}
+                    label="Middle Name"
+                    name='middleName'
+                    value= {personRequest.middleName}
                     icon="user"
                     group
                     type="text"
@@ -173,10 +190,10 @@ class SignUp extends Component {
                     onChange={this.changeHandler}
                   />
                   {this.state.MiddleNameError? (
-                  <div className='red-text'>{this.state.MiddleNameError}</div>
+                  <div className='red-text' style={Errorstyle}>{this.state.MiddleNameError}</div>
                   ) : null}
                    <MDBInput
-                    label="Your Last Name"
+                    label="Last Name"
                     name='lastName'
                     value={personRequest.lastName}
                     icon="user"
@@ -188,10 +205,10 @@ class SignUp extends Component {
                     onChange={this.changeHandler}
                   />
                   {this.state.lastNameError? (
-                  <div className='red-text'>{this.state.lastNameError}</div>
+                  <div className='red-text' style={Errorstyle}>{this.state.lastNameError}</div>
                   ) : null}
                   <MDBInput
-                    label="Your Email"
+                    label="Email"
                     icon="envelope"
                     name='email'
                     value={userRequest.email}
@@ -203,10 +220,10 @@ class SignUp extends Component {
                     onChange={this.UserchangeHandler}
                   />
                   {this.state.emailError? (
-                  <div className='red-text'>{this.state.emailError}</div>
+                  <div className='red-text' style={Errorstyle}>{this.state.emailError}</div>
                   ) : null}
                   <MDBInput
-                    label="Your Password"
+                    label="Password"
                     icon="lock"
                     password={userRequest.password}
                     name='password'
@@ -215,23 +232,35 @@ class SignUp extends Component {
                     validate
                     onChange={this.UserchangeHandler}
                   />
-                  {this.state.passwordError? (
-                  <div className='red-text'>{this.state.passwordError}</div>
+                    {this.state.passwordError? (
+                    <div className='red-text' style={Errorstyle}>{this.state.passwordError}</div>
+                    ) : null}
+                  <MDBInput
+                    label="Comfirm Password"
+                    icon="lock"
+                    password={userRequest.passwordTwo}
+                    name='passwordTwo'
+                    group
+                    type="password"
+                    validate
+                    onChange={this.UserchangeHandler}
+                  />
+                  {this.state.passwordTwoError? (
+                  <div className='red-text' style={Errorstyle}>{this.state.passwordTwoError}</div>
                   ) : null}
                 </div>
-                <MDBRow className='d-flex align-items-center mb-4 '>
+                <MDBRow className='d-flex align-items-center mb-4 signUpbutton'>
                 <MDBCol md='6' className='text-center my-2'>
-                  <MDBBtn className='z-depth-1' gradient="blue" type="submit" rounded block>
-                    Sign Up
+                  <MDBBtn className='z-depth-1 btn-info' type="submit" rounded block>
+                    Sign Up <i class="fas fa-sign-in-alt ml-1"></i>
                   </MDBBtn>
  
                 </MDBCol>
                 <MDBCol md='6'>
                   <p className='font-medium grey-text d-flex justify-content-end'>
                     Have an account?
-                    <a href='/signIn' className='blue-text ml-1'>
-                      Log in
-                    </a>
+                    <a href='/signIn' color="cyan" className='blue-text ml-1'>Log in</a>
+     
                   </p>
                 </MDBCol>
               </MDBRow>

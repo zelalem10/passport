@@ -4,6 +4,9 @@ import family from './familyReducer';
 import appointmentDate from './appointmentDateReducer';
 import replacment from './replacmentReducers';
 import familyReducer from './familyReducer';
+import userData from './authentication';
+import attachmentData from './attachimentReducer'
+
 import personalInfoReducer from './personalInfoReducer'
 import address from './addressReducer'
 import groupPersonalInfo from './GroupRequest/groupPersonalInfoReducer'
@@ -12,6 +15,7 @@ import applicationList from './applicationListReducer';
 const rootReducer = combineReducers({
   service,
   familyReducer,
+  userData,
   personalInfoReducer,
   family,
   appointmentDate,
@@ -19,5 +23,6 @@ const rootReducer = combineReducers({
   applicationList,
   address,
   groupPersonalInfo,
+  attachmentData
 });
 export default rootReducer;

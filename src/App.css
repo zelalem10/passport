@@ -36,3 +36,41 @@
     transform: rotate(360deg);
   }
 }
+.textBackground {
+  background-color: #004d99;
+  border-radius: 3px!important;
+}
+
+.signUpbutton .btn-info {
+  color: #fff;
+  background-color: #17a2b8 !important;
+  border-color: #17a2b8 !important;
+}
+.signUpbutton .btn-default {
+  color: #fff;
+  background-color: #17a2b8 !important;
+}
+.headerOne {
+  background-color: #0C5099 !important;
+}
+.headerTwo {
+  background-color:#093C73 !important;
+}
+
+.applist .small-12 .card--teal, .applist .request-type .request-card .card--link:hover .card--teal + .card--gray {
+  background-color: #004d99 !important;
+  color: #fefefe !important;
+}
+.applist .multistep-form__step {
+  width: 100%;
+  padding: 0 0.55rem 0.55rem;
+}
+
+
+.epassportcenter {
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+}
+
+
