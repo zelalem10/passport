@@ -8,10 +8,8 @@ import attachmentData from './attachimentReducer'
 
 import personalInfoReducer from './personalInfoReducer'
 import address from './addressReducer'
+import travelPlan from './travelPlanReducer'
 import groupPersonalInfo from './GroupRequest/groupPersonalInfoReducer'
-import personalInfoReducer from './personalInfoReducer';
-import address from './addressReducer';
-import groupPersonalInfo from './GroupRequest/groupPersonalInfoReducer';
 import applicationList from './applicationListReducer';
 import editFamilyData from './editAddFamilyReducer';
 const rootReducer = combineReducers({
@@ -23,6 +21,7 @@ const rootReducer = combineReducers({
   replacment,
   applicationList,
   address,
+  travelPlan,
   groupPersonalInfo,
   attachmentData
   editFamilyData,

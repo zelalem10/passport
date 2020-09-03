@@ -91,7 +91,7 @@ function HorizontalLinearStepper() {
   const DoubleNextStep = (value) => {
     const { numberOfApplicants } = counter.service[counter.service.length - 1];
     const { step } = state;
-
+ 
     setState({
       step: step + 2,
     });
@@ -107,7 +107,7 @@ function HorizontalLinearStepper() {
   };
   const replaceNext = () => {
     const { step } = state;
-
+ 
     setState({
       step: step + 1,
     });
@@ -126,7 +126,6 @@ function HorizontalLinearStepper() {
       })
     );
   };
-
   const replacmentReason = (value) => {
     debugger;
     setReplace({ ...Replace, reasonForReplacment: value });

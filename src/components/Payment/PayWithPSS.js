@@ -1,15 +1,46 @@
-import React, { useState } from 'react';
-import { MDBBtn, MDBCard, MDBContainer, MDBCardHeader, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBRow } from 'mdbreact';
-import { Button, Form } from 'react-bootstrap';
+import React, { useState,useEffect } from 'react';
+import { MDBBtn, MDBCard, MDBContainer, MDBCardHeader,MDBNavLink, MDBCardBody, MDBLink, MDBCardTitle, MDBCardText, MDBCol, MDBRow } from 'mdbreact';
 import PaymentSelection from '../Payment/PaymentSelection'
+import API from '../Utils/API'
+import JsxParser from 'react-jsx-parser'
+
+
 
 
 const PayWithPSS = () => {
-    const [resquestSent, setResquestSent] = useState(false);
+    const [redirectLink, setRedirectLink] = useState("");
     const [returnBack, setReturnBack] = useState(false)
     function hadndelBack() {
         setReturnBack(true)
     }
+   
+    useEffect(() => {
+        const config = {
+            headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTkxMTQwMDMsImV4cCI6MTU5OTEyODQwMywiaWF0IjoxNTk5MTE0MDAzfQ.-fjjDr4Z71dqz3ss_NyVu05lnwl5nT025VwmckOVpHE` }
+        };
+        const body = {
+            firstName: 'atalay',
+            lastName: 'Tilahun',
+            phone:"0932876051",
+            amount:10,
+            currency:"ETB",
+            city:"Addis Ababa",
+            country:"Ethiopia",
+            channel:"PSS",
+            paymentOptionsId:6,
+            traceNumbers:"",
+            expireyDate:"2020-11-21T07:56:10.877Z",
+            otp:"",
+          };
+        API.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
+            .then((todo) => 
+            {
+                setRedirectLink(todo.data.redirectMSG)
+            })
+            .catch((err) => {
+                console.log("AXIOS ERROR: ", err);
+            })
+    }, [])
     return (
         returnBack === true ? (<PaymentSelection />) : (<MDBRow>
             <MDBCol md="1"></MDBCol>
@@ -21,30 +52,7 @@ const PayWithPSS = () => {
                         </MDBCardHeader>
                         <MDBCardBody>
                             <MDBCardTitle>Pay with PSS</MDBCardTitle>
-                            <MDBCardText>
-                                Money transfer (remittance) service is one of the main areas of operations carried out by the Bank. Remittances of funds through banks from one town to another at the request of customers are referred Domestic Money Transfer or Remittances. There are various modes of effecting Money Transfer. However, the most common means of remitting funds from one spot to the other within the country are:
-
-                                Mail Transfers
-                                Telegraphic or Telephone Transfers
-                                Local Drafts
-                                Cashier Payment Order (CPO)
-                                Money transfer (remittance) service is one of the main areas of operations carried out by the Bank
-                                . Remittances of funds through banks from one town to another at the request of customers are referred
-                                Domestic Money Transfer or Remittances. There are various modes of effecting Money Transfer. However,
-                                the most common means of
-                                remitting funds from one spot to the other within the country are:
-                                Mail Transfers
-                                Telegraphic or Telephone Transfers
-                                Local Drafts
-                                Cashier Payment Order (CPO)
-                                Domestic Money Transfer or Remittances. There are various modes of effecting Money Transfer. However,
-                                the most common means of
-                                remitting funds from one spot to the other within the country are:
-                                Mail Transfers
-                                Telegraphic or Telephone Transfers
-                                Local Drafts
-                                Cashier Payment Order (CPO)
-      </MDBCardText>
+                            <MDBCardText>{redirectLink}</MDBCardText>
                             <MDBBtn color="warning" size="sm"onClick={hadndelBack}> Back to selection </MDBBtn>
                         </MDBCardBody>
                     </MDBCard>

@@ -5,18 +5,14 @@ import { BsCheck } from 'react-icons/bs'
 import { useSelector } from 'react-redux';
 
 export default function RequestStepper() {
-
-    const [indexValue, setIndexValue] = useState(0);
-    const [formCompleted, setFormCompleted] = useState([false, false, false]);
-    const activeKey = ["first", "second", "third"];
+    const [completedForms, setCompletedForms] = useState([false, false, false]);
     const counter = useSelector((state) => state);
+    const [formCompleted, setFormCompleted] = useState(false);
+
     const numberOfApplicants = parseInt(counter.service[counter.service.length - 1].numberOfApplicants, 10);
     const applicantList = [];
     function handelNext() {
         console.log(counter.groupPersonalInfo)
-    }
-    function handelPrevious() {
-        setIndexValue(indexValue - 1)
     }
     return (
         <Card>
@@ -33,7 +29,7 @@ export default function RequestStepper() {
                             <Card>
                                 <Card.Header>
                                     <Accordion.Toggle as={Button} variant="link" eventKey={applicantNumber}>
-                                        {"Applicant "+ applicantNumber} {formCompleted[0] ? <BsCheck /> : null}
+                                        {"Applicant "+ applicantNumber} {completedForms[0] ? <BsCheck /> : null}
                                     </Accordion.Toggle>
                                 </Card.Header>
                                 <Accordion.Collapse eventKey={applicantNumber}>

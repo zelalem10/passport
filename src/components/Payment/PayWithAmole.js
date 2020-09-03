@@ -67,7 +67,7 @@ const CardExample = () => {
                             <MDBRow>
                             <MDBBtn color="warning" size="sm"onClick={hadndelBack}> Back to selection </MDBBtn>
                                 <MDBCol md="4"></MDBCol>
-                                <MDBBtn color="primary" size="sm"onClick={handelRequest}> Get OTP </MDBBtn>
+                                <MDBBtn color="primary" size="sm"onClick={handelRequest}> {resquestSent === true ? "Submit" : "Get OTP"} </MDBBtn>
 
                             </MDBRow>
                         </Form>

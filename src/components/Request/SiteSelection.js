@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import * as ReactBootstrap from 'react-bootstrap';
 import API from '../Utils/API';
 
-export const SiteSelectionContext = React.createContext(true);
 
-export default function SiteSelection() {
+const SiteSelection=forwardRef((props, ref) => {
   const useStyles = makeStyles((theme) => ({
     root: {
       '& .MuiTextField-root': {
@@ -16,23 +15,25 @@ export default function SiteSelection() {
   }));
   const [countryList, setCountryList] = useState([]);
   const [regionList, setRegionList] = useState([]);
-  const [officeList, setOOfficeList] = useState([]);
+  const [officeList, setOfficeList] = useState([]);
   const [selectedRegionId, setSelectedRegionId] = useState(0);
   const [selectedCountryId, setSelectedCountryId] = useState(0);
   const [officeName, setOfficeName] = useState('');
   const [officeAddress, setOfficeAddress] = useState('');
   const [officeContact, setOfficeContact] = useState('');
+  const [formCompleted, setFormCompleted] = useState(false);
+
   const classes = useStyles();
   const officeURL =
-    'http://svdrbas03:2222/Master/api/V1.0/Office/GetByCountryId?id=358';
+    'https://epassportservices.azurewebsites.net/Master/api/V1.0/Office/GetByCountryId?id=';
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk4NTk5Mjg5LCJleHAiOjE1OTg2MTM2ODksImlhdCI6MTU5ODU5OTI4OX0.pPEG7jiWamDb--6JhtNkdKOuNYqok8H6wMA11qVrM4Y`,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTkxMTQwMDMsImV4cCI6MTU5OTEyODQwMywiaWF0IjoxNTk5MTE0MDAzfQ.-fjjDr4Z71dqz3ss_NyVu05lnwl5nT025VwmckOVpHE`,
     },
   };
 
   const handleRegionChange = (event) => {
-    setSelectedRegionId(event.currentTarget.value);
+    setSelectedRegionId(event.target.value);
     API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/Country/GetAll', config)
       .then((todo) => {
         setCountryList(todo.data.countrys);
@@ -43,11 +44,10 @@ export default function SiteSelection() {
       });
   };
   function handeleCountryChange(event) {
-    setSelectedCountryId(event.currentTarget.value);
-    console.log(event.currentTarget.value);
-    API.get(officeURL, config)
+    setSelectedCountryId(event.target.value);
+    API.get(officeURL+event.target.value, config)
       .then((todo) => {
-        setOOfficeList(todo.data.offices);
+        setOfficeList(todo.data.offices);
       })
       .catch((err) => {
         console.log('AXIOS ERROR: ', err);
@@ -55,10 +55,18 @@ export default function SiteSelection() {
   }
 
   function handelOfficeChange(event) {
-    setOfficeName('MainImmegration');
-    setOfficeAddress('Test Address');
-    setOfficeContact('Test contact');
+    const selectedOff=officeList.filter(office => office.id==event.target.value)
+    setOfficeName(selectedOff[0].name);
+    setOfficeAddress(selectedOff[0].address);
+    setOfficeContact(selectedOff[0].fax);
+    setFormCompleted(true)
   }
+
+  useImperativeHandle(ref, () => ({
+    isCompleted() {
+        return formCompleted;
+    }
+}));
 
   useEffect(() => {
     const body = {
@@ -154,7 +162,7 @@ export default function SiteSelection() {
                 >
                   <option>select office</option>
                   {officeList.map((office) => (
-                    <option value={office.id}>{office.name}</option>
+                    <option value={office.id} name={office.name} key={office.address}>{office.name}</option>
                   ))}
                 </ReactBootstrap.Form.Control>
               </ReactBootstrap.Col>
@@ -174,10 +182,8 @@ export default function SiteSelection() {
             </ReactBootstrap.Row>
           </ReactBootstrap.Form.Group>
         </blockquote>
-        <SiteSelectionContext.Provider
-          value={true}
-        ></SiteSelectionContext.Provider>
       </ReactBootstrap.Card.Body>
     </ReactBootstrap.Card>
   );
-}
+});
+export default SiteSelection
