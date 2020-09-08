@@ -19,6 +19,7 @@ const PersonalInfo = forwardRef((props, ref) => {
   const { personalInformation } = props;
   console.log(personalInformation);
   const [personalInfo, setPersonalInfo] = useState({
+    id: personalInformation.id,
     firstName: personalInformation.firstName,
     middleName: personalInformation.middleName,
     lastName: personalInformation.lastName,
@@ -69,20 +70,20 @@ const PersonalInfo = forwardRef((props, ref) => {
   useEffect(() => {
     setPersonalInfo((prevState) => ({
       ...prevState,
+      id: prevInfo ? prevInfo.id : null,
       firstName: prevInfo ? prevInfo.firstName : null,
       middleName: prevInfo ? prevInfo.middleName : null,
       lastName: prevInfo ? prevInfo.lastName : null,
       birthCountry: prevInfo ? prevInfo.birthCountry : null,
       birthCity: prevInfo ? prevInfo.birthCity : null,
-      birthDate: prevInfo ? prevInfo.dateOfBirth : null,
+      birthDate: prevInfo ? new Date(prevInfo.dateOfBirth) : null,
       height: prevInfo ? prevInfo.height : null,
       gender: prevInfo ? prevInfo.gender : null,
       eyeColor: prevInfo ? prevInfo.eyeColor : null,
       hairColor: prevInfo ? prevInfo.hairColor : null,
-      communicationMethod: prevInfo ? prevInfo.communicationMethod : null,
       occupation: prevInfo ? prevInfo.occupation : null,
       halfCast: prevInfo ? prevInfo.halfCast : null,
-      enrolmentDate: prevInfo ? prevInfo.enrolmentDate : null,
+      enrolmentDate: prevInfo ? new Date(prevInfo.enrolmentDate) : null,
       nationality: prevInfo ? prevInfo.nationality : null,
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
     }));
@@ -116,11 +117,10 @@ const PersonalInfo = forwardRef((props, ref) => {
                       name="birthDate"
                       defaultValue={
                         prevInfo
-                          ? prevInfo.birthDate
-                          : //   ? new Date(prevInfo.birthDate)
-                            //       .toISOString()
-                            //       .substr(0, 10)
-                            null
+                          ? new Date(prevInfo.birthDate)
+                              .toISOString()
+                              .substr(0, 10)
+                          : null
                       }
                       onChange={handleChange}
                       placeholder="date of birth"
@@ -175,27 +175,6 @@ const PersonalInfo = forwardRef((props, ref) => {
                       onChange={handleChange}
                       placeholder="Middle Name"
                     />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>
-                      Gender<i style={{ color: 'red' }}>*</i>
-                    </Form.Label>
-                    <Row>
-                      <Form.Check
-                        type="radio"
-                        label="Male"
-                        name="formHorizontalRadios"
-                        id="formHorizontalRadios1"
-                        checked={prevInfo ? prevInfo.gender == 'Male' : false}
-                      />
-                      <Form.Check
-                        type="radio"
-                        label="Female"
-                        name="formHorizontalRadios"
-                        id="formHorizontalRadios2"
-                        checked={prevInfo ? prevInfo.gender == 'FeMale' : false}
-                      />
-                    </Row>
                   </Form.Group>
                   <Form.Group controlId="eyeColor">
                     <Form.Label>
@@ -261,19 +240,16 @@ const PersonalInfo = forwardRef((props, ref) => {
                   </Form.Group>
 
                   <Form.Label>
-                    Comm. Method<i style={{ color: 'red' }}>*</i>{' '}
+                    Gender<i style={{ color: 'red' }}>*</i>{' '}
                   </Form.Label>
                   <Form.Control
-                    name="communicationMethod"
-                    defaultValue={
-                      prevInfo ? prevInfo.communicationMethod : null
-                    }
+                    name="gender"
+                    defaultValue={prevInfo ? prevInfo.gender : null}
                     onChange={handleChange}
                     as="select"
                   >
-                    <option value="both">Both</option>
-                    <option value="sms">SMS</option>
-                    <option value="email">Email</option>
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
                   </Form.Control>
                   <Form.Group controlId="enrolmentDate">
                     <Form.Label>
@@ -284,11 +260,10 @@ const PersonalInfo = forwardRef((props, ref) => {
                       name="enrolmentDate"
                       defaultValue={
                         prevInfo
-                          ? prevInfo.enrolmentDate
-                          : //   ? new Date(prevInfo.enrolmentDate)
-                            //       .toISOString()
-                            //       .substr(0, 10)
-                            null
+                          ? new Date(prevInfo.enrolmentDate)
+                              .toISOString()
+                              .substr(0, 10)
+                          : null
                       }
                       onChange={handleChange}
                       placeholder="Enrolment Date"

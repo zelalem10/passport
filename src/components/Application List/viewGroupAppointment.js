@@ -9,7 +9,7 @@ import './viewAppointment.css';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useSelector } from 'react-redux';
 import { fi } from 'date-fns/locale';
-import ViewGroupAppointment from './viewGroupAppointment';
+import { faPeace } from '@fortawesome/free-solid-svg-icons';
 
 const Accordion = withStyles({
   root: {
@@ -52,7 +52,7 @@ const AccordionDetails = withStyles((theme) => ({
   },
 }))(MuiAccordionDetails);
 
-export default function ViewAppointment(props) {
+export default function ViewGroupAppointment(props) {
   const [expanded, setExpanded] = React.useState('panel1');
   const data = useSelector((state) => state);
   const appList = data.applicationList[0];
@@ -64,72 +64,81 @@ export default function ViewAppointment(props) {
       displayedApplication = appList[item];
     }
   }
-  const personalInfo = displayedApplication.personResponses;
-  debugger;
-  if (personalInfo) {
-    if (personalInfo.length === 1) {
-      const personalInformation = displayedApplication.personResponses[0];
-      const addressInformation = personalInformation.address;
-      const familyInformation = personalInformation.familyResponses;
 
-      const handleChange = (panel) => (event, newExpanded) => {
-        setExpanded(newExpanded ? panel : false);
-      };
+  const personalInformation = displayedApplication.personResponses;
 
-      return (
-        <MDBContainer className="passport-container pt-5" fluid>
-          <div class="div-title text-center mywizardcss pt-3 pb-3">
-            <div className="header-display">
-              <div class="form-group form-inline">
-                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                  Request Type:
-                </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <b>
-                  <label class="font-weight-bold">
-                    {displayedApplication.type}
-                  </label>
-                </b>
-              </div>
-              <div class="form-group form-inline">
-                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                  Request Status:
-                </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <b>
-                  <label class="font-weight-bold">
-                    {displayedApplication.requestStatus}
-                  </label>
-                </b>
-              </div>
-              <div class="form-group form-inline">
-                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                  Request Date:{' '}
-                </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <b>
-                  <label class="font-weight-bold">
-                    {new Date(displayedApplication.requestDate)
-                      .toISOString()
-                      .substr(0, 10)}
-                  </label>
-                </b>
-              </div>
-              <div class="form-group form-inline">
-                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                  Appointement Date:{' '}
-                </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <b>
-                  <label class="font-weight-bold">
-                    {new Date(displayedApplication.appointementDate)
-                      .toISOString()
-                      .substr(0, 10)}
-                  </label>
-                </b>
-              </div>
-            </div>
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
+  };
+
+  return (
+    <MDBContainer
+      className="passport-container view-appointment-group pt-5"
+      fluid
+    >
+      <div class="div-title text-center mywizardcss pt-3 pb-3">
+        <div className="header-display">
+          <div class="form-group form-inline">
+            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+              Request Type:
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>
+              <label class="font-weight-bold">
+                {displayedApplication.type}
+              </label>
+            </b>
           </div>
+          <div class="form-group form-inline">
+            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+              Request Status:
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>
+              <label class="font-weight-bold">
+                {displayedApplication.requestStatus}
+              </label>
+            </b>
+          </div>
+          <div class="form-group form-inline">
+            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+              Request Date:{' '}
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>
+              <label class="font-weight-bold">
+                {new Date(displayedApplication.requestDate)
+                  .toISOString()
+                  .substr(0, 10)}
+              </label>
+            </b>
+          </div>
+          <div class="form-group form-inline">
+            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+              Appointement Date:{' '}
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>
+              <label class="font-weight-bold">
+                {new Date(displayedApplication.appointementDate)
+                  .toISOString()
+                  .substr(0, 10)}
+              </label>
+            </b>
+          </div>
+        </div>
+      </div>
+      {personalInformation.map((person) => (
+        <Accordion className="accordion-item">
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography className="accordion-title">
+              {person.firstName + ' ' + person.middleName}
+            </Typography>
+          </AccordionSummary>
           <div
             class="wizard-display setup-content"
             id="step-5"
@@ -146,9 +155,7 @@ export default function ViewAppointment(props) {
                     </label>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.firstName}
-                      </label>
+                      <label class="font-weight-bold">{person.firstName}</label>
                     </b>
                   </div>
                   <div class="form-group form-inline">
@@ -158,7 +165,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {personalInformation.middleName}
+                        {person.middleName}
                       </label>
                     </b>
                   </div>
@@ -168,9 +175,7 @@ export default function ViewAppointment(props) {
                     </label>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.lastName}
-                      </label>
+                      <label class="font-weight-bold">{person.lastName}</label>
                     </b>
                   </div>
                   <div class="form-group form-inline">
@@ -180,7 +185,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {new Date(personalInformation.dateOfBirth)
+                        {new Date(person.dateOfBirth)
                           .toISOString()
                           .substr(0, 10)}
                       </label>
@@ -193,7 +198,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {personalInformation.gender == 1 ? 'Male' : 'Female'}
+                        {person.gender == 1 ? 'Male' : 'Female'}
                       </label>
                     </b>
                   </div>
@@ -204,7 +209,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {personalInformation.nationality}
+                        {person.nationality}
                       </label>
                     </b>
                   </div>
@@ -214,9 +219,7 @@ export default function ViewAppointment(props) {
                     </label>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.height}
-                      </label>
+                      <label class="font-weight-bold">{person.height}</label>
                     </b>
                   </div>
                   <div class="form-group form-inline">
@@ -225,9 +228,7 @@ export default function ViewAppointment(props) {
                     </label>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.eyeColor}
-                      </label>
+                      <label class="font-weight-bold">{person.eyeColor}</label>
                     </b>
                   </div>
                   <div class="form-group form-inline">
@@ -236,9 +237,7 @@ export default function ViewAppointment(props) {
                     </label>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.hairColor}
-                      </label>
+                      <label class="font-weight-bold">{person.hairColor}</label>
                     </b>
                   </div>
                   <div class="form-group form-inline">
@@ -248,7 +247,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {personalInformation.occupation}
+                        {person.occupation}
                       </label>
                     </b>
                   </div>
@@ -258,9 +257,7 @@ export default function ViewAppointment(props) {
                     </label>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.halfCast}
-                      </label>
+                      <label class="font-weight-bold">{person.halfCast}</label>
                     </b>
                   </div>
                   <div class="form-group form-inline">
@@ -270,7 +267,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {new Date(personalInformation.enrolmentDate)
+                        {new Date(person.enrolmentDate)
                           .toISOString()
                           .substr(0, 10)}
                       </label>
@@ -283,7 +280,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {personalInformation.birthCountry}
+                        {person.birthCountry}
                       </label>
                     </b>
                   </div>
@@ -293,9 +290,7 @@ export default function ViewAppointment(props) {
                     </label>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.birthCity}
-                      </label>
+                      <label class="font-weight-bold">{person.birthCity}</label>
                     </b>
                   </div>
                 </fieldset>
@@ -309,7 +304,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {addressInformation.country}
+                        {person.address ? person.address.country : null}
                       </label>
                     </b>
                   </div>
@@ -321,7 +316,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {addressInformation.city}
+                        {person.address ? person.address.city : null}
                       </label>
                     </b>
                   </div>
@@ -332,7 +327,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {addressInformation.state}
+                        {person.address ? person.address.state : null}
                       </label>
                     </b>
                   </div>
@@ -343,7 +338,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {addressInformation.zone}
+                        {person.address ? person.address.zone : null}
                       </label>
                     </b>
                   </div>
@@ -354,7 +349,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {addressInformation.wereda}
+                        {person.address ? person.address.wereda : null}
                       </label>
                     </b>
                   </div>
@@ -365,7 +360,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {addressInformation.street}
+                        {person.address ? person.address.street : null}
                       </label>
                     </b>
                   </div>
@@ -376,7 +371,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {addressInformation.houseNo}
+                        {person.address ? person.address.houseNo : null}
                       </label>
                     </b>
                   </div>
@@ -387,7 +382,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {addressInformation.poBox}
+                        {person.address ? person.address.poBox : null}
                       </label>
                     </b>
                   </div>
@@ -398,7 +393,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {addressInformation.phoneNumber}
+                        {person.address ? person.address.phoneNumber : null}
                       </label>
                     </b>
                   </div>
@@ -409,7 +404,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {addressInformation.email}
+                        {person.address ? person.address.email : null}
                       </label>
                     </b>
                   </div>
@@ -420,7 +415,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {addressInformation.requestPlace}
+                        {person.address ? person.address.requestPlace : null}
                       </label>
                     </b>
                   </div>
@@ -428,23 +423,29 @@ export default function ViewAppointment(props) {
               </div>
 
               <div className="col-md-6">
-                <fieldset>
-                  <legend class="text-primary">Family Information</legend>
-                  <hr class="text-primary" />
-                  {familyInformation.map((family) => (
-                    <div class="form-group form-inline">
-                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        {family.familtyType}
-                      </label>
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                      <b>
-                        <label class="font-weight-bold" id="AccommodationTyppe">
-                          {family.firstName + ' ' + family.lastName}
+                {person.familyResponses &&
+                person.familyResponses.length !== 0 ? (
+                  <fieldset>
+                    <legend class="text-primary">Family Information</legend>
+                    <hr class="text-primary" />
+                    {person.familyResponses.map((family) => (
+                      <div class="form-group form-inline">
+                        <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                          {family.familtyType}
                         </label>
-                      </b>
-                    </div>
-                  ))}
-                </fieldset>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <b>
+                          <label
+                            class="font-weight-bold"
+                            id="AccommodationTyppe"
+                          >
+                            {family.firstName + ' ' + family.lastName}
+                          </label>
+                        </b>
+                      </div>
+                    ))}
+                  </fieldset>
+                ) : null}
                 <fieldset>
                   <legend class="text-primary">Attachments</legend>
                   <hr class="text-primary" />
@@ -541,10 +542,8 @@ export default function ViewAppointment(props) {
               </div>
             </div>
           </div>
-        </MDBContainer>
-      );
-    } else {
-      return <ViewGroupAppointment displayRequestId={displayRequestId} />;
-    }
-  }
+        </Accordion>
+      ))}
+    </MDBContainer>
+  );
 }
