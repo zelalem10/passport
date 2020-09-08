@@ -31,9 +31,8 @@ function MyApp() {
   };
 
   const dispatch = useDispatch();
+  const accesstoken = localStorage.systemToken;
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
-  const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTg5NjU5NjMsImV4cCI6MTU5ODk4MDM2MywiaWF0IjoxNTk4OTY1OTYzfQ.Q1jihWYrFn7-VqibTcIvCOD4Q0Jr8lRL6dq9IP3ZHtg';
   const availableDates = [];
   let advancedRestrictionData = {};
   let disabledDates = [];
@@ -49,7 +48,7 @@ function MyApp() {
   useEffect((two = 2) => {
     axios({
       headers: {
-        Authorization: 'Bearer ' + token,
+        Authorization: 'Bearer ' + accesstoken,
       },
       method: 'get',
       url: baseUrl + '/Master/api/V1.0/AdvancedRestriction/GetAll',
@@ -59,7 +58,7 @@ function MyApp() {
         setResponse(response.data.advancedRestrictions[0]);
         const headers = {
           'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
+          Authorization: 'Bearer ' + accesstoken,
         };
         axios({
           headers: headers,

@@ -10,9 +10,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import addAddressInfo from '../../../redux/actions/addAddressInfoAction';
 
 const Address = forwardRef((props, ref) => {
+  debugger;
   const { addressInformation } = props;
   console.log(addressInformation);
   const [addressInfo, setAddressInfo] = useState({
+    id: addressInformation.id,
     country: addressInformation.country,
     city: addressInformation.city,
     state: addressInformation.state,
@@ -61,6 +63,7 @@ const Address = forwardRef((props, ref) => {
   useEffect(() => {
     setAddressInfo((prevState) => ({
       ...prevState,
+      id: prevInfo ? prevInfo.id : null,
       country: prevInfo ? prevInfo.country : null,
       city: prevInfo ? prevInfo.city : null,
       state: prevInfo ? prevInfo.state : null,

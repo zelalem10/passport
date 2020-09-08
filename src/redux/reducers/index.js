@@ -23,7 +23,7 @@ const rootReducer = combineReducers({
   address,
   travelPlan,
   groupPersonalInfo,
-  attachmentData
+  attachmentData,
   editFamilyData,
 });
 export default rootReducer;

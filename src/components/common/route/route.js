@@ -13,9 +13,8 @@ import ApplicationList from '../../Application List/ApplicationList';
 import FAQ from '../../Help and Support/FAQ';
 import Status from '../../Status/Status';
 import ServiceSelection from '../../Request Appointment/ServiceSelection';
- 
-function PassportRoute() {
 
+function PassportRoute() {
   return (
     <>
       <Route path="/" exact component={HomePage} />
@@ -24,7 +23,7 @@ function PassportRoute() {
       <Route path="/check-availablity" exact component={ViewAppointment} />
       <Route path="/manage-booking" component={ManageBookingPage} />
       <Route path="/check-status" component={CheckStatusPage} />
-      <Route path="/request-stepper" component={RequestStepper} />
+      <Route path="/request-stepper" component={ServiceSelection} />
       <Route path="/SignIn" component={Login} />
       <Route path="/SignUp" component={SignUp} />
       <Route path="/Application-List" component={ApplicationList} />
