@@ -13,7 +13,7 @@ export default function RequestStepper() {
   const [formCompleted, setFormCompleted] = useState([false, false, false, false]);
   const activeKey = ["first", "second", "third", "fourth"];
   const counter = useSelector((state) => state);
-  const serviceVal=counter.service[counter.service.length - 1].numberOfApplicants
+  const serviceVal=counter.service[counter.service.length - 1]
   const isGroup=counter.service[counter.service.length - 1].isGroup
   const childRef = useRef();
   function handelNext(){

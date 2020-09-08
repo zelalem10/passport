@@ -1,6 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\components",
+    "\\src\\components\\Application List",
+    "\\src\\components\\Status"
   ],
+  "SelectedNode": "\\src\\components\\Status\\Status.js",
   "PreviewInSolutionExplorer": false
 }

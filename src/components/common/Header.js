@@ -1,4 +1,6 @@
-import React, { Component, useState, useContext } from 'react';
+import React, { Component, useState, useContext, Fragment } from 'react';
+import { logout, authentication } from '../../redux/actions/authenticationAction'
+
 import {
   MDBNavbar,
   MDBNavbarNav,
@@ -10,6 +12,10 @@ import {
   MDBNav,
   MDBContainer,
 } from 'mdbreact';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 const NavbarPage = (props) => {
   const navPath = props.location.pathname;
@@ -18,39 +24,87 @@ const NavbarPage = (props) => {
     toggleOpen(false);
   };
 
+  let history = useHistory();
+
+  function logout(e) {
+    e.preventDefault();
+    localStorage.removeItem('userToken');
+    history.push('/signIn')
+  }
+
   let style = {
     color: 'black',
     'font-weight': '400',
   };
-  // const { activePath } = appContext;
+  let token = localStorage.userToken;
+
+
+  const checkToken = useSelector((state) => state.userData);
+
+
+      const authLinks = (
+       <div>
+    
+      <ul className="navbar-nav ml-auto">
+        <li className="nav-item">
+          <a className="nav-link" href="#" onClick={logout}>
+              Log out
+          </a>
+        </li>
+      </ul>
+       </div> 
+     
+    );
+
+    const guestLinks = (
+      <ul className="navbar-nav ml-auto">
+        <li className="nav-item">
+          <Link className="nav-link" to="/SignUp">
+           Register
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/SignIn">
+            Log In
+          </Link>
+        </li>
+      </ul>
+    );
   return (
-    <>
-      <MDBNavbar>
+    
+    <Fragment>
+    
+      <MDBNavbar className='headerOne'>
         <MDBContainer fluid style={{ width: '80%' }}>
           <MDBNavbarNav left>
-            <MDBCol md="4">
-              <img
-                src="https://www.ethiopianairlines.com/images/default-source/default-album/icons/et-logo.png"
-                className="img-fluid"
-                alt=""
-              />
-            </MDBCol>
+          <div class="row">
+            <div class="col-md-3">
+              <h1 className='font-weight-bold text-light'>ePassport</h1>      
+            </div>
+            <div class="col-md-3">
+            <img
+            src={require('../../images/default-source/footer_img/et.gif')} className="img-fluid w-75" alt='Ethiopian ePassport logo'>     
+            </img>
+           </div>
+
+          </div>
+
           </MDBNavbarNav>
           <MDBNav right>
             <MDBNavItem>
-              <MDBNavLink style={style} to="#!">
+              <MDBNavLink style={style} to="#!" className='text-light'>
                 E-visa
               </MDBNavLink>
             </MDBNavItem>
             <MDBNavItem>
-              <MDBNavLink style={style} to="https://www.ethiopianairlines.com">
+              <MDBNavLink style={style} to="https://www.ethiopianairlines.com" className='text-light'>
                 Ethioian Airlines
               </MDBNavLink>
             </MDBNavItem>
             <MDBNavItem>
               <MDBNavLink
                 style={style}
-                to="https://www.ethiopianskylighthotel.com"
+                to="https://www.ethiopianskylighthotel.com" className='text-light'
               >
                 Ethioian Skylight Hotel
               </MDBNavLink>
@@ -58,11 +112,11 @@ const NavbarPage = (props) => {
           </MDBNav>
         </MDBContainer>
       </MDBNavbar>
-      <MDBNavbar className="headerNav" color="indigo" dark expand="md">
+      <MDBNavbar className="headerTwo" dark expand="md">
         <MDBNavbarToggler onClick={() => toggleOpen(!navOpen)} />
         <MDBCollapse id="navbarCollapse3" isOpen={navOpen} navbar>
           <MDBContainer fluid style={{ width: '80%' }}>
-            <MDBNavbarNav className="d-flex col-example" left>
+            <MDBNavbarNav className="d-flex" left>
               <MDBNavItem className={navPath == '/' ? 'active' : ''}>
                 <MDBNavLink to="/" activeClassName="active">
                   Home
@@ -71,7 +125,7 @@ const NavbarPage = (props) => {
               <MDBNavItem
                 className={navPath == '/request-appointment' ? 'active' : ''}
               >
-                <MDBNavLink to="/request-appointment">
+                <MDBNavLink to="/request-stepper">
                   Request Appointment
                 </MDBNavLink>
               </MDBNavItem>
@@ -85,25 +139,31 @@ const NavbarPage = (props) => {
                 <MDBNavLink to="/check-status">Check Status</MDBNavLink>
               </MDBNavItem>
               <MDBNavItem
-                className={navPath == '/manage-booking' ? 'active' : ''}
+                className={navPath == '/Status' ? 'active' : ''}
               >
-                <MDBNavLink to="/Application-List">Application List</MDBNavLink>
+                <MDBNavLink to="/Status">Status</MDBNavLink>
               </MDBNavItem>
+
+             { token &&
+             <MDBNavItem
+                className={navPath == '/Application-List' ? 'active' : ''}
+              >
+                <MDBNavLink to="/Application-List">Manage Booking</MDBNavLink>
+              </MDBNavItem>
+              }
             </MDBNavbarNav>
 
+
             <MDBNavbarNav right>
-              <MDBNavItem>
-                <MDBNavLink to="/SignUp">Register &nbsp;&nbsp;|</MDBNavLink>
-              </MDBNavItem>
-              <MDBNavItem>
-                <MDBNavLink to="/SignIn">Login</MDBNavLink>
-              </MDBNavItem>
+            { token ? authLinks :  guestLinks}
+         
             </MDBNavbarNav>
           </MDBContainer>
         </MDBCollapse>
       </MDBNavbar>
-    </>
-  );
+    </Fragment>
+
+ );
 };
 
 export default NavbarPage;
