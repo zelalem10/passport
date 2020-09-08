@@ -1,293 +1,135 @@
-import React, { useState, useEffect } from "react";
+import React from 'react';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import * as attachimentAction from '../../redux/actions/attachimentAction';
-import { MDBDropdown, MDBDropdownToggle, MDBBtn, MDBBtnGroup, MDBDropdownMenu, MDBDropdownItem } from "mdbreact";
-import { MDBSelect } from "mdbreact";
-const Errorstyle = {
-    marginLeft: "4.5rem",
-    marginBottom: "1rem"
-  };
-  
-export default function FileUpload() {
+const accesstoken = localStorage.systemToken;
+class Fileupload extends React.Component {
 
-    const accesstoken = localStorage.systemToken;
+  constructor(props) {
+    super(props);
+    this.state = {
+      fileOne: '',
+      fileOneName: '',
+      fileTwo: '',
+      fileTwoName: '',
+      messageSuccess: false,
+      messageError: false,
+    };
+  }
 
+  async submit(e) {
+    e.preventDefault();
+    const url = 'https://epassportservices.azurewebsites.net/api/Request/V1.0/RequestAttachments/UploadAttachment';
+    const formData = new FormData();
+    formData.append('personRequestId', 10);
+    formData.append('1', this.state.fileOne);
+    formData.append('2', this.state.fileTwo);
+    console.log(this.state.fileOne);
+    console.log(this.state.fileTwo);
 
-    const [files, setFiles] = useState([]);
-    const [filesnameOne, setFilesnameOne] = useState([]);
-    const [filesnameTwo, setFilesnameTwo] = useState([]);
-    let [emptyError, setemptyError] = useState('');
-    let [sizeError, setsizeError] = useState('');
-
-    const dispatch = useDispatch();
-    
-
-    //validate the form
-    function validate() {
-        debugger;
-
-        if (files.length === 0) {
-            emptyError = "Um, Couldn't find the file please choose the file.";
-        }
-        else
-        emptyError = "";
-
-        if (files) {
-            if (files.size > 5000) {
-                sizeError = "File too Big, please select a file less than 2mb";
-                }
-            else
-            sizeError = "";
-        }
-
-        if (emptyError || sizeError) {
-            setemptyError(emptyError)
-            setsizeError(sizeError)
-            return false;
-        }
-        else{
-            setemptyError("")
-            setsizeError("")
-        }
-
-        return true;
-
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+        'Authorization': 'Bearer ' + accesstoken
+      },
     };
 
-    // onChange function that reads first files on uploading them
-    function onFileUploadOne(event) {
-        event.preventDefault();
 
-            let id = event.target.id;
 
-            let file_reader = new FileReader();
-    
-            let file = event.target.files[0];
-            
-            file_reader.onload = () => {
-         
-                setFiles([...files, { file_id: id, uploaded_file: file_reader.result }]);
-               
-            };
-         
-       
-            for (let i = 0; i < event.target.files.length; i++) {
-                setFilesnameOne([...filesnameOne, { file_name:event.target.files[i].name}]);
-       
-            }
-            file_reader.readAsDataURL(file);
-        
- 
+    debugger;
+    //return post(url, formData, config);
+    return axios.post(url, formData, config)
+      .then((response) => {
+        console.log(response.data);
+        alert('success')
+        this.state.messageSuccess = true;
+      })
+      .catch((error) => {
+        console.log("error" + error.message)
+        alert('Error');
+        this.state.messageError = true;
+      })
+  }
+  setFileOne(e) {
+    if (e.target.files.length > 0) {
+      this.setState({ fileOne: e.target.files[0], fileOneName: e.target.files[0].name });
+
     }
-
-  // onChange function that reads second files on uploading them
-    function onFileUploadTwo(event) {
-        event.preventDefault();
-      
-            let id = event.target.id;
-
-            let file_reader = new FileReader();
-    
-            let file = event.target.files[0];
-            
-            file_reader.onload = () => {
-         
-                setFiles([...files, { file_id: id, uploaded_file: file_reader.result }]);
-               
-            };
-         
-     
-            for (let i = 0; i < event.target.files.length; i++) {
-                setFilesnameTwo([...filesnameTwo, { file_name:event.target.files[i].name}]);
-       
-            }
-    
-            file_reader.readAsDataURL(file);
-        
-  
+  }
+  setFileTwo(e) {
+    if (e.target.files.length > 0) {
+      this.setState({ fileTwo: e.target.files[0], fileTwoName: e.target.files[0].name });
     }
+  }
 
-
-    // handle submit button for form
-    function handleSubmit(e) {
-        e.preventDefault();
-        const isValid = validate();
-        if (isValid) {
-
-            console.log(files);
-            console.log(filesnameOne);
-            console.log(filesnameTwo);
-            dispatch(attachimentAction.attachimentAction(files));
-            
-            axios({
-                headers: { 
-                    "Authorization": `Bearer ` + accesstoken,
-                    "Content-Type": "multipart/form-data"
-                    },
-                method: 'post',
-                url: 'https://epassportservices.azurewebsites.net/Person/api/V1.0/Person/UploadAttachment',
-                data: {
-                    "key": files.file_id,  
-                    "value": files.uploaded_file,
-                },
-          
-              })
-              .then((response) => {
-                alert('success');
-                console.log("success" + response)
-              }).catch((error) => {
-                console.log("error" + error)
-                alert('Error');
-              })
-        }
-      
-    }
-
-    // button state whether it's disabled or enabled
-    // const [enabled, setEnabled] = useState(false);
-
-    // useEffect(() => {
-    //     if (filesnameOne.length === 0 || filesnameTwo.length === 0) {
-    //         setEnabled(false);
-    //     } else {
-    //         setEnabled(true);
-    //     }
-    // }, [files]);
-
+  render() {
     return (
-        <div class="container">
-        {emptyError ?
-          <div className='red-text' style={Errorstyle}>{emptyError}</div> 
-          : sizeError &&
-            <div className='red-text' style={Errorstyle}>{sizeError}</div>
-        }
-                      <form className='mx-5' onSubmit={handleSubmit}>
-                          
-                    <div className='row my-3'>
-        
+      <div className="container-fluid">
 
-                    <div class="col-lg-4">
-                 
-                    <div>
-                    <select className="browser-default custom-select">
-                    <option>Choose your option</option>
-                    <option value="1">Option 1</option>
-                    <option value="2">Option 2</option>
-                    <option value="3">Option 3</option>
-                    </select>
+        <form onSubmit={e => this.submit(e)}>
+          {
+            this.state.messageSuccess &&
+            <div class="alert alert-success" role="alert">
+              This is a success alert—check it out!
+            </div>
+          }
+          {
+            this.state.messageError &&
+            <div class="alert alert-danger" role="alert">
+              This is a danger alert—check it out!
+          </div>
+          }
+
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div className="input-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text" id="inputGroupFileAddon01">
+                    Upload
+                      </span>
                 </div>
-
-        </div>
-
-                    <div class="col-lg-8">
-                        <div className="input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text" id="inputGroupFileAddon01">
-                                    Upload File
-                            </span>
-                            </div>
-                            <div className="custom-file">
-                                <input
-                                    id={1}
-                                    multiple
-                                    type="file"
-                                    className="custom-file-input"
-                                    aria-describedby="birthCertificate1"
-                                    accept="image/*"
-                                    onChange={onFileUploadOne}
-                                />
-                                <div>
-                                {
-                                     filesnameOne.length ?
-                                     filesnameOne.map(name => 
-                                    <label className="custom-file-label" htmlFor="inputGroupFile01">
-                                    { name.file_name }
-                                    </label>
-                                     ):
-                                    <label className="custom-file-label" htmlFor="inputGroupFile01">
-                                        Choose file
-                                    </label>
-
-                                }
-                                       
-                                </div>
-
-                            </div>
-                        </div>
-
-
-                    </div>
-
-        
-                    </div>
-               
-                    <div className='row my3'>
-                    <div class="col-lg-4">
-
-                    <div>
-                    <select className="browser-default custom-select">
-                    <option>Choose your option</option>
-                    <option value="1">Option 1</option>
-                    <option value="2">Option 2</option>
-                    <option value="3">Option 3</option>
-                    </select>
+                <div className="custom-file">
+                  <input
+                    type="file"
+                    className="custom-file-input"
+                    id="inputGroupFile01"
+                    aria-describedby="inputGroupFileAddon01"
+                    onChange={e => this.setFileOne(e)}
+                  />
+                  <label className="custom-file-label" htmlFor="inputGroupFile01">
+                    {this.state.fileOneName ? this.state.fileOneName : <div>Choose file</div>}
+                  </label>
                 </div>
+              </div>
 
-                    </div>
-                    <div class="col-lg-8">
-                        <div className="input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text" id="inputGroupFileAddon01">
-                                    Upload File
-                            </span>
-                            </div>
-                            <div className="custom-file">
-                                <input
-                                    id={2}
-                                    multiple
-                                    type="file"
-                                    className="custom-file-input"
-                                    aria-describedby="birthCertificate2"
-                                    accept="image/*"
-                                    onChange={onFileUploadTwo}
-                                />
-                                <div>
-                                {
-                                     filesnameTwo.length ?
-                                     filesnameTwo.map(name => 
-                                    <label className="custom-file-label" htmlFor="inputGroupFile02">
-                                    { name.file_name }
-                                    </label>
-                                     ):
-                                    <label className="custom-file-label" htmlFor="inputGroupFile02">
-                                        Choose file
-                                    </label>
+            </div>
+            <div class="col-lg-6">
+              <div className="input-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text" id="inputGroupFileAddon01">
+                    Upload
+                      </span>
+                </div>
+                <div className="custom-file">
+                  <input
+                    type="file"
+                    className="custom-file-input"
+                    id="inputGroupFile01"
+                    aria-describedby="inputGroupFileAddon01"
+                    onChange={e => this.setFileTwo(e)}
+                  />
+                  <label className="custom-file-label" htmlFor="inputGroupFile01">
+                    {this.state.fileTwoName ? this.state.fileTwoName : <div>Choose file</div>}
+                  </label>
+                </div>
+              </div>
 
-                                }
-                                </div>
+            </div>
+          </div>
 
-                            </div>
-                        </div>
-
-
-                    </div>
-       
-                    </div>
-               
-
-                    <div className="text-center signUpbutton mt-2">
-                            <MDBBtn
-                                id='btnLoad'
-                                type="submit"
-                                className="btn btn-info float-right mr-4">
-                                Upload
-                            </MDBBtn>
-                        </div>
-          
-                         
-                </form>
-    
-        </div>
-  );
+          <button className="btn btn-primary" type="submit">Upload</button>
+        </form>
+      </div>
+    )
+  }
 }
+export default Fileupload
