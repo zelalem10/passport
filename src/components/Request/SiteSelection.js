@@ -28,7 +28,7 @@ const SiteSelection=forwardRef((props, ref) => {
     'https://epassportservices.azurewebsites.net/Master/api/V1.0/Office/GetByCountryId?id=';
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTkxMTQwMDMsImV4cCI6MTU5OTEyODQwMywiaWF0IjoxNTk5MTE0MDAzfQ.-fjjDr4Z71dqz3ss_NyVu05lnwl5nT025VwmckOVpHE`,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTk1NDY0MzcsImV4cCI6MTU5OTU2MDgzNywiaWF0IjoxNTk5NTQ2NDM3fQ.Ev8yOVmtsBNkonR6dzOstP8KBWLX2mZrWNmHQ6XBVD0`,
     },
   };
 
@@ -76,7 +76,7 @@ const SiteSelection=forwardRef((props, ref) => {
     API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/Region/GetAll', config)
       .then((todo) => setRegionList(todo.data.regionSer))
       .catch((err) => {
-        console.log('AXIOS ERROR: ', err);
+        console.log('AXIOS ERROR: ', err.response);
       });
   }, []);
   return (

@@ -2,13 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { Tab, Row, Accordion, Col, Button, Card } from 'react-bootstrap';
 import HorizontalStepper from '../GroupRequest/PersonslInfoStepper'
 import { BsCheck } from 'react-icons/bs'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import addPersonalInfo from '../../redux/actions/addPersonalInfoAction';
 
 export default function RequestStepper() {
     const [completedForms, setCompletedForms] = useState([false, false, false]);
+    const [personalInfo, setPersonalInfo] = useState({
+        firstName: "",
+        middleName: "",
+        lastName: "",
+        birthCountry: "",
+        birthCity: "",
+        birthDate: "",
+        gender: "",
+        height: "",
+        eyeColor: "",
+        hairColor: "",
+        occupation: "",
+        halfCast: "",
+        enrolmentDate: "",
+        nationality: "",
+        formCompleted: false
+    });
+    const dispatch = useDispatch();
     const counter = useSelector((state) => state);
     const [formCompleted, setFormCompleted] = useState(false);
-
+    const prevInfo = counter.personalInfoReducer
     const numberOfApplicants = parseInt(counter.service[counter.service.length - 1].numberOfApplicants, 10);
     const applicantList = [];
     function handelNext() {
@@ -29,7 +48,8 @@ export default function RequestStepper() {
                             <Card>
                                 <Card.Header>
                                     <Accordion.Toggle as={Button} variant="link" eventKey={applicantNumber}>
-                                        {"Applicant "+ applicantNumber} {completedForms[0] ? <BsCheck /> : null}
+                                        {prevInfo.filter(item =>item.applicantNumber==applicantNumber)[0]?
+                                        prevInfo.filter(item =>item.applicantNumber==applicantNumber)[0].firstName+" "+prevInfo.filter(item =>item.applicantNumber==applicantNumber)[0].middleName:"Applicant "+applicantNumber} {completedForms[0] ? <BsCheck /> : null}
                                     </Accordion.Toggle>
                                 </Card.Header>
                                 <Accordion.Collapse eventKey={applicantNumber}>
