@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as ReactBootstrap from 'react-bootstrap';
 import API from '../Utils/API';
 
-
+const accesstoken = localStorage.systemToken;
 const SiteSelection=forwardRef((props, ref) => {
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,7 +28,7 @@ const SiteSelection=forwardRef((props, ref) => {
     'https://epassportservices.azurewebsites.net/Master/api/V1.0/Office/GetByCountryId?id=';
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTkxMTQwMDMsImV4cCI6MTU5OTEyODQwMywiaWF0IjoxNTk5MTE0MDAzfQ.-fjjDr4Z71dqz3ss_NyVu05lnwl5nT025VwmckOVpHE`,
+      Authorization: `Bearer `+ accesstoken,
     },
   };
 

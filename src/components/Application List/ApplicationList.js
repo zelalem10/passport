@@ -8,12 +8,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import addApplicationList from '../../redux/actions/addApplicationLIst';
-import { useDispatch, useSelector } from 'react-redux';
-import ListOfApplications from './listOfApplications';
-import ViewAppointment from './viewAppointment';
-import HorizontalLabelPositionBelowStepper from './EditApplicationList.js/PersonslInfoStepper';
-
 function ApplicationList () {
 
   const accesstoken = localStorage.userToken;
@@ -27,18 +21,11 @@ function ApplicationList () {
   const [users, setusers] = useState([]);
   const [open, setOpen] = useState(false);
   const [requestId, setrequestId] = useState('');
-  const [displayRequestId, setDisplayRequestId] = useState('');
-  const [isEdit, setIsEdit] = useState(false);
 
   function openModal (requestId) {
     setrequestId(requestId)
     setOpen(true);
   };
-  const handleEdit = (id) => {
-    setDisplayRequestId(id);
-    setIsEdit(true);
-  };
-  
 
   function handleClose() {
    
@@ -168,31 +155,6 @@ id="request-an-appointment"
             </div>
         )
     
-      .catch((err) => {
-        console.log(err);
-        setOpen(false);
-      });
-  }
-  if (!displayRequestId && !isEdit) {
-    return (
-      <ListOfApplications
-        users={users}
-        openModal={openModal}
-        handleClose={handleClose}
-        cancelSchedule={cancelSchedule}
-        open={open}
-        handleDisplay={handleDisplay}
-        handleEdit={handleEdit}
-      />
-    );
-  } else if (displayRequestId && isEdit) {
-    return (
-      <HorizontalLabelPositionBelowStepper
-        displayRequestId={displayRequestId}
-      />
-    );
-  }
-  return <ViewAppointment displayRequestId={displayRequestId} />;
 }
 
 export default ApplicationList
