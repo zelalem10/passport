@@ -2,6 +2,7 @@ import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'rea
 import { makeStyles } from '@material-ui/core/styles';
 import * as ReactBootstrap from 'react-bootstrap';
 import API from '../Utils/API';
+import token from '../common/accessToken'
 
 
 const SiteSelection=forwardRef((props, ref) => {
@@ -28,7 +29,7 @@ const SiteSelection=forwardRef((props, ref) => {
     'https://epassportservices.azurewebsites.net/Master/api/V1.0/Office/GetByCountryId?id=';
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTk1NDY0MzcsImV4cCI6MTU5OTU2MDgzNywiaWF0IjoxNTk5NTQ2NDM3fQ.Ev8yOVmtsBNkonR6dzOstP8KBWLX2mZrWNmHQ6XBVD0`,
+      Authorization: token,
     },
   };
 
@@ -83,7 +84,6 @@ const SiteSelection=forwardRef((props, ref) => {
     <ReactBootstrap.Card>
       <ReactBootstrap.Card.Header>Site Selection</ReactBootstrap.Card.Header>
       <ReactBootstrap.Card.Body>
-        <blockquote className="blockquote mb-0">
           <ReactBootstrap.Form.Group>
             <ReactBootstrap.Row>
               <ReactBootstrap.Col>
@@ -181,7 +181,6 @@ const SiteSelection=forwardRef((props, ref) => {
               </ReactBootstrap.Col>
             </ReactBootstrap.Row>
           </ReactBootstrap.Form.Group>
-        </blockquote>
       </ReactBootstrap.Card.Body>
     </ReactBootstrap.Card>
   );

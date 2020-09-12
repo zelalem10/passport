@@ -125,7 +125,7 @@ const NavbarPage = (props) => {
               <MDBNavItem
                 className={navPath == '/request-appointment' ? 'active' : ''}
               >
-                <MDBNavLink to="/request-stepper">
+                <MDBNavLink to="/request-appointment">
                   Request Appointment
                 </MDBNavLink>
               </MDBNavItem>

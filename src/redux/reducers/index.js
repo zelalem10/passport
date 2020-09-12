@@ -24,7 +24,7 @@ const rootReducer = combineReducers({
   address,
   travelPlan,
   groupPersonalInfo,
-  attachmentData
+  attachmentData,
   editFamilyData,
   commonData,
 });

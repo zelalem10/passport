@@ -109,7 +109,6 @@ const Address = forwardRef((props, ref) => {
     return (
         <Card>
             <Card.Body>
-                <blockquote className="blockquote mb-0">
                     <Form >
                         <Form.Row>
                             <Form.Group as={Col} md="3" controlId="validationCustom02">
@@ -194,7 +193,6 @@ const Address = forwardRef((props, ref) => {
                             <Button variant="success"  onClick={handleSave}>Save</Button>
                         </Row> */}
                     </Form>
-                </blockquote>
             </Card.Body>
         </Card>
     );

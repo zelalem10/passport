@@ -1,0 +1,4 @@
+import React from 'react'
+ const TokenContext = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTk5MTAyNzcsImV4cCI6MTU5OTkyNDY3NywiaWF0IjoxNTk5OTEwMjc3fQ.BU9EbU8AL-fYeYcqWkzGQhbtsYYkU7PYxlhCqX8O79w"
+
+ export default TokenContext

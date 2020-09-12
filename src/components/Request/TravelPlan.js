@@ -57,7 +57,6 @@ import addTravelPlan from '../../redux/actions/addTravelPlanAction';
     return (
         <Card>
             <Card.Body>
-                <blockquote className="blockquote mb-0">
                     <Form >
                         <Form.Row>
                         <Form.Group  as={Col} md="4" controlId="date">
@@ -70,7 +69,6 @@ import addTravelPlan from '../../redux/actions/addTravelPlanAction';
                                     </Form.Group>
                         </Form.Row>
                     </Form>
-                </blockquote>
             </Card.Body>
         </Card>
     );
