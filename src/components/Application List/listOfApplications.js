@@ -17,7 +17,6 @@ export default function ListOfApplications(props) {
     handleDisplay,
     handleEdit,
   } = props;
-  console.log(users);
   return (
     <div className="my-5">
       <div className="container">

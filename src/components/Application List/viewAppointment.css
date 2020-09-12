@@ -24,8 +24,6 @@
 .mywizardcss {
   background-color: #004d99;
   color: #fff;
-  margin-bottom: -20px;
-  margin-top: -25px;
   border-radius: 25px;
 }
 fieldset {
@@ -40,4 +38,16 @@ legend {
 }
 label {
   padding-left: lOpx;
+}
+.header-display {
+  margin-right: -50%;
+  left: 50%;
+}
+.view-appointment-group
+  .WithStyles\(ForwardRef\(Accordion\)\)-root-1.WithStyles\(ForwardRef\(Accordion\)\)-expanded-2 {
+  margin: 16px 0 !important;
+}
+.view-appointment-group .accordion-item {
+  border-radius: 5%;
+  border-left: 0.625rem solid #224b9f !important;
 }

@@ -58,7 +58,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   const dispatch = useDispatch();
 
   const counter = useSelector((state) => state);
-  const appList = counter.applicationList[0];
+  const appList = counter.applicationList[counter.applicationList.length - 1];
   let displayedApplication = {};
   const { displayRequestId } = props;
 
@@ -69,6 +69,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   }
 
   const personalInformation = displayedApplication.personResponses[0];
+  const personId = personalInformation.id;
   const addressInformation = personalInformation.address;
   const familyInformation = personalInformation.familyResponses;
 
@@ -93,31 +94,27 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
     var addressInfo = counter.address[counter.address.length - 1];
     var familyInfo = counter.editFamilyData[counter.editFamilyData.length - 1];
+    const accesstoken = localStorage.systemToken;
 
     const config = {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTkxMTY1NjAsImV4cCI6MTU5OTEzMDk2MCwiaWF0IjoxNTk5MTE2NTYwfQ.6DRok4IPLKMYZcKvYQTrPU6F1Iq61fKoRqaprRpeYC4`,
+        Authorization: 'Bearer ' + accesstoken,
       },
     };
+    debugger;
 
     const requestBody = {
-      // requestId: displayedApplication.requestId,
+      requestId: displayedApplication.requestId,
       requestMode: displayedApplication.requestMode,
-      requestTypeId: 2,
       requestTypeId: displayedApplication.requestTypeId,
-
-      userName: displayedApplication.user,
 
       status: 0,
 
       confirmationNumber: displayedApplication.confirmationNumber,
 
-      flightDate: '2020-09-02T08:49:02.683Z',
-      flightNumber: 'string',
-
       personRequest: [
         {
-          personId: 8,
+          personId: personalInfo ? personalInfo.id : null,
 
           firstName: personalInfo ? personalInfo.firstName : null,
 
@@ -125,7 +122,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
           lastName: personalInfo ? personalInfo.lastName : null,
 
-          dateOfBirth: '2020-08-31T12:42:45.259Z',
+          dateOfBirth: personalInfo ? personalInfo.birthDate : null,
 
           gender: personalInfo ? personalInfo.gender : null,
 
@@ -141,7 +138,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
           halfCast: personalInfo ? personalInfo.halfCast : null,
 
-          enrolmentDate: '2020-08-31T12:42:45.259Z',
+          enrolmentDate: personalInfo ? personalInfo.enrolmentDate : null,
 
           birthCountry: personalInfo ? personalInfo.birthCountry : null,
 
@@ -162,7 +159,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
           address: {
             personId: personalInformation.id,
 
-            addressId: 1,
+            id: addressInfo ? addressInfo.id : null,
 
             city: addressInfo ? addressInfo.city : null,
 
@@ -192,8 +189,6 @@ export default function HorizontalLabelPositionBelowStepper(props) {
       ],
     };
 
-    debugger;
-    console.log(requestBody);
     API.put(
       'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/UpdateRequest',
       requestBody,
@@ -201,7 +196,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
     )
 
       .then((todo) => {
-        console.log(todo.data);
+        console.log(todo);
       })
 
       .catch((err) => {
@@ -229,6 +224,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
           <FamilyInformation
             ref={childRef}
             familyInformation={familyInformation}
+            personId={personId}
           />
         );
 
