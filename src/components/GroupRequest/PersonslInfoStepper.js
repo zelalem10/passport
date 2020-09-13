@@ -77,9 +77,12 @@ export default function HorizontalLabelPositionBelowStepper(props) {
       personRequest: [
         {
           personId: 0,
-          firstName:personalInfo? personalInfo.firstName:null,
-          middleName: personalInfo? personalInfo.middleName:null,
-          lastName: personalInfo? personalInfo.lastName:null,
+          firstName:personalInfo? personalInfo.firstName.toUpperCase():null,
+          middleName: personalInfo? personalInfo.middleName.toUpperCase():null,
+          lastName: personalInfo? personalInfo.lastName.toUpperCase():null,
+          geezFirstName:personalInfo? personalInfo.geezFirstName:null,
+          geezMiddleName: personalInfo? personalInfo.geezMiddleName:null,
+          geezLastName: personalInfo? personalInfo.geezLastName:null,
           dateOfBirth: "2020-08-31T12:42:45.259Z",
           gender: personalInfo? personalInfo.gender:null,
           nationality: personalInfo? personalInfo.nationality:null,

@@ -6,7 +6,6 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-
 import PersonalInfo from './PersonalInfo'
 import AddressInfo from './Address'
 import Attachment from './Attachement'
@@ -14,8 +13,9 @@ import TravelPlan from './TravelPlan'
 import FamilyInformation from '../Request Appointment/family/familyInformation';
 import { useDispatch, useSelector } from 'react-redux';
 import addCommonData from '../../redux/actions/addCommonDataAction';
-
 import API from '../Utils/API';
+import token from '../common/accessToken'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,7 +67,7 @@ export default function HorizontalLabelPositionBelowStepper() {
     var personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1]
     var addressInfo = counter.address[counter.address.length - 1]
     const config = {
-      headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTkyMTg5NTQsImV4cCI6MTU5OTIzMzM1NCwiaWF0IjoxNTk5MjE4OTU0fQ.XK2Y4z8ogsP7JK1ZKnetby59h-nBfeucciIbai6Ej6c` }
+      headers: { Authorization: token }
       };
     const requestBody={
       requestId: 0,
@@ -79,9 +79,12 @@ export default function HorizontalLabelPositionBelowStepper() {
       applicants: [
         {
           personId: 0,
-          firstName:personalInfo? personalInfo.firstName:null,
-          middleName: personalInfo? personalInfo.middleName:null,
-          lastName: personalInfo? personalInfo.lastName:null,
+          firstName:personalInfo? personalInfo.firstName.toUpperCase():null,
+          middleName: personalInfo? personalInfo.middleName.toUpperCase():null,
+          lastName: personalInfo? personalInfo.lastName.toUpperCase():null,
+          geezFirstName:personalInfo? personalInfo.geezFirstName:null,
+          geezMiddleName: personalInfo? personalInfo.geezMiddleName:null,
+          geezLastName: personalInfo? personalInfo.geezLastName:null,
           dateOfBirth: "2020-08-31T12:42:45.259Z",
           gender: personalInfo? Number.parseInt(personalInfo.gender, 10):null,
           nationality: personalInfo? personalInfo.nationality:null,

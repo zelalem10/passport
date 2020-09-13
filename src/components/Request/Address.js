@@ -1,10 +1,6 @@
 
 import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'react';
-import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody, MDBCardText, MDBCardTitle } from 'mdbreact';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import Container from '@material-ui/core/Container';
-import { Form, Card, Row, Col, InputGroup, Button } from 'react-bootstrap';
+import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addAddressInfo from '../../redux/actions/addAddressInfoAction';
 
@@ -38,7 +34,6 @@ const Address = forwardRef((props, ref) => {
     });
     const dispatch = useDispatch();
     const counter = useSelector((state) => state);
-    const personRef = React.useRef();
     if (counter.address.length === 0) {
         dispatch(addAddressInfo(addressInfo));
     }
@@ -52,24 +47,26 @@ const Address = forwardRef((props, ref) => {
         },
         Validate() {
             setNotCompleted({
-                country: addressInfo.country==="" ? true: false,
-                city: addressInfo.city==="" ? true: false,
-                state: addressInfo.state==="" ? true: false,
-                zone: addressInfo.zone==="" ? true: false,
-                woreda: addressInfo.woreda==="" ? true: false,
-                street: addressInfo.street==="" ? true: false,
-                houseNo: addressInfo.houseNo==="" ? true: false,
-                poBox: addressInfo.poBox==="" ? true: false,
-                phoneNumber: addressInfo.phoneNumber==="" ? true: false,
-                email: addressInfo.email==="" ? true: false,
-                requestPlace: addressInfo.requestPlace==="" ? true: false,})
-            if(notCompleted.country==true || notCompleted.city==true || notCompleted.state==true ||
-                notCompleted.zone==true || notCompleted.woreda==true || notCompleted.street==true ||
-                notCompleted.houseNo==true || notCompleted.poBox==true || notCompleted.phoneNumber==true ||
-                notCompleted.email==true || notCompleted.requestPlace==true)
+                country: addressInfo.country === "" ? true : false,
+                city: addressInfo.city === "" ? true : false,
+                state: addressInfo.state === "" ? true : false,
+                zone: addressInfo.zone === "" ? true : false,
+                woreda: addressInfo.woreda === "" ? true : false,
+                street: addressInfo.street === "" ? true : false,
+                houseNo: addressInfo.houseNo === "" ? true : false,
+                poBox: addressInfo.poBox === "" ? true : false,
+                phoneNumber: addressInfo.phoneNumber === "" ? true : false,
+                email: addressInfo.email === "" ? true : false,
+                requestPlace: addressInfo.requestPlace === "" ? true : false,
+            })
+            if (notCompleted.country == true || notCompleted.city == true ||  notCompleted.phoneNumber == true)
+            {
+                console.log(addressInfo)
+                console.log(notCompleted)
                 return false
+            }    
             else
-             return true
+                return true
         }
     }));
     const handleChange = (event) => {
@@ -92,109 +89,145 @@ const Address = forwardRef((props, ref) => {
     useEffect(() => {
         setAddressInfo((prevState) => ({
             ...prevState,
-            country: prevInfo ? prevInfo.country : null,
-            city: prevInfo ? prevInfo.city : null,
-            state: prevInfo ? prevInfo.state : null,
-            zone: prevInfo ? prevInfo.zone : null,
-            woreda: prevInfo ? prevInfo.woreda : null,
-            street: prevInfo ? prevInfo.street : null,
-            houseNo: prevInfo ? prevInfo.houseNo : null,
-            poBox: prevInfo ? prevInfo.poBox : null,
-            phoneNumber: prevInfo ? prevInfo.phoneNumber : null,
-            email: prevInfo ? prevInfo.email : null,
-            requestPlace: prevInfo ? prevInfo.requestPlace : null,
-            dataSaved: prevInfo ? prevInfo.dataSaved : null,
+            country: prevInfo ? prevInfo.country : "",
+            city: prevInfo ? prevInfo.city : "",
+            state: prevInfo ? prevInfo.state : "",
+            zone: prevInfo ? prevInfo.zone : "",
+            woreda: prevInfo ? prevInfo.woreda : "",
+            street: prevInfo ? prevInfo.street : "",
+            houseNo: prevInfo ? prevInfo.houseNo : "",
+            poBox: prevInfo ? prevInfo.poBox : "",
+            phoneNumber: prevInfo ? prevInfo.phoneNumber : "",
+            email: prevInfo ? prevInfo.email : "",
+            requestPlace: prevInfo ? prevInfo.requestPlace : "",
         }))
     }, []);
     return (
-        <Card>
-            <Card.Body>
-                    <Form >
-                        <Form.Row>
-                            <Form.Group as={Col} md="3" controlId="validationCustom02">
-                                <Form.Label>Country<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control
-                                    required
-                                    type="text"
-                                    name="country"
-                                    defaultValue={prevInfo ? prevInfo.country : null} onChange={handleChange}
-                                />
-                                <p style={{ color: "red" }}> {(notCompleted.country == true && addressInfo.dataSaved == true) ? "Counrty " + isRequired : null}</p>
-                            </Form.Group>
-                            <Form.Group as={Col} md="3" controlId="validationCustom03">
-                                <Form.Label>City<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control type="text" name="city" defaultValue={prevInfo ? prevInfo.city : null} onChange={handleChange} required />
-                                <p style={{ color: "red" }}> {(notCompleted.city == true && addressInfo.dataSaved == true) ? "City " + isRequired : null}</p>
-                            </Form.Group>
-                            <Form.Group as={Col} md="3" controlId="validationCustom04">
-                                <Form.Label>State<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control type="text" name="state" defaultValue={prevInfo ? prevInfo.state : null} onChange={handleChange} required />
-                                <p style={{ color: "red" }}> {(notCompleted.state == true && addressInfo.dataSaved == true) ? "State " + isRequired : null}</p>
-                            </Form.Group>
-                            <Form.Group as={Col} md="3" controlId="validationCustom04">
-                                <Form.Label>Zone<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control type="text" name="zone" defaultValue={prevInfo ? prevInfo.zone : null} onChange={handleChange} required />
-                                <p style={{ color: "red" }}> {(notCompleted.zone == true && addressInfo.dataSaved == true) ? "Zone " + isRequired : null}</p>
-                            </Form.Group>
-                        </Form.Row>
-
-                        <Form.Row>
-                            <Form.Group as={Col} md="3" controlId="validationCustom02">
-                                <Form.Label>Wereda<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control
-                                    required
-                                    type="text"
-                                    name="woreda"
-                                    defaultValue={prevInfo ? prevInfo.woreda : null} onChange={handleChange}
-                                />
-                                <p style={{ color: "red" }}> {(notCompleted.woreda == true && addressInfo.dataSaved == true) ? "Woreda " + isRequired : null}</p>
-                            </Form.Group>
-                            <Form.Group as={Col} md="3" controlId="validationCustom03">
-                                <Form.Label>Street<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control type="text" name="street" defaultValue={prevInfo ? prevInfo.street : null} onChange={handleChange} required />
-                                <p style={{ color: "red" }}> {(notCompleted.street == true && addressInfo.dataSaved == true) ? "Street " + isRequired : null}</p>
-                            </Form.Group>
-                            <Form.Group as={Col} md="3" controlId="validationCustom04">
-                                <Form.Label>HouseNo<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control type="text" name="houseNo" defaultValue={prevInfo ? prevInfo.houseNo : null} onChange={handleChange} required />
-                                <p style={{ color: "red" }}> {(notCompleted.houseNo == true && addressInfo.dataSaved == true) ? "House No. " + isRequired : null}</p>
-                            </Form.Group>
-                            <Form.Group as={Col} md="3" controlId="validationCustom04">
-                                <Form.Label>PoBox<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control type="text" name="poBox" defaultValue={prevInfo ? prevInfo.poBox : null} onChange={handleChange} required />
-                                <p style={{ color: "red" }}> {(notCompleted.poBox == true && addressInfo.dataSaved == true) ? "PoBox " + isRequired : null}</p>
-                            </Form.Group>
-                        </Form.Row>
-
-                        <Form.Row>
-                            <Form.Group as={Col} md="3" controlId="validationCustom02">
-                                <Form.Label>Phone Number<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control
-                                    required
-                                    type="text"
-                                    name="phoneNumber"
-                                    defaultValue={prevInfo ? prevInfo.phoneNumber : null} onChange={handleChange}
-                                />
-                                <p style={{ color: "red" }}> {(notCompleted.phoneNumber == true && addressInfo.dataSaved == true) ? "Phone Number " + isRequired : null}</p>
-                            </Form.Group>
-                            <Form.Group as={Col} md="3" controlId="validationCustom03">
-                                <Form.Label>Email<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control type="email" name="email" defaultValue={prevInfo ? prevInfo.email : null} onChange={handleChange} required />
-                                <p style={{ color: "red" }}> {(notCompleted.email == true && addressInfo.dataSaved == true) ? "Email " + isRequired : null}</p>
-                            </Form.Group>
-                            <Form.Group as={Col} md="3" controlId="validationCustom04">
-                                <Form.Label>Request Place<i style={{ color: "red" }}>*</i></Form.Label>
-                                <Form.Control type="text" name="requestPlace" defaultValue={prevInfo ? prevInfo.requestPlace : null} onChange={handleChange} required />
-                                <p style={{ color: "red" }}> {(notCompleted.requestPlace == true && addressInfo.dataSaved == true) ? "Request Place " + isRequired : null}</p>
-                            </Form.Group>
-                        </Form.Row>
-                        {/* <Row>
-                            <Col md="5"></Col>
-                            <Button variant="success"  onClick={handleSave}>Save</Button>
-                        </Row> */}
-                    </Form>
-            </Card.Body>
-        </Card>
+        <MDBCard>
+            <MDBCardBody>
+                <form >
+                    <MDBRow>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.country : null}
+                                name="country"
+                                className="form-control"
+                                onBlur={handleChange}
+                                type="text"
+                                label="Country"
+                            />
+                            <span style={{ color: "red" }}> {(notCompleted.country == true && addressInfo.dataSaved==true) ? "Country"+ isRequired : null}</span>
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.city : null}
+                                name="city"
+                                className="form-control"
+                                onBlur={handleChange}
+                                type="text"
+                                label="City"
+                            />
+                            <span style={{ color: "red" }}> {(notCompleted.city == true && addressInfo.dataSaved == true) ? "City " + isRequired : null}</span>
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.state : null}
+                                name="state"
+                                className="form-control"
+                                onBlur={handleChange}
+                                type="text"
+                                label="State"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.zone : null}
+                                name="zone"
+                                className="form-control"
+                                onBlur={handleChange}
+                                type="text"
+                                label="Zone"
+                            />
+                        </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.woreda : null}
+                                name="woreda"
+                                className="form-control"
+                                onBlur={handleChange}
+                                type="text"
+                                label="Woreda"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.street : null}
+                                name="street"
+                                className="form-control"
+                                onBlur={handleChange}
+                                type="text"
+                                label="Street"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.houseNo : null}
+                                name="houseNo"
+                                className="form-control"
+                                onBlur={handleChange}
+                                type="text"
+                                label="House No."
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.poBox : null}
+                                name="poBox"
+                                className="form-control"
+                                onBlur={handleChange}
+                                type="text"
+                                label="Po. Box"
+                            />
+                        </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.phoneNumber : null}
+                                name="phoneNumber"
+                                className="form-control"
+                                onBlur={handleChange}
+                                type="text"
+                                label="Phone Number"
+                            />
+                            <span style={{ color: "red" }}> {(notCompleted.phoneNumber == true && addressInfo.dataSaved == true) ? "Phone Number " + isRequired : null}</span>
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.email : null}
+                                name="email"
+                                className="form-control"
+                                onBlur={handleChange}
+                                type="email"
+                                label="Email"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.requestPlace : null}
+                                name="requestPlace"
+                                className="form-control"
+                                onBlur={handleChange}
+                                type="text"
+                                label="Request Place"
+                            />
+                        </MDBCol>
+                    </MDBRow>
+                </form>
+            </MDBCardBody>
+        </MDBCard>
     );
 });
 

@@ -1,42 +1,22 @@
 import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'react'
-import { MDBRow, MDBCol, MDBFormInline, MDBInput, MDBCard, MDBCardBody, MDBCardText, MDBCardTitle } from 'mdbreact';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import Container from '@material-ui/core/Container';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Form, Card, Row } from 'react-bootstrap';
+import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addPersonalInfo from '../../redux/actions/addPersonalInfoAction';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        '& > *': {
-            margin: theme.spacing(1),
-            width: '25ch',
-        },
-    },
-}));
+
 const PersonalInfo = forwardRef((props, ref) => {
-    const classes = useStyles();
 
     const [personalInfo, setPersonalInfo] = useState({
         firstName: "",
         middleName: "",
         lastName: "",
+        geezFirstName: "",
+        geezMiddleName: "",
+        geezLastName: "",
         birthCountry: "",
         birthCity: "",
         birthDate: "",
-        gender: "",
+        gender: "1",
         height: "",
         eyeColor: "",
         hairColor: "",
@@ -51,10 +31,13 @@ const PersonalInfo = forwardRef((props, ref) => {
         firstName: true,
         middleName: true,
         lastName: true,
+        geezFirstName: true,
+        geezMiddleName: true,
+        geezLastName: true,
         birthCountry: true,
         birthCity: true,
         birthDate: true,
-        gender: true,
+        gender: false,
         height: true,
         eyeColor: true,
         hairColor: true,
@@ -83,6 +66,9 @@ const PersonalInfo = forwardRef((props, ref) => {
                 firstName: personalInfo.firstName === "" ? true : false,
                 middleName: personalInfo.middleName === "" ? true : false,
                 lastName: personalInfo.lastName === "" ? true : false,
+                geezFirstName: personalInfo.geezFirstName === "" ? true : false,
+                geezMiddleName: personalInfo.geezMiddleName === "" ? true : false,
+                geezLastName: personalInfo.geezLastName === "" ? true : false,
                 birthCountry: personalInfo.birthCountry === "" ? true : false,
                 birthCity: personalInfo.birthCity === "" ? true : false,
                 birthDate: personalInfo.birthDate === "" ? true : false,
@@ -95,10 +81,9 @@ const PersonalInfo = forwardRef((props, ref) => {
                 enrolmentDate: personalInfo.enrolmentDate === "" ? true : false,
                 nationality: personalInfo.nationality === "" ? true : false
             })
-            if (notCompleted.firstName == true || notCompleted.lastName || notCompleted.middleName == true  || notCompleted.birthDate == true
-                // || notCompleted.birthCountry == true || notCompleted.birthCity == true || notCompleted.height == true
-                // || notCompleted.eyeColor == true || notCompleted.hairColor == true || notCompleted.gender == true
-                // || notCompleted.occupation == true || notCompleted.halfCast == true || notCompleted.nationality == true || notCompleted.enrolmentDate == true
+            if (   notCompleted.firstName == true || notCompleted.lastName || notCompleted.middleName == true  
+                || notCompleted.birthDate == true || notCompleted.geezFirstName == true || notCompleted.geezLastName
+                || notCompleted.geezLastName == true || notCompleted.nationality == true || notCompleted.gender == true
                 )
                 return false;
             else
@@ -143,8 +128,8 @@ const PersonalInfo = forwardRef((props, ref) => {
         }))
     }, []);
     return (
-        <Card style={{ marginBottom: "1rem" }}>
-            <Card.Body>
+        <MDBCard  style={{ marginBottom: "1rem" }}>
+            <MDBCardBody>
                     <form>
                         <MDBRow>
                             <MDBCol>
@@ -178,17 +163,61 @@ const PersonalInfo = forwardRef((props, ref) => {
                                 />
                                 <span style={{ color: "red" }}> {(notCompleted.lastName == true && personalInfo.dataSaved == true) ? "Last name " + isRequired : null}</span>
                             </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.birthDate : null}
+                                name="birthDate"
+                                onChange={handleChange}
+                                type="date"
+                                label="Birth Date"
+                            />
+                            <span style={{ color: "red" }}> {(notCompleted.birthDate == true && personalInfo.dataSaved == true) ? "Birth date " + isRequired : null}</span>
+                        </MDBCol>
+                        </MDBRow>
+                        <MDBRow>
                             <MDBCol>
                                 <MDBInput
-                                    valueDefault={prevInfo ? prevInfo.birthDate : null}
-                                    name="birthDate"
-                                    onChange={handleChange}
-                                    type="date"
-                                    label="Birth Date"
+                                    valueDefault={prevInfo ? prevInfo.geezFirstName : null}
+                                    name="geezFirstName"
+                                    className="form-control"
+                                    onBlur={handleChange}
+                                    type="text"
+                                    label="ስም"
                                 />
-                                <span style={{ color: "red" }}> {(notCompleted.birthDate == true && personalInfo.dataSaved == true) ? "Birth date " + isRequired : null}</span>
+                                <span style={{ color: "red" }}> {(notCompleted.geezFirstName == true && personalInfo.dataSaved == true) ? "የአመልካቹ ስም አስፈላጊ ነው" : null}</span>
                             </MDBCol>
+                            <MDBCol>
+                                <MDBInput
+                                    valueDefault={prevInfo ? prevInfo.geezMiddleName : null}
+                                    name="geezMiddleName"
+                                    onBlur={handleChange}
+                                    type="text"
+                                    label="የአባት ስም"
+                                />
+                                <span style={{ color: "red" }}> {(notCompleted.geezMiddleName == true && personalInfo.dataSaved == true) ? "የአባት ስም አስፈላጊ ነው" : null}</span>
+                            </MDBCol>
+                            <MDBCol>
+                                <MDBInput
+                                    valueDefault={prevInfo ? prevInfo.geezLastName : null}
+                                    name="geezLastName"
+                                    onBlur={handleChange}
+                                    type="text"
+                                    label="የአያት ስም"
+                                />
+                                <span style={{ color: "red" }}> {(notCompleted.geezLastName == true && personalInfo.dataSaved == true) ? "የአያት ስም አስፈላጊ ነው" : null}</span>
+                            </MDBCol>
+                        <MDBCol>
+                        <MDBInput
+                                    valueDefault={prevInfo ? prevInfo.nationality : null}
+                                    name="nationality"
+                                    onChange={handleChange}
+                                    type="text"
+                                    label="Nationality"
+                                />
+                            <span style={{ color: "red" }}> {(notCompleted.nationality == true && personalInfo.dataSaved == true) ? "Nationality" + isRequired : null}</span>
+                        </MDBCol>
                         </MDBRow>
+                        
                         <MDBRow>
                             <MDBCol>
                                 <MDBInput
@@ -210,13 +239,11 @@ const PersonalInfo = forwardRef((props, ref) => {
                                 />
                             </MDBCol>
                             <MDBCol>
-                                <MDBInput
-                                    valueDefault={prevInfo ? prevInfo.nationality : null}
-                                    name="nationality"
-                                    onChange={handleChange}
-                                    type="text"
-                                    label="Nationality"
-                                />
+                                <label>Gender</label>
+                                <select className="browser-default custom-select">
+                                    <option value="1">Male</option>
+                                    <option value="0">Female</option>
+                                </select>
                             </MDBCol>
                             <MDBCol>
                                 <MDBInput
@@ -278,19 +305,12 @@ const PersonalInfo = forwardRef((props, ref) => {
                                     label="Hair Color"
                                 />
                             </MDBCol>
-                            <MDBCol>
-                                <label>Gender</label>
-                                <select className="browser-default custom-select">
-                                    <option value="1">Male</option>
-                                    <option value="0">Female</option>
-                                </select>
-                            </MDBCol>
                             <MDBCol></MDBCol>
                             <MDBCol></MDBCol>
                         </MDBRow>
                     </form>
-            </Card.Body>
-        </Card>
+            </MDBCardBody>
+        </MDBCard>
     );
 });
 export default PersonalInfo
