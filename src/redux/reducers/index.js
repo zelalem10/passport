@@ -13,6 +13,7 @@ import groupPersonalInfo from './GroupRequest/groupPersonalInfoReducer'
 import applicationList from './applicationListReducer';
 import editFamilyData from './editAddFamilyReducer';
 import commonData from './commonDataReducer';
+import request from './newRequestReducer'
 const rootReducer = combineReducers({
   service,
   familyReducer,
@@ -27,5 +28,6 @@ const rootReducer = combineReducers({
   attachmentData,
   editFamilyData,
   commonData,
+  request,
 });
 export default rootReducer;

@@ -1,16 +1,10 @@
 
 import React, { useEffect, useState, useImperativeHandle,forwardRef } from 'react';
-import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody, MDBCardText, MDBCardTitle } from 'mdbreact';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import Container from '@material-ui/core/Container';
-import Input from '@material-ui/core/Input';
-import { Form, Card, Row, Col, InputGroup, Button } from 'react-bootstrap';
+import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addTravelPlan from '../../redux/actions/addTravelPlanAction';
 
  const TravelPlan= forwardRef((props, ref) => {
-    const [validated, setValidated] = useState(false);
     const [travelPlan, setTravelPlan] = useState({
         applicantNumber: props.applicantNumber,
         travelDate:"",
@@ -45,7 +39,8 @@ import addTravelPlan from '../../redux/actions/addTravelPlanAction';
         dispatch(addTravelPlan(travelPlan));
 
     }
-    var prevInfo=counter.travelPlan[counter.travelPlan.length-1]
+    const resultLength=counter.travelPlan.filter(item => item.applicantNumber == props.applicantNumber).length;
+    var prevInfo = counter.travelPlan.filter(item => item.applicantNumber == props.applicantNumber)[resultLength-1]
         useEffect(() => {
             setTravelPlan((prevState) =>({
                 ...prevState,
@@ -56,24 +51,36 @@ import addTravelPlan from '../../redux/actions/addTravelPlanAction';
         }, []);
 
     return (
-        <Card>
-            <Card.Body>
-                <blockquote className="blockquote mb-0">
-                    <Form >
-                        <Form.Row>
-                        <Form.Group  as={Col} md="4" controlId="date">
-                                        <Form.Label>Travel Date<i style={{ color: "red" }}>*</i></Form.Label>
-                                        <Form.Control type="date"  name="travelDate"  defaultValue={prevInfo? prevInfo.travelDate:null} onChange={handleChange} />
-                                    </Form.Group>
-                                    <Form.Group  as={Col} md="4" controlId="ticketNumber">
-                                        <Form.Label>Ticket Number<i style={{ color: "red" }}>*</i></Form.Label>
-                                        <Form.Control type="text" name="ticketNumber"  defaultValue={prevInfo? prevInfo.ticketNumber:null} onChange={handleChange} />
-                                    </Form.Group>
-                        </Form.Row>
-                    </Form>
-                </blockquote>
-            </Card.Body>
-        </Card>
+        <MDBCard>
+            <MDBCardBody>
+                    <form >
+                        <MDBRow>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.travelDate : null}
+                                name="travelDate"
+                                className="form-control"
+                                onBlur={handleChange}
+                                type="date"
+                                label="Travel Date"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.ticketNumber : null}
+                                name="ticketNumber"
+                                className="form-control"
+                                onBlur={handleChange}
+                                type="text"
+                                label="Ticket Number"
+                            />
+                        </MDBCol>
+                        <MDBCol></MDBCol>
+                        <MDBCol></MDBCol>
+                        </MDBRow>
+                    </form>
+            </MDBCardBody>
+        </MDBCard>
     );
 });
 

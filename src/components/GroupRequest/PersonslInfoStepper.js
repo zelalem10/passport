@@ -13,7 +13,10 @@ import Attachment from './Attachement'
 import TravelPlan from './TravelPlan'
 import FamilyInformation from '../Request Appointment/family/familyInformation';
 import { useDispatch, useSelector } from 'react-redux';
+import newRequest from '../../redux/actions/addNewRequestAction';
 import API from '../Utils/API';
+import token from '../common/accessToken'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,11 +64,17 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   const handleReset = () => {
     setActiveStep(0);
   };
-  const handleFinish = () => {
-    var personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1]
-    var addressInfo = counter.address[counter.address.length - 1]
+  const handleSubmit = () => {
+    const requestInfo=counter.request;
+    debugger
+    if(props.applicantNumber==1)
+    {
+    const personalInfoLength=counter.personalInfoReducer.filter(item => item.applicantNumber == props.applicantNumber).length;
+    var personalInfo = counter.personalInfoReducer.filter(item => item.applicantNumber == props.applicantNumber)[personalInfoLength-1]
+    const addressLength=counter.address.filter(item => item.applicantNumber == props.applicantNumber).length;
+    var addressInfo = counter.address.filter(item => item.applicantNumber == props.applicantNumber)[addressLength-1]
     const config = {
-      headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTg5NDE5NzQsImV4cCI6MTU5ODk1NjM3NCwiaWF0IjoxNTk4OTQxOTc0fQ.Np3qPRvqRXaTWT8AiCGORAh5USa3BQO-5TfkjDujO3w` }
+      headers: { Authorization: token }
       };
     const requestBody={
       requestId: 0,
@@ -127,14 +136,79 @@ export default function HorizontalLabelPositionBelowStepper(props) {
         }
       ]
       };
-      debugger
       API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest', requestBody, config)
       .then((todo) => {
-        console.log(todo.data);
+        dispatch(newRequest(todo.data))
       })
       .catch((err) => {
-        console.log('AXIOS ERROR: ', err);
+        console.log('AXIOS ERROR: ', err.response);
       });
+    }
+    else if(requestInfo !=null){
+      // const requestBody={
+      //   requestId: requestInfo[requestInfo.length-1].requestId,
+      //   requestMode: 0,
+      //   requestTypeId: 2,
+      //   userName: "",
+      //   status: 0,
+      //   confirmationNumber: "",
+      //   personRequest: [
+      //     {
+      //       personId: 0,
+      //       firstName:personalInfo? personalInfo.firstName.toUpperCase():null,
+      //       middleName: personalInfo? personalInfo.middleName.toUpperCase():null,
+      //       lastName: personalInfo? personalInfo.lastName.toUpperCase():null,
+      //       geezFirstName:personalInfo? personalInfo.geezFirstName:null,
+      //       geezMiddleName: personalInfo? personalInfo.geezMiddleName:null,
+      //       geezLastName: personalInfo? personalInfo.geezLastName:null,
+      //       dateOfBirth: "2020-08-31T12:42:45.259Z",
+      //       gender: personalInfo? personalInfo.gender:null,
+      //       nationality: personalInfo? personalInfo.nationality:null,
+      //       height: personalInfo? personalInfo.height:null,
+      //       eyeColor: personalInfo? personalInfo.eyeColor:null,
+      //       hairColor: personalInfo? personalInfo.hairColor:null,
+      //       occupation: personalInfo? personalInfo.occupation:null,
+      //       halfCast: personalInfo? personalInfo.halfCast:null,
+      //       enrolmentDate: "2020-08-31T12:42:45.259Z",
+      //       birthCountry: personalInfo? personalInfo.birthCountry:null,
+      //       birthCity: personalInfo? personalInfo.birthCity:null,
+      //       photoPath: "",
+      //       employeeID: "",
+      //       applicationNumber: "",
+      //       organizationID: "",
+      //       isUnder18: true,
+      //       isAdoption: true,
+      //       address: {
+      //         personId: 0,
+      //         addressId: 0,
+      //         city: addressInfo? addressInfo.city:null,
+      //         country: addressInfo? addressInfo.country:null,
+      //         state: addressInfo? addressInfo.state:null,
+      //         zone: addressInfo? addressInfo.zone:null,
+      //         wereda: addressInfo? addressInfo.woreda:null,
+      //         street: addressInfo? addressInfo.street:null,
+      //         houseNo: addressInfo? addressInfo.houseNo:null,
+      //         poBox: addressInfo? addressInfo.poBox:null,
+      //         phoneNumber: addressInfo? addressInfo.phoneNumber:null,
+      //         email: addressInfo? addressInfo.email:null,
+      //         requestPlace: addressInfo? addressInfo.requestPlace:null
+      //        }//,
+      //       // familyRequests: [
+      //       //   // {
+      //       //   //   familyId: 0,
+      //       //   //   personId: 0,
+      //       //   //   familtyTypeId: 0,
+      //       //   //   firstName: "string",
+      //       //   //   lastName: "string"
+      //       //   // }
+      //       // ]
+      //     }
+      //   ]
+      //   };
+    }
+    else{
+      alert("Please save the first Applicant")
+    }
   }
   function getStepContent(stepIndex) {
     switch (stepIndex) {
@@ -182,7 +256,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                 </Grid>
                 <hr></hr>
                 <Grid item xs={1}>
-                  {activeStep === steps.length - 1 ? (<Button variant="contained" color="primary" onClick={handleFinish}>
+                  {activeStep === steps.length - 2 ? (<Button variant="contained" color="primary" onClick={handleSubmit}>
                     Finish
                   </Button>) : (<Button variant="contained" color="primary" onClick={handleNext}>
                     Next

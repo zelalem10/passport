@@ -59,12 +59,8 @@ const Address = forwardRef((props, ref) => {
                 email: addressInfo.email === "" ? true : false,
                 requestPlace: addressInfo.requestPlace === "" ? true : false,
             })
-            if (notCompleted.country == true || notCompleted.city == true ||  notCompleted.phoneNumber == true)
-            {
-                console.log(addressInfo)
-                console.log(notCompleted)
+            if (notCompleted.country == true || notCompleted.city == true || notCompleted.phoneNumber == true)
                 return false
-            }    
             else
                 return true
         }
@@ -116,7 +112,7 @@ const Address = forwardRef((props, ref) => {
                                 type="text"
                                 label="Country"
                             />
-                            <span style={{ color: "red" }}> {(notCompleted.country == true && addressInfo.dataSaved==true) ? "Country"+ isRequired : null}</span>
+                            <span style={{ color: "red" }}> {(notCompleted.country == true && addressInfo.dataSaved == true) ? "Country" + isRequired : null}</span>
                         </MDBCol>
                         <MDBCol>
                             <MDBInput
