@@ -5,7 +5,8 @@ import addApplicationList from '../../redux/actions/addApplicationLIst';
 import { useDispatch, useSelector } from 'react-redux';
 import ListOfApplications from './listOfApplications';
 import ViewAppointment from './viewAppointment';
-import HorizontalLabelPositionBelowStepper from './EditApplicationList.js/PersonslInfoStepper';
+import HorizontalLabelPositionBelowStepper from './EditApplicationList/PersonslInfoStepper';
+import GroupRequestStepper from './EditApplicationList/Group/GroupNavigation';
 
 function ApplicationList() {
   const accesstoken = localStorage.systemToken;
@@ -20,11 +21,19 @@ function ApplicationList() {
   const [open, setOpen] = useState(false);
   const [displayRequestId, setDisplayRequestId] = useState('');
   const [isEdit, setIsEdit] = useState(false);
+  const [isGroup, setIsGroup] = useState(false);
+  const [numOfApplicants, setNumOfApplicants] = useState(0);
 
   const handleDisplay = (id) => {
     setDisplayRequestId(id);
   };
-  const handleEdit = (id) => {
+  const handleEdit = (id, numberOfApplicants) => {
+    if (numberOfApplicants === 1) {
+      setIsGroup(false);
+    } else {
+      setNumOfApplicants(numberOfApplicants);
+      setIsGroup(true);
+    }
     setDisplayRequestId(id);
     setIsEdit(true);
   };
@@ -74,10 +83,17 @@ function ApplicationList() {
         handleEdit={handleEdit}
       />
     );
-  } else if (displayRequestId && isEdit) {
+  } else if (displayRequestId && isEdit && !isGroup) {
     return (
       <HorizontalLabelPositionBelowStepper
         displayRequestId={displayRequestId}
+      />
+    );
+  } else if (displayRequestId && isEdit && isGroup) {
+    return (
+      <GroupRequestStepper
+        displayRequestId={displayRequestId}
+        numOfApplicants={numOfApplicants}
       />
     );
   }

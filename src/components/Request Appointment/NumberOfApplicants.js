@@ -24,7 +24,7 @@ function NumberOfApplicant(props) {
 
             <div>
               <select
-                className="browser-default custom-select"
+                className="browser-default custom-select applicants-select"
                 onChange={(e) => props.handleChange(e)}
                 value={props.values}
               >

@@ -25,7 +25,7 @@ const PersonalInfo = forwardRef((props, ref) => {
     lastName: personalInformation.lastName,
     birthCountry: personalInformation.birthCountry,
     birthCity: personalInformation.birthCity,
-    birthDate: personalInformation.dateOfBirth,
+    dateOfBirth: personalInformation.dateOfBirth,
     gender: personalInformation.gender,
     height: personalInformation.height,
     eyeColor: personalInformation.eyeColor,
@@ -76,7 +76,7 @@ const PersonalInfo = forwardRef((props, ref) => {
       lastName: prevInfo ? prevInfo.lastName : null,
       birthCountry: prevInfo ? prevInfo.birthCountry : null,
       birthCity: prevInfo ? prevInfo.birthCity : null,
-      birthDate: prevInfo ? new Date(prevInfo.dateOfBirth) : null,
+      dateOfBirth: prevInfo ? new Date(prevInfo.dateOfBirth) : null,
       height: prevInfo ? prevInfo.height : null,
       gender: prevInfo ? prevInfo.gender : null,
       eyeColor: prevInfo ? prevInfo.eyeColor : null,
@@ -114,10 +114,10 @@ const PersonalInfo = forwardRef((props, ref) => {
                     </Form.Label>
                     <Form.Control
                       type="Date"
-                      name="birthDate"
+                      name="dateOfBirth"
                       defaultValue={
                         prevInfo
-                          ? new Date(prevInfo.birthDate)
+                          ? new Date(prevInfo.dateOfBirth)
                               .toISOString()
                               .substr(0, 10)
                           : null

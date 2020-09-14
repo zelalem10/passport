@@ -689,3 +689,6 @@ ul.list--single-line li .icon {
 .multistep-form__step .md-form .validate {
   margin-bottom: 0 !important;
 }
+.applicants-select {
+  width: 50% !important;
+}

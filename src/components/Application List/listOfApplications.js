@@ -105,7 +105,12 @@ export default function ListOfApplications(props) {
                             </a>
                             <a
                               href="#"
-                              onClick={() => handleEdit(user.requestId)}
+                              onClick={() =>
+                                handleEdit(
+                                  user.requestId,
+                                  user.personResponses.length
+                                )
+                              }
                             >
                               {' '}
                               <div class="float-right mr-4">

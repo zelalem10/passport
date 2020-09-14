@@ -11,9 +11,11 @@ import addTravelPlan from '../../../redux/actions/addTravelPlanAction';
 
 const TravelPlan = forwardRef((props, ref) => {
   const [validated, setValidated] = useState(false);
+  const { flightData, flightNumber } = props;
+  debugger;
   const [travelPlan, setTravelPlan] = useState({
-    travelDate: '',
-    ticketNumber: '',
+    travelDate: flightData,
+    ticketNumber: flightNumber,
     dataSaved: false,
   });
 
@@ -47,7 +49,7 @@ const TravelPlan = forwardRef((props, ref) => {
   useEffect(() => {
     setTravelPlan((prevState) => ({
       ...prevState,
-      travelDate: prevInfo ? prevInfo.travelDate : null,
+      travelDate: prevInfo ? new Date(prevInfo.travelDate) : null,
       ticketNumber: prevInfo ? prevInfo.ticketNumber : null,
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
     }));
@@ -67,7 +69,13 @@ const TravelPlan = forwardRef((props, ref) => {
                   <Form.Control
                     type="date"
                     name="travelDate"
-                    defaultValue={prevInfo ? prevInfo.travelDate : null}
+                    defaultValue={
+                      prevInfo
+                        ? new Date(prevInfo.travelDate)
+                            .toISOString()
+                            .substr(0, 10)
+                        : null
+                    }
                     onChange={handleChange}
                   />
                 </Form.Group>

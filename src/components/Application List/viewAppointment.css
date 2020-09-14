@@ -43,11 +43,14 @@ label {
   margin-right: -50%;
   left: 50%;
 }
-.view-appointment-group
-  .WithStyles\(ForwardRef\(Accordion\)\)-root-1.WithStyles\(ForwardRef\(Accordion\)\)-expanded-2 {
+.MuiAccordion-root.Mui-expanded {
   margin: 16px 0 !important;
 }
 .view-appointment-group .accordion-item {
   border-radius: 5%;
   border-left: 0.625rem solid #224b9f !important;
+}
+.view-appointment-group .MuiAccordion-rounded:first-child {
+  border-top-left-radius: 5% !important;
+  border-top-right-radius: 5% !important;
 }
