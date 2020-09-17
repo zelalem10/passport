@@ -22,7 +22,7 @@ function NumberOfApplicant(props) {
           <div className="multistep-form__step">
             <h2 className="h1">Group Appointment - Number of Applicants</h2>
 
-            <div>
+            <div class="applicants-select">
               <select
                 className="browser-default custom-select applicants-select"
                 onChange={(e) => props.handleChange(e)}

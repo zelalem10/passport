@@ -76,14 +76,13 @@ const NavbarPage = (props) => {
           <MDBNavbarNav left>
             <div class="row">
               <div class="col-md-3">
-                <h1 className="font-weight-bold text-light">ePassport</h1>
-              </div>
-              <div class="col-md-3">
-                <img
-                  src={require('../../images/default-source/footer_img/et.gif')}
-                  className="img-fluid w-75"
-                  alt="Ethiopian ePassport logo"
-                ></img>
+                <Link to="/">
+                  <img
+                    src={require('../../images/default-source/shared/output-onlinepngtools (2).png')}
+                    className="img-fluid logo-img"
+                    alt="Ethiopian ePassport logo"
+                  />
+                </Link>
               </div>
             </div>
           </MDBNavbarNav>
@@ -123,11 +122,11 @@ const NavbarPage = (props) => {
         <MDBCollapse id="navbarCollapse3" isOpen={navOpen} navbar>
           <MDBContainer fluid style={{ width: '80%' }}>
             <MDBNavbarNav className="d-flex" left>
-              <MDBNavItem className={navPath == '/' ? 'active' : ''}>
+              {/* <MDBNavItem className={navPath == '/' ? 'active' : ''}>
                 <MDBNavLink to="/" activeClassName="active">
                   Home
                 </MDBNavLink>
-              </MDBNavItem>
+              </MDBNavItem> */}
               <MDBNavItem
                 className={navPath == '/request-appointment' ? 'active' : ''}
               >

@@ -91,6 +91,12 @@ export default function GroupRequestStepper(props) {
   function handelNext() {
     console.log(counter.groupPersonalInfo);
   }
+  const basicInformation = {
+    requestId: displayedApplication.requestId,
+    requestMode: displayedApplication.requestMode,
+    requestTypeId: displayedApplication.requestTypeId,
+    userName: displayedApplication.userName,
+  };
   return (
     <MDBContainer
       className="passport-container view-appointment-group pt-3"
@@ -162,11 +168,15 @@ export default function GroupRequestStepper(props) {
                     {applicant.firstName + ' ' + applicant.middleName}
                   </Typography>
                 </AccordionSummary>
-                <AccordionDetails eventKey={applicant.id}>
+                <AccordionDetails
+                  eventKey={applicant.id}
+                  className="group-edit"
+                >
                   <HorizontalStepper
                     applicantNumber={applicant.id}
                     applicants={displayedApplication.personResponses}
                     handeler={handelNext}
+                    basicInfo={basicInformation}
                   />
                 </AccordionDetails>
               </Accordion>

@@ -28,25 +28,56 @@ export default function Address() {
   };
 
   return (
-    <Card>
-      <Card.Body>
-        <blockquote className="blockquote mb-0">
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            <Form.Row>
-              <Form.Group as={Col} md="4" controlId="validationCustom02">
-                {/* Size of the image should be less than 2MB and in JPEG, JPG, PNG, GIF or BMP format */}
-                <Form.File
+    <blockquote className="blockquote mb-0">
+      <form>
+        <MDBRow>
+          <MDBCol md="4">
+            <MDBCol>
+              <div className="input-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text" id="inputGroupFileAddon01">
+                    Upload
+                  </span>
+                </div>
+                <div className="custom-file">
+                  <input
+                    type="file"
+                    className="custom-file-input"
+                    id="exampleFormControlFile1"
+                    aria-describedby="inputGroupFileAddon01"
+                  />
+                  <label
+                    className="custom-file-label"
+                    htmlFor="inputGroupFile01"
+                  >
+                    Birth certificate
+                  </label>
+                </div>
+              </div>
+            </MDBCol>
+          </MDBCol>
+          <MDBCol md="4">
+            <div className="input-group">
+              <div className="input-group-prepend">
+                <span className="input-group-text" id="inputGroupFileAddon01">
+                  Upload
+                </span>
+              </div>
+              <div className="custom-file">
+                <input
+                  type="file"
+                  className="custom-file-input"
                   id="exampleFormControlFile1"
-                  label="Birth certificate"
+                  aria-describedby="inputGroupFileAddon01"
                 />
-              </Form.Group>
-              <Form.Group as={Col} md="4" controlId="validationCustom02">
-                <Form.File id="exampleFormControlFile1" label="Id" />
-              </Form.Group>
-            </Form.Row>
-          </Form>
-        </blockquote>
-      </Card.Body>
-    </Card>
+                <label className="custom-file-label" htmlFor="inputGroupFile01">
+                  Birth certificate
+                </label>
+              </div>
+            </div>
+          </MDBCol>
+        </MDBRow>
+      </form>
+    </blockquote>
   );
 }

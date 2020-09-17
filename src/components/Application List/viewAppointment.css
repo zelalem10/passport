@@ -54,3 +54,14 @@ label {
   border-top-left-radius: 5% !important;
   border-top-right-radius: 5% !important;
 }
+.view-appointment-group .blockquote {
+  border-left: unset !important;
+}
+.passport-select .custom-select {
+  border: unset !important;
+  border-bottom: 1px solid #ced4da !important;
+}
+.passport-select .custom-select:focus {
+  box-shadow: unset !important;
+  border-bottom: 1px solid #4285f4 !important;
+}

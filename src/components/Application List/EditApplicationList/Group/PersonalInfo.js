@@ -4,7 +4,7 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from 'react';
-import { MDBRow, MDBCol, MDBContainer } from 'mdbreact';
+import { MDBRow, MDBCol, MDBInput } from 'mdbreact';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -38,8 +38,10 @@ const PersonalInfo = forwardRef((props, ref) => {
         firstName: applicants[i].firstName,
         middleName: applicants[i].middleName,
         lastName: applicants[i].lastName,
-        birthCountry: applicants[i].birthCountry,
-        birthCity: applicants[i].birthCity,
+        geezFirstName: applicants[i].geezFirstName,
+        geezMiddleName: applicants[i].geezMiddleName,
+        geezLastName: applicants[i].geezLastName,
+        birthPlace: applicants[i].birthPlace,
         birthDate: applicants[i].dateOfBirth,
         gender: applicants[i].gender,
         height: applicants[i].height,
@@ -59,8 +61,7 @@ const PersonalInfo = forwardRef((props, ref) => {
     firstName: true,
     middleName: true,
     lastName: true,
-    birthCountry: true,
-    birthCity: true,
+    birthPlace: true,
     birthDate: true,
     gender: true,
     height: true,
@@ -86,8 +87,7 @@ const PersonalInfo = forwardRef((props, ref) => {
         firstName: personalInfo.firstName === '' ? true : false,
         middleName: personalInfo.middleName === '' ? true : false,
         lastName: personalInfo.lastName === '' ? true : false,
-        birthCountry: personalInfo.birthCountry === '' ? true : false,
-        birthCity: personalInfo.birthCity === '' ? true : false,
+        birthPlace: personalInfo.birthPlace === '' ? true : false,
         birthDate: personalInfo.birthDate === '' ? true : false,
         gender: personalInfo.gender === '' ? true : false,
         height: personalInfo.height === '' ? true : false,
@@ -102,8 +102,7 @@ const PersonalInfo = forwardRef((props, ref) => {
         notCompleted.firstName == true ||
         notCompleted.lastName ||
         notCompleted.middleName == true ||
-        notCompleted.birthCountry == true ||
-        notCompleted.birthCity == true ||
+        notCompleted.birthPlace == true ||
         notCompleted.birthDate == true ||
         notCompleted.height == true ||
         notCompleted.eyeColor == true ||
@@ -119,25 +118,6 @@ const PersonalInfo = forwardRef((props, ref) => {
     },
   }));
 
-  // const handleChange = (event) => {
-  //   const { name, value } = event.target;
-  //   let personalData =
-  //     counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
-
-  //   for (let person in personalData) {
-  //     if (personalData[person].id === props.applicantNumber) {
-  //       personalData[person][name] = value;
-  //       // dispatch(updatePersonalInfo(personalData[person]));
-  //     }
-  //   }
-  //   setPersonalInfo(personalData);
-  //   if (value != '') {
-  //     setNotCompleted((prevState) => ({
-  //       ...prevState,
-  //       [name]: false,
-  //     }));
-  //   }
-  // };
   const handleChange = (event) => {
     const { name, value } = event.target;
     setPersonalInfo((prevState) => ({
@@ -181,8 +161,10 @@ const PersonalInfo = forwardRef((props, ref) => {
       firstName: prevInfo ? prevInfo.firstName : null,
       middleName: prevInfo ? prevInfo.middleName : null,
       lastName: prevInfo ? prevInfo.lastName : null,
-      birthCountry: prevInfo ? prevInfo.birthCountry : null,
-      birthCity: prevInfo ? prevInfo.birthCity : null,
+      geezFirstName: prevInfo ? prevInfo.geezFirstName : null,
+      geezMiddleName: prevInfo ? prevInfo.geezMiddleName : null,
+      geezLastName: prevInfo ? prevInfo.geezLastName : null,
+      birthPlace: prevInfo ? prevInfo.birthPlace : null,
       birthDate: prevInfo ? new Date(prevInfo.birthDate) : null,
       height: prevInfo ? prevInfo.height : null,
       gender: prevInfo ? prevInfo.gender : null,
@@ -200,283 +182,233 @@ const PersonalInfo = forwardRef((props, ref) => {
       <form>
         <MDBRow>
           <MDBCol md="4">
-            <Form.Group controlId="firstName">
-              <Form.Label>
-                First Name<i style={{ color: 'red' }}>*</i>
-              </Form.Label>
-              <Form.Control
-                type="text"
+            <MDBCol>
+              <MDBInput
+                label="First Name"
+                group
                 name="firstName"
-                defaultValue={prevInfo ? prevInfo.firstName : null}
+                type="text"
+                validate
+                error="wrong"
+                success="right"
+                valueDefault={prevInfo ? prevInfo.firstName : null}
                 onChange={handleChange}
-                placeholder="First Name"
               />
-              <p style={{ color: 'red' }}>
+            </MDBCol>
+            <MDBCol>
+              <MDBInput
+                valueDefault={prevInfo ? prevInfo.geezFirstName : null}
+                name="geezFirstName"
+                className="form-control"
+                onBlur={handleChange}
+                type="text"
+                label="ስም"
+              />
+              <span style={{ color: 'red' }}>
                 {' '}
-                {notCompleted.firstName == true &&
+                {notCompleted.geezFirstName == true &&
                 personalInfo.dataSaved == true
-                  ? 'First name ' + isRequired
+                  ? 'የአመልካቹ ስም አስፈላጊ ነው'
                   : null}
-              </p>
-            </Form.Group>
-            <Form.Group controlId="dateOfBirth">
-              <Form.Label>
-                Date of birth<i style={{ color: 'red' }}>*</i>
-              </Form.Label>
-              <Form.Control
+              </span>
+            </MDBCol>
+            <MDBCol>
+              <MDBInput
+                label="Date of birth"
+                group
                 type="Date"
                 name="birthDate"
-                defaultValue={
+                validate
+                error="wrong"
+                success="right"
+                valueDefault={
                   prevInfo
                     ? new Date(prevInfo.birthDate).toISOString().substr(0, 10)
                     : null
                 }
                 onChange={handleChange}
-                placeholder="date of birth"
               />
-              <p style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.birthDate == true &&
-                personalInfo.dataSaved == true
-                  ? 'Birth date ' + isRequired
-                  : null}
-              </p>
-            </Form.Group>
-            <Form.Group controlId="height">
-              <Form.Label>
-                Height<i style={{ color: 'red' }}>*</i>
-              </Form.Label>
-              <Form.Control
+            </MDBCol>
+            <MDBCol>
+              <MDBInput
+                label="Height"
+                group
                 type="text"
                 name="height"
-                defaultValue={prevInfo ? prevInfo.height : null}
+                validate
+                error="wrong"
+                success="right"
+                valueDefault={prevInfo ? prevInfo.height : null}
                 onChange={handleChange}
-                placeholder="Height"
               />
-              <p style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.height == true && personalInfo.dataSaved == true
-                  ? 'Height ' + isRequired
-                  : null}
-              </p>
-            </Form.Group>
-            <Form.Group controlId="occupation">
-              <Form.Label>
-                Occupation<i style={{ color: 'red' }}>*</i>
-              </Form.Label>
-              <Form.Control
+            </MDBCol>
+            <MDBCol>
+              <MDBInput
+                label="Occupation"
+                group
                 type="text"
                 name="occupation"
-                defaultValue={prevInfo ? prevInfo.occupation : null}
+                validate
+                error="wrong"
+                success="right"
+                valueDefault={prevInfo ? prevInfo.occupation : null}
                 onChange={handleChange}
-                placeholder="Occupation"
               />
-              <p style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.occupation == true &&
-                personalInfo.dataSaved == true
-                  ? 'Occupation ' + isRequired
-                  : null}
-              </p>
-            </Form.Group>
-            <Form.Group controlId="lastName">
-              <Form.Label>
-                Last Name<i style={{ color: 'red' }}>*</i>
-              </Form.Label>
-              <Form.Control
+            </MDBCol>
+            <MDBCol>
+              <MDBInput
+                label="Birth Place"
+                group
                 type="text"
-                name="lastName"
-                defaultValue={prevInfo ? prevInfo.lastName : null}
+                name="birthPlace"
+                validate
+                error="wrong"
+                success="right"
+                valueDefault={prevInfo ? prevInfo.birthPlace : null}
                 onChange={handleChange}
-                placeholder="Last Name"
               />
-              <p style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.lastName == true && personalInfo.dataSaved == true
-                  ? 'Last name ' + isRequired
-                  : null}
-              </p>
-            </Form.Group>
+            </MDBCol>
           </MDBCol>
           <MDBCol md="4">
-            <Form.Group controlId="middleName">
-              <Form.Label>
-                Middle Name<i style={{ color: 'red' }}>*</i>
-              </Form.Label>
-              <Form.Control
+            <MDBCol>
+              <MDBInput
+                label="Middle Name"
+                group
                 type="text"
                 name="middleName"
-                defaultValue={prevInfo ? prevInfo.middleName : null}
+                validate
+                error="wrong"
+                success="right"
+                valueDefault={prevInfo ? prevInfo.middleName : null}
                 onChange={handleChange}
-                placeholder="Middle Name"
               />
-              <p style={{ color: 'red' }}>
+            </MDBCol>
+            <MDBCol>
+              <MDBInput
+                valueDefault={prevInfo ? prevInfo.geezMiddleName : null}
+                name="geezMiddleName"
+                onBlur={handleChange}
+                type="text"
+                label="የአባት ስም"
+              />
+              <span style={{ color: 'red' }}>
                 {' '}
-                {notCompleted.middleName == true &&
+                {notCompleted.geezMiddleName == true &&
                 personalInfo.dataSaved == true
-                  ? 'Middle name ' + isRequired
+                  ? 'የአባት ስም አስፈላጊ ነው'
                   : null}
-              </p>
-            </Form.Group>
-            <Form.Group controlId="eyeColor">
-              <Form.Label>
-                Eye Color<i style={{ color: 'red' }}>*</i>
-              </Form.Label>
-              <Form.Control
+              </span>
+            </MDBCol>
+            <MDBCol>
+              <MDBInput
+                label="Eye Color"
+                group
                 type="text"
                 name="eyeColor"
-                defaultValue={prevInfo ? prevInfo.eyeColor : null}
+                validate
+                error="wrong"
+                success="right"
+                valueDefault={prevInfo ? prevInfo.eyeColor : null}
                 onChange={handleChange}
-                placeholder="Eye Color"
               />
-              <p style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.eyeColor == true && personalInfo.dataSaved == true
-                  ? 'Eye color ' + isRequired
-                  : null}
-              </p>
-            </Form.Group>
-            <Form.Group controlId="halfCast">
-              <Form.Label>
-                Half Cast<i style={{ color: 'red' }}>*</i>
-              </Form.Label>
-              <Form.Control
+            </MDBCol>
+            <MDBCol>
+              <MDBInput
+                label="Half Cast"
+                group
                 type="text"
                 name="halfCast"
-                defaultValue={prevInfo ? prevInfo.halfCast : null}
+                validate
+                error="wrong"
+                success="right"
+                valueDefault={prevInfo ? prevInfo.halfCast : null}
                 onChange={handleChange}
-                placeholder="Half Cast"
               />
-              <p style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.halfCast == true && personalInfo.dataSaved == true
-                  ? 'Half cast ' + isRequired
-                  : null}
-              </p>
-            </Form.Group>
-            <Form.Group controlId="nationality">
-              <Form.Label>
-                Nationality<i style={{ color: 'red' }}>*</i>
-              </Form.Label>
-              <Form.Control
+            </MDBCol>
+            <MDBCol>
+              <MDBInput
+                label="Nationality"
+                group
                 type="text"
                 name="nationality"
-                defaultValue={prevInfo ? prevInfo.nationality : null}
+                validate
+                error="wrong"
+                success="right"
+                valueDefault={prevInfo ? prevInfo.nationality : null}
                 onChange={handleChange}
-                placeholder="Nationality"
               />
-              <p style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.nationality == true &&
-                personalInfo.dataSaved == true
-                  ? 'Nationality ' + isRequired
-                  : null}
-              </p>
-            </Form.Group>
+            </MDBCol>
           </MDBCol>
           <MDBCol md="4">
-            <Form.Group controlId="birthCountry">
-              <Form.Label>
-                Birth Country<i style={{ color: 'red' }}>*</i>
-              </Form.Label>
-              <Form.Control
+            <MDBInput
+              label="Last Name"
+              group
+              type="text"
+              name="lastName"
+              validate
+              error="wrong"
+              success="right"
+              valueDefault={prevInfo ? prevInfo.lastName : null}
+              onChange={handleChange}
+            />
+            <MDBCol>
+              <MDBInput
+                valueDefault={prevInfo ? prevInfo.geezLastName : null}
+                name="geezLastName"
+                onBlur={handleChange}
                 type="text"
-                name="birthCountry"
-                defaultValue={prevInfo ? prevInfo.birthCountry : null}
-                onChange={handleChange}
-                placeholder="Birth Country"
+                label="የአያት ስም"
               />
-              <p style={{ color: 'red' }}>
+              <span style={{ color: 'red' }}>
                 {' '}
-                {notCompleted.birthCountry == true &&
+                {notCompleted.geezLastName == true &&
                 personalInfo.dataSaved == true
-                  ? 'Country ' + isRequired
+                  ? 'የአያት ስም አስፈላጊ ነው'
                   : null}
-              </p>
-            </Form.Group>
-            <Form.Group controlId="birthCity">
-              <Form.Label>
-                Birth City<i style={{ color: 'red' }}>*</i>
-              </Form.Label>
-              <Form.Control
-                type="text"
-                name="birthCity"
-                defaultValue={prevInfo ? prevInfo.birthCity : null}
-                onChange={handleChange}
-                placeholder="Birth City"
-              />
-              <p style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.birthCity == true &&
-                personalInfo.dataSaved == true
-                  ? 'City ' + isRequired
-                  : null}
-              </p>
-            </Form.Group>
-            <Form.Group controlId="gender">
-              <Form.Label>
-                Gender<i style={{ color: 'red' }}>*</i>{' '}
-              </Form.Label>
-              <Form.Control
+              </span>
+            </MDBCol>
+            <div
+              className="md-form form-group passport-select"
+              style={{ 'margin-bottom': '2.5rem' }}
+            >
+              <select
                 name="gender"
-                defaultValue={prevInfo ? prevInfo.gender : null}
                 onChange={handleChange}
-                as="select"
+                className="browser-default custom-select"
+                defaultValue={prevInfo ? prevInfo.gender : null}
               >
+                <option style={{ display: 'none' }}>Gender</option>
                 <option value="1">Male</option>
                 <option value="0">Female</option>
-              </Form.Control>
-              <p style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.gender == true && personalInfo.dataSaved == true
-                  ? 'Gender ' + isRequired
-                  : null}
-              </p>
-            </Form.Group>
-            <Form.Group controlId="enrolmentDate">
-              <Form.Label>
-                Enrolment Date<i style={{ color: 'red' }}>*</i>
-              </Form.Label>
-              <Form.Control
-                type="Date"
-                name="enrolmentDate"
-                defaultValue={
-                  prevInfo
-                    ? new Date(prevInfo.enrolmentDate)
-                        .toISOString()
-                        .substr(0, 10)
-                    : null
-                }
-                onChange={handleChange}
-                placeholder="Enrolment Date"
-              />
-              <p style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.enrolmentDate == true &&
-                personalInfo.dataSaved == true
-                  ? 'Enrolment date ' + isRequired
-                  : null}
-              </p>
-            </Form.Group>
-            <Form.Group controlId="hairColor">
-              <Form.Label>
-                Hair Color<i style={{ color: 'red' }}>*</i>
-              </Form.Label>
-              <Form.Control
-                type="text"
-                name="hairColor"
-                defaultValue={prevInfo ? prevInfo.hairColor : null}
-                onChange={handleChange}
-                placeholder="Hair Color"
-              />
-              <p style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.hairColor == true &&
-                personalInfo.dataSaved == true
-                  ? 'Hair Color ' + isRequired
-                  : null}
-              </p>
-            </Form.Group>
+              </select>
+            </div>
+
+            <MDBInput
+              label="Enrollment Date"
+              group
+              type="Date"
+              name="enrolmentDate"
+              validate
+              error="wrong"
+              success="right"
+              valueDefault={
+                prevInfo
+                  ? new Date(prevInfo.enrolmentDate).toISOString().substr(0, 10)
+                  : null
+              }
+              onChange={handleChange}
+            />
+            <MDBInput
+              label="Hair Color"
+              group
+              type="text"
+              name="hairColor"
+              validate
+              error="wrong"
+              success="right"
+              valueDefault={prevInfo ? prevInfo.hairColor : null}
+              onChange={handleChange}
+            />
           </MDBCol>
         </MDBRow>
         {/* <MDBRow>

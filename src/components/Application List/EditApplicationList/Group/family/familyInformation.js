@@ -49,12 +49,42 @@ const FamilyInformation = forwardRef((props, ref) => {
   if (isOnLoad === true && counter.editFamilyData.length === 0) {
     setFamiliesInfo(familiesInformation);
     setIsOnLoad(false);
-  } else if (isOnLoad === true && counter.editFamilyData.length >= 1) {
-    let thisFamilyInfo = counter.editFamilyData[
-      counter.editFamilyData.length - 1
-    ].filter((family) => family.personId == props.applicantNumber);
+  } else if (isOnLoad === true && counter.editFamilyData.length === 1) {
+    debugger;
+    let thisFamilyInfo = counter.editFamilyData[0].filter(
+      (family) => family.personId == props.applicantNumber
+    );
     setFamiliesInfo(thisFamilyInfo);
     setIsOnLoad(false);
+  } else if (isOnLoad === true && counter.editFamilyData.length > 1) {
+    debugger;
+
+    const resultLength = counter.editFamilyData.filter(function (items) {
+      for (let item in items) {
+        if (items[item].personId == props.applicantNumber) {
+          return items;
+        }
+      }
+    }).length;
+    //   (item) => item.personId == props.applicantNumber
+    // );
+    if (resultLength) {
+      let prevInfo = counter.editFamilyData.filter(function (items) {
+        for (let item in items) {
+          if (items[item].personId == props.applicantNumber) {
+            return items;
+          }
+        }
+      })[resultLength - 1];
+      setFamiliesInfo(prevInfo);
+      setIsOnLoad(false);
+    } else {
+      let thisFamilyInfo = counter.editFamilyData[0].filter(
+        (family) => family.personId == props.applicantNumber
+      );
+      setFamiliesInfo(thisFamilyInfo);
+      setIsOnLoad(false);
+    }
   }
 
   const [familyType, setFamilyType] = useState([]);
@@ -136,7 +166,7 @@ const FamilyInformation = forwardRef((props, ref) => {
       data: [
         {
           id: 0,
-          personId: personId,
+          personId: props.applicantNumber,
           familtyTypeId: parseInt(state.famType),
           firstName: state.fname,
           lastName: state.lname,
@@ -148,10 +178,11 @@ const FamilyInformation = forwardRef((props, ref) => {
           ...familiesInfo,
           {
             id: response.data.families[0].id,
-            personId: personId,
+            personId: props.applicantNumber,
             firstName: state.fname,
             lastName: state.lname,
             familtyType: getFamilyType(state.famType),
+            familtyTypeId: parseInt(state.famType),
           },
         ]);
       })

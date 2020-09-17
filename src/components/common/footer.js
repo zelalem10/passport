@@ -70,27 +70,27 @@ const FooterPage = () => {
         </MDBRow>
         <MDBRow>
           <img
-            className="pr-3"
+            className="pr-3 pt-3 "
             src={require('../../images/default-source/footer_img/first.png')}
           ></img>
           <img
-            className="pr-3"
+            className="pr-3 pt-3"
             src={require('../../images/default-source/footer_img/second.png')}
           ></img>
           <img
-            className="pr-3"
+            className="pr-3 pt-3"
             src={require('../../images/default-source/footer_img/third.png')}
           ></img>
           <img
-            className="pr-3"
+            className="pr-3 pt-3"
             src={require('../../images/default-source/footer_img/fifth.png')}
           ></img>
           <img
-            className="pr-3"
+            className="pr-3 pt-3"
             src={require('../../images/default-source/footer_img/fourth.png')}
           ></img>
           <img
-            className="pr-3"
+            className="pr-3 pt-3"
             src={require('../../images/default-source/footer_img/sixth.png')}
           ></img>
         </MDBRow>

@@ -91,45 +91,53 @@ const TravelPlan = forwardRef((props, ref) => {
     setTravelPlan((prevState) => ({
       ...prevState,
       applicantNumber: prevInfo ? prevInfo.applicantNumber : null,
-      travelDate: prevInfo ? prevInfo.travelDate : null,
+      travelDate: prevInfo ? new Date(prevInfo.travelDate) : null,
       ticketNumber: prevInfo ? prevInfo.ticketNumber : null,
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
     }));
   }, []);
 
   return (
-    <Card>
-      <Card.Body>
-        <blockquote className="blockquote mb-0">
-          <Form>
-            <Form.Row>
-              <Form.Group as={Col} md="4" controlId="date">
-                <Form.Label>
-                  Travel Date<i style={{ color: 'red' }}>*</i>
-                </Form.Label>
-                <Form.Control
-                  type="date"
-                  name="travelDate"
-                  defaultValue={prevInfo ? prevInfo.travelDate : null}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group as={Col} md="4" controlId="ticketNumber">
-                <Form.Label>
-                  Ticket Number<i style={{ color: 'red' }}>*</i>
-                </Form.Label>
-                <Form.Control
-                  type="text"
-                  name="ticketNumber"
-                  defaultValue={prevInfo ? prevInfo.ticketNumber : null}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-            </Form.Row>
-          </Form>
-        </blockquote>
-      </Card.Body>
-    </Card>
+    <blockquote className=" mb-0">
+      <form>
+        <MDBRow>
+          <MDBCol md="4">
+            <MDBCol>
+              <MDBInput
+                label="Travel Date"
+                group
+                type="date"
+                name="date"
+                validate
+                error="wrong"
+                success="right"
+                valueDefault={
+                  prevInfo
+                    ? new Date(prevInfo.travelDate).toISOString().substr(0, 10)
+                    : null
+                }
+                onChange={handleChange}
+              />
+            </MDBCol>
+          </MDBCol>
+          <MDBCol md="4">
+            <MDBCol>
+              <MDBInput
+                label="Ticket Number"
+                group
+                type="text"
+                name="ticketNumber"
+                validate
+                error="wrong"
+                success="right"
+                valueDefault={prevInfo ? prevInfo.ticketNumber : null}
+                onChange={handleChange}
+              />
+            </MDBCol>
+          </MDBCol>
+        </MDBRow>
+      </form>
+    </blockquote>
   );
 });
 export default TravelPlan;

@@ -146,9 +146,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
           enrolmentDate: personalInfo ? personalInfo.enrolmentDate : null,
 
-          birthCountry: personalInfo ? personalInfo.birthCountry : null,
-
-          birthCity: personalInfo ? personalInfo.birthCity : null,
+          birthPlace: personalInfo ? personalInfo.birthPlace : null,
 
           flightDate: travelPlanInfo ? travelPlanInfo.flightDate : null,
 
