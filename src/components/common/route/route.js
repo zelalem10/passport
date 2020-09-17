@@ -13,6 +13,7 @@ import ApplicationList from '../../Application List/ApplicationList';
 import FAQ from '../../Help and Support/FAQ';
 import Status from '../../Status/Status';
 import ServiceSelection from '../../Request Appointment/ServiceSelection';
+import PayWithPSS from '../../Payment/PayWithPSS';
 
 function PassportRoute() {
   return (
@@ -29,6 +30,7 @@ function PassportRoute() {
       <Route path="/Application-List" component={ApplicationList} />
       <Route path="/Faq" component={FAQ} />
       <Route path="/Status" component={Status} />
+      <Route path="/Pay_With_PSS" component={PayWithPSS} />
       {/* <Status loading={loading} /> */}
     </>
   );

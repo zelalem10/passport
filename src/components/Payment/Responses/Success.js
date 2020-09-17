@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardHeader, MDBCardFooter
     , MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import { FcApproval } from "react-icons/fc";
-const SuccessResponse = () => {
+import { FcDisapprove } from "react-icons/fc";
+const SuccessResponse = (props) => {
+
+  useEffect(() => {
+}, [])
 return (
 <MDBContainer>
 <MDBRow>
@@ -11,22 +15,14 @@ return (
 </MDBCol>
 <MDBCol md="6">
 <MDBCard style={{marginTop: "1rem" }} className="text-center">
-    <MDBCardHeader color="success-color"><FcApproval /> Payment completed</MDBCardHeader>
+{props.status===1?(<MDBCardHeader color="success-color"><FcApproval /> Payment completed</MDBCardHeader>):
+(<MDBCardHeader color="danger-color"><FcDisapprove /> Payment not completed</MDBCardHeader>)}
     <MDBCardBody>
-      <MDBCardTitle>Special title treatment</MDBCardTitle>
-      <MDBCardText>
-        With supporting text below as a natural lead-in to additional
-        content.
-        With supporting text below as a natural lead-in to additional
-        content.
-        With supporting text below as a natural lead-in to additional
-        content.
-      </MDBCardText>
+      <MDBCardTitle>{props.message}</MDBCardTitle>
+      <MDBCardText>{props.instruction}</MDBCardText>
     </MDBCardBody>
   </MDBCard>
-
 </MDBCol>
-
 </MDBRow>
 </MDBContainer>
 );

@@ -7,22 +7,26 @@ import ErrorPage from './Responses/ErrorPage'
 import WarningPage from './Responses/WarningPage'
 import API from '../Utils/API'
 import token from '../common/accessToken'
+import loader from '../common/loader'
 
 
 const CardExample = () => {
     const [resquestSent, setResquestSent] = useState(false);
     const [requestSubmited, setRequestSubmited] = useState(false);
     const [returnBack, setReturnBack] = useState(false)
-    const [response, setResponse]=useState("warning")
+    const [isLoading, setIsLoading] = useState(false)
+    const [response, setResponse]=useState("")
     const [otp, setOTP] = useState("")
 
     function getResponseContent() {
         switch (response) {
-          case "success":
+          case "Success":
             return <SuccessPage />;
-          case "error":
+          case "Validation Error":
             return <ErrorPage />;
-          case "warning":
+          case "Error":
+            return <ErrorPage />;
+          case "Warning":
             return <WarningPage />;
           default:
             return 'Unknown stepIndex';
@@ -55,8 +59,13 @@ const CardExample = () => {
             otp: "",
             requestId: 3,
         };
-        API.post("http://svdrbas03:2026/Amole/api/V1.0/Amole/RequestPay", body, config)
-            .then((todo) => console.log(todo.data))
+        setIsLoading(true)
+        API.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
+            .then((todo) => 
+            {
+                setIsLoading(false)
+                console.log(todo.data)
+            })
             .catch((err) => {
                 console.log("AXIOS ERROR: ", err.response);
             })
@@ -83,10 +92,13 @@ const CardExample = () => {
             otp: otp,
             requestId: 3,
         };
-        API.post("http://svdrbas03:2026/Amole/api/V1.0/Amole/RequestPay", body, config)
+        setIsLoading(true)
+        API.post("http://svdrbas03:2222/Payment/api/V1.0/Payment/OrderRequest", body, config)
             .then((todo) => 
             {
+                setIsLoading(false)
                 console.log(todo.data)
+                setResponse(todo.data.status)
                 setRequestSubmited(true)
             })
             .catch((err) => {
@@ -94,6 +106,8 @@ const CardExample = () => {
             })
     }
     return (
+        isLoading==true? (<loader />)
+        :(
         requestSubmited==true? (getResponseContent())
         :(returnBack === true ? (<PaymentSelection />) 
         : (<MDBRow>
@@ -168,6 +182,9 @@ const CardExample = () => {
             </MDBRow>
             )
         )
+        )
+
+
         )
 }
 

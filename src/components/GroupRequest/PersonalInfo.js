@@ -117,7 +117,7 @@ const PersonalInfo = forwardRef((props, ref) => {
             birthCity: prevInfo ? prevInfo.birthCity : "",
             birthDate: prevInfo ? prevInfo.birthDate : "",
             height: prevInfo ? prevInfo.height : "",
-            gender: prevInfo ? prevInfo.gender : "",
+            gender: prevInfo ? prevInfo.gender : "1",
             eyeColor: prevInfo ? prevInfo.eyeColor : "",
             hairColor: prevInfo ? prevInfo.hairColor : "",
             occupation: prevInfo ? prevInfo.occupation : "",
