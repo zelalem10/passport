@@ -5,24 +5,13 @@ import React, {
   forwardRef,
 } from 'react';
 import { MDBRow, MDBCol, MDBInput } from 'mdbreact';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import Container from '@material-ui/core/Container';
-
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Form, Card, Row } from 'react-bootstrap';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import addPersonalInfo from '../../../../redux/actions/addPersonalInfoAction';
-
-import updatePersonalInfo from '../../../../redux/actions/updatePersonalInfoAction';
-import { object } from 'prop-types';
 
 const PersonalInfo = forwardRef((props, ref) => {
   const { applicants } = props;
@@ -177,6 +166,27 @@ const PersonalInfo = forwardRef((props, ref) => {
       formCompleted: prevInfo ? prevInfo.formCompleted : null,
     }));
   }, []);
+  const [selectedDate, setSelectedDate] = React.useState(
+    new Date(prevInfo ? prevInfo.birthDate : '2014-08-18T21:11:54')
+  );
+  const [selectedEnrollmentDate, setSelectedEnrollmentDate] = React.useState(
+    new Date(prevInfo ? prevInfo.enrolmentDate : '2014-08-18T21:11:54')
+  );
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    setPersonalInfo((prevState) => ({
+      ...prevState,
+      birthDate: date,
+    }));
+  };
+  const handleEnrollmentDateChange = (date) => {
+    setSelectedEnrollmentDate(date);
+    setPersonalInfo((prevState) => ({
+      ...prevState,
+      enrolmentDate: date,
+    }));
+  };
   return (
     <blockquote className=" mb-0">
       <form>
@@ -204,30 +214,23 @@ const PersonalInfo = forwardRef((props, ref) => {
                 type="text"
                 label="ስም"
               />
-              <span style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.geezFirstName == true &&
-                personalInfo.dataSaved == true
-                  ? 'የአመልካቹ ስም አስፈላጊ ነው'
-                  : null}
-              </span>
             </MDBCol>
-            <MDBCol>
-              <MDBInput
-                label="Date of birth"
-                group
-                type="Date"
-                name="birthDate"
-                validate
-                error="wrong"
-                success="right"
-                valueDefault={
-                  prevInfo
-                    ? new Date(prevInfo.birthDate).toISOString().substr(0, 10)
-                    : null
-                }
-                onChange={handleChange}
-              />
+            <MDBCol className="date-picker">
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  id="date-picker-inline"
+                  label="Date of birth"
+                  value={selectedDate}
+                  onChange={handleDateChange}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change date',
+                  }}
+                />
+              </MuiPickersUtilsProvider>
             </MDBCol>
             <MDBCol>
               <MDBInput
@@ -291,13 +294,6 @@ const PersonalInfo = forwardRef((props, ref) => {
                 type="text"
                 label="የአባት ስም"
               />
-              <span style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.geezMiddleName == true &&
-                personalInfo.dataSaved == true
-                  ? 'የአባት ስም አስፈላጊ ነው'
-                  : null}
-              </span>
             </MDBCol>
             <MDBCol>
               <MDBInput
@@ -359,62 +355,56 @@ const PersonalInfo = forwardRef((props, ref) => {
                 type="text"
                 label="የአያት ስም"
               />
-              <span style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.geezLastName == true &&
-                personalInfo.dataSaved == true
-                  ? 'የአያት ስም አስፈላጊ ነው'
-                  : null}
-              </span>
             </MDBCol>
-            <div
-              className="md-form form-group passport-select"
-              style={{ 'margin-bottom': '2.5rem' }}
-            >
-              <select
-                name="gender"
-                onChange={handleChange}
-                className="browser-default custom-select"
-                defaultValue={prevInfo ? prevInfo.gender : null}
+            <MDBCol>
+              <div
+                className="md-form form-group passport-select"
+                style={{ 'margin-bottom': '2.5rem' }}
               >
-                <option style={{ display: 'none' }}>Gender</option>
-                <option value="1">Male</option>
-                <option value="0">Female</option>
-              </select>
-            </div>
-
-            <MDBInput
-              label="Enrollment Date"
-              group
-              type="Date"
-              name="enrolmentDate"
-              validate
-              error="wrong"
-              success="right"
-              valueDefault={
-                prevInfo
-                  ? new Date(prevInfo.enrolmentDate).toISOString().substr(0, 10)
-                  : null
-              }
-              onChange={handleChange}
-            />
-            <MDBInput
-              label="Hair Color"
-              group
-              type="text"
-              name="hairColor"
-              validate
-              error="wrong"
-              success="right"
-              valueDefault={prevInfo ? prevInfo.hairColor : null}
-              onChange={handleChange}
-            />
+                <select
+                  name="gender"
+                  onChange={handleChange}
+                  className="browser-default custom-select"
+                  defaultValue={prevInfo ? prevInfo.gender : null}
+                >
+                  <option style={{ display: 'none' }}>Gender</option>
+                  <option value="1">Male</option>
+                  <option value="0">Female</option>
+                </select>
+              </div>
+            </MDBCol>
+            <MDBCol className="date-picker">
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  id="date-picker-inline"
+                  label="Enrollment Date"
+                  value={selectedEnrollmentDate}
+                  onChange={handleEnrollmentDateChange}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change date',
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+            </MDBCol>
+            <MDBCol>
+              <MDBInput
+                label="Hair Color"
+                group
+                type="text"
+                name="hairColor"
+                validate
+                error="wrong"
+                success="right"
+                valueDefault={prevInfo ? prevInfo.hairColor : null}
+                onChange={handleChange}
+              />
+            </MDBCol>
           </MDBCol>
         </MDBRow>
-        {/* <MDBRow>
-                            <MDBCol md="5"></MDBCol>
-                            <MDBBtn color="success" onClick={handleSave}>Save</MDBBtn>
-                        </MDBRow> */}
       </form>
     </blockquote>
   );

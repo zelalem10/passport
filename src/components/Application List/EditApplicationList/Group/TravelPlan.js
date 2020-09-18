@@ -4,22 +4,14 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from 'react';
-import {
-  MDBRow,
-  MDBCol,
-  MDBInput,
-  MDBCard,
-  MDBCardBody,
-  MDBCardText,
-  MDBCardTitle,
-} from 'mdbreact';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import Container from '@material-ui/core/Container';
-import Input from '@material-ui/core/Input';
+import { MDBRow, MDBCol, MDBInput } from 'mdbreact';
 import addTravelPlan from '../../../../redux/actions/addTravelPlanAction';
-import { Form, Card, Row, Col, InputGroup, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 const TravelPlan = forwardRef((props, ref) => {
   const [validated, setValidated] = useState(false);
@@ -96,28 +88,39 @@ const TravelPlan = forwardRef((props, ref) => {
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
     }));
   }, []);
+  const [selectedTravelDate, setSelectedTravelDate] = React.useState(
+    new Date(prevInfo ? prevInfo.travelDate : '2014-08-18T21:11:54')
+  );
+
+  const handleTravelDateChange = (date) => {
+    setSelectedTravelDate(date);
+    setTravelPlan((prevState) => ({
+      ...prevState,
+      travelDate: date,
+    }));
+  };
 
   return (
     <blockquote className=" mb-0">
       <form>
         <MDBRow>
           <MDBCol md="4">
-            <MDBCol>
-              <MDBInput
-                label="Travel Date"
-                group
-                type="date"
-                name="date"
-                validate
-                error="wrong"
-                success="right"
-                valueDefault={
-                  prevInfo
-                    ? new Date(prevInfo.travelDate).toISOString().substr(0, 10)
-                    : null
-                }
-                onChange={handleChange}
-              />
+            <MDBCol className="travel-date-picker">
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  id="date-picker-inline"
+                  label="Enrollment Date"
+                  value={selectedTravelDate}
+                  onChange={handleTravelDateChange}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change date',
+                  }}
+                />
+              </MuiPickersUtilsProvider>
             </MDBCol>
           </MDBCol>
           <MDBCol md="4">

@@ -119,7 +119,6 @@ const FamilyInformation = forwardRef((props, ref) => {
     addFamilyInformationToArray();
   };
   const addFamilyInformationToArray = () => {
-    debugger;
     axios({
       headers: {
         Authorization: 'Bearer ' + accesstoken,
@@ -176,10 +175,8 @@ const FamilyInformation = forwardRef((props, ref) => {
     var array = [...familiesInfo];
     array.splice(index, 1);
     setFamiliesInfo(array);
-    console.log(familiesInfo);
   };
   const editFamilyMember = (familyid, index) => {
-    debugger;
     let editableFamilyInfo = getIndex(index);
     setEditdata((prevState) => ({
       ...prevState,
@@ -208,7 +205,7 @@ const FamilyInformation = forwardRef((props, ref) => {
         firstName: editdata.fName,
         lastName: editdata.lName,
         familtyType: editdata.familyType,
-        familtyTypeId: editdata.familtyTypeId,
+        familtyTypeId: parseInt(editdata.familtyTypeId),
       },
     ]);
   };

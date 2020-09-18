@@ -27,6 +27,7 @@ import FamilyInformation from './family/familyInformation';
 import { useDispatch, useSelector } from 'react-redux';
 
 import API from '../../Utils/API';
+import { MDBContainer, MDBCard } from 'mdbreact';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -128,6 +129,10 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
           lastName: personalInfo ? personalInfo.lastName : null,
 
+          geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
+          geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
+          geezLastName: personalInfo ? personalInfo.geezLastName : null,
+
           dateOfBirth: personalInfo ? personalInfo.dateOfBirth : null,
 
           gender: personalInfo ? personalInfo.gender : null,
@@ -148,10 +153,8 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
           birthPlace: personalInfo ? personalInfo.birthPlace : null,
 
-          flightDate: travelPlanInfo ? travelPlanInfo.flightDate : null,
-
-          flightNumber: travelPlanInfo ? travelPlanInfo.flightNumber : null,
-
+          flightDate: travelPlanInfo.travelDate,
+          flightNumber: travelPlanInfo.ticketNumber,
           photoPath: '',
 
           employeeID: '',
@@ -254,66 +257,132 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   }
 
   return (
-    <div className={classes.root} style={{ marginBottom: '5rem' }}>
-      <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-
-      <div>
-        {activeStep === steps.length ? (
-          <div>
-            <Typography className={classes.instructions}>
-              All steps completed
-            </Typography>
-
-            <Button onClick={handleReset}>Reset</Button>
+    <MDBContainer className="passport-container pt-3" fluid>
+      <div class="div-title text-center mywizardcss pt-3 pb-3">
+        <div className="header-display">
+          <div class="form-group form-inline passport-display">
+            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+              Request Type:
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>
+              <label class="font-weight-bold">
+                {displayedApplication.type}
+              </label>
+            </b>
           </div>
-        ) : (
-          <div>
-            <Typography className={classes.instructions}>
-              {getStepContent(activeStep)}
-            </Typography>
-
-            <Grid container spacing={1}>
-              <Grid item xs={3}>
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  className={classes.backButton}
-                >
-                  Back
-                </Button>
-              </Grid>
-
-              <hr></hr>
-
-              <Grid item xs={1}>
-                {activeStep === steps.length - 1 ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleFinish}
-                  >
-                    Finish
-                  </Button>
-                ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                  >
-                    Next
-                  </Button>
-                )}
-              </Grid>
-            </Grid>
+          <div class="form-group form-inline passport-display">
+            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+              Request Status:
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>
+              <label class="font-weight-bold">
+                {displayedApplication.requestStatus}
+              </label>
+            </b>
           </div>
-        )}
+          <div class="form-group form-inline passport-display">
+            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+              Request Date:{' '}
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>
+              <label class="font-weight-bold">
+                {new Date(displayedApplication.requestDate)
+                  .toISOString()
+                  .substr(0, 10)}
+              </label>
+            </b>
+          </div>
+          <div class="form-group form-inline passport-display">
+            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+              Appointement Date:{' '}
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>
+              <label class="font-weight-bold">
+                {new Date(displayedApplication.appointementDate)
+                  .toISOString()
+                  .substr(0, 10)}
+              </label>
+            </b>
+          </div>
+        </div>
       </div>
-    </div>
+      <MDBCard style={{ marginBottom: '1rem' }}>
+        <div className={classes.root} style={{ marginBottom: '5rem' }}>
+          <Stepper activeStep={activeStep} alternativeLabel>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+
+          <div>
+            {activeStep === steps.length ? (
+              <div>
+                <Typography className={classes.instructions}>
+                  All steps completed
+                </Typography>
+
+                <Button onClick={handleReset}>Reset</Button>
+              </div>
+            ) : (
+              <div>
+                <Typography className={classes.instructions}>
+                  {getStepContent(activeStep)}
+                </Typography>
+
+                <Grid container spacing={1}>
+                  <Grid item xs={3}>
+                    {activeStep === 0 ? (
+                      <div></div>
+                    ) : (
+                      <div className="multistep-form__step">
+                        <a
+                          class="button hollow gray vertical-margin-2 ng-star-inserted"
+                          onClick={handleBack}
+                        >
+                          <i class="fas fa-arrow-left"></i> Previous
+                          <span class="show-for-medium"> Screen</span>
+                        </a>
+                      </div>
+                    )}
+                  </Grid>
+
+                  <hr></hr>
+
+                  <Grid item xs={1}>
+                    {activeStep === steps.length - 1 ? (
+                      <div className="multistep-form__step">
+                        <a
+                          class="specialty-next-step button float-right vertical-margin-2"
+                          onClick={handleFinish}
+                        >
+                          {' '}
+                          Finish
+                        </a>
+                      </div>
+                    ) : (
+                      <div className="multistep-form__step">
+                        <a
+                          class="specialty-next-step button float-right vertical-margin-2"
+                          onClick={handleNext}
+                        >
+                          {' '}
+                          Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                      </div>
+                    )}
+                  </Grid>
+                </Grid>
+              </div>
+            )}
+          </div>
+        </div>
+      </MDBCard>
+    </MDBContainer>
   );
 }

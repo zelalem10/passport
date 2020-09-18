@@ -214,7 +214,6 @@ const FamilyInformation = forwardRef((props, ref) => {
     var array = [...familiesInfo];
     array.splice(index, 1);
     setFamiliesInfo(array);
-    console.log(familiesInfo);
   };
   const editFamilyMember = (familyid, index) => {
     let editableFamilyInfo = getIndex(index);
@@ -245,7 +244,7 @@ const FamilyInformation = forwardRef((props, ref) => {
         firstName: editdata.fName,
         lastName: editdata.lName,
         familtyType: editdata.familyType,
-        familtyTypeId: editdata.familtyTypeId,
+        familtyTypeId: parseInt(editdata.familtyTypeId),
       },
     ]);
   };

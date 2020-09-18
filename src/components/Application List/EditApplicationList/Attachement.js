@@ -124,7 +124,7 @@ export default function FileUpload() {
   }
 
   return (
-    <MDBContainer className="passport-container pt-3" fluid>
+    <>
       {emptyError ? (
         <div className="red-text" style={Errorstyle}>
           {emptyError}
@@ -252,6 +252,6 @@ export default function FileUpload() {
           </MDBBtn>
         </div>
       </form>
-    </MDBContainer>
+    </>
   );
 }

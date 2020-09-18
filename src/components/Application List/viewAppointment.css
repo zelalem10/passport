@@ -36,6 +36,12 @@ legend {
   font-family: Georgia, 'Times New Roman', serif;
   font-weight: bold;
 }
+.view-appointment-group legend {
+  font-size: 1.25rem;
+}
+.view-appointment-group .form-inline {
+  margin-left: 2%;
+}
 label {
   padding-left: lOpx;
 }
@@ -64,4 +70,19 @@ label {
 .passport-select .custom-select:focus {
   box-shadow: unset !important;
   border-bottom: 1px solid #4285f4 !important;
+}
+.date-picker .MuiFormControl-marginNormal {
+  margin-top: unset !important;
+  margin-bottom: unset !important;
+}
+.date-picker [type='text'] {
+  box-shadow: unset !important;
+}
+.travel-date-picker [type='text'] {
+  box-shadow: unset !important;
+}
+@media only screen and (max-width: 580px) {
+  .passport-display .col-sm-4 {
+    width: 38% !important;
+  }
 }

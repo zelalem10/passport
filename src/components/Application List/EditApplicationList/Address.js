@@ -4,8 +4,8 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from 'react';
-import { MDBContainer } from 'mdbreact';
-import { Form, Card, Row, Col, InputGroup, Button } from 'react-bootstrap';
+import { MDBContainer, MDBCol, MDBInput, MDBRow } from 'mdbreact';
+import { Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import addAddressInfo from '../../../redux/actions/addAddressInfoAction';
 
@@ -79,198 +79,164 @@ const Address = forwardRef((props, ref) => {
     }));
   }, []);
   return (
-    <MDBContainer className="passport-container pt-3" fluid>
-      <Card>
         <Card.Body>
-          <blockquote className="blockquote mb-0">
-            <Form>
-              <Form.Row>
-                <Form.Group as={Col} md="3" controlId="validationCustom02">
-                  <Form.Label>
-                    Country<i style={{ color: 'red' }}>*</i>
-                  </Form.Label>
-                  <Form.Control
-                    required
-                    name="country"
-                    type="text"
-                    placeholder="Country"
-                    defaultValue={prevInfo ? prevInfo.country : null}
-                    onChange={handleChange}
-                  />
-                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} md="3" controlId="validationCustom03">
-                  <Form.Label>
-                    City<i style={{ color: 'red' }}>*</i>
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="city"
-                    placeholder="City"
-                    required
-                    defaultValue={prevInfo ? prevInfo.city : null}
-                    onChange={handleChange}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please provide a valid city.
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} md="3" controlId="validationCustom04">
-                  <Form.Label>
-                    State<i style={{ color: 'red' }}>*</i>
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="state"
-                    placeholder="State"
-                    required
-                    defaultValue={prevInfo ? prevInfo.state : null}
-                    onChange={handleChange}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please provide a valid state.
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} md="3" controlId="validationCustom04">
-                  <Form.Label>
-                    Zone<i style={{ color: 'red' }}>*</i>
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="zone"
-                    placeholder="Zone"
-                    required
-                    defaultValue={prevInfo ? prevInfo.zone : null}
-                    onChange={handleChange}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please provide a valid state.
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Form.Row>
+          <blockquote className=" mb-0">
+            <form>
+              <MDBRow>
+                <MDBCol md="4">
+                  <MDBCol>
+                    <MDBInput
+                      label="Country"
+                      group
+                      type="text"
+                      name="country"
+                      validate
+                      error="wrong"
+                      success="right"
+                      valueDefault={prevInfo ? prevInfo.country : null}
+                      onChange={handleChange}
+                    />
+                  </MDBCol>
+                  <MDBCol>
+                    <MDBInput
+                      label="City"
+                      group
+                      type="text"
+                      name="city"
+                      validate
+                      error="wrong"
+                      success="right"
+                      valueDefault={prevInfo ? prevInfo.city : null}
+                      onChange={handleChange}
+                    />
+                  </MDBCol>
+                  <MDBCol>
+                    <MDBInput
+                      label="State"
+                      group
+                      type="text"
+                      name="state"
+                      validate
+                      error="wrong"
+                      success="right"
+                      valueDefault={prevInfo ? prevInfo.state : null}
+                      onChange={handleChange}
+                    />
+                  </MDBCol>
+                  <MDBCol>
+                    <MDBInput
+                      label="Email"
+                      group
+                      type="email"
+                      name="email"
+                      validate
+                      error="wrong"
+                      success="right"
+                      valueDefault={prevInfo ? prevInfo.email : null}
+                      onChange={handleChange}
+                    />
+                  </MDBCol>
+                </MDBCol>
+                <MDBCol md="4">
+                  <MDBCol>
+                    <MDBInput
+                      label="Zone"
+                      group
+                      type="text"
+                      name="zone"
+                      validate
+                      error="wrong"
+                      success="right"
+                      valueDefault={prevInfo ? prevInfo.zone : null}
+                      onChange={handleChange}
+                    />
+                  </MDBCol>
+                  <MDBCol>
+                    <MDBInput
+                      label="Wereda"
+                      group
+                      type="text"
+                      name="woreda"
+                      validate
+                      error="wrong"
+                      success="right"
+                      valueDefault={prevInfo ? prevInfo.woreda : null}
+                      onChange={handleChange}
+                    />
+                  </MDBCol>
+                  <MDBCol>
+                    <MDBInput
+                      label="Street"
+                      group
+                      type="text"
+                      name="street"
+                      validate
+                      error="wrong"
+                      success="right"
+                      valueDefault={prevInfo ? prevInfo.street : null}
+                      onChange={handleChange}
+                    />
+                  </MDBCol>
+                  <MDBCol>
+                    <MDBInput
+                      label="Request Place"
+                      group
+                      type="text"
+                      name="requestPlace"
+                      validate
+                      error="wrong"
+                      success="right"
+                      valueDefault={prevInfo ? prevInfo.requestPlace : null}
+                      onChange={handleChange}
+                    />
+                  </MDBCol>
+                </MDBCol>
+                <MDBCol md="4">
+                  <MDBCol>
+                    <MDBInput
+                      label="HouseNo"
+                      group
+                      type="text"
+                      name="houseNo"
+                      validate
+                      error="wrong"
+                      success="right"
+                      valueDefault={prevInfo ? prevInfo.houseNo : null}
+                      onChange={handleChange}
+                    />
+                  </MDBCol>
+                  <MDBCol>
+                    <MDBInput
+                      label="PoBox"
+                      group
+                      type="text"
+                      name="poBox"
+                      validate
+                      error="wrong"
+                      success="right"
+                      valueDefault={prevInfo ? prevInfo.poBox : null}
+                      onChange={handleChange}
+                    />
+                  </MDBCol>
 
-              <Form.Row>
-                <Form.Group as={Col} md="3" controlId="validationCustom02">
-                  <Form.Label>
-                    Wereda<i style={{ color: 'red' }}>*</i>
-                  </Form.Label>
-                  <Form.Control
-                    required
-                    name="woreda"
-                    type="text"
-                    placeholder="Woreda"
-                    defaultValue={prevInfo ? prevInfo.woreda : null}
-                    onChange={handleChange}
-                  />
-                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} md="3" controlId="validationCustom03">
-                  <Form.Label>
-                    Street<i style={{ color: 'red' }}>*</i>
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="street"
-                    placeholder="Street"
-                    required
-                    defaultValue={prevInfo ? prevInfo.street : null}
-                    onChange={handleChange}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please provide a valid city.
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} md="3" controlId="validationCustom04">
-                  <Form.Label>
-                    HouseNo<i style={{ color: 'red' }}>*</i>
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="houseNo"
-                    placeholder="HouseNo"
-                    required
-                    defaultValue={prevInfo ? prevInfo.houseNo : null}
-                    onChange={handleChange}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please provide a valid state.
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} md="3" controlId="validationCustom04">
-                  <Form.Label>
-                    PoBox<i style={{ color: 'red' }}>*</i>
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="poBox"
-                    placeholder="PoBox"
-                    required
-                    defaultValue={prevInfo ? prevInfo.poBox : null}
-                    onChange={handleChange}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please provide a valid state.
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Form.Row>
-
-              <Form.Row>
-                <Form.Group as={Col} md="3" controlId="validationCustom02">
-                  <Form.Label>
-                    Phone Number<i style={{ color: 'red' }}>*</i>
-                  </Form.Label>
-                  <Form.Control
-                    required
-                    name="phoneNumber"
-                    type="text"
-                    placeholder="PhoneNumber"
-                    defaultValue={prevInfo ? prevInfo.phoneNumber : null}
-                    onChange={handleChange}
-                  />
-                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} md="3" controlId="validationCustom03">
-                  <Form.Label>
-                    Email<i style={{ color: 'red' }}>*</i>
-                  </Form.Label>
-                  <Form.Control
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    required
-                    defaultValue={prevInfo ? prevInfo.email : null}
-                    onChange={handleChange}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please provide a valid city.
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} md="3" controlId="validationCustom04">
-                  <Form.Label>
-                    Request Place<i style={{ color: 'red' }}>*</i>
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="requestPlace"
-                    placeholder="Request Place"
-                    required
-                    defaultValue={prevInfo ? prevInfo.requestPlace : null}
-                    onChange={handleChange}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please provide a valid state.
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Form.Row>
-              {/* <Row>
-                            <Col md="5"></Col>
-                            <Button variant="success"  onClick={handleSave}>Save</Button>
-                        </Row> */}
-            </Form>
+                  <MDBCol>
+                    <MDBInput
+                      label="Phone Number"
+                      group
+                      type="text"
+                      name="phoneNumber"
+                      validate
+                      error="wrong"
+                      success="right"
+                      valueDefault={prevInfo ? prevInfo.phoneNumber : null}
+                      onChange={handleChange}
+                    />
+                  </MDBCol>
+                </MDBCol>
+              </MDBRow>
+            </form>
           </blockquote>
         </Card.Body>
-      </Card>
-    </MDBContainer>
   );
 });
 

@@ -4,10 +4,14 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from 'react';
-import { MDBContainer } from 'mdbreact';
-import { Form, Card, Col } from 'react-bootstrap';
+import { MDBRow, MDBCol, MDBInput, MDBCardBody } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addTravelPlan from '../../../redux/actions/addTravelPlanAction';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 const TravelPlan = forwardRef((props, ref) => {
   const [validated, setValidated] = useState(false);
@@ -43,7 +47,6 @@ const TravelPlan = forwardRef((props, ref) => {
       ...prevState,
       [name]: value,
     }));
-    dispatch(addTravelPlan(travelPlan));
   };
   var prevInfo = counter.travelPlan[counter.travelPlan.length - 1];
   useEffect(() => {
@@ -54,48 +57,61 @@ const TravelPlan = forwardRef((props, ref) => {
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
     }));
   }, []);
+  const [selectedTravelDate, setSelectedTravelDate] = React.useState(
+    new Date(prevInfo ? prevInfo.travelDate : '2014-08-18T21:11:54')
+  );
+
+  const handleTravelDateChange = (date) => {
+    setSelectedTravelDate(date);
+    setTravelPlan((prevState) => ({
+      ...prevState,
+      travelDate: date,
+    }));
+  };
 
   return (
-    <MDBContainer className="passport-container pt-3" fluid>
-      <Card>
-        <Card.Body>
-          <blockquote className="blockquote mb-0">
-            <Form>
-              <Form.Row>
-                <Form.Group as={Col} md="4" controlId="date">
-                  <Form.Label>
-                    Travel Date<i style={{ color: 'red' }}>*</i>
-                  </Form.Label>
-                  <Form.Control
-                    type="date"
-                    name="travelDate"
-                    defaultValue={
-                      prevInfo
-                        ? new Date(prevInfo.travelDate)
-                            .toISOString()
-                            .substr(0, 10)
-                        : null
-                    }
-                    onChange={handleChange}
+    <MDBCardBody>
+      <blockquote className=" mb-0">
+        <form>
+          <MDBRow>
+            <MDBCol md="4">
+              <MDBCol className="travel-date-picker">
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    id="date-picker-inline"
+                    label="Enrollment Date"
+                    value={selectedTravelDate}
+                    onChange={handleTravelDateChange}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
                   />
-                </Form.Group>
-                <Form.Group as={Col} md="4" controlId="ticketNumber">
-                  <Form.Label>
-                    Ticket Number<i style={{ color: 'red' }}>*</i>
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="ticketNumber"
-                    defaultValue={prevInfo ? prevInfo.ticketNumber : null}
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-              </Form.Row>
-            </Form>
-          </blockquote>
-        </Card.Body>
-      </Card>
-    </MDBContainer>
+                </MuiPickersUtilsProvider>
+              </MDBCol>
+            </MDBCol>
+            <MDBCol md="4">
+              <MDBCol>
+                <MDBInput
+                  label="Ticket Number"
+                  group
+                  type="text"
+                  name="ticketNumber"
+                  validate
+                  error="wrong"
+                  success="right"
+                  valueDefault={prevInfo ? prevInfo.ticketNumber : null}
+                  onChange={handleChange}
+                />
+              </MDBCol>
+            </MDBCol>
+          </MDBRow>
+        </form>
+      </blockquote>
+    </MDBCardBody>
   );
 });
 

@@ -104,7 +104,7 @@ export default function GroupRequestStepper(props) {
     >
       <div class="div-title text-center mywizardcss pt-3 pb-3">
         <div className="header-display">
-          <div class="form-group form-inline">
+          <div class="form-group form-inline passport-display">
             <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
               Request Type:
             </label>
@@ -115,7 +115,7 @@ export default function GroupRequestStepper(props) {
               </label>
             </b>
           </div>
-          <div class="form-group form-inline">
+          <div class="form-group form-inline passport-display">
             <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
               Request Status:
             </label>
@@ -126,7 +126,7 @@ export default function GroupRequestStepper(props) {
               </label>
             </b>
           </div>
-          <div class="form-group form-inline">
+          <div class="form-group form-inline passport-display">
             <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
               Request Date:{' '}
             </label>
@@ -139,7 +139,7 @@ export default function GroupRequestStepper(props) {
               </label>
             </b>
           </div>
-          <div class="form-group form-inline">
+          <div class="form-group form-inline passport-display">
             <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
               Appointement Date:{' '}
             </label>

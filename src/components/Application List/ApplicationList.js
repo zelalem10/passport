@@ -7,6 +7,7 @@ import ListOfApplications from './listOfApplications';
 import ViewAppointment from './viewAppointment';
 import HorizontalLabelPositionBelowStepper from './EditApplicationList/PersonslInfoStepper';
 import GroupRequestStepper from './EditApplicationList/Group/GroupNavigation';
+import RescheduleAppointment from './Rescheduleappointment/appointmentDate';
 
 function ApplicationList() {
   const accesstoken = localStorage.systemToken;
@@ -23,6 +24,7 @@ function ApplicationList() {
   const [isEdit, setIsEdit] = useState(false);
   const [isGroup, setIsGroup] = useState(false);
   const [numOfApplicants, setNumOfApplicants] = useState(0);
+  const [handleDisplayId, sethandleDisplayId] = useState('');
 
   const handleDisplay = (id) => {
     setDisplayRequestId(id);
@@ -36,6 +38,9 @@ function ApplicationList() {
     }
     setDisplayRequestId(id);
     setIsEdit(true);
+  };
+  const handleReschedule = (id) => {
+    sethandleDisplayId(id);
   };
 
   function openModal() {
@@ -71,7 +76,9 @@ function ApplicationList() {
         setOpen(false);
       });
   }
-  if (!displayRequestId && !isEdit) {
+  if (handleDisplayId) {
+    return <RescheduleAppointment handleDisplayId={handleDisplayId} />;
+  } else if (!displayRequestId && !isEdit) {
     return (
       <ListOfApplications
         users={users}
@@ -81,6 +88,7 @@ function ApplicationList() {
         open={open}
         handleDisplay={handleDisplay}
         handleEdit={handleEdit}
+        handleReschedule={handleReschedule}
       />
     );
   } else if (displayRequestId && isEdit && !isGroup) {
