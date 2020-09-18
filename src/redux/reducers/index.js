@@ -12,6 +12,7 @@ import travelPlan from './travelPlanReducer'
 import groupPersonalInfo from './GroupRequest/groupPersonalInfoReducer'
 import applicationList from './applicationListReducer';
 import editFamilyData from './editAddFamilyReducer';
+import commonData from './commonDataReducer';
 const rootReducer = combineReducers({
   service,
   familyReducer,
@@ -25,5 +26,6 @@ const rootReducer = combineReducers({
   groupPersonalInfo,
   attachmentData,
   editFamilyData,
+  commonData,
 });
 export default rootReducer;

@@ -32,13 +32,11 @@ function FamilyInformation() {
   });
   const [familyType, setFamilyType] = useState([]);
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
-  const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTkwMjgxNjYsImV4cCI6MTU5OTA0MjU2NiwiaWF0IjoxNTk5MDI4MTY2fQ.sQfdBeFHlf2KwVAdN9RBrfI3Xe21Z66nGwm5la1hzC4';
-
+  const accesstoken = localStorage.systemToken;
   useEffect(() => {
     axios({
       headers: {
-        Authorization: 'Bearer ' + token,
+        Authorization: 'Bearer ' + accesstoken,
       },
       method: 'get',
       url: baseUrl + '/Person/api/V1.0/Person/GetAllFamilyType',

@@ -28,11 +28,11 @@ const PersonalInfo = forwardRef((props, ref) => {
         height: "",
         eyeColor: "",
         hairColor: "",
-        communicationMethod: "",
         occupation: "",
         halfCast: "",
         enrolmentDate: "",
         nationality: "",
+        dataSaved: false,
         formCompleted: false
     });
     const [notCompleted, setNotCompleted] = useState({
@@ -46,7 +46,6 @@ const PersonalInfo = forwardRef((props, ref) => {
     height: true,
     eyeColor: true,
     hairColor: true,
-    communicationMethod: true,
     occupation: true,
     halfCast: true,
     enrolmentDate: true,
@@ -78,14 +77,13 @@ const PersonalInfo = forwardRef((props, ref) => {
         height: personalInfo.height==="" ? true: false,
         eyeColor: personalInfo.eyeColor==="" ? true: false,
         hairColor: personalInfo.hairColor==="" ? true: false,
-        communicationMethod: personalInfo.communicationMethod==="" ? true: false,
         occupation: personalInfo.occupation==="" ? true: false,
         halfCast: personalInfo.halfCast==="" ? true: false,
         enrolmentDate: personalInfo.enrolmentDate==="" ? true: false,
         nationality: personalInfo.nationality==="" ? true: false})
             if (notCompleted.firstName == true || notCompleted.lastName || notCompleted.middleName == true || notCompleted.birthCountry == true
                 || notCompleted.birthCity == true || notCompleted.birthDate == true || notCompleted.height == true
-                || notCompleted.eyeColor == true || notCompleted.hairColor == true || notCompleted.communicationMethod == true
+                || notCompleted.eyeColor == true || notCompleted.hairColor == true || notCompleted.gender == true
                 || notCompleted.occupation == true || notCompleted.halfCast == true || notCompleted.nationality == true || notCompleted.enrolmentDate == true)
                 return false;
             else
@@ -123,7 +121,6 @@ const PersonalInfo = forwardRef((props, ref) => {
             gender: prevInfo ? prevInfo.gender : null,
             eyeColor: prevInfo ? prevInfo.eyeColor : null,
             hairColor: prevInfo ? prevInfo.hairColor : null,
-            communicationMethod: prevInfo ? prevInfo.communicationMethod : null,
             occupation: prevInfo ? prevInfo.occupation : null,
             halfCast: prevInfo ? prevInfo.halfCast : null,
             enrolmentDate: prevInfo ? prevInfo.enrolmentDate : null,
@@ -217,14 +214,13 @@ const PersonalInfo = forwardRef((props, ref) => {
                                     <Form.Control type="text" name="birthCity" defaultValue={prevInfo ? prevInfo.birthCity : null} onChange={handleChange} placeholder="Birth City" />
                                     <p style={{ color: "red" }}> {(notCompleted.birthCity == true && personalInfo.dataSaved == true) ? "City " + isRequired : null}</p>
                                 </Form.Group>
-                                <Form.Group controlId="communicationMethod">
-                                <Form.Label>Comm. Method<i style={{ color: "red" }}>*</i> </Form.Label>
-                                <Form.Control name="communicationMethod" defaultValue={prevInfo ? prevInfo.communicationMethod : null} onChange={handleChange} as="select">
-                                    <option value="both">Both</option>
-                                    <option value="sms">SMS</option>
-                                    <option value="email">Email</option>
+                                <Form.Group controlId="gender">
+                                <Form.Label>Gender<i style={{ color: "red" }}>*</i> </Form.Label>
+                                <Form.Control name="gender" defaultValue={prevInfo ? prevInfo.gender : null} onChange={handleChange} as="select">
+                                    <option value="1">Male</option>
+                                    <option value="0">Female</option>
                                 </Form.Control>
-                                <p style={{ color: "red" }}> {(notCompleted.communicationMethod == true && personalInfo.dataSaved == true) ? "Comm. Method " + isRequired : null}</p>
+                                <p style={{ color: "red" }}> {(notCompleted.gender == true && personalInfo.dataSaved == true) ? "Gender " + isRequired : null}</p>
                                 </Form.Group>
                                 <Form.Group controlId="enrolmentDate">
                                     <Form.Label>Enrolment Date<i style={{ color: "red" }}>*</i></Form.Label>

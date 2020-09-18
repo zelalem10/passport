@@ -31,7 +31,7 @@ const CardExample = () => {
     const [optionSelected, setOptionSelected] = useState(false);
     const [paymentOptions, setPaymentOptions] = useState([]);
     const config = {
-        headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTkxMTQwMDMsImV4cCI6MTU5OTEyODQwMywiaWF0IjoxNTk5MTE0MDAzfQ.-fjjDr4Z71dqz3ss_NyVu05lnwl5nT025VwmckOVpHE` }
+        headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTkyMTg5NTQsImV4cCI6MTU5OTIzMzM1NCwiaWF0IjoxNTk5MjE4OTU0fQ.XK2Y4z8ogsP7JK1ZKnetby59h-nBfeucciIbai6Ej6c` }
     };
     useEffect(() => {
         API.get("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/GetPaymentOptions", config)

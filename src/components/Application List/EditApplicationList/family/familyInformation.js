@@ -10,7 +10,7 @@ import editAddFamilyData from '../../../../redux/actions/editAddFamilyAction';
 import axios from 'axios';
 const FamilyInformation = forwardRef((props, ref) => {
   const counter = useSelector((family) => family);
-  const { familyInformation } = props;
+  const { familyInformation, personId } = props;
 
   const dispatch = useDispatch();
   const [state, setState] = useState({
@@ -51,13 +51,12 @@ const FamilyInformation = forwardRef((props, ref) => {
   }
   const [familyType, setFamilyType] = useState([]);
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
-  const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTkxMTY1NjAsImV4cCI6MTU5OTEzMDk2MCwiaWF0IjoxNTk5MTE2NTYwfQ.6DRok4IPLKMYZcKvYQTrPU6F1Iq61fKoRqaprRpeYC4';
+  const accesstoken = localStorage.systemToken;
 
   useEffect(() => {
     axios({
       headers: {
-        Authorization: 'Bearer ' + token,
+        Authorization: 'Bearer ' + accesstoken,
       },
       method: 'get',
       url: baseUrl + '/Person/api/V1.0/Person/GetAllFamilyType',
@@ -120,24 +119,65 @@ const FamilyInformation = forwardRef((props, ref) => {
     addFamilyInformationToArray();
   };
   const addFamilyInformationToArray = () => {
-    setFamiliesInfo([
-      ...familiesInfo,
-      {
-        id: familiesInfo.length,
-        firstName: state.fname,
-        lastName: state.lname,
-        familtyType: getFamilyType(state.famType),
+    axios({
+      headers: {
+        Authorization: 'Bearer ' + accesstoken,
       },
-    ]);
+      method: 'post',
+      url: baseUrl + '/Person/api/V1.0/Person/AddFamily',
+      data: [
+        {
+          id: 0,
+          personId: personId,
+          familtyTypeId: parseInt(state.famType),
+          firstName: state.fname,
+          lastName: state.lname,
+        },
+      ],
+    })
+      .then((response) => {
+        console.log(response.data.message);
+        setFamiliesInfo([
+          ...familiesInfo,
+          {
+            id: response.data.families[0].id,
+            personId: personId,
+            firstName: state.fname,
+            lastName: state.lname,
+            familtyType: getFamilyType(state.famType),
+          },
+        ]);
+      })
+      .catch((error) => {
+        console.log('error' + error);
+      });
   };
-  const removeFamilyMember = (ids) => {
+  const removeFamilyMember = (ids, index) => {
+    axios({
+      headers: {
+        Authorization: 'Bearer ' + accesstoken,
+      },
+      method: 'delete',
+      url: baseUrl + '/Person/api/V1.0/Person/DeleteFamily',
+      params: { familyId: ids },
+    })
+      .then((response) => {
+        var array = [...familiesInfo];
+        array.splice(index, 1);
+        setFamiliesInfo(array);
+        console.log(familiesInfo);
+      })
+      .catch((error) => {
+        console.log('error' + error);
+      });
+  };
+  const removeFamilyFromState = (index) => {
     var array = [...familiesInfo];
-    array.splice(ids, 1);
+    array.splice(index, 1);
     setFamiliesInfo(array);
-    console.log(familiesInfo);
   };
-  const editFamilyMember = (familyid) => {
-    let editableFamilyInfo = getIndex(familyid);
+  const editFamilyMember = (familyid, index) => {
+    let editableFamilyInfo = getIndex(index);
     setEditdata((prevState) => ({
       ...prevState,
       fName: editableFamilyInfo.firstName,
@@ -148,7 +188,7 @@ const FamilyInformation = forwardRef((props, ref) => {
       personId: editableFamilyInfo.personId,
     }));
 
-    removeFamilyMember(familyid);
+    removeFamilyFromState(index);
     setMoreFamily(true);
     setIsEdit(true);
     setCheckFamily(true);
@@ -160,15 +200,15 @@ const FamilyInformation = forwardRef((props, ref) => {
     await setFamiliesInfo([
       ...familiesInfo,
       {
+        id: editdata.idCardNum,
         personId: editdata.personId,
         firstName: editdata.fName,
         lastName: editdata.lName,
         familtyType: editdata.familyType,
-        familtyTypeId: editdata.familtyTypeId,
+        familtyTypeId: parseInt(editdata.familtyTypeId),
       },
     ]);
   };
-  console.log(familiesInfo);
   function getIndex(idNo) {
     for (var i = 0; i < familiesInfo.length; i++) {
       if (i === idNo) {

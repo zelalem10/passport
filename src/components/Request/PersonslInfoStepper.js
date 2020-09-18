@@ -13,6 +13,8 @@ import Attachment from './Attachement'
 import TravelPlan from './TravelPlan'
 import FamilyInformation from '../Request Appointment/family/familyInformation';
 import { useDispatch, useSelector } from 'react-redux';
+import addCommonData from '../../redux/actions/addCommonDataAction';
+
 import API from '../Utils/API';
 
 const useStyles = makeStyles((theme) => ({
@@ -61,11 +63,11 @@ export default function HorizontalLabelPositionBelowStepper() {
   const handleReset = () => {
     setActiveStep(0);
   };
-  const handleFinish = () => {
+  const handleSubmit = () => {
     var personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1]
     var addressInfo = counter.address[counter.address.length - 1]
     const config = {
-      headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTg5NDE5NzQsImV4cCI6MTU5ODk1NjM3NCwiaWF0IjoxNTk4OTQxOTc0fQ.Np3qPRvqRXaTWT8AiCGORAh5USa3BQO-5TfkjDujO3w` }
+      headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTkyMTg5NTQsImV4cCI6MTU5OTIzMzM1NCwiaWF0IjoxNTk5MjE4OTU0fQ.XK2Y4z8ogsP7JK1ZKnetby59h-nBfeucciIbai6Ej6c` }
       };
     const requestBody={
       requestId: 0,
@@ -74,14 +76,14 @@ export default function HorizontalLabelPositionBelowStepper() {
       userName: "",
       status: 0,
       confirmationNumber: "",
-      personRequest: [
+      applicants: [
         {
           personId: 0,
           firstName:personalInfo? personalInfo.firstName:null,
           middleName: personalInfo? personalInfo.middleName:null,
           lastName: personalInfo? personalInfo.lastName:null,
           dateOfBirth: "2020-08-31T12:42:45.259Z",
-          gender: personalInfo? personalInfo.gender:null,
+          gender: personalInfo? Number.parseInt(personalInfo.gender, 10):null,
           nationality: personalInfo? personalInfo.nationality:null,
           height: personalInfo? personalInfo.height:null,
           eyeColor: personalInfo? personalInfo.eyeColor:null,
@@ -127,10 +129,17 @@ export default function HorizontalLabelPositionBelowStepper() {
       debugger
       API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest', requestBody, config)
       .then((todo) => {
-        console.log(todo.data);
+        console.log(todo.data+" id= "+todo.data.personResponses[0].requestPersonId);
+        alert(todo.data.message)
+        const commonData={
+          requestPersonId : todo.data.personResponses[0].requestPersonId
+        }
+        dispatch(addCommonData(commonData))
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
       })
       .catch((err) => {
-        console.log('AXIOS ERROR: ', err);
+        console.log('AXIOS ERROR: ', err.response);
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
       });
   }
   function getStepContent(stepIndex) {
@@ -179,8 +188,8 @@ export default function HorizontalLabelPositionBelowStepper() {
                 </Grid>
                 <hr></hr>
                 <Grid item xs={1}>
-                  {activeStep === steps.length - 1 ? (<Button variant="contained" color="primary" onClick={handleFinish}>
-                    Finish
+                  {activeStep === steps.length - 2 ? (<Button variant="contained" color="primary" onClick={handleSubmit}>
+                    Submit
                   </Button>) : (<Button variant="contained" color="primary" onClick={handleNext}>
                     Next
                   </Button>)}

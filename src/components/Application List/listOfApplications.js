@@ -16,8 +16,8 @@ export default function ListOfApplications(props) {
     open,
     handleDisplay,
     handleEdit,
+    handleReschedule,
   } = props;
-  console.log(users);
   return (
     <div className="my-5">
       <div className="container">
@@ -106,7 +106,12 @@ export default function ListOfApplications(props) {
                             </a>
                             <a
                               href="#"
-                              onClick={() => handleEdit(user.requestId)}
+                              onClick={() =>
+                                handleEdit(
+                                  user.requestId,
+                                  user.personResponses.length
+                                )
+                              }
                             >
                               {' '}
                               <div class="float-right mr-4">
@@ -120,6 +125,15 @@ export default function ListOfApplications(props) {
                               {' '}
                               <div class="float-right mr-4">
                                 <i class="fas fa-eye fa-lg"></i>
+                              </div>
+                            </a>
+                            <a
+                              href="#"
+                              onClick={() => handleReschedule(user.requestId)}
+                            >
+                              {' '}
+                              <div class="float-right mr-4">
+                                <i class="fas fa-calendar fa-lg"></i>
                               </div>
                             </a>
 

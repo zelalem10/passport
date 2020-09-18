@@ -1,5 +1,8 @@
 import React, { Component, useState, useContext, Fragment } from 'react';
-import { logout, authentication } from '../../redux/actions/authenticationAction'
+import {
+  logout,
+  authentication,
+} from '../../redux/actions/authenticationAction';
 
 import {
   MDBNavbar,
@@ -39,76 +42,78 @@ const NavbarPage = (props) => {
   };
   let token = localStorage.userToken;
 
-
   const checkToken = useSelector((state) => state.userData);
 
-
-      const authLinks = (
-       <div>
-    
+  const authLinks = (
+    <div>
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
           <a className="nav-link" href="#" onClick={logout}>
-              Log out
+            Log out
           </a>
         </li>
       </ul>
-       </div> 
-     
-    );
+    </div>
+  );
 
-    const guestLinks = (
-      <ul className="navbar-nav ml-auto">
-        <li className="nav-item">
-          <Link className="nav-link" to="/SignUp">
-           Register
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="/SignIn">
-            Log In
-          </Link>
-        </li>
-      </ul>
-    );
+  const guestLinks = (
+    <ul className="navbar-nav ml-auto">
+      <li className="nav-item">
+        <Link className="nav-link" to="/SignUp">
+          Register
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link className="nav-link" to="/SignIn">
+          Log In
+        </Link>
+      </li>
+    </ul>
+  );
   return (
-    
     <Fragment>
-    
-      <MDBNavbar className='headerOne'>
+      <MDBNavbar className="headerOne">
         <MDBContainer fluid style={{ width: '80%' }}>
           <MDBNavbarNav left>
-          <div class="row">
-            <div class="col-md-3">
-              <h1 className='font-weight-bold text-light'>ePassport</h1>      
+            <div class="row">
+              <div class="col-md-3">
+                <Link to="/">
+                  <img
+                    src={require('../../images/default-source/shared/output-onlinepngtools (2).png')}
+                    className="img-fluid logo-img"
+                    alt="Ethiopian ePassport logo"
+                  />
+                </Link>
+              </div>
             </div>
-            <div class="col-md-3">
-            <img
-            src={require('../../images/default-source/footer_img/et.gif')} className="img-fluid w-75" alt='Ethiopian ePassport logo'>     
-            </img>
-           </div>
-
-          </div>
-
           </MDBNavbarNav>
           <MDBNav right>
             <MDBNavItem>
-              <MDBNavLink style={style} to="#!" className='text-light'>
-                E-visa
-              </MDBNavLink>
-            </MDBNavItem>
-            <MDBNavItem>
-              <MDBNavLink style={style} to="https://www.ethiopianairlines.com" className='text-light'>
-                Ethioian Airlines
-              </MDBNavLink>
-            </MDBNavItem>
-            <MDBNavItem>
-              <MDBNavLink
+              <a
                 style={style}
-                to="https://www.ethiopianskylighthotel.com" className='text-light'
+                href="https://www.evisa.gov.et"
+                className="text-light mr-2"
+              >
+                E-visa
+              </a>
+            </MDBNavItem>
+            <MDBNavItem>
+              <a
+                style={style}
+                href="https://www.ethiopianairlines.com"
+                className="text-light mr-2"
+              >
+                Ethioian Airlines
+              </a>
+            </MDBNavItem>
+            <MDBNavItem>
+              <a
+                style={style}
+                href="https://www.ethiopianskylighthotel.com"
+                className="text-light mr-2"
               >
                 Ethioian Skylight Hotel
-              </MDBNavLink>
+              </a>
             </MDBNavItem>
           </MDBNav>
         </MDBContainer>
@@ -118,11 +123,11 @@ const NavbarPage = (props) => {
         <MDBCollapse id="navbarCollapse3" isOpen={navOpen} navbar>
           <MDBContainer fluid style={{ width: '80%' }}>
             <MDBNavbarNav className="d-flex" left>
-              <MDBNavItem className={navPath == '/' ? 'active' : ''}>
+              {/* <MDBNavItem className={navPath == '/' ? 'active' : ''}>
                 <MDBNavLink to="/" activeClassName="active">
                   Home
                 </MDBNavLink>
-              </MDBNavItem>
+              </MDBNavItem> */}
               <MDBNavItem
                 className={navPath == '/request-appointment' ? 'active' : ''}
               >
@@ -133,38 +138,31 @@ const NavbarPage = (props) => {
               <MDBNavItem className={navPath == '/service' ? 'active' : ''}>
                 <MDBNavLink to="/service">Service</MDBNavLink>
               </MDBNavItem>
-              
+
               <MDBNavItem
                 className={navPath == '/check-status' ? 'active' : ''}
               >
                 <MDBNavLink to="/check-status">Check Status</MDBNavLink>
               </MDBNavItem>
-              <MDBNavItem
-                className={navPath == '/Status' ? 'active' : ''}
-              >
+              <MDBNavItem className={navPath == '/Status' ? 'active' : ''}>
                 <MDBNavLink to="/Status">Status</MDBNavLink>
               </MDBNavItem>
 
-             { token &&
-             <MDBNavItem
-                className={navPath == '/Application-List' ? 'active' : ''}
-              >
-                <MDBNavLink to="/Application-List">Manage Booking</MDBNavLink>
-              </MDBNavItem>
-              }
+              {token && (
+                <MDBNavItem
+                  className={navPath == '/Application-List' ? 'active' : ''}
+                >
+                  <MDBNavLink to="/Application-List">Manage Booking</MDBNavLink>
+                </MDBNavItem>
+              )}
             </MDBNavbarNav>
 
-
-            <MDBNavbarNav right>
-            { token ? authLinks :  guestLinks}
-         
-            </MDBNavbarNav>
+            <MDBNavbarNav right>{token ? authLinks : guestLinks}</MDBNavbarNav>
           </MDBContainer>
         </MDBCollapse>
       </MDBNavbar>
     </Fragment>
-
- );
+  );
 };
 
 export default NavbarPage;

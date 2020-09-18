@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 function getSteps() {
   return ['Personal Detail', 'Address', 'Family', 'Travel plan', 'Attachment'];
 }
-export default function HorizontalLabelPositionBelowStepper() {
+export default function HorizontalLabelPositionBelowStepper(props) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [formCompleted, setFormCompleted] = useState(false);
@@ -136,13 +136,13 @@ export default function HorizontalLabelPositionBelowStepper() {
   function getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
-        return <PersonalInfo ref={childRef} />;
+        return <PersonalInfo ref={childRef} applicantNumber={props.applicantNumber} />;
       case 1:
-        return <AddressInfo ref={childRef} />;
+        return <AddressInfo ref={childRef} applicantNumber={props.applicantNumber} />;
       case 2:
         return <FamilyInformation />;
       case 3:
-        return <TravelPlan ref={childRef} />;
+        return <TravelPlan ref={childRef} applicantNumber={props.applicantNumber} />;
       case 4:
         return <Attachment />;
       default:

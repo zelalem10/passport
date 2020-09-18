@@ -76,7 +76,7 @@ const SiteSelection=forwardRef((props, ref) => {
     API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/Region/GetAll', config)
       .then((todo) => setRegionList(todo.data.regionSer))
       .catch((err) => {
-        console.log('AXIOS ERROR: ', err);
+        console.log('AXIOS ERROR: ', err.response);
       });
   }, []);
   return (
