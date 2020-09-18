@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, MDBAlert } from 'mdbreact';
 import axios from 'axios';
 import AvailableTimeSlot from './appointmetTimeSlots';
 import { useDispatch, useSelector } from 'react-redux';
@@ -39,7 +39,8 @@ function RescheduleAppointment(props) {
     key: '',
     active: false,
   });
-
+  const [newAppointment, setNewAppointment] = useState();
+  const [newDisplayTime, setNewDisplayTime] = useState('');
   const toggleClass = (e) => {
     const currentState =
       e.target.className === 'btn_select active' ? true : false;
@@ -212,8 +213,9 @@ function RescheduleAppointment(props) {
       `
     : null;
   const saveNewAppointment = () => {
+    debugger;
     let data = {
-      id: displayedApplication.appointementId,
+      id: appointmentDetails.id,
       date: new Date(state.date),
       requestId: displayedApplication.requestId,
       durationId: parseInt(selectTime),
@@ -227,15 +229,20 @@ function RescheduleAppointment(props) {
       url: baseUrl + '/Schedule/api/V1.0/Schedule/RescheduleAppointment',
       data: {
         id: appointmentDetails.id,
-        date: new Date(state.date).getDate(),
+        date: state.date,
         requestId: displayedApplication.requestId,
         durationId: parseInt(selectTime),
       },
     })
       .then((response) => {
-        debugger;
         let newdate = new Date(response.data.date);
-        setPreviousAppointment(newdate);
+        setNewAppointment(newdate);
+        setNewDisplayTime(`${newdate.toISOString().substr(0, 10)} ${
+          response.data.duration.startTime
+        } - ${response.data.duration.endTime} ${
+          response.data.duration.isMorning ? 'AM' : 'PM'
+        } 
+        `);
       })
       .catch((error) => {
         console.log('error' + error);
@@ -244,8 +251,11 @@ function RescheduleAppointment(props) {
   return (
     <div>
       <MDBContainer className="passport-container pt-3" fluid>
-        <h2 className="h1">Appointment - Date and Time</h2>
-        <h3>{displayTime}</h3>
+        <h4>Appointment Date - {displayTime}</h4>
+        {newAppointment ? (
+          <MDBAlert color="success">Changed To - {newDisplayTime}</MDBAlert>
+        ) : null}
+
         <MDBRow key={key}>
           <MDBCol md="6">
             <h3>Date</h3>

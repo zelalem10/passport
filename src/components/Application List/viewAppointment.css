@@ -86,3 +86,6 @@ label {
     width: 38% !important;
   }
 }
+.changed-appointment {
+  background-color: #007fa3;
+}
