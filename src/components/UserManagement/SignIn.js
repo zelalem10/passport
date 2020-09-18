@@ -12,6 +12,10 @@ const Errorstyle = {
   marginTop: "-1rem",
   marginLeft: "2.5rem",
   };
+  const accesstoken = localStorage.systemToken;
+  const config = {
+    headers: { Authorization: `Bearer ` +  accesstoken}
+  };
 
 function SignIn () {
   let [Email, setEmail] = useState('');
@@ -49,6 +53,22 @@ function SignIn () {
     return true;
   }
 
+  const personalDetail = () => {
+    debugger;
+    let userId = localStorage.userId;
+    axios.get(`https://epassportservices.azurewebsites.net/Person/api/V1.0/Person/GetByUserId?userId=20`, config)
+    .then((response) => {
+      alert('personal detail success');
+      console.log(response.data.person)
+      localStorage.setItem('personalDetail', JSON.stringify(response.data.person));
+      localStorage.removeItem('userId');
+    }).catch((error) => {
+      alert('personal detail Error');
+      console.log(error)
+    })
+ 
+  }
+
   const LogInSubmit = (e) => {
     e.preventDefault();
     const isValid = validate();
@@ -66,8 +86,10 @@ function SignIn () {
           .then((response) => {
             alert('success');
             setState(response.data)
-            dispatch(authenticationAction.authentication(response.data.accessToken));
-            
+            console.log(response.data)
+            localStorage.setItem('userToken', response.data.accessToken);
+            localStorage.setItem('userId', response.data.id);
+            personalDetail();
             // redirect if user logged in
             if (response.data.accessToken){
               //return <Redirect to="/Home" />
@@ -171,4 +193,3 @@ function SignIn () {
 // };
 export default SignIn;
 
-  

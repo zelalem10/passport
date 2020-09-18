@@ -10,7 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 function ApplicationList () {
 
-  const accesstoken = localStorage.userToken;
+  const accesstoken = localStorage.systemToken;
   const config = {
     headers: { Authorization: `Bearer ` +  accesstoken}
   };

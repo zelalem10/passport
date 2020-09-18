@@ -29,6 +29,7 @@ const NavbarPage = (props) => {
   function logout(e) {
     e.preventDefault();
     localStorage.removeItem('userToken');
+    localStorage.removeItem('personalDetail');
     history.push('/signIn')
   }
 
