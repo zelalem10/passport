@@ -20,19 +20,19 @@ export default function ListOfApplications(props) {
   } = props;
   return (
     <div className="my-5">
-      <div className="container">
-        <div className="header py-3 blue-gradient mx-5">
-          <MDBRow className="d-flex justify-content-center">
-            <h2 className="white-text mb-3 pt-3 font-weight-bold text-center">
-              List Of Your Applications
-            </h2>
-          </MDBRow>
-        </div>
-      </div>
+        <MDBContainer>
+              <div className="header py-3 textBackground m-4">
+                <MDBRow className="d-flex justify-content-center">
+                  <h2 className="white-text mb-3 pt-3 font-weight-bold text-center">
+                  List Of Your Applications
+                </h2>
+                </MDBRow>
+              </div>
+        </MDBContainer>
       {users.length
         ? users.map((user) => (
             <MDBContainer
-              className="passport-container pt-3"
+              className="passport-container pt-3 applist"
               id="request-an-appointment"
             >
               <MDBRow>
@@ -49,54 +49,20 @@ export default function ListOfApplications(props) {
                           </div>
                           <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
                             <div>
-                              <div>
-                                <strong className="d-inline">
-                                  Request Date :{' '}
-                                </strong>
-                                {user.requestDate}
-                              </div>
-                              <div>
-                                <strong className="d-inline">
-                                  Request mode :{' '}
-                                </strong>
-                                {user.requestMode === 0 && (
-                                  <div className="d-inline">Normal</div>
-                                )}
-                                {user.requestMode === 1 && (
-                                  <div className="d-inline">Urgent</div>
-                                )}
-                                {user.requestMode === 2 && (
-                                  <div className="d-inline">Emergency</div>
-                                )}
-                                {user.requestMode === 3 && (
-                                  <div className="d-inline">VIP</div>
-                                )}
-                              </div>
-                              <div>
-                                <strong className="d-inline">
-                                  Request Status :{' '}
-                                </strong>
-                                {user.requestStatus === 0 && (
-                                  <div className="d-inline">Request</div>
-                                )}
-                                {user.requestStatus === 1 && (
-                                  <div className="d-inline">Urgent</div>
-                                )}
-                                {user.requestStatus === 2 && (
-                                  <div className="d-inline">Emergency</div>
-                                )}
-                                {user.requestStatus === 3 && (
-                                  <div className="d-inline">VIP</div>
-                                )}
-                              </div>
+                            <div><strong className='d-inline'>Request Date : </strong>{user.requestDate}</div>
+                            <div>
+                              <strong className='d-inline'>Request mode : </strong> {user.requestModeValue}
                             </div>
+                            <div>
+                              <strong className='d-inline'>Request Status : </strong> {user.requestStatus}
+                            </div> </div>
 
                             {/* <p>
                     {person.html_url}
-                </p> */}
+                </p> */} 
 
                             <a
-                              href="#"
+                              className='hoverWhite' 
                               onClick={() => openModal(user.requestId)}
                             >
                               {' '}
@@ -105,7 +71,7 @@ export default function ListOfApplications(props) {
                               </div>
                             </a>
                             <a
-                              href="#"
+                              className='hoverWhite' 
                               onClick={() =>
                                 handleEdit(
                                   user.requestId,
@@ -119,7 +85,7 @@ export default function ListOfApplications(props) {
                               </div>
                             </a>
                             <a
-                              href="#"
+                             className='hoverWhite' 
                               onClick={() => handleDisplay(user.requestId)}
                             >
                               {' '}
@@ -128,7 +94,7 @@ export default function ListOfApplications(props) {
                               </div>
                             </a>
                             <a
-                              href="#"
+                              className='hoverWhite' 
                               onClick={() => handleReschedule(user.requestId)}
                             >
                               {' '}

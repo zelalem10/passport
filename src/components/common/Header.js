@@ -33,6 +33,7 @@ const NavbarPage = (props) => {
     e.preventDefault();
     localStorage.removeItem('userToken');
     localStorage.removeItem('personalDetail');
+    localStorage.removeItem('userId');
     history.push('/signIn')
   }
 

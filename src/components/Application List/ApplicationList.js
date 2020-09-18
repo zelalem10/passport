@@ -8,6 +8,7 @@ import ViewAppointment from './viewAppointment';
 import HorizontalLabelPositionBelowStepper from './EditApplicationList/PersonslInfoStepper';
 import GroupRequestStepper from './EditApplicationList/Group/GroupNavigation';
 import RescheduleAppointment from './Rescheduleappointment/appointmentDate';
+import { useHistory } from "react-router-dom";
 
 function ApplicationList() {
   const accesstoken = localStorage.systemToken;
@@ -25,6 +26,7 @@ function ApplicationList() {
   const [isGroup, setIsGroup] = useState(false);
   const [numOfApplicants, setNumOfApplicants] = useState(0);
   const [handleDisplayId, sethandleDisplayId] = useState('');
+  let history = useHistory();
 
   const handleDisplay = (id) => {
     setDisplayRequestId(id);
@@ -60,22 +62,30 @@ function ApplicationList() {
         setusers(Response.data.serviceResponseList);
         dispatch(addApplicationList(Response.data.serviceResponseList));
       });
-  }, []);
+  });
 
-  //cancel a single schedule
-  function cancelSchedule(requestId) {
-    //alert(requestId);
-    axios
-      .delete('https://api.github.com/delete' + requestId)
-      .then((Response) => {
-        console.log(Response);
-        setOpen(false);
+      //cancel a single schedule
+      function cancelSchedule(requestId) {
+        debugger;
+         axios({
+          
+          headers: { 'Authorization': 'Bearer ' + accesstoken },
+          method: 'post',
+          url: 'https://epassportservices.azurewebsites.net//Schedule/api/V1.0/Schedule/CancelAppointment',
+          params: {"requestId":requestId},
+    
+        })
+         .then(Response => {
+          console.log(Response)
+          setOpen(false);
+          history.push('/Application-List')
       })
-      .catch((err) => {
-        console.log(err);
-        setOpen(false);
-      });
-  }
+      .catch(err => {
+       console.log(err);
+       setOpen(false);
+       history.push('/Application-List')
+   }) 
+    }
   if (handleDisplayId) {
     return <RescheduleAppointment handleDisplayId={handleDisplayId} />;
   } else if (!displayRequestId && !isEdit) {

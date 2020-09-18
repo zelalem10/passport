@@ -56,14 +56,12 @@ function SignIn () {
   const personalDetail = () => {
     debugger;
     let userId = localStorage.userId;
-    axios.get(`https://epassportservices.azurewebsites.net/Person/api/V1.0/Person/GetByUserId?userId=20`, config)
+    axios.get(`https://epassportservices.azurewebsites.net/Person/api/V1.0/Person/GetByUserId?userId=${userId}`, config)
     .then((response) => {
-      alert('personal detail success');
       console.log(response.data.person)
       localStorage.setItem('personalDetail', JSON.stringify(response.data.person));
       localStorage.removeItem('userId');
     }).catch((error) => {
-      alert('personal detail Error');
       console.log(error)
     })
  
@@ -193,3 +191,7 @@ function SignIn () {
 // };
 export default SignIn;
 
+// Retrieve the object from storage
+// var retrievedObject = localStorage.getItem('personalDetail');
+
+// console.log('retrievedObject: ', JSON.parse(retrievedObject));

@@ -5,7 +5,7 @@ import React, {
   forwardRef,
 } from 'react';
 
-import 'react-datepicker/dist/react-datepicker.css';
+// import 'react-datepicker/dist/react-datepicker.css';
 import { MDBRow, MDBCol, MDBContainer, MDBInput } from 'mdbreact';
 import { Form, Card, Row } from 'react-bootstrap';
 import {
