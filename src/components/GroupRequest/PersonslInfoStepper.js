@@ -42,22 +42,22 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const childRef = useRef();
+  const accesstoken = localStorage.systemToken;
   const config = {
-    headers: { Authorization: token }
-    };
+    headers: { Authorization: "Bearer " + accesstoken }
+  };
   const handleNext = () => {
     if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
       childRef.current.saveData();
-      const isVilid= childRef.current.Validate();
-      if(isVilid==true)
-      {
+      const isVilid = childRef.current.Validate();
+      if (isVilid == true) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       }
     }
-    else{
+    else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
-    
+
   };
 
   const handleBack = () => {
@@ -68,108 +68,40 @@ export default function HorizontalLabelPositionBelowStepper(props) {
     setActiveStep(0);
   };
   const handleSubmit = () => {
-    const requestInfo=counter.request;
+    const requestInfo = counter.request;
     debugger
-    if(props.applicantNumber==1)
-    {
-    const personalInfoLength=counter.personalInfoReducer.filter(item => item.applicantNumber == props.applicantNumber).length;
-    var personalInfo = counter.personalInfoReducer.filter(item => item.applicantNumber == props.applicantNumber)[personalInfoLength-1]
-    const addressLength=counter.address.filter(item => item.applicantNumber == props.applicantNumber).length;
-    var addressInfo = counter.address.filter(item => item.applicantNumber == props.applicantNumber)[addressLength-1]
-    const requestBody={
-      requestId: 0,
-      requestMode: 0,
-      requestTypeId: 2,
-      userName: "",
-      status: 0,
-      confirmationNumber: "",
-      personRequest: [
-        {
-          personId: 0,
-          firstName:personalInfo? personalInfo.firstName.toUpperCase():null,
-          middleName: personalInfo? personalInfo.middleName.toUpperCase():null,
-          lastName: personalInfo? personalInfo.lastName.toUpperCase():null,
-          geezFirstName:personalInfo? personalInfo.geezFirstName:null,
-          geezMiddleName: personalInfo? personalInfo.geezMiddleName:null,
-          geezLastName: personalInfo? personalInfo.geezLastName:null,
-          dateOfBirth: "2020-08-31T12:42:45.259Z",
-          gender: personalInfo? personalInfo.gender:null,
-          nationality: personalInfo? personalInfo.nationality:null,
-          height: personalInfo? personalInfo.height:null,
-          eyeColor: personalInfo? personalInfo.eyeColor:null,
-          hairColor: personalInfo? personalInfo.hairColor:null,
-          occupation: personalInfo? personalInfo.occupation:null,
-          halfCast: personalInfo? personalInfo.halfCast:null,
-          enrolmentDate: "2020-08-31T12:42:45.259Z",
-          birthCountry: personalInfo? personalInfo.birthCountry:null,
-          birthCity: personalInfo? personalInfo.birthCity:null,
-          photoPath: "",
-          employeeID: "",
-          applicationNumber: "",
-          organizationID: "",
-          isUnder18: true,
-          isAdoption: true,
-          address: {
-            personId: 0,
-            addressId: 0,
-            city: addressInfo? addressInfo.city:null,
-            country: addressInfo? addressInfo.country:null,
-            state: addressInfo? addressInfo.state:null,
-            zone: addressInfo? addressInfo.zone:null,
-            wereda: addressInfo? addressInfo.woreda:null,
-            street: addressInfo? addressInfo.street:null,
-            houseNo: addressInfo? addressInfo.houseNo:null,
-            poBox: addressInfo? addressInfo.poBox:null,
-            phoneNumber: addressInfo? addressInfo.phoneNumber:null,
-            email: addressInfo? addressInfo.email:null,
-            requestPlace: addressInfo? addressInfo.requestPlace:null
-           }//,
-          // familyRequests: [
-          //   // {
-          //   //   familyId: 0,
-          //   //   personId: 0,
-          //   //   familtyTypeId: 0,
-          //   //   firstName: "string",
-          //   //   lastName: "string"
-          //   // }
-          // ]
-        }
-      ]
-      };
-      API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest', requestBody, config)
-      .then((todo) => {
-        dispatch(newRequest(todo.data))
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      })
-      .catch((err) => {
-        console.log('AXIOS ERROR: ', err.response);
-      });
-    }
-    else if(requestInfo !=null){
-      const requestBody={
-        requestId: requestInfo[requestInfo.length-1].requestId,
-        flightNumber: "",
-        flightDate: "2020-09-14T11:28:49.495Z",
+    if (props.applicantNumber == 1) {
+      const personalInfoLength = counter.personalInfoReducer.filter(item => item.applicantNumber == props.applicantNumber).length;
+      var personalInfo = counter.personalInfoReducer.filter(item => item.applicantNumber == props.applicantNumber)[personalInfoLength - 1]
+      const addressLength = counter.address.filter(item => item.applicantNumber == props.applicantNumber).length;
+      var addressInfo = counter.address.filter(item => item.applicantNumber == props.applicantNumber)[addressLength - 1]
+      const requestBody = {
+        requestId: 0,
+        requestMode: 0,
+        requestTypeId: 2,
+        userName: "",
+        status: 0,
+        confirmationNumber: "",
         personRequest: [
           {
             personId: 0,
-            firstName:personalInfo? personalInfo.firstName.toUpperCase():null,
-            middleName: personalInfo? personalInfo.middleName.toUpperCase():null,
-            lastName: personalInfo? personalInfo.lastName.toUpperCase():null,
-            geezFirstName:personalInfo? personalInfo.geezFirstName:null,
-            geezMiddleName: personalInfo? personalInfo.geezMiddleName:null,
-            geezLastName: personalInfo? personalInfo.geezLastName:null,
+            firstName: personalInfo ? personalInfo.firstName.toUpperCase() : null,
+            middleName: personalInfo ? personalInfo.middleName.toUpperCase() : null,
+            lastName: personalInfo ? personalInfo.lastName.toUpperCase() : null,
+            geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
+            geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
+            geezLastName: personalInfo ? personalInfo.geezLastName : null,
             dateOfBirth: "2020-08-31T12:42:45.259Z",
-            gender: personalInfo? personalInfo.gender:null,
-            nationality: personalInfo? personalInfo.nationality:null,
-            height: personalInfo? personalInfo.height:null,
-            eyeColor: personalInfo? personalInfo.eyeColor:null,
-            hairColor: personalInfo? personalInfo.hairColor:null,
-            occupation: personalInfo? personalInfo.occupation:null,
-            halfCast: personalInfo? personalInfo.halfCast:null,
+            gender: personalInfo ? personalInfo.gender : null,
+            nationality: personalInfo ? personalInfo.nationality : null,
+            height: personalInfo ? personalInfo.height : null,
+            eyeColor: personalInfo ? personalInfo.eyeColor : null,
+            hairColor: personalInfo ? personalInfo.hairColor : null,
+            occupation: personalInfo ? personalInfo.occupation : null,
+            halfCast: personalInfo ? personalInfo.halfCast : null,
             enrolmentDate: "2020-08-31T12:42:45.259Z",
-            birthCountry: personalInfo? personalInfo.birthCountry:null,
-            birthCity: personalInfo? personalInfo.birthCity:null,
+            birthCountry: personalInfo ? personalInfo.birthCountry : null,
+            birthCity: personalInfo ? personalInfo.birthCity : null,
             photoPath: "",
             employeeID: "",
             applicationNumber: "",
@@ -179,18 +111,18 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             address: {
               personId: 0,
               addressId: 0,
-              city: addressInfo? addressInfo.city:null,
-              country: addressInfo? addressInfo.country:null,
-              state: addressInfo? addressInfo.state:null,
-              zone: addressInfo? addressInfo.zone:null,
-              wereda: addressInfo? addressInfo.woreda:null,
-              street: addressInfo? addressInfo.street:null,
-              houseNo: addressInfo? addressInfo.houseNo:null,
-              poBox: addressInfo? addressInfo.poBox:null,
-              phoneNumber: addressInfo? addressInfo.phoneNumber:null,
-              email: addressInfo? addressInfo.email:null,
-              requestPlace: addressInfo? addressInfo.requestPlace:null
-             }//,
+              city: addressInfo ? addressInfo.city : null,
+              country: addressInfo ? addressInfo.country : null,
+              state: addressInfo ? addressInfo.state : null,
+              zone: addressInfo ? addressInfo.zone : null,
+              wereda: addressInfo ? addressInfo.woreda : null,
+              street: addressInfo ? addressInfo.street : null,
+              houseNo: addressInfo ? addressInfo.houseNo : null,
+              poBox: addressInfo ? addressInfo.poBox : null,
+              phoneNumber: addressInfo ? addressInfo.phoneNumber : null,
+              email: addressInfo ? addressInfo.email : null,
+              requestPlace: addressInfo ? addressInfo.requestPlace : null
+            }//,
             // familyRequests: [
             //   // {
             //   //   familyId: 0,
@@ -202,17 +134,84 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             // ]
           }
         ]
-        };
-        API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/AddPerson', requestBody, config)
-      .then((todo) => {
-        console.log(todo.data)
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      })
-      .catch((err) => {
-        console.log('AXIOS ERROR: ', err.response);
-      });
+      };
+      API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest', requestBody, config)
+        .then((todo) => {
+          dispatch(newRequest(todo.data))
+          setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        })
+        .catch((err) => {
+          console.log('AXIOS ERROR: ', err.response);
+        });
     }
-    else{
+    else if (requestInfo != null) {
+      const requestBody = {
+        requestId: requestInfo[requestInfo.length - 1].requestId,
+        flightNumber: "",
+        flightDate: "2020-09-14T11:28:49.495Z",
+        personRequest: [
+          {
+            personId: 0,
+            firstName: personalInfo ? personalInfo.firstName.toUpperCase() : null,
+            middleName: personalInfo ? personalInfo.middleName.toUpperCase() : null,
+            lastName: personalInfo ? personalInfo.lastName.toUpperCase() : null,
+            geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
+            geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
+            geezLastName: personalInfo ? personalInfo.geezLastName : null,
+            dateOfBirth: "2020-08-31T12:42:45.259Z",
+            gender: personalInfo ? personalInfo.gender : null,
+            nationality: personalInfo ? personalInfo.nationality : null,
+            height: personalInfo ? personalInfo.height : null,
+            eyeColor: personalInfo ? personalInfo.eyeColor : null,
+            hairColor: personalInfo ? personalInfo.hairColor : null,
+            occupation: personalInfo ? personalInfo.occupation : null,
+            halfCast: personalInfo ? personalInfo.halfCast : null,
+            enrolmentDate: "2020-08-31T12:42:45.259Z",
+            birthCountry: personalInfo ? personalInfo.birthCountry : null,
+            birthCity: personalInfo ? personalInfo.birthCity : null,
+            photoPath: "",
+            employeeID: "",
+            applicationNumber: "",
+            organizationID: "",
+            isUnder18: true,
+            isAdoption: true,
+            address: {
+              personId: 0,
+              addressId: 0,
+              city: addressInfo ? addressInfo.city : null,
+              country: addressInfo ? addressInfo.country : null,
+              state: addressInfo ? addressInfo.state : null,
+              zone: addressInfo ? addressInfo.zone : null,
+              wereda: addressInfo ? addressInfo.woreda : null,
+              street: addressInfo ? addressInfo.street : null,
+              houseNo: addressInfo ? addressInfo.houseNo : null,
+              poBox: addressInfo ? addressInfo.poBox : null,
+              phoneNumber: addressInfo ? addressInfo.phoneNumber : null,
+              email: addressInfo ? addressInfo.email : null,
+              requestPlace: addressInfo ? addressInfo.requestPlace : null
+            }//,
+            // familyRequests: [
+            //   // {
+            //   //   familyId: 0,
+            //   //   personId: 0,
+            //   //   familtyTypeId: 0,
+            //   //   firstName: "string",
+            //   //   lastName: "string"
+            //   // }
+            // ]
+          }
+        ]
+      };
+      API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/AddPerson', requestBody, config)
+        .then((todo) => {
+          console.log(todo.data)
+          setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        })
+        .catch((err) => {
+          console.log('AXIOS ERROR: ', err.response);
+        });
+    }
+    else {
       alert("Please save the first Applicant")
     }
   }

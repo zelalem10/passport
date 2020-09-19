@@ -42,17 +42,17 @@ export default function HorizontalLabelPositionBelowStepper() {
   const counter = useSelector((state) => state);
   const childRef = useRef();
   const handleNext = () => {
-    if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
-      childRef.current.saveData();
-      const isVilid= childRef.current.Validate();
-      if(isVilid==true)
-      {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      }
-    }
-    else{
+    // if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
+    //   childRef.current.saveData();
+    //   const isVilid= childRef.current.Validate();
+    //   if(isVilid==true)
+    //   {
+    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    //   }
+    // }
+    // else{
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    }
+    //}
     
   };
 
@@ -66,9 +66,10 @@ export default function HorizontalLabelPositionBelowStepper() {
   const handleSubmit = () => {
     var personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1]
     var addressInfo = counter.address[counter.address.length - 1]
+    const accesstoken = localStorage.systemToken;
     const config = {
-      headers: { Authorization: token }
-      };
+        headers: { Authorization: "Bearer " + accesstoken }
+    };
     const requestBody={
       requestId: 0,
       requestMode: 0,

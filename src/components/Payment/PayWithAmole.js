@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react';
 import { MDBBtn, MDBCard, MDBContainer, MDBCardHeader, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBRow } from 'mdbreact';
 import { Button, Form } from 'react-bootstrap';
 import PaymentSelection from '../Payment/PaymentSelection'
-import SuccessPage from './Responses/Success'
+import SuccessPage from './Responses/Confirmation'
 import ErrorPage from './Responses/ErrorPage'
 import WarningPage from './Responses/WarningPage'
 import API from '../Utils/API'

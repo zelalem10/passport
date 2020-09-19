@@ -14,6 +14,7 @@ import applicationList from './applicationListReducer';
 import editFamilyData from './editAddFamilyReducer';
 import commonData from './commonDataReducer';
 import request from './newRequestReducer'
+import paymentOption from './paymentOptionReducer'
 const rootReducer = combineReducers({
   service,
   familyReducer,
@@ -29,5 +30,6 @@ const rootReducer = combineReducers({
   editFamilyData,
   commonData,
   request,
+  paymentOption,
 });
 export default rootReducer;
