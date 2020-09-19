@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MDBRow, MDBContainer, MDBCol } from 'mdbreact';
+import { MDBRow, MDBContainer, MDBCol, MDBInput } from 'mdbreact';
 import axios from 'axios';
 
 function AppointmetType(props) {
@@ -43,7 +43,22 @@ function AppointmetType(props) {
         <MDBCol className="medium-8" sm="12" lg="7">
           <div className="multistep-form__step">
             <h2 className="h1">What type of appointment do you need?</h2>
+            <div>
+              <div class="custom-control isUrgent custom-checkbox">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="defaultChecked2"
+                />
 
+                <label
+                  class="custom-control-label isUrgent-label"
+                  for="defaultChecked2"
+                >
+                  Does the request urgent?
+                </label>
+              </div>
+            </div>
             <div className="rtf"></div>
             <div className="row align-center vertical-margin-2">
               <div className="small-11 column request-type">

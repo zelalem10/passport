@@ -63,10 +63,8 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   let displayedApplication = {};
   const { displayRequestId } = props;
 
-  for (let item in appList) {
-    if (appList[item].requestId == displayRequestId) {
-      displayedApplication = appList[item];
-    }
+  if (appList.requestId == displayRequestId) {
+    displayedApplication = appList;
   }
 
   const personalInformation = displayedApplication

@@ -82,10 +82,8 @@ export default function GroupRequestStepper(props) {
   let displayedApplication = {};
   const { displayRequestId } = props;
 
-  for (let item in appList) {
-    if (appList[item].requestId == displayRequestId) {
-      displayedApplication = appList[item];
-    }
+  if (appList.requestId == displayRequestId) {
+    displayedApplication = appList;
   }
 
   function handelNext() {

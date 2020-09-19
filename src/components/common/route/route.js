@@ -11,7 +11,7 @@ import SignUp from '../../UserManagement/SignUp';
 import ViewAppointment from '../../Application List/viewAppointment';
 import ApplicationList from '../../Application List/ApplicationList';
 import FAQ from '../../Help and Support/FAQ';
-import Status from '../../Status/Status';
+import MainStatus from '../../Status/mainStatus';
 import ServiceSelection from '../../Request Appointment/ServiceSelection';
 
 function PassportRoute() {
@@ -28,7 +28,7 @@ function PassportRoute() {
       <Route path="/SignUp" component={SignUp} />
       <Route path="/Application-List" component={ApplicationList} />
       <Route path="/Faq" component={FAQ} />
-      <Route path="/Status" component={Status} />
+      <Route path="/Status" component={MainStatus} />
       {/* <Status loading={loading} /> */}
     </>
   );

@@ -724,3 +724,15 @@ select {
   -o-transition: 0.25s all ease;
   transition: 0.25s all ease;
 }
+.check-agree {
+  color: red;
+}
+.isUrgent-label {
+  color: #0a0a0a;
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+.isUrgent.custom-checkbox {
+  text-align: center;
+  padding-top: 2%;
+}

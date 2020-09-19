@@ -5,7 +5,6 @@ import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import { MDBContainer } from 'mdbreact';
-import './viewAppointment.css';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useSelector } from 'react-redux';
 import { fi } from 'date-fns/locale';
@@ -55,14 +54,12 @@ const AccordionDetails = withStyles((theme) => ({
 export default function ViewGroupAppointment(props) {
   const [expanded, setExpanded] = React.useState('panel1');
   const data = useSelector((state) => state);
-  const appList = data.applicationList[0];
+  const appList = data.applicationList[data.applicationList.length - 1];
   let displayedApplication = {};
   const { displayRequestId } = props;
 
-  for (let item in appList) {
-    if (appList[item].requestId == displayRequestId) {
-      displayedApplication = appList[item];
-    }
+  if (appList.requestId == displayRequestId) {
+    displayedApplication = appList;
   }
 
   const personalInformation = displayedApplication.personResponses;

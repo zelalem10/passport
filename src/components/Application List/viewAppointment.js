@@ -122,9 +122,7 @@ export default function ViewAppointment(props) {
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <b>
                   <label class="font-weight-bold">
-                    {new Date(displayedApplication.appointementDate)
-                      .toISOString()
-                      .substr(0, 10)}
+                    {displayedApplication.appointmentResponse.date}
                   </label>
                 </b>
               </div>

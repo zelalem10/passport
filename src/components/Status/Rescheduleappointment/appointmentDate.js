@@ -14,11 +14,10 @@ function RescheduleAppointment(props) {
   let displayedApplication = {};
   const { displayRequestId } = props;
 
-  for (let item in appList) {
-    if (appList[item].requestId == handleDisplayId) {
-      displayedApplication = appList[item];
-    }
+  if (appList.requestId == handleDisplayId) {
+    displayedApplication = appList;
   }
+
   let appointmentDetails = displayedApplication.appointmentResponse;
   debugger;
   let dateAppointmentDetails = new Date(appointmentDetails.date);

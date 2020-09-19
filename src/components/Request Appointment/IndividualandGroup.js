@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
 import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
+import { validate } from '@material-ui/pickers';
+import { red } from '@material-ui/core/colors';
 function IndividualandGroup(props) {
+  const [isAgreed, setIsAgreed] = useState(false);
+  const [needValidation, setneedValidation] = useState(false);
   const continueTo = (e) => {
     props.nextStep(e);
   };
   const continueIndividual = (e) => {
     props.individualNextStep(e);
+  };
+  const handleAgrement = () => {
+    setIsAgreed(!isAgreed);
+    setneedValidation(false);
+  };
+  const validate = () => {
+    setneedValidation(true);
   };
   return (
     <>
@@ -30,14 +41,39 @@ function IndividualandGroup(props) {
                   cupidatat non proident, sunt in culpa qui officia deserunt
                   mollit anim id est laborum.
                 </p>
+                <div>
+                  <div class="custom-control custom-checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="defaultChecked2"
+                      onChange={() => handleAgrement()}
+                    />
+                    <label class="custom-control-label" for="defaultChecked2">
+                      I agree to the terms and conditions
+                    </label>
+                    {needValidation ? (
+                      <div className="text-monospace">
+                        <p className="check-agree">
+                          Please check this box if you want to proceed
+                        </p>
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
               </div>
+
               <div className="row align-center vertical-margin-2">
                 <div className="small-11 column">
                   <div class="request-card card card--small-gutters card--shadow text-center row">
                     <div class="small-12 medium-6 column">
                       <a
                         class="card card--link card--teal card--tile"
-                        onClick={() => continueIndividual('individual')}
+                        onClick={
+                          isAgreed
+                            ? () => continueIndividual('individual')
+                            : () => validate()
+                        }
                       >
                         <div class="card__content">
                           <i class="fas fa-user fa-7x"></i>
@@ -53,7 +89,11 @@ function IndividualandGroup(props) {
                     <div class="small-12 medium-6 column vertical-margin-1-small vertical-margin-0-medium">
                       <a
                         class="card card--link card--teal card--tile"
-                        onClick={() => continueTo('group')}
+                        onClick={
+                          isAgreed
+                            ? () => continueTo('group')
+                            : () => validate()
+                        }
                       >
                         <div class="card__content">
                           <i class="fas fa-users fa-7x"></i>
