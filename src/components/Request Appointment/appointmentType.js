@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { MDBRow, MDBContainer, MDBCol, MDBInput } from 'mdbreact';
 import axios from 'axios';
+import addAppointmentType from '../../redux/actions/appointmentType';
+import { useDispatch, useSelector } from 'react-redux';
 
 function AppointmetType(props) {
+  const dispatch = useDispatch();
+  const counter = useSelector((state) => state);
   const [requestTypes, setRequestTypes] = useState([]);
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
   const accesstoken = localStorage.systemToken;
@@ -15,7 +19,7 @@ function AppointmetType(props) {
       url: baseUrl + '/Master/api/V1.0/OfficeRequestType/GetAllRequestTypes',
     })
       .then(async (response) => {
-        console.log(response.data.requestTypes);
+        dispatch(addAppointmentType(response.data.requestTypes));
         setRequestTypes(response.data.requestTypes);
       })
       .catch((error) => {
