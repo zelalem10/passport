@@ -6,26 +6,20 @@ import GroupNavigation from '../GroupRequest/GroupNavigation'
 import PaymentSelection from '../Payment/PaymentSelection'
 import Confirmation from '../Payment/Responses/Confirmation'
 import { Tab, Row, Nav, Col, Button, Card } from 'react-bootstrap';
-import {BsCheck,
-  BsArrowRightShort,
-  BsArrowLeftShort,
-  BsHouseFill,
-  BsPeopleCircle,
-  BsCalendar,
-  BsWallet,
-  BsFillInfoCircleFill
-} from 'react-icons/bs'
-import {useSelector } from 'react-redux';
+import {BsCheck, BsArrowRightShort, BsArrowLeftShort, BsHouseFill, BsPeopleCircle, BsCalendar, BsWallet, BsFillInfoCircleFill} from 'react-icons/bs'
+import { useDispatch, useSelector } from 'react-redux';
+import addPaymentOptionId from '../../redux/actions/addPaymentOptionIdAction';
+
 
 export default function RequestStepper() {
   const [indexValue, setIndexValue] = useState(0);
   const [formCompleted, setFormCompleted] = useState([false, false, false, false,false]);
-  const [selectedOptionId, setSelectedOptionId]=useState(0)
   const activeKey = ["first", "second", "third", "fourth","Fivth"];
   const counter = useSelector((state) => state);
   const serviceVal=counter.service[counter.service.length - 1]
   const isGroup=counter.service[counter.service.length - 1].isGroup
   const childRef = useRef();
+  const dispatch = useDispatch();
   function handelNext(){
     // if(childRef.current.isCompleted()==true)
     // {
@@ -55,6 +49,12 @@ export default function RequestStepper() {
   function handelConfirmation(){
     setIndexValue(4)
   }
+  useEffect(() => {
+    if (counter.commonData.length === 0) {
+      const selectedId = { optionId: 0 }
+      dispatch(addPaymentOptionId(selectedId))
+    }
+  }, [])
   return (
     <Tab.Container defaultActiveKey="first" activeKey={activeKey[indexValue]}>
       <div style={{ margin: '2rem' }}>
@@ -96,7 +96,7 @@ export default function RequestStepper() {
                 <PaymentSelection />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[4]}>
-                <Confirmation optionId={selectedOptionId} />
+                <Confirmation />
               </Tab.Pane>
             </Tab.Content>
           </Col>

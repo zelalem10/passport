@@ -8,12 +8,16 @@ const TravelPlan = forwardRef((props, ref) => {
   const [travelPlan, setTravelPlan] = useState({
     travelDate: "",
     ticketNumber: "",
+    filledBy: "",
+    pageQuantity: "0",
+    passportType:"",
+    passportNumber:"",
+    expirationDate:"",
+    issueDate:"",
     dataSaved: false
   });
-
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
-  const personRef = React.useRef();
   if (counter.travelPlan.length === 0) {
     dispatch(addTravelPlan(travelPlan));
   }
@@ -44,6 +48,12 @@ const TravelPlan = forwardRef((props, ref) => {
       ...prevState,
       travelDate: prevInfo ? prevInfo.travelDate : null,
       ticketNumber: prevInfo ? prevInfo.ticketNumber : null,
+      filledBy: prevInfo ? prevInfo.filledBy : null,
+      pageQuantity: prevInfo ? prevInfo.pageQuantity : null,
+      passportType: prevInfo ? prevInfo.passportType : null,
+      passportNumber: prevInfo ? prevInfo.passportNumber : null,
+      expirationDate: prevInfo ? prevInfo.expirationDate : null,
+      issueDate: prevInfo ? prevInfo.issueDate : null,
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
     }))
   }, []);
@@ -74,55 +84,72 @@ const TravelPlan = forwardRef((props, ref) => {
                   label="Ticket Number"
                 />
               </MDBCol>
-              <MDBCol></MDBCol>
-              <MDBCol></MDBCol>
+              <MDBCol>
+                <MDBInput
+                  valueDefault={prevInfo ? prevInfo.filledBy : null}
+                  name="filledBy"
+                  className="form-control"
+                  onBlur={handleChange}
+                  type="text"
+                  label="Application filled by"
+                />
+              </MDBCol>
+              <MDBCol><label>Page Quantity</label>
+                <select className="browser-default custom-select">
+                  <option value="0">32</option>
+                  <option value="1">64</option>
+                </select>
+              </MDBCol>
             </MDBRow>
             <MDBRow>
               <MDBCol>
-                <label>Passport type</label>
-                <select className="browser-default custom-select">
-                  <option value="">Select passport type</option>
-                  <option value="0">passport type 1</option>
-                  <option value="1">passport type 2</option>
-                  <option value="2">passport type 3</option>
-                </select>
+              <MDBInput
+                  valueDefault={prevInfo ? prevInfo.passportType : null}
+                  name="passportType"
+                  className="form-control"
+                  onBlur={handleChange}
+                  type="text"
+                  label="Passport Type"
+                />
               </MDBCol>
               <MDBCol>
-                <MDBInput
-                  label="Passport Number"
-                  icon="passport"
+              <MDBInput
+                  valueDefault={prevInfo ? prevInfo.passportNumber : null}
                   name="passportNumber"
-                  group
-                  type="number"
-                  validate
-                  error="wrong"
-                  success="right"
-                  onChange={props.replacmentReasonInputs}
+                  className="form-control"
+                  onBlur={handleChange}
+                  type="text"
+                  label="Passport Number"
                 />
               </MDBCol>
               <MDBCol>
-                <MDBInput
-                  label="Expiration date"
-                  icon="calendar"
-                  group
+              <MDBInput
+                  valueDefault={prevInfo ? prevInfo.expirationDate : null}
                   name="expirationDate"
+                  className="form-control"
+                  onBlur={handleChange}
                   type="date"
-                  validate
-                  error="wrong"
-                  success="right"
-                  onChange={props.replacmentReasonInputs}
+                  label="Expiration Date"
                 />
               </MDBCol>
               <MDBCol>
-                <MDBInput
-                  label="Issue date"
-                  icon="calendar"
-                  group
-                  name="issuedDate"
+              <MDBInput
+                  valueDefault={prevInfo ? prevInfo.issueDate : null}
+                  name="issueDate"
+                  className="form-control"
+                  onBlur={handleChange}
                   type="date"
-                  validate
-                  onChange={props.replacmentReasonInputs}
+                  label="Issue Date"
                 />
+              </MDBCol>
+            </MDBRow>
+            <MDBRow>
+              <MDBCol>
+                <label></label>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="isCorrection" indeterminate />
+                  <label class="custom-control-label" for="isCorrection">Is Date Correction</label>
+                </div>
               </MDBCol>
             </MDBRow>
           </div>

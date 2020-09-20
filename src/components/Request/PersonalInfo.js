@@ -19,9 +19,11 @@ const PersonalInfo = forwardRef((props, ref) => {
         gender: "1",
         height: "",
         eyeColor: "",
-        hairColor: "",
+        hairColor: "Black",
         occupation: "",
-        halfCast: "",
+        isHalfCast: false,
+        isUnder18: false,
+        isAdoption: false,
         enrolmentDate: "",
         nationality: "",
         dataSaved: false,
@@ -42,7 +44,9 @@ const PersonalInfo = forwardRef((props, ref) => {
         eyeColor: true,
         hairColor: true,
         occupation: true,
-        halfCast: true,
+        isHalfCast: true,
+        isUnder18: true,
+        isAdoption: true,
         enrolmentDate: true,
         nationality: true
     });
@@ -77,7 +81,9 @@ const PersonalInfo = forwardRef((props, ref) => {
                 eyeColor: personalInfo.eyeColor === "" ? true : false,
                 hairColor: personalInfo.hairColor === "" ? true : false,
                 occupation: personalInfo.occupation === "" ? true : false,
-                halfCast: personalInfo.halfCast === "" ? true : false,
+                isHalfCast: personalInfo.isHalfCast,
+                isUnder18: personalInfo.isUnder18,
+                isAdoption: personalInfo.isAdoption,
                 enrolmentDate: personalInfo.enrolmentDate === "" ? true : false,
                 nationality: personalInfo.nationality === "" ? true : false
             })
@@ -105,6 +111,18 @@ const PersonalInfo = forwardRef((props, ref) => {
         }
         dispatch(addPersonalInfo(personalInfo));
     }
+    const handleCheck = (name,checked) => {
+        setPersonalInfo((prevState) => ({
+            ...prevState,
+            [name]: checked,
+        }))
+        // if (!event.target.checked) {
+        //     setNotCompleted((prevState) => ({
+        //         ...prevState,
+        //         [name]: false,
+        //     }))
+        // }
+    }
 
     var prevInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1]
     useEffect(() => {
@@ -121,9 +139,11 @@ const PersonalInfo = forwardRef((props, ref) => {
             height: prevInfo ? prevInfo.height : "",
             gender: prevInfo ? prevInfo.gender : "1",
             eyeColor: prevInfo ? prevInfo.eyeColor : "",
-            hairColor: prevInfo ? prevInfo.hairColor : "",
+            hairColor: prevInfo ? prevInfo.hairColor : "Black",
             occupation: prevInfo ? prevInfo.occupation : "",
-            halfCast: prevInfo ? prevInfo.halfCast : "",
+            isHalfCast: prevInfo ? prevInfo.isHalfCast : false,
+            isAdoption: prevInfo ? prevInfo.isAdoption : false,
+            isUnder18: prevInfo ? prevInfo.isUnder18 : false,
             enrolmentDate: prevInfo ? prevInfo.enrolmentDate : "",
             nationality: prevInfo ? prevInfo.nationality : "",
         }))
@@ -241,7 +261,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                         </MDBCol>
                         <MDBCol>
                             <label>Gender</label>
-                            <select className="browser-default custom-select">
+                            <select className="browser-default custom-select" name="gender" onChange={handleChange}>
                                 <option value="1">Male</option>
                                 <option value="0">Female</option>
                             </select>
@@ -252,7 +272,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                                 name="enrolmentDate"
                                 onChange={handleChange}
                                 type="date"
-                                label="Enrolment date"
+                                label="Enrollment date"
                             />
                         </MDBCol>
                     </MDBRow>
@@ -278,15 +298,6 @@ const PersonalInfo = forwardRef((props, ref) => {
                         </MDBCol>
                         <MDBCol>
                             <MDBInput
-                                valueDefault={prevInfo ? prevInfo.halfCast : null}
-                                name="halfCast"
-                                onChange={handleChange}
-                                type="text"
-                                label="Half Cast"
-                            />
-                        </MDBCol>
-                        <MDBCol>
-                            <MDBInput
                                 valueDefault={prevInfo ? prevInfo.eyeColor : null}
                                 name="eyeColor"
                                 onChange={handleChange}
@@ -294,18 +305,20 @@ const PersonalInfo = forwardRef((props, ref) => {
                                 label="Eye Color"
                             />
                         </MDBCol>
+                        <MDBCol>
+                            <label>Hair Color</label>
+                            <select className="browser-default custom-select" name="hairColor" onChange={handleChange}>
+                                <option value="Black">Black</option>
+                                <option value="Brown">Brown</option>
+                                <option value="Blond">Blond</option>
+                                <option value="Auburn">Auburn</option>
+                                <option value="Red">Red</option>
+                                <option value="Grey">Grey</option>
+                                <option value="White">White</option>
+                            </select>
+                        </MDBCol>
                     </MDBRow>
                     <MDBRow>
-                        <MDBCol>
-                            <MDBInput
-                                valueDefault={prevInfo ? prevInfo.hairColor : null}
-                                name="hairColor"
-                                className="form-control"
-                                onChange={handleChange}
-                                type="text"
-                                label="Hair Color"
-                            />
-                        </MDBCol>
                         <MDBCol>
                             <label>Martial status</label>
                             <select className="browser-default custom-select">
@@ -318,22 +331,22 @@ const PersonalInfo = forwardRef((props, ref) => {
                         <MDBCol>
                             <label></label>
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="isHalfCast" indeterminate />
+                                <input type="checkbox" class="custom-control-input" defaultValue={prevInfo ? prevInfo.isHalfCast : false} name="isHalfCast" id="isHalfCast" onChange={(e)=>handleCheck("isHalfCast",e.target.checked)}  />
                                 <label class="custom-control-label" for="isHalfCast">Is Halfcast</label>
                             </div>
                         </MDBCol>
                         <MDBCol>
                             <label></label>
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="defaultUncheckedDisabled2" indeterminate />
-                                <label class="custom-control-label" for="defaultUncheckedDisabled2">Is Under 18</label>
+                                <input type="checkbox" class="custom-control-input" name="isUnder18" id="isUnder18" onChange={(e)=>handleCheck("isUnder18",e.target.checked)} />
+                                <label class="custom-control-label" for="isUnder18">Is Under 18</label>
                             </div>
                         </MDBCol>
                         <MDBCol>
                             <label></label>
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="defaultUncheckedDisabled3" indeterminate />
-                                <label class="custom-control-label" for="defaultUncheckedDisabled3">Is Adoption</label>
+                                <input type="checkbox" class="custom-control-input"  name="isAdoption" id="isAdoption" onChange={(e)=>handleCheck("isAdoption",e.target.checked)} />
+                                <label class="custom-control-label" for="isAdoption">Is Adoption</label>
                             </div>
                         </MDBCol>
                     </MDBRow>

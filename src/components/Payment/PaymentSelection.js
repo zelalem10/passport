@@ -1,7 +1,7 @@
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { MDBBtn, MDBInput, MDBCard, MDBCardHeader, MDBContainer, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBRow } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
-import addCommonData from '../../redux/actions/addCommonDataAction';
+import addPaymentOptionId from '../../redux/actions/addPaymentOptionIdAction';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -27,9 +27,9 @@ const PaymentSelection = forwardRef((props, ref) => {
     const [flowType, setFlowType] = useState(0);
     const [status, setStatus] = useState(0);
     const [formCompleted, setFormCompleted] = useState(false);
-    const [test, setTest] = useState({id:10});
-  const dispatch = useDispatch();
-  const counter = useSelector((state) => state);
+    const [test, setTest] = useState({ id: 10 });
+    const dispatch = useDispatch();
+    const counter = useSelector((state) => state);
     const accesstoken = localStorage.systemToken;
     const config = {
         headers: { Authorization: "Bearer " + accesstoken }
@@ -84,8 +84,8 @@ const PaymentSelection = forwardRef((props, ref) => {
     }, [])
     const handelClick = (optionId) => {
         setSelectedOption(optionId);
-        const selectedId={optionId:optionId}
-        dispatch(addCommonData(selectedId))
+        const selectedId = { optionId: optionId }
+        dispatch(addPaymentOptionId(selectedId))
         console.log(optionId)
         //setOptionSelected(true);
     }
@@ -98,7 +98,7 @@ const PaymentSelection = forwardRef((props, ref) => {
         }
     }));
     return (
-        
+
         <MDBContainer>
             <MDBCard style={{ marginTop: "1rem" }}>
                 <MDBCardHeader color="primary-color" tag="h3">
@@ -151,22 +151,27 @@ const PaymentSelection = forwardRef((props, ref) => {
                                         <li>
                                             <ul class="list--no-bullets list--single-line list--border">
                                                 <li>
-                                                    <a href="tel:8008817385">
-                                                        <span class="show-for-sr">Call us at:</span>
-                                                        <i class="fas fa-phone fa-rotate-180"></i>{' '}
-                                                              800-881-7385{' '}
-                                                    </a>
+                                                    <strong>
+                                                        Request type:&nbsp;&nbsp;<a href="#">New{' '}</a>
+                                                    </strong>
                                                 </li>
+                                                <hr />
                                                 <li>
-                                                    <a href="tel:6147226200">
-                                                        <span class="show-for-sr">Call us at:</span>
-                                                        <i class="fas fa-phone fa-rotate-180"></i>{' '}
-                                                          614-722-6200{' '}
-                                                    </a>
+                                                    <strong>
+                                                        Request Mode:&nbsp;&nbsp;<a href="#">Normal{' '}</a>
+                                                    </strong>
                                                 </li>
+                                                <hr />
                                                 <li>
-                                                    {' '}
-                                              7:30am – 5:30pm; Monday – Friday Eastern Time (ET).{' '}
+                                                    <strong>
+                                                        Price:&nbsp;&nbsp;<a href="#">600{' '}</a>
+                                                    </strong>
+                                                </li>
+                                                <hr />
+                                                <li>
+                                                    <strong>
+                                                        Page quantity:&nbsp;&nbsp;<a href="#">32{' '}</a>
+                                                    </strong>
                                                 </li>
                                             </ul>
                                         </li>
@@ -178,13 +183,13 @@ const PaymentSelection = forwardRef((props, ref) => {
                 </MDBRow>
 
             </MDBCard>
-            
+
             <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="defaultUncheckedDisabled2" onChange={handelConfirm} indeterminate />
                 <label class="custom-control-label" for="defaultUncheckedDisabled2">Agree to terms and conditions</label>
             </div>
         </MDBContainer>
-        
+
     )
 });
 export default PaymentSelection

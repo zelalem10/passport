@@ -6,7 +6,7 @@ import {
 import { FcApproval } from "react-icons/fc";
 import { FcDisapprove } from "react-icons/fc";
 import { useDispatch, useSelector } from 'react-redux';
-import addCommonData from '../../../redux/actions/addCommonDataAction';
+import addPaymentOptionId from '../../../redux/actions/addPaymentOptionIdAction';
 import API from '../..//Utils/API'
 const SuccessResponse = (props) => {
   const [requestSubmited, setRequestSubmited] = useState(false);
@@ -14,37 +14,37 @@ const SuccessResponse = (props) => {
   const [message, setMessage] = useState("");
   const [flowType, setFlowType] = useState(0);
   const [status, setStatus] = useState(0);
-  const [selectedPaymentOption, setSelectedPaymentOption] = useState(0);
-  const dispatch = useDispatch();
-  const counter = useSelector((state) => state);
   function getContent(paymentFlowType) {
     switch (paymentFlowType) {
-        case 1:
-            return (<MDBContainer>
-              <MDBRow>
-                <MDBCol md="1">
-                </MDBCol>
-                <MDBCol md="6">
-                  <MDBCard style={{ marginTop: "1rem" }} className="text-center">
-                    {status === 1 ? (<MDBCardHeader color="success-color"><FcApproval /> Payment completed</MDBCardHeader>) :
-                      (<MDBCardHeader color="danger-color"><FcDisapprove /> Payment not completed</MDBCardHeader>)}
-                    <MDBCardBody>
-                      <MDBCardTitle>{message}</MDBCardTitle>
-                      <MDBCardText>{instruction}</MDBCardText>
-                    </MDBCardBody>
-                  </MDBCard>
-                </MDBCol>
-              </MDBRow>
-            </MDBContainer>)
+      case 1:
+        return (<MDBContainer>
+          <MDBRow>
+            <MDBCol md="1">
+            </MDBCol>
+            <MDBCol md="6">
+              <MDBCard style={{ marginTop: "1rem" }} className="text-center">
+                {status === 1 ? (<MDBCardHeader color="success-color"><FcApproval /> Payment completed</MDBCardHeader>) :
+                  (<MDBCardHeader color="danger-color"><FcDisapprove /> Payment not completed</MDBCardHeader>)}
+                <MDBCardBody>
+                  <MDBCardTitle>{message}</MDBCardTitle>
+                  <MDBCardText>{instruction}</MDBCardText>
+                </MDBCardBody>
+              </MDBCard>
+            </MDBCol>
+          </MDBRow>
+        </MDBContainer>)
     }
-}
+  }
+  const dispatch = useDispatch();
+  const counter = useSelector((state) => state);
+
   useEffect(() => {
     if (counter.commonData.length === 0) {
       const selectedId = { optionId: 0 }
-      dispatch(addCommonData(selectedId))
+      dispatch(addPaymentOptionId(selectedId))
     }
-    var selectedOption = counter.commonData[counter.commonData.length - 1]
-    setSelectedPaymentOption(selectedOption)
+    var selectedOption = counter.paymentOption[counter.paymentOption.length - 1]
+    console.log(selectedOption)
     const accesstoken = localStorage.systemToken;
     const config = {
       headers: { Authorization: "Bearer " + accesstoken }
@@ -59,7 +59,7 @@ const SuccessResponse = (props) => {
       city: "Addis Ababa",
       country: "Ethiopia",
       channel: "Mobile",
-      paymentOptionsId: 2,
+      paymentOptionsId: selectedOption ? selectedOption.optionId : 0,
       traceNumbers: "",
       Status: 4,
       OrderId: "",
@@ -79,29 +79,23 @@ const SuccessResponse = (props) => {
         console.log("AXIOS ERROR: ", err.response);
       })
   }, [])
+
   return (
-    requestSubmited === false ?
-      (
-        <MDBContainer>
-          <h2>Please wait...</h2>
-          {/* <MDBRow>
-        <MDBCol md="1">
-        </MDBCol>
-        <MDBCol md="6">
-          <MDBCard style={{ marginTop: "1rem" }} className="text-center">
-            {status === 1 ? (<MDBCardHeader color="success-color"><FcApproval /> Payment completed</MDBCardHeader>) :
-              (<MDBCardHeader color="danger-color"><FcDisapprove /> Payment not completed</MDBCardHeader>)}
-            <MDBCardBody>
-              <MDBCardTitle>{message}</MDBCardTitle>
-              <MDBCardText>{instruction}</MDBCardText>
-            </MDBCardBody>
-          </MDBCard>
-        </MDBCol>
-      </MDBRow> */}
-        </MDBContainer>
-      )
-      :
-      (getContent(flowType))
+
+    <MDBContainer>
+      <MDBCard>
+        <MDBCardBody>
+          <form>
+            {requestSubmited === false ?
+              (<h2>Please wait...</h2>)
+              :
+              (getContent(flowType))
+            }
+          </form>
+        </MDBCardBody>
+      </MDBCard>
+    </MDBContainer>
+
   );
 };
 

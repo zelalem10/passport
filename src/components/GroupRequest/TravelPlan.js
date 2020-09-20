@@ -9,6 +9,7 @@ import addTravelPlan from '../../redux/actions/addTravelPlanAction';
         applicantNumber: props.applicantNumber,
         travelDate:"",
         ticketNumber:"",
+        filledBy:"",
         dataSaved:false
     });
     
@@ -46,6 +47,7 @@ import addTravelPlan from '../../redux/actions/addTravelPlanAction';
                 ...prevState,
                 travelDate: prevInfo? prevInfo.travelDate:null,
                  ticketNumber: prevInfo? prevInfo.ticketNumber:null,
+                 filledBy: prevInfo? prevInfo.filledBy:null,
                  dataSaved: prevInfo? prevInfo.dataSaved:null,
                 }))
         }, []);
@@ -75,8 +77,23 @@ import addTravelPlan from '../../redux/actions/addTravelPlanAction';
                                 label="Ticket Number"
                             />
                         </MDBCol>
-                        <MDBCol></MDBCol>
-                        <MDBCol></MDBCol>
+                        <MDBCol>
+                        <MDBInput
+                                valueDefault={prevInfo ? prevInfo.filledBy : null}
+                                name="filledBy"
+                                className="form-control"
+                                onBlur={handleChange}
+                                type="text"
+                                label="Application filled by"
+                            />
+                        </MDBCol>
+                        <MDBCol><label>Page Quantity</label>
+                            <select className="browser-default custom-select">
+                                <option value="">Select quantity</option>
+                                <option value="0">32</option>
+                                <option value="1">64</option>
+                            </select>
+                            </MDBCol>
                         </MDBRow>
                     </form>
             </MDBCardBody>
