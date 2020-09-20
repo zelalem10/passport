@@ -82,7 +82,6 @@ function SignIn () {
       
           })
           .then((response) => {
-            alert('success');
             setState(response.data)
             console.log(response.data)
             localStorage.setItem('userToken', response.data.accessToken);
@@ -95,7 +94,6 @@ function SignIn () {
             }
           }).catch((error) => {
             console.log("error" + error)
-            alert('Error');
           })
        
         }

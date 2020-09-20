@@ -20,6 +20,38 @@ const TravelPlan = forwardRef((props, ref) => {
   });
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
+
+  const accesstoken = localStorage.systemToken;
+  let requestTypefromRedux = useSelector((state) => state.service);
+  let requestTypeId = requestTypefromRedux[requestTypefromRedux.length - 1].appointemntType
+
+  useEffect(() => {
+      axios({
+        headers: { 'Authorization': 'Bearer ' + accesstoken },
+        method: 'get',
+        url: 'https://epassportservices.azurewebsites.net/Master/api/V1.0/OfficeRequestType/GetRequiredAttachementsByRequestTypeId',
+        params: { "requestTypeId": requestTypeId },
+      })
+        .then((response) => {
+          let requiredAttachements = response.data.requiredAttachements.length;
+          let requiredAttachementType = [];
+          for (let i = 0; i < response.data.requiredAttachements.length; i++) {
+            requiredAttachementType.push(response.data.requiredAttachements[i].attachmentTypeId);
+            console.log(requiredAttachementType);
+          }
+          console.log(requiredAttachementType);
+          
+          if (localStorage.requiredAttachements){
+              localStorage.removeItem('requiredAttachements');
+          }
+          localStorage.setItem('requiredAttachements', requiredAttachements);
+          localStorage.setItem('requiredAttachementType', JSON.stringify(requiredAttachementType));
+        })
+        .catch((error) => {
+          console.log("error" + error.message)
+        })
+    }, []);
+
   if (counter.travelPlan.length === 0) {
     dispatch(addTravelPlan(travelPlan));
   }
