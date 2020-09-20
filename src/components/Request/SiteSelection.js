@@ -1,10 +1,12 @@
 import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import * as ReactBootstrap from 'react-bootstrap';
+import { MDBRow, MDBCol, MDBInput,  MDBCard, MDBCardBody } from 'mdbreact';
 import API from '../Utils/API';
+import token from '../common/accessToken'
 
 
-const SiteSelection=forwardRef((props, ref) => {
+const SiteSelection = forwardRef((props, ref) => {
   const useStyles = makeStyles((theme) => ({
     root: {
       '& .MuiTextField-root': {
@@ -13,39 +15,31 @@ const SiteSelection=forwardRef((props, ref) => {
       },
     },
   }));
-  const [countryList, setCountryList] = useState([]);
+  const [cityList, setCityList] = useState([]);
   const [regionList, setRegionList] = useState([]);
   const [officeList, setOfficeList] = useState([]);
-  const [selectedRegionId, setSelectedRegionId] = useState(0);
-  const [selectedCountryId, setSelectedCountryId] = useState(0);
   const [officeName, setOfficeName] = useState('');
   const [officeAddress, setOfficeAddress] = useState('');
   const [officeContact, setOfficeContact] = useState('');
   const [formCompleted, setFormCompleted] = useState(false);
 
   const classes = useStyles();
+  const accesstoken = localStorage.systemToken;
+
   const officeURL =
-    'https://epassportservices.azurewebsites.net/Master/api/V1.0/Office/GetByCountryId?id=';
+    'https://epassportservices.azurewebsites.net/Master/api/V1.0/Office/GetByCityId?id=';
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTk1NDY0MzcsImV4cCI6MTU5OTU2MDgzNywiaWF0IjoxNTk5NTQ2NDM3fQ.Ev8yOVmtsBNkonR6dzOstP8KBWLX2mZrWNmHQ6XBVD0`,
+      Authorization: "Bearer " + accesstoken,
     },
   };
 
   const handleRegionChange = (event) => {
-    setSelectedRegionId(event.target.value);
-    API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/Country/GetAll', config)
-      .then((todo) => {
-        setCountryList(todo.data.countrys);
-        setSelectedCountryId(0);
-      })
-      .catch((err) => {
-        console.log('AXIOS ERROR: ', err);
-      });
+    const selectedRegion = regionList.filter(item => item.id == event.target.value);
+    setCityList(selectedRegion[0].cities);
   };
-  function handeleCountryChange(event) {
-    setSelectedCountryId(event.target.value);
-    API.get(officeURL+event.target.value, config)
+  function handeleCityChange(event) {
+    API.get(officeURL + event.target.value, config)
       .then((todo) => {
         setOfficeList(todo.data.offices);
       })
@@ -55,7 +49,7 @@ const SiteSelection=forwardRef((props, ref) => {
   }
 
   function handelOfficeChange(event) {
-    const selectedOff=officeList.filter(office => office.id==event.target.value)
+    const selectedOff = officeList.filter(office => office.id == event.target.value)
     setOfficeName(selectedOff[0].name);
     setOfficeAddress(selectedOff[0].address);
     setOfficeContact(selectedOff[0].fax);
@@ -64,126 +58,137 @@ const SiteSelection=forwardRef((props, ref) => {
 
   useImperativeHandle(ref, () => ({
     isCompleted() {
-        return formCompleted;
+      return formCompleted;
     }
-}));
+  }));
 
   useEffect(() => {
     const body = {
       username: 'atalay',
       password: 'Atie@1234',
     };
-    API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/Region/GetAll', config)
-      .then((todo) => setRegionList(todo.data.regionSer))
+    API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
+      .then((todo) => {
+        setRegionList(todo.data.countryRegions);
+      })
       .catch((err) => {
         console.log('AXIOS ERROR: ', err.response);
       });
   }, []);
   return (
-    <ReactBootstrap.Card>
-      <ReactBootstrap.Card.Header>Site Selection</ReactBootstrap.Card.Header>
-      <ReactBootstrap.Card.Body>
-        <blockquote className="blockquote mb-0">
-          <ReactBootstrap.Form.Group>
-            <ReactBootstrap.Row>
-              <ReactBootstrap.Col>
-                <ReactBootstrap.Form.Label>
-                  Region<i style={{ color: 'red' }}>*</i>{' '}
-                </ReactBootstrap.Form.Label>
-                <ReactBootstrap.Form.Control
-                  option={regionList}
-                  onChange={handleRegionChange}
-                  as="select"
-                >
-                  <option>select Region</option>
-                  {regionList.map((region) => (
-                    <option value={region.id}>{region.name}</option>
-                  ))}
-                </ReactBootstrap.Form.Control>
-              </ReactBootstrap.Col>
-
-              <ReactBootstrap.Col>
-                <ReactBootstrap.Form.Label>
-                  Office name{' '}
-                </ReactBootstrap.Form.Label>
-                <div
-                  style={{ borderStyle: 'outset', height: '50px' }}
-                  as="textarea"
-                  disabled
-                  aria-label="With textarea"
-                >
-                  <h5 style={{ color: 'purple' }}>{officeName}</h5>
-                </div>
-              </ReactBootstrap.Col>
-            </ReactBootstrap.Row>
-            <hr></hr>
-            <ReactBootstrap.Row>
-              <ReactBootstrap.Col>
-                <ReactBootstrap.Form.Label>
-                  Country<i style={{ color: 'red' }}>*</i>
-                </ReactBootstrap.Form.Label>
-                <ReactBootstrap.Form.Control
-                  option={countryList}
-                  onChange={handeleCountryChange}
-                  as="select"
-                >
-                  <option>select country</option>
-                  {countryList
-                    .filter((country) => country.regionId == selectedRegionId)
-                    .map((country) => (
-                      <option value={country.id}>{country.name}</option>
+    <MDBCard style={{ marginBottom: "1rem" }}>
+      <MDBCardBody>
+        <form>
+          <MDBRow>
+            <MDBCol>
+              <MDBRow>
+                <MDBCol>
+                  <label>
+                    Region<i style={{ color: 'red' }}>*</i>{' '}
+                  </label>
+                  <ReactBootstrap.Form.Control
+                    option={regionList}
+                    onChange={handleRegionChange}
+                    as="select"
+                  >
+                    <option>select Region</option>
+                    {regionList.map((region) => (
+                      <option value={region.id}>{region.name}</option>
                     ))}
-                </ReactBootstrap.Form.Control>
-              </ReactBootstrap.Col>
-              <ReactBootstrap.Col>
-                <ReactBootstrap.Form.Label>
-                  Office Address{' '}
-                </ReactBootstrap.Form.Label>
-                <div
-                  style={{ borderStyle: 'outset', height: '100px' }}
-                  as="textarea"
-                  disabled
-                  aria-label="With textarea"
+                  </ReactBootstrap.Form.Control>
+                </MDBCol>
+              </MDBRow>
+              <hr></hr>
+              <MDBRow>
+                <MDBCol>
+                  <label>
+                    City<i style={{ color: 'red' }}>*</i>
+                  </label>
+                  <ReactBootstrap.Form.Control
+                    option={cityList}
+                    onChange={handeleCityChange}
+                    as="select"
+                  >
+                    <option>select city</option>
+                    {cityList
+                      .map((city) => (
+                        <option value={city.id}>{city.name}</option>
+                      ))}
+                  </ReactBootstrap.Form.Control>
+                </MDBCol>
+              </MDBRow>
+              <hr></hr>
+              <MDBRow>
+                <MDBCol>
+                  <label>
+                    Office<i style={{ color: 'red' }}>*</i>
+                  </label>
+                  <ReactBootstrap.Form.Control
+                    placeholder="Select office"
+                    onChange={handelOfficeChange}
+                    as="select"
+                  >
+                    <option>select office</option>
+                    {officeList.map((office) => (
+                      <option value={office.id} name={office.name} key={office.address}>{office.name}</option>
+                    ))}
+                  </ReactBootstrap.Form.Control>
+                </MDBCol>
+              </MDBRow>
+            </MDBCol>
+            <MDBCol>
+              <app-right-content
+                class="small-12 medium-4 large-offset-1 large-4 column sticky-container"
+                data-sticky-container=""
+                _nghost-kxs-c3=""
+              >
+                <aside
+                  class="sidebar small sticky is-anchored is-at-top"
+                  data-btm-anchor="request-an-appointment:bottom"
+                  data-margin-top="2"
+                  data-sticky="s2eunn-sticky"
+                  data-sticky-on="medium"
+                  data-top-anchor="180"
+                  id="raa-sidebar"
+                  data-resize="raa-sidebar"
+                  data-mutate="raa-sidebar"
+                  data-events="mutate"
                 >
-                  <h5 style={{ color: 'purple' }}>{officeAddress}</h5>
-                </div>
-              </ReactBootstrap.Col>
-            </ReactBootstrap.Row>
-            <hr></hr>
-            <ReactBootstrap.Row>
-              <ReactBootstrap.Col>
-                <ReactBootstrap.Form.Label>
-                  Office<i style={{ color: 'red' }}>*</i>
-                </ReactBootstrap.Form.Label>
-                <ReactBootstrap.Form.Control
-                  placeholder="Select office"
-                  onChange={handelOfficeChange}
-                  as="select"
-                >
-                  <option>select office</option>
-                  {officeList.map((office) => (
-                    <option value={office.id} name={office.name} key={office.address}>{office.name}</option>
-                  ))}
-                </ReactBootstrap.Form.Control>
-              </ReactBootstrap.Col>
-              <ReactBootstrap.Col>
-                <ReactBootstrap.Form.Label>
-                  Contact Number{' '}
-                </ReactBootstrap.Form.Label>
-                <div
-                  style={{ borderStyle: 'outset', height: '50px' }}
-                  as="textarea"
-                  disabled
-                  aria-label="With textarea"
-                >
-                  <h5 style={{ color: 'purple' }}>{officeContact}</h5>
-                </div>
-              </ReactBootstrap.Col>
-            </ReactBootstrap.Row>
-          </ReactBootstrap.Form.Group>
-        </blockquote>
-      </ReactBootstrap.Card.Body>
-    </ReactBootstrap.Card>
+                  <div class="multistep-form__details sidebar__box sidebar__box--border sidebar__box--teal ng-star-inserted">
+                    <h4>
+                      <span class="ng-star-inserted">Office detail</span>
+                    </h4>
+                    <ul class="list--no-indent list--no-bullets ng-star-inserted">
+                      <li>
+                        <strong>
+                          Office name:&nbsp;&nbsp;<a href="#">{officeName}{' '}</a>
+                        </strong>
+                      </li>
+                      <hr />
+                      <li>
+                        <strong>
+                          Office Address:&nbsp;&nbsp;<a href="#">{officeAddress}{' '}</a>
+                        </strong>
+                      </li>
+                      <hr />
+                      <li>
+                        <strong>
+                          Contact :&nbsp;&nbsp;<i
+                          aria-hidden="true"
+                          class="fas fa-phone fa-rotate-180"
+                        ></i>{' '}<a href="tel:officeContact">{officeContact}{' '}</a>
+                        </strong>
+                      </li>
+                    </ul>
+                  </div>
+                </aside>
+              </app-right-content>
+            </MDBCol>
+          </MDBRow>
+        </form>
+      </MDBCardBody>
+    </MDBCard>
+
   );
 });
 export default SiteSelection

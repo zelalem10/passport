@@ -1,82 +1,195 @@
-import React, { useState, useEffect } from 'react';
-import { MDBBtn, MDBCard,MDBCardHeader, MDBContainer, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBRow } from 'mdbreact';
-import PayWithAmole from '../Payment/PayWithAmole'
-import PayWithCBE from '../Payment/PayWithCBE'
-import PayWithCBEBirr from '../Payment/PayWithCBEBirr'
-import PayWithHibret from '../Payment/PayWithHibret'
-import PayWithPSS from '../Payment/PayWithPSS'
-import PayWithAbyssinia from '../Payment/PayWithAbyssinia'
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
+import { MDBBtn, MDBInput, MDBCard, MDBCardHeader, MDBContainer, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBRow } from 'mdbreact';
+import { useDispatch, useSelector } from 'react-redux';
+import addPaymentOptionId from '../../redux/actions/addPaymentOptionIdAction';
+
+import { makeStyles } from '@material-ui/core/styles';
 
 import API from '../Utils/API'
-function getSelectedOption(optionName) {
-    switch (optionName) {
-        case "Amole":
-            return <PayWithAmole />;
-        case "CBE":
-            return <PayWithCBE />
-        case "CBEBirr":
-            return <PayWithCBEBirr />
-        case "PSS":
-            return <PayWithPSS />
-        case "Hibret":
-            return <PayWithHibret />
-        case "Abyssinia":
-            return <PayWithAbyssinia />
-        default:
-            return <h3>Unkown payment option</h3>;
-    }
-}
-const CardExample = () => {
+import token from '../common/accessToken'
+import Response from './Responses/Confirmation'
+
+
+const useStyles = makeStyles({
+    root: {
+        //   minWidth: 275,
+        border: `5px solid green`,
+        //background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    },
+});
+const PaymentSelection = forwardRef((props, ref) => {
     const [selectedOption, setSelectedOption] = useState();
     const [optionSelected, setOptionSelected] = useState(false);
     const [paymentOptions, setPaymentOptions] = useState([]);
+    const [requestSubmited, setRequestSubmited] = useState(false);
+    const [instruction, setInstruction] = useState("");
+    const [message, setMessage] = useState("");
+    const [flowType, setFlowType] = useState(0);
+    const [status, setStatus] = useState(0);
+    const [formCompleted, setFormCompleted] = useState(false);
+    const [test, setTest] = useState({ id: 10 });
+    const dispatch = useDispatch();
+    const counter = useSelector((state) => state);
+    const accesstoken = localStorage.systemToken;
     const config = {
-        headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTkyMTg5NTQsImV4cCI6MTU5OTIzMzM1NCwiaWF0IjoxNTk5MjE4OTU0fQ.XK2Y4z8ogsP7JK1ZKnetby59h-nBfeucciIbai6Ej6c` }
+        headers: { Authorization: "Bearer " + accesstoken }
     };
+    const classes = useStyles();
+    function getSelectedOption(id) {
+        const config = {
+            headers: { Authorization: token }
+        };
+        const body = {
+            firstName: 'Atalay',
+            lastName: 'Tilahun',
+            email: 'atehun@gmail.com',
+            phone: "0932876051",
+            amount: 10,
+            currency: "ETB",
+            city: "Addis Ababa",
+            country: "Ethiopia",
+            channel: "Amole",
+            paymentOptionsId: id,
+            traceNumbers: "",
+            Status: 4,
+            OrderId: "",
+            otp: "",
+            requestId: 3,
+        };
+        API.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
+            .then((todo) => {
+                console.log(todo.data)
+                setStatus(todo.data.status)
+                setInstruction(todo.data.instruction)
+                setFlowType(todo.data.paymentFlowType)
+                setMessage(todo.data.message)
+                setRequestSubmited(true)
+            })
+            .catch((err) => {
+                console.log("AXIOS ERROR: ", err.response);
+            })
+    }
+    function getContent(paymentFlowType) {
+        switch (paymentFlowType) {
+            case 1:
+                return <Response instruction={instruction} message={message} status={status} />
+        }
+    }
     useEffect(() => {
         API.get("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/GetPaymentOptions", config)
             .then((todo) => setPaymentOptions(todo.data.paymentOptions))
             .catch((err) => {
                 console.log("AXIOS ERROR: ", err);
             })
-
     }, [])
-    const handelClick = (optionCode) => {
-        setSelectedOption(optionCode);
-        setOptionSelected(true)
+    const handelClick = (optionId) => {
+        setSelectedOption(optionId);
+        const selectedId = { optionId: optionId }
+        dispatch(addPaymentOptionId(selectedId))
+        console.log(optionId)
+        //setOptionSelected(true);
     }
+    const handelConfirm = (event) => {
+        setFormCompleted(event.target.checked)
+    }
+    useImperativeHandle(ref, () => ({
+        isCompleted() {
+            return formCompleted;
+        }
+    }));
     return (
-        optionSelected === false ?
-            (
-                <MDBContainer>
-                    <MDBCard style={{marginTop: "1rem" }}>
-                        <MDBCardHeader color="primary-color" tag="h3">
-                            Select payment option to pay
-                  </MDBCardHeader>
+
+        <MDBContainer>
+            <MDBCard style={{ marginTop: "1rem" }}>
+                <MDBCardHeader color="primary-color" tag="h3">
+                    Select payment option to pay
+                 </MDBCardHeader>
+                <MDBRow>
+                    <MDBCol md="8">
                         <MDBCardBody>
                             <MDBRow>
                                 {paymentOptions.map((paymentOption) =>
-                                    <MDBCol md="4" style={{ marginBottom: "5px" }}>
-                                        <MDBCard>
-                                            <MDBCardImage className="img-fluid" src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
+                                    <MDBCol md="4">
+                                        <MDBCard className={selectedOption === paymentOption.id ? classes.root : ""}
+                                            style={{ marginBottom: "5px" }} onClick={() => handelClick(paymentOption.id)}>
+                                            <MDBCardImage className="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/images/50.jpg"
                                                 waves />
-                                            <MDBCardBody>
-                                                <MDBCardTitle>{paymentOption.name}</MDBCardTitle>instruction
-                                             <MDBCardText></MDBCardText>
-                                                <MDBBtn href="#" onClick={() => handelClick(paymentOption.code)}>Select</MDBBtn>
-                                            </MDBCardBody>
+                                            {/* <MDBCardBody> */}
+                                            <MDBCardTitle>{paymentOption.name}</MDBCardTitle>
+                                            {/* <MDBCardText>{paymentOption.instruction}</MDBCardText> */}
+                                            {/* </MDBCardBody> */}
+                                            {/* <MDBBtn onClick={() => getSelectedOption(paymentOption.id)}>Select</MDBBtn> */}
                                         </MDBCard>
                                     </MDBCol>
                                 )
                                 }
                             </MDBRow>
                         </MDBCardBody>
-                    </MDBCard>
-                </MDBContainer>
-            ) : (
-                <div>{getSelectedOption(selectedOption)}</div>
-            )
-    )
-}
+                    </MDBCol>
 
-export default CardExample;
+                    <MDBCol md="4">
+                        <app-right-content
+                            class="small-12 medium-4 large-offset-1 large-4 column sticky-container"
+                            data-sticky-container=""
+                            _nghost-kxs-c3=""
+                        >
+                            <aside
+                                class="sidebar small sticky is-anchored is-at-top"
+                                data-btm-anchor="request-an-appointment:bottom"
+                                data-margin-top="2"
+                                data-sticky="s2eunn-sticky"
+                                data-sticky-on="medium"
+                                data-top-anchor="180"
+                                id="raa-sidebar"
+                                data-resize="raa-sidebar"
+                                data-mutate="raa-sidebar"
+                                data-events="mutate"
+                            >
+                                <div class="sidebar__box sidebar__box--border ng-star-inserted">
+                                    <h4>Pricing Details</h4>
+                                    <ul class="vertical-margin-0">
+                                        <li>
+                                            <ul class="list--no-bullets list--single-line list--border">
+                                                <li>
+                                                    <strong>
+                                                        Request type:&nbsp;&nbsp;<a href="#">New{' '}</a>
+                                                    </strong>
+                                                </li>
+                                                <hr />
+                                                <li>
+                                                    <strong>
+                                                        Request Mode:&nbsp;&nbsp;<a href="#">Normal{' '}</a>
+                                                    </strong>
+                                                </li>
+                                                <hr />
+                                                <li>
+                                                    <strong>
+                                                        Price:&nbsp;&nbsp;<a href="#">600{' '}</a>
+                                                    </strong>
+                                                </li>
+                                                <hr />
+                                                <li>
+                                                    <strong>
+                                                        Page quantity:&nbsp;&nbsp;<a href="#">32{' '}</a>
+                                                    </strong>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </aside>
+                        </app-right-content>
+                    </MDBCol>
+                </MDBRow>
+
+            </MDBCard>
+
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="defaultUncheckedDisabled2" onChange={handelConfirm} indeterminate />
+                <label class="custom-control-label" for="defaultUncheckedDisabled2">Agree to terms and conditions</label>
+            </div>
+        </MDBContainer>
+
+    )
+});
+export default PaymentSelection

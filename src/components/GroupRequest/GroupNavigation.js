@@ -37,7 +37,6 @@ export default function RequestStepper() {
         <Card>
             <Card.Header>Personal Info</Card.Header>
             <Card.Body>
-                <blockquote className="blockquote mb-0">
                     <Accordion>
                         {(() => {
                             for (let i = 1; i <= numberOfApplicants; i++) {
@@ -48,8 +47,8 @@ export default function RequestStepper() {
                             <Card>
                                 <Card.Header>
                                     <Accordion.Toggle as={Button} variant="link" eventKey={applicantNumber}>
-                                        {prevInfo.filter(item =>item.applicantNumber==applicantNumber)[0]?
-                                        prevInfo.filter(item =>item.applicantNumber==applicantNumber)[0].firstName+" "+prevInfo.filter(item =>item.applicantNumber==applicantNumber)[0].middleName:"Applicant "+applicantNumber} {completedForms[0] ? <BsCheck /> : null}
+                                        {(prevInfo.filter(item =>item.applicantNumber==applicantNumber)[prevInfo.filter(item =>item.applicantNumber==applicantNumber).length-1] && prevInfo.filter(item =>item.applicantNumber==applicantNumber)[prevInfo.filter(item =>item.applicantNumber==applicantNumber).length-1].firstName !="")?
+                                        prevInfo.filter(item =>item.applicantNumber==applicantNumber)[prevInfo.filter(item =>item.applicantNumber==applicantNumber).length-1].firstName+" "+ prevInfo.filter(item =>item.applicantNumber==applicantNumber)[prevInfo.filter(item =>item.applicantNumber==applicantNumber).length-1].middleName:"Applicant "+applicantNumber} {completedForms[0] ? <BsCheck /> : null}
                                     </Accordion.Toggle>
                                 </Card.Header>
                                 <Accordion.Collapse eventKey={applicantNumber}>
@@ -61,7 +60,6 @@ export default function RequestStepper() {
                         )}
 
                     </Accordion>
-                </blockquote>
             </Card.Body>
         </Card>
     );

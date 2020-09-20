@@ -4,28 +4,32 @@ import DateSelection from '../Request Appointment/appointment/appointmentDate'
 import PersonalInfoStepper from '../Request/PersonslInfoStepper'
 import GroupNavigation from '../GroupRequest/GroupNavigation'
 import PaymentSelection from '../Payment/PaymentSelection'
+import Confirmation from '../Payment/Responses/Confirmation'
 import { Tab, Row, Nav, Col, Button, Card } from 'react-bootstrap';
-import {BsCheck,BsArrowRightShort, BsArrowLeftShort,BsHouseFill, BsPeopleCircle, BsCalendar, BsWallet} from 'react-icons/bs'
-import {  useSelector } from 'react-redux';
+import {BsCheck, BsArrowRightShort, BsArrowLeftShort, BsHouseFill, BsPeopleCircle, BsCalendar, BsWallet, BsFillInfoCircleFill} from 'react-icons/bs'
+import { useDispatch, useSelector } from 'react-redux';
+import addPaymentOptionId from '../../redux/actions/addPaymentOptionIdAction';
+
 
 export default function RequestStepper() {
   const [indexValue, setIndexValue] = useState(0);
-  const [formCompleted, setFormCompleted] = useState([false, false, false, false]);
-  const activeKey = ["first", "second", "third", "fourth"];
+  const [formCompleted, setFormCompleted] = useState([false, false, false, false,false]);
+  const activeKey = ["first", "second", "third", "fourth","Fivth"];
   const counter = useSelector((state) => state);
   const serviceVal=counter.service[counter.service.length - 1]
   const isGroup=counter.service[counter.service.length - 1].isGroup
   const childRef = useRef();
+  const dispatch = useDispatch();
   function handelNext(){
-    if(childRef.current.isCompleted()==true)
-    {
+    // if(childRef.current.isCompleted()==true)
+    // {
     setIndexValue(indexValue + 1)
     formCompleted[indexValue]=true
-    }
-    else{
-      alert("Please Complete the form")
-    }
-    
+    // }
+    // else{
+    //   alert("Please Complete the form")
+    // }
+
   }
   function handelPrevious(){
     setIndexValue(indexValue - 1)
@@ -42,6 +46,15 @@ export default function RequestStepper() {
   function handelPayment(){
     setIndexValue(3)
   }
+  function handelConfirmation(){
+    setIndexValue(4)
+  }
+  useEffect(() => {
+    if (counter.commonData.length === 0) {
+      const selectedId = { optionId: 0 }
+      dispatch(addPaymentOptionId(selectedId))
+    }
+  }, [])
   return (
     <Tab.Container defaultActiveKey="first" activeKey={activeKey[indexValue]}>
       <div style={{ margin: '2rem' }}>
@@ -62,6 +75,9 @@ export default function RequestStepper() {
                 <Nav.Item>
                   <Nav.Link eventKey={activeKey[3]} onClick={handelPayment} disabled={formCompleted[3] === true ? false : true}><BsWallet /> Payment{ formCompleted[3] ? <BsCheck /> : null }</Nav.Link>
                 </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey={activeKey[4]} onClick={handelConfirmation} disabled={formCompleted[4] === true ? false : true}><BsFillInfoCircleFill /> Confirmation{ formCompleted[4] ? <BsCheck /> : null }</Nav.Link>
+                </Nav.Item>
               </Nav>
             </Card>
           </Col>
@@ -78,6 +94,9 @@ export default function RequestStepper() {
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[3]}>
                 <PaymentSelection />
+              </Tab.Pane>
+              <Tab.Pane eventKey={activeKey[4]}>
+                <Confirmation />
               </Tab.Pane>
             </Tab.Content>
           </Col>
