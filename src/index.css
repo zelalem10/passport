@@ -57,7 +57,7 @@ code {
 }
 .passport-CarouselCaption .passport-btn {
   background-color: #ffd700 !important;
-  color: #747f8a;
+  color: #000000;
   border-radius: 25px;
 }
 .passport-card .card {
@@ -158,6 +158,11 @@ code {
 .passport-container {
   width: 80% !important;
 }
+.logo-img {
+  background-color: #ffffff;
+  width: 165%;
+  max-width: 165% !important;
+}
 @media only screen and (max-width: 600px) {
   .passport-container {
     width: 100% !important;
@@ -198,5 +203,13 @@ code {
   }
   .passport-card-deck {
     margin-top: 5%;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .logo-img {
+    background-color: #ffffff;
+    width: 50%;
+    max-width: 50% !important;
+    align-items: left;
   }
 }

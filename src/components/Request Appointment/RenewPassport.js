@@ -7,11 +7,7 @@ function RenewPassport(props) {
   const backTo = (e) => {
     props.prevStep(e);
   };
-  const [expanded, setExpanded] = useState('');
 
-  const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
-  };
   const { isItGroup } = props;
   const { values } = props;
   return (
@@ -26,265 +22,65 @@ function RenewPassport(props) {
             <div class="multistep-form__step renew-passport-multistep">
               <h2 className="h1">Which type of issue are you facing?</h2>
               <div class="card card--small-gutters card--shadow vertical-margin-2">
-                <Accordion
-                  square
-                  expanded={expanded === 'panel1'}
-                  onChange={handleChange('panel1')}
+                <a
+                  class="small-12 column row card--link"
+                  onClick={() => props.handleReplacmentReason('Expired')}
                 >
-                  <AccordionSummary
-                    aria-controls="panel1d-content"
-                    id="panel1d-header"
-                  >
-                    <a
-                      class="small-12 column row card--link"
-                      onClick={() => props.handleReplacmentReason('Expired')}
-                    >
-                      <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
-                        <strong>Expired</strong>
-                        <div class="text-center vertical-margin-half">
-                          <i class="fas fa-arrow-circle-right fa-lg"></i>
-                        </div>
-                      </div>
-                      <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
-                        <p>
-                          If your child will be a new patient with a given
-                          department at Nationwide Children’s, please select
-                          this type of appointment.
-                        </p>
-                        <p>
-                          {' '}
-                          We welcome patients who have a diagnosis and have
-                          recently moved and need help with their transfer of
-                          care.{' '}
-                        </p>
-                      </div>
-                    </a>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <form>
-                      <div className="grey-text">
-                        <MDBRow>
-                          <MDBInput
-                            icon="passport"
-                            group
-                            name="oldPassportFile"
-                            type="file"
-                            validate
-                            error="wrong"
-                            success="right"
-                            onChange={props.replacmentReasonInputs}
-                          />
-                          <MDBInput
-                            label="Passport Number"
-                            icon="passport"
-                            name="passportNumber"
-                            group
-                            type="number"
-                            validate
-                            error="wrong"
-                            success="right"
-                            onChange={props.replacmentReasonInputs}
-                          />
-                          <MDBInput
-                            label="Expiration date"
-                            icon="calendar"
-                            group
-                            name="expirationDate"
-                            type="date"
-                            validate
-                            error="wrong"
-                            success="right"
-                            onChange={props.replacmentReasonInputs}
-                          />
-                          <MDBInput
-                            label="Issue date"
-                            icon="calendar"
-                            group
-                            name="issuedDate"
-                            type="date"
-                            validate
-                            onChange={props.replacmentReasonInputs}
-                          />
-                        </MDBRow>
-                        <a
-                          onClick={props.replaceNext}
-                          class="specialty-next-step button vertical-margin-2"
-                        >
-                          {' '}
-                          Next <i class="fas fa-arrow-right"></i>
-                        </a>
-                      </div>
-                    </form>
-                  </AccordionDetails>
-                </Accordion>
-                <Accordion
-                  square
-                  expanded={expanded === 'panel2'}
-                  onChange={handleChange('panel2')}
+                  <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
+                    <strong>Expired</strong>
+                    <div class="text-center vertical-margin-half">
+                      <i class="fas fa-arrow-circle-right fa-lg"></i>
+                    </div>
+                  </div>
+                  <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
+                    <p>
+                      If your child will be a new patient with a given
+                      department at Nationwide Children’s, please select this
+                      type of appointment.
+                    </p>
+                    <p>
+                      {' '}
+                      We welcome patients who have a diagnosis and have recently
+                      moved and need help with their transfer of care.{' '}
+                    </p>
+                  </div>
+                </a>
+
+                <a
+                  class="small-12 column row card--link vertical-margin-1"
+                  onClick={() => props.handleReplacmentReason('Page Left')}
                 >
-                  <AccordionSummary
-                    aria-controls="panel2d-content"
-                    id="panel2d-header"
-                  >
-                    <a
-                      class="small-12 column row card--link vertical-margin-1"
-                      onClick={() => props.handleReplacmentReason('Page Left')}
-                    >
-                      <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
-                        <strong>Page Left</strong>
-                        <div class="text-center vertical-margin-half">
-                          <i class="fas fa-arrow-circle-right fa-lg"></i>
-                        </div>
-                      </div>
-                      <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
-                        <p>
-                          If your child has been seen by this department in the
-                          past, please select this type of appointment.
-                        </p>
-                      </div>
-                    </a>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <form>
-                      <div className="grey-text">
-                        <MDBRow>
-                          <MDBInput
-                            icon="passport"
-                            group
-                            name="oldPassportFile"
-                            type="file"
-                            validate
-                            error="wrong"
-                            success="right"
-                            onChange={props.replacmentReasonInputs}
-                          />
-                          <MDBInput
-                            label="Passport Number"
-                            icon="passport"
-                            name="passportNumber"
-                            group
-                            type="number"
-                            validate
-                            error="wrong"
-                            success="right"
-                            onChange={props.replacmentReasonInputs}
-                          />
-                          <MDBInput
-                            label="Expiration date"
-                            icon="calendar"
-                            group
-                            name="expirationDate"
-                            type="date"
-                            validate
-                            error="wrong"
-                            success="right"
-                            onChange={props.replacmentReasonInputs}
-                          />
-                          <MDBInput
-                            label="Issue date"
-                            icon="calendar"
-                            group
-                            name="issuedDate"
-                            type="date"
-                            validate
-                            onChange={props.replacmentReasonInputs}
-                          />
-                        </MDBRow>
-                        <a
-                          onClick={props.replaceNext}
-                          class="specialty-next-step button vertical-margin-2"
-                        >
-                          {' '}
-                          Next <i class="fas fa-arrow-right"></i>
-                        </a>
-                      </div>
-                    </form>
-                  </AccordionDetails>
-                </Accordion>
-                <Accordion
-                  square
-                  expanded={expanded === 'panel3'}
-                  onChange={handleChange('panel3')}
+                  <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
+                    <strong>Replacment Of Valid</strong>
+                    <div class="text-center vertical-margin-half">
+                      <i class="fas fa-arrow-circle-right fa-lg"></i>
+                    </div>
+                  </div>
+                  <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
+                    <p>
+                      If your child has been seen by this department in the
+                      past, please select this type of appointment.
+                    </p>
+                  </div>
+                </a>
+
+                <a
+                  class="small-12 column row card--link vertical-margin-1"
+                  onClick={() => props.handleReplacmentReason('Damaged')}
                 >
-                  <AccordionSummary
-                    aria-controls="panel3d-content"
-                    id="panel3d-header"
-                  >
-                    <a
-                      class="small-12 column row card--link vertical-margin-1"
-                      onClick={() => props.handleReplacmentReason('Damaged')}
-                    >
-                      <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
-                        <strong>Damaged</strong>
-                        <div class="text-center vertical-margin-half">
-                          <i class="fas fa-arrow-circle-right fa-lg"></i>
-                        </div>
-                      </div>
-                      <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
-                        <p>
-                          If your child has been seen by this department in the
-                          past, please select this type of appointment.
-                        </p>
-                      </div>
-                    </a>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <form>
-                      <div className="grey-text">
-                        <MDBRow>
-                          <MDBInput
-                            icon="passport"
-                            group
-                            name="oldPassportFile"
-                            type="file"
-                            validate
-                            error="wrong"
-                            success="right"
-                            onChange={props.replacmentReasonInputs}
-                          />
-                          <MDBInput
-                            label="Passport Number"
-                            icon="passport"
-                            name="passportNumber"
-                            group
-                            type="number"
-                            validate
-                            error="wrong"
-                            success="right"
-                            onChange={props.replacmentReasonInputs}
-                          />
-                          <MDBInput
-                            label="Expiration date"
-                            icon="calendar"
-                            group
-                            name="expirationDate"
-                            type="date"
-                            validate
-                            error="wrong"
-                            success="right"
-                            onChange={props.replacmentReasonInputs}
-                          />
-                          <MDBInput
-                            label="Issue date"
-                            icon="calendar"
-                            group
-                            name="issuedDate"
-                            type="date"
-                            validate
-                            onChange={props.replacmentReasonInputs}
-                          />
-                        </MDBRow>
-                        <a
-                          onClick={props.replaceNext}
-                          class="specialty-next-step button vertical-margin-2"
-                        >
-                          {' '}
-                          Next <i class="fas fa-arrow-right"></i>
-                        </a>
-                      </div>
-                    </form>
-                  </AccordionDetails>
-                </Accordion>
+                  <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
+                    <strong>Damaged</strong>
+                    <div class="text-center vertical-margin-half">
+                      <i class="fas fa-arrow-circle-right fa-lg"></i>
+                    </div>
+                  </div>
+                  <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
+                    <p>
+                      If your child has been seen by this department in the
+                      past, please select this type of appointment.
+                    </p>
+                  </div>
+                </a>
               </div>
               <div class="clear clearfix vertical-margin-2">
                 <a class="button hollow gray ng-star-inserted" onClick={backTo}>

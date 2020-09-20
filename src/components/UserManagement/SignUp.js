@@ -7,7 +7,7 @@ const Errorstyle = {
     marginTop: "-2rem",
     marginLeft: "2.5rem",
     };
-
+  const accesstoken = localStorage.systemToken;
 
 // intial state
 const intialState = {
@@ -18,9 +18,6 @@ const intialState = {
     firstNameError : '',
     MiddleNameError:'',
     lastNameError :'',
-  },
-  
-  userRequest : {
     email:'',
     password: '',
     passwordTwo: '',
@@ -28,11 +25,12 @@ const intialState = {
     passwordError : '',
     passwordTwoError : ''
   },
+  
 }
 
 class SignUp extends Component {
 
-      state = intialState
+    state = intialState
 
     //validate form
     validate = () => {
@@ -53,22 +51,22 @@ class SignUp extends Component {
       if (!this.state.personRequest.lastName){
         lastNameError = 'Please Enter Your Last Name.';
       }
-      if (!this.state.userRequest.email){
+      if (!this.state.personRequest.email){
         emailError = 'Please Enter Your Email Address.';
       }
-      if (!this.state.userRequest.password){
+      if (!this.state.personRequest.password){
         passwordError = 'Please Enter Your Password.';
       }
-      else if (this.state.userRequest.password.length < 6){
+      else if (this.state.personRequest.password.length < 6){
         passwordError = 'Please Enter at Least 6 Charachter.';
       }
-      if (!this.state.userRequest.passwordTwo){
+      if (!this.state.personRequest.passwordTwo){
         passwordTwoError = 'Please Enter Your Password.';
       }
-      else if (this.state.userRequest.passwordTwo.length < 6){
+      else if (this.state.personRequest.passwordTwo.length < 6){
         passwordTwoError = 'Please enter at least 6 charachter.';
       }
-      else if(this.state.userRequest.password !== this.state.userRequest.passwordTwo)
+      else if(this.state.personRequest.password !== this.state.personRequest.passwordTwo)
       {
         passwordTwoError = 'Passwords Do Not Match.';
       }
@@ -92,16 +90,6 @@ class SignUp extends Component {
 
     }
 
-    UserchangeHandler = (e) => {
-      const {userRequest} = { ...this.state };
-      const userRequestState = userRequest;
-      const { name, value } = e.target;
-      userRequestState[name] = value;
-    
-      this.setState({userRequest: userRequestState});
-
-    }
-
     submitHandler = (e) => {
        e.preventDefault()
        console.log(this.state);
@@ -110,10 +98,9 @@ class SignUp extends Component {
 
         axios({
 
+          headers: { Authorization: `Bearer ` +  accesstoken},
           method: 'post',
-
-          url: 'https://epassportservices.azurewebsites.net/api/Request/V1.0/RequestAttachments/UploadAttachment',
-
+          url: 'https://epassportservices.azurewebsites.net/api/Register/V1.0/UserRegistration/RegisterUser',
           data: this.state,
 
         })
@@ -130,13 +117,13 @@ class SignUp extends Component {
   
      // clear form
       this.setState(intialState.personRequest);
-      this.setState(intialState.userRequest);
+
     }
 
     }
 
     render() {
-        const {personRequest,userRequest} = this.state
+        const {personRequest} = this.state
         return (
            
     <MDBContainer className='my-5'>
@@ -211,13 +198,13 @@ class SignUp extends Component {
                     label="Email"
                     icon="envelope"
                     name='email'
-                    value={userRequest.email}
+                    value={personRequest.email}
                     group
                     type="email"
                     validate
                     error="wrong"
                     success="right"
-                    onChange={this.UserchangeHandler}
+                    onChange={this.changeHandler}
                   />
                   {this.state.emailError? (
                   <div className='red-text' style={Errorstyle}>{this.state.emailError}</div>
@@ -225,12 +212,12 @@ class SignUp extends Component {
                   <MDBInput
                     label="Password"
                     icon="lock"
-                    password={userRequest.password}
+                    password={personRequest.password}
                     name='password'
                     group
                     type="password"
                     validate
-                    onChange={this.UserchangeHandler}
+                    onChange={this.changeHandler}
                   />
                     {this.state.passwordError? (
                     <div className='red-text' style={Errorstyle}>{this.state.passwordError}</div>
@@ -238,12 +225,12 @@ class SignUp extends Component {
                   <MDBInput
                     label="Comfirm Password"
                     icon="lock"
-                    password={userRequest.passwordTwo}
+                    password={personRequest.passwordTwo}
                     name='passwordTwo'
                     group
                     type="password"
                     validate
-                    onChange={this.UserchangeHandler}
+                    onChange={this.changeHandler}
                   />
                   {this.state.passwordTwoError? (
                   <div className='red-text' style={Errorstyle}>{this.state.passwordTwoError}</div>

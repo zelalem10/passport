@@ -17,8 +17,8 @@ export default function RequestStepper() {
   const [formCompleted, setFormCompleted] = useState([false, false, false, false,false]);
   const activeKey = ["first", "second", "third", "fourth","Fivth"];
   const counter = useSelector((state) => state);
-  const serviceVal=counter.service[counter.service.length - 1]
-  const isGroup=counter.service[counter.service.length - 1].isGroup
+  const serviceVal = counter.service[counter.service.length - 1];
+  const isGroup = counter.service[counter.service.length - 1].isGroup;
   const childRef = useRef();
   const dispatch = useDispatch();
   function handelNext(){
@@ -32,20 +32,14 @@ export default function RequestStepper() {
     // }
 
   }
-  function handelPrevious(){
-    setIndexValue(indexValue - 1)
+  function handelPersonalInfo() {
+    setIndexValue(1);
   }
-  function handelSiteSelection(){
-    setIndexValue(0)
+  function handelDateAndTime() {
+    setIndexValue(2);
   }
-  function handelPersonalInfo(){
-    setIndexValue(1)
-  }
-  function handelDateAndTime(){
-    setIndexValue(2)
-  }
-  function handelPayment(){
-    setIndexValue(3)
+  function handelPayment() {
+    setIndexValue(3);
   }
   function handelConfirmation(){
     setIndexValue(4)
@@ -68,16 +62,44 @@ export default function RequestStepper() {
               <Card.Header>Request Appointment </Card.Header>
               <Nav variant="pills" className="flex-column">
                 <Nav.Item>
-                  <Nav.Link eventKey={activeKey[0]} onClick={handelSiteSelection} disabled={formCompleted[0] === true ? false : true} > <BsHouseFill /> Site Selection { formCompleted[0] ? <BsCheck /> : null } </Nav.Link>
+                  <Nav.Link
+                    eventKey={activeKey[0]}
+                    onClick={handelSiteSelection}
+                    disabled={formCompleted[0] === true ? false : true}
+                  >
+                    {' '}
+                    <BsHouseFill /> Site Selection{' '}
+                    {formCompleted[0] ? <BsCheck /> : null}{' '}
+                  </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link eventKey={activeKey[1]} onClick={handelPersonalInfo} disabled={formCompleted[1] === true ? false : true}><BsPeopleCircle /> Personal information{ formCompleted[1] ? <BsCheck /> : null }</Nav.Link>
+                  <Nav.Link
+                    eventKey={activeKey[1]}
+                    onClick={handelPersonalInfo}
+                    disabled={formCompleted[1] === true ? false : true}
+                  >
+                    <BsPeopleCircle /> Personal information
+                    {formCompleted[1] ? <BsCheck /> : null}
+                  </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link eventKey={activeKey[2]} onClick={handelDateAndTime} disabled={formCompleted[2] === true ? false : true}><BsCalendar /> Date and time{ formCompleted[2] ? <BsCheck /> : null }</Nav.Link>
+                  <Nav.Link
+                    eventKey={activeKey[2]}
+                    onClick={handelDateAndTime}
+                    disabled={formCompleted[2] === true ? false : true}
+                  >
+                    <BsCalendar /> Date and time
+                    {formCompleted[2] ? <BsCheck /> : null}
+                  </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link eventKey={activeKey[3]} onClick={handelPayment} disabled={formCompleted[3] === true ? false : true}><BsWallet /> Payment{ formCompleted[3] ? <BsCheck /> : null }</Nav.Link>
+                  <Nav.Link
+                    eventKey={activeKey[3]}
+                    onClick={handelPayment}
+                    disabled={formCompleted[3] === true ? false : true}
+                  >
+                    <BsWallet /> Payment{formCompleted[3] ? <BsCheck /> : null}
+                  </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link eventKey={activeKey[4]} onClick={handelConfirmation} disabled={formCompleted[4] === true ? false : true}><BsFillInfoCircleFill /> Confirmation{ formCompleted[4] ? <BsCheck /> : null }</Nav.Link>
@@ -91,7 +113,11 @@ export default function RequestStepper() {
                 <SiteSelection ref={childRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[1]}>
-                {isGroup===true?(<GroupNavigation />):(<PersonalInfoStepper  />)}
+                {isGroup === true ? (
+                  <GroupNavigation />
+                ) : (
+                  <PersonalInfoStepper />
+                )}
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[2]}>
                 <DateSelection />
@@ -108,11 +134,20 @@ export default function RequestStepper() {
         <Row>
           <Col md={3}></Col>
           <Col md={2}>
-            <Button variant="primary" onClick={handelPrevious} disabled={indexValue==0?true:false}><BsArrowLeftShort /> previous</Button>{' '}
+            <Button
+              variant="primary"
+              onClick={handelPrevious}
+              disabled={indexValue == 0 ? true : false}
+            >
+              <BsArrowLeftShort /> previous
+            </Button>{' '}
           </Col>
           <Col md={5}></Col>
           <Col md={2}>
-            <Button variant="primary" onClick={handelNext}>Next<BsArrowRightShort /></Button>{' '}
+            <Button variant="primary" onClick={handelNext}>
+              Next
+              <BsArrowRightShort />
+            </Button>{' '}
           </Col>
         </Row>
       </div>

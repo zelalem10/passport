@@ -8,6 +8,7 @@ import {
   MDBBtn,
   MDBContainer,
 } from 'mdbreact';
+import { Link, useHistory } from 'react-router-dom';
 
 const CarouselPage = () => {
   return (
@@ -41,9 +42,11 @@ const CarouselPage = () => {
                 Welcome to Ethiopian <br></br>
                 e-passport Services
               </h3>
-              <MDBBtn className="passport-btn d-none d-sm-block">
-                Request Appointment
-              </MDBBtn>
+              <Link to="/request-appointment">
+                <MDBBtn className="passport-btn d-none d-sm-block">
+                  Request Appointment
+                </MDBBtn>
+              </Link>
             </MDBCarouselCaption>
           </MDBCarouselItem>
           <MDBCarouselItem itemId="2">
@@ -60,9 +63,11 @@ const CarouselPage = () => {
                 Welcome to Ethiopian <br></br>
                 e-passport Services
               </h3>
-              <MDBBtn className="passport-btn d-none d-sm-block">
-                Request Appointment
-              </MDBBtn>
+              <Link to="/request-appointment">
+                <MDBBtn className="passport-btn d-none d-sm-block">
+                  Request Appointment
+                </MDBBtn>
+              </Link>
             </MDBCarouselCaption>
           </MDBCarouselItem>
           <MDBCarouselItem itemId="3">
@@ -79,9 +84,11 @@ const CarouselPage = () => {
                 Welcome to Ethiopian <br></br>
                 e-passport Services
               </h3>
-              <MDBBtn className="passport-btn d-none d-sm-block">
-                Request Appointment
-              </MDBBtn>
+              <Link to="/request-appointment">
+                <MDBBtn className="passport-btn d-none d-sm-block">
+                  Request Appointment
+                </MDBBtn>
+              </Link>
             </MDBCarouselCaption>
           </MDBCarouselItem>
         </MDBCarouselInner>

@@ -1,7 +1,33 @@
-import React from 'react';
-import { MDBRow, MDBContainer, MDBCol } from 'mdbreact';
+import React, { useState, useEffect } from 'react';
+import { MDBRow, MDBContainer, MDBCol, MDBInput } from 'mdbreact';
+import axios from 'axios';
+import addAppointmentType from '../../redux/actions/appointmentType';
+import { useDispatch, useSelector } from 'react-redux';
 
 function AppointmetType(props) {
+  
+  const dispatch = useDispatch();
+  const counter = useSelector((state) => state);
+  const [requestTypes, setRequestTypes] = useState([]);
+  const baseUrl = 'https://epassportservices.azurewebsites.net/';
+  
+  const accesstoken = localStorage.systemToken;
+  useEffect(() => {
+    axios({
+      headers: {
+        Authorization: 'Bearer ' + accesstoken,
+      },
+      method: 'get',
+      url: baseUrl + '/Master/api/V1.0/OfficeRequestType/GetAllRequestTypes',
+    })
+      .then(async (response) => {
+        dispatch(addAppointmentType(response.data.requestTypes));
+        setRequestTypes(response.data.requestTypes);
+      })
+      .catch((error) => {
+        console.log('error' + error);
+      });
+  }, []);
   const continueTo = (e) => {
     e.preventDefault();
     props.nextStep();
@@ -10,7 +36,7 @@ function AppointmetType(props) {
     e.preventDefault();
     props.prevStep();
   };
-  const { handleAppointmentType } = props;
+  const { handleAppointmentType,handleIsUrgent } = props;
   const { isItGroup } = props;
   const { values } = props;
   return (
@@ -23,89 +49,47 @@ function AppointmetType(props) {
         <MDBCol className="medium-8" sm="12" lg="7">
           <div className="multistep-form__step">
             <h2 className="h1">What type of appointment do you need?</h2>
+            <div>
+              <div class="custom-control isUrgent custom-checkbox">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="defaultChecked2"
+                  onChange={() => handleIsUrgent()}
+                />
 
+                <label
+                  class="custom-control-label isUrgent-label"
+                  for="defaultChecked2"
+                >
+                  Does the request urgent?
+                </label>
+              </div>
+            </div>
             <div className="rtf"></div>
             <div className="row align-center vertical-margin-2">
               <div className="small-11 column request-type">
                 <div class="request-card card card--small-gutters card--shadow text-center row ">
-                  <a
-                    onClick={() => props.DoubleNextStep('New')}
-                    class="small-12 column row card--link"
-                  >
-                    <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
-                      <strong>New Appointment</strong>
-                      <div class="text-center vertical-margin-half">
-                        <i class="fas fa-arrow-circle-right fa-lg"></i>
+                  {requestTypes.map((request) => (
+                    <a
+                      onClick={() =>
+                        request.id !== 3
+                          ? props.DoubleNextStep(request.id)
+                          : handleAppointmentType(request.id)
+                      }
+                      class="small-12 column row card--link vertical-margin-1"
+                    >
+                      <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
+                        <strong>{request.type} Appointment</strong>
+                        <div class="text-center vertical-margin-half">
+                          <i class="fas fa-arrow-circle-right fa-lg"></i>
+                        </div>
                       </div>
-                    </div>
-                    <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
-                      <p>
-                        If your child will be a new patient with a given
-                        department at Nationwide Children’s, please select this
-                        type of appointment.
-                      </p>
-                      <p>
-                        {' '}
-                        We welcome patients who have a diagnosis and have
-                        recently moved and need help with their transfer of
-                        care.{' '}
-                      </p>
-                    </div>
-                  </a>
-                  <a
-                    class="small-12 column row card--link vertical-margin-1"
-                    onClick={() => handleAppointmentType('Replace')}
-                  >
-                    <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
-                      <strong>Replace Appointment</strong>
-                      <div class="text-center vertical-margin-half">
-                        <i class="fas fa-arrow-circle-right fa-lg"></i>
+                      <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
+                        <p>{request.descrption}</p>
                       </div>
-                    </div>
-                    <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
-                      <p>
-                        If your child has been seen by this department in the
-                        past, please select this type of appointment.
-                      </p>
-                    </div>
-                  </a>
-                  <a
-                    onClick={() => props.DoubleNextStep('Lost')}
-                    class="small-12 column row card--link vertical-margin-1"
-                  >
-                    <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
-                      <strong>Lost/Stolen Appointment</strong>
-                      <div class="text-center vertical-margin-half">
-                        <i class="fas fa-arrow-circle-right fa-lg"></i>
-                      </div>
-                    </div>
-                    <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
-                      <p>
-                        If your child has a diagnosis, problem or condition that
-                        you would like to seek out additional pediatric expert
-                        advice for, please select this type of appointment.
-                      </p>
-                    </div>
-                  </a>
-                  <a
-                    onClick={() => props.DoubleNextStep('Correction')}
-                    class="small-12 column row card--link vertical-margin-1 "
-                  >
-                    <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
-                      <strong>Correction Appointment</strong>
-                      <div class="text-center vertical-margin-half">
-                        <i class="fas fa-arrow-circle-right fa-lg"></i>
-                      </div>
-                    </div>
-                    <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
-                      <p>
-                        International families should use this option to get in
-                        touch with our welcome service team who can connect you
-                        with a Nationwide Children’s expert to get you the
-                        advice you need.
-                      </p>
-                    </div>
-                  </a>
+                    </a>
+                  ))}
                 </div>
               </div>
             </div>

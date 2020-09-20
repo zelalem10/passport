@@ -44,16 +44,15 @@ export default function HorizontalLabelPositionBelowStepper() {
   const handleNext = () => {
     // if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
     //   childRef.current.saveData();
-    //   const isVilid= childRef.current.Validate();
-    //   if(isVilid==true)
-    //   {
+    //   const isVilid = childRef.current.Validate();
+    //   if (isVilid == true) {
     //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     //   }
     // }
-    // else{
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    // else {
+      childRef.current.saveData();
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
     //}
-    
   };
 
   const handleBack = () => {
@@ -74,9 +73,9 @@ export default function HorizontalLabelPositionBelowStepper() {
       requestId: 0,
       requestMode: 0,
       requestTypeId: 2,
-      userName: "",
+      userName: '',
       status: 0,
-      confirmationNumber: "",
+      confirmationNumber: '',
       applicants: [
         {
           personId: 0,
@@ -106,18 +105,18 @@ export default function HorizontalLabelPositionBelowStepper() {
           address: {
             personId: 0,
             addressId: 0,
-            city: addressInfo? addressInfo.city:null,
-            country: addressInfo? addressInfo.country:null,
-            state: addressInfo? addressInfo.state:null,
-            zone: addressInfo? addressInfo.zone:null,
-            wereda: addressInfo? addressInfo.woreda:null,
-            street: addressInfo? addressInfo.street:null,
-            houseNo: addressInfo? addressInfo.houseNo:null,
-            poBox: addressInfo? addressInfo.poBox:null,
-            phoneNumber: addressInfo? addressInfo.phoneNumber:null,
-            email: addressInfo? addressInfo.email:null,
-            requestPlace: addressInfo? addressInfo.requestPlace:null
-           }//,
+            city: addressInfo ? addressInfo.city : null,
+            country: addressInfo ? addressInfo.country : null,
+            state: addressInfo ? addressInfo.state : null,
+            zone: addressInfo ? addressInfo.zone : null,
+            wereda: addressInfo ? addressInfo.woreda : null,
+            street: addressInfo ? addressInfo.street : null,
+            houseNo: addressInfo ? addressInfo.houseNo : null,
+            poBox: addressInfo ? addressInfo.poBox : null,
+            phoneNumber: addressInfo ? addressInfo.phoneNumber : null,
+            email: addressInfo ? addressInfo.email : null,
+            requestPlace: addressInfo ? addressInfo.requestPlace : null,
+          }, //,
           // familyRequests: [
           //   // {
           //   //   familyId: 0,
@@ -127,25 +126,31 @@ export default function HorizontalLabelPositionBelowStepper() {
           //   //   lastName: "string"
           //   // }
           // ]
-        }
-      ]
-      };
-      debugger
-      API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest', requestBody, config)
+        },
+      ],
+    };
+    debugger;
+    API.post(
+      'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest',
+      requestBody,
+      config
+    )
       .then((todo) => {
-        console.log(todo.data+" id= "+todo.data.personResponses[0].requestPersonId);
-        alert(todo.data.message)
-        const commonData={
-          requestPersonId : todo.data.personResponses[0].requestPersonId
-        }
-        dispatch(addCommonData(commonData))
+        console.log(
+          todo.data + ' id= ' + todo.data.personResponses[0].requestPersonId
+        );
+        alert(todo.data.message);
+        const commonData = {
+          requestPersonId: todo.data.personResponses[0].requestPersonId,
+        };
+        dispatch(addCommonData(commonData));
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       })
       .catch((err) => {
         console.log('AXIOS ERROR: ', err.response);
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       });
-  }
+  };
   function getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
@@ -153,7 +158,7 @@ export default function HorizontalLabelPositionBelowStepper() {
       case 1:
         return <AddressInfo ref={childRef} />;
       case 2:
-        return <FamilyInformation />;
+        return <FamilyInformation ref={childRef} />;
       case 3:
         return <TravelPlan ref={childRef} />;
       case 4:
@@ -163,7 +168,7 @@ export default function HorizontalLabelPositionBelowStepper() {
     }
   }
   return (
-    <div className={classes.root} style={{ marginBottom: "5rem" }}>
+    <div className={classes.root} style={{ marginBottom: '5rem' }}>
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
           <Step key={label}>
@@ -174,33 +179,49 @@ export default function HorizontalLabelPositionBelowStepper() {
       <div>
         {activeStep === steps.length ? (
           <div>
-            <Typography className={classes.instructions}>All steps completed</Typography>
+            <Typography className={classes.instructions}>
+              All steps completed
+            </Typography>
             <Button onClick={handleReset}>Reset</Button>
           </div>
         ) : (
-            <div>
-              <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-              <Grid container spacing={1}>
-                <Grid item xs={3} >
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.backButton}
-                  >
-                    Back
-              </Button>
-                </Grid>
-                <hr></hr>
-                <Grid item xs={1}>
-                  {activeStep === steps.length - 2 ? (<Button variant="contained" color="primary" onClick={handleSubmit}>
-                    Submit
-                  </Button>) : (<Button variant="contained" color="primary" onClick={handleNext}>
-                    Next
-                  </Button>)}
-                </Grid>
+          <div>
+            <Typography className={classes.instructions}>
+              {getStepContent(activeStep)}
+            </Typography>
+            <Grid container spacing={1}>
+              <Grid item xs={3}>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  className={classes.backButton}
+                >
+                  Back
+                </Button>
               </Grid>
-            </div>
-          )}
+              <hr></hr>
+              <Grid item xs={1}>
+                {activeStep === steps.length - 2 ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSubmit}
+                  >
+                    Submit
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                  >
+                    Next
+                  </Button>
+                )}
+              </Grid>
+            </Grid>
+          </div>
+        )}
       </div>
     </div>
   );

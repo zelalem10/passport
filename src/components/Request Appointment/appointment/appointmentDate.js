@@ -54,6 +54,7 @@ function MyApp() {
       url: baseUrl + '/Master/api/V1.0/AdvancedRestriction/GetAll',
     })
       .then(async (response) => {
+        debugger;
         advancedRestrictionData = response.data.advancedRestrictions[0];
         setResponse(response.data.advancedRestrictions[0]);
         const headers = {
@@ -78,7 +79,7 @@ function MyApp() {
               )
             ),
             requestTypeId: 2,
-            officeId: 3,
+            officeId: 7,
           },
         })
           .then((responses) => {

@@ -359,7 +359,7 @@ p .video__toggle {
   color: #224b9f !important;
 }
 .specialty-next-step.button {
-  display: inline-block;
+  display: flex;
   vertical-align: middle;
   margin: 0 0 1rem;
   padding: 0.66rem 1.5rem;
@@ -374,6 +374,9 @@ p .video__toggle {
   color: #fefefe !important;
   font-weight: 500;
   line-height: 1.3;
+}
+.replacment-next.button {
+  display: inline-block;
 }
 .specialty-next-step.button:hover {
   background-color: transparent;
@@ -688,4 +691,48 @@ ul.list--single-line li .icon {
 }
 .multistep-form__step .md-form .validate {
   margin-bottom: 0 !important;
+}
+.applicants-select {
+  width: 70% !important;
+}
+/* select list css */
+/* Reset Select */
+
+/* Remove IE arrow */
+select::-ms-expand {
+  display: none;
+}
+/* Custom Select */
+
+select {
+  flex: 1;
+  padding: 0 0.5em;
+  color: #fff;
+  cursor: pointer;
+}
+/* Arrow */
+.select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 1em;
+  background: #34495e;
+  cursor: pointer;
+  pointer-events: none;
+  -webkit-transition: 0.25s all ease;
+  -o-transition: 0.25s all ease;
+  transition: 0.25s all ease;
+}
+.check-agree {
+  color: red;
+}
+.isUrgent-label {
+  color: #0a0a0a;
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+.isUrgent.custom-checkbox {
+  text-align: center;
+  padding-top: 2%;
 }

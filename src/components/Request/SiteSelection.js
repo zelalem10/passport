@@ -5,8 +5,8 @@ import { MDBRow, MDBCol, MDBInput,  MDBCard, MDBCardBody } from 'mdbreact';
 import API from '../Utils/API';
 import token from '../common/accessToken'
 
-
-const SiteSelection = forwardRef((props, ref) => {
+const accesstoken = localStorage.systemToken;
+const SiteSelection=forwardRef((props, ref) => {
   const useStyles = makeStyles((theme) => ({
     root: {
       '& .MuiTextField-root': {
@@ -30,7 +30,7 @@ const SiteSelection = forwardRef((props, ref) => {
     'https://epassportservices.azurewebsites.net/Master/api/V1.0/Office/GetByCityId?id=';
   const config = {
     headers: {
-      Authorization: "Bearer " + accesstoken,
+      Authorization: `Bearer `+ accesstoken,
     },
   };
 
