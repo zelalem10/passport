@@ -13,6 +13,7 @@ import addPaymentOptionId from '../../redux/actions/addPaymentOptionIdAction';
 
 export default function RequestStepper() {
   const [indexValue, setIndexValue] = useState(0);
+  const [selectedPaymentOption, setSelectedPaymentOption] = useState(0);
   const [formCompleted, setFormCompleted] = useState([false, false, false, false,false]);
   const activeKey = ["first", "second", "third", "fourth","Fivth"];
   const counter = useSelector((state) => state);
@@ -48,6 +49,9 @@ export default function RequestStepper() {
   }
   function handelConfirmation(){
     setIndexValue(4)
+  }
+  function handelPaymentSelection(optionId){
+    setSelectedPaymentOption(optionId)
   }
   useEffect(() => {
     if (counter.commonData.length === 0) {
