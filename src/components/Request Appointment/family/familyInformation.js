@@ -27,7 +27,7 @@ const FamilyInformation = forwardRef((props, ref) => {
     fName: '',
     lName: '',
     idCardNum: '',
-    familyType: '',
+    famType: '',
   });
   const [familyType, setFamilyType] = useState([]);
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
@@ -71,6 +71,7 @@ const FamilyInformation = forwardRef((props, ref) => {
     }));
   };
   const handleUserEditInput = (e) => {
+    debugger;
     const { name, value } = e.target;
     setEditdata((prevState) => ({
       ...prevState,
@@ -97,7 +98,8 @@ const FamilyInformation = forwardRef((props, ref) => {
         id: familiesInfo.length,
         firstName: state.fname,
         lastName: state.lname,
-        familyRelationType: state.famType,
+        familtyTypeId: state.famType,
+        personId:0,
       },
     ]);
     // dispatch(
@@ -128,7 +130,7 @@ const FamilyInformation = forwardRef((props, ref) => {
       fName: editableFamilyInfo.firstName,
       lName: editableFamilyInfo.lastName,
       idCardNum: editableFamilyInfo.id,
-      familyType: editableFamilyInfo.familyRelationType,
+      famType: editableFamilyInfo.familtyTypeId,
     }));
     setMoreFamily(true);
     setIsEdit(true);
@@ -140,7 +142,7 @@ const FamilyInformation = forwardRef((props, ref) => {
       if (newfamiliesInfo[i]['id'] === id) {
         newfamiliesInfo[i].firstName = editdata.fName;
         newfamiliesInfo[i].lastName = editdata.lName;
-        newfamiliesInfo[i].familyRelationType = editdata.famType;
+        newfamiliesInfo[i].familtyTypeId = editdata.famType;
       }
     }
     setFamiliesInfo(newfamiliesInfo);

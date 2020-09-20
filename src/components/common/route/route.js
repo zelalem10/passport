@@ -15,7 +15,11 @@ import MainStatus from '../../Status/mainStatus';
 import ServiceSelection from '../../Request Appointment/ServiceSelection';
 import PayWithPSS from '../../Payment/PayWithPSS';
 
+
 function PassportRoute() {
+//   childUrl = window.open('/preview', '_blank')
+// childUrl.document.open('text/html', 'replace')
+// childUrl.document.write(htmlContent)
   return (
     <>
       <Route path="/" exact component={HomePage} />

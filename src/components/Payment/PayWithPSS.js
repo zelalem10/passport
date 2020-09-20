@@ -3,6 +3,7 @@ import { MDBBtn, MDBCard, MDBContainer, MDBCardHeader, MDBNavLink, MDBCardBody, 
 import PaymentSelection from '../Payment/PaymentSelection'
 import API from '../Utils/API'
 import { BsLayoutTextWindowReverse } from 'react-icons/bs';
+var parse = require('html-react-parser');
 
 
 const PayWithPSS = () => {
@@ -35,7 +36,9 @@ const PayWithPSS = () => {
         };
         API.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
             .then((todo) => {
-                setContentResponse(todo.data.redirectMSG)
+                debugger;
+                setContentResponse(`${todo.data.redirectMSG}`)
+                
                 console.log("MSG: ", todo.data.redirectMSG);
             })
             .catch((err) => {
@@ -46,10 +49,13 @@ const PayWithPSS = () => {
         returnBack === true ? (<PaymentSelection />) : (
              <MDBContainer>
                 <MDBCardBody>
-                    <div dangerouslySetInnerHTML={{__html: contentResponse}} />
+                   <div dangerouslySetInnerHTML={{__html: contentResponse}} />
+                    {/* {parse(contentResponse)} */}
                       <MDBBtn color="warning" size="sm" onClick={hadndelBack}> Back to selection </MDBBtn>
                   </MDBCardBody>
               </MDBContainer>
+            // <a href='/pssTest.html' target='_blank'>link to test.html</a>
+         
     )
     )
 }
