@@ -19,6 +19,7 @@ const PersonalInfo = forwardRef((props, ref) => {
 
   let applicantInfo = [];
   const dispatch = useDispatch();
+  
   const counter = useSelector((state) => state);
   if (counter.personalInfoReducer.length === 0) {
     for (let i = 0; i < applicants.length; i++) {

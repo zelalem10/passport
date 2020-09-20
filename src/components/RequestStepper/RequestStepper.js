@@ -32,6 +32,12 @@ export default function RequestStepper() {
     // }
 
   }
+  function handelPrevious(){
+    setIndexValue(indexValue - 1)
+  }
+  function handelSiteSelection(){
+    setIndexValue(0)
+  }
   function handelPersonalInfo() {
     setIndexValue(1);
   }

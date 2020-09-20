@@ -12,17 +12,21 @@ const PersonalInfo = forwardRef((props, ref) => {
         geezFirstName: "",
         geezMiddleName: "",
         geezLastName: "",
-        birthCountry: "",
-        birthCity: "",
+        birthPlace: "",
+        birthCertificatNo: "",
         birthDate: "",
         gender: "1",
         height: "",
         eyeColor: "",
-        hairColor: "",
+        hairColor: "Black",
+        martialStatus:"0",
         occupation: "",
-        halfCast: "",
+        isHalfCast: false,
+        isUnder18: false,
+        isAdoption: false,
         enrolmentDate: "",
         nationality: "",
+        dataSaved: false,
         formCompleted: false
     });
     const [notCompleted, setNotCompleted] = useState({
@@ -32,15 +36,18 @@ const PersonalInfo = forwardRef((props, ref) => {
         geezFirstName: true,
         geezMiddleName: true,
         geezLastName: true,
-        birthCountry: true,
-        birthCity: true,
+        birthPlace: true,
+        birthCertificatNo: true,
+        martialStatus:false,
         birthDate: true,
         gender: false,
         height: true,
         eyeColor: true,
         hairColor: true,
         occupation: true,
-        halfCast: true,
+        isHalfCast: true,
+        isUnder18: true,
+        isAdoption: true,
         enrolmentDate: true,
         nationality: true
     });
@@ -64,30 +71,31 @@ const PersonalInfo = forwardRef((props, ref) => {
                 geezFirstName: personalInfo.geezFirstName === "" ? true : false,
                 geezMiddleName: personalInfo.geezMiddleName === "" ? true : false,
                 geezLastName: personalInfo.geezLastName === "" ? true : false,
-                birthCountry: personalInfo.birthCountry === "" ? true : false,
-                birthCity: personalInfo.birthCity === "" ? true : false,
+                birthPlace: personalInfo.birthPlace === "" ? true : false,
+                birthCertificatNo: personalInfo.birthCertificatNo === "" ? true : false,
                 birthDate: personalInfo.birthDate === "" ? true : false,
                 gender: personalInfo.gender === "" ? true : false,
                 height: personalInfo.height === "" ? true : false,
                 eyeColor: personalInfo.eyeColor === "" ? true : false,
                 hairColor: personalInfo.hairColor === "" ? true : false,
                 occupation: personalInfo.occupation === "" ? true : false,
-                halfCast: personalInfo.halfCast === "" ? true : false,
+                isHalfCast: personalInfo.isHalfCast,
+                isUnder18: personalInfo.isUnder18,
+                isAdoption: personalInfo.isAdoption,
                 enrolmentDate: personalInfo.enrolmentDate === "" ? true : false,
-                nationality: personalInfo.nationality === "" ? true : false
+                nationality: personalInfo.nationality === "" ? true : false,
+                martialStatus:personalInfo.martialStatus === "" ? true : false
             })
             if (notCompleted.firstName == true || notCompleted.lastName || notCompleted.middleName == true
                 || notCompleted.birthDate == true || notCompleted.geezFirstName == true || notCompleted.geezLastName
                 || notCompleted.geezLastName == true || notCompleted.nationality == true || notCompleted.gender == true
+                || notCompleted.enrolmentDate == true
             )
                 return false;
             else
-            {
                 return true
-            }
         }
     }));
-
     const handleChange = (event) => {
         const { name, value } = event.target;
         setPersonalInfo((prevState) => ({
@@ -101,6 +109,18 @@ const PersonalInfo = forwardRef((props, ref) => {
             }))
         }
     }
+    const handleCheck = (name,checked) => {
+        setPersonalInfo((prevState) => ({
+            ...prevState,
+            [name]: checked,
+        }))
+        // if (!event.target.checked) {
+        //     setNotCompleted((prevState) => ({
+        //         ...prevState,
+        //         [name]: false,
+        //     }))
+        // }
+    }
     const resultLength=counter.personalInfoReducer.filter(item => item.applicantNumber == props.applicantNumber).length;
     var prevInfo = counter.personalInfoReducer.filter(item => item.applicantNumber == props.applicantNumber)[resultLength-1]
 
@@ -113,201 +133,225 @@ const PersonalInfo = forwardRef((props, ref) => {
             geezFirstName: prevInfo ? prevInfo.geezFirstName : "",
             geezMiddleName: prevInfo ? prevInfo.geezMiddleName : "",
             geezLastName: prevInfo ? prevInfo.geezLastName : "",
-            birthCountry: prevInfo ? prevInfo.birthCountry : "",
-            birthCity: prevInfo ? prevInfo.birthCity : "",
+            birthPlace: prevInfo ? prevInfo.birthPlace : "",
             birthDate: prevInfo ? prevInfo.birthDate : "",
+            birthCertificatNo: prevInfo ? prevInfo.birthCertificatNo : "",
             height: prevInfo ? prevInfo.height : "",
             gender: prevInfo ? prevInfo.gender : "1",
             eyeColor: prevInfo ? prevInfo.eyeColor : "",
-            hairColor: prevInfo ? prevInfo.hairColor : "",
+            hairColor: prevInfo ? prevInfo.hairColor : "Black",
             occupation: prevInfo ? prevInfo.occupation : "",
-            halfCast: prevInfo ? prevInfo.halfCast : "",
+            isHalfCast: prevInfo ? prevInfo.isHalfCast : false,
+            isAdoption: prevInfo ? prevInfo.isAdoption : false,
+            isUnder18: prevInfo ? prevInfo.isUnder18 : false,
             enrolmentDate: prevInfo ? prevInfo.enrolmentDate : "",
             nationality: prevInfo ? prevInfo.nationality : "",
-            formCompleted: prevInfo ? prevInfo.formCompleted : false,
         }))
     }, []);
 
     return (
-        <form>
-            <MDBRow>
-                <MDBCol>
-                    <MDBInput
-                        valueDefault={prevInfo ? prevInfo.firstName : null}
-                        name="firstName"
-                        className="form-control"
-                        onBlur={handleChange}
-                        type="text"
-                        label="First name"
-                    />
-                    <span style={{ color: "red" }}> {(notCompleted.firstName == true && personalInfo.dataSaved == true) ? "First name " + isRequired : null}</span>
-                </MDBCol>
-                <MDBCol>
-                    <MDBInput
-                        valueDefault={prevInfo ? prevInfo.middleName : null}
-                        name="middleName"
-                        onBlur={handleChange}
-                        type="text"
-                        label="Middle name"
-                    />
-                    <span style={{ color: "red" }}> {(notCompleted.middleName == true && personalInfo.dataSaved == true) ? "Middle name " + isRequired : null}</span>
-                </MDBCol>
-                <MDBCol>
-                    <MDBInput
-                        valueDefault={prevInfo ? prevInfo.lastName : null}
-                        name="lastName"
-                        onBlur={handleChange}
-                        type="text"
-                        label="Last name"
-                    />
-                    <span style={{ color: "red" }}> {(notCompleted.lastName == true && personalInfo.dataSaved == true) ? "Last name " + isRequired : null}</span>
-                </MDBCol>
-                <MDBCol>
-                    <MDBInput
-                        valueDefault={prevInfo ? prevInfo.birthDate : null}
-                        name="birthDate"
-                        onChange={handleChange}
-                        type="date"
-                        label="Birth Date"
-                    />
-                    <span style={{ color: "red" }}> {(notCompleted.birthDate == true && personalInfo.dataSaved == true) ? "Birth date " + isRequired : null}</span>
-                </MDBCol>
-            </MDBRow>
-            <MDBRow>
-                <MDBCol>
-                    <MDBInput
-                        valueDefault={prevInfo ? prevInfo.geezFirstName : null}
-                        name="geezFirstName"
-                        className="form-control"
-                        onBlur={handleChange}
-                        type="text"
-                        label="ስም"
-                    />
-                    <span style={{ color: "red" }}> {(notCompleted.geezFirstName == true && personalInfo.dataSaved == true) ? "የአመልካቹ ስም አስፈላጊ ነው" : null}</span>
-                </MDBCol>
-                <MDBCol>
-                    <MDBInput
-                        valueDefault={prevInfo ? prevInfo.geezMiddleName : null}
-                        name="geezMiddleName"
-                        onBlur={handleChange}
-                        type="text"
-                        label="የአባት ስም"
-                    />
-                    <span style={{ color: "red" }}> {(notCompleted.geezMiddleName == true && personalInfo.dataSaved == true) ? "የአባት ስም አስፈላጊ ነው" : null}</span>
-                </MDBCol>
-                <MDBCol>
-                    <MDBInput
-                        valueDefault={prevInfo ? prevInfo.geezLastName : null}
-                        name="geezLastName"
-                        onBlur={handleChange}
-                        type="text"
-                        label="የአያት ስም"
-                    />
-                    <span style={{ color: "red" }}> {(notCompleted.geezLastName == true && personalInfo.dataSaved == true) ? "የአያት ስም አስፈላጊ ነው" : null}</span>
-                </MDBCol>
-                <MDBCol>
-                    <MDBInput
-                        valueDefault={prevInfo ? prevInfo.nationality : null}
-                        name="nationality"
-                        onChange={handleChange}
-                        type="text"
-                        label="Nationality"
-                    />
-                    <span style={{ color: "red" }}> {(notCompleted.nationality == true && personalInfo.dataSaved == true) ? "Nationality" + isRequired : null}</span>
-                </MDBCol>
-            </MDBRow>
+                <form>
+                    <MDBRow>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.firstName : null}
+                                name="firstName"
+                                className="form-control"
+                                onBlur={handleChange}
+                                type="text"
+                                label="First name"
+                            />
+                            <span style={{ color: "red" }}> {(notCompleted.firstName == true && personalInfo.dataSaved == true) ? "First name " + isRequired : null}</span>
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.middleName : null}
+                                name="middleName"
+                                onBlur={handleChange}
+                                type="text"
+                                label="Middle name"
+                            />
+                            <span style={{ color: "red" }}> {(notCompleted.middleName == true && personalInfo.dataSaved == true) ? "Middle name " + isRequired : null}</span>
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.lastName : null}
+                                name="lastName"
+                                onBlur={handleChange}
+                                type="text"
+                                label="Last name"
+                            />
+                            <span style={{ color: "red" }}> {(notCompleted.lastName == true && personalInfo.dataSaved == true) ? "Last name " + isRequired : null}</span>
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.birthDate : null}
+                                name="birthDate"
+                                onChange={handleChange}
+                                type="date"
+                                label="Birth Date"
+                            />
+                            <span style={{ color: "red" }}> {(notCompleted.birthDate == true && personalInfo.dataSaved == true) ? "Birth date " + isRequired : null}</span>
+                        </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.geezFirstName : null}
+                                name="geezFirstName"
+                                className="form-control"
+                                onBlur={handleChange}
+                                type="text"
+                                label="ስም"
+                            />
+                            <span style={{ color: "red" }}> {(notCompleted.geezFirstName == true && personalInfo.dataSaved == true) ? "የአመልካቹ ስም አስፈላጊ ነው" : null}</span>
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.geezMiddleName : null}
+                                name="geezMiddleName"
+                                onBlur={handleChange}
+                                type="text"
+                                label="የአባት ስም"
+                            />
+                            <span style={{ color: "red" }}> {(notCompleted.geezMiddleName == true && personalInfo.dataSaved == true) ? "የአባት ስም አስፈላጊ ነው" : null}</span>
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.geezLastName : null}
+                                name="geezLastName"
+                                onBlur={handleChange}
+                                type="text"
+                                label="የአያት ስም"
+                            />
+                            <span style={{ color: "red" }}> {(notCompleted.geezLastName == true && personalInfo.dataSaved == true) ? "የአያት ስም አስፈላጊ ነው" : null}</span>
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.nationality : null}
+                                name="nationality"
+                                onChange={handleChange}
+                                type="text"
+                                label="Nationality"
+                            />
+                            <span style={{ color: "red" }}> {(notCompleted.nationality == true && personalInfo.dataSaved == true) ? "Nationality" + isRequired : null}</span>
+                        </MDBCol>
+                    </MDBRow>
 
-            <MDBRow>
-                <MDBCol>
-                    <MDBInput
-                        valueDefault={prevInfo ? prevInfo.birthCountry : null}
-                        name="birthCountry"
-                        className="form-control"
-                        onChange={handleChange}
-                        type="text"
-                        label="Birth Country"
-                    />
-                </MDBCol>
-                <MDBCol>
-                    <MDBInput
-                        valueDefault={prevInfo ? prevInfo.birthCity : null}
-                        name="birthCity"
-                        onChange={handleChange}
-                        type="text"
-                        label="Birth City"
-                    />
-                </MDBCol>
-                <MDBCol>
-                    <label>Gender</label>
-                    <select className="browser-default custom-select">
-                        <option value="1">Male</option>
-                        <option value="0">Female</option>
-                    </select>
-                </MDBCol>
-                <MDBCol>
-                    <MDBInput
-                        valueDefault={prevInfo ? prevInfo.enrolmentDate : null}
-                        name="enrolmentDate"
-                        onChange={handleChange}
-                        type="date"
-                        label="Enrolment date"
-                    />
-                </MDBCol>
-            </MDBRow>
-            <MDBRow>
-                <MDBCol>
-                    <MDBInput
-                        valueDefault={prevInfo ? prevInfo.occupation : null}
-                        name="occupation"
-                        className="form-control"
-                        onChange={handleChange}
-                        type="text"
-                        label="Occupation"
-                    />
-                </MDBCol>
-                <MDBCol>
-                    <MDBInput
-                        valueDefault={prevInfo ? prevInfo.height : null}
-                        name="height"
-                        onChange={handleChange}
-                        type="text"
-                        label="Height"
-                    />
-                </MDBCol>
-                <MDBCol>
-                    <MDBInput
-                        valueDefault={prevInfo ? prevInfo.halfCast : null}
-                        name="halfCast"
-                        onChange={handleChange}
-                        type="text"
-                        label="Half Cast"
-                    />
-                </MDBCol>
-                <MDBCol>
-                    <MDBInput
-                        valueDefault={prevInfo ? prevInfo.eyeColor : null}
-                        name="eyeColor"
-                        onChange={handleChange}
-                        type="text"
-                        label="Eye Color"
-                    />
-                </MDBCol>
-            </MDBRow>
-            <MDBRow>
-                <MDBCol>
-                    <MDBInput
-                        valueDefault={prevInfo ? prevInfo.hairColor : null}
-                        name="hairColor"
-                        className="form-control"
-                        onChange={handleChange}
-                        type="text"
-                        label="Hair Color"
-                    />
-                </MDBCol>
-                <MDBCol></MDBCol>
-                <MDBCol></MDBCol>
-            </MDBRow>
-        </form>
+                    <MDBRow>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.birthPlace : null}
+                                name="birthPlace"
+                                className="form-control"
+                                onChange={handleChange}
+                                type="text"
+                                label="Birth Place"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.birthCirtificateNo : null}
+                                name="birthCertificatNo"
+                                onChange={handleChange}
+                                type="text"
+                                label="Birth Certificat No"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <label>Gender</label>
+                            <select className="browser-default custom-select" name="gender" onChange={handleChange}>
+                                <option value="1">Male</option>
+                                <option value="0">Female</option>
+                            </select>
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.enrolmentDate : null}
+                                name="enrolmentDate"
+                                onChange={handleChange}
+                                type="date"
+                                label="Enrollment date"
+                            />
+                            <span style={{ color: "red" }}> {(notCompleted.enrolmentDate == true && personalInfo.dataSaved == true) ? "Enrollment date " + isRequired : null}</span>
+                        </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.occupation : null}
+                                name="occupation"
+                                className="form-control"
+                                onChange={handleChange}
+                                type="text"
+                                label="Occupation"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.height : null}
+                                name="height"
+                                onChange={handleChange}
+                                type="text"
+                                label="Height(cm)"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.eyeColor : null}
+                                name="eyeColor"
+                                onChange={handleChange}
+                                type="text"
+                                label="Eye Color"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <label>Hair Color</label>
+                            <select className="browser-default custom-select" name="hairColor" onChange={handleChange}>
+                                <option value="Black">Black</option>
+                                <option value="Brown">Brown</option>
+                                <option value="Blond">Blond</option>
+                                <option value="Auburn">Auburn</option>
+                                <option value="Red">Red</option>
+                                <option value="Grey">Grey</option>
+                                <option value="White">White</option>
+                            </select>
+                        </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                        <MDBCol>
+                            <label>Martial status</label>
+                            <select className="browser-default custom-select" name="martialStatus" onChange={handleChange}>
+                                <option value="">Select status</option>
+                                <option value="0">Single</option>
+                                <option value="1">Married</option>
+                                <option value="2">Divorced</option>
+                            </select>
+                        </MDBCol>
+                        <MDBCol>
+                            <label></label>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" defaultValue={prevInfo ? prevInfo.isHalfCast : false} name="isHalfCast" id="isHalfCast" onChange={(e)=>handleCheck("isHalfCast",e.target.checked)}  />
+                                <label class="custom-control-label" for="isHalfCast">Is Halfcast</label>
+                            </div>
+                        </MDBCol>
+                        <MDBCol>
+                            <label></label>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" name="isUnder18" id="isUnder18" onChange={(e)=>handleCheck("isUnder18",e.target.checked)} />
+                                <label class="custom-control-label" for="isUnder18">Is Under 18</label>
+                            </div>
+                        </MDBCol>
+                        <MDBCol>
+                            <label></label>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input"  name="isAdoption" id="isAdoption" onChange={(e)=>handleCheck("isAdoption",e.target.checked)} />
+                                <label class="custom-control-label" for="isAdoption">Is Adoption</label>
+                            </div>
+                        </MDBCol>
+                    </MDBRow>
+                </form>
+
     );
 });
 export default PersonalInfo

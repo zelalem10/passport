@@ -20,6 +20,7 @@ const PersonalInfo = forwardRef((props, ref) => {
         height: "",
         eyeColor: "",
         hairColor: "Black",
+        martialStatus:"0",
         occupation: "",
         isHalfCast: false,
         isUnder18: false,
@@ -38,6 +39,7 @@ const PersonalInfo = forwardRef((props, ref) => {
         geezLastName: true,
         birthPlace: true,
         birthCertificatNo: true,
+        martialStatus:false,
         birthDate: true,
         gender: false,
         height: true,
@@ -85,11 +87,13 @@ const PersonalInfo = forwardRef((props, ref) => {
                 isUnder18: personalInfo.isUnder18,
                 isAdoption: personalInfo.isAdoption,
                 enrolmentDate: personalInfo.enrolmentDate === "" ? true : false,
-                nationality: personalInfo.nationality === "" ? true : false
+                nationality: personalInfo.nationality === "" ? true : false,
+                martialStatus:personalInfo.martialStatus === "" ? true : false
             })
             if (notCompleted.firstName == true || notCompleted.lastName || notCompleted.middleName == true
                 || notCompleted.birthDate == true || notCompleted.geezFirstName == true || notCompleted.geezLastName
                 || notCompleted.geezLastName == true || notCompleted.nationality == true || notCompleted.gender == true
+                || notCompleted.enrolmentDate == true
             )
                 return false;
             else
@@ -136,6 +140,7 @@ const PersonalInfo = forwardRef((props, ref) => {
             geezLastName: prevInfo ? prevInfo.geezLastName : "",
             birthPlace: prevInfo ? prevInfo.birthPlace : "",
             birthDate: prevInfo ? prevInfo.birthDate : "",
+            birthCertificatNo: prevInfo ? prevInfo.birthCertificatNo : "",
             height: prevInfo ? prevInfo.height : "",
             gender: prevInfo ? prevInfo.gender : "1",
             eyeColor: prevInfo ? prevInfo.eyeColor : "",
@@ -274,6 +279,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                                 type="date"
                                 label="Enrollment date"
                             />
+                            <span style={{ color: "red" }}> {(notCompleted.enrolmentDate == true && personalInfo.dataSaved == true) ? "Enrollment date " + isRequired : null}</span>
                         </MDBCol>
                     </MDBRow>
                     <MDBRow>
@@ -321,7 +327,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                     <MDBRow>
                         <MDBCol>
                             <label>Martial status</label>
-                            <select className="browser-default custom-select">
+                            <select className="browser-default custom-select" name="martialStatus" onChange={handleChange}>
                                 <option value="">Select status</option>
                                 <option value="0">Single</option>
                                 <option value="1">Married</option>

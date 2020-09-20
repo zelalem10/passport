@@ -14,8 +14,6 @@ import FamilyInformation from '../Request Appointment/family/familyInformation';
 import { useDispatch, useSelector } from 'react-redux';
 import addCommonData from '../../redux/actions/addCommonDataAction';
 import API from '../Utils/API';
-import token from '../common/accessToken'
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +48,7 @@ export default function HorizontalLabelPositionBelowStepper() {
     //   }
     // }
     // else {
-      childRef.current.saveData();
+    childRef.current.saveData();
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     //}
   };
@@ -62,14 +60,21 @@ export default function HorizontalLabelPositionBelowStepper() {
   const handleReset = () => {
     setActiveStep(0);
   };
+  function formatDate(string) {
+    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(string).toLocaleDateString([], options);
+  }
   const handleSubmit = () => {
     var personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1]
     var addressInfo = counter.address[counter.address.length - 1]
+    var familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
+    const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
+
     const accesstoken = localStorage.systemToken;
     const config = {
-        headers: { Authorization: "Bearer " + accesstoken }
+      headers: { Authorization: "Bearer " + accesstoken }
     };
-    const requestBody={
+    const requestBody = {
       requestId: 0,
       requestMode: 0,
       requestTypeId: 2,
@@ -79,29 +84,36 @@ export default function HorizontalLabelPositionBelowStepper() {
       applicants: [
         {
           personId: 0,
-          firstName:personalInfo? personalInfo.firstName.toUpperCase():null,
-          middleName: personalInfo? personalInfo.middleName.toUpperCase():null,
-          lastName: personalInfo? personalInfo.lastName.toUpperCase():null,
-          geezFirstName:personalInfo? personalInfo.geezFirstName:null,
-          geezMiddleName: personalInfo? personalInfo.geezMiddleName:null,
-          geezLastName: personalInfo? personalInfo.geezLastName:null,
-          dateOfBirth: "2020-08-31T12:42:45.259Z",
-          gender: personalInfo? Number.parseInt(personalInfo.gender, 10):null,
-          nationality: personalInfo? personalInfo.nationality:null,
-          height: personalInfo? personalInfo.height:null,
-          eyeColor: personalInfo? personalInfo.eyeColor:null,
-          hairColor: personalInfo? personalInfo.hairColor:null,
-          occupation: personalInfo? personalInfo.occupation:null,
-          halfCast: personalInfo? personalInfo.halfCast:null,
-          enrolmentDate: "2020-08-31T12:42:45.259Z",
-          birthCountry: personalInfo? personalInfo.birthCountry:null,
-          birthCity: personalInfo? personalInfo.birthCity:null,
+          firstName: personalInfo ? personalInfo.firstName.toUpperCase() : null,
+          middleName: personalInfo ? personalInfo.middleName.toUpperCase() : null,
+          lastName: personalInfo ? personalInfo.lastName.toUpperCase() : null,
+          geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
+          geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
+          geezLastName: personalInfo ? personalInfo.geezLastName : null,
+          dateOfBirth: personalInfo ? personalInfo.birthDate : null,
+          gender: personalInfo ? Number.parseInt(personalInfo.gender, 10) : null,
+          nationality: personalInfo ? personalInfo.nationality : null,
+          height: personalInfo ? personalInfo.height : null,
+          eyeColor: personalInfo ? personalInfo.eyeColor : null,
+          hairColor: personalInfo ? personalInfo.hairColor : null,
+          occupation: personalInfo ? personalInfo.occupation : null,
+          halfCast: personalInfo ? personalInfo.halfCast : null,
+          enrolmentDate: personalInfo ? personalInfo.enrolmentDate : null,
+          birthCertificateId: personalInfo ? personalInfo.birthCertificatNo : "",
           photoPath: "",
           employeeID: "",
           applicationNumber: "",
           organizationID: "",
-          isUnder18: true,
-          isAdoption: true,
+          isUnder18: personalInfo ? personalInfo.isUnder18 : false,
+          isAdoption: personalInfo ? personalInfo.isAdoption : false,
+          passportNumber: travelPlan ? travelPlan.passportNumber : null,
+          issueDate:  travelPlan ? travelPlan.issueDate : null,
+          expireDate:  travelPlan ? travelPlan.expirationDate : null,
+          passportType:  travelPlan ? travelPlan.passportType : null,
+          isDatacorrected:  travelPlan ? travelPlan.isDatacorrected : false,
+          pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10) : false,
+          maritalStatus: personalInfo ? Number.parseInt(personalInfo.martialStatus, 10) : null,
+          birthCertificateId: personalInfo ? personalInfo.birthCertificatNo : null,
           address: {
             personId: 0,
             addressId: 0,
@@ -116,20 +128,11 @@ export default function HorizontalLabelPositionBelowStepper() {
             phoneNumber: addressInfo ? addressInfo.phoneNumber : null,
             email: addressInfo ? addressInfo.email : null,
             requestPlace: addressInfo ? addressInfo.requestPlace : null,
-          }, //,
-          // familyRequests: [
-          //   // {
-          //   //   familyId: 0,
-          //   //   personId: 0,
-          //   //   familtyTypeId: 0,
-          //   //   firstName: "string",
-          //   //   lastName: "string"
-          //   // }
-          // ]
+          },
+          familyRequests: familyInfo,
         },
       ],
     };
-    debugger;
     API.post(
       'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest',
       requestBody,
@@ -185,43 +188,43 @@ export default function HorizontalLabelPositionBelowStepper() {
             <Button onClick={handleReset}>Reset</Button>
           </div>
         ) : (
-          <div>
-            <Typography className={classes.instructions}>
-              {getStepContent(activeStep)}
-            </Typography>
-            <Grid container spacing={1}>
-              <Grid item xs={3}>
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  className={classes.backButton}
-                >
-                  Back
+            <div>
+              <Typography className={classes.instructions}>
+                {getStepContent(activeStep)}
+              </Typography>
+              <Grid container spacing={1}>
+                <Grid item xs={3}>
+                  <Button
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    className={classes.backButton}
+                  >
+                    Back
                 </Button>
+                </Grid>
+                <hr></hr>
+                <Grid item xs={1}>
+                  {activeStep === steps.length - 2 ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleSubmit}
+                    >
+                      Submit
+                    </Button>
+                  ) : (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleNext}
+                      >
+                        Next
+                      </Button>
+                    )}
+                </Grid>
               </Grid>
-              <hr></hr>
-              <Grid item xs={1}>
-                {activeStep === steps.length - 2 ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleSubmit}
-                  >
-                    Submit
-                  </Button>
-                ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                  >
-                    Next
-                  </Button>
-                )}
-              </Grid>
-            </Grid>
-          </div>
-        )}
+            </div>
+          )}
       </div>
     </div>
   );
