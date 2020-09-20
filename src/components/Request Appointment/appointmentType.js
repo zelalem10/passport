@@ -5,10 +5,12 @@ import addAppointmentType from '../../redux/actions/appointmentType';
 import { useDispatch, useSelector } from 'react-redux';
 
 function AppointmetType(props) {
+  
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const [requestTypes, setRequestTypes] = useState([]);
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
+  
   const accesstoken = localStorage.systemToken;
   useEffect(() => {
     axios({
@@ -34,7 +36,7 @@ function AppointmetType(props) {
     e.preventDefault();
     props.prevStep();
   };
-  const { handleAppointmentType } = props;
+  const { handleAppointmentType,handleIsUrgent } = props;
   const { isItGroup } = props;
   const { values } = props;
   return (
@@ -53,6 +55,7 @@ function AppointmetType(props) {
                   type="checkbox"
                   class="custom-control-input"
                   id="defaultChecked2"
+                  onChange={() => handleIsUrgent()}
                 />
 
                 <label

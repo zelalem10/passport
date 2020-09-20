@@ -1,19 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useImperativeHandle,
+  forwardRef,
+} from 'react';
 import FamilyForm from './familyForm';
 import { useDispatch, useSelector } from 'react-redux';
-import * as familyActions from '../../../redux/actions/addFamilyAction';
-import * as deletefamilyActions from '../../../redux/actions/deleteFamilyAction';
-import * as editfamilyActions from '../../../redux/actions/editFamilyActiion';
-import axios from 'axios';
+import addFamily from '../../../redux/actions/addFamilyAction';
 
-function FamilyInformation() {
+import axios from 'axios';
+const FamilyInformation = forwardRef((props, ref) => {
   const counter = useSelector((family) => family);
-  if (
-    counter.familyReducer !== undefined ||
-    counter.familyReducer.length != 0
-  ) {
-    // console.log(counter.familyReducer[counter.familyReducer.length - 1]);
-  }
+
   const dispatch = useDispatch();
   const [state, setState] = useState({
     fname: '',
@@ -24,6 +22,7 @@ function FamilyInformation() {
   const [checkFamily, setCheckFamily] = useState(false);
   const [moreFamily, setMoreFamily] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+    const [isOnLoad, setIsOnLoad] = useState(true);
   const [editdata, setEditdata] = useState({
     fName: '',
     lName: '',
@@ -48,6 +47,22 @@ function FamilyInformation() {
         console.log('error' + error);
       });
   }, []);
+ if(isOnLoad && counter.familyReducer.length!==0){
+   
+   setFamiliesInfo(counter.familyReducer[counter.familyReducer.length - 1]);
+   setMoreFamily(true);
+   setCheckFamily(true);
+   setIsOnLoad(false);
+   console.log(familiesInfo);
+ }
+  useImperativeHandle(ref, () => ({
+    saveData() {
+      dispatch(addFamily(familiesInfo));
+    },
+    Validate() {
+      //alert("Validation")
+    },
+  }));
   const handleUserInput = (e) => {
     const { name, value } = e.target;
     setState((prevState) => ({
@@ -85,15 +100,15 @@ function FamilyInformation() {
         familyRelationType: state.famType,
       },
     ]);
-    dispatch(
-      familyActions.addFamily({
-        ...familiesInfo,
-        id: familiesInfo.length,
-        firstName: state.fname,
-        lastName: state.lname,
-        familyRelationType: state.famType,
-      })
-    );
+    // dispatch(
+    //   familyActions.addFamily({
+    //     ...familiesInfo,
+    //     id: familiesInfo.length,
+    //     firstName: state.fname,
+    //     lastName: state.lname,
+    //     familyRelationType: state.famType,
+    //   })
+    // );
   };
   const removeFamilyMember = (ids) => {
     var array = [...familiesInfo];
@@ -104,7 +119,7 @@ function FamilyInformation() {
       .indexOf(ids);
     array.splice(pos, 1);
     setFamiliesInfo(array);
-    dispatch(deletefamilyActions.deleteFamily(pos));
+    // dispatch(deletefamilyActions.deleteFamily(pos));
   };
   const editFamilyMember = (familyid) => {
     let editableFamilyInfo = getIndex(familyid);
@@ -127,7 +142,6 @@ function FamilyInformation() {
         newfamiliesInfo[i].lastName = editdata.lName;
         newfamiliesInfo[i].familyRelationType = editdata.famType;
       }
-      dispatch(editfamilyActions.editFamily(newfamiliesInfo[i]));
     }
     setFamiliesInfo(newfamiliesInfo);
   };
@@ -157,5 +171,5 @@ function FamilyInformation() {
       familyType={familyType}
     />
   );
-}
+});
 export default FamilyInformation;

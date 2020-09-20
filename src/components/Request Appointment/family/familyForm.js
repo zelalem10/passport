@@ -18,7 +18,7 @@ function FamilyForm(props) {
     saveEditedData,
     handleEditInput,
   } = props;
-  console.log(familyType);
+ debugger;
 
   if (props.doWeHaveFamily === true && addAdditionalFamily === false) {
     return (

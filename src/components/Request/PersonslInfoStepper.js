@@ -7,10 +7,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
-import PersonalInfo from './PersonalInfo'
-import AddressInfo from './Address'
-import Attachment from './Attachement'
-import TravelPlan from './TravelPlan'
+import PersonalInfo from './PersonalInfo';
+import AddressInfo from './Address';
+import Attachment from './Attachement';
+import TravelPlan from './TravelPlan';
 import FamilyInformation from '../Request Appointment/family/familyInformation';
 import { useDispatch, useSelector } from 'react-redux';
 import addCommonData from '../../redux/actions/addCommonDataAction';
@@ -42,18 +42,17 @@ export default function HorizontalLabelPositionBelowStepper() {
   const counter = useSelector((state) => state);
   const childRef = useRef();
   const handleNext = () => {
-    if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
+    // if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
+    //   childRef.current.saveData();
+    //   const isVilid = childRef.current.Validate();
+    //   if (isVilid == true) {
+    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    //   }
+    // }
+    // else {
       childRef.current.saveData();
-      const isVilid= childRef.current.Validate();
-      if(isVilid==true)
-      {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      }
-    }
-    else{
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    }
-    
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    //}
   };
 
   const handleBack = () => {
@@ -64,56 +63,61 @@ export default function HorizontalLabelPositionBelowStepper() {
     setActiveStep(0);
   };
   const handleSubmit = () => {
-    var personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1]
-    var addressInfo = counter.address[counter.address.length - 1]
+    var personalInfo =
+      counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
+    var addressInfo = counter.address[counter.address.length - 1];
     const config = {
-      headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTkyMTg5NTQsImV4cCI6MTU5OTIzMzM1NCwiaWF0IjoxNTk5MjE4OTU0fQ.XK2Y4z8ogsP7JK1ZKnetby59h-nBfeucciIbai6Ej6c` }
-      };
-    const requestBody={
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQWRtaW4iLCJuYmYiOjE1OTkyMTg5NTQsImV4cCI6MTU5OTIzMzM1NCwiaWF0IjoxNTk5MjE4OTU0fQ.XK2Y4z8ogsP7JK1ZKnetby59h-nBfeucciIbai6Ej6c`,
+      },
+    };
+    const requestBody = {
       requestId: 0,
       requestMode: 0,
       requestTypeId: 2,
-      userName: "",
+      userName: '',
       status: 0,
-      confirmationNumber: "",
+      confirmationNumber: '',
       applicants: [
         {
           personId: 0,
-          firstName:personalInfo? personalInfo.firstName:null,
-          middleName: personalInfo? personalInfo.middleName:null,
-          lastName: personalInfo? personalInfo.lastName:null,
-          dateOfBirth: "2020-08-31T12:42:45.259Z",
-          gender: personalInfo? Number.parseInt(personalInfo.gender, 10):null,
-          nationality: personalInfo? personalInfo.nationality:null,
-          height: personalInfo? personalInfo.height:null,
-          eyeColor: personalInfo? personalInfo.eyeColor:null,
-          hairColor: personalInfo? personalInfo.hairColor:null,
-          occupation: personalInfo? personalInfo.occupation:null,
-          halfCast: personalInfo? personalInfo.halfCast:null,
-          enrolmentDate: "2020-08-31T12:42:45.259Z",
-          birthCountry: personalInfo? personalInfo.birthCountry:null,
-          birthCity: personalInfo? personalInfo.birthCity:null,
-          photoPath: "",
-          employeeID: "",
-          applicationNumber: "",
-          organizationID: "",
+          firstName: personalInfo ? personalInfo.firstName : null,
+          middleName: personalInfo ? personalInfo.middleName : null,
+          lastName: personalInfo ? personalInfo.lastName : null,
+          dateOfBirth: '2020-08-31T12:42:45.259Z',
+          gender: personalInfo
+            ? Number.parseInt(personalInfo.gender, 10)
+            : null,
+          nationality: personalInfo ? personalInfo.nationality : null,
+          height: personalInfo ? personalInfo.height : null,
+          eyeColor: personalInfo ? personalInfo.eyeColor : null,
+          hairColor: personalInfo ? personalInfo.hairColor : null,
+          occupation: personalInfo ? personalInfo.occupation : null,
+          halfCast: personalInfo ? personalInfo.halfCast : null,
+          enrolmentDate: '2020-08-31T12:42:45.259Z',
+          birthCountry: personalInfo ? personalInfo.birthCountry : null,
+          birthCity: personalInfo ? personalInfo.birthCity : null,
+          photoPath: '',
+          employeeID: '',
+          applicationNumber: '',
+          organizationID: '',
           isUnder18: true,
           isAdoption: true,
           address: {
             personId: 0,
             addressId: 0,
-            city: addressInfo? addressInfo.city:null,
-            country: addressInfo? addressInfo.country:null,
-            state: addressInfo? addressInfo.state:null,
-            zone: addressInfo? addressInfo.zone:null,
-            wereda: addressInfo? addressInfo.woreda:null,
-            street: addressInfo? addressInfo.street:null,
-            houseNo: addressInfo? addressInfo.houseNo:null,
-            poBox: addressInfo? addressInfo.poBox:null,
-            phoneNumber: addressInfo? addressInfo.phoneNumber:null,
-            email: addressInfo? addressInfo.email:null,
-            requestPlace: addressInfo? addressInfo.requestPlace:null
-           }//,
+            city: addressInfo ? addressInfo.city : null,
+            country: addressInfo ? addressInfo.country : null,
+            state: addressInfo ? addressInfo.state : null,
+            zone: addressInfo ? addressInfo.zone : null,
+            wereda: addressInfo ? addressInfo.woreda : null,
+            street: addressInfo ? addressInfo.street : null,
+            houseNo: addressInfo ? addressInfo.houseNo : null,
+            poBox: addressInfo ? addressInfo.poBox : null,
+            phoneNumber: addressInfo ? addressInfo.phoneNumber : null,
+            email: addressInfo ? addressInfo.email : null,
+            requestPlace: addressInfo ? addressInfo.requestPlace : null,
+          }, //,
           // familyRequests: [
           //   // {
           //   //   familyId: 0,
@@ -123,25 +127,31 @@ export default function HorizontalLabelPositionBelowStepper() {
           //   //   lastName: "string"
           //   // }
           // ]
-        }
-      ]
-      };
-      debugger
-      API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest', requestBody, config)
+        },
+      ],
+    };
+    debugger;
+    API.post(
+      'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest',
+      requestBody,
+      config
+    )
       .then((todo) => {
-        console.log(todo.data+" id= "+todo.data.personResponses[0].requestPersonId);
-        alert(todo.data.message)
-        const commonData={
-          requestPersonId : todo.data.personResponses[0].requestPersonId
-        }
-        dispatch(addCommonData(commonData))
+        console.log(
+          todo.data + ' id= ' + todo.data.personResponses[0].requestPersonId
+        );
+        alert(todo.data.message);
+        const commonData = {
+          requestPersonId: todo.data.personResponses[0].requestPersonId,
+        };
+        dispatch(addCommonData(commonData));
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       })
       .catch((err) => {
         console.log('AXIOS ERROR: ', err.response);
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       });
-  }
+  };
   function getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
@@ -149,7 +159,7 @@ export default function HorizontalLabelPositionBelowStepper() {
       case 1:
         return <AddressInfo ref={childRef} />;
       case 2:
-        return <FamilyInformation />;
+        return <FamilyInformation ref={childRef} />;
       case 3:
         return <TravelPlan ref={childRef} />;
       case 4:
@@ -159,7 +169,7 @@ export default function HorizontalLabelPositionBelowStepper() {
     }
   }
   return (
-    <div className={classes.root} style={{ marginBottom: "5rem" }}>
+    <div className={classes.root} style={{ marginBottom: '5rem' }}>
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
           <Step key={label}>
@@ -170,33 +180,49 @@ export default function HorizontalLabelPositionBelowStepper() {
       <div>
         {activeStep === steps.length ? (
           <div>
-            <Typography className={classes.instructions}>All steps completed</Typography>
+            <Typography className={classes.instructions}>
+              All steps completed
+            </Typography>
             <Button onClick={handleReset}>Reset</Button>
           </div>
         ) : (
-            <div>
-              <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-              <Grid container spacing={1}>
-                <Grid item xs={3} >
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.backButton}
-                  >
-                    Back
-              </Button>
-                </Grid>
-                <hr></hr>
-                <Grid item xs={1}>
-                  {activeStep === steps.length - 2 ? (<Button variant="contained" color="primary" onClick={handleSubmit}>
-                    Submit
-                  </Button>) : (<Button variant="contained" color="primary" onClick={handleNext}>
-                    Next
-                  </Button>)}
-                </Grid>
+          <div>
+            <Typography className={classes.instructions}>
+              {getStepContent(activeStep)}
+            </Typography>
+            <Grid container spacing={1}>
+              <Grid item xs={3}>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  className={classes.backButton}
+                >
+                  Back
+                </Button>
               </Grid>
-            </div>
-          )}
+              <hr></hr>
+              <Grid item xs={1}>
+                {activeStep === steps.length - 2 ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSubmit}
+                  >
+                    Submit
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                  >
+                    Next
+                  </Button>
+                )}
+              </Grid>
+            </Grid>
+          </div>
+        )}
       </div>
     </div>
   );
