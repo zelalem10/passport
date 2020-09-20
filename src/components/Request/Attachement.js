@@ -1,29 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-const accesstoken = localStorage.systemToken;
-class Fileupload extends React.Component {
+import { useDispatch, useSelector } from 'react-redux';
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      fileOne: '',
-      fileOneName: '',
-      fileTwo: '',
-      fileTwoName: '',
-      messageSuccess: false,
-      messageError: false,
-    };
-  }
+const Fileupload = () => {
+  debugger;
+  const accesstoken = localStorage.systemToken;
+  const formData = new FormData();
+  let requestTypeId;
+  
+  let files = [];
+  let requiredAttachementType = [];
+  const inputs = [];
+  let requiredAttachements = localStorage.requiredAttachements;
+  let requestTypefromRedux = useSelector((state) => state.service);
+  requestTypeId = requestTypefromRedux[requestTypefromRedux.length - 1].appointemntType
 
-  async submit(e) {
+  useEffect(() => {
+    axios({
+      headers: { 'Authorization': 'Bearer ' + accesstoken },
+      method: 'get',
+      url: 'https://epassportservices.azurewebsites.net/Master/api/V1.0/OfficeRequestType/GetRequiredAttachementsByRequestTypeId',
+      params: { "requestTypeId": requestTypeId },
+    })
+      .then((response) => {
+        for (let i = 0; i < response.data.requiredAttachements.length; i++) {
+          requiredAttachementType += response.data.requiredAttachements[i].attachmentTypeId;
+          console.log(requiredAttachementType);
+        }
+
+      })
+      .catch((error) => {
+        console.log("error" + error.message)
+      })
+  }, []);
+
+
+  const submit = async (e) => {
+    debugger;
     e.preventDefault();
-    const url = 'https://epassportservices.azurewebsites.net/api/Request/V1.0/RequestAttachments/UploadAttachment';
-    const formData = new FormData();
-    formData.append('personRequestId', 10);
-    formData.append('1', this.state.fileOne);
-    formData.append('2', this.state.fileTwo);
-    console.log(this.state.fileOne);
-    console.log(this.state.fileTwo);
+    for (let i = 0; i < requiredAttachements; i++) {
+      files = e.target[i].files[0];
+      let fileType = requiredAttachementType;
+      console.log(files)
+      console.log(fileType)
+      formData.append('personRequestId', 3);
+      formData.append('1', files);
+    }
+    const url = 'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadAttachment';
 
     const config = {
       headers: {
@@ -32,104 +55,37 @@ class Fileupload extends React.Component {
       },
     };
 
-
-
-    debugger;
     //return post(url, formData, config);
-    return axios.post(url, formData, config)
-      .then((response) => {
-        console.log(response.data);
-        alert('success')
-        this.state.messageSuccess = true;
-      })
-      .catch((error) => {
-        console.log("error" + error.message)
-        alert('Error');
-        this.state.messageError = true;
-      })
-  }
-  setFileOne(e) {
-    if (e.target.files.length > 0) {
-      this.setState({ fileOne: e.target.files[0], fileOneName: e.target.files[0].name });
-
+    try {
+      const response = await axios.post(url, formData, config);
+      console.log(response.data);
+      alert('success');
+    } catch (error) {
+      console.log("error" + error.message);
+      alert('Error');
     }
-  }
-  setFileTwo(e) {
-    if (e.target.files.length > 0) {
-      this.setState({ fileTwo: e.target.files[0], fileTwoName: e.target.files[0].name });
-    }
+
   }
 
-  render() {
-    return (
-      <div className="container-fluid">
+  for (let i = 0; i < requiredAttachements; i++) {
+    inputs.push(
 
-        <form onSubmit={e => this.submit(e)}>
-          {
-            this.state.messageSuccess &&
-            <div class="alert alert-success" role="alert">
-              This is a success alert—check it out!
-            </div>
-          }
-          {
-            this.state.messageError &&
-            <div class="alert alert-danger" role="alert">
-              This is a danger alert—check it out!
-          </div>
-          }
+      <input
+        name={`input-${i}`}
+        type="file"
+      />
 
-
-          <div class="row">
-            <div class="col-lg-6">
-              <div className="input-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text" id="inputGroupFileAddon01">
-                    Upload
-                      </span>
-                </div>
-                <div className="custom-file">
-                  <input
-                    type="file"
-                    className="custom-file-input"
-                    id="inputGroupFile01"
-                    aria-describedby="inputGroupFileAddon01"
-                    onChange={e => this.setFileOne(e)}
-                  />
-                  <label className="custom-file-label" htmlFor="inputGroupFile01">
-                    {this.state.fileOneName ? this.state.fileOneName : <div>Choose file</div>}
-                  </label>
-                </div>
-              </div>
-
-            </div>
-            <div class="col-lg-6">
-              <div className="input-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text" id="inputGroupFileAddon01">
-                    Upload
-                      </span>
-                </div>
-                <div className="custom-file">
-                  <input
-                    type="file"
-                    className="custom-file-input"
-                    id="inputGroupFile01"
-                    aria-describedby="inputGroupFileAddon01"
-                    onChange={e => this.setFileTwo(e)}
-                  />
-                  <label className="custom-file-label" htmlFor="inputGroupFile01">
-                    {this.state.fileTwoName ? this.state.fileTwoName : <div>Choose file</div>}
-                  </label>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          <button className="btn btn-primary" type="submit">Upload</button>
-        </form>
-      </div>
     )
   }
+
+  return (
+    <form onSubmit={e => submit(e)}>
+
+      {inputs}
+
+      <button className="btn btn-primary" type="submit">Upload</button>
+    </form>
+  )
+
 }
 export default Fileupload

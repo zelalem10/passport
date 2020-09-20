@@ -17,14 +17,14 @@ export default function RequestStepper() {
   const isGroup=counter.service[counter.service.length - 1].isGroup
   const childRef = useRef();
   function handelNext(){
-    if(childRef.current.isCompleted()==true)
-    {
+    // if(childRef.current.isCompleted()==true)
+    // {
     setIndexValue(indexValue + 1)
     formCompleted[indexValue]=true
-    }
-    else{
-      alert("Please Complete the form")
-    }
+    // }
+    // else{
+    //   alert("Please Complete the form")
+    // }
     
   }
   function handelPrevious(){

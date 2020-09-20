@@ -8,6 +8,8 @@ import Input from '@material-ui/core/Input';
 import { Form, Card, Row, Col, InputGroup, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import addTravelPlan from '../../redux/actions/addTravelPlanAction';
+import axios from 'axios';
+const accesstoken = localStorage.systemToken;
 
  const TravelPlan= forwardRef((props, ref) => {
     const [validated, setValidated] = useState(false);
@@ -16,10 +18,35 @@ import addTravelPlan from '../../redux/actions/addTravelPlanAction';
         ticketNumber:"",
         dataSaved:false
     });
-    
+
     const dispatch = useDispatch();
     const counter = useSelector((state) => state);
     const personRef = React.useRef();
+    
+    let requestTypefromRedux = useSelector((state) => state.service);
+    let requestTypeId = requestTypefromRedux[requestTypefromRedux.length - 1].appointemntType
+
+    useEffect(() => {
+        axios({
+          headers: { 'Authorization': 'Bearer ' + accesstoken },
+          method: 'get',
+          url: 'https://epassportservices.azurewebsites.net/Master/api/V1.0/OfficeRequestType/GetRequiredAttachementsByRequestTypeId',
+          params: { "requestTypeId": requestTypeId },
+        })
+          .then((response) => {
+            let requiredAttachements = response.data.requiredAttachements.length;
+            
+            if (localStorage.requiredAttachements){
+                localStorage.removeItem('requiredAttachements');
+            }
+            localStorage.setItem('requiredAttachements', requiredAttachements);
+          })
+          .catch((error) => {
+            console.log("error" + error.message)
+          })
+      }, []);
+    
+
     if(counter.travelPlan.length===0){
         dispatch(addTravelPlan(travelPlan));
     }
