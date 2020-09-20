@@ -32,7 +32,9 @@ const NavbarPage = (props) => {
   function logout(e) {
     e.preventDefault();
     localStorage.removeItem('userToken');
-    history.push('/signIn');
+    localStorage.removeItem('personalDetail');
+    localStorage.removeItem('userId');
+    history.push('/signIn')
   }
 
   let style = {

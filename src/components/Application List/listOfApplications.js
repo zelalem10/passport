@@ -20,16 +20,15 @@ export default function ListOfApplications(props) {
   } = props;
   return (
     <div className="my-5">
-      <MDBContainer>
-        <div className="header py-3 textBackground m-4">
-          <MDBRow className="d-flex justify-content-center">
-            <h2 className="white-text mb-3 pt-3 font-weight-bold text-center">
-              List Of Your Applications
-            </h2>
-          </MDBRow>
-        </div>
-      </MDBContainer>
-
+        <MDBContainer>
+              <div className="header py-3 textBackground m-4">
+                <MDBRow className="d-flex justify-content-center">
+                  <h2 className="white-text mb-3 pt-3 font-weight-bold text-center">
+                  List Of Your Applications
+                </h2>
+                </MDBRow>
+              </div>
+        </MDBContainer>
       {users.length
         ? users.map((user) => (
             <MDBContainer
@@ -52,34 +51,21 @@ export default function ListOfApplications(props) {
 
                           <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
                             <div>
-                              <div>
-                                <strong className="d-inline">
-                                  Request Date :{' '}
-                                </strong>
-                                {user.requestDate}
-                              </div>
-                              <div>
-                                <strong className="d-inline">
-                                  Request mode :{' '}
-                                </strong>{' '}
-                                {user.requestModeValue}
-                              </div>
-                              <div>
-                                <strong className="d-inline">
-                                  Request Status :{' '}
-                                </strong>{' '}
-                                {user.requestStatus}
-                              </div>{' '}
+                            <div><strong className='d-inline'>Request Date : </strong>{user.requestDate}</div>
+                            <div>
+                              <strong className='d-inline'>Request mode : </strong> {user.requestModeValue}
                             </div>
+                            <div>
+                              <strong className='d-inline'>Request Status : </strong> {user.requestStatus}
+                            </div> </div>
 
                             {/* <p>
 
                     {person.html_url}
-
-                </p> */}
+                </p> */} 
 
                             <a
-                              href="#"
+                              className='hoverWhite' 
                               onClick={() => openModal(user.requestId)}
                             >
                               {' '}
@@ -89,7 +75,7 @@ export default function ListOfApplications(props) {
                             </a>
 
                             <a
-                              href="#"
+                              className='hoverWhite' 
                               onClick={() =>
                                 handleEdit(
                                   user.requestId,
@@ -105,7 +91,7 @@ export default function ListOfApplications(props) {
                             </a>
 
                             <a
-                              href="#"
+                             className='hoverWhite' 
                               onClick={() => handleDisplay(user.requestId)}
                             >
                               {' '}
@@ -115,7 +101,7 @@ export default function ListOfApplications(props) {
                             </a>
 
                             <a
-                              href="#"
+                              className='hoverWhite' 
                               onClick={() => handleReschedule(user.requestId)}
                             >
                               {' '}
