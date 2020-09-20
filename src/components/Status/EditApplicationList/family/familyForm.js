@@ -18,9 +18,7 @@ function FamilyForm(props) {
     saveEditedData,
     handleEditInput,
   } = props;
- debugger;
-
-  if (props.doWeHaveFamily === true && addAdditionalFamily === false) {
+  if (!data && addAdditionalFamily === false) {
     return (
       <AddFamily
         handleInputAdd={handleInput}
@@ -29,7 +27,33 @@ function FamilyForm(props) {
       />
     );
   } else if (
-    props.doWeHaveFamily === true &&
+    data &&
+    addAdditionalFamily === false &&
+    props.editable === false
+  ) {
+    return (
+      <AddMoreFamily
+        data={data}
+        handleInput={handleInput}
+        addAdditionalFamilyHandler={props.addAdditionalFamilyHandler}
+        deleteThisFamily={deleteThisFamily}
+        editThisFamily={editThisFamily}
+        familyType={familyType}
+      />
+    );
+  } else if (data && addAdditionalFamily === true && props.editable === false) {
+    return (
+      <AddMoreFamily
+        data={data}
+        handleInput={handleInput}
+        addAdditionalFamilyHandler={props.addAdditionalFamilyHandler}
+        deleteThisFamily={deleteThisFamily}
+        editThisFamily={editThisFamily}
+        familyType={familyType}
+      />
+    );
+  } else if (
+    !data &&
     addAdditionalFamily === true &&
     props.editable === false
   ) {

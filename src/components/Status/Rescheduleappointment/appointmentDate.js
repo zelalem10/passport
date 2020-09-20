@@ -1,20 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, MDBAlert } from 'mdbreact';
 import axios from 'axios';
 import AvailableTimeSlot from './appointmetTimeSlots';
-import './disabledates.css';
 import { useDispatch, useSelector } from 'react-redux';
 import addAppointmentDate from '../../../redux/actions/addAppointmetntDate';
 
-function MyApp() {
+function RescheduleAppointment(props) {
+  const { handleDisplayId } = props;
+  const counter = useSelector((state) => state);
+  const appList = counter.applicationList[counter.applicationList.length - 1];
+  let displayedApplication = {};
+  const { displayRequestId } = props;
+
+  if (appList.requestId == handleDisplayId) {
+    displayedApplication = appList;
+  }
+
+  let appointmentDetails = displayedApplication.appointmentResponse;
+  debugger;
+  let dateAppointmentDetails = new Date(appointmentDetails.date);
+  let year = dateAppointmentDetails.getFullYear();
+  let month = (1 + dateAppointmentDetails.getMonth()).toString();
+  month = month.length > 1 ? month : '0' + month;
+  let day = dateAppointmentDetails.getDate().toString();
+  day = day.length > 1 ? day : '0' + day;
   const [state, setState] = useState({ date: new Date(), time: '' });
+  const [previousAppointment, setPreviousAppointment] = useState(
+    displayedApplication ? `${year} - ${month} - ${day}` : ''
+  );
+
   const [respone, setResponse] = useState({});
   const [disabledDate, setDisabledDate] = useState([]);
   const [availableDatess, setAvailableDates] = useState([]);
   const [key, setKey] = useState();
   const [availableTimes, setAvailableTimes] = useState([]);
+  const [isOnLoad, setIsOnLoad] = useState(true);
 
   const [timeSlots, setTimeSlots] = useState([]);
   const [showAvailableTimeSlots, setShowAvailableTimeSlots] = useState(false);
@@ -23,7 +45,8 @@ function MyApp() {
     key: '',
     active: false,
   });
-
+  const [newAppointment, setNewAppointment] = useState();
+  const [newDisplayTime, setNewDisplayTime] = useState('');
   const toggleClass = (e) => {
     const currentState =
       e.target.className === 'btn_select active' ? true : false;
@@ -40,11 +63,10 @@ function MyApp() {
 
   const handleTimeSelect = (e) => {
     setState({ ...state, time: e.target.value });
-    setSelectTime(e.target.value);
+    setSelectTime(e.target.id);
     toggleClass(e);
     dispatch(addAppointmentDate({ ...state, time: e.target.value }));
   };
-  console.log(selectTime);
   useEffect((two = 2) => {
     axios({
       headers: {
@@ -54,13 +76,29 @@ function MyApp() {
       url: baseUrl + '/Master/api/V1.0/AdvancedRestriction/GetAll',
     })
       .then(async (response) => {
-        debugger;
         advancedRestrictionData = response.data.advancedRestrictions[0];
         setResponse(response.data.advancedRestrictions[0]);
         const headers = {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + accesstoken,
         };
+        let data = {
+          startDate: new Date(
+            new Date().setTime(
+              new Date().getTime() +
+                response.data.advancedRestrictions[0].minDays * 86400000
+            )
+          ),
+          endDate: new Date(
+            new Date().setTime(
+              new Date().getTime() +
+                response.data.advancedRestrictions[0].maxDays * 86400000
+            )
+          ),
+          requestTypeId: 2,
+          officeId: 4,
+        };
+        console.log(data);
         axios({
           headers: headers,
           method: 'post',
@@ -79,7 +117,7 @@ function MyApp() {
               )
             ),
             requestTypeId: 2,
-            officeId: 7,
+            officeId: 4,
           },
         })
           .then((responses) => {
@@ -152,10 +190,11 @@ function MyApp() {
         console.log('error' + error);
       });
   }, []);
+
   const onChange = (date) => {
-    debugger;
     setState({ ...state, date: date });
     showTimeSlots(date);
+    setIsOnLoad(false);
     dispatch(addAppointmentDate({ ...state, date: date }));
   };
   const showTimeSlots = (date) => {
@@ -188,10 +227,62 @@ function MyApp() {
     setShowAvailableTimeSlots(true);
   };
   const dateValue = state.date.toString();
+
+  let displayTime = state
+    ? `${previousAppointment} ${appointmentDetails.duration.startTime} - ${
+        appointmentDetails.duration.endTime
+      } ${appointmentDetails.duration.isMorning ? 'AM' : 'PM'} 
+      `
+    : null;
+  const saveNewAppointment = () => {
+    let formatedYear = state.date.getFullYear();
+    let formatedMonth = (1 + state.date.getMonth()).toString();
+    formatedMonth =
+      formatedMonth.length > 1 ? formatedMonth : '0' + formatedMonth;
+    let formatedDay = state.date.getDate().toString();
+    formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
+    let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
+    axios({
+      headers: {
+        Authorization: 'Bearer ' + accesstoken,
+      },
+      method: 'post',
+      url: baseUrl + '/Schedule/api/V1.0/Schedule/RescheduleAppointment',
+      data: {
+        id: appointmentDetails.id,
+        date: stringDateValue,
+        requestId: displayedApplication.requestId,
+        durationId: parseInt(selectTime),
+        dateTimeFormat: 'yyyy-MM-dd',
+      },
+    })
+      .then((response) => {
+        let newdate = new Date(response.data.date);
+        let newYear = newdate.getFullYear();
+        let newMonth = (1 + newdate.getMonth()).toString();
+        newMonth = newMonth.length > 1 ? newMonth : '0' + newMonth;
+        let newDay = newdate.getDate().toString();
+        newDay = newDay.length > 1 ? newDay : '0' + newDay;
+        setNewAppointment(newdate);
+        setNewDisplayTime(`${newdate.toISOString().substr(0, 10)} ${
+          response.data.duration.startTime
+        } - ${response.data.duration.endTime} ${
+          response.data.duration.isMorning ? 'AM' : 'PM'
+        } 
+        `);
+      })
+      .catch((error) => {
+        console.log('error' + error);
+      });
+  };
   return (
     <div>
       <MDBContainer className="passport-container pt-3" fluid>
-        <h2 className="h1">Appointment - Date and Time</h2>
+        <h4>Appointment Date - {displayTime}</h4>
+        {newAppointment ? (
+          <MDBAlert color="success">Changed To - {newDisplayTime}</MDBAlert>
+        ) : null}
+
         <MDBRow key={key}>
           <MDBCol md="6">
             <h3>Date</h3>
@@ -236,8 +327,19 @@ function MyApp() {
             />
           </MDBCol>
         </MDBRow>
+        <MDBRow>
+          <MDBCol md="6" className="pt-3 center">
+            <button
+              onClick={saveNewAppointment}
+              type="button"
+              class="btn btn-default btn-lg btn-block"
+            >
+              Save New Date Time
+            </button>
+          </MDBCol>
+        </MDBRow>
       </MDBContainer>
     </div>
   );
 }
-export default MyApp;
+export default RescheduleAppointment;

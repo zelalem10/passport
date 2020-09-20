@@ -20,9 +20,16 @@ function RescheduleAppointment(props) {
     }
   }
   let appointmentDetails = displayedApplication.appointmentResponse;
+  debugger;
+  let dateAppointmentDetails = new Date(appointmentDetails.date);
+  let year = dateAppointmentDetails.getFullYear();
+  let month = (1 + dateAppointmentDetails.getMonth()).toString();
+  month = month.length > 1 ? month : '0' + month;
+  let day = dateAppointmentDetails.getDate().toString();
+  day = day.length > 1 ? day : '0' + day;
   const [state, setState] = useState({ date: new Date(), time: '' });
   const [previousAppointment, setPreviousAppointment] = useState(
-    displayedApplication ? new Date(appointmentDetails.date) : new Date()
+    displayedApplication ? `${year} - ${month} - ${day}` : ''
   );
 
   const [respone, setResponse] = useState({});
@@ -76,6 +83,23 @@ function RescheduleAppointment(props) {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + accesstoken,
         };
+        let data = {
+          startDate: new Date(
+            new Date().setTime(
+              new Date().getTime() +
+                response.data.advancedRestrictions[0].minDays * 86400000
+            )
+          ),
+          endDate: new Date(
+            new Date().setTime(
+              new Date().getTime() +
+                response.data.advancedRestrictions[0].maxDays * 86400000
+            )
+          ),
+          requestTypeId: 2,
+          officeId: 4,
+        };
+        console.log(data);
         axios({
           headers: headers,
           method: 'post',
@@ -204,23 +228,21 @@ function RescheduleAppointment(props) {
     setShowAvailableTimeSlots(true);
   };
   const dateValue = state.date.toString();
+
   let displayTime = state
-    ? `${previousAppointment.toISOString().substr(0, 10)} ${
-        appointmentDetails.duration.startTime
-      } - ${appointmentDetails.duration.endTime} ${
-        appointmentDetails.duration.isMorning ? 'AM' : 'PM'
-      } 
+    ? `${previousAppointment} ${appointmentDetails.duration.startTime} - ${
+        appointmentDetails.duration.endTime
+      } ${appointmentDetails.duration.isMorning ? 'AM' : 'PM'} 
       `
     : null;
   const saveNewAppointment = () => {
-    debugger;
-    let data = {
-      id: appointmentDetails.id,
-      date: new Date(state.date),
-      requestId: displayedApplication.requestId,
-      durationId: parseInt(selectTime),
-    };
-    console.log(data);
+    let formatedYear = state.date.getFullYear();
+    let formatedMonth = (1 + state.date.getMonth()).toString();
+    formatedMonth =
+      formatedMonth.length > 1 ? formatedMonth : '0' + formatedMonth;
+    let formatedDay = state.date.getDate().toString();
+    formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
+    let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
     axios({
       headers: {
         Authorization: 'Bearer ' + accesstoken,
@@ -229,13 +251,19 @@ function RescheduleAppointment(props) {
       url: baseUrl + '/Schedule/api/V1.0/Schedule/RescheduleAppointment',
       data: {
         id: appointmentDetails.id,
-        date: state.date,
+        date: stringDateValue,
         requestId: displayedApplication.requestId,
         durationId: parseInt(selectTime),
+        dateTimeFormat: 'yyyy-MM-dd',
       },
     })
       .then((response) => {
         let newdate = new Date(response.data.date);
+        let newYear = newdate.getFullYear();
+        let newMonth = (1 + newdate.getMonth()).toString();
+        newMonth = newMonth.length > 1 ? newMonth : '0' + newMonth;
+        let newDay = newdate.getDate().toString();
+        newDay = newDay.length > 1 ? newDay : '0' + newDay;
         setNewAppointment(newdate);
         setNewDisplayTime(`${newdate.toISOString().substr(0, 10)} ${
           response.data.duration.startTime

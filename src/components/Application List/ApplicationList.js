@@ -27,6 +27,7 @@ function ApplicationList() {
   const [handleDisplayId, sethandleDisplayId] = useState('');
 
   const handleDisplay = (id) => {
+    debugger;
     setDisplayRequestId(id);
   };
   const handleEdit = (id, numberOfApplicants) => {

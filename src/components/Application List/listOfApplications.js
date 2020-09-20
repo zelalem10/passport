@@ -20,19 +20,20 @@ export default function ListOfApplications(props) {
   } = props;
   return (
     <div className="my-5">
-      <div className="container">
-        <div className="header py-3 blue-gradient mx-5">
+      <MDBContainer>
+        <div className="header py-3 textBackground m-4">
           <MDBRow className="d-flex justify-content-center">
             <h2 className="white-text mb-3 pt-3 font-weight-bold text-center">
               List Of Your Applications
             </h2>
           </MDBRow>
         </div>
-      </div>
+      </MDBContainer>
+
       {users.length
         ? users.map((user) => (
             <MDBContainer
-              className="passport-container pt-3"
+              className="passport-container pt-3 applist"
               id="request-an-appointment"
             >
               <MDBRow>
@@ -45,8 +46,10 @@ export default function ListOfApplications(props) {
                             <h5>
                               <strong>Request Type : {user.type} </strong>
                             </h5>
+
                             <div class="text-center vertical-margin-half"></div>
                           </div>
+
                           <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
                             <div>
                               <div>
@@ -58,41 +61,21 @@ export default function ListOfApplications(props) {
                               <div>
                                 <strong className="d-inline">
                                   Request mode :{' '}
-                                </strong>
-                                {user.requestMode === 0 && (
-                                  <div className="d-inline">Normal</div>
-                                )}
-                                {user.requestMode === 1 && (
-                                  <div className="d-inline">Urgent</div>
-                                )}
-                                {user.requestMode === 2 && (
-                                  <div className="d-inline">Emergency</div>
-                                )}
-                                {user.requestMode === 3 && (
-                                  <div className="d-inline">VIP</div>
-                                )}
+                                </strong>{' '}
+                                {user.requestModeValue}
                               </div>
                               <div>
                                 <strong className="d-inline">
                                   Request Status :{' '}
-                                </strong>
-                                {user.requestStatus === 0 && (
-                                  <div className="d-inline">Request</div>
-                                )}
-                                {user.requestStatus === 1 && (
-                                  <div className="d-inline">Urgent</div>
-                                )}
-                                {user.requestStatus === 2 && (
-                                  <div className="d-inline">Emergency</div>
-                                )}
-                                {user.requestStatus === 3 && (
-                                  <div className="d-inline">VIP</div>
-                                )}
-                              </div>
+                                </strong>{' '}
+                                {user.requestStatus}
+                              </div>{' '}
                             </div>
 
                             {/* <p>
+
                     {person.html_url}
+
                 </p> */}
 
                             <a
@@ -104,11 +87,13 @@ export default function ListOfApplications(props) {
                                 <i class="far fa-trash-alt fa-lg"></i>
                               </div>
                             </a>
+
                             <a
                               href="#"
                               onClick={() =>
                                 handleEdit(
                                   user.requestId,
+
                                   user.personResponses.length
                                 )
                               }
@@ -118,6 +103,7 @@ export default function ListOfApplications(props) {
                                 <i class="fas fa-edit fa-lg"></i>
                               </div>
                             </a>
+
                             <a
                               href="#"
                               onClick={() => handleDisplay(user.requestId)}
@@ -127,6 +113,7 @@ export default function ListOfApplications(props) {
                                 <i class="fas fa-eye fa-lg"></i>
                               </div>
                             </a>
+
                             <a
                               href="#"
                               onClick={() => handleReschedule(user.requestId)}
@@ -148,9 +135,11 @@ export default function ListOfApplications(props) {
                                   'Are you sure you want to cancel this Schedule?'
                                 }
                               </DialogTitle>
+
                               <DialogContent>
                                 <DialogContentText></DialogContentText>
                               </DialogContent>
+
                               <DialogActions>
                                 <Button
                                   onClick={() => cancelSchedule(user.requestId)}
@@ -159,6 +148,7 @@ export default function ListOfApplications(props) {
                                 >
                                   Yes
                                 </Button>
+
                                 <Button onClick={handleClose} color="primary">
                                   Cancel
                                 </Button>
