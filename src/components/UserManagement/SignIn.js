@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as authenticationAction from '../../redux/actions/authenticationAction';
 import { useHistory } from "react-router-dom";
 //import PropTypes from 'prop-types';
-
+import Spinner from '../common/Spinner';
 
 const Errorstyle = {
   marginTop: "-1rem",
@@ -22,6 +22,7 @@ function SignIn () {
   let [Password, setPassword] = useState('');
   let [EmailError, setEmailError] = useState('');
   let [PasswordError, setPasswordError] = useState('');
+  const [loading, setloading] = useState(false);
 
   let history = useHistory();
   const dispatch = useDispatch();
@@ -69,6 +70,7 @@ function SignIn () {
 
   const LogInSubmit = (e) => {
     e.preventDefault();
+    setloading(true);
     const isValid = validate();
         if (isValid){
           axios({
@@ -87,12 +89,15 @@ function SignIn () {
             localStorage.setItem('userToken', response.data.accessToken);
             localStorage.setItem('userId', response.data.id);
             personalDetail();
+            setloading(false);
             // redirect if user logged in
             if (response.data.accessToken){
               //return <Redirect to="/Home" />
               history.push('/')
             }
+
           }).catch((error) => {
+            setloading(false);
             console.log("error" + error)
           })
        
@@ -101,7 +106,14 @@ function SignIn () {
 
 
   return (
-    <MDBContainer className='my-5'>
+
+    <div>
+    {loading ? (
+      <Spinner />
+    ) : (
+
+
+      <MDBContainer className='my-5'>
       <MDBRow>
          <MDBCol md="3"></MDBCol>
         <MDBCol md="6">
@@ -181,15 +193,13 @@ function SignIn () {
         </MDBCol>
       </MDBRow>
     </MDBContainer>
-  );
+  
+
+
+      )}
+  </div>
+
+);
 };
 
-// SignIn.PropTypes = {
-//   actions: PropTypes.object.isRequired,
-// };
 export default SignIn;
-
-// Retrieve the object from storage
-// var retrievedObject = localStorage.getItem('personalDetail');
-
-// console.log('retrievedObject: ', JSON.parse(retrievedObject));

@@ -26,6 +26,7 @@ function ApplicationList() {
   const [isGroup, setIsGroup] = useState(false);
   const [numOfApplicants, setNumOfApplicants] = useState(0);
   const [handleDisplayId, sethandleDisplayId] = useState('');
+  const [loading, setloading] = useState(true);
   let history = useHistory();
 
   const handleDisplay = (id) => {
@@ -60,10 +61,11 @@ function ApplicationList() {
         config
       )
       .then((Response) => {
+        setloading(false);
         setusers(Response.data.serviceResponseList);
         dispatch(addApplicationList(Response.data.serviceResponseList));
       });
-  });
+  }, []);
 
       //cancel a single schedule
       function cancelSchedule(requestId) {
@@ -100,6 +102,7 @@ function ApplicationList() {
         handleDisplay={handleDisplay}
         handleEdit={handleEdit}
         handleReschedule={handleReschedule}
+        loading={loading}
       />
     );
   } else if (displayRequestId && isEdit && !isGroup) {

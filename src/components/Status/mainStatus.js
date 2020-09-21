@@ -107,6 +107,7 @@ const MainStatus = () => {
             debugger;
             setPassportNumberData(response.data);
             setAllError('');
+            console.log(response.data)
             if (response.data.status !== 0) {
               setShowForm(false);
               setShowPassportNumberResults(true);

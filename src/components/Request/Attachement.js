@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from '../common/Spinner';
 
-const Fileupload = () => {
+const Fileupload = forwardRef((props, ref) => {
   debugger;
   let [successMessage, setsuccessMessage] = useState(false);
   let [errorMessage, seterrorMessage] = useState(false);
   const accesstoken = localStorage.systemToken;
   const formData = new FormData();
   let requestTypeId;
-  let files = [];
+  const [files, setfiles] = useState([]);
+  const [fileType, setfileType] = useState([]);
   let requiredAttachementType = JSON.parse(localStorage.getItem("requiredAttachementType"));
   let attachmentTypeName = JSON.parse(localStorage.getItem("attachmentTypeName"));
   const inputs = [];
@@ -18,7 +19,6 @@ const Fileupload = () => {
   let requestTypefromRedux = useSelector((state) => state.service);
   requestTypeId = requestTypefromRedux[requestTypefromRedux.length - 1].appointemntType
   let requestPersonId = useSelector((state) => state.commonData[0].requestPersonId);
-
   console.log(requestPersonId)
   const [loading, setloading] = useState(false);
   const [filename, setfilename] = useState({
@@ -37,23 +37,41 @@ const Fileupload = () => {
 
   });
 
-
-
+  useImperativeHandle(ref, () => ({
+    saveData() {
+      setfiles((prevState) => ({
+        ...prevState,
+        dataSaved: true,
+      }));
+    },
+    Validate() {
+      return true
+    }
+  }));
   const submit = async (e) => {
     debugger;
     e.preventDefault();
     setloading(true);
     setsuccessMessage(false);
     seterrorMessage(false);
-    for (let i = 0; i < requiredAttachements; i++) {
-      files = e.target[i].files[0];
-      let fileType = e.target[i].id;
-      console.log(files)
-      console.log(fileType)
-      formData.append('personRequestId', requestPersonId);
-      formData.append(fileType, files);
+    console.log(files)
+    console.log(fileType)
+    // for (let i = 0; i < requiredAttachements; i++) {
+    //   files = e.target[i].files[0];
+    //   let fileType = e.target[i].id;
+    //   console.log(files)
+    //   console.log(fileType)
+    //   formData.append('personRequestId', requestPersonId);
+    //   formData.append(fileType, files);
 
+    // }
+    for (let i = 0; i < files.length; i++) {
+      formData.append('personRequestId', requestPersonId);
+      formData.append(fileType[i], files[i]);
+      console.log(files[i])
+      console.log(fileType[i])
     }
+      
     const url = 'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadAttachment';
 
     const config = {
@@ -78,6 +96,13 @@ const Fileupload = () => {
   }
   const onChange = (e) => {
     debugger;
+    setfiles([...files, e.target.files[0]]);
+    setfileType([...fileType, e.target.id]);
+      //files = e.target.files[0];
+      //fileType = e.target.id;
+      
+
+
     const { id, value } = e.target;
   
     setfilename((prevState) => ({
@@ -148,6 +173,5 @@ const Fileupload = () => {
     </div>
 
   )
-
-}
+});
 export default Fileupload

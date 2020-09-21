@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { MDBRow, MDBContainer, MDBCol } from 'mdbreact';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -6,6 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Spinner from '../common/Spinner';
 
 export default function ListOfApplications(props) {
   const {
@@ -17,18 +18,28 @@ export default function ListOfApplications(props) {
     handleDisplay,
     handleEdit,
     handleReschedule,
+    loading,
   } = props;
+ 
   return (
-    <div className="my-5">
-        <MDBContainer>
-              <div className="header py-3 textBackground m-4">
-                <MDBRow className="d-flex justify-content-center">
-                  <h2 className="white-text mb-3 pt-3 font-weight-bold text-center">
-                  List Of Your Applications
-                </h2>
-                </MDBRow>
-              </div>
-        </MDBContainer>
+
+
+    <div>
+      <MDBContainer>
+        <div className="header py-3 textBackground m-4">
+          <MDBRow className="d-flex justify-content-center">
+                <h2 className="white-text mb-3 pt-3 font-weight-bold text-center">
+                List Of Your Applications
+            </h2>
+          </MDBRow>
+        </div>
+      </MDBContainer>
+      {loading ? (
+        <Spinner />
+      ) : (
+
+        <div className="my-5">
+
       {users.length
         ? users.map((user) => (
             <MDBContainer
@@ -151,5 +162,21 @@ export default function ListOfApplications(props) {
           ))
         : null}
     </div>
-  );
+ 
+
+
+
+        )}
+    </div>
+
+
+
+
+
+
+
+
+
+
+ );
 }
