@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'react';
-import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody } from 'mdbreact';
+import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody,MDBAlert } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addTravelPlan from '../../redux/actions/addTravelPlanAction';
 import axios from "axios";
@@ -39,7 +39,6 @@ const TravelPlan = forwardRef((props, ref) => {
   });
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
-
   const accesstoken = localStorage.systemToken;
   let requestTypefromRedux = useSelector((state) => state.service);
   let requestTypeId = requestTypefromRedux[requestTypefromRedux.length - 1].appointemntType
@@ -166,8 +165,17 @@ const TravelPlan = forwardRef((props, ref) => {
  
 
   return (
+    
     <MDBCard>
       <MDBCardBody>
+      {props.respnseGet===true?
+      (props.isSucces===true?(<MDBAlert color="success" >
+      {props.resMessage}
+    </MDBAlert>):
+    (<MDBAlert color="danger" >
+        {props.resMessage}
+      </MDBAlert>)
+      ):(null)}
         <form>
           <div className="grey-text">
             <MDBRow>
