@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'react'
-import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody } from 'mdbreact';
+import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody, MDBContainer } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addPersonalInfo from '../../redux/actions/addPersonalInfoAction';
+import alertResponse from '../common/AlertResponse'
 
 
 const PersonalInfo = forwardRef((props, ref) => {
@@ -154,6 +155,7 @@ const PersonalInfo = forwardRef((props, ref) => {
         }))
     }, []);
     return (
+        <MDBContainer>
         <MDBCard style={{ marginBottom: "1rem" }}>
             <MDBCardBody>
                 <form>
@@ -359,6 +361,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 </form>
             </MDBCardBody>
         </MDBCard>
+        </MDBContainer>
     );
 });
 export default PersonalInfo

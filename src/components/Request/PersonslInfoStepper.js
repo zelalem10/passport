@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import addCommonData from '../../redux/actions/addCommonDataAction';
 import newRequest from '../../redux/actions/addNewRequestAction';
 import API from '../Utils/API';
+import { MDBModal, MDBModalBody, MDBBtn } from 'mdbreact';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,23 +36,25 @@ export default function HorizontalLabelPositionBelowStepper() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [formCompleted, setFormCompleted] = useState(false);
+  const [responseAlert, setResponseAlert] = useState(false);
+  const [responseMessage, setResponseMessage] = useState("");
 
   const steps = getSteps();
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const childRef = useRef();
   const handleNext = () => {
-    // if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
-    //   childRef.current.saveData();
-    //   const isVilid = childRef.current.Validate();
-    //   if (isVilid == true) {
-    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //   }
-    // }
-    // else {
+    if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
+      childRef.current.saveData();
+      const isVilid = childRef.current.Validate();
+      if (isVilid == true) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }
+    }
+    else {
     childRef.current.saveData();
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //}
+    }
   };
 
   const handleBack = () => {
@@ -143,7 +146,8 @@ export default function HorizontalLabelPositionBelowStepper() {
         console.log(
           todo.data + ' id= ' + todo.data.personResponses[0].requestPersonId
         );
-        alert(todo.data.message);
+        setResponseAlert(true);
+        setResponseMessage(todo.data.message);
         const commonData = {
           requestPersonId: todo.data.personResponses[0].requestPersonId,
         };
@@ -153,7 +157,9 @@ export default function HorizontalLabelPositionBelowStepper() {
       })
       .catch((err) => {
         console.log('AXIOS ERROR: ', err.response);
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        setResponseAlert(true)
+        setResponseMessage("One or more Errors occured!")
+        //setActiveStep((prevActiveStep) => prevActiveStep + 1);
       });
   };
   function getStepContent(stepIndex) {
@@ -173,6 +179,7 @@ export default function HorizontalLabelPositionBelowStepper() {
     }
   }
   return (
+   
     <div className={classes.root} style={{ marginBottom: '5rem' }}>
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
@@ -192,7 +199,13 @@ export default function HorizontalLabelPositionBelowStepper() {
         ) : (
             <div>
               <Typography className={classes.instructions}>
-                {getStepContent(activeStep)}
+                {responseAlert === true ? (<MDBModal isOpen={true} toggle="true" frame position="top">
+                  <MDBModalBody className="text-center">
+                    Please Complete theis form
+                    <MDBBtn color="primary" onClick={setResponseAlert(false)}>Ok</MDBBtn>
+                  </MDBModalBody>
+                </MDBModal>
+                ) : (getStepContent(activeStep))}
               </Typography>
               <Grid container spacing={1}>
                 <Grid item xs={3}>

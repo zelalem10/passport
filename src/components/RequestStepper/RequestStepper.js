@@ -6,7 +6,8 @@ import GroupNavigation from '../GroupRequest/GroupNavigation'
 import PaymentSelection from '../Payment/PaymentSelection'
 import Confirmation from '../Payment/Responses/Confirmation'
 import { Tab, Row, Nav, Col, Button, Card } from 'react-bootstrap';
-import {BsCheck, BsArrowRightShort, BsArrowLeftShort, BsHouseFill, BsPeopleCircle, BsCalendar, BsWallet, BsFillInfoCircleFill} from 'react-icons/bs'
+import { MDBModal, MDBModalBody, MDBBtn } from 'mdbreact';
+import { BsCheck, BsArrowRightShort, BsArrowLeftShort, BsHouseFill, BsPeopleCircle, BsCalendar, BsWallet, BsFillInfoCircleFill } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux';
 import addPaymentOptionId from '../../redux/actions/addPaymentOptionIdAction';
 
@@ -14,28 +15,28 @@ import addPaymentOptionId from '../../redux/actions/addPaymentOptionIdAction';
 export default function RequestStepper() {
   const [indexValue, setIndexValue] = useState(0);
   const [selectedPaymentOption, setSelectedPaymentOption] = useState(0);
-  const [formCompleted, setFormCompleted] = useState([false, false, false, false,false]);
-  const activeKey = ["first", "second", "third", "fourth","Fivth"];
+  const [formCompleted, setFormCompleted] = useState([false, false, false, false, false]);
+  const [inompleteAlert, setInompleteAlert] = useState([false, false, false, false, false]);
+  const activeKey = ["first", "second", "third", "fourth", "Fivth"];
   const counter = useSelector((state) => state);
   const serviceVal = counter.service[counter.service.length - 1];
   const isGroup = counter.service[counter.service.length - 1].isGroup;
   const childRef = useRef();
   const dispatch = useDispatch();
-  function handelNext(){
-    // if(childRef.current.isCompleted()==true)
-    // {
-    setIndexValue(indexValue + 1)
-    formCompleted[indexValue]=true
-    // }
-    // else{
-    //   alert("Please Complete the form")
-    // }
+  function handelNext() {
+    if (childRef.current.isCompleted() == true) {
+      setIndexValue(indexValue + 1)
+      formCompleted[indexValue] = true
+    }
+    else {
+      inompleteAlert[indexValue]=true
+    }
 
   }
-  function handelPrevious(){
+  function handelPrevious() {
     setIndexValue(indexValue - 1)
   }
-  function handelSiteSelection(){
+  function handelSiteSelection() {
     setIndexValue(0)
   }
   function handelPersonalInfo() {
@@ -47,10 +48,10 @@ export default function RequestStepper() {
   function handelPayment() {
     setIndexValue(3);
   }
-  function handelConfirmation(){
+  function handelConfirmation() {
     setIndexValue(4)
   }
-  function handelPaymentSelection(optionId){
+  function handelPaymentSelection(optionId) {
     setSelectedPaymentOption(optionId)
   }
   useEffect(() => {
@@ -70,7 +71,7 @@ export default function RequestStepper() {
                 <Nav.Item>
                   <Nav.Link
                     eventKey={activeKey[0]}
-                     onClick={handelSiteSelection}
+                    onClick={handelSiteSelection}
                     disabled={formCompleted[0] === true ? false : true}
                   >
                     {' '}
@@ -108,7 +109,7 @@ export default function RequestStepper() {
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link eventKey={activeKey[4]} onClick={handelConfirmation} disabled={formCompleted[4] === true ? false : true}><BsFillInfoCircleFill /> Confirmation{ formCompleted[4] ? <BsCheck /> : null }</Nav.Link>
+                  <Nav.Link eventKey={activeKey[4]} onClick={handelConfirmation} disabled={formCompleted[4] === true ? false : true}><BsFillInfoCircleFill /> Confirmation{formCompleted[4] ? <BsCheck /> : null}</Nav.Link>
                 </Nav.Item>
               </Nav>
             </Card>
@@ -122,8 +123,8 @@ export default function RequestStepper() {
                 {isGroup === true ? (
                   <GroupNavigation />
                 ) : (
-                  <PersonalInfoStepper />
-                )}
+                    <PersonalInfoStepper />
+                  )}
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[2]}>
                 <DateSelection />
@@ -142,7 +143,7 @@ export default function RequestStepper() {
           <Col md={2}>
             <Button
               variant="primary"
-               onClick={handelPrevious}
+              onClick={handelPrevious}
               disabled={indexValue == 0 ? true : false}
             >
               <BsArrowLeftShort /> previous
