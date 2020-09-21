@@ -2,6 +2,7 @@ import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'rea
 import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addPersonalInfo from '../../redux/actions/addPersonalInfoAction';
+import { Form, Card, Row } from 'react-bootstrap';
 
 const PersonalInfo = forwardRef((props, ref) => {
     const [personalInfo, setPersonalInfo] = useState({
@@ -150,9 +151,10 @@ const PersonalInfo = forwardRef((props, ref) => {
     }, []);
 
     return (
-                <form>
-                    <MDBRow>
-                        <MDBCol>
+        <blockquote className=" mb-0">
+          <form>
+            <MDBRow>
+                <MDBCol>
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.firstName : null}
                                 name="firstName"
@@ -350,7 +352,9 @@ const PersonalInfo = forwardRef((props, ref) => {
                             </div>
                         </MDBCol>
                     </MDBRow>
-                </form>
+                   
+              </form>
+              </blockquote>
 
     );
 });

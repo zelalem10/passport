@@ -237,6 +237,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
     }
   }
   return (
+    
     <div className={classes.root} style={{ marginBottom: "5rem" }}>
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
