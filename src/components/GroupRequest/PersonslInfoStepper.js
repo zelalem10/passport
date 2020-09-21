@@ -31,13 +31,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function getSteps() {
-  return ['Personal Detail', 'Address', 'Family', 'Travel plan', 'Attachment'];
+  return ['Personal Detail', 'Address', 'Family', 'Travel & passport info', 'Attachment'];
 }
 export default function HorizontalLabelPositionBelowStepper(props) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [formCompleted, setFormCompleted] = useState(false);
-
   const steps = getSteps();
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
@@ -69,12 +68,13 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   };
   const handleSubmit = () => {
     const requestInfo = counter.request;
-    debugger
-    if (props.applicantNumber == 1) {
+     
       const personalInfoLength = counter.personalInfoReducer.filter(item => item.applicantNumber == props.applicantNumber).length;
       var personalInfo = counter.personalInfoReducer.filter(item => item.applicantNumber == props.applicantNumber)[personalInfoLength - 1]
       const addressLength = counter.address.filter(item => item.applicantNumber == props.applicantNumber).length;
       var addressInfo = counter.address.filter(item => item.applicantNumber == props.applicantNumber)[addressLength - 1];
+      const travelPlanLength = counter.travelPlan.filter(item => item.applicantNumber == props.applicantNumber).length;
+      const travelPlan = counter.travelPlan.filter(item => item.applicantNumber == props.applicantNumber)[travelPlanLength - 1]
        const familyLength = counter.familyReducer.filter(function (items) {
       for (let item in items) {
         if (items[item].applicantNumber == props.applicantNumber) {
@@ -93,10 +93,10 @@ export default function HorizontalLabelPositionBelowStepper(props) {
         requestId: 0,
         requestMode: 0,
         requestTypeId: 2,
-        userName: "",
+        userName: '',
         status: 0,
-        confirmationNumber: "",
-        personRequest: [
+        confirmationNumber: '',
+        applicants: [
           {
             personId: 0,
             firstName: personalInfo ? personalInfo.firstName.toUpperCase() : null,
@@ -105,23 +105,30 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
             geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
             geezLastName: personalInfo ? personalInfo.geezLastName : null,
-            dateOfBirth: "2020-08-31T12:42:45.259Z",
-            gender: personalInfo ? personalInfo.gender : null,
+            dateOfBirth: personalInfo ? personalInfo.birthDate : null,
+            gender: personalInfo ? Number.parseInt(personalInfo.gender, 10) : null,
             nationality: personalInfo ? personalInfo.nationality : null,
             height: personalInfo ? personalInfo.height : null,
             eyeColor: personalInfo ? personalInfo.eyeColor : null,
             hairColor: personalInfo ? personalInfo.hairColor : null,
             occupation: personalInfo ? personalInfo.occupation : null,
             halfCast: personalInfo ? personalInfo.halfCast : null,
-            enrolmentDate: "2020-08-31T12:42:45.259Z",
-            birthCountry: personalInfo ? personalInfo.birthCountry : null,
-            birthCity: personalInfo ? personalInfo.birthCity : null,
+            enrolmentDate: personalInfo ? personalInfo.enrolmentDate : null,
+            birthCertificateId: personalInfo ? personalInfo.birthCertificatNo : "",
             photoPath: "",
             employeeID: "",
             applicationNumber: "",
             organizationID: "",
-            isUnder18: true,
-            isAdoption: true,
+            isUnder18: personalInfo ? personalInfo.isUnder18 : false,
+            isAdoption: personalInfo ? personalInfo.isAdoption : false,
+            passportNumber: travelPlan ? travelPlan.passportNumber : null,
+            issueDate:  travelPlan ? travelPlan.issueDate : null,
+            expireDate:  travelPlan ? travelPlan.expirationDate : null,
+            passportType:  travelPlan ? travelPlan.passportType : null,
+            isDatacorrected:  travelPlan ? travelPlan.isDatacorrected : false,
+            pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10) : false,
+            maritalStatus: personalInfo ? Number.parseInt(personalInfo.martialStatus, 10) : null,
+            birthCertificateId: personalInfo ? personalInfo.birthCertificatNo : null,
             address: {
               personId: 0,
               addressId: 0,
@@ -141,6 +148,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
           }
         ]
       };
+      if (props.applicantNumber == 1) {
       API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest', requestBody, config)
         .then((todo) => {
           dispatch(newRequest(todo.data))
@@ -148,6 +156,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
         })
         .catch((err) => {
           console.log('AXIOS ERROR: ', err.response);
+          console.log('ERROR Title: ', err.data);
         });
     }
     else if (requestInfo != null) {
@@ -155,7 +164,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
         requestId: requestInfo[requestInfo.length - 1].requestId,
         flightNumber: "",
         flightDate: "2020-09-14T11:28:49.495Z",
-        personRequest: [
+        applicants: [
           {
             personId: 0,
             firstName: personalInfo ? personalInfo.firstName.toUpperCase() : null,
@@ -164,23 +173,30 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
             geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
             geezLastName: personalInfo ? personalInfo.geezLastName : null,
-            dateOfBirth: "2020-08-31T12:42:45.259Z",
-            gender: personalInfo ? personalInfo.gender : null,
+            dateOfBirth: personalInfo ? personalInfo.birthDate : null,
+            gender: personalInfo ? Number.parseInt(personalInfo.gender, 10) : null,
             nationality: personalInfo ? personalInfo.nationality : null,
             height: personalInfo ? personalInfo.height : null,
             eyeColor: personalInfo ? personalInfo.eyeColor : null,
             hairColor: personalInfo ? personalInfo.hairColor : null,
             occupation: personalInfo ? personalInfo.occupation : null,
             halfCast: personalInfo ? personalInfo.halfCast : null,
-            enrolmentDate: "2020-08-31T12:42:45.259Z",
-            birthCountry: personalInfo ? personalInfo.birthCountry : null,
-            birthCity: personalInfo ? personalInfo.birthCity : null,
+            enrolmentDate: personalInfo ? personalInfo.enrolmentDate : null,
+            birthCertificateId: personalInfo ? personalInfo.birthCertificatNo : "",
             photoPath: "",
             employeeID: "",
             applicationNumber: "",
             organizationID: "",
-            isUnder18: true,
-            isAdoption: true,
+            isUnder18: personalInfo ? personalInfo.isUnder18 : false,
+            isAdoption: personalInfo ? personalInfo.isAdoption : false,
+            passportNumber: travelPlan ? travelPlan.passportNumber : null,
+            issueDate:  travelPlan ? travelPlan.issueDate : null,
+            expireDate:  travelPlan ? travelPlan.expirationDate : null,
+            passportType:  travelPlan ? travelPlan.passportType : null,
+            isDatacorrected:  travelPlan ? travelPlan.isDatacorrected : false,
+            pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10) : false,
+            maritalStatus: personalInfo ? Number.parseInt(personalInfo.martialStatus, 10) : null,
+            birthCertificateId: personalInfo ? personalInfo.birthCertificatNo : null,
             address: {
               personId: 0,
               addressId: 0,
@@ -194,19 +210,11 @@ export default function HorizontalLabelPositionBelowStepper(props) {
               poBox: addressInfo ? addressInfo.poBox : null,
               phoneNumber: addressInfo ? addressInfo.phoneNumber : null,
               email: addressInfo ? addressInfo.email : null,
-              requestPlace: addressInfo ? addressInfo.requestPlace : null
-            }//,
-            // familyRequests: [
-            //   // {
-            //   //   familyId: 0,
-            //   //   personId: 0,
-            //   //   familtyTypeId: 0,
-            //   //   firstName: "string",
-            //   //   lastName: "string"
-            //   // }
-            // ]
-          }
-        ]
+              requestPlace: addressInfo ? addressInfo.requestPlace : null,
+            },
+            // familyRequests: familyInfo,
+          },
+        ],
       };
       API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/AddPerson', requestBody, config)
         .then((todo) => {
@@ -238,6 +246,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
     }
   }
   return (
+    
     <div className={classes.root} style={{ marginBottom: "5rem" }}>
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
@@ -267,11 +276,23 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                 </Grid>
                 <hr></hr>
                 <Grid item xs={1}>
-                  {activeStep === steps.length - 2 ? (<Button variant="contained" color="primary" onClick={handleSubmit}>
-                    Finish
-                  </Button>) : (<Button variant="contained" color="primary" onClick={handleNext}>
-                    Next
-                  </Button>)}
+                  {activeStep === steps.length - 2 ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleSubmit}
+                    >
+                      Submit
+                    </Button>
+                  ) : (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleNext}
+                      >
+                        Next
+                      </Button>
+                    )}
                 </Grid>
               </Grid>
             </div>

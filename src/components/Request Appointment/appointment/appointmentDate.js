@@ -29,7 +29,43 @@ function MyApp() {
       e.target.className === 'btn_select active' ? true : false;
     setActiveTImeSlot({ key: e.target.id, active: !currentState });
   };
-
+ const saveNewAppointment = () => {
+   debugger;
+    let formatedYear = state.date.getFullYear();
+    let formatedMonth = (1 + state.date.getMonth()).toString();
+    formatedMonth =
+      formatedMonth.length > 1 ? formatedMonth : '0' + formatedMonth;
+    let formatedDay = state.date.getDate().toString();
+    formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
+    let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
+    axios({
+      headers: {
+        Authorization: 'Bearer ' + accesstoken,
+      },
+      method: 'post',
+      url: baseUrl + '/Schedule/api/V1.0/Schedule/SubmitAppointment',
+      data: {
+  id: 0,
+  date: stringDateValue,
+  requestId: 3,
+  durationId: parseInt(selectTime) ,
+        dateTimeFormat: 'yyyy-MM-dd',
+      },
+    })
+      .then((response) => {
+        let newdate = new Date(response.data.date);
+        let newYear = newdate.getFullYear();
+        let newMonth = (1 + newdate.getMonth()).toString();
+        newMonth = newMonth.length > 1 ? newMonth : '0' + newMonth;
+        let newDay = newdate.getDate().toString();
+        newDay = newDay.length > 1 ? newDay : '0' + newDay;
+        
+        
+      })
+      .catch((error) => {
+        console.log('error' + error);
+      });
+  };
   const dispatch = useDispatch();
   const accesstoken = localStorage.systemToken;
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
@@ -40,11 +76,10 @@ function MyApp() {
 
   const handleTimeSelect = (e) => {
     setState({ ...state, time: e.target.value });
-    setSelectTime(e.target.value);
+    setSelectTime(e.target.id);
     toggleClass(e);
-    dispatch(addAppointmentDate({ ...state, time: e.target.value }));
+    dispatch(addAppointmentDate({ ...state, time: e.target.id }));
   };
-  console.log(selectTime);
   useEffect((two = 2) => {
     axios({
       headers: {
@@ -190,7 +225,7 @@ function MyApp() {
   const dateValue = state.date.toString();
   return (
     <div>
-      <MDBContainer className="passport-container pt-3" fluid>
+      <MDBContainer className=" pt-3" fluid>
         <h2 className="h1">Appointment - Date and Time</h2>
         <MDBRow key={key}>
           <MDBCol md="6">
@@ -234,6 +269,17 @@ function MyApp() {
               activeTimeSlot={activeTimeSlot}
               toggleClass={toggleClass}
             />
+          </MDBCol>
+        </MDBRow>
+         <MDBRow>
+          <MDBCol md="6" className="pt-3 center">
+            <button
+              onClick={saveNewAppointment}
+              type="button"
+              class="btn btn-default btn-lg btn-block"
+            >
+              Save New Date Time
+            </button>
           </MDBCol>
         </MDBRow>
       </MDBContainer>
