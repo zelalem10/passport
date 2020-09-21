@@ -118,7 +118,7 @@ const MainStatus = () => {
             console.log(response.data);
           })
           .catch((error) => {
-            alert('error');
+    
             console.log('error' + error);
           });
       } else if (ApplicationNumber) {
@@ -142,7 +142,7 @@ const MainStatus = () => {
             console.log(response.data);
           })
           .catch((error) => {
-            alert('error');
+           
             console.log('error' + error);
           });
       } else if (ConfirmationNumber) {
@@ -165,7 +165,7 @@ const MainStatus = () => {
             console.log(response.data);
           })
           .catch((error) => {
-            alert('error');
+           
             console.log('error' + error);
           });
       }

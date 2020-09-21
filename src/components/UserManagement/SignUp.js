@@ -106,13 +106,13 @@ class SignUp extends Component {
         })
         .then(Response => {
             console.log(Response);
-            alert('success');
+      
           window.location.href = "./signIn";
             
         })
         .catch(err => {
          console.log(err);
-         alert('error');
+        
      }) 
   
      // clear form

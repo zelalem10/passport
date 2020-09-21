@@ -1,50 +1,58 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import Spinner from '../common/Spinner';
 
 const Fileupload = () => {
   debugger;
+  let [successMessage, setsuccessMessage] = useState(false);
+  let [errorMessage, seterrorMessage] = useState(false);
   const accesstoken = localStorage.systemToken;
   const formData = new FormData();
   let requestTypeId;
-  
   let files = [];
-  let requiredAttachementType = [];
+  let requiredAttachementType = JSON.parse(localStorage.getItem("requiredAttachementType"));
+  let attachmentTypeName = JSON.parse(localStorage.getItem("attachmentTypeName"));
   const inputs = [];
   let requiredAttachements = localStorage.requiredAttachements;
   let requestTypefromRedux = useSelector((state) => state.service);
   requestTypeId = requestTypefromRedux[requestTypefromRedux.length - 1].appointemntType
+  let requestPersonId = useSelector((state) => state.commonData[0].requestPersonId);
 
-  useEffect(() => {
-    axios({
-      headers: { 'Authorization': 'Bearer ' + accesstoken },
-      method: 'get',
-      url: 'https://epassportservices.azurewebsites.net/Master/api/V1.0/OfficeRequestType/GetRequiredAttachementsByRequestTypeId',
-      params: { "requestTypeId": requestTypeId },
-    })
-      .then((response) => {
-        for (let i = 0; i < response.data.requiredAttachements.length; i++) {
-          requiredAttachementType += response.data.requiredAttachements[i].attachmentTypeId;
-          console.log(requiredAttachementType);
-        }
+  console.log(requestPersonId)
+  const [loading, setloading] = useState(false);
+  const [filename, setfilename] = useState({
+    1:'',
+    2:'',
+    3:'',
+    4:'',
+    5:'',
+    6:'',
+    7:'',
+    8:'',
+    9:'',
+    10:'',
+    11:'',
+    12:''
 
-      })
-      .catch((error) => {
-        console.log("error" + error.message)
-      })
-  }, []);
+  });
+
 
 
   const submit = async (e) => {
     debugger;
     e.preventDefault();
+    setloading(true);
+    setsuccessMessage(false);
+    seterrorMessage(false);
     for (let i = 0; i < requiredAttachements; i++) {
       files = e.target[i].files[0];
-      let fileType = requiredAttachementType;
+      let fileType = e.target[i].id;
       console.log(files)
       console.log(fileType)
-      formData.append('personRequestId', 3);
-      formData.append('1', files);
+      formData.append('personRequestId', requestPersonId);
+      formData.append(fileType, files);
+
     }
     const url = 'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadAttachment';
 
@@ -59,32 +67,86 @@ const Fileupload = () => {
     try {
       const response = await axios.post(url, formData, config);
       console.log(response.data);
-      alert('success');
+      setsuccessMessage(true);
+      setloading(false);
     } catch (error) {
       console.log("error" + error.message);
-      alert('Error');
+      seterrorMessage(true);
+      setloading(false);
     }
 
   }
+  const onChange = (e) => {
+    debugger;
+    const { id, value } = e.target;
+  
+    setfilename((prevState) => ({
+      ...prevState,[id]:value.replace(/^.*[\\\/]/, '')}))
+    }
 
   for (let i = 0; i < requiredAttachements; i++) {
+    debugger;
     inputs.push(
+      <div class="row">
+        <div class="col-md-6 mb-2">
+          <div className="input-group">
+            <div className="input-group-prepend">
+              <span className="input-group-text" id="inputGroupFileAddon01">
+                Upload
+                    </span>
+            </div>
+            <div className="custom-file">
+              <input
+                name={`input-${i}`}
+                type="file"
+                id={requiredAttachementType[i]}
+                className="custom-file-input"
+                aria-describedby="inputGroupFileAddon01"
+                onChange={e => onChange(e)}
+              />
 
-      <input
-        name={`input-${i}`}
-        type="file"
-      />
+              <label className="custom-file-label" htmlFor="inputGroupFile01">
+               {filename[requiredAttachementType[i]] ? filename[requiredAttachementType[i]]
+               : <div>Choose {attachmentTypeName[i]}</div> 
+  }
+              </label>
+            </div>
+          </div>
 
+        </div>
+      </div>
     )
+
   }
 
   return (
-    <form onSubmit={e => submit(e)}>
+    <div>
+      {loading ? (
+        <Spinner />
+      ) : (
 
-      {inputs}
 
-      <button className="btn btn-primary" type="submit">Upload</button>
-    </form>
+          <form onSubmit={e => submit(e)}>
+            {successMessage &&
+              <div class="alert alert-success" role="alert">
+                Operation sucessfully completed
+       </div>
+            }
+            {errorMessage &&
+              <div class="alert alert-danger" role="alert">
+                Oops! Something went wrong.
+        </div>
+            }
+            {inputs}
+            <button className="btn btn-primary" type="submit">Upload</button>
+
+          </form>
+
+
+
+        )}
+    </div>
+
   )
 
 }
