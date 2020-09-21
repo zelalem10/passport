@@ -141,10 +141,10 @@ const PaymentSelection = forwardRef((props, ref) => {
                         <MDBCardBody>
                             <MDBRow>
                                 {paymentOptions.map((paymentOption) =>
-                                    <MDBCol md="4">
+                                    <MDBCol md="4"  style={{ marginTop: "2rem" }}>
                                         <MDBCard className={selectedOption === paymentOption.id ? classes.root : ""}
                                             style={{ marginBottom: "5px" }} onClick={() => handelClick(paymentOption.id)}>
-                                            <MDBCardImage className="img-fluid" style={{ height: "80px", width:"100%"  }} src={getImageURL(paymentOption.id)}
+                                            <MDBCardImage className="img-fluid" style={{ height: "80px", width:"100%"  }} src={paymentOption.imageUrl}
                                                 waves />
                                             {/* <MDBCardBody> */}
                                             <MDBCardTitle>

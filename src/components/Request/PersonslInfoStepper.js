@@ -15,7 +15,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import addCommonData from '../../redux/actions/addCommonDataAction';
 import newRequest from '../../redux/actions/addNewRequestAction';
 import API from '../Utils/API';
-import { MDBModal, MDBModalBody, MDBBtn } from 'mdbreact';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +36,7 @@ export default function HorizontalLabelPositionBelowStepper() {
   const [activeStep, setActiveStep] = useState(0);
   const [formCompleted, setFormCompleted] = useState(false);
   const [responseAlert, setResponseAlert] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
 
   const steps = getSteps();
@@ -69,7 +69,13 @@ export default function HorizontalLabelPositionBelowStepper() {
     return new Date(string).toLocaleDateString([], options);
   }
   const handleSubmit = () => {
-    var personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1]
+    childRef.current.saveData();
+      const isVilid = childRef.current.Validate();
+      if (isVilid != true) {
+        //setResponseMessage("Ple")
+      }
+      else{
+        var personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1]
     var addressInfo = counter.address[counter.address.length - 1]
     var familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
     const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
@@ -146,8 +152,9 @@ export default function HorizontalLabelPositionBelowStepper() {
         console.log(
           todo.data + ' id= ' + todo.data.personResponses[0].requestPersonId
         );
-        setResponseAlert(true);
         setResponseMessage(todo.data.message);
+        setResponseAlert(true);
+        setIsSuccess(true);
         const commonData = {
           requestPersonId: todo.data.personResponses[0].requestPersonId,
         };
@@ -157,10 +164,10 @@ export default function HorizontalLabelPositionBelowStepper() {
       })
       .catch((err) => {
         console.log('AXIOS ERROR: ', err.response);
-        setResponseAlert(true)
         setResponseMessage("One or more Errors occured!")
-        //setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        setResponseAlert(true)
       });
+      }
   };
   function getStepContent(stepIndex) {
     switch (stepIndex) {
@@ -171,7 +178,7 @@ export default function HorizontalLabelPositionBelowStepper() {
       case 2:
         return <FamilyInformation ref={childRef} />;
       case 3:
-        return <TravelPlan ref={childRef} />;
+        return <TravelPlan ref={childRef} resMessage={responseMessage} isSucces={isSuccess} respnseGet={responseAlert} />;
       case 4:
         return <Attachment />;
       default:
@@ -199,13 +206,7 @@ export default function HorizontalLabelPositionBelowStepper() {
         ) : (
             <div>
               <Typography className={classes.instructions}>
-                {responseAlert === true ? (<MDBModal isOpen={true} toggle="true" frame position="top">
-                  <MDBModalBody className="text-center">
-                    Please Complete theis form
-                    <MDBBtn color="primary" onClick={setResponseAlert(false)}>Ok</MDBBtn>
-                  </MDBModalBody>
-                </MDBModal>
-                ) : (getStepContent(activeStep))}
+                 {getStepContent(activeStep)}
               </Typography>
               <Grid container spacing={1}>
                 <Grid item xs={3}>
