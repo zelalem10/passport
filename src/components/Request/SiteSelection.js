@@ -3,7 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as ReactBootstrap from 'react-bootstrap';
 import { MDBRow, MDBCol, MDBInput,  MDBCard, MDBCardBody } from 'mdbreact';
 import API from '../Utils/API';
-import token from '../common/accessToken'
+import { useDispatch, useSelector } from 'react-redux';
+import saveSiteInformation from '../../redux/actions/siteInformationAction';
+
 
 const accesstoken = localStorage.systemToken;
 const SiteSelection=forwardRef((props, ref) => {
@@ -18,14 +20,21 @@ const SiteSelection=forwardRef((props, ref) => {
   const [cityList, setCityList] = useState([]);
   const [regionList, setRegionList] = useState([]);
   const [officeList, setOfficeList] = useState([]);
+  const [officeId, setOfficeId] = useState(0);
   const [officeName, setOfficeName] = useState('');
   const [officeAddress, setOfficeAddress] = useState('');
   const [officeContact, setOfficeContact] = useState('');
+  const [officeInfo, setOfficeInfo] = useState({
+    offceId:0,
+    cityId:0,
+    reagionId:0,
+  });
   const [formCompleted, setFormCompleted] = useState(false);
+
 
   const classes = useStyles();
   const accesstoken = localStorage.systemToken;
-
+  const dispatch = useDispatch();
   const officeURL =
     'https://epassportservices.azurewebsites.net/Master/api/V1.0/Office/GetByCityId?id=';
   const config = {
@@ -36,9 +45,17 @@ const SiteSelection=forwardRef((props, ref) => {
 
   const handleRegionChange = (event) => {
     const selectedRegion = regionList.filter(item => item.id == event.target.value);
+  //   setOfficeInfo((prevState) => ({
+  //     ...prevState,
+  //     reagionId: event.target.value,
+  // }));
     setCityList(selectedRegion[0].cities);
   };
   function handeleCityChange(event) {
+  //   setOfficeInfo((prevState) => ({
+  //     ...prevState,
+  //     cityId: event.target.value,
+  // }));
     API.get(officeURL + event.target.value, config)
       .then((todo) => {
         setOfficeList(todo.data.offices);
@@ -49,10 +66,17 @@ const SiteSelection=forwardRef((props, ref) => {
   }
 
   function handelOfficeChange(event) {
+    setOfficeId(event.target.value)
     const selectedOff = officeList.filter(office => office.id == event.target.value)
     setOfficeName(selectedOff[0].name);
     setOfficeAddress(selectedOff[0].address);
     setOfficeContact(selectedOff[0].fax);
+    setOfficeInfo((prevState) => ({
+      ...prevState,
+      offceId: officeId,
+  }));
+  console.log(officeInfo)
+  dispatch(saveSiteInformation(officeInfo));
     setFormCompleted(true)
   }
 

@@ -13,6 +13,7 @@ import TravelPlan from './TravelPlan'
 import FamilyInformation from '../Request Appointment/family/familyInformation';
 import { useDispatch, useSelector } from 'react-redux';
 import addCommonData from '../../redux/actions/addCommonDataAction';
+import newRequest from '../../redux/actions/addNewRequestAction';
 import API from '../Utils/API';
 
 const useStyles = makeStyles((theme) => ({
@@ -107,8 +108,8 @@ export default function HorizontalLabelPositionBelowStepper() {
           isUnder18: personalInfo ? personalInfo.isUnder18 : false,
           isAdoption: personalInfo ? personalInfo.isAdoption : false,
           passportNumber: travelPlan ? travelPlan.passportNumber : null,
-          issueDate:  travelPlan ? travelPlan.issueDate : null,
-          expireDate:  travelPlan ? travelPlan.expirationDate : null,
+          issueDate:  travelPlan ? travelPlan.issueDate : new Date(),
+          expireDate:  travelPlan ? travelPlan.expirationDate : new Date(),
           passportType:  travelPlan ? travelPlan.passportType : null,
           isDatacorrected:  travelPlan ? travelPlan.isDatacorrected : false,
           pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10) : false,
@@ -146,6 +147,7 @@ export default function HorizontalLabelPositionBelowStepper() {
         const commonData = {
           requestPersonId: todo.data.personResponses[0].requestPersonId,
         };
+        dispatch(newRequest(todo.data))
         dispatch(addCommonData(commonData));
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       })

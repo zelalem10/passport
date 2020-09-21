@@ -93,6 +93,20 @@ const PaymentSelection = forwardRef((props, ref) => {
                 return <Response instruction={instruction} message={message} status={status} />
         }
     }
+    function getImageURL(id){
+        switch(id){
+            case 2:
+                return "https://b2cappdevstorageaccount.blob.core.windows.net/payment-icons/cbe-logo.png"
+            case 4:
+                return "https://b2cappdevstorageaccount.blob.core.windows.net/payment-icons/cbebirr.png"
+            case 6:
+                return "https://b2cappdevstorageaccount.blob.core.windows.net/payment-icons/pss.jpg"
+            case 9:
+                return "https://b2cappdevstorageaccount.blob.core.windows.net/payment-icons/abyssinia.png"
+            default:
+                return "https://mdbootstrap.com/img/Photos/Others/images/50.jpg"
+        }
+    }
     useEffect(() => {
         API.get("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/GetPaymentOptions", config)
             .then((todo) => setPaymentOptions(todo.data.paymentOptions))
@@ -130,10 +144,17 @@ const PaymentSelection = forwardRef((props, ref) => {
                                     <MDBCol md="4">
                                         <MDBCard className={selectedOption === paymentOption.id ? classes.root : ""}
                                             style={{ marginBottom: "5px" }} onClick={() => handelClick(paymentOption.id)}>
-                                            <MDBCardImage className="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/images/50.jpg"
+                                            <MDBCardImage className="img-fluid" style={{ height: "80px", width:"100%"  }} src={getImageURL(paymentOption.id)}
                                                 waves />
                                             {/* <MDBCardBody> */}
-                                            <MDBCardTitle>{paymentOption.name}</MDBCardTitle>
+                                            <MDBCardTitle>
+                                                <MDBRow>
+                                                    <MDBCol md="4"></MDBCol>
+                                                    <MDBCol md="8">
+                                                    {paymentOption.name}
+                                                    </MDBCol>
+                                                </MDBRow>
+                                                </MDBCardTitle>
                                             {/* <MDBCardText>{paymentOption.instruction}</MDBCardText> */}
                                             {/* </MDBCardBody> */}
                                             {/* <MDBBtn onClick={() => getSelectedOption(paymentOption.id)}>Select</MDBBtn> */}

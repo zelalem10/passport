@@ -3,7 +3,7 @@ import { MDBBtn, MDBCard, MDBContainer, MDBCardHeader, MDBNavLink, MDBCardBody, 
 import PaymentSelection from '../Payment/PaymentSelection'
 import API from '../Utils/API'
 import { BsLayoutTextWindowReverse } from 'react-icons/bs';
-var parse = require('html-react-parser');
+// var parse = require('html-react-parser');
 
 
 const PayWithPSS = () => {

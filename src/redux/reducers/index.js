@@ -16,6 +16,7 @@ import commonData from './commonDataReducer';
 import request from './newRequestReducer'
 import paymentOption from './paymentOptionReducer'
 import appointmentTypes from './appointmentTypeReducer';
+import siteInformation from './saveSiteInformationRedux';
 const rootReducer = combineReducers({
   service,
   familyReducer,
@@ -33,5 +34,6 @@ const rootReducer = combineReducers({
   request,
   paymentOption,
   appointmentTypes,
+  siteInformation,
 });
 export default rootReducer;
