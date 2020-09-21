@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol,MDBAlert } from 'mdbreact';
 import axios from 'axios';
 import AvailableTimeSlot from './appointmetTimeSlots';
 import './disabledates.css';
@@ -15,6 +15,8 @@ function MyApp() {
   const [availableDatess, setAvailableDates] = useState([]);
   const [key, setKey] = useState();
   const [availableTimes, setAvailableTimes] = useState([]);
+    
+    
 
   const [timeSlots, setTimeSlots] = useState([]);
   const [showAvailableTimeSlots, setShowAvailableTimeSlots] = useState(false);
@@ -23,6 +25,9 @@ function MyApp() {
     key: '',
     active: false,
   });
+   const [newAppointment, setNewAppointment] = useState();
+  const [newDisplayTime, setNewDisplayTime] = useState('');
+const counter = useSelector((state) => state);
 
   const toggleClass = (e) => {
     const currentState =
@@ -31,6 +36,7 @@ function MyApp() {
   };
  const saveNewAppointment = () => {
    debugger;
+   let requestId=counter.request[counter.request.length-1].requestId;
     let formatedYear = state.date.getFullYear();
     let formatedMonth = (1 + state.date.getMonth()).toString();
     formatedMonth =
@@ -47,18 +53,25 @@ function MyApp() {
       data: {
   id: 0,
   date: stringDateValue,
-  requestId: 3,
+  requestId: requestId,
   durationId: parseInt(selectTime) ,
         dateTimeFormat: 'yyyy-MM-dd',
       },
     })
       .then((response) => {
-        let newdate = new Date(response.data.date);
+          let newdate = new Date(response.data.date);
         let newYear = newdate.getFullYear();
         let newMonth = (1 + newdate.getMonth()).toString();
         newMonth = newMonth.length > 1 ? newMonth : '0' + newMonth;
         let newDay = newdate.getDate().toString();
         newDay = newDay.length > 1 ? newDay : '0' + newDay;
+        setNewAppointment(newdate);
+        setNewDisplayTime(`${newdate.toISOString().substr(0, 10)} ${
+          response.data.duration.startTime
+        } - ${response.data.duration.endTime} ${
+          response.data.duration.isMorning ? 'AM' : 'PM'
+        } 
+        `);
         
         
       })
@@ -66,6 +79,7 @@ function MyApp() {
         console.log('error' + error);
       });
   };
+
   const dispatch = useDispatch();
   const accesstoken = localStorage.systemToken;
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
@@ -227,6 +241,9 @@ function MyApp() {
     <div>
       <MDBContainer className=" pt-3" fluid>
         <h2 className="h1">Appointment - Date and Time</h2>
+        {newAppointment ? (
+          <MDBAlert color="success">Your Appointment - {newDisplayTime}</MDBAlert>
+        ) : null}
         <MDBRow key={key}>
           <MDBCol md="6">
             <h3>Date</h3>

@@ -4,6 +4,11 @@ import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addTravelPlan from '../../redux/actions/addTravelPlanAction';
 import axios from "axios";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 function requestTypeGetter(requetTypeId){
   switch(requetTypeId){
@@ -85,6 +90,7 @@ const TravelPlan = forwardRef((props, ref) => {
       return true
     }
   }));
+  
   const handleChange = (event) => {
     const { name, value } = event.target;
     setTravelPlan((prevState) => ({
@@ -105,6 +111,36 @@ const TravelPlan = forwardRef((props, ref) => {
     //     }))
     // }
 }
+ const [selectedtravelDate, setSelectedtravelDate] = React.useState(
+    new Date(prevInfo ? prevInfo.travelDate : '2014-08-18T21:11:54')
+  );
+  const [selectedissueDate, setSelectedissueDate] = React.useState(
+    new Date(prevInfo ? prevInfo.issueDate : '2014-08-18T21:11:54')
+  );
+  const [selectedexpirationDate, setSelectedexpirationDate] = React.useState(
+    new Date(prevInfo ? prevInfo.expirationDate : '2014-08-18T21:11:54')
+  );
+   const handletravelDateChange = (date) => {
+    setSelectedtravelDate(date);
+    setTravelPlan((prevState) => ({
+      ...prevState,
+      travelDate: date,
+    }));
+  };
+   const handleissueDateChange = (date) => {
+    setSelectedissueDate(date);
+    setTravelPlan((prevState) => ({
+      ...prevState,
+      issueDate: date,
+    }));
+  };
+  const handleexpirationDateChange = (date) => {
+    setSelectedexpirationDate(date);
+    setTravelPlan((prevState) => ({
+      ...prevState,
+      expirationDate: date,
+    }));
+  };
   var prevInfo = counter.travelPlan[counter.travelPlan.length - 1];
     const serviceSelcetion = counter.service[counter.service.length - 1];
     const requestType= serviceSelcetion.appointemntType;
@@ -115,18 +151,19 @@ const TravelPlan = forwardRef((props, ref) => {
     }
     setTravelPlan((prevState) => ({
       ...prevState,
-      travelDate: prevInfo ? prevInfo.travelDate : null,
+      travelDate: prevInfo ? new Date(prevInfo.travelDate) : null,
       ticketNumber: prevInfo ? prevInfo.ticketNumber : null,
       filledBy: prevInfo ? prevInfo.filledBy : null,
       pageQuantity: prevInfo ? prevInfo.pageQuantity : "0",
       passportType: prevInfo ? prevInfo.passportType : null,
       passportNumber: prevInfo ? prevInfo.passportNumber : null,
-      expirationDate: prevInfo ? prevInfo.expirationDate : null,
-      issueDate: prevInfo ? prevInfo.issueDate : null,
+      expirationDate: prevInfo ? new Date(prevInfo.expirationDate) : null,
+      issueDate: prevInfo ? new Date(prevInfo.issueDate) : null,
       isDatacorrected:prevInfo? prevInfo.isDatacorrected:false,
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
     }))
   }, []);
+ 
 
   return (
     <MDBCard>
@@ -134,15 +171,28 @@ const TravelPlan = forwardRef((props, ref) => {
         <form>
           <div className="grey-text">
             <MDBRow>
-              <MDBCol>
-                <MDBInput
+              <MDBCol className="date-picker">
+                {/* <MDBInput
                   valueDefault={prevInfo ? prevInfo.travelDate : null}
                   name="travelDate"
                   className="form-control"
                   onBlur={handleChange}
                   type="date"
                   label="Travel Date"
-                />
+                /> */}
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                           <KeyboardDatePicker
+          margin="normal"
+          id="date-picker-dialog"
+          label="Travel Date"
+          format="MM/dd/yyyy"
+          value={selectedtravelDate}
+          onChange={handletravelDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
+        </MuiPickersUtilsProvider >
               </MDBCol>
               <MDBCol>
                 <MDBInput
@@ -192,25 +242,51 @@ const TravelPlan = forwardRef((props, ref) => {
                   label="Passport Number"
                 />
               </MDBCol>
-              <MDBCol>
-              <MDBInput
+              <MDBCol className="date-picker">
+              {/* <MDBInput
                   valueDefault={prevInfo ? prevInfo.expirationDate : null}
                   name="expirationDate"
                   className="form-control"
                   onBlur={handleChange}
                   type="date"
                   label="Expiration Date"
-                />
+                /> */}
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                           <KeyboardDatePicker
+          margin="normal"
+          id="date-picker-dialog"
+          label="Expiration Date"
+          format="MM/dd/yyyy"
+          value={selectedexpirationDate}
+          onChange={handleexpirationDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
+        </MuiPickersUtilsProvider >
               </MDBCol>
-              <MDBCol>
-              <MDBInput
+              <MDBCol className="date-picker">
+              {/* <MDBInput
                   valueDefault={prevInfo ? prevInfo.issueDate : null}
                   name="issueDate"
                   className="form-control"
                   onBlur={handleChange}
                   type="date"
                   label="Issue Date"
-                />
+                /> */}
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                           <KeyboardDatePicker
+          margin="normal"
+          id="date-picker-dialog"
+          label="Issue Date"
+          format="MM/dd/yyyy"
+          value={selectedissueDate}
+          onChange={handleissueDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
+        </MuiPickersUtilsProvider >
               </MDBCol>
             </MDBRow>
             <MDBRow>
