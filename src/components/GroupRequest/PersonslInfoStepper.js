@@ -11,7 +11,7 @@ import PersonalInfo from './PersonalInfo'
 import AddressInfo from './Address'
 import Attachment from './Attachement'
 import TravelPlan from './TravelPlan'
-import FamilyInformation from '../Request Appointment/family/familyInformation';
+import FamilyInformation from './family/familyInformation';
 import { useDispatch, useSelector } from 'react-redux';
 import newRequest from '../../redux/actions/addNewRequestAction';
 import API from '../Utils/API';
@@ -47,16 +47,16 @@ export default function HorizontalLabelPositionBelowStepper(props) {
     headers: { Authorization: "Bearer " + accesstoken }
   };
   const handleNext = () => {
-    if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
+    if (activeStep == 0 || activeStep == 1 ||activeStep == 2 || activeStep == 3) {
       childRef.current.saveData();
-      const isVilid = childRef.current.Validate();
-      if (isVilid == true) {
+      // const isVilid = childRef.current.Validate();
+      // if (isVilid == true) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       }
-    }
-    else {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    }
+    // }
+    // else {
+    //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    // }
 
   };
 
@@ -222,7 +222,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
       case 1:
         return <AddressInfo ref={childRef} applicantNumber={props.applicantNumber} />;
       case 2:
-        return <FamilyInformation />;
+        return <FamilyInformation ref={childRef} applicantNumber={props.applicantNumber} />;
       case 3:
         return <TravelPlan ref={childRef} applicantNumber={props.applicantNumber} />;
       case 4:

@@ -165,7 +165,6 @@ const FamilyInformation = forwardRef((props, ref) => {
         var array = [...familiesInfo];
         array.splice(index, 1);
         setFamiliesInfo(array);
-        console.log(familiesInfo);
       })
       .catch((error) => {
         console.log('error' + error);
