@@ -1,18 +1,16 @@
 import React from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdbreact';
 
-function EditFamily(props) {
+function AddFamily(props) {
   const { familyType } = props;
-  debugger;
   return (
     <MDBContainer className="passport-container pt-3" id="raa-form" fluid>
       <MDBRow>
         <MDBCol sm="12">
           <div className="multistep-form__step">
             <h2 className="h1">Family Details</h2>
-
             <div className="accordion accordion--form">
-              <form step="0" title="Family Details">
+              <form step="0" title="1. Family Details">
                 <div className="accordion-item is-active" id="patient-raa-step">
                   <a className="accordion-title enabled">
                     <span className="accordion-title__text">
@@ -27,27 +25,24 @@ function EditFamily(props) {
                           <MDBInput
                             label="First Name"
                             group
-                            name="fName"
+                            name="fname"
                             type="text"
                             validate
                             error="wrong"
                             success="right"
-                            onChange={props.handleEditInput}
-                            value={props.editFamilyData.fName}
+                            onChange={props.handleInputAdd}
                           />
                           <MDBInput
                             label="Last Name"
-                            name="lName"
+                            name="lname"
                             group
                             type="text"
                             validate
-                            onChange={props.handleEditInput}
-                            value={props.editFamilyData.lName}
+                            onChange={props.handleInputAdd}
                           />
                           <select
                             name="famType"
-                            onChange={props.handleEditInput}
-                            value={props.editFamilyData.famType}
+                            onChange={props.handleInputAdd}
                             className="browser-default custom-select"
                           >
                             <option style={{ display: 'none' }}>
@@ -63,11 +58,13 @@ function EditFamily(props) {
                     <div>
                       <a
                         class="button hollow gray vertical-margin-2 "
-                        onClick={() =>
-                          props.saveEditedData(props.editFamilyData.idCardNum)
-                        }
+                        onClick={props.addAdditionalFamilyHandlerAdd}
                       >
-                        Save <i class="fas fa-plus-circle"></i>
+                        Add
+                        <span class="show-for-medium">
+                          {' '}
+                          Family <i class="fas fa-plus-circle"></i>
+                        </span>
                       </a>
                     </div>
                   </form>
@@ -80,4 +77,4 @@ function EditFamily(props) {
     </MDBContainer>
   );
 }
-export default EditFamily;
+export default AddFamily;

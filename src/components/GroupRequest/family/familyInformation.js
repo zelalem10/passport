@@ -11,6 +11,7 @@ import addFamily from '../../../redux/actions/addFamilyAction';
 import axios from 'axios';
 const FamilyInformation = forwardRef((props, ref) => {
   const counter = useSelector((family) => family);
+  const {applicantNumber}=props;
 
   const dispatch = useDispatch();
   const [state, setState] = useState({
@@ -24,7 +25,8 @@ const FamilyInformation = forwardRef((props, ref) => {
   const [isEdit, setIsEdit] = useState(false);
     const [isOnLoad, setIsOnLoad] = useState(true);
   const [editdata, setEditdata] = useState({
-    id:'',
+    id:0,
+    applicantNumber:0,
     fName: '',
     lName: '',
     idCardNum: '',
@@ -49,13 +51,28 @@ const FamilyInformation = forwardRef((props, ref) => {
         console.log('error' + error);
       });
   }, []);
+
  if(isOnLoad && counter.familyReducer.length!==0){
-   
-   setFamiliesInfo(counter.familyReducer[counter.familyReducer.length - 1]);
+   const resultLength = counter.familyReducer.filter(function (items) {
+      for (let item in items) {
+        if (items[item].applicantNumber == props.applicantNumber) {
+          return items;
+        }
+      }
+    }).length;
+    if(resultLength){
+      let prevInfo = counter.familyReducer.filter(function (items) {
+        for (let item in items) {
+          if (items[item].applicantNumber == props.applicantNumber) {
+            return items;
+          }
+        }
+      })[resultLength - 1];
+       setFamiliesInfo(prevInfo);
+    }
    setMoreFamily(true);
    setCheckFamily(true);
    setIsOnLoad(false);
-   console.log(familiesInfo);
  }
   useImperativeHandle(ref, () => ({
     saveData() {
@@ -97,6 +114,7 @@ const FamilyInformation = forwardRef((props, ref) => {
     setFamiliesInfo([
       ...familiesInfo,
       {
+        applicantNumber:applicantNumber,
         id: familiesInfo.length,
         firstName: state.fname,
         lastName: state.lname,
@@ -105,18 +123,19 @@ const FamilyInformation = forwardRef((props, ref) => {
       },
     ]);
   };
-  const removeFamilyMember = (ids) => {
+  const removeFamilyMember = (ids,index) => {
     var array = [...familiesInfo];
-    let pos = familiesInfo
-      .map(function (e) {
-        return e.id;
-      })
-      .indexOf(ids);
-    array.splice(pos, 1);
+    // let pos = familiesInfo
+    //   .map(function (e) {
+    //     return e.id;
+    //   })
+    //   .indexOf(ids);
+    array.splice(index, 1);
     setFamiliesInfo(array);
     // dispatch(deletefamilyActions.deleteFamily(pos));
   };
-const removeFamilyFromState = (index) => {
+
+   const removeFamilyFromState = (index) => {
     var array = [...familiesInfo];
     array.splice(index, 1);
     setFamiliesInfo(array);
@@ -127,6 +146,7 @@ const removeFamilyFromState = (index) => {
     setEditdata((prevState) => ({
       ...prevState,
       id:editableFamilyInfo.id,
+      applicantNumber:applicantNumber,
       fName: editableFamilyInfo.firstName,
       lName: editableFamilyInfo.lastName,
       idCardNum: editableFamilyInfo.id,
@@ -144,6 +164,7 @@ const removeFamilyFromState = (index) => {
       ...familiesInfo,
       {
         id:editdata.id,
+        applicantNumber: editdata.applicantNumber,
         firstName: editdata.fName,
         lastName: editdata.lName,
         familtyTypeId: parseInt(editdata.famType),

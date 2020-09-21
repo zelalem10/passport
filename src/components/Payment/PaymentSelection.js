@@ -17,6 +17,20 @@ const useStyles = makeStyles({
         //background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
     },
 });
+function requestTypeGetter(requetTypeId){
+    switch(requetTypeId){
+      case 2:
+        return "New"
+      case 3:
+        return "Renew/Replacement"
+      case 4:
+        return "Lost"
+      case 8:
+        return "Correction"
+      default:
+        return "Unkown"
+    }
+  }
 const PaymentSelection = forwardRef((props, ref) => {
     const [selectedOption, setSelectedOption] = useState();
     const [optionSelected, setOptionSelected] = useState(false);
@@ -31,6 +45,10 @@ const PaymentSelection = forwardRef((props, ref) => {
     const dispatch = useDispatch();
     const counter = useSelector((state) => state);
     const accesstoken = localStorage.systemToken;
+    const serviceSelcetion = counter.service[counter.service.length - 1];
+    const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
+    const requestType= serviceSelcetion.appointemntType;
+    const requestTypeStr=requestTypeGetter(requestType);
     const config = {
         headers: { Authorization: "Bearer " + accesstoken }
     };
@@ -152,13 +170,13 @@ const PaymentSelection = forwardRef((props, ref) => {
                                             <ul class="list--no-bullets list--single-line list--border">
                                                 <li>
                                                     <strong>
-                                                        Request type:&nbsp;&nbsp;<a href="#">New{' '}</a>
+                                                        Request type:&nbsp;&nbsp;<a href="#">{requestTypeStr}{' '}</a>
                                                     </strong>
                                                 </li>
                                                 <hr />
                                                 <li>
                                                     <strong>
-                                                        Request Mode:&nbsp;&nbsp;<a href="#">Normal{' '}</a>
+                                                        Request Mode:&nbsp;&nbsp;<a href="#">{serviceSelcetion.isUrgent?"Urgent":"Normal"}{' '}</a>
                                                     </strong>
                                                 </li>
                                                 <hr />

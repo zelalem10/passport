@@ -190,7 +190,7 @@ function MyApp() {
   const dateValue = state.date.toString();
   return (
     <div>
-      <MDBContainer className="passport-container pt-3" fluid>
+      <MDBContainer className=" pt-3" fluid>
         <h2 className="h1">Appointment - Date and Time</h2>
         <MDBRow key={key}>
           <MDBCol md="6">

@@ -77,6 +77,7 @@ function RescheduleAppointment(props) {
       url: baseUrl + '/Master/api/V1.0/AdvancedRestriction/GetAll',
     })
       .then(async (response) => {
+        debugger;
         advancedRestrictionData = response.data.advancedRestrictions[0];
         setResponse(response.data.advancedRestrictions[0]);
         const headers = {
@@ -97,9 +98,8 @@ function RescheduleAppointment(props) {
             )
           ),
           requestTypeId: 2,
-          officeId: 4,
+          officeId: 7,
         };
-        console.log(data);
         axios({
           headers: headers,
           method: 'post',

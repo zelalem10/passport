@@ -33,18 +33,26 @@ const SuccessResponse = (props) => {
             </MDBCol>
           </MDBRow>
         </MDBContainer>)
+        default:
+          return(<MDBContainer>
+            <MDBRow>
+              <MDBCol md="6">
+                <MDBCard style={{ marginTop: "1rem" }} className="text-center">
+                  <MDBCardBody>
+                    <MDBCardTitle>Payment option not working</MDBCardTitle>
+                  </MDBCardBody>
+                </MDBCard>
+              </MDBCol>
+            </MDBRow>
+          </MDBContainer>)
     }
   }
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
-
-  useEffect(() => {
-    if (counter.commonData.length === 0) {
-      const selectedId = { optionId: 0 }
-      dispatch(addPaymentOptionId(selectedId))
-    }
-    var selectedOption = counter.paymentOption[counter.paymentOption.length - 1]
-    console.log(selectedOption)
+  const selectedId = { optionId: 0 }
+  var selectedOption = counter.paymentOption[counter.paymentOption.length - 1]
+  console.log(selectedOption)
+  //useEffect(() => {
     const accesstoken = localStorage.systemToken;
     const config = {
       headers: { Authorization: "Bearer " + accesstoken }
@@ -78,8 +86,8 @@ const SuccessResponse = (props) => {
       .catch((err) => {
         console.log("AXIOS ERROR: ", err.response);
       })
-  }, [])
-
+//}, [])
+  
   return (
 
     <MDBContainer>
