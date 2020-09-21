@@ -46,17 +46,16 @@ export default function HorizontalLabelPositionBelowStepper(props) {
     headers: { Authorization: "Bearer " + accesstoken }
   };
   const handleNext = () => {
-    // if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
-    //   childRef.current.saveData();
-    //   const isVilid = childRef.current.Validate();
-    //   if (isVilid == true) {
-    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //   }
+    if (activeStep == 0 || activeStep == 1 ||activeStep == 2 || activeStep == 3) {
+      childRef.current.saveData();
+      // const isVilid = childRef.current.Validate();
+      // if (isVilid == true) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }
     // }
     // else {
-      childRef.current.saveData();
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //}
+    //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    // }
 
   };
 
@@ -227,7 +226,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
       case 1:
         return <AddressInfo ref={childRef} applicantNumber={props.applicantNumber} />;
       case 2:
-        return <FamilyInformation  ref={childRef} applicantNumber={props.applicantNumber} />;
+        return <FamilyInformation ref={childRef} applicantNumber={props.applicantNumber} />;
       case 3:
         return <TravelPlan ref={childRef} applicantNumber={props.applicantNumber} />;
       case 4:

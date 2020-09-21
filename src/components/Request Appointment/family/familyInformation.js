@@ -24,10 +24,12 @@ const FamilyInformation = forwardRef((props, ref) => {
   const [isEdit, setIsEdit] = useState(false);
     const [isOnLoad, setIsOnLoad] = useState(true);
   const [editdata, setEditdata] = useState({
+    id:'',
     fName: '',
     lName: '',
     idCardNum: '',
-    familyType: '',
+    famType: 0,
+    personId:0,
   });
   const [familyType, setFamilyType] = useState([]);
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
@@ -71,6 +73,7 @@ const FamilyInformation = forwardRef((props, ref) => {
     }));
   };
   const handleUserEditInput = (e) => {
+    debugger;
     const { name, value } = e.target;
     setEditdata((prevState) => ({
       ...prevState,
@@ -97,18 +100,10 @@ const FamilyInformation = forwardRef((props, ref) => {
         id: familiesInfo.length,
         firstName: state.fname,
         lastName: state.lname,
-        familyRelationType: state.famType,
+        familtyTypeId: parseInt(state.famType) ,
+        personId:0,
       },
     ]);
-    // dispatch(
-    //   familyActions.addFamily({
-    //     ...familiesInfo,
-    //     id: familiesInfo.length,
-    //     firstName: state.fname,
-    //     lastName: state.lname,
-    //     familyRelationType: state.famType,
-    //   })
-    // );
   };
   const removeFamilyMember = (ids) => {
     var array = [...familiesInfo];
@@ -121,29 +116,40 @@ const FamilyInformation = forwardRef((props, ref) => {
     setFamiliesInfo(array);
     // dispatch(deletefamilyActions.deleteFamily(pos));
   };
-  const editFamilyMember = (familyid) => {
+const removeFamilyFromState = (index) => {
+    var array = [...familiesInfo];
+    array.splice(index, 1);
+    setFamiliesInfo(array);
+  };
+
+  const editFamilyMember = (familyid,index) => {
     let editableFamilyInfo = getIndex(familyid);
     setEditdata((prevState) => ({
       ...prevState,
+      id:editableFamilyInfo.id,
       fName: editableFamilyInfo.firstName,
       lName: editableFamilyInfo.lastName,
       idCardNum: editableFamilyInfo.id,
-      familyType: editableFamilyInfo.familyRelationType,
+      famType:parseInt( editableFamilyInfo.familtyTypeId),
+      personId:editableFamilyInfo.personId,
     }));
+    removeFamilyFromState(index);
     setMoreFamily(true);
     setIsEdit(true);
   };
-  const saveEdited = (id) => {
+  const saveEdited = async (id) => {
     setIsEdit(false);
-    const newfamiliesInfo = [...familiesInfo];
-    for (var i = 0; i < newfamiliesInfo.length; i++) {
-      if (newfamiliesInfo[i]['id'] === id) {
-        newfamiliesInfo[i].firstName = editdata.fName;
-        newfamiliesInfo[i].lastName = editdata.lName;
-        newfamiliesInfo[i].familyRelationType = editdata.famType;
-      }
-    }
-    setFamiliesInfo(newfamiliesInfo);
+    
+    await setFamiliesInfo([
+      ...familiesInfo,
+      {
+        id:editdata.id,
+        firstName: editdata.fName,
+        lastName: editdata.lName,
+        familtyTypeId: parseInt(editdata.famType),
+        personId:editdata.personId,
+      },
+    ]);
   };
   function getIndex(idNo) {
     for (var i = 0; i < familiesInfo.length; i++) {

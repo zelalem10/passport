@@ -11,7 +11,7 @@ import addFamily from '../../../redux/actions/addFamilyAction';
 import axios from 'axios';
 const FamilyInformation = forwardRef((props, ref) => {
   const counter = useSelector((family) => family);
-  const { applicantNumber} = props;
+  const {applicantNumber}=props;
 
   const dispatch = useDispatch();
   const [state, setState] = useState({
@@ -25,11 +25,13 @@ const FamilyInformation = forwardRef((props, ref) => {
   const [isEdit, setIsEdit] = useState(false);
     const [isOnLoad, setIsOnLoad] = useState(true);
   const [editdata, setEditdata] = useState({
-    applicantNumber:'',
+    id:0,
+    applicantNumber:0,
     fName: '',
     lName: '',
     idCardNum: '',
-    familyType: '',
+    famType: 0,
+    personId:0,
   });
   const [familyType, setFamilyType] = useState([]);
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
@@ -49,13 +51,28 @@ const FamilyInformation = forwardRef((props, ref) => {
         console.log('error' + error);
       });
   }, []);
+
  if(isOnLoad && counter.familyReducer.length!==0){
-   
-   setFamiliesInfo(counter.familyReducer[counter.familyReducer.length - 1]);
+   const resultLength = counter.familyReducer.filter(function (items) {
+      for (let item in items) {
+        if (items[item].applicantNumber == props.applicantNumber) {
+          return items;
+        }
+      }
+    }).length;
+    if(resultLength){
+      let prevInfo = counter.familyReducer.filter(function (items) {
+        for (let item in items) {
+          if (items[item].applicantNumber == props.applicantNumber) {
+            return items;
+          }
+        }
+      })[resultLength - 1];
+       setFamiliesInfo(prevInfo);
+    }
    setMoreFamily(true);
    setCheckFamily(true);
    setIsOnLoad(false);
-   console.log(familiesInfo);
  }
   useImperativeHandle(ref, () => ({
     saveData() {
@@ -73,6 +90,7 @@ const FamilyInformation = forwardRef((props, ref) => {
     }));
   };
   const handleUserEditInput = (e) => {
+    debugger;
     const { name, value } = e.target;
     setEditdata((prevState) => ({
       ...prevState,
@@ -100,54 +118,59 @@ const FamilyInformation = forwardRef((props, ref) => {
         id: familiesInfo.length,
         firstName: state.fname,
         lastName: state.lname,
-        familyRelationType: state.famType,
+        familtyTypeId: parseInt(state.famType) ,
+        personId:0,
       },
     ]);
-    // dispatch(
-    //   familyActions.addFamily({
-    //     ...familiesInfo,
-    //     id: familiesInfo.length,
-    //     firstName: state.fname,
-    //     lastName: state.lname,
-    //     familyRelationType: state.famType,
-    //   })
-    // );
   };
-  const removeFamilyMember = (ids) => {
+  const removeFamilyMember = (ids,index) => {
     var array = [...familiesInfo];
-    let pos = familiesInfo
-      .map(function (e) {
-        return e.id;
-      })
-      .indexOf(ids);
-    array.splice(pos, 1);
+    // let pos = familiesInfo
+    //   .map(function (e) {
+    //     return e.id;
+    //   })
+    //   .indexOf(ids);
+    array.splice(index, 1);
     setFamiliesInfo(array);
     // dispatch(deletefamilyActions.deleteFamily(pos));
   };
-  const editFamilyMember = (familyid) => {
+
+   const removeFamilyFromState = (index) => {
+    var array = [...familiesInfo];
+    array.splice(index, 1);
+    setFamiliesInfo(array);
+  };
+
+  const editFamilyMember = (familyid,index) => {
     let editableFamilyInfo = getIndex(familyid);
     setEditdata((prevState) => ({
       ...prevState,
-      applicantNumber:editableFamilyInfo.applicantNumber,
+      id:editableFamilyInfo.id,
+      applicantNumber:applicantNumber,
       fName: editableFamilyInfo.firstName,
       lName: editableFamilyInfo.lastName,
       idCardNum: editableFamilyInfo.id,
-      familyType: editableFamilyInfo.familyRelationType,
+      famType:parseInt( editableFamilyInfo.familtyTypeId),
+      personId:editableFamilyInfo.personId,
     }));
+    removeFamilyFromState(index);
     setMoreFamily(true);
     setIsEdit(true);
   };
-  const saveEdited = (id) => {
+  const saveEdited = async (id) => {
     setIsEdit(false);
-    const newfamiliesInfo = [...familiesInfo];
-    for (var i = 0; i < newfamiliesInfo.length; i++) {
-      if (newfamiliesInfo[i]['id'] === id) {
-        newfamiliesInfo[i].firstName = editdata.fName;
-        newfamiliesInfo[i].lastName = editdata.lName;
-        newfamiliesInfo[i].familyRelationType = editdata.famType;
-      }
-    }
-    setFamiliesInfo(newfamiliesInfo);
+    
+    await setFamiliesInfo([
+      ...familiesInfo,
+      {
+        id:editdata.id,
+        applicantNumber: editdata.applicantNumber,
+        firstName: editdata.fName,
+        lastName: editdata.lName,
+        familtyTypeId: parseInt(editdata.famType),
+        personId:editdata.personId,
+      },
+    ]);
   };
   function getIndex(idNo) {
     for (var i = 0; i < familiesInfo.length; i++) {

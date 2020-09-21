@@ -3,6 +3,7 @@ import { MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdbreact';
 
 function EditFamily(props) {
   const { familyType } = props;
+  debugger;
   return (
     <MDBContainer className="passport-container pt-3" id="raa-form" fluid>
       <MDBRow>
@@ -46,7 +47,7 @@ function EditFamily(props) {
                           <select
                             name="famType"
                             onChange={props.handleEditInput}
-                            value={props.editFamilyData.familyType}
+                            value={props.editFamilyData.famType}
                             className="browser-default custom-select"
                           >
                             <option style={{ display: 'none' }}>
