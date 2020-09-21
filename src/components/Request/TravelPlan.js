@@ -35,9 +35,12 @@ const TravelPlan = forwardRef((props, ref) => {
         .then((response) => {
           let requiredAttachements = response.data.requiredAttachements.length;
           let requiredAttachementType = [];
+          let attachmentTypeName = [];
           for (let i = 0; i < response.data.requiredAttachements.length; i++) {
             requiredAttachementType.push(response.data.requiredAttachements[i].attachmentTypeId);
-            console.log(requiredAttachementType);
+            attachmentTypeName.push(response.data.requiredAttachements[i].attachmentType);
+            
+            console.log(response.data.requiredAttachements);
           }
           console.log(requiredAttachementType);
           
@@ -46,6 +49,7 @@ const TravelPlan = forwardRef((props, ref) => {
           }
           localStorage.setItem('requiredAttachements', requiredAttachements);
           localStorage.setItem('requiredAttachementType', JSON.stringify(requiredAttachementType));
+          localStorage.setItem('attachmentTypeName', JSON.stringify(attachmentTypeName));
         })
         .catch((error) => {
           console.log("error" + error.message)

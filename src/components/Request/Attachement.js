@@ -12,6 +12,7 @@ const Fileupload = () => {
   let requestTypeId;
   let files = [];
   let requiredAttachementType = JSON.parse(localStorage.getItem("requiredAttachementType"));
+  let attachmentTypeName = JSON.parse(localStorage.getItem("attachmentTypeName"));
   const inputs = [];
   let requiredAttachements = localStorage.requiredAttachements;
   let requestTypefromRedux = useSelector((state) => state.service);
@@ -20,6 +21,23 @@ const Fileupload = () => {
 
   console.log(requestPersonId)
   const [loading, setloading] = useState(false);
+  const [filename, setfilename] = useState({
+    1:'',
+    2:'',
+    3:'',
+    4:'',
+    5:'',
+    6:'',
+    7:'',
+    8:'',
+    9:'',
+    10:'',
+    11:'',
+    12:''
+
+  });
+
+
 
   const submit = async (e) => {
     debugger;
@@ -34,7 +52,7 @@ const Fileupload = () => {
       console.log(fileType)
       formData.append('personRequestId', requestPersonId);
       formData.append(fileType, files);
-     
+
     }
     const url = 'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadAttachment';
 
@@ -58,46 +76,76 @@ const Fileupload = () => {
     }
 
   }
+  const onChange = (e) => {
+    debugger;
+    const { id, value } = e.target;
+  
+    setfilename((prevState) => ({
+      ...prevState,[id]:value.replace(/^.*[\\\/]/, '')}))
+    }
 
   for (let i = 0; i < requiredAttachements; i++) {
+    debugger;
     inputs.push(
+      <div class="row">
+        <div class="col-md-6 mb-2">
+          <div className="input-group">
+            <div className="input-group-prepend">
+              <span className="input-group-text" id="inputGroupFileAddon01">
+                Upload
+                    </span>
+            </div>
+            <div className="custom-file">
+              <input
+                name={`input-${i}`}
+                type="file"
+                id={requiredAttachementType[i]}
+                className="custom-file-input"
+                aria-describedby="inputGroupFileAddon01"
+                onChange={e => onChange(e)}
+              />
 
-      <input
-        name={`input-${i}`}
-        type="file"
-        id={requiredAttachementType[i]}
-    
-      />
+              <label className="custom-file-label" htmlFor="inputGroupFile01">
+               {filename[requiredAttachementType[i]] ? filename[requiredAttachementType[i]]
+               : <div>Choose {attachmentTypeName[i]}</div> 
+  }
+              </label>
+            </div>
+          </div>
 
-    ) 
+        </div>
+      </div>
+    )
 
-}
+  }
 
   return (
     <div>
-    {loading ? (
-      <Spinner />
-    ) : (
-      <form onSubmit={e => submit(e)}>
-     
-        
-      {successMessage &&
-         <div class="alert alert-success" role="alert">
-       Operation sucessfully completed
+      {loading ? (
+        <Spinner />
+      ) : (
+
+
+          <form onSubmit={e => submit(e)}>
+            {successMessage &&
+              <div class="alert alert-success" role="alert">
+                Operation sucessfully completed
        </div>
-      }
-       {errorMessage &&
-          <div class="alert alert-danger" role="alert">
-          Oops Something went wrong!
+            }
+            {errorMessage &&
+              <div class="alert alert-danger" role="alert">
+                Oops! Something went wrong.
         </div>
-       }
-   
-        {inputs}
-  
-        <button className="btn btn-primary" type="submit">Upload</button>
-      </form>
-  )}
-  </div>
+            }
+            {inputs}
+            <button className="btn btn-primary" type="submit">Upload</button>
+
+          </form>
+
+
+
+        )}
+    </div>
 
   )
 
