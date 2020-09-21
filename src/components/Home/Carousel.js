@@ -32,7 +32,7 @@ const CarouselPage = () => {
             <MDBView>
               <img
                 className="d-block w-100"
-                src={require('../../images/default-source/carousel/xWQ2.png.pagespeed.ic.oNh09n_9os.jpg')}
+                src={require('../../images/default-source/carousel/1920x550pix-ET-online-passport--web-0920--.jpg')}
                 alt="First slide"
               />
               {/* <MDBMask overlay="black-light" /> */}
@@ -53,7 +53,7 @@ const CarouselPage = () => {
             <MDBView>
               <img
                 className="d-block w-100"
-                src={require('../../images/default-source/carousel/Lisbon2.jpg')}
+                src={require('../../images/default-source/carousel/1920x550pix-ET-online-passport--web-0920-.jpg')}
                 alt="Second slide"
               />
               {/* <MDBMask overlay="black-strong" /> */}
@@ -74,7 +74,7 @@ const CarouselPage = () => {
             <MDBView>
               <img
                 className="d-block w-100"
-                src={require('../../images/default-source/carousel/NEGEV-header-1920-x-550.jpg')}
+                src={require('../../images/default-source/carousel/1920x550pix-ET-online-passport--web-0920.jpg')}
                 alt="Third slide"
               />
               {/* <MDBMask overlay="black-slight" /> */}

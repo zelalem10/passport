@@ -8,7 +8,7 @@ const BoxPage = () => {
         <MDBRow className="passport-box-row">
           <MDBCol md="6" sm="12">
             <img
-              src={require('../../images/default-source/shared/img (131)-mini.jpg')}
+              src={require('../../images/default-source/shared/650x376pix-ET-online-passport--web-0920--.jpg')}
               className="img-fluid"
               alt=""
             ></img>

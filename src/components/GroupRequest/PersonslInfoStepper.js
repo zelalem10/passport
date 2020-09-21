@@ -68,18 +68,27 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   };
   const handleSubmit = () => {
     const requestInfo = counter.request;
-    
+     
       const personalInfoLength = counter.personalInfoReducer.filter(item => item.applicantNumber == props.applicantNumber).length;
       var personalInfo = counter.personalInfoReducer.filter(item => item.applicantNumber == props.applicantNumber)[personalInfoLength - 1]
       const addressLength = counter.address.filter(item => item.applicantNumber == props.applicantNumber).length;
-      var addressInfo = counter.address.filter(item => item.applicantNumber == props.applicantNumber)[addressLength - 1]
+      var addressInfo = counter.address.filter(item => item.applicantNumber == props.applicantNumber)[addressLength - 1];
       const travelPlanLength = counter.travelPlan.filter(item => item.applicantNumber == props.applicantNumber).length;
       const travelPlan = counter.travelPlan.filter(item => item.applicantNumber == props.applicantNumber)[travelPlanLength - 1]
-      const accesstoken = localStorage.systemToken;
-    if (props.applicantNumber == 1) {
-      const config = {
-        headers: { Authorization: "Bearer " + accesstoken }
-      };
+       const familyLength = counter.familyReducer.filter(function (items) {
+      for (let item in items) {
+        if (items[item].applicantNumber == props.applicantNumber) {
+          return items;
+        }
+      }
+    }).length;
+    let familyInfo = counter.familyReducer.filter(function (items) {
+      for (let item in items) {
+        if (items[item].applicantNumber == props.applicantNumber) {
+          return items;
+        }
+      }
+    })[familyLength - 1];
       const requestBody = {
         requestId: 0,
         requestMode: 0,
@@ -133,12 +142,13 @@ export default function HorizontalLabelPositionBelowStepper(props) {
               poBox: addressInfo ? addressInfo.poBox : null,
               phoneNumber: addressInfo ? addressInfo.phoneNumber : null,
               email: addressInfo ? addressInfo.email : null,
-              requestPlace: addressInfo ? addressInfo.requestPlace : null,
+              requestPlace: addressInfo ? addressInfo.requestPlace : null
             },
-            // familyRequests: familyInfo,
-          },
-        ],
+            familyRequests: familyInfo,
+          }
+        ]
       };
+      if (props.applicantNumber == 1) {
       API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest', requestBody, config)
         .then((todo) => {
           dispatch(newRequest(todo.data))

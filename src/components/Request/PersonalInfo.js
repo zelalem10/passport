@@ -2,8 +2,12 @@ import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'rea
 import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody, MDBContainer } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addPersonalInfo from '../../redux/actions/addPersonalInfoAction';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import alertResponse from '../common/AlertResponse'
-
 
 const PersonalInfo = forwardRef((props, ref) => {
 
@@ -101,7 +105,26 @@ const PersonalInfo = forwardRef((props, ref) => {
                 return true
         }
     }));
-
+const [selectedDate, setSelectedDate] = React.useState(
+    new Date(prevInfo ? prevInfo.dateOfBirth : '2014-08-18T21:11:54')
+  );
+  const [selectedEnrollmentDate, setSelectedEnrollmentDate] = React.useState(
+    new Date(prevInfo ? prevInfo.enrolmentDate : '2014-08-18T21:11:54')
+  );
+   const handleDateChange = (date) => {
+    setSelectedDate(date);
+    setPersonalInfo((prevState) => ({
+      ...prevState,
+      birthDate: date,
+    }));
+  };
+  const handleEnrollmentDateChange = (date) => {
+    setSelectedEnrollmentDate(date);
+    setPersonalInfo((prevState) => ({
+      ...prevState,
+      enrolmentDate: date,
+    }));
+  };
     const handleChange = (event) => {
         const { name, value } = event.target;
         setPersonalInfo((prevState) => ({
@@ -191,14 +214,27 @@ const PersonalInfo = forwardRef((props, ref) => {
                             />
                             <span style={{ color: "red" }}> {(notCompleted.lastName == true && personalInfo.dataSaved == true) ? "Last name " + isRequired : null}</span>
                         </MDBCol>
-                        <MDBCol>
-                            <MDBInput
+                        <MDBCol className="date-picker">
+                            {/* <MDBInput
                                 valueDefault={prevInfo ? prevInfo.birthDate : null}
                                 name="birthDate"
                                 onChange={handleChange}
                                 type="date"
                                 label="Birth Date"
-                            />
+                            /> */}
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                           <KeyboardDatePicker
+          margin="normal"
+          id="date-picker-dialog"
+          label="Date of birth"
+          format="MM/dd/yyyy"
+          value={selectedDate}
+          onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
+        </MuiPickersUtilsProvider >
                             <span style={{ color: "red" }}> {(notCompleted.birthDate == true && personalInfo.dataSaved == true) ? "Birth date " + isRequired : null}</span>
                         </MDBCol>
                     </MDBRow>
@@ -273,14 +309,27 @@ const PersonalInfo = forwardRef((props, ref) => {
                                 <option value="0">Female</option>
                             </select>
                         </MDBCol>
-                        <MDBCol>
-                            <MDBInput
+                        <MDBCol className="date-picker">
+                            {/* <MDBInput
                                 valueDefault={prevInfo ? prevInfo.enrolmentDate : null}
                                 name="enrolmentDate"
                                 onChange={handleChange}
                                 type="date"
                                 label="Enrollment date"
-                            />
+                            /> */}
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <KeyboardDatePicker
+          margin="normal"
+          id="date-picker-dialog"
+          label="Enrollment Date"
+          format="MM/dd/yyyy"
+          value={selectedEnrollmentDate}
+          onChange={handleEnrollmentDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
+        </MuiPickersUtilsProvider >
                             <span style={{ color: "red" }}> {(notCompleted.enrolmentDate == true && personalInfo.dataSaved == true) ? "Enrollment date " + isRequired : null}</span>
                         </MDBCol>
                     </MDBRow>

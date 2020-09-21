@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol,MDBAlert } from 'mdbreact';
 import axios from 'axios';
 import AvailableTimeSlot from './appointmetTimeSlots';
 import './disabledates.css';
@@ -15,6 +15,8 @@ function MyApp() {
   const [availableDatess, setAvailableDates] = useState([]);
   const [key, setKey] = useState();
   const [availableTimes, setAvailableTimes] = useState([]);
+    
+    
 
   const [timeSlots, setTimeSlots] = useState([]);
   const [showAvailableTimeSlots, setShowAvailableTimeSlots] = useState(false);
@@ -23,11 +25,59 @@ function MyApp() {
     key: '',
     active: false,
   });
+   const [newAppointment, setNewAppointment] = useState();
+  const [newDisplayTime, setNewDisplayTime] = useState('');
+const counter = useSelector((state) => state);
 
   const toggleClass = (e) => {
     const currentState =
       e.target.className === 'btn_select active' ? true : false;
     setActiveTImeSlot({ key: e.target.id, active: !currentState });
+  };
+ const saveNewAppointment = () => {
+   debugger;
+   let requestId=counter.request[counter.request.length-1].requestId;
+    let formatedYear = state.date.getFullYear();
+    let formatedMonth = (1 + state.date.getMonth()).toString();
+    formatedMonth =
+      formatedMonth.length > 1 ? formatedMonth : '0' + formatedMonth;
+    let formatedDay = state.date.getDate().toString();
+    formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
+    let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
+    axios({
+      headers: {
+        Authorization: 'Bearer ' + accesstoken,
+      },
+      method: 'post',
+      url: baseUrl + '/Schedule/api/V1.0/Schedule/SubmitAppointment',
+      data: {
+  id: 0,
+  date: stringDateValue,
+  requestId: requestId,
+  durationId: parseInt(selectTime) ,
+        dateTimeFormat: 'yyyy-MM-dd',
+      },
+    })
+      .then((response) => {
+          let newdate = new Date(response.data.date);
+        let newYear = newdate.getFullYear();
+        let newMonth = (1 + newdate.getMonth()).toString();
+        newMonth = newMonth.length > 1 ? newMonth : '0' + newMonth;
+        let newDay = newdate.getDate().toString();
+        newDay = newDay.length > 1 ? newDay : '0' + newDay;
+        setNewAppointment(newdate);
+        setNewDisplayTime(`${newdate.toISOString().substr(0, 10)} ${
+          response.data.duration.startTime
+        } - ${response.data.duration.endTime} ${
+          response.data.duration.isMorning ? 'AM' : 'PM'
+        } 
+        `);
+        
+        
+      })
+      .catch((error) => {
+        console.log('error' + error);
+      });
   };
 
   const dispatch = useDispatch();
@@ -40,11 +90,10 @@ function MyApp() {
 
   const handleTimeSelect = (e) => {
     setState({ ...state, time: e.target.value });
-    setSelectTime(e.target.value);
+    setSelectTime(e.target.id);
     toggleClass(e);
-    dispatch(addAppointmentDate({ ...state, time: e.target.value }));
+    dispatch(addAppointmentDate({ ...state, time: e.target.id }));
   };
-  console.log(selectTime);
   useEffect((two = 2) => {
     axios({
       headers: {
@@ -192,6 +241,9 @@ function MyApp() {
     <div>
       <MDBContainer className=" pt-3" fluid>
         <h2 className="h1">Appointment - Date and Time</h2>
+        {newAppointment ? (
+          <MDBAlert color="success">Your Appointment - {newDisplayTime}</MDBAlert>
+        ) : null}
         <MDBRow key={key}>
           <MDBCol md="6">
             <h3>Date</h3>
@@ -234,6 +286,17 @@ function MyApp() {
               activeTimeSlot={activeTimeSlot}
               toggleClass={toggleClass}
             />
+          </MDBCol>
+        </MDBRow>
+         <MDBRow>
+          <MDBCol md="6" className="pt-3 center">
+            <button
+              onClick={saveNewAppointment}
+              type="button"
+              class="btn btn-default btn-lg btn-block"
+            >
+              Save New Date Time
+            </button>
           </MDBCol>
         </MDBRow>
       </MDBContainer>
