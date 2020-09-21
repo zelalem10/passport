@@ -118,7 +118,7 @@ function RescheduleAppointment(props) {
               )
             ),
             requestTypeId: 2,
-            officeId: 4,
+            officeId: 7,
           },
         })
           .then((responses) => {

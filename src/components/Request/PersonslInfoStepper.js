@@ -64,7 +64,8 @@ export default function HorizontalLabelPositionBelowStepper() {
   };
   const handleSubmit = () => {
     var personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1]
-    var addressInfo = counter.address[counter.address.length - 1]
+    var addressInfo = counter.address[counter.address.length - 1];
+    var familyInfo = counter.editFamilyData[counter.editFamilyData.length - 1];
     const accesstoken = localStorage.systemToken;
     const config = {
         headers: { Authorization: "Bearer " + accesstoken }
@@ -116,16 +117,8 @@ export default function HorizontalLabelPositionBelowStepper() {
             phoneNumber: addressInfo ? addressInfo.phoneNumber : null,
             email: addressInfo ? addressInfo.email : null,
             requestPlace: addressInfo ? addressInfo.requestPlace : null,
-          }, //,
-          // familyRequests: [
-          //   // {
-          //   //   familyId: 0,
-          //   //   personId: 0,
-          //   //   familtyTypeId: 0,
-          //   //   firstName: "string",
-          //   //   lastName: "string"
-          //   // }
-          // ]
+          }, 
+           familyRequests: familyInfo,
         },
       ],
     };

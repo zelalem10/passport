@@ -63,7 +63,7 @@ function ApplicationList() {
         setusers(Response.data.serviceResponseList);
         dispatch(addApplicationList(Response.data.serviceResponseList));
       });
-  });
+  }, []);
 
       //cancel a single schedule
       function cancelSchedule(requestId) {

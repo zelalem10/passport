@@ -217,7 +217,7 @@ const PersonalInfo = forwardRef((props, ref) => {
             </MDBCol>
             <MDBCol className="date-picker">
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
+                {/* <KeyboardDatePicker
                   disableToolbar
                   variant="inline"
                   format="MM/dd/yyyy"
@@ -229,7 +229,18 @@ const PersonalInfo = forwardRef((props, ref) => {
                   KeyboardButtonProps={{
                     'aria-label': 'change date',
                   }}
-                />
+                /> */}
+                  <KeyboardDatePicker
+          margin="normal"
+          id="date-picker-dialog"
+          label="Date of birth"
+          format="MM/dd/yyyy"
+          value={selectedDate}
+          onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
               </MuiPickersUtilsProvider>
             </MDBCol>
             <MDBCol>
@@ -375,7 +386,7 @@ const PersonalInfo = forwardRef((props, ref) => {
             </MDBCol>
             <MDBCol className="date-picker">
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
+                {/* <KeyboardDatePicker
                   disableToolbar
                   variant="inline"
                   format="MM/dd/yyyy"
@@ -387,7 +398,18 @@ const PersonalInfo = forwardRef((props, ref) => {
                   KeyboardButtonProps={{
                     'aria-label': 'change date',
                   }}
-                />
+                /> */}
+                  <KeyboardDatePicker
+          margin="normal"
+          id="date-picker-dialog"
+          label="Enrollment Date"
+          format="MM/dd/yyyy"
+          value={selectedEnrollmentDate}
+          onChange={handleEnrollmentDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
               </MuiPickersUtilsProvider>
             </MDBCol>
             <MDBCol>

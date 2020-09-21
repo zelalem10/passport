@@ -74,7 +74,21 @@ export default function HorizontalLabelPositionBelowStepper(props) {
       const personalInfoLength = counter.personalInfoReducer.filter(item => item.applicantNumber == props.applicantNumber).length;
       var personalInfo = counter.personalInfoReducer.filter(item => item.applicantNumber == props.applicantNumber)[personalInfoLength - 1]
       const addressLength = counter.address.filter(item => item.applicantNumber == props.applicantNumber).length;
-      var addressInfo = counter.address.filter(item => item.applicantNumber == props.applicantNumber)[addressLength - 1]
+      var addressInfo = counter.address.filter(item => item.applicantNumber == props.applicantNumber)[addressLength - 1];
+       const familyLength = counter.familyReducer.filter(function (items) {
+      for (let item in items) {
+        if (items[item].applicantNumber == props.applicantNumber) {
+          return items;
+        }
+      }
+    }).length;
+    let familyInfo = counter.familyReducer.filter(function (items) {
+      for (let item in items) {
+        if (items[item].applicantNumber == props.applicantNumber) {
+          return items;
+        }
+      }
+    })[familyLength - 1];
       const requestBody = {
         requestId: 0,
         requestMode: 0,
@@ -122,16 +136,8 @@ export default function HorizontalLabelPositionBelowStepper(props) {
               phoneNumber: addressInfo ? addressInfo.phoneNumber : null,
               email: addressInfo ? addressInfo.email : null,
               requestPlace: addressInfo ? addressInfo.requestPlace : null
-            }//,
-            // familyRequests: [
-            //   // {
-            //   //   familyId: 0,
-            //   //   personId: 0,
-            //   //   familtyTypeId: 0,
-            //   //   firstName: "string",
-            //   //   lastName: "string"
-            //   // }
-            // ]
+            },
+            familyRequests: familyInfo,
           }
         ]
       };
