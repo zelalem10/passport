@@ -1,4 +1,4 @@
 import * as types from './actionTypes';
-export function selectService(service) {
+export  function selectService(service) {
   return { type: types.SELECT_SERVICE, service };
 }

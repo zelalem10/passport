@@ -76,7 +76,7 @@ const SuccessResponse = (props) => {
     };
     API.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
       .then((todo) => {
-        console.log(todo.data)
+        //console.log(todo.data)
         setStatus(todo.data.status)
         setInstruction(todo.data.instruction)
         setFlowType(todo.data.paymentFlowType)
@@ -84,7 +84,7 @@ const SuccessResponse = (props) => {
         setRequestSubmited(true)
       })
       .catch((err) => {
-        console.log("AXIOS ERROR: ", err.response);
+        //console.log("AXIOS ERROR: ", err.response);
       })
 //}, [])
   

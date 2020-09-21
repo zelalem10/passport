@@ -70,7 +70,7 @@ export default function RequestStepper() {
                 <Nav.Item>
                   <Nav.Link
                     eventKey={activeKey[0]}
-                    // onClick={handelSiteSelection}
+                     onClick={handelSiteSelection}
                     disabled={formCompleted[0] === true ? false : true}
                   >
                     {' '}
@@ -142,7 +142,7 @@ export default function RequestStepper() {
           <Col md={2}>
             <Button
               variant="primary"
-              // onClick={handelPrevious}
+               onClick={handelPrevious}
               disabled={indexValue == 0 ? true : false}
             >
               <BsArrowLeftShort /> previous
