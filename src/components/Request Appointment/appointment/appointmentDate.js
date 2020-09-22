@@ -44,7 +44,6 @@ function MyApp() {
   };
   const token = tokenValue();
   const saveNewAppointment = () => {
-    let requestId = counter.request[counter.request.length - 1].requestId;
     let formatedYear = state.date.getFullYear();
     let formatedMonth = (1 + state.date.getMonth()).toString();
     formatedMonth =
@@ -61,12 +60,12 @@ function MyApp() {
       data: {
         id: 0,
         date: stringDateValue,
-        requestId: requestId,
         durationId: parseInt(selectTime),
         dateTimeFormat: 'yyyy-MM-dd',
       },
     })
       .then((response) => {
+        debugger;
         let newdate = new Date(response.data.date);
         let newYear = newdate.getFullYear();
         let newMonth = (1 + newdate.getMonth()).toString();
@@ -80,6 +79,7 @@ function MyApp() {
           response.data.duration.isMorning ? 'AM' : 'PM'
         } 
         `);
+        dispatch(addAppointmentDate(response.data));
       })
       .catch((error) => {
         console.log('error' + error);
@@ -97,7 +97,6 @@ function MyApp() {
     setState({ ...state, time: e.target.value });
     setSelectTime(e.target.id);
     toggleClass(e);
-    dispatch(addAppointmentDate({ ...state, time: e.target.id }));
   };
   useEffect((two = 2) => {
     axios({
@@ -210,7 +209,6 @@ function MyApp() {
     debugger;
     setState({ ...state, date: date });
     showTimeSlots(date);
-    dispatch(addAppointmentDate({ ...state, date: date }));
   };
   const showTimeSlots = (date) => {
     let timeSlotsForSpecificDate = [];
