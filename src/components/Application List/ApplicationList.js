@@ -8,20 +8,10 @@ import ViewAppointment from './viewAppointment';
 import HorizontalLabelPositionBelowStepper from './EditApplicationList/PersonslInfoStepper';
 import GroupRequestStepper from './EditApplicationList/Group/GroupNavigation';
 import RescheduleAppointment from './Rescheduleappointment/appointmentDate';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 function ApplicationList() {
-  const tokenValue = () => {
-    const UserToken = localStorage.userToken;
-
-    if (UserToken) {
-      return UserToken;
-    } else {
-      const SystemToken = localStorage.systemToken;
-      return SystemToken;
-    }
-  };
-  const accesstoken = tokenValue();
+  const accesstoken = localStorage.userToken;
   const dispatch = useDispatch();
   const config = {
     headers: {
@@ -37,6 +27,7 @@ function ApplicationList() {
   const [numOfApplicants, setNumOfApplicants] = useState(0);
   const [handleDisplayId, sethandleDisplayId] = useState('');
   const [loading, setloading] = useState(true);
+  const [Message, setMessage] = useState(false);
   let history = useHistory();
 
   const handleDisplay = (id) => {
@@ -65,39 +56,51 @@ function ApplicationList() {
     setOpen(false);
   }
   useEffect(() => {
-    axios
-      .get(
-        'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/GetAllRequests',
-        config
-      )
+    axios({    
+      headers: { 'Authorization': 'Bearer ' + accesstoken },
+      method: 'get',
+      url: 'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/GetAllRequests',
+    })
       .then((Response) => {
+  debugger;
         setloading(false);
         setusers(Response.data.serviceResponseList);
         dispatch(addApplicationList(Response.data.serviceResponseList));
-      });
-  }, []);
-
-  //cancel a single schedule
-  function cancelSchedule(requestId) {
-    debugger;
-    axios({
-      headers: { Authorization: 'Bearer ' + accesstoken },
-      method: 'post',
-      url:
-        'https://epassportservices.azurewebsites.net//Schedule/api/V1.0/Schedule/CancelAppointment',
-      params: { requestId: requestId },
-    })
-      .then((Response) => {
-        console.log(Response);
-        setOpen(false);
-        history.push('/Application-List');
+        let errorname = Response.data.message
+        console.log(errorname);
+        if(Response.data.message){
+          setMessage(true)
+        }
+        
+       
       })
-      .catch((err) => {
-        console.log(err);
-        setOpen(false);
-        history.push('/Application-List');
-      });
-  }
+      .catch(err => {
+        setloading(false);
+
+    }) ;
+  },[]);
+
+      //cancel a single schedule
+      function cancelSchedule(requestId) {
+        debugger;
+         axios({
+          headers: { 'Authorization': 'Bearer ' + accesstoken },
+          method: 'post',
+          url: 'https://epassportservices.azurewebsites.net//Schedule/api/V1.0/Schedule/CancelAppointment',
+          params: {"requestId":requestId},
+    
+        })
+         .then(Response => {
+          console.log(Response)
+          setOpen(false);
+          history.push('/Application-List')
+      })
+      .catch(err => {
+       console.log(err);
+       setOpen(false);
+       history.push('/Application-List')
+   }) 
+    }
   if (handleDisplayId) {
     return <RescheduleAppointment handleDisplayId={handleDisplayId} />;
   } else if (!displayRequestId && !isEdit) {
@@ -112,6 +115,8 @@ function ApplicationList() {
         handleEdit={handleEdit}
         handleReschedule={handleReschedule}
         loading={loading}
+        Message={Message}
+        
       />
     );
   } else if (displayRequestId && isEdit && !isGroup) {

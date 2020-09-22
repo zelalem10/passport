@@ -19,6 +19,7 @@ export default function ListOfApplications(props) {
     handleEdit,
     handleReschedule,
     loading,
+    Message,
   } = props;
  
   return (
@@ -39,13 +40,30 @@ export default function ListOfApplications(props) {
       ) : (
 
         <div className="my-5">
-
+          <div class="row">
+          <div class="col-sm">
+          
+          </div>
+          <div class="col-sm">
+          {Message &&
+              <div class="alert alert-danger" role="alert">
+               Record does not exist in the database!
+            </div>
+            }
+          </div>
+          <div class="col-sm">
+            
+          </div>
+        </div>
+       
       {users.length
         ? users.map((user) => (
             <MDBContainer
+   
               className="passport-container pt-3 applist"
               id="request-an-appointment"
             >
+         
               <MDBRow>
                 <MDBCol className="medium-12">
                   <div className="multistep-form__step">
