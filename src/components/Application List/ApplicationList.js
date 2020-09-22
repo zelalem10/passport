@@ -66,10 +66,12 @@ function ApplicationList() {
         setloading(false);
         setusers(Response.data.serviceResponseList);
         dispatch(addApplicationList(Response.data.serviceResponseList));
+        let status = Response.data.status
         let errorname = Response.data.message
-        console.log(errorname);
-        if(Response.data.message){
+       console.log(errorname)
+        if(status == 0){
           setMessage(true)
+          setMessage(errorname)
         }
         
        
