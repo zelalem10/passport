@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\components",
+    "\\src\\components\\Request"
   ],
+  "SelectedNode": "\\src\\components\\Request\\PersonalInfo.js",
   "PreviewInSolutionExplorer": false
 }

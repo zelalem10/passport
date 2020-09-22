@@ -30,20 +30,32 @@ function requestTypeGetter(requetTypeId) {
 }
 const TravelPlan = forwardRef((props, ref) => {
   const [travelPlan, setTravelPlan] = useState({
-    travelDate: '',
-    ticketNumber: '',
-    filledBy: '',
-    pageQuantity: '0',
-    passportType: '',
-    passportNumber: '',
-    expirationDate: '',
-    issueDate: '',
+    travelDate: "",
+    ticketNumber: "",
+    filledBy: "",
+    pageQuantity: "0",
+    passportType: "",
+    passportNumber: "",
+    expirationDate: "",
+    issueDate: "",
     isDatacorrected: false,
     dataSaved: false,
   });
+  const [notCompleted, setNotCompleted] = useState({
+    travelDate: true,
+    ticketNumber: true,
+    filledBy: true,
+    pageQuantity: false,
+    passportType: true,
+    passportNumber: true,
+    expirationDate: true,
+    issueDate: true,
+    isDatacorrected: true,
+  });
+
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
-
+  const isRequired = "is required!"
   const accesstoken = localStorage.systemToken;
   let requestTypefromRedux = useSelector((state) => state.service);
   let requestTypeId =
@@ -51,23 +63,18 @@ const TravelPlan = forwardRef((props, ref) => {
 
   useEffect(() => {
     axios({
-      headers: { Authorization: 'Bearer ' + accesstoken },
+      headers: { 'Authorization': 'Bearer ' + accesstoken },
       method: 'get',
-      url:
-        'https://epassportservices.azurewebsites.net/Master/api/V1.0/OfficeRequestType/GetRequiredAttachementsByRequestTypeId',
-      params: { requestTypeId: requestTypeId },
+      url: 'https://epassportservices.azurewebsites.net/Master/api/V1.0/OfficeRequestType/GetRequiredAttachementsByRequestTypeId',
+      params: { "requestTypeId": requestTypeId },
     })
       .then((response) => {
         let requiredAttachements = response.data.requiredAttachements.length;
         let requiredAttachementType = [];
         let attachmentTypeName = [];
         for (let i = 0; i < response.data.requiredAttachements.length; i++) {
-          requiredAttachementType.push(
-            response.data.requiredAttachements[i].attachmentTypeId
-          );
-          attachmentTypeName.push(
-            response.data.requiredAttachements[i].attachmentType
-          );
+          requiredAttachementType.push(response.data.requiredAttachements[i].attachmentTypeId);
+          attachmentTypeName.push(response.data.requiredAttachements[i].attachmentType);
 
           console.log(response.data.requiredAttachements);
         }
@@ -77,18 +84,12 @@ const TravelPlan = forwardRef((props, ref) => {
           localStorage.removeItem('requiredAttachements');
         }
         localStorage.setItem('requiredAttachements', requiredAttachements);
-        localStorage.setItem(
-          'requiredAttachementType',
-          JSON.stringify(requiredAttachementType)
-        );
-        localStorage.setItem(
-          'attachmentTypeName',
-          JSON.stringify(attachmentTypeName)
-        );
+        localStorage.setItem('requiredAttachementType', JSON.stringify(requiredAttachementType));
+        localStorage.setItem('attachmentTypeName', JSON.stringify(attachmentTypeName));
       })
       .catch((error) => {
-        console.log('error' + error.message);
-      });
+        console.log("error" + error.message)
+      })
   }, []);
 
   if (counter.travelPlan.length === 0) {
@@ -103,8 +104,23 @@ const TravelPlan = forwardRef((props, ref) => {
       dispatch(addTravelPlan(travelPlan));
     },
     Validate() {
-      return true;
-    },
+      setNotCompleted({
+        travelDate: travelPlan.travelDate === "" ? true : false,
+        ticketNumber: travelPlan.ticketNumber === "" ? true : false,
+        filledBy: travelPlan.filledBy === "" ? true : false,
+        pageQuantity: travelPlan.pageQuantity === "" ? true : false,
+        passportType: travelPlan.passportType === "" ? true : false,
+        passportNumber: travelPlan.passportNumber === "" ? true : false,
+        expirationDate: travelPlan.expirationDate === "" ? true : false,
+        issueDate: travelPlan.issueDate === "" ? true : false,
+        passportNumber: travelPlan.passportNumber === "" ? true : false,
+      })
+      if (notCompleted.passportType === true || notCompleted.issueDate === true || notCompleted.expirationDate === true
+        || notCompleted.pageQuantity === true || notCompleted.filledBy === true)
+        return false;
+      else
+        return true
+    }
   }));
 
   const handleChange = (event) => {
@@ -114,12 +130,12 @@ const TravelPlan = forwardRef((props, ref) => {
       [name]: value,
     }));
     dispatch(addTravelPlan(travelPlan));
-  };
+  }
   const handleCheck = (name, checked) => {
     setTravelPlan((prevState) => ({
       ...prevState,
       [name]: checked,
-    }));
+    }))
     // if (!event.target.checked) {
     //     setNotCompleted((prevState) => ({
     //         ...prevState,
@@ -180,9 +196,19 @@ const TravelPlan = forwardRef((props, ref) => {
     }));
   }, []);
 
+
   return (
+
     <MDBCard>
       <MDBCardBody>
+        {props.respnseGet === true ?
+          (props.isSucces === true ? (<MDBAlert color="success" >
+            {props.resMessage}
+          </MDBAlert>) :
+            (<MDBAlert color="danger" >
+              {props.resMessage}
+            </MDBAlert>)
+          ) : (null)}
         <form>
           <div className="grey-text">
             <MDBRow>
@@ -228,6 +254,7 @@ const TravelPlan = forwardRef((props, ref) => {
                   type="text"
                   label="Application filled by"
                 />
+                <span style={{ color: "red" }}> {(notCompleted.filledBy == true && travelPlan.dataSaved == true) ? "Filled by " + isRequired : null}</span>
               </MDBCol>
               <MDBCol>
                 <label>Page Quantity</label>
@@ -235,6 +262,7 @@ const TravelPlan = forwardRef((props, ref) => {
                   <option value="0">32</option>
                   <option value="1">64</option>
                 </select>
+                <span style={{ color: "red" }}> {(notCompleted.pageQuantity == true && travelPlan.dataSaved == true) ? "Page quantity " + isRequired : null}</span>
               </MDBCol>
             </MDBRow>
             <MDBRow>
@@ -247,6 +275,7 @@ const TravelPlan = forwardRef((props, ref) => {
                   type="text"
                   label="Passport Type"
                 />
+                <span style={{ color: "red" }}> {(notCompleted.passportType == true && travelPlan.dataSaved == true) ? "Passport type" + isRequired : null}</span>
               </MDBCol>
               <MDBCol>
                 <MDBInput

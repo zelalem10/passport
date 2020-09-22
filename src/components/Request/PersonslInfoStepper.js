@@ -35,23 +35,26 @@ export default function HorizontalLabelPositionBelowStepper() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [formCompleted, setFormCompleted] = useState(false);
+  const [responseAlert, setResponseAlert] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [responseMessage, setResponseMessage] = useState("");
 
   const steps = getSteps();
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const childRef = useRef();
   const handleNext = () => {
-    // if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
-    //   childRef.current.saveData();
-    //   const isVilid = childRef.current.Validate();
-    //   if (isVilid == true) {
-    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //   }
-    // }
-    // else {
+    if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
+      childRef.current.saveData();
+      const isVilid = childRef.current.Validate();
+      if (isVilid == true) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }
+    }
+    else {
     childRef.current.saveData();
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //}
+    }
   };
 
   const handleBack = () => {
@@ -66,14 +69,21 @@ export default function HorizontalLabelPositionBelowStepper() {
     return new Date(string).toLocaleDateString([], options);
   }
   const handleSubmit = () => {
-    var personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1]
+    childRef.current.saveData();
+      const isVilid = childRef.current.Validate();
+      if (isVilid != true) {
+        //setResponseMessage("Ple")
+      }
+      else{
+        var personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1]
     var addressInfo = counter.address[counter.address.length - 1]
     var familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
     const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
 
     const accesstoken = localStorage.systemToken;
+    const usertoken = localStorage.userToken;
     const config = {
-      headers: { Authorization: "Bearer " + accesstoken }
+      headers: { Authorization: "Bearer " + usertoken }
     };
     const requestBody = {
       requestId: 0,
@@ -143,7 +153,9 @@ export default function HorizontalLabelPositionBelowStepper() {
         console.log(
           todo.data + ' id= ' + todo.data.personResponses[0].requestPersonId
         );
-        alert(todo.data.message);
+        setResponseMessage(todo.data.message);
+        setResponseAlert(true);
+        setIsSuccess(true);
         const commonData = {
           requestPersonId: todo.data.personResponses[0].requestPersonId,
         };
@@ -153,8 +165,10 @@ export default function HorizontalLabelPositionBelowStepper() {
       })
       .catch((err) => {
         console.log('AXIOS ERROR: ', err.response);
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        setResponseMessage("One or more Errors occured!")
+        setResponseAlert(true)
       });
+      }
   };
   function getStepContent(stepIndex) {
     switch (stepIndex) {
@@ -165,7 +179,7 @@ export default function HorizontalLabelPositionBelowStepper() {
       case 2:
         return <FamilyInformation ref={childRef} />;
       case 3:
-        return <TravelPlan ref={childRef} />;
+        return <TravelPlan ref={childRef} resMessage={responseMessage} isSucces={isSuccess} respnseGet={responseAlert} />;
       case 4:
         return <Attachment />;
       default:
@@ -173,6 +187,7 @@ export default function HorizontalLabelPositionBelowStepper() {
     }
   }
   return (
+   
     <div className={classes.root} style={{ marginBottom: '5rem' }}>
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
@@ -192,7 +207,7 @@ export default function HorizontalLabelPositionBelowStepper() {
         ) : (
             <div>
               <Typography className={classes.instructions}>
-                {getStepContent(activeStep)}
+                 {getStepContent(activeStep)}
               </Typography>
               <Grid container spacing={1}>
                 <Grid item xs={3}>

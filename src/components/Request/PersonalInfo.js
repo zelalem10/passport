@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'react'
-import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody } from 'mdbreact';
+import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody, MDBContainer } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addPersonalInfo from '../../redux/actions/addPersonalInfoAction';
 import {
@@ -7,6 +7,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import alertResponse from '../common/AlertResponse'
 
 const PersonalInfo = forwardRef((props, ref) => {
 
@@ -177,6 +178,7 @@ const [selectedDate, setSelectedDate] = React.useState(
         }))
     }, []);
     return (
+        <MDBContainer>
         <MDBCard style={{ marginBottom: "1rem" }}>
             <MDBCardBody>
                 <form>
@@ -408,6 +410,7 @@ const [selectedDate, setSelectedDate] = React.useState(
                 </form>
             </MDBCardBody>
         </MDBCard>
+        </MDBContainer>
     );
 });
 export default PersonalInfo
