@@ -33,7 +33,7 @@ function AppointmetType(props) {
         setRequestTypes(response.data.requestTypes);
       })
       .catch((error) => {
-        console.log('error' + error);
+        console.log('error' + error.response);
       });
   }, []);
   const continueTo = (e) => {

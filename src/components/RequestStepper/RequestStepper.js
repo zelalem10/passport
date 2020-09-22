@@ -44,17 +44,14 @@ export default function RequestStepper() {
   const childRef = useRef();
   const dispatch = useDispatch();
   function handelNext() {
-    if (indexValue === 1) {
-      console.log('date and time');
+    if (childRef.current.isCompleted() === true) {
       childRef.current.saveData();
-    }
-    childRef.current.saveData();
-    if (childRef.current.isCompleted() == true) {
-      setIndexValue(indexValue + 1);
+      setIndexValue((prevActiveStep) => prevActiveStep + 1);
       formCompleted[indexValue] = true;
     } else {
       inompleteAlert[indexValue] = true;
     }
+
   }
   function handelPrevious() {
     setIndexValue(indexValue - 1);
@@ -159,8 +156,8 @@ export default function RequestStepper() {
                 {isGroup === true ? (
                   <GroupNavigation />
                 ) : (
-                  <PersonalInfoStepper />
-                )}
+                    <PersonalInfoStepper />
+                  )}
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[3]}>
                 <PaymentSelection />

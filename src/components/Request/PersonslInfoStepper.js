@@ -34,7 +34,7 @@ function getSteps() {
 export default function HorizontalLabelPositionBelowStepper() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
-  const [formCompleted, setFormCompleted] = useState(false);
+  // const [formCompleted, setFormCompleted] = useState(false);
   const [responseAlert, setResponseAlert] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [responseMessage, setResponseMessage] = useState('');
@@ -44,17 +44,17 @@ export default function HorizontalLabelPositionBelowStepper() {
   const counter = useSelector((state) => state);
   const childRef = useRef();
   const handleNext = () => {
-    // if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
-    //   childRef.current.saveData();
-    //   const isVilid = childRef.current.Validate();
-    //   if (isVilid == true) {
-    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //   }
-    // }
-    // else {
+    if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
+      childRef.current.saveData();
+      const isVilid = childRef.current.Validate();
+      if (isVilid == true) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }
+    }
+    else {
     childRef.current.saveData();
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //}
+    }
     if (
       activeStep == 0 ||
       activeStep == 1 ||
@@ -94,16 +94,18 @@ export default function HorizontalLabelPositionBelowStepper() {
       var addressInfo = counter.address[counter.address.length - 1];
       var familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
       const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
-
+      const appointment=counter.appointmentDate[counter.appointmentDate.length - 1]
+     
       const accesstoken = localStorage.systemToken;
       const usertoken = localStorage.userToken;
       const config = {
-        headers: { Authorization: 'Bearer ' + usertoken },
+        headers: { Authorization: 'Bearer ' + accesstoken },
       };
       const requestBody = {
         requestId: 0,
         requestMode: 0,
         requestTypeId: 2,
+        appointmentId:appointment?appointment.id :1,
         userName: '',
         status: 0,
         confirmationNumber: '',
@@ -124,11 +126,11 @@ export default function HorizontalLabelPositionBelowStepper() {
             gender: personalInfo
               ? Number.parseInt(personalInfo.gender, 10)
               : null,
-            nationality: personalInfo ? personalInfo.nationality : null,
+            nationalityId: 1,
             height: personalInfo ? personalInfo.height : null,
             eyeColor: personalInfo ? personalInfo.eyeColor : null,
             hairColor: personalInfo ? personalInfo.hairColor : null,
-            occupation: personalInfo ? personalInfo.occupation : null,
+            occupationId: 1,
             halfCast: personalInfo ? personalInfo.halfCast : null,
             enrolmentDate: personalInfo ? personalInfo.enrolmentDate : null,
             birthCertificateId: personalInfo
@@ -173,6 +175,8 @@ export default function HorizontalLabelPositionBelowStepper() {
           },
         ],
       };
+      debugger
+      console.log(requestBody)
       API.post(
         'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest',
         requestBody,
