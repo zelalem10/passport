@@ -23,6 +23,7 @@ function SignIn () {
   let [EmailError, setEmailError] = useState('');
   let [PasswordError, setPasswordError] = useState('');
   const [loading, setloading] = useState(false);
+  const [Message, setMessage] = useState(false);
 
   let history = useHistory();
   const dispatch = useDispatch();
@@ -70,9 +71,11 @@ function SignIn () {
 
   const LogInSubmit = (e) => {
     e.preventDefault();
-    setloading(true);
+    setMessage(false)
+    setMessage('')
     const isValid = validate();
         if (isValid){
+          setloading(true);
           axios({
       
             method: 'post',
@@ -84,12 +87,21 @@ function SignIn () {
       
           })
           .then((response) => {
+            debugger;
             setState(response.data)
             console.log(response.data)
-            localStorage.setItem('userToken', response.data.accessToken);
-            localStorage.setItem('userId', response.data.id);
+            if (response.data.accessToken){
+              localStorage.setItem('userToken', response.data.accessToken);
+              localStorage.setItem('logedInUsedData', JSON.stringify(response.data));
+            }
             personalDetail();
             setloading(false);
+            let status = response.data.status
+            let errorname = response.data.message
+            if(status == 0){
+              setMessage(true)
+              setMessage(errorname)
+            }
             // redirect if user logged in
             if (response.data.accessToken){
               //return <Redirect to="/Home" />
@@ -119,7 +131,7 @@ function SignIn () {
         <MDBCol md="6">
           <MDBCard>
             <MDBCardBody className="mx-4">
-      
+        
               <form onSubmit={LogInSubmit}>
               <div className="header pt-3 textBackground mb-5">
                 <MDBRow className="d-flex justify-content-center">
@@ -128,6 +140,12 @@ function SignIn () {
                 </h4>
                 </MDBRow>
               </div>
+              {
+              Message &&
+              <div class="alert alert-danger" role="alert">
+               {Message}
+              </div>
+             }
               <div className="grey-text">
                 <MDBInput
                 label="Email"
@@ -135,8 +153,8 @@ function SignIn () {
                 Email={Email}
                 name='Email'
                 value={Email}
-                group
-                type="text"
+                type='email'
+                groups
                 validate
                 error="wrong"
                 success="right"
