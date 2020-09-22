@@ -30,7 +30,12 @@ const SiteSelection=forwardRef((props, ref) => {
     reagionId:0,
   });
   const [formCompleted, setFormCompleted] = useState(false);
-
+  const [dataSaved, setDataSaved] = useState(false);
+  const [notCompleted, setNotCompleted] = useState({
+    officeId:true,
+    cityId: true,
+    reagionId: true,
+  });
 
   const classes = useStyles();
   const accesstoken = localStorage.systemToken;
@@ -45,13 +50,17 @@ const SiteSelection=forwardRef((props, ref) => {
 
   const handleRegionChange = (event) => {
     const selectedRegion = regionList.filter(item => item.id == event.target.value);
-  //   setOfficeInfo((prevState) => ({
-  //     ...prevState,
-  //     reagionId: event.target.value,
-  // }));
+    setNotCompleted((prevState) => ({
+      ...prevState,
+      reagionId: false,
+  }));
     setCityList(selectedRegion[0].cities);
   };
   function handeleCityChange(event) {
+    setNotCompleted((prevState) => ({
+      ...prevState,
+      cityId: false,
+  }));
   //   setOfficeInfo((prevState) => ({
   //     ...prevState,
   //     cityId: event.target.value,
@@ -75,12 +84,19 @@ const SiteSelection=forwardRef((props, ref) => {
       ...prevState,
       offceId: officeId,
   }));
+  setNotCompleted((prevState) => ({
+    ...prevState,
+    officeId: false,
+}));
   console.log(officeInfo)
   dispatch(saveSiteInformation(officeInfo));
     setFormCompleted(true)
   }
 
   useImperativeHandle(ref, () => ({
+    saveData(){
+      setDataSaved(true)
+    },
     isCompleted() {
       return formCompleted;
     }
@@ -120,6 +136,7 @@ const SiteSelection=forwardRef((props, ref) => {
                       <option value={region.id}>{region.name}</option>
                     ))}
                   </ReactBootstrap.Form.Control>
+                  <span style={{ color: "red" }}> {(notCompleted.reagionId == true && dataSaved == true) ? "Please select region" : null}</span>
                 </MDBCol>
               </MDBRow>
               <hr></hr>
@@ -139,6 +156,7 @@ const SiteSelection=forwardRef((props, ref) => {
                         <option value={city.id}>{city.name}</option>
                       ))}
                   </ReactBootstrap.Form.Control>
+                  <span style={{ color: "red" }}> {(notCompleted.cityId == true && dataSaved == true) ? "Please select city" : null}</span>
                 </MDBCol>
               </MDBRow>
               <hr></hr>
@@ -157,6 +175,7 @@ const SiteSelection=forwardRef((props, ref) => {
                       <option value={office.id} name={office.name} key={office.address}>{office.name}</option>
                     ))}
                   </ReactBootstrap.Form.Control>
+                  <span style={{ color: "red" }}> {(notCompleted.officeId == true && dataSaved == true) ? "Please select office" : null}</span>
                 </MDBCol>
               </MDBRow>
             </MDBCol>

@@ -81,8 +81,9 @@ export default function HorizontalLabelPositionBelowStepper() {
     const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
 
     const accesstoken = localStorage.systemToken;
+    const usertoken = localStorage.userToken;
     const config = {
-      headers: { Authorization: "Bearer " + accesstoken }
+      headers: { Authorization: "Bearer " + usertoken }
     };
     const requestBody = {
       requestId: 0,

@@ -140,11 +140,11 @@ const NavbarPage = (props) => {
                 <MDBNavLink to="/service">Service</MDBNavLink>
               </MDBNavItem>
 
-              <MDBNavItem
+              {/* <MDBNavItem
                 className={navPath == '/check-status' ? 'active' : ''}
               >
                 <MDBNavLink to="/check-status">Check Status</MDBNavLink>
-              </MDBNavItem>
+              </MDBNavItem> */}
               <MDBNavItem className={navPath == '/Status' ? 'active' : ''}>
                 <MDBNavLink to="/Status">Status</MDBNavLink>
               </MDBNavItem>

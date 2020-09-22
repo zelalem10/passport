@@ -24,6 +24,7 @@ export default function RequestStepper() {
   const childRef = useRef();
   const dispatch = useDispatch();
   function handelNext() {
+    childRef.current.saveData()
     if (childRef.current.isCompleted() == true) {
       setIndexValue(indexValue + 1)
       formCompleted[indexValue] = true
@@ -39,10 +40,10 @@ export default function RequestStepper() {
   function handelSiteSelection() {
     setIndexValue(0)
   }
-  function handelPersonalInfo() {
+  function handelDateAndTime() {
     setIndexValue(1);
   }
-  function handelDateAndTime() {
+  function handelPersonalInfo() {
     setIndexValue(2);
   }
   function handelPayment() {
@@ -79,26 +80,29 @@ export default function RequestStepper() {
                     {formCompleted[0] ? <BsCheck /> : null}{' '}
                   </Nav.Link>
                 </Nav.Item>
+                
                 <Nav.Item>
                   <Nav.Link
                     eventKey={activeKey[1]}
-                    onClick={handelPersonalInfo}
+                    onClick={handelDateAndTime}
                     disabled={formCompleted[1] === true ? false : true}
                   >
-                    <BsPeopleCircle /> Personal information
+                    <BsCalendar /> Date and time
                     {formCompleted[1] ? <BsCheck /> : null}
                   </Nav.Link>
                 </Nav.Item>
+
                 <Nav.Item>
                   <Nav.Link
                     eventKey={activeKey[2]}
-                    onClick={handelDateAndTime}
+                    onClick={handelPersonalInfo}
                     disabled={formCompleted[2] === true ? false : true}
                   >
-                    <BsCalendar /> Date and time
+                    <BsPeopleCircle /> Personal information
                     {formCompleted[2] ? <BsCheck /> : null}
                   </Nav.Link>
                 </Nav.Item>
+                
                 <Nav.Item>
                   <Nav.Link
                     eventKey={activeKey[3]}
@@ -120,14 +124,14 @@ export default function RequestStepper() {
                 <SiteSelection ref={childRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[1]}>
+                <DateSelection />
+              </Tab.Pane>
+              <Tab.Pane eventKey={activeKey[2]}>
                 {isGroup === true ? (
                   <GroupNavigation />
                 ) : (
                     <PersonalInfoStepper />
                   )}
-              </Tab.Pane>
-              <Tab.Pane eventKey={activeKey[2]}>
-                <DateSelection />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[3]}>
                 <PaymentSelection />

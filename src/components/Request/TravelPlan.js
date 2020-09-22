@@ -1,6 +1,5 @@
-
 import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'react';
-import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody,MDBAlert } from 'mdbreact';
+import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody, MDBAlert } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addTravelPlan from '../../redux/actions/addTravelPlanAction';
 import axios from "axios";
@@ -10,8 +9,8 @@ import {
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
-function requestTypeGetter(requetTypeId){
-  switch(requetTypeId){
+function requestTypeGetter(requetTypeId) {
+  switch (requetTypeId) {
     case 2:
       return "New"
     case 3:
@@ -30,49 +29,62 @@ const TravelPlan = forwardRef((props, ref) => {
     ticketNumber: "",
     filledBy: "",
     pageQuantity: "0",
-    passportType:"",
-    passportNumber:"",
-    expirationDate:"",
-    issueDate:"",
+    passportType: "",
+    passportNumber: "",
+    expirationDate: "",
+    issueDate: "",
     isDatacorrected: false,
     dataSaved: false
   });
+  const [notCompleted, setNotCompleted] = useState({
+    travelDate: true,
+    ticketNumber: true,
+    filledBy: true,
+    pageQuantity: false,
+    passportType: true,
+    passportNumber: true,
+    expirationDate: true,
+    issueDate: true,
+    isDatacorrected: true,
+  });
+
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
+  const isRequired = "is required!"
   const accesstoken = localStorage.systemToken;
   let requestTypefromRedux = useSelector((state) => state.service);
   let requestTypeId = requestTypefromRedux[requestTypefromRedux.length - 1].appointemntType
 
   useEffect(() => {
-      axios({
-        headers: { 'Authorization': 'Bearer ' + accesstoken },
-        method: 'get',
-        url: 'https://epassportservices.azurewebsites.net/Master/api/V1.0/OfficeRequestType/GetRequiredAttachementsByRequestTypeId',
-        params: { "requestTypeId": requestTypeId },
+    axios({
+      headers: { 'Authorization': 'Bearer ' + accesstoken },
+      method: 'get',
+      url: 'https://epassportservices.azurewebsites.net/Master/api/V1.0/OfficeRequestType/GetRequiredAttachementsByRequestTypeId',
+      params: { "requestTypeId": requestTypeId },
+    })
+      .then((response) => {
+        let requiredAttachements = response.data.requiredAttachements.length;
+        let requiredAttachementType = [];
+        let attachmentTypeName = [];
+        for (let i = 0; i < response.data.requiredAttachements.length; i++) {
+          requiredAttachementType.push(response.data.requiredAttachements[i].attachmentTypeId);
+          attachmentTypeName.push(response.data.requiredAttachements[i].attachmentType);
+
+          console.log(response.data.requiredAttachements);
+        }
+        console.log(requiredAttachementType);
+
+        if (localStorage.requiredAttachements) {
+          localStorage.removeItem('requiredAttachements');
+        }
+        localStorage.setItem('requiredAttachements', requiredAttachements);
+        localStorage.setItem('requiredAttachementType', JSON.stringify(requiredAttachementType));
+        localStorage.setItem('attachmentTypeName', JSON.stringify(attachmentTypeName));
       })
-        .then((response) => {
-          let requiredAttachements = response.data.requiredAttachements.length;
-          let requiredAttachementType = [];
-          let attachmentTypeName = [];
-          for (let i = 0; i < response.data.requiredAttachements.length; i++) {
-            requiredAttachementType.push(response.data.requiredAttachements[i].attachmentTypeId);
-            attachmentTypeName.push(response.data.requiredAttachements[i].attachmentType);
-            
-            console.log(response.data.requiredAttachements);
-          }
-          console.log(requiredAttachementType);
-          
-          if (localStorage.requiredAttachements){
-              localStorage.removeItem('requiredAttachements');
-          }
-          localStorage.setItem('requiredAttachements', requiredAttachements);
-          localStorage.setItem('requiredAttachementType', JSON.stringify(requiredAttachementType));
-          localStorage.setItem('attachmentTypeName', JSON.stringify(attachmentTypeName));
-        })
-        .catch((error) => {
-          console.log("error" + error.message)
-        })
-    }, []);
+      .catch((error) => {
+        console.log("error" + error.message)
+      })
+  }, []);
 
   if (counter.travelPlan.length === 0) {
     dispatch(addTravelPlan(travelPlan));
@@ -86,10 +98,25 @@ const TravelPlan = forwardRef((props, ref) => {
       dispatch(addTravelPlan(travelPlan));
     },
     Validate() {
-      return true
+      setNotCompleted({
+        travelDate: travelPlan.travelDate === "" ? true : false,
+        ticketNumber: travelPlan.ticketNumber === "" ? true : false,
+        filledBy: travelPlan.filledBy === "" ? true : false,
+        pageQuantity: travelPlan.pageQuantity === "" ? true : false,
+        passportType: travelPlan.passportType === "" ? true : false,
+        passportNumber: travelPlan.passportNumber === "" ? true : false,
+        expirationDate: travelPlan.expirationDate === "" ? true : false,
+        issueDate: travelPlan.issueDate === "" ? true : false,
+        passportNumber: travelPlan.passportNumber === "" ? true : false,
+      })
+      if (notCompleted.passportType === true || notCompleted.issueDate === true || notCompleted.expirationDate === true
+        || notCompleted.pageQuantity === true || notCompleted.filledBy === true)
+        return false;
+      else
+        return true
     }
   }));
-  
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setTravelPlan((prevState) => ({
@@ -98,10 +125,10 @@ const TravelPlan = forwardRef((props, ref) => {
     }))
     dispatch(addTravelPlan(travelPlan));
   }
-  const handleCheck = (name,checked) => {
+  const handleCheck = (name, checked) => {
     setTravelPlan((prevState) => ({
-        ...prevState,
-        [name]: checked,
+      ...prevState,
+      [name]: checked,
     }))
     // if (!event.target.checked) {
     //     setNotCompleted((prevState) => ({
@@ -109,8 +136,8 @@ const TravelPlan = forwardRef((props, ref) => {
     //         [name]: false,
     //     }))
     // }
-}
- const [selectedtravelDate, setSelectedtravelDate] = React.useState(
+  }
+  const [selectedtravelDate, setSelectedtravelDate] = React.useState(
     new Date(prevInfo ? prevInfo.travelDate : '2014-08-18T21:11:54')
   );
   const [selectedissueDate, setSelectedissueDate] = React.useState(
@@ -119,14 +146,14 @@ const TravelPlan = forwardRef((props, ref) => {
   const [selectedexpirationDate, setSelectedexpirationDate] = React.useState(
     new Date(prevInfo ? prevInfo.expirationDate : '2014-08-18T21:11:54')
   );
-   const handletravelDateChange = (date) => {
+  const handletravelDateChange = (date) => {
     setSelectedtravelDate(date);
     setTravelPlan((prevState) => ({
       ...prevState,
       travelDate: date,
     }));
   };
-   const handleissueDateChange = (date) => {
+  const handleissueDateChange = (date) => {
     setSelectedissueDate(date);
     setTravelPlan((prevState) => ({
       ...prevState,
@@ -141,9 +168,9 @@ const TravelPlan = forwardRef((props, ref) => {
     }));
   };
   var prevInfo = counter.travelPlan[counter.travelPlan.length - 1];
-    const serviceSelcetion = counter.service[counter.service.length - 1];
-    const requestType= serviceSelcetion.appointemntType;
-    const requestTypeStr=requestTypeGetter(requestType);
+  const serviceSelcetion = counter.service[counter.service.length - 1];
+  const requestType = serviceSelcetion.appointemntType;
+  const requestTypeStr = requestTypeGetter(requestType);
   useEffect(() => {
     if (counter.travelPlan.length === 0) {
       dispatch(addTravelPlan(travelPlan));
@@ -158,24 +185,24 @@ const TravelPlan = forwardRef((props, ref) => {
       passportNumber: prevInfo ? prevInfo.passportNumber : null,
       expirationDate: prevInfo ? new Date(prevInfo.expirationDate) : null,
       issueDate: prevInfo ? new Date(prevInfo.issueDate) : null,
-      isDatacorrected:prevInfo? prevInfo.isDatacorrected:false,
+      isDatacorrected: prevInfo ? prevInfo.isDatacorrected : false,
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
     }))
   }, []);
- 
+
 
   return (
-    
+
     <MDBCard>
       <MDBCardBody>
-      {props.respnseGet===true?
-      (props.isSucces===true?(<MDBAlert color="success" >
-      {props.resMessage}
-    </MDBAlert>):
-    (<MDBAlert color="danger" >
-        {props.resMessage}
-      </MDBAlert>)
-      ):(null)}
+        {props.respnseGet === true ?
+          (props.isSucces === true ? (<MDBAlert color="success" >
+            {props.resMessage}
+          </MDBAlert>) :
+            (<MDBAlert color="danger" >
+              {props.resMessage}
+            </MDBAlert>)
+          ) : (null)}
         <form>
           <div className="grey-text">
             <MDBRow>
@@ -189,18 +216,19 @@ const TravelPlan = forwardRef((props, ref) => {
                   label="Travel Date"
                 /> */}
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                           <KeyboardDatePicker
-          margin="normal"
-          id="date-picker-dialog"
-          label="Travel Date"
-          format="MM/dd/yyyy"
-          value={selectedtravelDate}
-          onChange={handletravelDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        />
-        </MuiPickersUtilsProvider >
+                  <KeyboardDatePicker
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="Travel Date"
+                    format="MM/dd/yyyy"
+                    value={selectedtravelDate}
+                    onChange={handletravelDateChange}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                </MuiPickersUtilsProvider >
+                <span style={{ color: "red" }}> {(notCompleted.travelDate == true && travelPlan.dataSaved == true) ? "Travel date " + isRequired : null}</span>
               </MDBCol>
               <MDBCol>
                 <MDBInput
@@ -221,17 +249,20 @@ const TravelPlan = forwardRef((props, ref) => {
                   type="text"
                   label="Application filled by"
                 />
+                <span style={{ color: "red" }}> {(notCompleted.filledBy == true && travelPlan.dataSaved == true) ? "Filled by " + isRequired : null}</span>
               </MDBCol>
-              <MDBCol><label>Page Quantity</label>
+              <MDBCol>
+                <label>Page Quantity</label>
                 <select className="browser-default custom-select">
                   <option value="0">32</option>
                   <option value="1">64</option>
                 </select>
+                <span style={{ color: "red" }}> {(notCompleted.pageQuantity == true && travelPlan.dataSaved == true) ? "Page quantity " + isRequired : null}</span>
               </MDBCol>
             </MDBRow>
             <MDBRow>
               <MDBCol>
-              <MDBInput
+                <MDBInput
                   valueDefault={prevInfo ? prevInfo.passportType : null}
                   name="passportType"
                   className="form-control"
@@ -239,9 +270,10 @@ const TravelPlan = forwardRef((props, ref) => {
                   type="text"
                   label="Passport Type"
                 />
+                <span style={{ color: "red" }}> {(notCompleted.passportType == true && travelPlan.dataSaved == true) ? "Passport type" + isRequired : null}</span>
               </MDBCol>
               <MDBCol>
-              <MDBInput
+                <MDBInput
                   valueDefault={prevInfo ? prevInfo.passportNumber : null}
                   name="passportNumber"
                   className="form-control"
@@ -251,7 +283,7 @@ const TravelPlan = forwardRef((props, ref) => {
                 />
               </MDBCol>
               <MDBCol className="date-picker">
-              {/* <MDBInput
+                {/* <MDBInput
                   valueDefault={prevInfo ? prevInfo.expirationDate : null}
                   name="expirationDate"
                   className="form-control"
@@ -260,21 +292,21 @@ const TravelPlan = forwardRef((props, ref) => {
                   label="Expiration Date"
                 /> */}
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                           <KeyboardDatePicker
-          margin="normal"
-          id="date-picker-dialog"
-          label="Expiration Date"
-          format="MM/dd/yyyy"
-          value={selectedexpirationDate}
-          onChange={handleexpirationDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        />
-        </MuiPickersUtilsProvider >
+                  <KeyboardDatePicker
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="Expiration Date"
+                    format="MM/dd/yyyy"
+                    value={selectedexpirationDate}
+                    onChange={handleexpirationDateChange}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                </MuiPickersUtilsProvider >
               </MDBCol>
               <MDBCol className="date-picker">
-              {/* <MDBInput
+                {/* <MDBInput
                   valueDefault={prevInfo ? prevInfo.issueDate : null}
                   name="issueDate"
                   className="form-control"
@@ -283,30 +315,30 @@ const TravelPlan = forwardRef((props, ref) => {
                   label="Issue Date"
                 /> */}
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                           <KeyboardDatePicker
-          margin="normal"
-          id="date-picker-dialog"
-          label="Issue Date"
-          format="MM/dd/yyyy"
-          value={selectedissueDate}
-          onChange={handleissueDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        />
-        </MuiPickersUtilsProvider >
+                  <KeyboardDatePicker
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="Issue Date"
+                    format="MM/dd/yyyy"
+                    value={selectedissueDate}
+                    onChange={handleissueDateChange}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                </MuiPickersUtilsProvider >
               </MDBCol>
             </MDBRow>
             <MDBRow>
-              {(requestTypeStr==="Renew/Replacement"||requestTypeStr==="Lost")?
-              (<MDBCol>
-                <label></label>
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="isCorrection"onChange={(e)=>handleCheck("isDatacorrected",e.target.checked)} />
-                  <label class="custom-control-label" for="isCorrection">Is Data corrected</label>
-                </div>
-              </MDBCol>
-              ):null}
+              {(requestTypeStr === "Renew/Replacement" || requestTypeStr === "Lost") ?
+                (<MDBCol>
+                  <label></label>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="isCorrection" onChange={(e) => handleCheck("isDatacorrected", e.target.checked)} />
+                    <label class="custom-control-label" for="isCorrection">Is Data corrected</label>
+                  </div>
+                </MDBCol>
+                ) : null}
             </MDBRow>
           </div>
         </form>
