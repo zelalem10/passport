@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function getSteps() {
-  return ['Personal Detail', 'Address', 'Family', 'Travel plan', 'Attachment'];
+  return ['Personal Detail', 'Address', 'Family', 'Travel & Passport info', 'Attachment'];
 }
 export default function HorizontalLabelPositionBelowStepper() {
   const classes = useStyles();
@@ -44,17 +44,17 @@ export default function HorizontalLabelPositionBelowStepper() {
   const counter = useSelector((state) => state);
   const childRef = useRef();
   const handleNext = () => {
-    if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
-      childRef.current.saveData();
-      const isVilid = childRef.current.Validate();
-      if (isVilid == true) {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      }
-    }
-    else {
+    // if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
+    //   childRef.current.saveData();
+    //   const isVilid = childRef.current.Validate();
+    //   if (isVilid == true) {
+    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    //   }
+    // }
+    // else {
     childRef.current.saveData();
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    }
+    //}
   };
 
   const handleBack = () => {

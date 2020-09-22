@@ -106,7 +106,7 @@ const PersonalInfo = forwardRef((props, ref) => {
         }
     }));
 const [selectedDate, setSelectedDate] = React.useState(
-    new Date(prevInfo ? prevInfo.dateOfBirth : '2014-08-18T21:11:54')
+    new Date(prevInfo ? prevInfo.dateOfBirth : null)
   );
   const [selectedEnrollmentDate, setSelectedEnrollmentDate] = React.useState(
     new Date(prevInfo ? prevInfo.enrolmentDate : '2014-08-18T21:11:54')

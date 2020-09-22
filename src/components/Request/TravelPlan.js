@@ -260,6 +260,7 @@ const TravelPlan = forwardRef((props, ref) => {
                 <span style={{ color: "red" }}> {(notCompleted.pageQuantity == true && travelPlan.dataSaved == true) ? "Page quantity " + isRequired : null}</span>
               </MDBCol>
             </MDBRow>
+            <hr />
             <MDBRow>
               <MDBCol>
                 <MDBInput
@@ -283,14 +284,6 @@ const TravelPlan = forwardRef((props, ref) => {
                 />
               </MDBCol>
               <MDBCol className="date-picker">
-                {/* <MDBInput
-                  valueDefault={prevInfo ? prevInfo.expirationDate : null}
-                  name="expirationDate"
-                  className="form-control"
-                  onBlur={handleChange}
-                  type="date"
-                  label="Expiration Date"
-                /> */}
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     margin="normal"
@@ -306,14 +299,6 @@ const TravelPlan = forwardRef((props, ref) => {
                 </MuiPickersUtilsProvider >
               </MDBCol>
               <MDBCol className="date-picker">
-                {/* <MDBInput
-                  valueDefault={prevInfo ? prevInfo.issueDate : null}
-                  name="issueDate"
-                  className="form-control"
-                  onBlur={handleChange}
-                  type="date"
-                  label="Issue Date"
-                /> */}
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     margin="normal"
@@ -329,6 +314,7 @@ const TravelPlan = forwardRef((props, ref) => {
                 </MuiPickersUtilsProvider >
               </MDBCol>
             </MDBRow>
+           
             <MDBRow>
               {(requestTypeStr === "Renew/Replacement" || requestTypeStr === "Lost") ?
                 (<MDBCol>
