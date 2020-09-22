@@ -6,10 +6,10 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import PersonalInfo from './PersonalInfo'
-import AddressInfo from './Address'
-import Attachment from './Attachement'
-import TravelPlan from './TravelPlan'
+import PersonalInfo from './PersonalInfo';
+import AddressInfo from './Address';
+import Attachment from './Attachement';
+import TravelPlan from './TravelPlan';
 import FamilyInformation from '../Request Appointment/family/familyInformation';
 import { useDispatch, useSelector } from 'react-redux';
 import addCommonData from '../../redux/actions/addCommonDataAction';
@@ -37,23 +37,27 @@ export default function HorizontalLabelPositionBelowStepper() {
   const [formCompleted, setFormCompleted] = useState(false);
   const [responseAlert, setResponseAlert] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [responseMessage, setResponseMessage] = useState("");
+  const [responseMessage, setResponseMessage] = useState('');
 
   const steps = getSteps();
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const childRef = useRef();
   const handleNext = () => {
-    if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
+    if (
+      activeStep == 0 ||
+      activeStep == 1 ||
+      activeStep == 2 ||
+      activeStep == 3
+    ) {
       childRef.current.saveData();
       const isVilid = childRef.current.Validate();
       if (isVilid == true) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       }
-    }
-    else {
-    childRef.current.saveData();
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    } else {
+      childRef.current.saveData();
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
   };
 
@@ -70,105 +74,119 @@ export default function HorizontalLabelPositionBelowStepper() {
   }
   const handleSubmit = () => {
     childRef.current.saveData();
-      const isVilid = childRef.current.Validate();
-      if (isVilid != true) {
-        //setResponseMessage("Ple")
-      }
-      else{
-        var personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1]
-    var addressInfo = counter.address[counter.address.length - 1]
-    var familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
-    const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
+    const isVilid = childRef.current.Validate();
+    if (isVilid != true) {
+      //setResponseMessage("Ple")
+    } else {
+      var personalInfo =
+        counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
+      var addressInfo = counter.address[counter.address.length - 1];
+      var familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
+      const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
 
-    const accesstoken = localStorage.systemToken;
-    const usertoken = localStorage.userToken;
-    const config = {
-      headers: { Authorization: "Bearer " + usertoken }
-    };
-    const requestBody = {
-      requestId: 0,
-      requestMode: 0,
-      requestTypeId: 2,
-      userName: '',
-      status: 0,
-      confirmationNumber: '',
-      applicants: [
-        {
-          personId: 0,
-          firstName: personalInfo ? personalInfo.firstName.toUpperCase() : null,
-          middleName: personalInfo ? personalInfo.middleName.toUpperCase() : null,
-          lastName: personalInfo ? personalInfo.lastName.toUpperCase() : null,
-          geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
-          geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
-          geezLastName: personalInfo ? personalInfo.geezLastName : null,
-          dateOfBirth: personalInfo ? personalInfo.birthDate : null,
-          gender: personalInfo ? Number.parseInt(personalInfo.gender, 10) : null,
-          nationality: personalInfo ? personalInfo.nationality : null,
-          height: personalInfo ? personalInfo.height : null,
-          eyeColor: personalInfo ? personalInfo.eyeColor : null,
-          hairColor: personalInfo ? personalInfo.hairColor : null,
-          occupation: personalInfo ? personalInfo.occupation : null,
-          halfCast: personalInfo ? personalInfo.halfCast : null,
-          enrolmentDate: personalInfo ? personalInfo.enrolmentDate : null,
-          birthCertificateId: personalInfo ? personalInfo.birthCertificatNo : "",
-          photoPath: "",
-          employeeID: "",
-          applicationNumber: "",
-          organizationID: "",
-          isUnder18: personalInfo ? personalInfo.isUnder18 : false,
-          isAdoption: personalInfo ? personalInfo.isAdoption : false,
-          passportNumber: travelPlan ? travelPlan.passportNumber : null,
-          issueDate:  travelPlan ? travelPlan.issueDate : new Date(),
-          expireDate:  travelPlan ? travelPlan.expirationDate : new Date(),
-          passportType:  travelPlan ? travelPlan.passportType : null,
-          isDatacorrected:  travelPlan ? travelPlan.isDatacorrected : false,
-          pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10) : false,
-          maritalStatus: personalInfo ? Number.parseInt(personalInfo.martialStatus, 10) : null,
-          birthCertificateId: personalInfo ? personalInfo.birthCertificatNo : null,
-          address: {
+      const accesstoken = localStorage.systemToken;
+      const usertoken = localStorage.userToken;
+      const config = {
+        headers: { Authorization: 'Bearer ' + usertoken },
+      };
+      const requestBody = {
+        requestId: 0,
+        requestMode: 0,
+        requestTypeId: 2,
+        userName: '',
+        status: 0,
+        confirmationNumber: '',
+        applicants: [
+          {
             personId: 0,
-            addressId: 0,
-            city: addressInfo ? addressInfo.city : null,
-            country: addressInfo ? addressInfo.country : null,
-            state: addressInfo ? addressInfo.state : null,
-            zone: addressInfo ? addressInfo.zone : null,
-            wereda: addressInfo ? addressInfo.woreda : null,
-            street: addressInfo ? addressInfo.street : null,
-            houseNo: addressInfo ? addressInfo.houseNo : null,
-            poBox: addressInfo ? addressInfo.poBox : null,
-            phoneNumber: addressInfo ? addressInfo.phoneNumber : null,
-            email: addressInfo ? addressInfo.email : null,
-            requestPlace: addressInfo ? addressInfo.requestPlace : null,
+            firstName: personalInfo
+              ? personalInfo.firstName.toUpperCase()
+              : null,
+            middleName: personalInfo
+              ? personalInfo.middleName.toUpperCase()
+              : null,
+            lastName: personalInfo ? personalInfo.lastName.toUpperCase() : null,
+            geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
+            geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
+            geezLastName: personalInfo ? personalInfo.geezLastName : null,
+            dateOfBirth: personalInfo ? personalInfo.birthDate : null,
+            gender: personalInfo
+              ? Number.parseInt(personalInfo.gender, 10)
+              : null,
+            nationality: personalInfo ? personalInfo.nationality : null,
+            height: personalInfo ? personalInfo.height : null,
+            eyeColor: personalInfo ? personalInfo.eyeColor : null,
+            hairColor: personalInfo ? personalInfo.hairColor : null,
+            occupation: personalInfo ? personalInfo.occupation : null,
+            halfCast: personalInfo ? personalInfo.halfCast : null,
+            enrolmentDate: personalInfo ? personalInfo.enrolmentDate : null,
+            birthCertificateId: personalInfo
+              ? personalInfo.birthCertificatNo
+              : '',
+            photoPath: '',
+            employeeID: '',
+            applicationNumber: '',
+            organizationID: '',
+            isUnder18: personalInfo ? personalInfo.isUnder18 : false,
+            isAdoption: personalInfo ? personalInfo.isAdoption : false,
+            passportNumber: travelPlan ? travelPlan.passportNumber : null,
+            issueDate: travelPlan ? travelPlan.issueDate : new Date(),
+            expireDate: travelPlan ? travelPlan.expirationDate : new Date(),
+            passportType: travelPlan ? travelPlan.passportType : null,
+            isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
+            pageQuantity: travelPlan
+              ? Number.parseInt(travelPlan.pageQuantity, 10)
+              : false,
+            maritalStatus: personalInfo
+              ? Number.parseInt(personalInfo.martialStatus, 10)
+              : null,
+            birthCertificateId: personalInfo
+              ? personalInfo.birthCertificatNo
+              : null,
+            address: {
+              personId: 0,
+              addressId: 0,
+              city: addressInfo ? addressInfo.city : null,
+              country: addressInfo ? addressInfo.country : null,
+              state: addressInfo ? addressInfo.state : null,
+              zone: addressInfo ? addressInfo.zone : null,
+              wereda: addressInfo ? addressInfo.woreda : null,
+              street: addressInfo ? addressInfo.street : null,
+              houseNo: addressInfo ? addressInfo.houseNo : null,
+              poBox: addressInfo ? addressInfo.poBox : null,
+              phoneNumber: addressInfo ? addressInfo.phoneNumber : null,
+              email: addressInfo ? addressInfo.email : null,
+              requestPlace: addressInfo ? addressInfo.requestPlace : null,
+            },
+            familyRequests: familyInfo,
           },
-          familyRequests: familyInfo,
-        },
-      ],
-    };
-    API.post(
-      'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest',
-      requestBody,
-      config
-    )
-      .then((todo) => {
-        console.log(
-          todo.data + ' id= ' + todo.data.personResponses[0].requestPersonId
-        );
-        setResponseMessage(todo.data.message);
-        setResponseAlert(true);
-        setIsSuccess(true);
-        const commonData = {
-          requestPersonId: todo.data.personResponses[0].requestPersonId,
-        };
-        dispatch(newRequest(todo.data))
-        dispatch(addCommonData(commonData));
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      })
-      .catch((err) => {
-        console.log('AXIOS ERROR: ', err.response);
-        setResponseMessage("One or more Errors occured!")
-        setResponseAlert(true)
-      });
-      }
+        ],
+      };
+      API.post(
+        'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest',
+        requestBody,
+        config
+      )
+        .then((todo) => {
+          console.log(
+            todo.data + ' id= ' + todo.data.personResponses[0].requestPersonId
+          );
+          setResponseMessage(todo.data.message);
+          setResponseAlert(true);
+          setIsSuccess(true);
+          const commonData = {
+            requestPersonId: todo.data.personResponses[0].requestPersonId,
+          };
+          dispatch(newRequest(todo.data));
+          dispatch(addCommonData(commonData));
+          setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        })
+        .catch((err) => {
+          console.log('AXIOS ERROR: ', err.response);
+          setResponseMessage('One or more Errors occured!');
+          setResponseAlert(true);
+        });
+    }
   };
   function getStepContent(stepIndex) {
     switch (stepIndex) {
@@ -179,7 +197,14 @@ export default function HorizontalLabelPositionBelowStepper() {
       case 2:
         return <FamilyInformation ref={childRef} />;
       case 3:
-        return <TravelPlan ref={childRef} resMessage={responseMessage} isSucces={isSuccess} respnseGet={responseAlert} />;
+        return (
+          <TravelPlan
+            ref={childRef}
+            resMessage={responseMessage}
+            isSucces={isSuccess}
+            respnseGet={responseAlert}
+          />
+        );
       case 4:
         return <Attachment />;
       default:
@@ -187,7 +212,6 @@ export default function HorizontalLabelPositionBelowStepper() {
     }
   }
   return (
-   
     <div className={classes.root} style={{ marginBottom: '5rem' }}>
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
@@ -205,43 +229,43 @@ export default function HorizontalLabelPositionBelowStepper() {
             <Button onClick={handleReset}>Reset</Button>
           </div>
         ) : (
-            <div>
-              <Typography className={classes.instructions}>
-                 {getStepContent(activeStep)}
-              </Typography>
-              <Grid container spacing={1}>
-                <Grid item xs={3}>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.backButton}
-                  >
-                    Back
+          <div>
+            <Typography className={classes.instructions}>
+              {getStepContent(activeStep)}
+            </Typography>
+            <Grid container spacing={1}>
+              <Grid item xs={3}>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  className={classes.backButton}
+                >
+                  Back
                 </Button>
-                </Grid>
-                <hr></hr>
-                <Grid item xs={1}>
-                  {activeStep === steps.length - 2 ? (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleSubmit}
-                    >
-                      Submit
-                    </Button>
-                  ) : (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleNext}
-                      >
-                        Next
-                      </Button>
-                    )}
-                </Grid>
               </Grid>
-            </div>
-          )}
+              <hr></hr>
+              <Grid item xs={1}>
+                {activeStep === steps.length - 2 ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSubmit}
+                  >
+                    Submit
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                  >
+                    Next
+                  </Button>
+                )}
+              </Grid>
+            </Grid>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,44 +1,66 @@
 import React, { useState, useRef, useEffect } from 'react';
-import SiteSelection from '../Request/SiteSelection'
-import DateSelection from '../Request Appointment/appointment/appointmentDate'
-import PersonalInfoStepper from '../Request/PersonslInfoStepper'
-import GroupNavigation from '../GroupRequest/GroupNavigation'
-import PaymentSelection from '../Payment/PaymentSelection'
-import Confirmation from '../Payment/Responses/Confirmation'
+import SiteSelection from '../Request/SiteSelection';
+import DateSelection from '../Request Appointment/appointment/appointmentDate';
+import PersonalInfoStepper from '../Request/PersonslInfoStepper';
+import GroupNavigation from '../GroupRequest/GroupNavigation';
+import PaymentSelection from '../Payment/PaymentSelection';
+import Confirmation from '../Payment/Responses/Confirmation';
 import { Tab, Row, Nav, Col, Button, Card } from 'react-bootstrap';
 import { MDBModal, MDBModalBody, MDBBtn } from 'mdbreact';
-import { BsCheck, BsArrowRightShort, BsArrowLeftShort, BsHouseFill, BsPeopleCircle, BsCalendar, BsWallet, BsFillInfoCircleFill } from 'react-icons/bs'
+import {
+  BsCheck,
+  BsArrowRightShort,
+  BsArrowLeftShort,
+  BsHouseFill,
+  BsPeopleCircle,
+  BsCalendar,
+  BsWallet,
+  BsFillInfoCircleFill,
+} from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 import addPaymentOptionId from '../../redux/actions/addPaymentOptionIdAction';
-
 
 export default function RequestStepper() {
   const [indexValue, setIndexValue] = useState(0);
   const [selectedPaymentOption, setSelectedPaymentOption] = useState(0);
-  const [formCompleted, setFormCompleted] = useState([false, false, false, false, false]);
-  const [inompleteAlert, setInompleteAlert] = useState([false, false, false, false, false]);
-  const activeKey = ["first", "second", "third", "fourth", "Fivth"];
+  const [formCompleted, setFormCompleted] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
+  const [inompleteAlert, setInompleteAlert] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
+  const activeKey = ['first', 'second', 'third', 'fourth', 'Fivth'];
   const counter = useSelector((state) => state);
   const serviceVal = counter.service[counter.service.length - 1];
   const isGroup = counter.service[counter.service.length - 1].isGroup;
   const childRef = useRef();
   const dispatch = useDispatch();
   function handelNext() {
-    childRef.current.saveData()
+    if (indexValue === 1) {
+      console.log('date and time');
+      childRef.current.saveData();
+    }
+    childRef.current.saveData();
     if (childRef.current.isCompleted() == true) {
-      setIndexValue(indexValue + 1)
-      formCompleted[indexValue] = true
+      setIndexValue(indexValue + 1);
+      formCompleted[indexValue] = true;
+    } else {
+      inompleteAlert[indexValue] = true;
     }
-    else {
-      inompleteAlert[indexValue]=true
-    }
-
   }
   function handelPrevious() {
-    setIndexValue(indexValue - 1)
+    setIndexValue(indexValue - 1);
   }
   function handelSiteSelection() {
-    setIndexValue(0)
+    setIndexValue(0);
   }
   function handelDateAndTime() {
     setIndexValue(1);
@@ -50,17 +72,17 @@ export default function RequestStepper() {
     setIndexValue(3);
   }
   function handelConfirmation() {
-    setIndexValue(4)
+    setIndexValue(4);
   }
   function handelPaymentSelection(optionId) {
-    setSelectedPaymentOption(optionId)
+    setSelectedPaymentOption(optionId);
   }
   useEffect(() => {
     if (counter.commonData.length === 0) {
-      const selectedId = { optionId: 0 }
-      dispatch(addPaymentOptionId(selectedId))
+      const selectedId = { optionId: 0 };
+      dispatch(addPaymentOptionId(selectedId));
     }
-  }, [])
+  }, []);
   return (
     <Tab.Container defaultActiveKey="first" activeKey={activeKey[indexValue]}>
       <div style={{ margin: '2rem' }}>
@@ -80,7 +102,7 @@ export default function RequestStepper() {
                     {formCompleted[0] ? <BsCheck /> : null}{' '}
                   </Nav.Link>
                 </Nav.Item>
-                
+
                 <Nav.Item>
                   <Nav.Link
                     eventKey={activeKey[1]}
@@ -102,7 +124,7 @@ export default function RequestStepper() {
                     {formCompleted[2] ? <BsCheck /> : null}
                   </Nav.Link>
                 </Nav.Item>
-                
+
                 <Nav.Item>
                   <Nav.Link
                     eventKey={activeKey[3]}
@@ -113,7 +135,14 @@ export default function RequestStepper() {
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link eventKey={activeKey[4]} onClick={handelConfirmation} disabled={formCompleted[4] === true ? false : true}><BsFillInfoCircleFill /> Confirmation{formCompleted[4] ? <BsCheck /> : null}</Nav.Link>
+                  <Nav.Link
+                    eventKey={activeKey[4]}
+                    onClick={handelConfirmation}
+                    disabled={formCompleted[4] === true ? false : true}
+                  >
+                    <BsFillInfoCircleFill /> Confirmation
+                    {formCompleted[4] ? <BsCheck /> : null}
+                  </Nav.Link>
                 </Nav.Item>
               </Nav>
             </Card>
@@ -124,14 +153,14 @@ export default function RequestStepper() {
                 <SiteSelection ref={childRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[1]}>
-                <DateSelection />
+                <DateSelection ref={childRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[2]}>
                 {isGroup === true ? (
                   <GroupNavigation />
                 ) : (
-                    <PersonalInfoStepper />
-                  )}
+                  <PersonalInfoStepper />
+                )}
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[3]}>
                 <PaymentSelection />

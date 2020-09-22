@@ -55,7 +55,17 @@ function RescheduleAppointment(props) {
   };
 
   const dispatch = useDispatch();
-  const accesstoken = localStorage.systemToken;
+  const tokenValue = () => {
+    const UserToken = localStorage.userToken;
+
+    if (UserToken) {
+      return UserToken;
+    } else {
+      const SystemToken = localStorage.systemToken;
+      return SystemToken;
+    }
+  };
+  const accesstoken = tokenValue();
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
   const availableDates = [];
   let advancedRestrictionData = {};
