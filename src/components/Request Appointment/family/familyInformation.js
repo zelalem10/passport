@@ -22,18 +22,28 @@ const FamilyInformation = forwardRef((props, ref) => {
   const [checkFamily, setCheckFamily] = useState(false);
   const [moreFamily, setMoreFamily] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-    const [isOnLoad, setIsOnLoad] = useState(true);
+  const [isOnLoad, setIsOnLoad] = useState(true);
   const [editdata, setEditdata] = useState({
-    id:'',
+    id: '',
     fName: '',
     lName: '',
     idCardNum: '',
     famType: 0,
-    personId:0,
+    personId: 0,
   });
   const [familyType, setFamilyType] = useState([]);
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
-  const accesstoken = localStorage.systemToken;
+  const tokenValue = () => {
+    const UserToken = localStorage.userToken;
+
+    if (UserToken) {
+      return UserToken;
+    } else {
+      const SystemToken = localStorage.systemToken;
+      return SystemToken;
+    }
+  };
+  const accesstoken = tokenValue();
   useEffect(() => {
     axios({
       headers: {
@@ -49,14 +59,13 @@ const FamilyInformation = forwardRef((props, ref) => {
         console.log('error' + error);
       });
   }, []);
- if(isOnLoad && counter.familyReducer.length!==0){
-   
-   setFamiliesInfo(counter.familyReducer[counter.familyReducer.length - 1]);
-   setMoreFamily(true);
-   setCheckFamily(true);
-   setIsOnLoad(false);
-   console.log(familiesInfo);
- }
+  if (isOnLoad && counter.familyReducer.length !== 0) {
+    setFamiliesInfo(counter.familyReducer[counter.familyReducer.length - 1]);
+    setMoreFamily(true);
+    setCheckFamily(true);
+    setIsOnLoad(false);
+    console.log(familiesInfo);
+  }
   useImperativeHandle(ref, () => ({
     saveData() {
       dispatch(addFamily(familiesInfo));
@@ -100,8 +109,8 @@ const FamilyInformation = forwardRef((props, ref) => {
         id: familiesInfo.length,
         firstName: state.fname,
         lastName: state.lname,
-        familtyTypeId: parseInt(state.famType) ,
-        personId:0,
+        familtyTypeId: parseInt(state.famType),
+        personId: 0,
       },
     ]);
   };
@@ -116,22 +125,22 @@ const FamilyInformation = forwardRef((props, ref) => {
     setFamiliesInfo(array);
     // dispatch(deletefamilyActions.deleteFamily(pos));
   };
-const removeFamilyFromState = (index) => {
+  const removeFamilyFromState = (index) => {
     var array = [...familiesInfo];
     array.splice(index, 1);
     setFamiliesInfo(array);
   };
 
-  const editFamilyMember = (familyid,index) => {
+  const editFamilyMember = (familyid, index) => {
     let editableFamilyInfo = getIndex(familyid);
     setEditdata((prevState) => ({
       ...prevState,
-      id:editableFamilyInfo.id,
+      id: editableFamilyInfo.id,
       fName: editableFamilyInfo.firstName,
       lName: editableFamilyInfo.lastName,
       idCardNum: editableFamilyInfo.id,
-      famType:parseInt( editableFamilyInfo.familtyTypeId),
-      personId:editableFamilyInfo.personId,
+      famType: parseInt(editableFamilyInfo.familtyTypeId),
+      personId: editableFamilyInfo.personId,
     }));
     removeFamilyFromState(index);
     setMoreFamily(true);
@@ -139,15 +148,15 @@ const removeFamilyFromState = (index) => {
   };
   const saveEdited = async (id) => {
     setIsEdit(false);
-    
+
     await setFamiliesInfo([
       ...familiesInfo,
       {
-        id:editdata.id,
+        id: editdata.id,
         firstName: editdata.fName,
         lastName: editdata.lName,
         familtyTypeId: parseInt(editdata.famType),
-        personId:editdata.personId,
+        personId: editdata.personId,
       },
     ]);
   };
