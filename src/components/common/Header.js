@@ -42,18 +42,35 @@ const NavbarPage = (props) => {
     'font-weight': '400',
   };
   let token = localStorage.userToken;
+  let firstName;
+  let middelName;
+  let lastName;
 
   const checkToken = useSelector((state) => state.userData);
+  if(localStorage.logedInUsedData){
+    var retrievpersonalDetail = localStorage.getItem('logedInUsedData');
+
+    let personalDetail = JSON.parse(retrievpersonalDetail);
+     firstName = personalDetail.firstName;
+     lastName = personalDetail.lastName;
+  }
 
   const authLinks = (
     <div>
-      <ul className="navbar-nav ml-auto">
+      <div class="loyalty-bar__menu-left user-information">
+  <span class="d-none d-lg-inline-block">Welcome,</span> <strong class="font-medium user mr-5">{firstName}  {lastName}</strong> 
+        <span class="d-none d-lg-inline-block"><ul className="navbar-nav ml-auto">
         <li className="nav-item">
+       
           <a className="nav-link" href="#" onClick={logout}>
-            Log out
+          <i class="fas fa-sign-out-alt"></i>  <strong>Log out</strong>  
           </a>
         </li>
-      </ul>
+      </ul></span>
+        
+      
+      </div>
+    
     </div>
   );
 
@@ -65,7 +82,7 @@ const NavbarPage = (props) => {
         </Link>
       </li>
       <li className="nav-item">
-        <Link className="nav-link" to="/SignIn">
+        <Link className="nav-link " to="/SignIn">
           Log In
         </Link>
       </li>

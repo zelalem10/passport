@@ -11,7 +11,7 @@ import RescheduleAppointment from './Rescheduleappointment/appointmentDate';
 import { useHistory } from "react-router-dom";
 
 function ApplicationList() {
-  const accesstoken = localStorage.systemToken;
+  const accesstoken = localStorage.userToken;
   const dispatch = useDispatch();
   const config = {
     headers: {
@@ -27,6 +27,7 @@ function ApplicationList() {
   const [numOfApplicants, setNumOfApplicants] = useState(0);
   const [handleDisplayId, sethandleDisplayId] = useState('');
   const [loading, setloading] = useState(true);
+  const [Message, setMessage] = useState(false);
   let history = useHistory();
 
   const handleDisplay = (id) => {
@@ -55,23 +56,34 @@ function ApplicationList() {
     setOpen(false);
   }
   useEffect(() => {
-    axios
-      .get(
-        'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/GetAllRequests',
-        config
-      )
+    axios({    
+      headers: { 'Authorization': 'Bearer ' + accesstoken },
+      method: 'get',
+      url: 'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/GetAllRequests',
+    })
       .then((Response) => {
+  debugger;
         setloading(false);
         setusers(Response.data.serviceResponseList);
         dispatch(addApplicationList(Response.data.serviceResponseList));
-      });
-  }, []);
+        let errorname = Response.data.message
+        console.log(errorname);
+        if(Response.data.message){
+          setMessage(true)
+        }
+        
+       
+      })
+      .catch(err => {
+        setloading(false);
+
+    }) ;
+  },[]);
 
       //cancel a single schedule
       function cancelSchedule(requestId) {
         debugger;
          axios({
-          
           headers: { 'Authorization': 'Bearer ' + accesstoken },
           method: 'post',
           url: 'https://epassportservices.azurewebsites.net//Schedule/api/V1.0/Schedule/CancelAppointment',
@@ -103,6 +115,8 @@ function ApplicationList() {
         handleEdit={handleEdit}
         handleReschedule={handleReschedule}
         loading={loading}
+        Message={Message}
+        
       />
     );
   } else if (displayRequestId && isEdit && !isGroup) {
