@@ -27,7 +27,7 @@ import FamilyInformation from './family/familyInformation';
 import { useDispatch, useSelector } from 'react-redux';
 
 import API from '../../Utils/API';
-import { MDBContainer, MDBCard } from 'mdbreact';
+import { MDBContainer, MDBCard, MDBAlert } from 'mdbreact';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,6 +53,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   const classes = useStyles();
 
   const [activeStep, setActiveStep] = useState(0);
+  const [displayAlert, setDisplayAlert] = useState('');
 
   const steps = getSteps();
 
@@ -147,7 +148,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
           occupation: personalInfo ? personalInfo.occupation : null,
 
-          halfCast: personalInfo ? personalInfo.halfCast : null,
+          isHalfCast: personalInfo ? personalInfo.isHalfCast : null,
 
           enrolmentDate: personalInfo ? personalInfo.enrolmentDate : null,
 
@@ -166,6 +167,13 @@ export default function HorizontalLabelPositionBelowStepper(props) {
           isUnder18: true,
 
           isAdoption: true,
+          passportNumber: travelPlanInfo.passportNumber,
+          issueDate: travelPlanInfo.issueDate,
+          expireDate: travelPlanInfo.expirationDate,
+          passportType: travelPlanInfo.passportType,
+          isDatacorrected: travelPlanInfo.isDatacorrected,
+          pageQuantity: travelPlanInfo.pageQuantity,
+          nationality: 1,
 
           address: {
             personId: personalInformation.id,
@@ -199,7 +207,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
         },
       ],
     };
-
+    debugger;
     API.put(
       'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/UpdateRequest',
       requestBody,
@@ -208,10 +216,12 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
       .then((todo) => {
         console.log(todo);
+        setDisplayAlert('successfully updated the request');
       })
 
       .catch((err) => {
         console.log('AXIOS ERROR: ', err);
+        setDisplayAlert('error : ' + err.message);
       });
   };
 
@@ -245,6 +255,13 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             ref={childRef}
             flightData={personalInformation.flightDate}
             flightNumber={personalInformation.flightNumber}
+            filledBy={personalInformation.filledBy}
+            pageQuantity={personalInformation.pageQuantity}
+            passportType={personalInformation.passportType}
+            passportNumber={personalInformation.passportNumber}
+            expirationDate={personalInformation.expireDate}
+            issueDate={personalInformation.issueDate}
+            isDatacorrected={personalInformation.isDatacorrected}
           />
         );
 
@@ -309,6 +326,9 @@ export default function HorizontalLabelPositionBelowStepper(props) {
         </div>
       </div>
       <MDBCard style={{ marginBottom: '1rem' }}>
+        {displayAlert ? (
+          <MDBAlert color="success">{displayAlert}</MDBAlert>
+        ) : null}
         <div className={classes.root} style={{ marginBottom: '5rem' }}>
           <Stepper activeStep={activeStep} alternativeLabel>
             {steps.map((label) => (

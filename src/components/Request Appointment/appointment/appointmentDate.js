@@ -29,6 +29,7 @@ const MyApp = forwardRef((props, ref) => {
     key: '',
     active: false,
   });
+  const [showAlert, setShowAlert] = useState('');
   const [newAppointment, setNewAppointment] = useState();
   const [newDisplayTime, setNewDisplayTime] = useState('');
   const counter = useSelector((state) => state);
@@ -89,6 +90,8 @@ const MyApp = forwardRef((props, ref) => {
           dispatch(addAppointmentDate(response.data));
         })
         .catch((error) => {
+          debugger;
+          setShowAlert(error.message);
           console.log('error' + error);
         });
     },

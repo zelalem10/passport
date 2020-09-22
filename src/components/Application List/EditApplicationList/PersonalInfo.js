@@ -41,7 +41,7 @@ const PersonalInfo = forwardRef((props, ref) => {
     hairColor: personalInformation.hairColor,
     communicationMethod: personalInformation.communicationMethod,
     occupation: personalInformation.occupation,
-    halfCast: personalInformation.halfCast,
+    isHalfCast: personalInformation.isHalfCast,
     enrolmentDate: personalInformation.enrolmentDate,
     nationality: personalInformation.nationality,
     dataSaved: false,
@@ -65,6 +65,12 @@ const PersonalInfo = forwardRef((props, ref) => {
     },
   }));
 
+  const handleCheck = (name, checked) => {
+    setPersonalInfo((prevState) => ({
+      ...prevState,
+      [name]: checked,
+    }));
+  };
   const handleChange = (event) => {
     debugger;
     const { name, value } = event.target;
@@ -92,7 +98,7 @@ const PersonalInfo = forwardRef((props, ref) => {
       eyeColor: prevInfo ? prevInfo.eyeColor : null,
       hairColor: prevInfo ? prevInfo.hairColor : null,
       occupation: prevInfo ? prevInfo.occupation : null,
-      halfCast: prevInfo ? prevInfo.halfCast : null,
+      isHalfCast: prevInfo ? prevInfo.isHalfCast : null,
       birthPlace: prevInfo ? prevInfo.birthPlace : null,
       enrolmentDate: prevInfo ? new Date(prevInfo.enrolmentDate) : null,
       nationality: prevInfo ? prevInfo.nationality : null,
@@ -151,35 +157,22 @@ const PersonalInfo = forwardRef((props, ref) => {
               </MDBCol>
               <MDBCol className="date-picker">
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  {/* <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
+                  <KeyboardDatePicker
                     margin="normal"
-                    id="date-picker-inline"
+                    id="date-picker-dialog"
                     label="Date of birth"
+                    format="MM/dd/yyyy"
                     value={selectedDate}
                     onChange={handleDateChange}
                     KeyboardButtonProps={{
                       'aria-label': 'change date',
                     }}
-                  /> */}
-                  <KeyboardDatePicker
-          margin="normal"
-          id="date-picker-dialog"
-          label="Date of birth"
-          format="MM/dd/yyyy"
-          value={selectedDate}
-          onChange={handleDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        />
+                  />
                 </MuiPickersUtilsProvider>
               </MDBCol>
               <MDBCol>
                 <MDBInput
-                  label="Height"
+                  label="Height(cm)"
                   group
                   type="text"
                   name="height"
@@ -204,17 +197,21 @@ const PersonalInfo = forwardRef((props, ref) => {
                 />
               </MDBCol>
               <MDBCol>
-                <MDBInput
-                  label="Birth Place"
-                  group
-                  type="text"
-                  name="birthPlace"
-                  validate
-                  error="wrong"
-                  success="right"
-                  valueDefault={prevInfo ? prevInfo.birthPlace : null}
-                  onChange={handleChange}
-                />
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    defaultValue={prevInfo ? prevInfo.isHalfCast : false}
+                    name="isHalfCast"
+                    id="isHalfCast"
+                    onChange={(e) =>
+                      handleCheck('isHalfCast', e.target.checked)
+                    }
+                  />
+                  <label class="custom-control-label" for="isHalfCast">
+                    Is Halfcast
+                  </label>
+                </div>
               </MDBCol>
             </MDBCol>
             <MDBCol md="4">
@@ -255,14 +252,14 @@ const PersonalInfo = forwardRef((props, ref) => {
               </MDBCol>
               <MDBCol>
                 <MDBInput
-                  label="Half Cast"
+                  label="Birth Place"
                   group
                   type="text"
-                  name="halfCast"
+                  name="birthPlace"
                   validate
                   error="wrong"
                   success="right"
-                  valueDefault={prevInfo ? prevInfo.halfCast : null}
+                  valueDefault={prevInfo ? prevInfo.birthPlace : null}
                   onChange={handleChange}
                 />
               </MDBCol>
@@ -333,17 +330,17 @@ const PersonalInfo = forwardRef((props, ref) => {
                       'aria-label': 'change date',
                     }}
                   /> */}
-                     <KeyboardDatePicker
-          margin="normal"
-          id="date-picker-dialog"
-          label="Enrollment Date"
-          format="MM/dd/yyyy"
-          value={selectedEnrollmentDate}
-          onChange={handleEnrollmentDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        />
+                  <KeyboardDatePicker
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="Enrollment Date"
+                    format="MM/dd/yyyy"
+                    value={selectedEnrollmentDate}
+                    onChange={handleEnrollmentDateChange}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
                 </MuiPickersUtilsProvider>
               </MDBCol>
               <MDBCol>
