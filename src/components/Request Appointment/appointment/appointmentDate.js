@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { MDBContainer, MDBRow, MDBCol,MDBAlert } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, MDBAlert } from 'mdbreact';
 import axios from 'axios';
 import AvailableTimeSlot from './appointmetTimeSlots';
 import './disabledates.css';
@@ -15,8 +15,6 @@ function MyApp() {
   const [availableDatess, setAvailableDates] = useState([]);
   const [key, setKey] = useState();
   const [availableTimes, setAvailableTimes] = useState([]);
-    
-    
 
   const [timeSlots, setTimeSlots] = useState([]);
   const [showAvailableTimeSlots, setShowAvailableTimeSlots] = useState(false);
@@ -25,18 +23,28 @@ function MyApp() {
     key: '',
     active: false,
   });
-   const [newAppointment, setNewAppointment] = useState();
+  const [newAppointment, setNewAppointment] = useState();
   const [newDisplayTime, setNewDisplayTime] = useState('');
-const counter = useSelector((state) => state);
+  const counter = useSelector((state) => state);
 
   const toggleClass = (e) => {
     const currentState =
       e.target.className === 'btn_select active' ? true : false;
     setActiveTImeSlot({ key: e.target.id, active: !currentState });
   };
- const saveNewAppointment = () => {
-   debugger;
-   let requestId=counter.request[counter.request.length-1].requestId;
+  const tokenValue = () => {
+    const UserToken = localStorage.userToken;
+
+    if (UserToken) {
+      return UserToken;
+    } else {
+      const SystemToken = localStorage.systemToken;
+      return SystemToken;
+    }
+  };
+  const token = tokenValue();
+  const saveNewAppointment = () => {
+    let requestId = counter.request[counter.request.length - 1].requestId;
     let formatedYear = state.date.getFullYear();
     let formatedMonth = (1 + state.date.getMonth()).toString();
     formatedMonth =
@@ -46,20 +54,20 @@ const counter = useSelector((state) => state);
     let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
     axios({
       headers: {
-        Authorization: 'Bearer ' + accesstoken,
+        Authorization: 'Bearer ' + token,
       },
       method: 'post',
       url: baseUrl + '/Schedule/api/V1.0/Schedule/SubmitAppointment',
       data: {
-  id: 0,
-  date: stringDateValue,
-  requestId: requestId,
-  durationId: parseInt(selectTime) ,
+        id: 0,
+        date: stringDateValue,
+        requestId: requestId,
+        durationId: parseInt(selectTime),
         dateTimeFormat: 'yyyy-MM-dd',
       },
     })
       .then((response) => {
-          let newdate = new Date(response.data.date);
+        let newdate = new Date(response.data.date);
         let newYear = newdate.getFullYear();
         let newMonth = (1 + newdate.getMonth()).toString();
         newMonth = newMonth.length > 1 ? newMonth : '0' + newMonth;
@@ -72,8 +80,6 @@ const counter = useSelector((state) => state);
           response.data.duration.isMorning ? 'AM' : 'PM'
         } 
         `);
-        
-        
       })
       .catch((error) => {
         console.log('error' + error);
@@ -81,7 +87,6 @@ const counter = useSelector((state) => state);
   };
 
   const dispatch = useDispatch();
-  const accesstoken = localStorage.systemToken;
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
   const availableDates = [];
   let advancedRestrictionData = {};
@@ -97,7 +102,7 @@ const counter = useSelector((state) => state);
   useEffect((two = 2) => {
     axios({
       headers: {
-        Authorization: 'Bearer ' + accesstoken,
+        Authorization: 'Bearer ' + token,
       },
       method: 'get',
       url: baseUrl + '/Master/api/V1.0/AdvancedRestriction/GetAll',
@@ -108,7 +113,7 @@ const counter = useSelector((state) => state);
         setResponse(response.data.advancedRestrictions[0]);
         const headers = {
           'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + accesstoken,
+          Authorization: 'Bearer ' + token,
         };
         axios({
           headers: headers,
@@ -242,7 +247,9 @@ const counter = useSelector((state) => state);
       <MDBContainer className=" pt-3" fluid>
         <h2 className="h1">Appointment - Date and Time</h2>
         {newAppointment ? (
-          <MDBAlert color="success">Your Appointment - {newDisplayTime}</MDBAlert>
+          <MDBAlert color="success">
+            Your Appointment - {newDisplayTime}
+          </MDBAlert>
         ) : null}
         <MDBRow key={key}>
           <MDBCol md="6">
@@ -288,7 +295,7 @@ const counter = useSelector((state) => state);
             />
           </MDBCol>
         </MDBRow>
-         <MDBRow>
+        <MDBRow>
           <MDBCol md="6" className="pt-3 center">
             <button
               onClick={saveNewAppointment}

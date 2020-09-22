@@ -8,10 +8,20 @@ import ViewAppointment from './viewAppointment';
 import HorizontalLabelPositionBelowStepper from './EditApplicationList/PersonslInfoStepper';
 import GroupRequestStepper from './EditApplicationList/Group/GroupNavigation';
 import RescheduleAppointment from './Rescheduleappointment/appointmentDate';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
 function ApplicationList() {
-  const accesstoken = localStorage.systemToken;
+  const tokenValue = () => {
+    const UserToken = localStorage.userToken;
+
+    if (UserToken) {
+      return UserToken;
+    } else {
+      const SystemToken = localStorage.systemToken;
+      return SystemToken;
+    }
+  };
+  const accesstoken = tokenValue();
   const dispatch = useDispatch();
   const config = {
     headers: {
@@ -63,30 +73,29 @@ function ApplicationList() {
         setusers(Response.data.serviceResponseList);
         dispatch(addApplicationList(Response.data.serviceResponseList));
       });
-  },[]);
+  }, []);
 
-      //cancel a single schedule
-      function cancelSchedule(requestId) {
-        debugger;
-         axios({
-          
-          headers: { 'Authorization': 'Bearer ' + accesstoken },
-          method: 'post',
-          url: 'https://epassportservices.azurewebsites.net//Schedule/api/V1.0/Schedule/CancelAppointment',
-          params: {"requestId":requestId},
-    
-        })
-         .then(Response => {
-          console.log(Response)
-          setOpen(false);
-          history.push('/Application-List')
+  //cancel a single schedule
+  function cancelSchedule(requestId) {
+    debugger;
+    axios({
+      headers: { Authorization: 'Bearer ' + accesstoken },
+      method: 'post',
+      url:
+        'https://epassportservices.azurewebsites.net//Schedule/api/V1.0/Schedule/CancelAppointment',
+      params: { requestId: requestId },
+    })
+      .then((Response) => {
+        console.log(Response);
+        setOpen(false);
+        history.push('/Application-List');
       })
-      .catch(err => {
-       console.log(err);
-       setOpen(false);
-       history.push('/Application-List')
-   }) 
-    }
+      .catch((err) => {
+        console.log(err);
+        setOpen(false);
+        history.push('/Application-List');
+      });
+  }
   if (handleDisplayId) {
     return <RescheduleAppointment handleDisplayId={handleDisplayId} />;
   } else if (!displayRequestId && !isEdit) {

@@ -8,7 +8,7 @@ function SystemToken() {
       url:
         'https://epassportservices.azurewebsites.net/User/api/V1.0/Account/SignIn',
       data: {
-        username: 'Admin',
+        username: 'admin@gmail.com',
         password: 'Abcd@1234',
       },
     })
