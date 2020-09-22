@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useImperativeHandle,
+  forwardRef,
+} from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { MDBContainer, MDBRow, MDBCol, MDBAlert } from 'mdbreact';
@@ -8,7 +13,7 @@ import './disabledates.css';
 import { useDispatch, useSelector } from 'react-redux';
 import addAppointmentDate from '../../../redux/actions/addAppointmetntDate';
 
-function MyApp() {
+const MyApp = forwardRef((props, ref) => {
   const [state, setState] = useState({ date: new Date(), time: '' });
   const [respone, setResponse] = useState({});
   const [disabledDate, setDisabledDate] = useState([]);
@@ -19,6 +24,7 @@ function MyApp() {
   const [timeSlots, setTimeSlots] = useState([]);
   const [showAvailableTimeSlots, setShowAvailableTimeSlots] = useState(false);
   const [selectTime, setSelectTime] = useState();
+  const [formCompleted, setFormCompleted] = useState(true);
   const [activeTimeSlot, setActiveTImeSlot] = useState({
     key: '',
     active: false,
@@ -43,48 +49,53 @@ function MyApp() {
     }
   };
   const token = tokenValue();
-  const saveNewAppointment = () => {
-    let formatedYear = state.date.getFullYear();
-    let formatedMonth = (1 + state.date.getMonth()).toString();
-    formatedMonth =
-      formatedMonth.length > 1 ? formatedMonth : '0' + formatedMonth;
-    let formatedDay = state.date.getDate().toString();
-    formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
-    let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
-    axios({
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
-      method: 'post',
-      url: baseUrl + '/Schedule/api/V1.0/Schedule/SubmitAppointment',
-      data: {
-        id: 0,
-        date: stringDateValue,
-        durationId: parseInt(selectTime),
-        dateTimeFormat: 'yyyy-MM-dd',
-      },
-    })
-      .then((response) => {
-        debugger;
-        let newdate = new Date(response.data.date);
-        let newYear = newdate.getFullYear();
-        let newMonth = (1 + newdate.getMonth()).toString();
-        newMonth = newMonth.length > 1 ? newMonth : '0' + newMonth;
-        let newDay = newdate.getDate().toString();
-        newDay = newDay.length > 1 ? newDay : '0' + newDay;
-        setNewAppointment(newdate);
-        setNewDisplayTime(`${newdate.toISOString().substr(0, 10)} ${
-          response.data.duration.startTime
-        } - ${response.data.duration.endTime} ${
-          response.data.duration.isMorning ? 'AM' : 'PM'
-        } 
-        `);
-        dispatch(addAppointmentDate(response.data));
+  useImperativeHandle(ref, () => ({
+    saveData() {
+      let formatedYear = state.date.getFullYear();
+      let formatedMonth = (1 + state.date.getMonth()).toString();
+      formatedMonth =
+        formatedMonth.length > 1 ? formatedMonth : '0' + formatedMonth;
+      let formatedDay = state.date.getDate().toString();
+      formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
+      let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
+      axios({
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+        method: 'post',
+        url: baseUrl + '/Schedule/api/V1.0/Schedule/SubmitAppointment',
+        data: {
+          id: 0,
+          date: stringDateValue,
+          durationId: parseInt(selectTime),
+          dateTimeFormat: 'yyyy-MM-dd',
+        },
       })
-      .catch((error) => {
-        console.log('error' + error);
-      });
-  };
+        .then((response) => {
+          debugger;
+          let newdate = new Date(response.data.date);
+          let newYear = newdate.getFullYear();
+          let newMonth = (1 + newdate.getMonth()).toString();
+          newMonth = newMonth.length > 1 ? newMonth : '0' + newMonth;
+          let newDay = newdate.getDate().toString();
+          newDay = newDay.length > 1 ? newDay : '0' + newDay;
+          setNewAppointment(newdate);
+          setNewDisplayTime(`${newdate.toISOString().substr(0, 10)} ${
+            response.data.duration.startTime
+          } - ${response.data.duration.endTime} ${
+            response.data.duration.isMorning ? 'AM' : 'PM'
+          } 
+        `);
+          dispatch(addAppointmentDate(response.data));
+        })
+        .catch((error) => {
+          console.log('error' + error);
+        });
+    },
+    isCompleted() {
+      return formCompleted;
+    },
+  }));
 
   const dispatch = useDispatch();
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
@@ -293,7 +304,7 @@ function MyApp() {
             />
           </MDBCol>
         </MDBRow>
-        <MDBRow>
+        {/* <MDBRow>
           <MDBCol md="6" className="pt-3 center">
             <button
               onClick={saveNewAppointment}
@@ -303,9 +314,9 @@ function MyApp() {
               Save New Date Time
             </button>
           </MDBCol>
-        </MDBRow>
+        </MDBRow> */}
       </MDBContainer>
     </div>
   );
-}
+});
 export default MyApp;
