@@ -34,7 +34,7 @@ const NavbarPage = (props) => {
     localStorage.removeItem('userToken');
     localStorage.removeItem('personalDetail');
     localStorage.removeItem('userId');
-    history.push('/signIn')
+    history.push('/signIn');
   }
 
   let style = {
@@ -94,6 +94,9 @@ const NavbarPage = (props) => {
         <MDBContainer fluid style={{ width: '80%' }}>
           <MDBNavbarNav left>
             <div class="row">
+              {/* <div class="col-md-3">
+                <h1 className="header-title">ePassport</h1>
+              </div> */}
               <div class="col-md-3">
                 <Link to="/">
                   <img
@@ -157,11 +160,11 @@ const NavbarPage = (props) => {
                 <MDBNavLink to="/service">Service</MDBNavLink>
               </MDBNavItem>
 
-              <MDBNavItem
+              {/* <MDBNavItem
                 className={navPath == '/check-status' ? 'active' : ''}
               >
                 <MDBNavLink to="/check-status">Check Status</MDBNavLink>
-              </MDBNavItem>
+              </MDBNavItem> */}
               <MDBNavItem className={navPath == '/Status' ? 'active' : ''}>
                 <MDBNavLink to="/Status">Status</MDBNavLink>
               </MDBNavItem>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
-import { MDBBtn, MDBInput, MDBCard, MDBCardHeader, MDBContainer, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBRow } from 'mdbreact';
+import { MDBBtn, MDBInput,MDBListGroup ,MDBListGroupItem, MDBBadge, MDBCard, MDBCardHeader, MDBContainer, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBRow } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addPaymentOptionId from '../../redux/actions/addPaymentOptionIdAction';
 
@@ -17,20 +17,20 @@ const useStyles = makeStyles({
         //background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
     },
 });
-function requestTypeGetter(requetTypeId){
-    switch(requetTypeId){
-      case 2:
-        return "New"
-      case 3:
-        return "Renew/Replacement"
-      case 4:
-        return "Lost"
-      case 8:
-        return "Correction"
-      default:
-        return "Unkown"
+function requestTypeGetter(requetTypeId) {
+    switch (requetTypeId) {
+        case 2:
+            return "New"
+        case 3:
+            return "Renew/Replacement"
+        case 4:
+            return "Lost"
+        case 8:
+            return "Correction"
+        default:
+            return "Unkown"
     }
-  }
+}
 const PaymentSelection = forwardRef((props, ref) => {
     const [selectedOption, setSelectedOption] = useState();
     const [optionSelected, setOptionSelected] = useState(false);
@@ -47,8 +47,8 @@ const PaymentSelection = forwardRef((props, ref) => {
     const accesstoken = localStorage.systemToken;
     const serviceSelcetion = counter.service[counter.service.length - 1];
     const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
-    const requestType= serviceSelcetion.appointemntType;
-    const requestTypeStr=requestTypeGetter(requestType);
+    const requestType = serviceSelcetion.appointemntType;
+    const requestTypeStr = requestTypeGetter(requestType);
     const config = {
         headers: { Authorization: "Bearer " + accesstoken }
     };
@@ -93,8 +93,8 @@ const PaymentSelection = forwardRef((props, ref) => {
                 return <Response instruction={instruction} message={message} status={status} />
         }
     }
-    function getImageURL(id){
-        switch(id){
+    function getImageURL(id) {
+        switch (id) {
             case 2:
                 return "https://b2cappdevstorageaccount.blob.core.windows.net/payment-icons/cbe-logo.png"
             case 4:
@@ -141,20 +141,20 @@ const PaymentSelection = forwardRef((props, ref) => {
                         <MDBCardBody>
                             <MDBRow>
                                 {paymentOptions.map((paymentOption) =>
-                                    <MDBCol md="4">
+                                    <MDBCol md="4" style={{ marginTop: "2rem" }}>
                                         <MDBCard className={selectedOption === paymentOption.id ? classes.root : ""}
                                             style={{ marginBottom: "5px" }} onClick={() => handelClick(paymentOption.id)}>
-                                            <MDBCardImage className="img-fluid" style={{ height: "80px", width:"100%"  }} src={getImageURL(paymentOption.id)}
+                                            <MDBCardImage className="img-fluid" style={{ height: "80px", width: "100%" }} src={paymentOption.imageUrl}
                                                 waves />
                                             {/* <MDBCardBody> */}
                                             <MDBCardTitle>
                                                 <MDBRow>
                                                     <MDBCol md="4"></MDBCol>
                                                     <MDBCol md="8">
-                                                    {paymentOption.name}
+                                                        {paymentOption.name}
                                                     </MDBCol>
                                                 </MDBRow>
-                                                </MDBCardTitle>
+                                            </MDBCardTitle>
                                             {/* <MDBCardText>{paymentOption.instruction}</MDBCardText> */}
                                             {/* </MDBCardBody> */}
                                             {/* <MDBBtn onClick={() => getSelectedOption(paymentOption.id)}>Select</MDBBtn> */}
@@ -185,36 +185,22 @@ const PaymentSelection = forwardRef((props, ref) => {
                                 data-events="mutate"
                             >
                                 <div class="sidebar__box sidebar__box--border ng-star-inserted">
-                                    <h4>Pricing Details</h4>
-                                    <ul class="vertical-margin-0">
-                                        <li>
-                                            <ul class="list--no-bullets list--single-line list--border">
-                                                <li>
-                                                    <strong>
-                                                        Request type:&nbsp;&nbsp;<a href="#">{requestTypeStr}{' '}</a>
-                                                    </strong>
-                                                </li>
-                                                <hr />
-                                                <li>
-                                                    <strong>
-                                                        Request Mode:&nbsp;&nbsp;<a href="#">{serviceSelcetion.isUrgent?"Urgent":"Normal"}{' '}</a>
-                                                    </strong>
-                                                </li>
-                                                <hr />
-                                                <li>
-                                                    <strong>
-                                                        Price:&nbsp;&nbsp;<a href="#">600{' '}</a>
-                                                    </strong>
-                                                </li>
-                                                <hr />
-                                                <li>
-                                                    <strong>
-                                                        Page quantity:&nbsp;&nbsp;<a href="#">32{' '}</a>
-                                                    </strong>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
+                                    <h4>Pricing Information</h4>
+                                        <MDBListGroup >
+                                            <MDBListGroupItem className="d-flex justify-content-between align-items-center">Request type<MDBBadge color="primary"
+                                                pill>{requestTypeStr}</MDBBadge>
+                                            </MDBListGroupItem>
+                                            <MDBListGroupItem className="d-flex justify-content-between align-items-center">Request Mode<MDBBadge
+                                                color="primary" pill>{serviceSelcetion.isUrgent?"Urgent":"Normal"}</MDBBadge>
+                                            </MDBListGroupItem>
+                                            <MDBListGroupItem className="d-flex justify-content-between align-items-center">Total Price<MDBBadge color="primary"
+                                                pill>600</MDBBadge>
+                                            </MDBListGroupItem>
+                                            <MDBListGroupItem className="d-flex justify-content-between align-items-center">Page quantity<MDBBadge color="primary"
+                                                pill>32</MDBBadge>
+                                            </MDBListGroupItem>
+                                        </MDBListGroup>
+                                    
                                 </div>
                             </aside>
                         </app-right-content>

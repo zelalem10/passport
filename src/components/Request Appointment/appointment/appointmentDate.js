@@ -1,87 +1,103 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useImperativeHandle,
+  forwardRef,
+} from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { MDBContainer, MDBRow, MDBCol,MDBAlert } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, MDBAlert } from 'mdbreact';
 import axios from 'axios';
 import AvailableTimeSlot from './appointmetTimeSlots';
 import './disabledates.css';
 import { useDispatch, useSelector } from 'react-redux';
 import addAppointmentDate from '../../../redux/actions/addAppointmetntDate';
 
-function MyApp() {
+const MyApp = forwardRef((props, ref) => {
   const [state, setState] = useState({ date: new Date(), time: '' });
   const [respone, setResponse] = useState({});
   const [disabledDate, setDisabledDate] = useState([]);
   const [availableDatess, setAvailableDates] = useState([]);
   const [key, setKey] = useState();
   const [availableTimes, setAvailableTimes] = useState([]);
-    
-    
 
   const [timeSlots, setTimeSlots] = useState([]);
   const [showAvailableTimeSlots, setShowAvailableTimeSlots] = useState(false);
   const [selectTime, setSelectTime] = useState();
+  const [formCompleted, setFormCompleted] = useState(true);
   const [activeTimeSlot, setActiveTImeSlot] = useState({
     key: '',
     active: false,
   });
-   const [newAppointment, setNewAppointment] = useState();
+  const [newAppointment, setNewAppointment] = useState();
   const [newDisplayTime, setNewDisplayTime] = useState('');
-const counter = useSelector((state) => state);
+  const counter = useSelector((state) => state);
 
   const toggleClass = (e) => {
     const currentState =
       e.target.className === 'btn_select active' ? true : false;
     setActiveTImeSlot({ key: e.target.id, active: !currentState });
   };
- const saveNewAppointment = () => {
-   debugger;
-   let requestId=counter.request[counter.request.length-1].requestId;
-    let formatedYear = state.date.getFullYear();
-    let formatedMonth = (1 + state.date.getMonth()).toString();
-    formatedMonth =
-      formatedMonth.length > 1 ? formatedMonth : '0' + formatedMonth;
-    let formatedDay = state.date.getDate().toString();
-    formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
-    let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
-    axios({
-      headers: {
-        Authorization: 'Bearer ' + accesstoken,
-      },
-      method: 'post',
-      url: baseUrl + '/Schedule/api/V1.0/Schedule/SubmitAppointment',
-      data: {
-  id: 0,
-  date: stringDateValue,
-  requestId: requestId,
-  durationId: parseInt(selectTime) ,
-        dateTimeFormat: 'yyyy-MM-dd',
-      },
-    })
-      .then((response) => {
-          let newdate = new Date(response.data.date);
-        let newYear = newdate.getFullYear();
-        let newMonth = (1 + newdate.getMonth()).toString();
-        newMonth = newMonth.length > 1 ? newMonth : '0' + newMonth;
-        let newDay = newdate.getDate().toString();
-        newDay = newDay.length > 1 ? newDay : '0' + newDay;
-        setNewAppointment(newdate);
-        setNewDisplayTime(`${newdate.toISOString().substr(0, 10)} ${
-          response.data.duration.startTime
-        } - ${response.data.duration.endTime} ${
-          response.data.duration.isMorning ? 'AM' : 'PM'
-        } 
-        `);
-        
-        
-      })
-      .catch((error) => {
-        console.log('error' + error);
-      });
+  const tokenValue = () => {
+    const UserToken = localStorage.userToken;
+
+    if (UserToken) {
+      return UserToken;
+    } else {
+      const SystemToken = localStorage.systemToken;
+      return SystemToken;
+    }
   };
+  const token = tokenValue();
+  useImperativeHandle(ref, () => ({
+    saveData() {
+      let formatedYear = state.date.getFullYear();
+      let formatedMonth = (1 + state.date.getMonth()).toString();
+      formatedMonth =
+        formatedMonth.length > 1 ? formatedMonth : '0' + formatedMonth;
+      let formatedDay = state.date.getDate().toString();
+      formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
+      let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
+      axios({
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+        method: 'post',
+        url: baseUrl + '/Schedule/api/V1.0/Schedule/SubmitAppointment',
+        data: {
+          id: 0,
+          date: stringDateValue,
+          durationId: parseInt(selectTime),
+          dateTimeFormat: 'yyyy-MM-dd',
+        },
+      })
+        .then((response) => {
+          debugger;
+          let newdate = new Date(response.data.date);
+          let newYear = newdate.getFullYear();
+          let newMonth = (1 + newdate.getMonth()).toString();
+          newMonth = newMonth.length > 1 ? newMonth : '0' + newMonth;
+          let newDay = newdate.getDate().toString();
+          newDay = newDay.length > 1 ? newDay : '0' + newDay;
+          setNewAppointment(newdate);
+          setNewDisplayTime(`${newdate.toISOString().substr(0, 10)} ${
+            response.data.duration.startTime
+          } - ${response.data.duration.endTime} ${
+            response.data.duration.isMorning ? 'AM' : 'PM'
+          } 
+        `);
+          dispatch(addAppointmentDate(response.data));
+        })
+        .catch((error) => {
+          console.log('error' + error);
+        });
+    },
+    isCompleted() {
+      return formCompleted;
+    },
+  }));
 
   const dispatch = useDispatch();
-  const accesstoken = localStorage.systemToken;
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
   const availableDates = [];
   let advancedRestrictionData = {};
@@ -92,12 +108,11 @@ const counter = useSelector((state) => state);
     setState({ ...state, time: e.target.value });
     setSelectTime(e.target.id);
     toggleClass(e);
-    dispatch(addAppointmentDate({ ...state, time: e.target.id }));
   };
   useEffect((two = 2) => {
     axios({
       headers: {
-        Authorization: 'Bearer ' + accesstoken,
+        Authorization: 'Bearer ' + token,
       },
       method: 'get',
       url: baseUrl + '/Master/api/V1.0/AdvancedRestriction/GetAll',
@@ -108,7 +123,7 @@ const counter = useSelector((state) => state);
         setResponse(response.data.advancedRestrictions[0]);
         const headers = {
           'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + accesstoken,
+          Authorization: 'Bearer ' + token,
         };
         axios({
           headers: headers,
@@ -205,7 +220,6 @@ const counter = useSelector((state) => state);
     debugger;
     setState({ ...state, date: date });
     showTimeSlots(date);
-    dispatch(addAppointmentDate({ ...state, date: date }));
   };
   const showTimeSlots = (date) => {
     let timeSlotsForSpecificDate = [];
@@ -242,7 +256,9 @@ const counter = useSelector((state) => state);
       <MDBContainer className=" pt-3" fluid>
         <h2 className="h1">Appointment - Date and Time</h2>
         {newAppointment ? (
-          <MDBAlert color="success">Your Appointment - {newDisplayTime}</MDBAlert>
+          <MDBAlert color="success">
+            Your Appointment - {newDisplayTime}
+          </MDBAlert>
         ) : null}
         <MDBRow key={key}>
           <MDBCol md="6">
@@ -288,7 +304,7 @@ const counter = useSelector((state) => state);
             />
           </MDBCol>
         </MDBRow>
-         <MDBRow>
+        {/* <MDBRow>
           <MDBCol md="6" className="pt-3 center">
             <button
               onClick={saveNewAppointment}
@@ -298,9 +314,9 @@ const counter = useSelector((state) => state);
               Save New Date Time
             </button>
           </MDBCol>
-        </MDBRow>
+        </MDBRow> */}
       </MDBContainer>
     </div>
   );
-}
+});
 export default MyApp;
