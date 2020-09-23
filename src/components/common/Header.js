@@ -67,7 +67,7 @@ const NavbarPage = (props) => {
           </a>
         </li>
       </ul></span>
-        
+       
       
       </div>
     
