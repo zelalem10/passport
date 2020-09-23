@@ -24,7 +24,8 @@ const config = {
 
 const PersonalInfo = forwardRef((props, ref) => {
   const { personalInformation } = props;
-  console.log(personalInformation);
+
+
   const [personalInfo, setPersonalInfo] = useState({
     id: personalInformation.id,
     firstName: personalInformation.firstName,
@@ -46,6 +47,7 @@ const PersonalInfo = forwardRef((props, ref) => {
     nationality: personalInformation.nationality,
     dataSaved: false,
   });
+
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const personRef = React.useRef();

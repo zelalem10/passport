@@ -51,14 +51,14 @@ export default function HorizontalLabelPositionBelowStepper() {
       activeStep == 3
     ) {
       childRef.current.saveData();
-      const isVilid = childRef.current.Validate();
-      if (isVilid == true) {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      }
-    } else {
-      childRef.current.saveData();
+      // const isVilid = childRef.current.Validate();
+      // if (isVilid == true) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
+    // } else {
+    //   childRef.current.saveData();
+    //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    // }
   };
 
   const handleBack = () => {
@@ -162,6 +162,7 @@ export default function HorizontalLabelPositionBelowStepper() {
           },
         ],
       };
+      debugger;
       API.post(
         'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest',
         requestBody,
