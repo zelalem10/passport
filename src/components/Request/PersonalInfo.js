@@ -97,6 +97,7 @@ const PersonalInfo = forwardRef((props, ref) => {
             if (notCompleted.firstName == true || notCompleted.lastName || notCompleted.middleName == true
                 || notCompleted.birthDate == true || notCompleted.geezFirstName == true || notCompleted.geezLastName
                 || notCompleted.geezLastName == true || notCompleted.nationality == true || notCompleted.gender == true
+                || notCompleted.enrolmentDate == true
             )
                 return false;
             else
@@ -328,7 +329,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                                         }}
                                     />
                                 </MuiPickersUtilsProvider >
-                                {/* <span style={{ color: "red" }}> {(notCompleted.enrolmentDate == true && personalInfo.dataSaved == true) ? "Enrollment date " + isRequired : null}</span> */}
+                                <span style={{ color: "red" }}> {(notCompleted.enrolmentDate == true && personalInfo.dataSaved == true) ? "Enrollment date " + isRequired : null}</span>
                             </MDBCol>
                         </MDBRow>
                         <MDBRow>

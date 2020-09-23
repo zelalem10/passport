@@ -44,17 +44,17 @@ export default function HorizontalLabelPositionBelowStepper() {
   const counter = useSelector((state) => state);
   const childRef = useRef();
   const handleNext = () => {
-    if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
-      childRef.current.saveData();
-      const isVilid = childRef.current.Validate();
-      if (isVilid == true) {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      }
-    }
-    else {
+    // if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
+    //   childRef.current.saveData();
+    //   const isVilid = childRef.current.Validate();
+    //   if (isVilid == true) {
+    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    //   }
+    // }
+    // else {
     childRef.current.saveData();
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    }
+    //}
     if (
       activeStep == 0 ||
       activeStep == 1 ||
@@ -132,7 +132,7 @@ export default function HorizontalLabelPositionBelowStepper() {
             hairColor: personalInfo ? personalInfo.hairColor : null,
             occupationId: 1,
             halfCast: personalInfo ? personalInfo.halfCast : null,
-            enrolmentDate: personalInfo ? personalInfo.enrolmentDate : null,
+            enrolmentDate: new Date(),
             birthCertificateId: personalInfo
               ? personalInfo.birthCertificatNo
               : '',
@@ -143,8 +143,8 @@ export default function HorizontalLabelPositionBelowStepper() {
             isUnder18: personalInfo ? personalInfo.isUnder18 : false,
             isAdoption: personalInfo ? personalInfo.isAdoption : false,
             passportNumber: travelPlan ? travelPlan.passportNumber : null,
-            issueDate: travelPlan ? travelPlan.issueDate : new Date(),
-            expireDate: travelPlan ? travelPlan.expirationDate : new Date(),
+            issueDate:  new Date(),
+            expireDate:  new Date(),
             passportType: travelPlan ? travelPlan.passportType : null,
             isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
             pageQuantity: travelPlan
@@ -175,7 +175,7 @@ export default function HorizontalLabelPositionBelowStepper() {
           },
         ],
       };
-      debugger
+      debugger;
       console.log(requestBody)
       API.post(
         'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest',
@@ -183,12 +183,14 @@ export default function HorizontalLabelPositionBelowStepper() {
         config
       )
         .then((todo) => {
-          console.log(
-            todo.data + ' id= ' + todo.data.personResponses[0].requestPersonId
-          );
+          // console.log(
+          //   todo.data + ' id= ' + todo.data.personResponses[0].requestPersonId
+          // );
+          debugger
           setResponseMessage(todo.data.message);
           setResponseAlert(true);
           setIsSuccess(true);
+          console.log(todo.data)
           const commonData = {
             requestPersonId: todo.data.personResponses[0].requestPersonId,
           };
@@ -197,6 +199,7 @@ export default function HorizontalLabelPositionBelowStepper() {
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
         .catch((err) => {
+          debugger
           console.log('AXIOS ERROR: ', err.response);
           setResponseMessage('One or more Errors occured!');
           setResponseAlert(true);
@@ -269,13 +272,14 @@ export default function HorizontalLabelPositionBelowStepper() {
                     Submit
                   </Button>
                 ) : (
-                  <Button
+                  activeStep === steps.length - 1 ?(null):(<Button
                     variant="contained"
                     color="primary"
                     onClick={handleNext}
                   >
                     Next
-                  </Button>
+                  </Button>)
+                  
                 )}
               </Grid>
             </Grid>
