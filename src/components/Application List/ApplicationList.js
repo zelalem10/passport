@@ -11,7 +11,17 @@ import RescheduleAppointment from './Rescheduleappointment/appointmentDate';
 import { useHistory } from "react-router-dom";
 
 function ApplicationList() {
-  const accesstoken = localStorage.userToken;
+  const tokenValue = () => {
+    const UserToken = localStorage.userToken;
+
+    if (UserToken) {
+      return UserToken;
+    } else {
+      const SystemToken = localStorage.systemToken;
+      return SystemToken;
+    }
+  };
+  const accesstoken = tokenValue();
   const dispatch = useDispatch();
   const config = {
     headers: {
