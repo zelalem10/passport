@@ -82,6 +82,9 @@
 }
 }
 
-
+.text-dark {
+    color: black !important;
+    font-weight: 500 !important;
+}
 
 
