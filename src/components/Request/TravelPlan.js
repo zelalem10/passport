@@ -246,12 +246,6 @@ const TravelPlan = forwardRef((props, ref) => {
                   type="text"
                   label="Application filled by"
                 />
-                <span style={{ color: 'red' }}>
-                  {' '}
-                  {notCompleted.filledBy == true && travelPlan.dataSaved == true
-                    ? 'Filled by ' + isRequired
-                    : null}
-                </span>
               </MDBCol>
               <MDBCol className="date-picker">
                 {/* <MDBInput
