@@ -163,7 +163,7 @@ const Fileupload = forwardRef((props, ref) => {
         </div>
             }
             {inputs}
-            <button className="btn btn-primary" type="submit">Upload</button>
+            <button className="btn btn-primary ml-auto" type="submit">Upload</button>
 
           </form>
 

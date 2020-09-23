@@ -15,7 +15,8 @@ import FamilyInformation from './family/familyInformation';
 import { useDispatch, useSelector } from 'react-redux';
 import newRequest from '../../redux/actions/addNewRequestAction';
 import API from '../Utils/API';
-import token from '../common/accessToken'
+import addCommonData from '../../redux/actions/addCommonDataAction';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -75,7 +76,8 @@ export default function HorizontalLabelPositionBelowStepper(props) {
       var addressInfo = counter.address.filter(item => item.applicantNumber == props.applicantNumber)[addressLength - 1];
       const travelPlanLength = counter.travelPlan.filter(item => item.applicantNumber == props.applicantNumber).length;
       const travelPlan = counter.travelPlan.filter(item => item.applicantNumber == props.applicantNumber)[travelPlanLength - 1]
-       const familyLength = counter.familyReducer.filter(function (items) {
+      const appointment=counter.appointmentDate[counter.appointmentDate.length - 1]
+      const familyLength = counter.familyReducer.filter(function (items) {
       for (let item in items) {
         if (items[item].applicantNumber == props.applicantNumber) {
           return items;
@@ -93,6 +95,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
         requestId: 0,
         requestMode: 0,
         requestTypeId: 2,
+        appointmentId:appointment?appointment.id :1,
         userName: '',
         status: 0,
         confirmationNumber: '',
@@ -107,11 +110,11 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             geezLastName: personalInfo ? personalInfo.geezLastName : null,
             dateOfBirth: personalInfo ? personalInfo.birthDate : null,
             gender: personalInfo ? Number.parseInt(personalInfo.gender, 10) : null,
-            nationality: personalInfo ? personalInfo.nationality : null,
+            nationalityId: 1,
             height: personalInfo ? personalInfo.height : null,
             eyeColor: personalInfo ? personalInfo.eyeColor : null,
             hairColor: personalInfo ? personalInfo.hairColor : null,
-            occupation: personalInfo ? personalInfo.occupation : null,
+            occupationId: 1,
             halfCast: personalInfo ? personalInfo.halfCast : null,
             enrolmentDate: personalInfo ? personalInfo.enrolmentDate : null,
             birthCertificateId: personalInfo ? personalInfo.birthCertificatNo : "",
@@ -122,8 +125,8 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             isUnder18: personalInfo ? personalInfo.isUnder18 : false,
             isAdoption: personalInfo ? personalInfo.isAdoption : false,
             passportNumber: travelPlan ? travelPlan.passportNumber : null,
-            issueDate:  travelPlan ? travelPlan.issueDate : null,
-            expireDate:  travelPlan ? travelPlan.expirationDate : null,
+            issueDate:  new Date(),
+            expireDate:  new Date(),
             passportType:  travelPlan ? travelPlan.passportType : null,
             isDatacorrected:  travelPlan ? travelPlan.isDatacorrected : false,
             pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10) : false,
@@ -152,6 +155,10 @@ export default function HorizontalLabelPositionBelowStepper(props) {
       API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest', requestBody, config)
         .then((todo) => {
           dispatch(newRequest(todo.data))
+          const commonData = {
+            requestPersonId: todo.data.personResponses[0].requestPersonId,
+          };
+          dispatch(addCommonData(commonData));
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
         .catch((err) => {
@@ -175,11 +182,11 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             geezLastName: personalInfo ? personalInfo.geezLastName : null,
             dateOfBirth: personalInfo ? personalInfo.birthDate : null,
             gender: personalInfo ? Number.parseInt(personalInfo.gender, 10) : null,
-            nationality: personalInfo ? personalInfo.nationality : null,
+            nationalityId: 1,
             height: personalInfo ? personalInfo.height : null,
             eyeColor: personalInfo ? personalInfo.eyeColor : null,
             hairColor: personalInfo ? personalInfo.hairColor : null,
-            occupation: personalInfo ? personalInfo.occupation : null,
+            occupationId: 1,
             halfCast: personalInfo ? personalInfo.halfCast : null,
             enrolmentDate: personalInfo ? personalInfo.enrolmentDate : null,
             birthCertificateId: personalInfo ? personalInfo.birthCertificatNo : "",
