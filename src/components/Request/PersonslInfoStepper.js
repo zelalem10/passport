@@ -44,32 +44,18 @@ export default function HorizontalLabelPositionBelowStepper() {
   const counter = useSelector((state) => state);
   const childRef = useRef();
   const handleNext = () => {
-    // if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
-    //   childRef.current.saveData();
-    //   const isVilid = childRef.current.Validate();
-    //   if (isVilid == true) {
-    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //   }
-    // }
-    // else {
-    childRef.current.saveData();
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //}
-    if (
-      activeStep == 0 ||
-      activeStep == 1 ||
-      activeStep == 2 ||
-      activeStep == 3
-    ) {
+    if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
       childRef.current.saveData();
       const isVilid = childRef.current.Validate();
       if (isVilid == true) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       }
-    } else {
-      childRef.current.saveData();
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
+    else {
+    childRef.current.saveData();
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
+ 
   };
 
   const handleBack = () => {
@@ -132,7 +118,7 @@ export default function HorizontalLabelPositionBelowStepper() {
             hairColor: personalInfo ? personalInfo.hairColor : null,
             occupationId: 1,
             halfCast: personalInfo ? personalInfo.halfCast : null,
-            enrolmentDate: new Date(),
+            enrolmentDate: personalInfo ? personalInfo.birthDate : null,
             birthCertificateId: personalInfo
               ? personalInfo.birthCertificatNo
               : '',
