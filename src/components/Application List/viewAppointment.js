@@ -68,6 +68,7 @@ export default function ViewAppointment(props) {
   debugger;
   if (personalInfo) {
     if (personalInfo.length === 1) {
+      debugger;
       const personalInformation = displayedApplication.personResponses[0];
       const addressInformation = personalInformation.address;
       const familyInformation = personalInformation.familyResponses;
@@ -426,23 +427,28 @@ export default function ViewAppointment(props) {
               </div>
 
               <div className="col-md-6">
-                <fieldset>
-                  <legend class="text-primary">Family Information</legend>
-                  <hr class="text-primary" />
-                  {familyInformation.map((family) => (
-                    <div class="form-group form-inline">
-                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        {family.familtyType}
-                      </label>
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                      <b>
-                        <label class="font-weight-bold" id="AccommodationTyppe">
-                          {family.firstName + ' ' + family.lastName}
+                {familyInformation.length !== 0 ? (
+                  <fieldset>
+                    <legend class="text-primary">Family Information</legend>
+                    <hr class="text-primary" />
+                    {familyInformation.map((family) => (
+                      <div class="form-group form-inline">
+                        <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                          {family.familtyType}
                         </label>
-                      </b>
-                    </div>
-                  ))}
-                </fieldset>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <b>
+                          <label
+                            class="font-weight-bold"
+                            id="AccommodationTyppe"
+                          >
+                            {family.firstName + ' ' + family.lastName}
+                          </label>
+                        </b>
+                      </div>
+                    ))}
+                  </fieldset>
+                ) : null}
                 <fieldset>
                   <legend class="text-primary">Attachments</legend>
                   <hr class="text-primary" />
