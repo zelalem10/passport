@@ -338,17 +338,20 @@ function RescheduleAppointment(props) {
             />
           </MDBCol>
         </MDBRow>
-        <MDBRow>
-          <MDBCol md="6" className="pt-3 center">
-            <button
-              onClick={saveNewAppointment}
-              type="button"
-              class="btn btn-default btn-lg btn-block"
-            >
-              Save New Date Time
-            </button>
-          </MDBCol>
-        </MDBRow>
+        {selectTime ? (
+          <MDBRow>
+            <MDBCol md="6"></MDBCol>
+            <MDBCol md="6" className="pt-3 text-right save-appointment-btn">
+              <button
+                onClick={saveNewAppointment}
+                type="button"
+                class="btn btn-default text-white btn-block"
+              >
+                Save New Date Time
+              </button>
+            </MDBCol>
+          </MDBRow>
+        ) : null}
       </MDBContainer>
     </div>
   );

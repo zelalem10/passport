@@ -8,7 +8,7 @@ import ViewAppointment from './viewAppointment';
 import HorizontalLabelPositionBelowStepper from './EditApplicationList/PersonslInfoStepper';
 import GroupRequestStepper from './EditApplicationList/Group/GroupNavigation';
 import RescheduleAppointment from './Rescheduleappointment/appointmentDate';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
 function ApplicationList() {
   const tokenValue = () => {
@@ -32,12 +32,14 @@ function ApplicationList() {
   const [users, setusers] = useState([]);
   const [open, setOpen] = useState(false);
   const [displayRequestId, setDisplayRequestId] = useState('');
+  const [cancelRequestId, setCancelRequestId] = useState('');
   const [isEdit, setIsEdit] = useState(false);
   const [isGroup, setIsGroup] = useState(false);
   const [numOfApplicants, setNumOfApplicants] = useState(0);
   const [handleDisplayId, sethandleDisplayId] = useState('');
   const [loading, setloading] = useState(true);
   const [Message, setMessage] = useState(false);
+  const [isCancelSchedule, setisCancelSchedule] = useState(false);
   let history = useHistory();
 
   const handleDisplay = (id) => {
@@ -58,7 +60,8 @@ function ApplicationList() {
     sethandleDisplayId(id);
   };
 
-  function openModal() {
+  function openModal(id) {
+    setCancelRequestId(id);
     setOpen(true);
   }
 
@@ -66,53 +69,52 @@ function ApplicationList() {
     setOpen(false);
   }
   useEffect(() => {
-    axios({    
-      headers: { 'Authorization': 'Bearer ' + accesstoken },
+    axios({
+      headers: { Authorization: 'Bearer ' + accesstoken },
       method: 'get',
-      url: 'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/GetAllRequests',
+      url:
+        'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/GetMyApplications',
     })
       .then((Response) => {
-  debugger;
-  console.log(Response.data)
+        debugger;
+        console.log(Response.data);
         setloading(false);
         setusers(Response.data.serviceResponseList);
         dispatch(addApplicationList(Response.data.serviceResponseList));
-        let status = Response.data.status
-        let errorname = Response.data.message
-        if(status == 0){
-          setMessage(true)
-          setMessage(errorname)
+        let status = Response.data.status;
+        let errorname = Response.data.message;
+        if (status == 0) {
+          setMessage(true);
+          setMessage(errorname);
         }
-        
-       
       })
-      .catch(err => {
+      .catch((err) => {
         setloading(false);
+      });
+  }, [isCancelSchedule]);
 
-    }) ;
-  },[cancelSchedule]);
-
-      //cancel a single schedule
-      function cancelSchedule(requestId) {
-        debugger;
-         axios({
-          headers: { 'Authorization': 'Bearer ' + accesstoken },
-          method: 'post',
-          url: 'https://epassportservices.azurewebsites.net//Schedule/api/V1.0/Schedule/CancelAppointment',
-          params: {"requestId":requestId},
-    
-        })
-         .then(Response => {
-          console.log(Response)
-          setOpen(false);
-          history.push('/Application-List')
+  //cancel a single schedule
+  function cancelSchedule(requestId) {
+    debugger;
+    axios({
+      headers: { Authorization: 'Bearer ' + accesstoken },
+      method: 'post',
+      url:
+        'https://epassportservices.azurewebsites.net//Schedule/api/V1.0/Schedule/CancelAppointment',
+      params: { requestId: requestId },
+    })
+      .then((Response) => {
+        console.log(Response);
+        setOpen(false);
+        history.push('/Application-List');
+        setisCancelSchedule(!isCancelSchedule);
       })
-      .catch(err => {
-       console.log(err);
-       setOpen(false);
-       history.push('/Application-List')
-   }) 
-    }
+      .catch((err) => {
+        console.log(err);
+        setOpen(false);
+        history.push('/Application-List');
+      });
+  }
   if (handleDisplayId) {
     return <RescheduleAppointment handleDisplayId={handleDisplayId} />;
   } else if (!displayRequestId && !isEdit) {
@@ -128,7 +130,7 @@ function ApplicationList() {
         handleReschedule={handleReschedule}
         loading={loading}
         Message={Message}
-        
+        cancelRequestId={cancelRequestId}
       />
     );
   } else if (displayRequestId && isEdit && !isGroup) {

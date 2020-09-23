@@ -25,7 +25,6 @@ const config = {
 const PersonalInfo = forwardRef((props, ref) => {
   const { personalInformation } = props;
 
-
   const [personalInfo, setPersonalInfo] = useState({
     id: personalInformation.id,
     firstName: personalInformation.firstName,
@@ -133,7 +132,7 @@ const PersonalInfo = forwardRef((props, ref) => {
       <blockquote className=" mb-0">
         <form>
           <MDBRow>
-            <MDBCol md="4">
+            <MDBCol md="3">
               <MDBCol>
                 <MDBInput
                   label="First Name"
@@ -157,20 +156,18 @@ const PersonalInfo = forwardRef((props, ref) => {
                   label="ስም"
                 />
               </MDBCol>
-              <MDBCol className="date-picker">
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    margin="normal"
-                    id="date-picker-dialog"
-                    label="Date of birth"
-                    format="MM/dd/yyyy"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                </MuiPickersUtilsProvider>
+              <MDBCol>
+                <MDBInput
+                  label="Birth Place"
+                  group
+                  type="text"
+                  name="birthPlace"
+                  validate
+                  error="wrong"
+                  success="right"
+                  valueDefault={prevInfo ? prevInfo.birthPlace : null}
+                  onChange={handleChange}
+                />
               </MDBCol>
               <MDBCol>
                 <MDBInput
@@ -216,7 +213,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 </div>
               </MDBCol>
             </MDBCol>
-            <MDBCol md="4">
+            <MDBCol md="3">
               <MDBCol>
                 <MDBInput
                   label="Middle Name"
@@ -241,6 +238,19 @@ const PersonalInfo = forwardRef((props, ref) => {
               </MDBCol>
               <MDBCol>
                 <MDBInput
+                  valueDefault={prevInfo ? prevInfo.birthCirtificateNo : null}
+                  name="birthCertificatNo"
+                  onChange={handleChange}
+                  type="text"
+                  label="Birth Certificat No"
+                  group
+                  validate
+                  error="wrong"
+                  success="right"
+                />
+              </MDBCol>
+              <MDBCol>
+                <MDBInput
                   label="Eye Color"
                   group
                   type="text"
@@ -252,45 +262,21 @@ const PersonalInfo = forwardRef((props, ref) => {
                   onChange={handleChange}
                 />
               </MDBCol>
-              <MDBCol>
-                <MDBInput
-                  label="Birth Place"
-                  group
-                  type="text"
-                  name="birthPlace"
-                  validate
-                  error="wrong"
-                  success="right"
-                  valueDefault={prevInfo ? prevInfo.birthPlace : null}
-                  onChange={handleChange}
-                />
-              </MDBCol>
-              <MDBCol>
-                <MDBInput
-                  label="Nationality"
-                  group
-                  type="text"
-                  name="nationality"
-                  validate
-                  error="wrong"
-                  success="right"
-                  valueDefault={prevInfo ? prevInfo.nationality : null}
-                  onChange={handleChange}
-                />
-              </MDBCol>
             </MDBCol>
-            <MDBCol md="4">
-              <MDBInput
-                label="Last Name"
-                group
-                type="text"
-                name="lastName"
-                validate
-                error="wrong"
-                success="right"
-                valueDefault={prevInfo ? prevInfo.lastName : null}
-                onChange={handleChange}
-              />
+            <MDBCol md="3">
+              <MDBCol>
+                <MDBInput
+                  label="Last Name"
+                  group
+                  type="text"
+                  name="lastName"
+                  validate
+                  error="wrong"
+                  success="right"
+                  valueDefault={prevInfo ? prevInfo.lastName : null}
+                  onChange={handleChange}
+                />
+              </MDBCol>
               <MDBCol>
                 <MDBInput
                   valueDefault={prevInfo ? prevInfo.geezLastName : null}
@@ -317,23 +303,56 @@ const PersonalInfo = forwardRef((props, ref) => {
                   </select>
                 </div>
               </MDBCol>
+
+              <MDBCol>
+                <MDBInput
+                  label="Hair Color"
+                  group
+                  type="text"
+                  name="hairColor"
+                  validate
+                  error="wrong"
+                  success="right"
+                  valueDefault={prevInfo ? prevInfo.hairColor : null}
+                  onChange={handleChange}
+                />
+              </MDBCol>
+            </MDBCol>
+            <MDBCol md="3">
               <MDBCol className="date-picker">
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  {/* <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
+                  <KeyboardDatePicker
                     margin="normal"
-                    id="date-picker-inline"
-                    label="Enrollment Date"
-                    value={selectedEnrollmentDate}
-                    onChange={handleEnrollmentDateChange}
+                    group
+                    id="date-picker-dialog"
+                    label="Date of birth"
+                    format="MM/dd/yyyy"
+                    value={selectedDate}
+                    onChange={handleDateChange}
                     KeyboardButtonProps={{
                       'aria-label': 'change date',
                     }}
-                  /> */}
+                  />
+                </MuiPickersUtilsProvider>
+              </MDBCol>
+              <MDBCol>
+                <MDBInput
+                  label="Nationality"
+                  group
+                  type="text"
+                  name="nationality"
+                  validate
+                  error="wrong"
+                  success="right"
+                  valueDefault={prevInfo ? prevInfo.nationality : null}
+                  onChange={handleChange}
+                />
+              </MDBCol>
+              <MDBCol className="date-picker">
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     margin="normal"
+                    group
                     id="date-picker-dialog"
                     label="Enrollment Date"
                     format="MM/dd/yyyy"
@@ -345,6 +364,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                   />
                 </MuiPickersUtilsProvider>
               </MDBCol>
+
               <MDBCol>
                 <MDBInput
                   label="Hair Color"
