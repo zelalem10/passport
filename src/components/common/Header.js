@@ -67,7 +67,7 @@ const NavbarPage = (props) => {
           </a>
         </li>
       </ul></span>
-        
+       
       
       </div>
     
@@ -100,7 +100,7 @@ const NavbarPage = (props) => {
               <div class="col-md-3">
                 <Link to="/">
                   <img
-                    src={require('../../images/default-source/shared/output-onlinepngtools (2).png')}
+                    src={require('../../images/default-source/shared/logotwo.png')}
                     className="img-fluid logo-img"
                     alt="Ethiopian ePassport logo"
                   />
@@ -113,16 +113,16 @@ const NavbarPage = (props) => {
               <a
                 style={style}
                 href="https://www.evisa.gov.et"
-                className="text-light mr-2"
+                className="text-dark mr-2 "
               >
-                E-visa
+                E-visaa
               </a>
             </MDBNavItem>
             <MDBNavItem>
               <a
                 style={style}
                 href="https://www.ethiopianairlines.com"
-                className="text-light mr-2"
+                className="text-dark mr-2"
               >
                 Ethioian Airlines
               </a>
@@ -131,7 +131,7 @@ const NavbarPage = (props) => {
               <a
                 style={style}
                 href="https://www.ethiopianskylighthotel.com"
-                className="text-light mr-2"
+                className="text-dark mr-2"
               >
                 Ethioian Skylight Hotel
               </a>

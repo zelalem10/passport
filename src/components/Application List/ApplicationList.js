@@ -73,12 +73,12 @@ function ApplicationList() {
     })
       .then((Response) => {
   debugger;
+  console.log(Response.data)
         setloading(false);
         setusers(Response.data.serviceResponseList);
         dispatch(addApplicationList(Response.data.serviceResponseList));
         let status = Response.data.status
         let errorname = Response.data.message
-       console.log(errorname)
         if(status == 0){
           setMessage(true)
           setMessage(errorname)
@@ -90,7 +90,7 @@ function ApplicationList() {
         setloading(false);
 
     }) ;
-  },[]);
+  },[cancelSchedule]);
 
       //cancel a single schedule
       function cancelSchedule(requestId) {
