@@ -4,7 +4,7 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from 'react';
-import { MDBRow, MDBCol, MDBInput, MDBCardBody } from 'mdbreact';
+import { MDBRow, MDBCol, MDBInput, MDBCardBody, MDBCard } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addTravelPlan from '../../../redux/actions/addTravelPlanAction';
 import {
@@ -15,13 +15,31 @@ import DateFnsUtils from '@date-io/date-fns';
 
 const TravelPlan = forwardRef((props, ref) => {
   const [validated, setValidated] = useState(false);
-  const { flightData, flightNumber } = props;
+  const {
+    flightData,
+    flightNumber,
+    filledBy,
+    pageQuantity,
+    passportType,
+    passportNumber,
+    expirationDate,
+    issueDate,
+    isDatacorrected,
+  } = props;
   debugger;
   const [travelPlan, setTravelPlan] = useState({
     travelDate: flightData,
     ticketNumber: flightNumber,
+    filledBy: filledBy,
+    pageQuantity: pageQuantity,
+    passportType: passportType,
+    passportNumber: passportNumber,
+    expirationDate: expirationDate,
+    issueDate: issueDate,
+    isDatacorrected: isDatacorrected,
     dataSaved: false,
   });
+  debugger;
 
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
@@ -54,64 +72,175 @@ const TravelPlan = forwardRef((props, ref) => {
       ...prevState,
       travelDate: prevInfo ? new Date(prevInfo.travelDate) : null,
       ticketNumber: prevInfo ? prevInfo.ticketNumber : null,
-      dataSaved: prevInfo ? prevInfo.dataSaved : null,
+      filledBy: prevInfo ? prevInfo.filledBy : null,
+      pageQuantity: prevInfo ? prevInfo.pageQuantity : '0',
+      passportType: prevInfo ? prevInfo.passportType : null,
+      passportNumber: prevInfo ? prevInfo.passportNumber : null,
+      expirationDate: prevInfo ? new Date(prevInfo.expirationDate) : null,
+      issueDate: prevInfo ? new Date(prevInfo.issueDate) : null,
+      isDatacorrected: prevInfo ? prevInfo.isDatacorrected : false,
     }));
   }, []);
-  const [selectedTravelDate, setSelectedTravelDate] = React.useState(
+
+  const [selectedtravelDate, setSelectedtravelDate] = React.useState(
     new Date(prevInfo ? prevInfo.travelDate : new Date())
   );
-
-  const handleTravelDateChange = (date) => {
-    setSelectedTravelDate(date);
+  const [selectedissueDate, setSelectedissueDate] = React.useState(
+    new Date(prevInfo ? prevInfo.issueDate : new Date())
+  );
+  const [selectedexpirationDate, setSelectedexpirationDate] = React.useState(
+    new Date(prevInfo ? prevInfo.expirationDate : new Date())
+  );
+  const handletravelDateChange = (date) => {
+    setSelectedtravelDate(date);
     setTravelPlan((prevState) => ({
       ...prevState,
       travelDate: date,
     }));
   };
-
+  const handleissueDateChange = (date) => {
+    setSelectedissueDate(date);
+    setTravelPlan((prevState) => ({
+      ...prevState,
+      issueDate: date,
+    }));
+  };
+  const handleexpirationDateChange = (date) => {
+    setSelectedexpirationDate(date);
+    setTravelPlan((prevState) => ({
+      ...prevState,
+      expirationDate: date,
+    }));
+  };
+  const handleCheck = (name, checked) => {
+    setTravelPlan((prevState) => ({
+      ...prevState,
+      [name]: checked,
+    }));
+  };
   return (
-    <MDBCardBody>
-      <blockquote className=" mb-0">
+    <MDBCard>
+      <MDBCardBody>
         <form>
-          <MDBRow>
-            <MDBCol md="4">
-              <MDBCol className="travel-date-picker">
+          <div className="grey-text">
+            <MDBRow>
+              <MDBCol className="date-picker">
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
                     margin="normal"
-                    id="date-picker-inline"
-                    label="Enrollment Date"
-                    value={selectedTravelDate}
-                    onChange={handleTravelDateChange}
+                    id="date-picker-dialog"
+                    label="Travel Date"
+                    format="MM/dd/yyyy"
+                    value={selectedtravelDate}
+                    onChange={handletravelDateChange}
                     KeyboardButtonProps={{
                       'aria-label': 'change date',
                     }}
                   />
                 </MuiPickersUtilsProvider>
               </MDBCol>
-            </MDBCol>
-            <MDBCol md="4">
               <MDBCol>
                 <MDBInput
-                  label="Ticket Number"
-                  group
-                  type="text"
-                  name="ticketNumber"
-                  validate
-                  error="wrong"
-                  success="right"
                   valueDefault={prevInfo ? prevInfo.ticketNumber : null}
-                  onChange={handleChange}
+                  name="ticketNumber"
+                  className="form-control"
+                  onBlur={handleChange}
+                  type="text"
+                  label="Ticket Number"
                 />
               </MDBCol>
-            </MDBCol>
-          </MDBRow>
+              <MDBCol>
+                <MDBInput
+                  valueDefault={prevInfo ? prevInfo.filledBy : null}
+                  name="filledBy"
+                  className="form-control"
+                  onBlur={handleChange}
+                  type="text"
+                  label="Application filled by"
+                />
+              </MDBCol>
+              <MDBCol>
+                <label>Page Quantity</label>
+                <select className="browser-default custom-select">
+                  <option value="0">32</option>
+                  <option value="1">64</option>
+                </select>
+              </MDBCol>
+            </MDBRow>
+            <MDBRow>
+              <MDBCol>
+                <MDBInput
+                  valueDefault={prevInfo ? prevInfo.passportType : null}
+                  name="passportType"
+                  className="form-control"
+                  onBlur={handleChange}
+                  type="text"
+                  label="Passport Type"
+                />
+              </MDBCol>
+              <MDBCol>
+                <MDBInput
+                  valueDefault={prevInfo ? prevInfo.passportNumber : null}
+                  name="passportNumber"
+                  className="form-control"
+                  onBlur={handleChange}
+                  type="text"
+                  label="Passport Number"
+                />
+              </MDBCol>
+              <MDBCol className="date-picker">
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="Expiration Date"
+                    format="MM/dd/yyyy"
+                    value={selectedexpirationDate}
+                    onChange={handleexpirationDateChange}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+              </MDBCol>
+              <MDBCol className="date-picker">
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="Issue Date"
+                    format="MM/dd/yyyy"
+                    value={selectedissueDate}
+                    onChange={handleissueDateChange}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+              </MDBCol>
+            </MDBRow>
+            <MDBRow>
+              <MDBCol>
+                <label></label>
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="isCorrection"
+                    onChange={(e) =>
+                      handleCheck('isDatacorrected', e.target.checked)
+                    }
+                  />
+                  <label class="custom-control-label" for="isCorrection">
+                    Is Data corrected
+                  </label>
+                </div>
+              </MDBCol>
+            </MDBRow>
+          </div>
         </form>
-      </blockquote>
-    </MDBCardBody>
+      </MDBCardBody>
+    </MDBCard>
   );
 });
 
