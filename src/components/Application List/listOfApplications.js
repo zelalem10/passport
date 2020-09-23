@@ -41,17 +41,17 @@ export default function ListOfApplications(props) {
 
         <div className="my-5">
           <div class="row">
-          <div class="col-sm">
+          <div class="col-3">
           
           </div>
-          <div class="col-sm">
+          <div class="col-6">
           {Message &&
               <div class="alert alert-danger" role="alert">
-               Record does not exist in the database!
+              {Message}
             </div>
             }
           </div>
-          <div class="col-sm">
+          <div class="col-3">
             
           </div>
         </div>

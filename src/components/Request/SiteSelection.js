@@ -88,7 +88,6 @@ const SiteSelection=forwardRef((props, ref) => {
     ...prevState,
     officeId: false,
 }));
-  console.log(officeInfo)
   dispatch(saveSiteInformation(officeInfo));
     setFormCompleted(true)
   }
