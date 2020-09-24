@@ -44,13 +44,13 @@ export default function RequestStepper() {
   const childRef = useRef();
   const dispatch = useDispatch();
   function handelNext() {
-    if (childRef.current.isCompleted() === true) {
+    //if (childRef.current.isCompleted() === true) {
       childRef.current.saveData();
       setIndexValue((prevActiveStep) => prevActiveStep + 1);
       formCompleted[indexValue] = true;
-    } else {
-      inompleteAlert[indexValue] = true;
-    }
+    // } else {
+    //   inompleteAlert[indexValue] = true;
+    // }
 
   }
   function handelPrevious() {
@@ -154,9 +154,9 @@ export default function RequestStepper() {
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[2]}>
                 {isGroup === true ? (
-                  <GroupNavigation />
+                  <GroupNavigation  ref={childRef} />
                 ) : (
-                    <PersonalInfoStepper />
+                    <PersonalInfoStepper ref={childRef} Next={handelNext} />
                   )}
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[3]}>
@@ -168,7 +168,7 @@ export default function RequestStepper() {
             </Tab.Content>
           </Col>
         </Row>
-        <Row>
+        {indexValue===2?(null):(<Row>
           <Col md={3}></Col>
           <Col md={2}>
             <Button
@@ -187,7 +187,8 @@ export default function RequestStepper() {
             </Button>{' '}
           </Col>
         </Row>
-      </div>
+      )}
+        </div>
     </Tab.Container>
   );
 }

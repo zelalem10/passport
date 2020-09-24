@@ -9,14 +9,6 @@ import saveSiteInformation from '../../redux/actions/siteInformationAction';
 
 const accesstoken = localStorage.systemToken;
 const SiteSelection=forwardRef((props, ref) => {
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      '& .MuiTextField-root': {
-        margin: theme.spacing(1),
-        width: 700,
-      },
-    },
-  }));
   const [cityList, setCityList] = useState([]);
   const [regionList, setRegionList] = useState([]);
   const [officeList, setOfficeList] = useState([]);
@@ -37,7 +29,6 @@ const SiteSelection=forwardRef((props, ref) => {
     reagionId: true,
   });
 
-  const classes = useStyles();
   const accesstoken = localStorage.systemToken;
   const dispatch = useDispatch();
   const officeURL =

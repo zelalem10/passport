@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, forwardRef, useImperativeHandle } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -29,12 +29,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function getSteps() {
-  return ['Personal Detail', 'Address', 'Family', 'Travel & Passport info', 'Attachment'];
+  return ['Personal Detail', 'Address', 'Family', 'Passport info', 'Attachment'];
 }
-export default function HorizontalLabelPositionBelowStepper() {
+const PersonalInfoStepper=forwardRef((props, ref) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
-  // const [formCompleted, setFormCompleted] = useState(false);
+  const [formCompleted, setFormCompleted] = useState(false);
   const [responseAlert, setResponseAlert] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [responseMessage, setResponseMessage] = useState('');
@@ -43,18 +43,22 @@ export default function HorizontalLabelPositionBelowStepper() {
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const childRef = useRef();
+  const VerticalNext=()=>{
+    props.Next();
+  }
   const handleNext = () => {
-    if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
-      childRef.current.saveData();
-      const isVilid = childRef.current.Validate();
-      if (isVilid == true) {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      }
-    }
-    else {
+    // if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
+    //   childRef.current.saveData();
+    //   const isVilid = childRef.current.Validate();
+    //   if (isVilid == true) {
+    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    //   }
+    // }
+    // else {
     childRef.current.saveData();
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    }
+    //}
+    
  
   };
 
@@ -65,10 +69,6 @@ export default function HorizontalLabelPositionBelowStepper() {
   const handleReset = () => {
     setActiveStep(0);
   };
-  function formatDate(string) {
-    var options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(string).toLocaleDateString([], options);
-  }
   const handleSubmit = () => {
     childRef.current.saveData();
     const isVilid = childRef.current.Validate();
@@ -98,30 +98,22 @@ export default function HorizontalLabelPositionBelowStepper() {
         applicants: [
           {
             personId: 0,
-            firstName: personalInfo
-              ? personalInfo.firstName.toUpperCase()
-              : null,
-            middleName: personalInfo
-              ? personalInfo.middleName.toUpperCase()
-              : null,
+            firstName: personalInfo ? personalInfo.firstName.toUpperCase(): null,
+            middleName: personalInfo ? personalInfo.middleName.toUpperCase(): null,
             lastName: personalInfo ? personalInfo.lastName.toUpperCase() : null,
             geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
             geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
             geezLastName: personalInfo ? personalInfo.geezLastName : null,
             dateOfBirth: personalInfo ? personalInfo.birthDate : null,
-            gender: personalInfo
-              ? Number.parseInt(personalInfo.gender, 10)
-              : null,
-            nationalityId: 1,
+            gender: personalInfo ? Number.parseInt(personalInfo.gender, 10): null,
+            nationalityId: personalInfo ? Number.parseInt(personalInfo.nationalityId, 10) : null,
             height: personalInfo ? personalInfo.height : null,
             eyeColor: personalInfo ? personalInfo.eyeColor : null,
             hairColor: personalInfo ? personalInfo.hairColor : null,
-            occupationId: 1,
+            occupationId: personalInfo ? Number.parseInt(personalInfo.occupationId, 10) : null,
             halfCast: personalInfo ? personalInfo.halfCast : null,
             enrolmentDate: personalInfo ? personalInfo.birthDate : null,
-            birthCertificateId: personalInfo
-              ? personalInfo.birthCertificatNo
-              : '',
+            birthCertificateId: personalInfo? personalInfo.birthCertificatNo: '',
             photoPath: '',
             employeeID: '',
             applicationNumber: '',
@@ -133,15 +125,11 @@ export default function HorizontalLabelPositionBelowStepper() {
             expireDate:  new Date(),
             passportType: travelPlan ? travelPlan.passportType : null,
             isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
-            pageQuantity: travelPlan
-              ? Number.parseInt(travelPlan.pageQuantity, 10)
-              : false,
-            maritalStatus: personalInfo
-              ? Number.parseInt(personalInfo.martialStatus, 10)
-              : null,
-            birthCertificateId: personalInfo
-              ? personalInfo.birthCertificatNo
-              : null,
+            pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10): 0,
+            maritalStatus: personalInfo ? Number.parseInt(personalInfo.martialStatus, 10): 0,
+            birthCertificateId: personalInfo? personalInfo.birthCertificatNo: null,
+            phoneNumber: personalInfo? personalInfo.phoneNumber: null,
+            email: personalInfo? personalInfo.email: null,
             address: {
               personId: 0,
               addressId: 0,
@@ -153,8 +141,6 @@ export default function HorizontalLabelPositionBelowStepper() {
               street: addressInfo ? addressInfo.street : null,
               houseNo: addressInfo ? addressInfo.houseNo : null,
               poBox: addressInfo ? addressInfo.poBox : null,
-              phoneNumber: addressInfo ? addressInfo.phoneNumber : null,
-              email: addressInfo ? addressInfo.email : null,
               requestPlace: addressInfo ? addressInfo.requestPlace : null,
             },
             familyRequests: familyInfo,
@@ -169,9 +155,6 @@ export default function HorizontalLabelPositionBelowStepper() {
         config
       )
         .then((todo) => {
-          // console.log(
-          //   todo.data + ' id= ' + todo.data.personResponses[0].requestPersonId
-          // );
           debugger
           setResponseMessage(todo.data.message);
           setResponseAlert(true);
@@ -187,7 +170,7 @@ export default function HorizontalLabelPositionBelowStepper() {
         .catch((err) => {
           debugger
           console.log('AXIOS ERROR: ', err.response);
-          setResponseMessage('One or more Errors occured!');
+          setResponseMessage(err.response.data.title);
           setResponseAlert(true);
         });
     }
@@ -201,20 +184,25 @@ export default function HorizontalLabelPositionBelowStepper() {
       case 2:
         return <FamilyInformation ref={childRef} />;
       case 3:
-        return (
-          <TravelPlan
-            ref={childRef}
-            resMessage={responseMessage}
-            isSucces={isSuccess}
-            respnseGet={responseAlert}
-          />
-        );
+        return <TravelPlan 
+        ref={childRef}
+        resMessage={responseMessage}
+        isSucces={isSuccess}
+        respnseGet={responseAlert}/>;
       case 4:
-        return <Attachment />;
+        return <Attachment ref={childRef}  VerticalNext={VerticalNext} />;
       default:
         return 'Unknown stepIndex';
     }
   }
+  useImperativeHandle(ref, () => ({
+    saveData(){
+      //setDataSaved(true)
+    },
+    isCompleted() {
+      return formCompleted;
+    }
+  }));
   return (
     <div className={classes.root} style={{ marginBottom: '5rem' }}>
       <Stepper activeStep={activeStep} alternativeLabel>
@@ -237,6 +225,8 @@ export default function HorizontalLabelPositionBelowStepper() {
             <Typography className={classes.instructions}>
               {getStepContent(activeStep)}
             </Typography>
+            {activeStep === steps.length - 1 ? (null)
+            :(
             <Grid container spacing={1}>
               <Grid item xs={3}>
                 <Button
@@ -248,7 +238,7 @@ export default function HorizontalLabelPositionBelowStepper() {
                 </Button>
               </Grid>
               <hr></hr>
-              <Grid item xs={1}>
+                 <Grid item xs={1}>
                 {activeStep === steps.length - 2 ? (
                   <Button
                     variant="contained"
@@ -268,10 +258,12 @@ export default function HorizontalLabelPositionBelowStepper() {
                   
                 )}
               </Grid>
-            </Grid>
+             </Grid>
+            )}
           </div>
         )}
       </div>
     </div>
   );
-}
+});
+export default PersonalInfoStepper

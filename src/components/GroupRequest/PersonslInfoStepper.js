@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function getSteps() {
-  return ['Personal Detail', 'Address', 'Family', 'Travel & passport info', 'Attachment'];
+  return ['Personal Detail', 'Address', 'Family', 'Passport info', 'Attachment'];
 }
 export default function HorizontalLabelPositionBelowStepper(props) {
   const classes = useStyles();

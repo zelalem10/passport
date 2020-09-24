@@ -2,6 +2,7 @@ import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'rea
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from '../common/Spinner';
+import { MDBCol, MDBRow } from 'mdbreact';
 
 const Fileupload = forwardRef((props, ref) => {
   debugger;
@@ -87,6 +88,7 @@ const Fileupload = forwardRef((props, ref) => {
       console.log(response.data);
       setsuccessMessage(true);
       setloading(false);
+      props.VerticalNext();
     } catch (error) {
       console.log("error" + error.message);
       seterrorMessage(true);
@@ -163,7 +165,13 @@ const Fileupload = forwardRef((props, ref) => {
         </div>
             }
             {inputs}
-            <button className="btn btn-primary ml-auto" type="submit">Upload</button>
+            <MDBRow>
+              <MDBCol md="9"></MDBCol>
+              <MDBCol>
+              <button className="btn btn-primary ml-auto" type="submit">Upload</button>
+              </MDBCol>
+              
+            </MDBRow>
 
           </form>
 
