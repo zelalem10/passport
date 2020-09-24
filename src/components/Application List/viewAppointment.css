@@ -89,3 +89,6 @@ label {
 .changed-appointment {
   background-color: #007fa3;
 }
+.save-appointment-btn .btn-default {
+  background-color: #17a2b8 !important;
+}
