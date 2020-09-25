@@ -86,5 +86,135 @@
     color: black !important;
     font-weight: 500 !important;
 }
+.ePassprt-color {
+  background-color: #093c73 !important;
+  color: #fff;
+  display: block;
+}
+.ePassprt-text-color {
+color: #093c73 !important;
 
+}
+.thead-lightt{
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: #093c73 !important;
+  color: #fff;
+}
+.carousel-multi-item .controls-top {
+  margin-bottom: 1.88rem;
+  text-align: center;
+}
+.carousel-multi-item .controls-top .btn-floating {
+  background: #093c73 !important;
+}
+.btn-floating i {
+  display: inline-block;
+  width: inherit;
+  color: #fff;
+  text-align: center;
+}
+.btn-floating i {
+  font-size: 1.25rem;
+  line-height: 47px;
+}
+a.waves-effect, a.waves-light {
+  display: inline-block;
+}
+.btn-floating {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  padding: 0;
+  margin: 10px;
+  overflow: hidden;
+  vertical-align: middle;
+  cursor: pointer;
+  border-radius: 50%;
+  -webkit-box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18), 0 4px 15px 0 rgba(0,0,0,0.15);
+  box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18), 0 4px 15px 0 rgba(0,0,0,0.15);
+  -webkit-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+  width: 47px;
+  height: 47px;
+}
+.u-margin-bottom-big {
+  margin-bottom: 2rem !important;
+}
+.heading-secondary {
+  font-size: 2rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: inline-block;
+  background-image: -webkit-gradient( linear, left top, right top, from(#3f51b5), to(#093c73) );
+  background-image: linear-gradient(to right, #3f51b5, #093c73);
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: 0.2rem;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+.u-center-text {
+  text-align: center !important;
+}
+.info .btn, .info .btn:link, .info .btn:visited {
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  display: inline-block;
+  border-radius: 10rem;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  position: relative;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+}
+.info .btnBlu {
+  background-color: #093c73 ;
+  color: #fff;
+}
+.info .btn:hover {
+  background-color: #093c73 ;
+  color: #fff;
+}
 
+.medium .btn, .medium .btn:link, .medium .btn:visited {
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.5rem 3rem;
+  display: inline-block;
+  border-radius: 10rem;
+  transition: all 0.2s;
+  position: relative;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+}
+.medium .btnBlu {
+  background-color: #093c73 ;
+  color: #fff;
+}
+.medium .btn:hover {
+  background-color: #093c73 ;
+  color: #fff;
+}
+.equalcard {
+  display: flex;
+  align-items: stretch;
+}
+.equalcard .card {
+  min-width: 100% !important;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .25rem;
+}
+.bg-passport {
+  background-color: #093c73!important;
+}

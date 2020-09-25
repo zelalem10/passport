@@ -11,10 +11,12 @@ import SignUp from '../../UserManagement/SignUp';
 import ViewAppointment from '../../Application List/viewAppointment';
 import ApplicationList from '../../Application List/ApplicationList';
 import FAQ from '../../Help and Support/FAQ';
+import Information from '../../Help and Support/Information';
 import MainStatus from '../../Status/mainStatus';
 import ServiceSelection from '../../Request Appointment/ServiceSelection';
 import PayWithPSS from '../../Payment/PayWithPSS';
-
+import contactUs from '../../Help and Support/contactUs';
+import about from '../../Help and Support/about';
 
 function PassportRoute() {
 //   childUrl = window.open('/preview', '_blank')
@@ -34,8 +36,11 @@ function PassportRoute() {
       <Route path="/Application-List" component={ApplicationList} />
       <Route path="/Faq" component={FAQ} />
       <Route path="/Status" component={MainStatus} />
-     
+      <Route path="/Information" component={Information} />
+
       <Route path="/Pay_With_PSS" component={PayWithPSS} />
+      <Route path="/contactUs" component={contactUs} />
+      <Route path="/about" component={about} />
       {/* <Status loading={loading} /> */}
     </>
   );

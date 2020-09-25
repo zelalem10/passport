@@ -232,6 +232,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
           <PersonalInfo
             ref={childRef}
             personalInformation={personalInformation}
+            
           />
         );
 
@@ -262,11 +263,16 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             expirationDate={personalInformation.expireDate}
             issueDate={personalInformation.issueDate}
             isDatacorrected={personalInformation.isDatacorrected}
+            displayedApplication={displayedApplication} 
           />
         );
 
       case 4:
-        return <Attachment />;
+        return <Attachment 
+        ref={childRef} 
+        displayedApplication={displayedApplication} 
+        personalInformation={personalInformation}
+        />;
 
       default:
         return 'Unknown stepIndex';
