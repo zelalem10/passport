@@ -5,16 +5,16 @@ const BoxPage = () => {
   return (
     <React.Fragment>
       <MDBContainer className="box-container mt-4 passport-container" fluid>
-        <MDBRow className="passport-box-row">
-          <MDBCol md="6" sm="12">
-            <img
-              src={require('../../images/default-source/shared/650x376pix-ET-online-passport--web-0920--.jpg')}
-              className="img-fluid"
+      <div class="row">
+    <div class="col-md-6">
+    <img
+              src={require('../../images/default-source/shared/ET Passport.png')}
+              class="img-fluid"
               alt=""
             ></img>
-          </MDBCol>
-          <MDBCol md="6" sm="12" className="passport-box-col">
-            <h3 className="h3-responsive passport-box-heading">How to Apply</h3>
+    </div>
+    <div class="col-md-6 passport-box-col">
+    <h3 class="h3-responsive passport-box-heading">How to Apply</h3>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -27,9 +27,9 @@ const BoxPage = () => {
             <MDBBtn outline className="passport-box-btn" color="primary">
               Reed more
             </MDBBtn>
-          </MDBCol>
-        </MDBRow>
-      </MDBContainer>
+    </div>
+  </div>
+  </MDBContainer>
     </React.Fragment>
   );
 };

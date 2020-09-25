@@ -1,4 +1,4 @@
-import React, { Component, useState, useContext, Fragment } from 'react';
+import React, { Component, useState, useEffect, useContext, Fragment } from 'react';
 import {
   logout,
   authentication,
@@ -20,9 +20,12 @@ import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+
+
 const NavbarPage = (props) => {
   const navPath = props.location.pathname;
   const [navOpen, toggleOpen] = useState(false);
+
   const closeNav = () => {
     toggleOpen(false);
   };
@@ -135,6 +138,7 @@ const NavbarPage = (props) => {
               >
                 Ethioian Skylight Hotel
               </a>
+        
             </MDBNavItem>
           </MDBNav>
         </MDBContainer>
@@ -153,12 +157,15 @@ const NavbarPage = (props) => {
                 className={navPath == '/request-appointment' ? 'active' : ''}
               >
                 <MDBNavLink to="/request-appointment">
-                  Request Appointment
+                Schedule an Appointment
                 </MDBNavLink>
+        
               </MDBNavItem>
-              <MDBNavItem className={navPath == '/service' ? 'active' : ''}>
-                <MDBNavLink to="/service">Service</MDBNavLink>
+
+                <MDBNavItem className={navPath == '/Information' ? 'active' : ''}>
+                <MDBNavLink to="/Information">Requirements</MDBNavLink>
               </MDBNavItem>
+
 
               {/* <MDBNavItem
                 className={navPath == '/check-status' ? 'active' : ''}
@@ -167,6 +174,14 @@ const NavbarPage = (props) => {
               </MDBNavItem> */}
               <MDBNavItem className={navPath == '/Status' ? 'active' : ''}>
                 <MDBNavLink to="/Status">Status</MDBNavLink>
+              </MDBNavItem>
+
+              <MDBNavItem className={navPath == '/about' ? 'active' : ''}>
+                <MDBNavLink to="/about">About</MDBNavLink>
+              </MDBNavItem>
+
+              <MDBNavItem className={navPath == '/contactUs' ? 'active' : ''}>
+                <MDBNavLink to="/contactUs">Contact Us</MDBNavLink>
               </MDBNavItem>
 
               {token && (

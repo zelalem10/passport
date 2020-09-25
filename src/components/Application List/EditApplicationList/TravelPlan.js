@@ -12,6 +12,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import axios from 'axios';
 
 const TravelPlan = forwardRef((props, ref) => {
   const [validated, setValidated] = useState(false);
@@ -25,6 +26,7 @@ const TravelPlan = forwardRef((props, ref) => {
     expirationDate,
     issueDate,
     isDatacorrected,
+    displayedApplication,
   } = props;
   debugger;
   const [travelPlan, setTravelPlan] = useState({
@@ -40,6 +42,52 @@ const TravelPlan = forwardRef((props, ref) => {
     dataSaved: false,
   });
   debugger;
+  const accesstoken = localStorage.systemToken;
+
+  let requestTypeId = displayedApplication.requestTypeId;
+  
+  console.log(displayedApplication)
+  useEffect(() => {
+    axios({
+      headers: { Authorization: 'Bearer ' + accesstoken },
+      method: 'get',
+      url:
+        'https://epassportservices.azurewebsites.net/Master/api/V1.0/OfficeRequestType/GetRequiredAttachementsByRequestTypeId',
+      params: { requestTypeId: requestTypeId },
+    })
+      .then((response) => {
+        let requiredAttachements = response.data.requiredAttachements.length;
+        let requiredAttachementType = [];
+        let attachmentTypeName = [];
+        for (let i = 0; i < response.data.requiredAttachements.length; i++) {
+          requiredAttachementType.push(
+            response.data.requiredAttachements[i].attachmentTypeId
+          );
+          attachmentTypeName.push(
+            response.data.requiredAttachements[i].attachmentType
+          );
+
+          console.log(response.data.requiredAttachements);
+        }
+        console.log(requiredAttachementType);
+
+        if (localStorage.requiredAttachements) {
+          localStorage.removeItem('requiredAttachements');
+        }
+        localStorage.setItem('requiredAttachements', requiredAttachements);
+        localStorage.setItem(
+          'requiredAttachementType',
+          JSON.stringify(requiredAttachementType)
+        );
+        localStorage.setItem(
+          'attachmentTypeName',
+          JSON.stringify(attachmentTypeName)
+        );
+      })
+      .catch((error) => {
+        console.log('error' + error.message);
+      });
+  }, []);
 
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);

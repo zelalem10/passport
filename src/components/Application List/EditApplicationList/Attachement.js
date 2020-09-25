@@ -5,20 +5,19 @@ import Spinner from '../../common/Spinner';
 
 const Fileupload = forwardRef((props, ref) => {
   debugger;
+  const { displayedApplication,personalInformation } = props;
   let [successMessage, setsuccessMessage] = useState(false);
   let [errorMessage, seterrorMessage] = useState(false);
   const accesstoken = localStorage.systemToken;
   const formData = new FormData();
-  let requestTypeId;
+
   const [files, setfiles] = useState([]);
   const [fileType, setfileType] = useState([]);
   let requiredAttachementType = JSON.parse(localStorage.getItem("requiredAttachementType"));
   let attachmentTypeName = JSON.parse(localStorage.getItem("attachmentTypeName"));
   const inputs = [];
   let requiredAttachements = localStorage.requiredAttachements;
-  let requestTypefromRedux = useSelector((state) => state.service);
-  requestTypeId = requestTypefromRedux[requestTypefromRedux.length - 1].appointemntType
-  let requestPersonId = useSelector((state) => state.commonData[0].requestPersonId);
+  let requestPersonId = personalInformation.requestPersonId;
   console.log(requestPersonId)
   const [loading, setloading] = useState(false);
   const [filename, setfilename] = useState({
@@ -114,7 +113,7 @@ const Fileupload = forwardRef((props, ref) => {
     inputs.push(
       <div class="row">
          <div class="col-md-4">
-         <label for="exampleInputEmail1">{attachmentTypeName[i]} :</label>
+         <label for="exampleInputEmail1" class='pl-4'>{attachmentTypeName[i]} :</label>
          </div>
         <div class="col-md-6 mb-2">
           <div className="input-group">
@@ -166,7 +165,7 @@ const Fileupload = forwardRef((props, ref) => {
         </div>
             }
             {inputs}
-            <button className="btn btn-primary" type="submit">Upload</button>
+            <button className="btn btn-primary float-right mr-3" type="submit">Upload</button>
 
           </form>
 
