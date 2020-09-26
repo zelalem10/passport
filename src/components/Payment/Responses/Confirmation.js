@@ -8,6 +8,8 @@ import { FcDisapprove } from "react-icons/fc";
 import { useDispatch, useSelector } from 'react-redux';
 import addPaymentOptionId from '../../../redux/actions/addPaymentOptionIdAction';
 import API from '../..//Utils/API'
+import Spinner from '../../common/Spinner';
+
 const SuccessResponse = (props) => {
   const [requestSubmited, setRequestSubmited] = useState(false);
   const [instruction, setInstruction] = useState("");
@@ -95,7 +97,7 @@ const SuccessResponse = (props) => {
         <MDBCardBody>
           <form>
             {requestSubmited === false ?
-              (<h2>Please wait...</h2>)
+              (<Spinner />)
               :
               (getContent(flowType))
             }
