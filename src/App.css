@@ -38,7 +38,7 @@
 }
 .textBackground {
   background-color: #004d99;
-  border-radius: 3px!important;
+  border-radius: 3px !important;
 }
 
 .signUpbutton .btn-info {
@@ -54,10 +54,16 @@
   background-color: #ffffff !important;
 }
 .headerTwo {
-  background-color:#093C73 !important;
+  background-color: #093c73 !important;
 }
 
-.applist .small-12 .card--teal, .applist .request-type .request-card .card--link:hover .card--teal + .card--gray {
+.applist .small-12 .card--teal,
+.applist
+  .request-type
+  .request-card
+  .card--link:hover
+  .card--teal
+  + .card--gray {
   background-color: #004d99 !important;
   color: #fefefe !important;
 }
@@ -65,7 +71,6 @@
   width: 100%;
   padding: 0 0.55rem 0.55rem;
 }
-
 
 .epassportcenter {
   height: 100px;
@@ -76,15 +81,176 @@
 .loyalty-bar__menu-left {
   color: #fff;
 }
-@media (min-width: 992px){
+@media (min-width: 992px) {
   .d-lg-inline-block {
     display: inline-block !important;
-}
+  }
 }
 
+/* *********************** start confirmation page css ***************************** */
+.confirmation-page-title1 {
+  text-align: center;
+}
+.confirmation-page-icon {
+  color: #3f51b5;
+}
+.confirmation-page-title1 .row {
+  display: block !important;
+}
+.confirmation-page-paragraph {
+  font-size: 1rem;
+  font-weight: 300;
+}
+.confirmation-page-title5 {
+  font-weight: 600 !important;
+  color: #212529 !important;
+}
+.confirmation-page .fieldset {
+  width: 100% !important;
+}
+.confirmation-page legend {
+  font-size: 1rem !important;
+}
+.confirmation-page .text-primary {
+  font-size: 1.5rem !important;
+}
+/* *********************** end confirmation page css ***************************** */
+
+/* *************************** start print button ************************************** */
+button.print-button {
+  width: 100px;
+  height: 100px;
+}
+span.print-icon,
+span.print-icon::before,
+span.print-icon::after,
+button.print-button:hover .print-icon::after {
+  border: solid 4px #333;
+}
+span.print-icon::after {
+  border-width: 2px;
+}
+
+button.print-button {
+  position: relative;
+  padding: 0;
+  border: 0;
+
+  border: none;
+  background: transparent;
+}
+
+span.print-icon,
+span.print-icon::before,
+span.print-icon::after,
+button.print-button:hover .print-icon::after {
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+span.print-icon {
+  position: relative;
+  display: inline-block;
+  padding: 0;
+  margin-top: 20%;
 .text-dark {
     color: black !important;
     font-weight: 500 !important;
 }
 
+  width: 60%;
+  height: 35%;
+  background: #fff;
+  border-radius: 20% 20% 0 0;
+}
 
+span.print-icon::before {
+  content: ' ';
+  position: absolute;
+  bottom: 100%;
+  left: 12%;
+  right: 12%;
+  height: 110%;
+
+  transition: height 0.2s 0.15s;
+}
+
+span.print-icon::after {
+  content: ' ';
+  position: absolute;
+  top: 55%;
+  left: 12%;
+  right: 12%;
+  height: 0%;
+  background: #fff;
+  background-repeat: no-repeat;
+  background-size: 70% 90%;
+  background-position: center;
+  background-image: linear-gradient(
+    to top,
+    #fff 0,
+    #fff 14%,
+    #333 14%,
+    #333 28%,
+    #fff 28%,
+    #fff 42%,
+    #333 42%,
+    #333 56%,
+    #fff 56%,
+    #fff 70%,
+    #333 70%,
+    #333 84%,
+    #fff 84%,
+    #fff 100%
+  );
+
+  transition: height 0.2s, border-width 0s 0.2s, width 0s 0.2s;
+}
+
+button.print-button:hover {
+  cursor: pointer;
+}
+
+button.print-button:hover .print-icon::before {
+  height: 0px;
+  transition: height 0.2s;
+}
+button.print-button:hover .print-icon::after {
+  height: 120%;
+  transition: height 0.2s 0.15s, border-width 0s 0.16s;
+}
+
+#ifmcontentstoprint {
+  height: 0px;
+  width: 0px;
+  position: absolute;
+}
+.confirmation-print-btn {
+  text-align: right;
+  display: block !important;
+}
+.confirmation-page fieldset {
+  width: 100% !important;
+}
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  #section-to-print,
+  #section-to-print * {
+    visibility: visible;
+  }
+
+  #section-to-print {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
+/* *************************** end print button ************************************** */

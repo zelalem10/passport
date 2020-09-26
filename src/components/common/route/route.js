@@ -14,12 +14,12 @@ import FAQ from '../../Help and Support/FAQ';
 import MainStatus from '../../Status/mainStatus';
 import ServiceSelection from '../../Request Appointment/ServiceSelection';
 import PayWithPSS from '../../Payment/PayWithPSS';
-
+import confirmationPage from '../../confirmationPage';
 
 function PassportRoute() {
-//   childUrl = window.open('/preview', '_blank')
-// childUrl.document.open('text/html', 'replace')
-// childUrl.document.write(htmlContent)
+  //   childUrl = window.open('/preview', '_blank')
+  // childUrl.document.open('text/html', 'replace')
+  // childUrl.document.write(htmlContent)
   return (
     <>
       <Route path="/" exact component={HomePage} />
@@ -34,7 +34,8 @@ function PassportRoute() {
       <Route path="/Application-List" component={ApplicationList} />
       <Route path="/Faq" component={FAQ} />
       <Route path="/Status" component={MainStatus} />
-     
+      <Route path="/Confirmation" component={confirmationPage} />
+
       <Route path="/Pay_With_PSS" component={PayWithPSS} />
       {/* <Status loading={loading} /> */}
     </>
