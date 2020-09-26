@@ -221,4 +221,32 @@ button.print-button:hover .print-icon::after {
   width: 0px;
   position: absolute;
 }
+.confirmation-print-btn {
+  text-align: right;
+  display: block !important;
+}
+.confirmation-page fieldset {
+  width: 100% !important;
+}
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  #section-to-print,
+  #section-to-print * {
+    visibility: visible;
+  }
+
+  #section-to-print {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
 /* *************************** end print button ************************************** */
