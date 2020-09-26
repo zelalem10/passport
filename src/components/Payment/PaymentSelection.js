@@ -1,5 +1,5 @@
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
-import { MDBBtn, MDBInput,MDBListGroup ,MDBListGroupItem, MDBBadge, MDBCard, MDBCardHeader, MDBContainer, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBRow } from 'mdbreact';
+import { MDBBtn, MDBInput, MDBListGroup, MDBListGroupItem, MDBBadge, MDBCard, MDBCardHeader, MDBContainer, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBRow } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addPaymentOptionId from '../../redux/actions/addPaymentOptionIdAction';
 
@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import API from '../Utils/API'
 import token from '../common/accessToken'
 import Response from './Responses/Confirmation'
+import PriceDetail from './PricingDetail'
 
 
 const useStyles = makeStyles({
@@ -41,7 +42,6 @@ const PaymentSelection = forwardRef((props, ref) => {
     const [flowType, setFlowType] = useState(0);
     const [status, setStatus] = useState(0);
     const [formCompleted, setFormCompleted] = useState(false);
-    const [test, setTest] = useState({ id: 10 });
     const dispatch = useDispatch();
     const counter = useSelector((state) => state);
     const accesstoken = localStorage.systemToken;
@@ -130,14 +130,14 @@ const PaymentSelection = forwardRef((props, ref) => {
         }
     }));
     return (
-
-        <MDBContainer>
-            <MDBCard style={{ marginTop: "1rem" }}>
-                <MDBCardHeader color="primary-color" tag="h3">
-                    Select payment option to pay
+        <MDBRow>
+            <MDBCol md="6">
+                <MDBContainer>
+                    <MDBCard style={{ marginTop: "1rem" }}>
+                        <MDBCardHeader color="primary-color" tag="h3">
+                            Select payment option to pay
                  </MDBCardHeader>
-                <MDBRow>
-                    <MDBCol md="8">
+
                         <MDBCardBody>
                             <MDBRow>
                                 {paymentOptions.map((paymentOption) =>
@@ -164,57 +164,31 @@ const PaymentSelection = forwardRef((props, ref) => {
                                 }
                             </MDBRow>
                         </MDBCardBody>
-                    </MDBCol>
-
-                    <MDBCol md="4">
-                        <app-right-content
-                            class="small-12 medium-4 large-offset-1 large-4 column sticky-container"
-                            data-sticky-container=""
-                            _nghost-kxs-c3=""
-                        >
-                            <aside
-                                class="sidebar small sticky is-anchored is-at-top"
-                                data-btm-anchor="request-an-appointment:bottom"
-                                data-margin-top="2"
-                                data-sticky="s2eunn-sticky"
-                                data-sticky-on="medium"
-                                data-top-anchor="180"
-                                id="raa-sidebar"
-                                data-resize="raa-sidebar"
-                                data-mutate="raa-sidebar"
-                                data-events="mutate"
-                            >
-                                <div class="sidebar__box sidebar__box--border ng-star-inserted">
-                                    <h4>Pricing Information</h4>
-                                        <MDBListGroup >
-                                            <MDBListGroupItem className="d-flex justify-content-between align-items-center">Request type<MDBBadge color="primary"
-                                                pill>{requestTypeStr}</MDBBadge>
-                                            </MDBListGroupItem>
+                        {/* <MDBListGroup >
+                                             <MDBListGroupItem className="d-flex justify-content-between align-items-center">Request type<MDBBadge color="primary"
+                                                 pill>{requestTypeStr}</MDBBadge>                                            </MDBListGroupItem>
                                             <MDBListGroupItem className="d-flex justify-content-between align-items-center">Request Mode<MDBBadge
-                                                color="primary" pill>{serviceSelcetion.isUrgent?"Urgent":"Normal"}</MDBBadge>
-                                            </MDBListGroupItem>
-                                            <MDBListGroupItem className="d-flex justify-content-between align-items-center">Total Price<MDBBadge color="primary"
-                                                pill>600</MDBBadge>
-                                            </MDBListGroupItem>
-                                            <MDBListGroupItem className="d-flex justify-content-between align-items-center">Page quantity<MDBBadge color="primary"
-                                                pill>32</MDBBadge>
-                                            </MDBListGroupItem>
-                                        </MDBListGroup>
-                                    
-                                </div>
-                            </aside>
-                        </app-right-content>
-                    </MDBCol>
-                </MDBRow>
+                                              color="primary" pill>{serviceSelcetion.isUrgent?"Urgent":"Normal"}</MDBBadge>
+                                          </MDBListGroupItem>
+                                           <MDBListGroupItem className="d-flex justify-content-between align-items-center">Total Price<MDBBadge color="primary"
+                                             pill>600</MDBBadge>
+                                         </MDBListGroupItem>
+                                          <MDBListGroupItem className="d-flex justify-content-between align-items-center">Page quantity<MDBBadge color="primary"
+                                              pill>32</MDBBadge>
+                                             </MDBListGroupItem>
+                                       </MDBListGroup> */}
+                    </MDBCard>
 
-            </MDBCard>
-
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="defaultUncheckedDisabled2" onChange={handelConfirm} indeterminate />
-                <label class="custom-control-label" for="defaultUncheckedDisabled2">Agree to terms and conditions</label>
-            </div>
-        </MDBContainer>
-
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="defaultUncheckedDisabled2" onChange={handelConfirm} indeterminate />
+                        <label class="custom-control-label" for="defaultUncheckedDisabled2">Agree to terms and conditions</label>
+                    </div>
+                </MDBContainer>
+            </MDBCol>
+            <MDBCol>
+                <PriceDetail />
+            </MDBCol>
+        </MDBRow>
     )
 });
 export default PaymentSelection

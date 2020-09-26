@@ -43,6 +43,7 @@ const TravelPlan = forwardRef((props, ref) => {
     passportNumber: '',
     expirationDate: '',
     issueDate: '',
+    correctionReason: '',
     isDatacorrected: false,
     dataSaved: false,
   });
@@ -53,6 +54,7 @@ const TravelPlan = forwardRef((props, ref) => {
     passportNumber: true,
     expirationDate: true,
     issueDate: true,
+    correctionReason:true,
     isDatacorrected: true,
   });
 
@@ -125,6 +127,7 @@ const TravelPlan = forwardRef((props, ref) => {
         passportNumber: travelPlan.passportNumber === '' ? true : false,
         expirationDate: travelPlan.expirationDate === '' ? true : false,
         issueDate: travelPlan.issueDate === '' ? true : false,
+        correctionReason:travelPlan.correctionReason===''? true :false,
         passportNumber: travelPlan.passportNumber === '' ? true : false,
       });
       if (
@@ -195,6 +198,7 @@ const TravelPlan = forwardRef((props, ref) => {
       passportNumber: prevInfo ? prevInfo.passportNumber : null,
       expirationDate: prevInfo ? new Date(prevInfo.expirationDate) : null,
       issueDate: prevInfo ? new Date(prevInfo.issueDate) : null,
+      correctionReason: prevInfo? prevInfo.correctionReason:null,
       isDatacorrected: prevInfo ? prevInfo.isDatacorrected : false,
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
     }));
@@ -302,8 +306,23 @@ const TravelPlan = forwardRef((props, ref) => {
                 </MDBCol>
               </MDBRow>
             ) : (null)}
-
             <MDBRow>
+            {(requestTypeStr === 'Correction' || travelPlan.isDatacorrected===true) ? (
+            <MDBCol md="3">
+                <label>Correction reason</label>
+                <select className="browser-default custom-select">
+                  <option value="">select correction reason</option>
+                </select>
+                <span style={{ color: 'red' }}>
+                  {' '}
+                  {notCompleted.correctionReason == true &&
+                    travelPlan.dataSaved == true
+                    ? 'correction reason ' + isRequired
+                    : null}
+                </span>
+              </MDBCol>
+              ):(null)}
+
               {requestTypeStr === 'Renew/Replacement' ||
                 requestTypeStr === 'Lost' ? (
                   <MDBCol>
@@ -318,7 +337,7 @@ const TravelPlan = forwardRef((props, ref) => {
                         }
                       />
                       <label class="custom-control-label" for="isCorrection">
-                        Is Data corrected
+                        Is Data correction
                     </label>
                     </div>
                   </MDBCol>

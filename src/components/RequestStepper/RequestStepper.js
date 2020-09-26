@@ -22,15 +22,7 @@ import addPaymentOptionId from '../../redux/actions/addPaymentOptionIdAction';
 
 export default function RequestStepper() {
   const [indexValue, setIndexValue] = useState(0);
-  const [selectedPaymentOption, setSelectedPaymentOption] = useState(0);
   const [formCompleted, setFormCompleted] = useState([
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
-  const [inompleteAlert, setInompleteAlert] = useState([
     false,
     false,
     false,
@@ -39,19 +31,34 @@ export default function RequestStepper() {
   ]);
   const activeKey = ['first', 'second', 'third', 'fourth', 'Fivth'];
   const counter = useSelector((state) => state);
-  const serviceVal = counter.service[counter.service.length - 1];
   const isGroup = counter.service[counter.service.length - 1].isGroup;
   const childRef = useRef();
+  const siteRef = useRef();
   const dispatch = useDispatch();
   function handelNext() {
-    //if (childRef.current.isCompleted() === true) {
+    if(indexValue===0){
+      if (siteRef.current.isCompleted() === true) {
+        siteRef.current.saveData();
+        setIndexValue((prevActiveStep) => prevActiveStep + 1);
+        formCompleted[indexValue] = true;
+      } else {
+        siteRef.current.saveData();
+      }
+    }
+    else {
       childRef.current.saveData();
       setIndexValue((prevActiveStep) => prevActiveStep + 1);
       formCompleted[indexValue] = true;
-    // } else {
-    //   inompleteAlert[indexValue] = true;
+    }
+    // else{
+    //   if (childRef.current.isCompleted() === true) {
+    //     childRef.current.saveData();
+    //     setIndexValue((prevActiveStep) => prevActiveStep + 1);
+    //     formCompleted[indexValue] = true;
+    //   } else {
+    //     siteRef.current.saveData();
+    //   }
     // }
-
   }
   function handelPrevious() {
     setIndexValue(indexValue - 1);
@@ -70,9 +77,6 @@ export default function RequestStepper() {
   }
   function handelConfirmation() {
     setIndexValue(4);
-  }
-  function handelPaymentSelection(optionId) {
-    setSelectedPaymentOption(optionId);
   }
   useEffect(() => {
     if (counter.commonData.length === 0) {
@@ -147,14 +151,14 @@ export default function RequestStepper() {
           <Col sm={9}>
             <Tab.Content>
               <Tab.Pane eventKey={activeKey[0]}>
-                <SiteSelection ref={childRef} />
+                <SiteSelection ref={siteRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[1]}>
                 <DateSelection ref={childRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[2]}>
                 {isGroup === true ? (
-                  <GroupNavigation  ref={childRef} />
+                  <GroupNavigation ref={childRef} />
                 ) : (
                     <PersonalInfoStepper ref={childRef} Next={handelNext} />
                   )}
@@ -168,27 +172,28 @@ export default function RequestStepper() {
             </Tab.Content>
           </Col>
         </Row>
-        {indexValue===2?(null):(<Row>
-          <Col md={3}></Col>
-          <Col md={2}>
-            <Button
-              variant="primary"
-              onClick={handelPrevious}
-              disabled={indexValue == 0 ? true : false}
-            >
-              <BsArrowLeftShort /> previous
+        {indexValue === 2 ? (null) : (
+          <Row>
+            <Col md={3}></Col>
+            <Col md={2}>
+              <Button
+                variant="primary"
+                onClick={handelPrevious}
+                disabled={indexValue == 0 ? true : false}
+              >
+                <BsArrowLeftShort /> previous
             </Button>{' '}
-          </Col>
-          <Col md={5}></Col>
-          <Col md={2}>
-            <Button variant="primary" onClick={handelNext}>
-              Next
+            </Col>
+            <Col md={5}></Col>
+            <Col md={2}>
+              <Button variant="primary" onClick={handelNext}>
+                Next
               <BsArrowRightShort />
-            </Button>{' '}
-          </Col>
-        </Row>
-      )}
-        </div>
+              </Button>{' '}
+            </Col>
+          </Row>
+        )}
+      </div>
     </Tab.Container>
   );
 }

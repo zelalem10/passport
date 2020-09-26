@@ -24,7 +24,7 @@ const MyApp = forwardRef((props, ref) => {
   const [timeSlots, setTimeSlots] = useState([]);
   const [showAvailableTimeSlots, setShowAvailableTimeSlots] = useState(false);
   const [selectTime, setSelectTime] = useState();
-  const [formCompleted, setFormCompleted] = useState(true);
+  const [formCompleted, setFormCompleted] = useState(false);
   const [activeTimeSlot, setActiveTImeSlot] = useState({
     key: '',
     active: false,

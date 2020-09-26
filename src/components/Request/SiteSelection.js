@@ -16,6 +16,8 @@ const SiteSelection=forwardRef((props, ref) => {
   const [officeName, setOfficeName] = useState('');
   const [officeAddress, setOfficeAddress] = useState('');
   const [officeContact, setOfficeContact] = useState('');
+  const [duration, setDuration] = useState('');
+
   const [officeInfo, setOfficeInfo] = useState({
     offceId:0,
     cityId:0,
@@ -168,6 +170,26 @@ const SiteSelection=forwardRef((props, ref) => {
                   <span style={{ color: "red" }}> {(notCompleted.officeId == true && dataSaved == true) ? "Please select office" : null}</span>
                 </MDBCol>
               </MDBRow>
+
+              <hr></hr>
+              <MDBRow>
+                <MDBCol>
+                  <label>
+                    Delivery Site<i style={{ color: 'red' }}>*</i>
+                  </label>
+                  <ReactBootstrap.Form.Control
+                    placeholder="Select delivery site"
+                    onChange={handelOfficeChange}
+                    as="select"
+                  >
+                    <option>select delivery site</option>
+                    {officeList.map((office) => (
+                      <option value={office.id} name={office.name} key={office.address}>{office.name}</option>
+                    ))}
+                  </ReactBootstrap.Form.Control>
+                  <span style={{ color: "red" }}> {(notCompleted.officeId == true && dataSaved == true) ? "Please select office" : null}</span>
+                </MDBCol>
+              </MDBRow>
             </MDBCol>
             <MDBCol>
               <app-right-content
@@ -210,6 +232,12 @@ const SiteSelection=forwardRef((props, ref) => {
                           aria-hidden="true"
                           class="fas fa-phone fa-rotate-180"
                         ></i>{' '}<a href="tel:officeContact">{officeContact}{' '}</a>
+                        </strong>
+                      </li>
+                      <hr />
+                      <li>
+                        <strong>
+                          Process duration :&nbsp;&nbsp;<a >{duration}{' '}</a>
                         </strong>
                       </li>
                     </ul>
