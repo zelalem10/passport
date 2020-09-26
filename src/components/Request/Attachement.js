@@ -113,8 +113,8 @@ const Fileupload = forwardRef((props, ref) => {
     debugger;
     inputs.push(
       <div class="row">
-        <div class='col-lg-3'><label for="exampleInputEmail1" class='mr-1'>{attachmentTypeName[i]} :</label></div>
-        <div class="col-lg-9 my-3">
+        <div class='col-lg-4'><label for="exampleInputEmail1" class='mr-1'>{attachmentTypeName[i]} :</label></div>
+        <div class="col-lg-8 my-3">
           <div className="input-group">
             <div className="input-group-prepend">
               <span className="input-group-text" id="inputGroupFileAddon01">

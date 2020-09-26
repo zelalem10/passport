@@ -23,13 +23,13 @@ export default function Information() {
 
     return (
         <MDBContainer fluid style={{ width: '80%' }}>
-            <div class="row">
+            <div class="row passportaccordion" >
                 <div class="col-lg-8 mr-5">
                 <div class="u-center-text u-margin-bottom-big mt-5">
-                    <h2 class="heading-secondary">Before you apply</h2>
+                    <h2 class="heading-secondary">How to Apply</h2>
                 </div>
 
-                    <div className={classes.root}>
+                    <div className={classes.root} class='faq-accordion'>
                         <Accordion className='accordion-item'>
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}

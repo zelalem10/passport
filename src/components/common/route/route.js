@@ -17,7 +17,6 @@ import ServiceSelection from '../../Request Appointment/ServiceSelection';
 import PayWithPSS from '../../Payment/PayWithPSS';
 import contactUs from '../../Help and Support/contactUs';
 import about from '../../Help and Support/about';
-
 function PassportRoute() {
 //   childUrl = window.open('/preview', '_blank')
 // childUrl.document.open('text/html', 'replace')

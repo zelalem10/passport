@@ -5,7 +5,7 @@ import Spinner from '../../common/Spinner';
 
 const Fileupload = forwardRef((props, ref) => {
   debugger;
-  const { displayedApplication,personalInformation } = props;
+  const { displayedApplication,personalInformation} = props;
   let [successMessage, setsuccessMessage] = useState(false);
   let [errorMessage, seterrorMessage] = useState(false);
   const accesstoken = localStorage.systemToken;
@@ -13,12 +13,12 @@ const Fileupload = forwardRef((props, ref) => {
 
   const [files, setfiles] = useState([]);
   const [fileType, setfileType] = useState([]);
-  let requiredAttachementType = JSON.parse(localStorage.getItem("requiredAttachementType"));
-  let attachmentTypeName = JSON.parse(localStorage.getItem("attachmentTypeName"));
   const inputs = [];
-  let requiredAttachements = localStorage.requiredAttachements;
   let requestPersonId = personalInformation.requestPersonId;
-  console.log(requestPersonId)
+  let attachmentlength = localStorage.getItem("attachmentlength");
+  let attachmentPath = JSON.parse(localStorage.getItem("attachmentPath"));
+  let attachmentType = JSON.parse(localStorage.getItem("attachmentType"));
+
   const [loading, setloading] = useState(false);
   const [filename, setfilename] = useState({
     1:'',
@@ -36,6 +36,8 @@ const Fileupload = forwardRef((props, ref) => {
 
   });
 
+
+
   useImperativeHandle(ref, () => ({
     saveData() {
       setfiles((prevState) => ({
@@ -47,6 +49,8 @@ const Fileupload = forwardRef((props, ref) => {
       return true
     }
   }));
+
+
   const submit = async (e) => {
     debugger;
     e.preventDefault();
@@ -66,6 +70,7 @@ const Fileupload = forwardRef((props, ref) => {
     // }
     for (let i = 0; i < files.length; i++) {
       formData.append('personRequestId', requestPersonId);
+      console.log(requestPersonId)
       formData.append(fileType[i], files[i]);
       console.log(files[i])
       console.log(fileType[i])
@@ -108,38 +113,51 @@ const Fileupload = forwardRef((props, ref) => {
       ...prevState,[id]:value.replace(/^.*[\\\/]/, '')}))
     }
 
-  for (let i = 0; i < requiredAttachements; i++) {
+  for (let i = 0; i < attachmentlength; i++) {
     debugger;
     inputs.push(
-      <div class="row">
-         <div class="col-md-4">
-         <label for="exampleInputEmail1" class='pl-4'>{attachmentTypeName[i]} :</label>
+      <div class="row p-3">
+         <div class="col-lg-4 pl-5">
+         <label for="exampleInputEmail1" class='pl-4'>{attachmentType[i]} :</label>
          </div>
-        <div class="col-md-6 mb-2">
+ 
+         
+    
+        <div class="col-lg-8 mb-2 pr-5">
+        <div class="row">
+          <div class="col-lg-2">
+          <a href={attachmentPath[i]} >View File</a>
+          </div>
+          <div class="col-lg-10">
           <div className="input-group">
             <div className="input-group-prepend">
               <span className="input-group-text" id="inputGroupFileAddon01">
-                Upload
+                Change
                     </span>
             </div>
             <div className="custom-file">
               <input
                 name={`input-${i}`}
                 type="file"
-                id={requiredAttachementType[i]}
+                id={attachmentPath[i]}
                 className="custom-file-input"
                 aria-describedby="inputGroupFileAddon01"
                 onChange={e => onChange(e)}
               />
 
               <label className="custom-file-label" htmlFor="inputGroupFile01">
-               {filename[requiredAttachementType[i]] ? filename[requiredAttachementType[i]]
-               : <div>Choose {attachmentTypeName[i]}</div> 
+               {filename[attachmentPath[i]] ? filename[attachmentPath[i]]
+               : <div>Choose File</div> 
   }
               </label>
             </div>
           </div>
 
+          </div>
+
+        </div>
+
+    
         </div>
       </div>
     )

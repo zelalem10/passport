@@ -19,7 +19,7 @@ const MultiCarouselPage = () => {
     <MDBContainer className="passport-card-deck passport-container my-5" fluid>
       <div class="u-center-text u-margin-bottom-big">
                     <h2 class="heading-secondary">
-                    Before you apply
+                    How to Apply
                     </h2>
                 </div>
       
