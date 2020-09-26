@@ -92,3 +92,20 @@ label {
 .save-appointment-btn .btn-default {
   background-color: #17a2b8 !important;
 }
+.date-picker .MuiFormControl-root {
+  width: 100%;
+}
+.birth-Date .MuiFormControl-root {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+.required-field .md-form label:after {
+  content: '*' !important;
+  color: red !important;
+  display: inline !important;
+  position: relative !important;
+  opacity: 1 !important;
+  top: 0 !important;
+  font-size: 1.2rem;
+  font-weight: 700;
+}

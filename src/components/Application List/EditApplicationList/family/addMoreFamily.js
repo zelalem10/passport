@@ -54,7 +54,7 @@ function AddMoreFamily(props) {
                 <div className="accordion-item is-active" id="patient-raa-step">
                   <a className="accordion-title enabled">
                     <span className="accordion-title__text">
-                      1. Family Details
+                      Family Details
                     </span>
                   </a>
 
@@ -100,10 +100,10 @@ function AddMoreFamily(props) {
                         class="button hollow gray vertical-margin-2 "
                         onClick={props.addAdditionalFamilyHandler}
                       >
-                        Add
+                        Save
                         <span class="show-for-medium">
                           {' '}
-                          Family <i class="fas fa-plus-circle"></i>
+                          <i class="fas fa-plus-circle"></i>
                         </span>
                       </a>
                     </div>

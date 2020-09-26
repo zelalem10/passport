@@ -4,7 +4,7 @@ import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
-import { MDBContainer } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
 import './viewAppointment.css';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useSelector } from 'react-redux';
@@ -58,7 +58,9 @@ export default function ViewAppointment(props) {
   const appList = data.applicationList[0];
   let displayedApplication = {};
   const { displayRequestId } = props;
-
+  const backToList = () => {
+    window.location.href = '/Application-List';
+  };
   for (let item in appList) {
     if (appList[item].requestId == displayRequestId) {
       displayedApplication = appList[item];
@@ -262,7 +264,7 @@ export default function ViewAppointment(props) {
                       </label>
                     </b>
                   </div>
-                  <div class="form-group form-inline">
+                  {/* <div class="form-group form-inline">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                       Enrollment Date
                     </label>
@@ -274,7 +276,7 @@ export default function ViewAppointment(props) {
                           .substr(0, 10)}
                       </label>
                     </b>
-                  </div>
+                  </div> */}
                   <div class="form-group form-inline">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                       Birth Country
@@ -544,6 +546,19 @@ export default function ViewAppointment(props) {
                 </fieldset>
               </div>
             </div>
+            <MDBRow>
+              <MDBCol className="medium-12">
+                <div className="text-center mb-3 signUpbutton ">
+                  <MDBBtn
+                    type="submit"
+                    className="btn btn-info float-left ml-4"
+                    onClick={backToList}
+                  >
+                    Back To My Application List
+                  </MDBBtn>
+                </div>
+              </MDBCol>
+            </MDBRow>
           </div>
         </MDBContainer>
       );
