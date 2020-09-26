@@ -49,7 +49,6 @@ function AddFamily(props) {
                               Choose your option
                             </option>
                             {familyType.map((item) => (
-                              
                               <option value={item.id}>{item.type}</option>
                             ))}
                           </select>
@@ -61,10 +60,10 @@ function AddFamily(props) {
                         class="button hollow gray vertical-margin-2 "
                         onClick={props.addAdditionalFamilyHandlerAdd}
                       >
-                        Add
+                        Save
                         <span class="show-for-medium">
                           {' '}
-                          Family <i class="fas fa-plus-circle"></i>
+                          <i class="fas fa-plus-circle"></i>
                         </span>
                       </a>
                     </div>

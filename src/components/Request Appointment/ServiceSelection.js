@@ -29,7 +29,7 @@ function HorizontalLinearStepper() {
     isGroup: false,
     appointemntType: '',
     numberOfApplicants: '1',
-    isUrgent:false,
+    isUrgent: false,
   });
   const [Replace, setReplace] = React.useState({
     reasonForReplacment: '',
@@ -44,7 +44,7 @@ function HorizontalLinearStepper() {
   if (counter.service.length === 0) {
     dispatch(serviceActions.selectService({ ...data, step: 1 }));
   }
-  const [isUrgentAppointment,setIsUrgentAppointment]=React.useState(false);
+
   const [group, setGroup] = React.useState(false);
   const [applicantsState, setApplicants] = React.useState(1);
   const [appointemntType, setAppointmentType] = React.useState(1);
@@ -64,15 +64,6 @@ function HorizontalLinearStepper() {
     } else {
       indentifier = false;
     }
-  };
-  const handleIsUrgent=()=>{
-    debugger;
-    
-    
-    dispatch(
-      serviceActions.selectService({ ...data, isUrgent:isUrgentAppointment?false:true })
-    );
-    setIsUrgentAppointment(!isUrgentAppointment);
   };
 
   const nextStep = (type) => {
@@ -94,7 +85,7 @@ function HorizontalLinearStepper() {
           step: step + 1,
           numberOfApplicants:
             counter.service[counter.service.length - 1].numberOfApplicants,
-            isUrgent:counter.service[counter.service.length - 1].isUrgent
+          isUrgent: counter.service[counter.service.length - 1].isUrgent,
         })
       );
     }
@@ -102,7 +93,7 @@ function HorizontalLinearStepper() {
 
   const DoubleNextStep = (value) => {
     const { numberOfApplicants } = counter.service[counter.service.length - 1];
-    const {isUrgent}=counter.service[counter.service.length - 1];
+    const { isUrgent } = counter.service[counter.service.length - 1];
     const { step } = state;
 
     setState({
@@ -115,7 +106,7 @@ function HorizontalLinearStepper() {
         appointemntType: value,
         step: step + 2,
         numberOfApplicants: numberOfApplicants,
-        isUrgent:isUrgent,
+        isUrgent: isUrgent,
       })
     );
   };
@@ -128,7 +119,7 @@ function HorizontalLinearStepper() {
   };
   const handleAppointmentType = (value) => {
     const { numberOfApplicants } = counter.service[counter.service.length - 1];
-    const {isUrgent}=counter.service[counter.service.length - 1];
+    const { isUrgent } = counter.service[counter.service.length - 1];
     setState({
       step: step + 1,
     });
@@ -138,7 +129,7 @@ function HorizontalLinearStepper() {
         appointemntType: value,
         step: step + 1,
         numberOfApplicants: numberOfApplicants,
-        isUrgent:isUrgent,
+        isUrgent: isUrgent,
       })
     );
   };
@@ -223,7 +214,6 @@ function HorizontalLinearStepper() {
           values={applicantsState}
           handleAppointmentType={handleAppointmentType}
           DoubleNextStep={DoubleNextStep}
-          handleIsUrgent={handleIsUrgent}
         />
       );
     case 4:

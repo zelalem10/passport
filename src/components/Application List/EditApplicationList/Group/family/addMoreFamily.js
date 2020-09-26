@@ -100,10 +100,9 @@ function AddMoreFamily(props) {
                         class="button hollow gray vertical-margin-2 "
                         onClick={props.addAdditionalFamilyHandler}
                       >
-                        Add
+                        Save
                         <span class="show-for-medium">
-                          {' '}
-                          Family <i class="fas fa-plus-circle"></i>
+                          <i class="fas fa-plus-circle"></i>
                         </span>
                       </a>
                     </div>

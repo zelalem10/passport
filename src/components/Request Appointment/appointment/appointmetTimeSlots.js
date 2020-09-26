@@ -7,7 +7,7 @@ function AvailableTimeSlot(props) {
   if (showAndHide === true) {
     return (
       <div id="chooseAppointments">
-        <MDBTable id="apptTable">
+        <MDBTable id="apptTable" className="table-responsive">
           <MDBTableHead>
             <tr>
               <th>
