@@ -1,4 +1,9 @@
-import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
+import React, {
+  useEffect,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+} from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from '../common/Spinner';
@@ -12,29 +17,35 @@ const Fileupload = forwardRef((props, ref) => {
   let requestTypeId;
   const [files, setfiles] = useState([]);
   const [fileType, setfileType] = useState([]);
-  let requiredAttachementType = JSON.parse(localStorage.getItem("requiredAttachementType"));
-  let attachmentTypeName = JSON.parse(localStorage.getItem("attachmentTypeName"));
+  let requiredAttachementType = JSON.parse(
+    localStorage.getItem('requiredAttachementType')
+  );
+  let attachmentTypeName = JSON.parse(
+    localStorage.getItem('attachmentTypeName')
+  );
   const inputs = [];
   let requiredAttachements = localStorage.requiredAttachements;
   let requestTypefromRedux = useSelector((state) => state.service);
-  requestTypeId = requestTypefromRedux[requestTypefromRedux.length - 1].appointemntType
-  let requestPersonId = useSelector((state) => state.commonData[0].requestPersonId);
-  console.log(requestPersonId)
+  requestTypeId =
+    requestTypefromRedux[requestTypefromRedux.length - 1].appointemntType;
+  let requestPersonId = useSelector(
+    (state) => state.commonData[0].requestPersonId
+  );
+  console.log(requestPersonId);
   const [loading, setloading] = useState(false);
   const [filename, setfilename] = useState({
-    1:'',
-    2:'',
-    3:'',
-    4:'',
-    5:'',
-    6:'',
-    7:'',
-    8:'',
-    9:'',
-    10:'',
-    11:'',
-    12:''
-
+    1: '',
+    2: '',
+    3: '',
+    4: '',
+    5: '',
+    6: '',
+    7: '',
+    8: '',
+    9: '',
+    10: '',
+    11: '',
+    12: '',
   });
 
   useImperativeHandle(ref, () => ({
@@ -45,8 +56,8 @@ const Fileupload = forwardRef((props, ref) => {
       }));
     },
     Validate() {
-      return true
-    }
+      return true;
+    },
   }));
   const submit = async (e) => {
     debugger;
@@ -54,8 +65,8 @@ const Fileupload = forwardRef((props, ref) => {
     setloading(true);
     setsuccessMessage(false);
     seterrorMessage(false);
-    console.log(files)
-    console.log(fileType)
+    console.log(files);
+    console.log(fileType);
     // for (let i = 0; i < requiredAttachements; i++) {
     //   files = e.target[i].files[0];
     //   let fileType = e.target[i].id;
@@ -68,16 +79,17 @@ const Fileupload = forwardRef((props, ref) => {
     for (let i = 0; i < files.length; i++) {
       formData.append('personRequestId', requestPersonId);
       formData.append(fileType[i], files[i]);
-      console.log(files[i])
-      console.log(fileType[i])
+      console.log(files[i]);
+      console.log(fileType[i]);
     }
-      
-    const url = 'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadAttachment';
+
+    const url =
+      'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadAttachment';
 
     const config = {
       headers: {
         'content-type': 'multipart/form-data',
-        'Authorization': 'Bearer ' + accesstoken
+        Authorization: 'Bearer ' + accesstoken,
       },
     };
 
@@ -88,38 +100,39 @@ const Fileupload = forwardRef((props, ref) => {
       setsuccessMessage(true);
       setloading(false);
     } catch (error) {
-      console.log("error" + error.message);
+      console.log('error' + error.message);
       seterrorMessage(true);
       setloading(false);
     }
-
-  }
+  };
   const onChange = (e) => {
     debugger;
     setfiles([...files, e.target.files[0]]);
     setfileType([...fileType, e.target.id]);
-      //files = e.target.files[0];
-      //fileType = e.target.id;
-      
-
+    //files = e.target.files[0];
+    //fileType = e.target.id;
 
     const { id, value } = e.target;
-  
+
     setfilename((prevState) => ({
-      ...prevState,[id]:value.replace(/^.*[\\\/]/, '')}))
-    }
+      ...prevState,
+      [id]: value.replace(/^.*[\\\/]/, ''),
+    }));
+  };
 
   for (let i = 0; i < requiredAttachements; i++) {
     debugger;
     inputs.push(
       <div class="row">
         <div class="col-12 my-3">
-        <label for="exampleInputEmail1" class='mr-1'>{attachmentTypeName[i]} :</label>
+          <label for="exampleInputEmail1" class="mr-1">
+            {attachmentTypeName[i]} :
+          </label>
           <div className="input-group">
             <div className="input-group-prepend">
               <span className="input-group-text" id="inputGroupFileAddon01">
                 Upload
-                    </span>
+              </span>
             </div>
             <div className="custom-file">
               <input
@@ -128,21 +141,21 @@ const Fileupload = forwardRef((props, ref) => {
                 id={requiredAttachementType[i]}
                 className="custom-file-input"
                 aria-describedby="inputGroupFileAddon01"
-                onChange={e => onChange(e)}
+                onChange={(e) => onChange(e)}
               />
 
               <label className="custom-file-label" htmlFor="inputGroupFile01">
-               {filename[requiredAttachementType[i]] ? filename[requiredAttachementType[i]]
-               : <div>Choose {attachmentTypeName[i]}</div> 
-  }
+                {filename[requiredAttachementType[i]] ? (
+                  filename[requiredAttachementType[i]]
+                ) : (
+                  <div>Choose {attachmentTypeName[i]}</div>
+                )}
               </label>
             </div>
           </div>
-
         </div>
       </div>
-    )
-
+    );
   }
 
   return (
@@ -150,29 +163,24 @@ const Fileupload = forwardRef((props, ref) => {
       {loading ? (
         <Spinner />
       ) : (
-
-
-          <form onSubmit={e => submit(e)}>
-            {successMessage &&
-              <div class="alert alert-success" role="alert">
-                Operation sucessfully completed
-       </div>
-            }
-            {errorMessage &&
-              <div class="alert alert-danger" role="alert">
-                Oops! Something went wrong.
-        </div>
-            }
-            {inputs}
-            <button className="btn btn-primary ml-auto" type="submit">Upload</button>
-
-          </form>
-
-
-
-        )}
+        <form onSubmit={(e) => submit(e)}>
+          {successMessage && (
+            <div class="alert alert-success" role="alert">
+              Operation sucessfully completed
+            </div>
+          )}
+          {errorMessage && (
+            <div class="alert alert-danger" role="alert">
+              Oops! Something went wrong.
+            </div>
+          )}
+          {inputs}
+          <button className="btn btn-primary ml-auto" type="submit">
+            Upload
+          </button>
+        </form>
+      )}
     </div>
-
-  )
+  );
 });
-export default Fileupload
+export default Fileupload;

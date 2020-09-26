@@ -115,7 +115,10 @@
   font-size: 1.5rem !important;
 }
 /* *********************** end confirmation page css ***************************** */
-
+.text-dark {
+  color: black !important;
+  font-weight: 500 !important;
+}
 /* *************************** start print button ************************************** */
 button.print-button {
   width: 100px;
@@ -153,10 +156,6 @@ span.print-icon {
   display: inline-block;
   padding: 0;
   margin-top: 20%;
-.text-dark {
-    color: black !important;
-    font-weight: 500 !important;
-}
 
   width: 60%;
   height: 35%;
