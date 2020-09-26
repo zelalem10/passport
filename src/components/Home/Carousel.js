@@ -61,7 +61,7 @@ const CarouselPage = () => {
             <MDBCarouselCaption className="passport-CarouselCaption">
               <h3 className="h3-responsive">
                 Welcome to Ethiopian <br></br>
-                e-passport Services
+                passport Services
               </h3>
               <Link to="/request-appointment">
                 <MDBBtn className="passport-btn d-none d-sm-block">

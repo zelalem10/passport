@@ -27,6 +27,7 @@ const TravelPlan = forwardRef((props, ref) => {
     issueDate,
     isDatacorrected,
     displayedApplication,
+    personalInformation
   } = props;
   debugger;
   const [travelPlan, setTravelPlan] = useState({
@@ -44,51 +45,45 @@ const TravelPlan = forwardRef((props, ref) => {
   debugger;
   const accesstoken = localStorage.systemToken;
 
+  let requestPersonId = personalInformation.requestPersonId;
   let requestTypeId = displayedApplication.requestTypeId;
-  
+  let attachmentlength;
+  let attachmentPath = [];
+  let attachmentType = [];
+
   console.log(displayedApplication)
+
   useEffect(() => {
     axios({
       headers: { Authorization: 'Bearer ' + accesstoken },
       method: 'get',
       url:
-        'https://epassportservices.azurewebsites.net/Master/api/V1.0/OfficeRequestType/GetRequiredAttachementsByRequestTypeId',
-      params: { requestTypeId: requestTypeId },
+        'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
+        params: { requestId: requestPersonId },
     })
-      .then((response) => {
-        let requiredAttachements = response.data.requiredAttachements.length;
-        let requiredAttachementType = [];
-        let attachmentTypeName = [];
-        for (let i = 0; i < response.data.requiredAttachements.length; i++) {
-          requiredAttachementType.push(
-            response.data.requiredAttachements[i].attachmentTypeId
-          );
-          attachmentTypeName.push(
-            response.data.requiredAttachements[i].attachmentType
-          );
-
-          console.log(response.data.requiredAttachements);
+      .then((Response) => {
+        debugger;
+        attachmentlength = Response.data.attachments.length;
+        localStorage.setItem('attachmentlength', attachmentlength);
+        for (let i=0; i< attachmentlength; i++){
+          attachmentPath.push(Response.data.attachments[i].attachmentPath)
+          attachmentType.push(Response.data.attachments[i].attachmentType)
+          
         }
-        console.log(requiredAttachementType);
-
-        if (localStorage.requiredAttachements) {
-          localStorage.removeItem('requiredAttachements');
+        if (localStorage.attachmentPath) {
+          localStorage.removeItem('attachmentPath');
         }
-        localStorage.setItem('requiredAttachements', requiredAttachements);
-        localStorage.setItem(
-          'requiredAttachementType',
-          JSON.stringify(requiredAttachementType)
-        );
-        localStorage.setItem(
-          'attachmentTypeName',
-          JSON.stringify(attachmentTypeName)
-        );
+        if (localStorage.attachmentType) {
+          localStorage.removeItem('attachmentType');
+        }
+        localStorage.setItem('attachmentPath', JSON.stringify(attachmentPath));
+        localStorage.setItem('attachmentType', JSON.stringify(attachmentType));
+
       })
-      .catch((error) => {
-        console.log('error' + error.message);
+      .catch((err) => {
+        console.log(err);
       });
   }, []);
-
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const personRef = React.useRef();

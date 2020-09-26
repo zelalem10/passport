@@ -23,7 +23,10 @@ const intialState = {
     passwordTwo: '',
     emailError :'',
     passwordError : '',
-    passwordTwoError : ''
+    passwordTwoError : '',
+    phoneNumber : '',
+    phoneNumberError : '',
+
   },
   
 }
@@ -40,6 +43,7 @@ class SignUp extends Component {
       let emailError ='';
       let passwordError = '';
       let passwordTwoError = '';
+      let phoneNumberError = '';
 
       if (!this.state.personRequest.firstName){
         firstNameError = 'Please Enter Your First Name.';
@@ -50,6 +54,9 @@ class SignUp extends Component {
       
       if (!this.state.personRequest.lastName){
         lastNameError = 'Please Enter Your Last Name.';
+      }
+      if (!this.state.personRequest.phoneNumber){
+        phoneNumberError = 'Please Enter Your phone Number.';
       }
       if (!this.state.personRequest.email){
         emailError = 'Please Enter Your Email Address.';
@@ -71,8 +78,8 @@ class SignUp extends Component {
         passwordTwoError = 'Passwords Do Not Match.';
       }
 
-      if(firstNameError || lastNameError || emailError || passwordError || passwordTwoError){
-        this.setState({firstNameError, MiddleNameError, lastNameError, emailError, passwordError, passwordTwoError})
+      if(firstNameError || lastNameError || emailError || passwordError || passwordTwoError || phoneNumberError){
+        this.setState({firstNameError, MiddleNameError, lastNameError, emailError, passwordError, passwordTwoError, phoneNumberError})
 
         return false;
       }
@@ -191,8 +198,25 @@ class SignUp extends Component {
                     success="right"
                     onChange={this.changeHandler}
                   />
-                  {this.state.lastNameError? (
+                       {this.state.lastNameError? (
                   <div className='red-text' style={Errorstyle}>{this.state.lastNameError}</div>
+                  ) : null}
+                  
+            
+                   <MDBInput
+                    label="Phone Number"
+                    name='phoneNumber'
+                    value={personRequest.phoneNumber}
+                    icon="phone"
+                    group
+                    type="number"
+                    validate
+                    error="wrong"
+                    success="right"
+                    onChange={this.changeHandler}
+                  />
+                   {this.state.phoneNumberError? (
+                  <div className='red-text' style={Errorstyle}>{this.state.phoneNumberError}</div>
                   ) : null}
                   <MDBInput
                     label="Email"

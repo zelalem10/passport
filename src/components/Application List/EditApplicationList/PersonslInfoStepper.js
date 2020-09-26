@@ -269,6 +269,8 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             issueDate={personalInformation.issueDate}
             isDatacorrected={personalInformation.isDatacorrected}
             displayedApplication={displayedApplication} 
+            personalInformation={personalInformation} 
+            
           />
         );
 
