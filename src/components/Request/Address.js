@@ -14,8 +14,6 @@ const Address = forwardRef((props, ref) => {
         street: "",
         houseNo: "",
         poBox: "",
-        phoneNumber: "",
-        email: "",
         requestPlace: "",
         dataSaved: false
     });
@@ -28,9 +26,7 @@ const Address = forwardRef((props, ref) => {
         street: true,
         houseNo: true,
         poBox: true,
-        phoneNumber: true,
-        email: true,
-        requestPlace: true
+        phoneNumber: true
     });
     const dispatch = useDispatch();
     const counter = useSelector((state) => state);
@@ -55,11 +51,9 @@ const Address = forwardRef((props, ref) => {
                 street: addressInfo.street === "" ? true : false,
                 houseNo: addressInfo.houseNo === "" ? true : false,
                 poBox: addressInfo.poBox === "" ? true : false,
-                phoneNumber: addressInfo.phoneNumber === "" ? true : false,
-                email: addressInfo.email === "" ? true : false,
                 requestPlace: addressInfo.requestPlace === "" ? true : false,
             })
-            if (notCompleted.country == true || notCompleted.city == true || notCompleted.phoneNumber == true)
+            if (notCompleted.country == true || notCompleted.city == true)
                 return false
             else
                 return true
@@ -93,8 +87,6 @@ const Address = forwardRef((props, ref) => {
             street: prevInfo ? prevInfo.street : "",
             houseNo: prevInfo ? prevInfo.houseNo : "",
             poBox: prevInfo ? prevInfo.poBox : "",
-            phoneNumber: prevInfo ? prevInfo.phoneNumber : "",
-            email: prevInfo ? prevInfo.email : "",
             requestPlace: prevInfo ? prevInfo.requestPlace : "",
         }))
     }, []);
@@ -189,28 +181,7 @@ const Address = forwardRef((props, ref) => {
                         </MDBCol>
                     </MDBRow>
                     <MDBRow>
-                        <MDBCol>
-                            <MDBInput
-                                valueDefault={prevInfo ? prevInfo.phoneNumber : null}
-                                name="phoneNumber"
-                                className="form-control"
-                                onBlur={handleChange}
-                                type="text"
-                                label="Phone Number"
-                            />
-                            <span style={{ color: "red" }}> {(notCompleted.phoneNumber == true && addressInfo.dataSaved == true) ? "Phone Number " + isRequired : null}</span>
-                        </MDBCol>
-                        <MDBCol>
-                            <MDBInput
-                                valueDefault={prevInfo ? prevInfo.email : null}
-                                name="email"
-                                className="form-control"
-                                onBlur={handleChange}
-                                type="email"
-                                label="Email"
-                            />
-                        </MDBCol>
-                        <MDBCol>
+                       <MDBCol>
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.requestPlace : null}
                                 name="requestPlace"
@@ -220,6 +191,9 @@ const Address = forwardRef((props, ref) => {
                                 label="Request Place"
                             />
                         </MDBCol>
+                        <MDBCol></MDBCol>
+                        <MDBCol></MDBCol>
+                        <MDBCol></MDBCol>
                     </MDBRow>
                 </form>
             </MDBCardBody>

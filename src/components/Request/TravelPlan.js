@@ -37,8 +37,6 @@ function requestTypeGetter(requetTypeId) {
 }
 const TravelPlan = forwardRef((props, ref) => {
   const [travelPlan, setTravelPlan] = useState({
-    travelDate: '',
-    ticketNumber: '',
     filledBy: '',
     pageQuantity: '0',
     passportType: '',
@@ -49,8 +47,6 @@ const TravelPlan = forwardRef((props, ref) => {
     dataSaved: false,
   });
   const [notCompleted, setNotCompleted] = useState({
-    travelDate: true,
-    ticketNumber: true,
     filledBy: true,
     pageQuantity: false,
     passportType: true,
@@ -123,8 +119,6 @@ const TravelPlan = forwardRef((props, ref) => {
     },
     Validate() {
       setNotCompleted({
-        travelDate: travelPlan.travelDate === '' ? true : false,
-        ticketNumber: travelPlan.ticketNumber === '' ? true : false,
         filledBy: travelPlan.filledBy === '' ? true : false,
         pageQuantity: travelPlan.pageQuantity === '' ? true : false,
         passportType: travelPlan.passportType === '' ? true : false,
@@ -154,12 +148,6 @@ const TravelPlan = forwardRef((props, ref) => {
       ...prevState,
       [name]: checked,
     }));
-    // if (!event.target.checked) {
-    //     setNotCompleted((prevState) => ({
-    //         ...prevState,
-    //         [name]: false,
-    //     }))
-    // }
   };
   const [selectedtravelDate, setSelectedtravelDate] = React.useState(
     new Date(prevInfo ? prevInfo.travelDate : new Date())
@@ -201,8 +189,6 @@ const TravelPlan = forwardRef((props, ref) => {
     }
     setTravelPlan((prevState) => ({
       ...prevState,
-      travelDate: prevInfo ? new Date(prevInfo.travelDate) : null,
-      ticketNumber: prevInfo ? prevInfo.ticketNumber : null,
       filledBy: prevInfo ? prevInfo.filledBy : null,
       pageQuantity: prevInfo ? prevInfo.pageQuantity : '0',
       passportType: prevInfo ? prevInfo.passportType : null,
@@ -227,51 +213,7 @@ const TravelPlan = forwardRef((props, ref) => {
         <form>
           <div className="grey-text">
             <MDBRow>
-              <MDBCol>
-                <MDBInput
-                  valueDefault={prevInfo ? prevInfo.ticketNumber : null}
-                  name="ticketNumber"
-                  className="form-control"
-                  onBlur={handleChange}
-                  type="text"
-                  label="Ticket Number"
-                />
-              </MDBCol>
-              <MDBCol>
-                <MDBInput
-                  valueDefault={prevInfo ? prevInfo.filledBy : null}
-                  name="filledBy"
-                  className="form-control"
-                  onBlur={handleChange}
-                  type="text"
-                  label="Application filled by"
-                />
-              </MDBCol>
-              <MDBCol className="date-picker">
-                {/* <MDBInput
-                  valueDefault={prevInfo ? prevInfo.travelDate : null}
-                  name="travelDate"
-                  className="form-control"
-                  onBlur={handleChange}
-                  type="date"
-                  label="Travel Date"
-                /> */}
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    margin="normal"
-                    id="date-picker-dialog"
-                    label="Travel Date"
-                    format="MM/dd/yyyy"
-                    value={selectedtravelDate}
-                    onChange={handletravelDateChange}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                </MuiPickersUtilsProvider>
-              </MDBCol>
-
-              <MDBCol>
+            <MDBCol>
                 <label>Page Quantity</label>
                 <select className="browser-default custom-select">
                   <option value="0">32</option>
@@ -285,6 +227,18 @@ const TravelPlan = forwardRef((props, ref) => {
                     : null}
                 </span>
               </MDBCol>
+              <MDBCol>
+                <MDBInput
+                  valueDefault={prevInfo ? prevInfo.filledBy : null}
+                  name="filledBy"
+                  className="form-control"
+                  onBlur={handleChange}
+                  type="text"
+                  label="Application filled by"
+                />
+              </MDBCol>
+              <MDBCol></MDBCol>
+              <MDBCol></MDBCol>
             </MDBRow>
             <hr />
             {requestTypeStr != 'New' ? (
