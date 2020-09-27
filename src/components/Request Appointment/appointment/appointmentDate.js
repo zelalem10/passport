@@ -181,19 +181,10 @@ const MyApp = forwardRef((props, ref) => {
           },
         })
           .then((response) => {
-            debugger;
-            let newdate = new Date(response.data.date);
-            if(newdate){
-              setFormCompleted(true);
+            dispatch(addAppointmentDate(response.data.appointmentResponses));
+            if(response.data.appointmentResponses){
+            setFormCompleted(true);
             }
-            let newYear = newdate.getFullYear();
-            let newMonth = (1 + newdate.getMonth()).toString();
-            newMonth = newMonth.length > 1 ? newMonth : '0' + newMonth;
-            let newDay = newdate.getDate().toString();
-            newDay = newDay.length > 1 ? newDay : '0' + newDay;
-            setNewAppointment(newdate);
-
-            dispatch(addAppointmentDate(response.data));
           })
           .catch((error) => {
             console.log('error' + error);
@@ -214,26 +205,12 @@ const MyApp = forwardRef((props, ref) => {
           },
         })
           .then((response) => {
-            debugger;
-            let newdate = new Date(response.data.date);
-            if(newdate){
-              setFormCompleted(true);
-              console.log(formCompleted);
-            }
-            let newYear = newdate.getFullYear();
-            let newMonth = (1 + newdate.getMonth()).toString();
-            newMonth = newMonth.length > 1 ? newMonth : '0' + newMonth;
-            let newDay = newdate.getDate().toString();
-            newDay = newDay.length > 1 ? newDay : '0' + newDay;
-            setNewAppointment(newdate);
-            setNewDisplayTime(`${newdate.toISOString().substr(0, 10)} ${
-              response.data.duration.startTime
-            } - ${response.data.duration.endTime} ${
-              response.data.duration.isMorning ? 'AM' : 'PM'
-            } 
+          
             
-        `);
-            dispatch(addAppointmentDate(response.data));
+            dispatch(addAppointmentDate(response.data.appointmentResponses));
+            if(response.data.appointmentResponses){
+              setFormCompleted(true);
+              }
           })
           .catch((error) => {
             debugger;

@@ -91,7 +91,7 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
         requestId: 0,
         requestMode: 0,
         requestTypeId: 2,
-        appointmentId:appointment?appointment.id :1,
+        appointmentIds:appointment?[appointment[0].id] :1,
         userName: '',
         status: 0,
         confirmationNumber: '',
@@ -162,9 +162,9 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
           setIsSuccess(true);
           console.log(todo.data)
           const commonData = {
-            requestPersonId: todo.data.personResponses[0].requestPersonId,
+            requestPersonId: todo.data.serviceRequest.personResponses[0].requestPersonId,
           };
-          dispatch(newRequest(todo.data));
+          dispatch(newRequest(todo.data.serviceRequest));
           dispatch(addCommonData(commonData));
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
