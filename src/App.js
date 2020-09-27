@@ -6,6 +6,7 @@ import FooterPage from './components/common/footer';
 import PassportRoute from './components/common/route/route';
 import SystemToken from './components/common/route/systemToken';
 
+
 function App() {
   const location = useLocation();
   return (

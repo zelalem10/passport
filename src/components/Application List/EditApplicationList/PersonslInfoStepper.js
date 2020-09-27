@@ -237,6 +237,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
           <PersonalInfo
             ref={childRef}
             personalInformation={personalInformation}
+            
           />
         );
 
@@ -267,11 +268,18 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             expirationDate={personalInformation.expireDate}
             issueDate={personalInformation.issueDate}
             isDatacorrected={personalInformation.isDatacorrected}
+            displayedApplication={displayedApplication} 
+            personalInformation={personalInformation} 
+            
           />
         );
 
       case 4:
-        return <Attachment />;
+        return <Attachment 
+        ref={childRef} 
+        displayedApplication={displayedApplication} 
+        personalInformation={personalInformation}
+        />;
 
       default:
         return 'Unknown stepIndex';
@@ -389,7 +397,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                   <hr></hr>
 
                   <Grid item xs={1}>
-                    {activeStep === steps.length - 2 ? (
+                    {activeStep === steps.length - 1 ? (
                       <div className="multistep-form__step">
                         <a
                           class="specialty-next-step button float-right vertical-margin-2"

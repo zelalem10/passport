@@ -22,13 +22,35 @@ const CarouselPage = () => {
     >
       <MDBCarousel
         activeItem={1}
-        length={3}
+        length={6}
         showControls={true}
         showIndicators={true}
         className="z-depth-1"
       >
         <MDBCarouselInner>
-          <MDBCarouselItem itemId="1">
+        <MDBCarouselItem itemId="1">
+            <MDBView>
+              <img
+                className="d-block w-100"
+                src={require('../../images/default-source/carousel/lalibela.jpg')}
+                alt="First slide"
+              />
+              {/* <MDBMask overlay="black-light" /> */}
+            </MDBView>
+            <MDBCarouselCaption className="passport-CarouselCaption">
+              <h3 className="h3-responsive">
+                Welcome to Ethiopian <br></br>
+                passport Services
+              </h3>
+              <Link to="/request-appointment">
+                <MDBBtn className="passport-btn d-none d-sm-block">
+                  Request Appointment
+                </MDBBtn>
+              </Link>
+            </MDBCarouselCaption>
+          </MDBCarouselItem>
+         
+          <MDBCarouselItem itemId="2">
             <MDBView>
               <img
                 className="d-block w-100"
@@ -40,7 +62,7 @@ const CarouselPage = () => {
             <MDBCarouselCaption className="passport-CarouselCaption">
               <h3 className="h3-responsive">
                 Welcome to Ethiopian <br></br>
-                e-passport Services
+                passport Services
               </h3>
               <Link to="/request-appointment">
                 <MDBBtn className="passport-btn d-none d-sm-block">
@@ -49,7 +71,7 @@ const CarouselPage = () => {
               </Link>
             </MDBCarouselCaption>
           </MDBCarouselItem>
-          <MDBCarouselItem itemId="2">
+          <MDBCarouselItem itemId="3">
             <MDBView>
               <img
                 className="d-block w-100"
@@ -61,7 +83,7 @@ const CarouselPage = () => {
             <MDBCarouselCaption className="passport-CarouselCaption">
               <h3 className="h3-responsive">
                 Welcome to Ethiopian <br></br>
-                e-passport Services
+                passport Services
               </h3>
               <Link to="/request-appointment">
                 <MDBBtn className="passport-btn d-none d-sm-block">
@@ -70,7 +92,7 @@ const CarouselPage = () => {
               </Link>
             </MDBCarouselCaption>
           </MDBCarouselItem>
-          <MDBCarouselItem itemId="3">
+          <MDBCarouselItem itemId="4">
             <MDBView>
               <img
                 className="d-block w-100"
@@ -91,6 +113,49 @@ const CarouselPage = () => {
               </Link>
             </MDBCarouselCaption>
           </MDBCarouselItem>
+          <MDBCarouselItem itemId="5">
+            <MDBView>
+              <img
+                className="d-block w-100"
+                src={require('../../images/default-source/carousel/axum.jpg')}
+                alt="Third slide"
+              />
+              {/* <MDBMask overlay="black-slight" /> */}
+            </MDBView>
+            <MDBCarouselCaption className="passport-CarouselCaption">
+              <h3 className="h3-responsive">
+                Welcome to Ethiopian <br></br>
+                e-passport Services
+              </h3>
+              <Link to="/request-appointment">
+                <MDBBtn className="passport-btn d-none d-sm-block">
+                  Request Appointment
+                </MDBBtn>
+              </Link>
+            </MDBCarouselCaption>
+          </MDBCarouselItem>
+          <MDBCarouselItem itemId="6">
+            <MDBView>
+              <img
+                className="d-block w-100"
+                src={require('../../images/default-source/carousel/ertale.jpg')}
+                alt="Third slide"
+              />
+              {/* <MDBMask overlay="black-slight" /> */}
+            </MDBView>
+            <MDBCarouselCaption className="passport-CarouselCaption">
+              <h3 className="h3-responsive">
+                Welcome to Ethiopian <br></br>
+                e-passport Services
+              </h3>
+              <Link to="/request-appointment">
+                <MDBBtn className="passport-btn d-none d-sm-block">
+                  Request Appointment
+                </MDBBtn>
+              </Link>
+            </MDBCarouselCaption>
+          </MDBCarouselItem>
+    
         </MDBCarouselInner>
       </MDBCarousel>
     </MDBContainer>
