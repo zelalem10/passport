@@ -38,7 +38,7 @@ App {
 }
 .textBackground {
   background-color: #004d99;
-  border-radius: 3px!important;
+  border-radius: 3px !important;
 }
 
 .signUpbutton .btn-info {
@@ -54,10 +54,16 @@ App {
   background-color: #ffffff !important;
 }
 .headerTwo {
-  background-color:#093C73 !important;
+  background-color: #093c73 !important;
 }
 
-.applist .small-12 .card--teal, .applist .request-type .request-card .card--link:hover .card--teal + .card--gray {
+.applist .small-12 .card--teal,
+.applist
+  .request-type
+  .request-card
+  .card--link:hover
+  .card--teal
+  + .card--gray {
   background-color: #004d99 !important;
   color: #fefefe !important;
 }
@@ -65,7 +71,6 @@ App {
   width: 100%;
   padding: 0 0.55rem 0.55rem;
 }
-
 
 .epassportcenter {
   height: 100px;
@@ -76,15 +81,15 @@ App {
 .loyalty-bar__menu-left {
   color: #fff;
 }
-@media (min-width: 992px){
+@media (min-width: 992px) {
   .d-lg-inline-block {
     display: inline-block !important;
-}
+  }
 }
 
 .text-dark {
-    color: black !important;
-    font-weight: 500 !important;
+  color: black !important;
+  font-weight: 500 !important;
 }
 .ePassprt-color {
   background-color: #093c73 !important;
@@ -92,10 +97,9 @@ App {
   display: block;
 }
 .ePassprt-text-color {
-color: #093c73 !important;
-
+  color: #093c73 !important;
 }
-.thead-lightt{
+.thead-lightt {
   width: 100%;
   margin-bottom: 1rem;
   background-color: #093c73 !important;
@@ -138,10 +142,11 @@ button.print-button {
   vertical-align: middle;
   cursor: pointer;
   border-radius: 50%;
-  -webkit-box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18), 0 4px 15px 0 rgba(0,0,0,0.15);
-  box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18), 0 4px 15px 0 rgba(0,0,0,0.15);
-  -webkit-transition: all .2s ease-in-out;
-  transition: all .2s ease-in-out;
+  -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18),
+    0 4px 15px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
   width: 47px;
   height: 47px;
 }
@@ -153,7 +158,13 @@ button.print-button {
   text-transform: uppercase;
   font-weight: 700;
   display: inline-block;
-  background-image: -webkit-gradient( linear, left top, right top, from(#3f51b5), to(#093c73) );
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(#3f51b5),
+    to(#093c73)
+  );
   background-image: linear-gradient(to right, #3f51b5, #093c73);
   -webkit-background-clip: text;
   color: transparent;
@@ -164,7 +175,9 @@ button.print-button {
 .u-center-text {
   text-align: center !important;
 }
-.info .btn, .info .btn:link, .info .btn:visited {
+.info .btn,
+.info .btn:link,
+.info .btn:visited {
   text-transform: uppercase;
   text-decoration: none;
   padding: 0.5rem 1rem;
@@ -178,15 +191,17 @@ button.print-button {
   cursor: pointer;
 }
 .info .btnBlu {
-  background-color: #093c73 ;
+  background-color: #093c73;
   color: #fff;
 }
 .info .btn:hover {
-  background-color: #093c73 ;
+  background-color: #093c73;
   color: #fff;
 }
 
-.medium .btn, .medium .btn:link, .medium .btn:visited {
+.medium .btn,
+.medium .btn:link,
+.medium .btn:visited {
   text-transform: uppercase;
   text-decoration: none;
   padding: 0.5rem 3rem;
@@ -199,11 +214,11 @@ button.print-button {
   cursor: pointer;
 }
 .medium .btnBlu {
-  background-color: #093c73 ;
+  background-color: #093c73;
   color: #fff;
 }
 .medium .btn:hover {
-  background-color: #093c73 ;
+  background-color: #093c73;
   color: #fff;
 }
 .equalcard {
@@ -219,8 +234,8 @@ button.print-button {
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid rgba(0,0,0,.125);
-  border-radius: .25rem;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
 }
 @media print {
   .no-print {

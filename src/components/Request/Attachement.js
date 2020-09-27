@@ -62,9 +62,7 @@ const Fileupload = forwardRef((props, ref) => {
       return true;
     },
   }));
-  const counter = useSelector((state) => state);
-  const serviceData = counter.service[counter.service.length - 1];
-  const requestMode = serviceData.isUrgent;
+
   const submit = async (e) => {
     debugger;
     e.preventDefault();
@@ -105,11 +103,8 @@ const Fileupload = forwardRef((props, ref) => {
       console.log(response.data);
       setsuccessMessage(true);
       setloading(false);
-      if (requestMode) {
-        history.push('/Confirmation');
-      } else {
-        props.VerticalNext();
-      }
+
+      props.VerticalNext();
     } catch (error) {
       console.log('error' + error.message);
       seterrorMessage(true);
@@ -135,7 +130,11 @@ const Fileupload = forwardRef((props, ref) => {
     debugger;
     inputs.push(
       <div class="row">
-        <div class='col-lg-4'><label for="exampleInputEmail1" class='mr-1'>{attachmentTypeName[i]} :</label></div>
+        <div class="col-lg-4">
+          <label for="exampleInputEmail1" class="mr-1">
+            {attachmentTypeName[i]} :
+          </label>
+        </div>
         <div class="col-lg-8 my-3">
           <div className="input-group">
             <div className="input-group-prepend">

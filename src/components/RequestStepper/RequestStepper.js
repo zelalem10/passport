@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import addPaymentOptionId from '../../redux/actions/addPaymentOptionIdAction';
 
 export default function RequestStepper() {
-  const [indexValue, setIndexValue] = useState(4);
+  const [indexValue, setIndexValue] = useState(0);
   const [selectedPaymentOption, setSelectedPaymentOption] = useState(0);
   const [formCompleted, setFormCompleted] = useState([
     false,
