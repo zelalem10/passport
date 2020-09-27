@@ -126,6 +126,7 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
             passportType: travelPlan ? travelPlan.passportType : null,
             isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
             pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10): 0,
+            correctionType: travelPlan ? Number.parseInt(travelPlan.correctionReason, 10): 0,
             maritalStatus: personalInfo ? Number.parseInt(personalInfo.martialStatus, 10): 0,
             birthCertificateId: personalInfo? personalInfo.birthCertificatNo: null,
             phoneNumber: personalInfo? personalInfo.phoneNumber: null,

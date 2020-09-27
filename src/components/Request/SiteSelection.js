@@ -1,43 +1,52 @@
 import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import * as ReactBootstrap from 'react-bootstrap';
-import { MDBRow, MDBCol, MDBInput,  MDBCard, MDBCardBody } from 'mdbreact';
+import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody } from 'mdbreact';
 import API from '../Utils/API';
 import { useDispatch, useSelector } from 'react-redux';
 import saveSiteInformation from '../../redux/actions/siteInformationAction';
 
 
 const accesstoken = localStorage.systemToken;
-const SiteSelection=forwardRef((props, ref) => {
+const SiteSelection = forwardRef((props, ref) => {
   const [cityList, setCityList] = useState([]);
   const [regionList, setRegionList] = useState([]);
   const [officeList, setOfficeList] = useState([]);
+  const [deliverySiteList, setDeliverySiteList] = useState([])
   const [officeId, setOfficeId] = useState(0);
   const [officeName, setOfficeName] = useState('');
   const [officeAddress, setOfficeAddress] = useState('');
   const [officeContact, setOfficeContact] = useState('');
-  const [duration, setDuration] = useState('');
 
+  const [selectedDeliverySiteId, setSelectedDeliverySiteId] = useState(0);
+  const [deliveryOfficeName, setDeliveryOfficeName] = useState('');
+  const [deliveryOfficeAddress, setdeliveryOfficeAddress] = useState('');
+  const [deliveryOfficeContact, setdeliveryOfficeContact] = useState('');
+
+
+  const [duration, setDuration] = useState('');
   const [officeInfo, setOfficeInfo] = useState({
-    offceId:0,
-    cityId:0,
-    reagionId:0,
+    offceId: 0,
+    cityId: 0,
+    reagionId: 0,
+    deliverySiteId: 0,
   });
   const [formCompleted, setFormCompleted] = useState(false);
   const [dataSaved, setDataSaved] = useState(false);
   const [notCompleted, setNotCompleted] = useState({
-    officeId:true,
+    officeId: true,
     cityId: true,
     reagionId: true,
+    deliverySiteId: true,
   });
 
   const accesstoken = localStorage.systemToken;
   const dispatch = useDispatch();
-  const officeURL =
-    'https://epassportservices.azurewebsites.net/Master/api/V1.0/Office/GetByCityId?id=';
+  const deliverySiteURL = "https://epassportservices.azurewebsites.net/Master/api/V1.0/DeliverySite/GetAll?OfficeId="
+  const officeURL = 'https://epassportservices.azurewebsites.net/Master/api/V1.0/Office/GetByCityId?id=';
   const config = {
     headers: {
-      Authorization: `Bearer `+ accesstoken,
+      Authorization: `Bearer ` + accesstoken,
     },
   };
 
@@ -46,18 +55,18 @@ const SiteSelection=forwardRef((props, ref) => {
     setNotCompleted((prevState) => ({
       ...prevState,
       reagionId: false,
-  }));
-    setCityList(selectedRegion[0].cities);
+    }));
+    setCityList(selectedRegion.length > 0 ? selectedRegion[0].cities : []);
   };
   function handeleCityChange(event) {
     setNotCompleted((prevState) => ({
       ...prevState,
       cityId: false,
-  }));
-  //   setOfficeInfo((prevState) => ({
-  //     ...prevState,
-  //     cityId: event.target.value,
-  // }));
+    }));
+    //   setOfficeInfo((prevState) => ({
+    //     ...prevState,
+    //     cityId: event.target.value,
+    // }));
     API.get(officeURL + event.target.value, config)
       .then((todo) => {
         setOfficeList(todo.data.offices);
@@ -70,24 +79,66 @@ const SiteSelection=forwardRef((props, ref) => {
   function handelOfficeChange(event) {
     setOfficeId(event.target.value)
     const selectedOff = officeList.filter(office => office.id == event.target.value)
-    setOfficeName(selectedOff[0].name);
-    setOfficeAddress(selectedOff[0].address);
-    setOfficeContact(selectedOff[0].fax);
+    if (selectedOff.length > 0) {
+      setOfficeName(selectedOff[0].name);
+      setOfficeAddress(selectedOff[0].address);
+      setOfficeContact(selectedOff[0].fax);
+    }
+    else {
+      setOfficeName("");
+      setOfficeAddress("");
+      setOfficeContact("");
+    }
+
+    API.get(deliverySiteURL + officeId, config)
+      .then((todo) => {
+        setDeliverySiteList(todo.data.deliverySites);
+      })
+      .catch((err) => {
+        console.log('AXIOS ERROR: ', err.response);
+      });
+
     setOfficeInfo((prevState) => ({
       ...prevState,
       offceId: officeId,
-  }));
-  setNotCompleted((prevState) => ({
-    ...prevState,
-    officeId: false,
-}));
-  dispatch(saveSiteInformation(officeInfo));
+    }));
+    setNotCompleted((prevState) => ({
+      ...prevState,
+      officeId: false,
+    }));
+  }
+
+  function handelDeliveryChange(event) {
+    setSelectedDeliverySiteId(event.target.value)
+    setOfficeInfo((prevState) => ({
+      ...prevState,
+      deliverySiteId: selectedDeliverySiteId,
+    }));
+    setNotCompleted((prevState) => ({
+      ...prevState,
+      deliverySiteId: false,
+    }));
+    const selectedDelivery = deliverySiteList.filter(site => site.id == event.target.value);
+    console.log(selectedDelivery);
+    if(selectedDelivery.length>0)
+    {
+      setDeliveryOfficeName(selectedDelivery[0].siteName);
+      setdeliveryOfficeAddress(selectedDelivery[0].address);
+      setdeliveryOfficeContact(selectedDelivery[0].phoneNumber);
+    }
+    else{
+      setDeliveryOfficeName("");
+      setdeliveryOfficeAddress("");
+      setdeliveryOfficeContact("");
+    }
     setFormCompleted(true)
+    console.log(officeInfo)
   }
 
   useImperativeHandle(ref, () => ({
-    saveData(){
-      setDataSaved(true)
+    saveData() {
+      setDataSaved(true);
+      dispatch(saveSiteInformation(officeInfo));
     },
     isCompleted() {
       return formCompleted;
@@ -95,10 +146,6 @@ const SiteSelection=forwardRef((props, ref) => {
   }));
 
   useEffect(() => {
-    const body = {
-      username: 'atalay',
-      password: 'Atie@1234',
-    };
     API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
       .then((todo) => {
         setRegionList(todo.data.countryRegions);
@@ -106,13 +153,14 @@ const SiteSelection=forwardRef((props, ref) => {
       .catch((err) => {
         console.log('AXIOS ERROR: ', err.response);
       });
+
   }, []);
   return (
     <MDBCard style={{ marginBottom: "1rem" }}>
       <MDBCardBody>
         <form>
           <MDBRow>
-            <MDBCol>
+            <MDBCol md="4">
               <MDBRow>
                 <MDBCol>
                   <label>
@@ -179,19 +227,19 @@ const SiteSelection=forwardRef((props, ref) => {
                   </label>
                   <ReactBootstrap.Form.Control
                     placeholder="Select delivery site"
-                    onChange={handelOfficeChange}
+                    onChange={handelDeliveryChange}
                     as="select"
                   >
                     <option>select delivery site</option>
-                    {officeList.map((office) => (
-                      <option value={office.id} name={office.name} key={office.address}>{office.name}</option>
+                    {deliverySiteList.map((site) => (
+                      <option value={site.id} name={site.name}>{site.siteName}</option>
                     ))}
                   </ReactBootstrap.Form.Control>
-                  <span style={{ color: "red" }}> {(notCompleted.officeId == true && dataSaved == true) ? "Please select office" : null}</span>
+                  <span style={{ color: "red" }}> {(notCompleted.deliverySiteId == true && dataSaved == true) ? "Please select delivery site" : null}</span>
                 </MDBCol>
               </MDBRow>
             </MDBCol>
-            <MDBCol>
+            <MDBCol md="8">
               <app-right-content
                 class="small-12 medium-4 large-offset-1 large-4 column sticky-container"
                 data-sticky-container=""
@@ -209,39 +257,75 @@ const SiteSelection=forwardRef((props, ref) => {
                   data-mutate="raa-sidebar"
                   data-events="mutate"
                 >
+
                   <div class="multistep-form__details sidebar__box sidebar__box--border sidebar__box--teal ng-star-inserted">
-                    <h4>
+                    {/* <h4>
                       <span class="ng-star-inserted">Office detail</span>
-                    </h4>
-                    <ul class="list--no-indent list--no-bullets ng-star-inserted">
-                      <li>
-                        <strong>
-                          Office name:&nbsp;&nbsp;<a href="#">{officeName}{' '}</a>
-                        </strong>
-                      </li>
-                      <hr />
-                      <li>
-                        <strong>
-                          Office Address:&nbsp;&nbsp;<a href="#">{officeAddress}{' '}</a>
-                        </strong>
-                      </li>
-                      <hr />
-                      <li>
-                        <strong>
-                          Contact :&nbsp;&nbsp;<i
-                          aria-hidden="true"
-                          class="fas fa-phone fa-rotate-180"
-                        ></i>{' '}<a href="tel:officeContact">{officeContact}{' '}</a>
-                        </strong>
-                      </li>
-                      <hr />
-                      <li>
-                        <strong>
-                          Process duration :&nbsp;&nbsp;<a >{duration}{' '}</a>
-                        </strong>
-                      </li>
-                    </ul>
-                  </div>
+                    </h4> */}
+                    <MDBRow>
+                      <MDBCol md="6">
+                      <fieldset>
+                      <legend>Application site</legend>
+                      <ul class="list--no-indent list--no-bullets ng-star-inserted">
+                        <li>
+                          <strong>
+                            Office name:&nbsp;&nbsp;<a href="#">{officeName}{' '}</a>
+                          </strong>
+                        </li>
+                        <hr />
+                        <li>
+                          <strong>
+                            Office Address:&nbsp;&nbsp;<a href="#">{officeAddress}{' '}</a>
+                          </strong>
+                        </li>
+                        <hr />
+                        <li>
+                          <strong>
+                            Contact :&nbsp;&nbsp;<i
+                              aria-hidden="true"
+                              class="fas fa-phone fa-rotate-180"
+                            ></i>{' '}<a href="tel:officeContact">{officeContact}{' '}</a>
+                          </strong>
+                        </li>
+                        <hr />
+                        <li>
+                          <strong>
+                            Process duration :&nbsp;&nbsp;<a >{duration}{' '}</a>
+                          </strong>
+                        </li>
+                      </ul>
+                    </fieldset>
+                      </MDBCol>
+                      <MDBCol  md="6">
+                      <fieldset>
+                      <legend>Delivery site</legend>
+                      <ul class="list--no-indent list--no-bullets ng-star-inserted">
+                        <li>
+                          <strong>
+                            Office name:&nbsp;&nbsp;<a href="#">{deliveryOfficeName}{' '}</a>
+                          </strong>
+                        </li>
+                        <hr />
+                        <li>
+                          <strong>
+                            Office Address:&nbsp;&nbsp;<a href="#">{deliveryOfficeAddress}{' '}</a>
+                          </strong>
+                        </li>
+                        <hr />
+                        <li>
+                          <strong>
+                            Contact :&nbsp;&nbsp;<i
+                              aria-hidden="true"
+                              class="fas fa-phone fa-rotate-180"
+                            ></i>{' '}<a href="tel:deliveryOfficeContact">{deliveryOfficeContact}{' '}</a>
+                          </strong>
+                        </li>
+                      </ul>
+                    </fieldset>
+                      </MDBCol>
+                    </MDBRow>
+                     </div>
+
                 </aside>
               </app-right-content>
             </MDBCol>

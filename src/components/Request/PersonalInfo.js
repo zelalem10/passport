@@ -6,6 +6,7 @@ import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
+import '../Application List/viewAppointment.css'
 import DateFnsUtils from '@date-io/date-fns';
 import API from '../Utils/API';
 
@@ -196,7 +197,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <MDBCardBody>
                     <form>
                         <MDBRow>
-                            <MDBCol>
+                            <MDBCol className="required-field">
                                 <MDBInput
                                     valueDefault={prevInfo ? prevInfo.firstName : null}
                                     name="firstName"
@@ -207,7 +208,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                                 />
                                 <span style={{ color: "red" }}> {(notCompleted.firstName == true && personalInfo.dataSaved == true) ? "First name " + isRequired : null}</span>
                             </MDBCol>
-                            <MDBCol>
+                            <MDBCol className="required-field">
                                 <MDBInput
                                     valueDefault={prevInfo ? prevInfo.middleName : null}
                                     name="middleName"
@@ -217,7 +218,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                                 />
                                 <span style={{ color: "red" }}> {(notCompleted.middleName == true && personalInfo.dataSaved == true) ? "Middle name " + isRequired : null}</span>
                             </MDBCol>
-                            <MDBCol>
+                            <MDBCol className="required-field">
                                 <MDBInput
                                     valueDefault={prevInfo ? prevInfo.lastName : null}
                                     name="lastName"
@@ -227,7 +228,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                                 />
                                 <span style={{ color: "red" }}> {(notCompleted.lastName == true && personalInfo.dataSaved == true) ? "Last name " + isRequired : null}</span>
                             </MDBCol>
-                            <MDBCol className="date-picker">
+                            <MDBCol className="date-picker ">
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                     <KeyboardDatePicker
                                         margin="normal"
@@ -245,7 +246,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                             </MDBCol>
                         </MDBRow>
                         <MDBRow>
-                            <MDBCol>
+                            <MDBCol className="required-field">
                                 <MDBInput
                                     valueDefault={prevInfo ? prevInfo.geezFirstName : null}
                                     name="geezFirstName"
@@ -256,7 +257,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                                 />
                                 <span style={{ color: "red" }}> {(notCompleted.geezFirstName == true && personalInfo.dataSaved == true) ? "የአመልካቹ ስም አስፈላጊ ነው" : null}</span>
                             </MDBCol>
-                            <MDBCol>
+                            <MDBCol className="required-field">
                                 <MDBInput
                                     valueDefault={prevInfo ? prevInfo.geezMiddleName : null}
                                     name="geezMiddleName"
@@ -266,7 +267,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                                 />
                                 <span style={{ color: "red" }}> {(notCompleted.geezMiddleName == true && personalInfo.dataSaved == true) ? "የአባት ስም አስፈላጊ ነው" : null}</span>
                             </MDBCol>
-                            <MDBCol>
+                            <MDBCol className="required-field">
                                 <MDBInput
                                     valueDefault={prevInfo ? prevInfo.geezLastName : null}
                                     name="geezLastName"
@@ -276,7 +277,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                                 />
                                 <span style={{ color: "red" }}> {(notCompleted.geezLastName == true && personalInfo.dataSaved == true) ? "የአያት ስም አስፈላጊ ነው" : null}</span>
                             </MDBCol>
-                            <MDBCol>
+                            <MDBCol className="required-field">
                                 <div>
                                     <label>
                                         Nationality<i style={{ color: 'red' }}>*</i>{' '}
@@ -293,7 +294,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                         </MDBRow>
 
                         <MDBRow>
-                        <MDBCol>
+                        <MDBCol className="required-field">
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.phoneNumber : null}
                                 name="phoneNumber"
@@ -304,7 +305,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                             />
                             <span style={{ color: "red" }}> {(notCompleted.phoneNumber == true && personalInfo.dataSaved == true) ? "Phone Number " + isRequired : null}</span>
                         </MDBCol>
-                        <MDBCol>
+                        <MDBCol className="required-field">
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.email : null}
                                 name="email"
@@ -340,7 +341,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                             <MDBCol>
                                 <div>
                                     <label>
-                                        Occupation
+                                        Occupation<i style={{ color: 'red' }}>*</i>{' '}
                                     </label>
                                     <select className="browser-default custom-select" name="occupationId" onChange={handleChange}>
                                         <option>select Occupation</option>

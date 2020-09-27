@@ -219,7 +219,7 @@ const TravelPlan = forwardRef((props, ref) => {
             <MDBRow>
             <MDBCol>
                 <label>Page Quantity</label>
-                <select className="browser-default custom-select">
+                <select className="browser-default custom-select" name="pageQuantity" onChange={handleChange}>
                   <option value="0">32</option>
                   <option value="1">64</option>
                 </select>
@@ -309,9 +309,13 @@ const TravelPlan = forwardRef((props, ref) => {
             <MDBRow>
             {(requestTypeStr === 'Correction' || travelPlan.isDatacorrected===true) ? (
             <MDBCol md="3">
-                <label>Correction reason</label>
-                <select className="browser-default custom-select">
-                  <option value="">select correction reason</option>
+                <label>Correction type</label>
+                <select className="browser-default custom-select" name="correctionReason" onChange={handleChange}>
+                  <option value="">select correction type</option>
+                  <option value="0">NameCorrection</option>
+                  <option value="1">Birth Date Correction</option>
+                  <option value="2">Both Name and Birth Date Correction</option>
+
                 </select>
                 <span style={{ color: 'red' }}>
                   {' '}
