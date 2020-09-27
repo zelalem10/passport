@@ -52,10 +52,7 @@ const SiteSelection=forwardRef((props, ref) => {
       ...prevState,
       cityId: false,
   }));
-  //   setOfficeInfo((prevState) => ({
-  //     ...prevState,
-  //     cityId: event.target.value,
-  // }));
+  
     API.get(officeURL + event.target.value, config)
       .then((todo) => {
         setOfficeList(todo.data.offices);

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   MDBBtn,
   MDBCard,
@@ -12,37 +13,10 @@ import {
   MDBTableHead,
   MDBTableBody,
 } from 'mdbreact';
-function confirmationPage() {
-  const handlePrint = () => {
-    debugger;
-    // var content = document.getElementById('divcontents');
-    // var mywindow = window.open('', 'Print', 'height=600,width=800');
 
-    // mywindow.document.write(
-    //   '<html><head><title>Print</title><link media="all" type="text/css" rel="stylesheet" href="./App.css"/>'
-    // );
-    // mywindow.document.write('</head><body >');
-    // mywindow.document.write(content);
-    // mywindow.document.write('</body></html>');
-
-    // mywindow.document.close();
-    // mywindow.focus();
-    // mywindow.print();
-    // mywindow.close();
-    var content = document.getElementById('divcontents');
-    // var pri = window.open('', 'Print', 'height=600,width=800');
-    var pri = document.getElementById('ifmcontentstoprint').contentWindow;
-    pri.document.open();
-    pri.document.write(
-      '<html><head><title>Print</title><link media="all" type="text/css" rel="stylesheet" href="../App.css"/>'
-    );
-    pri.document.write('</head><body >');
-    pri.document.write(content.innerHTML);
-    pri.document.write('</body></html>');
-    pri.document.close();
-    pri.focus();
-    pri.print();
-  };
+function ConfirmationPage() {
+  const counter = useSelector((state) => state);
+  const request = counter.request[counter.request.length - 1];
 
   return (
     <>
@@ -83,7 +57,7 @@ function confirmationPage() {
                   <div class="row">
                     <div class="col-md-6">
                       <fieldset>
-                        <legend>Appointment Site</legend>
+                        <legend>Request Details</legend>
                         <hr class="text-primary" />
                         <div class="form-group form-inline">
                           <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
@@ -91,7 +65,9 @@ function confirmationPage() {
                           </label>
                           &nbsp;&nbsp;&nbsp;&nbsp;
                           <b>
-                            <label class="font-weight-bold">Pending</label>
+                            <label class="font-weight-bold">
+                              {request.requestStatus}
+                            </label>
                           </b>
                         </div>
                         <div class="form-group form-inline">
@@ -100,7 +76,9 @@ function confirmationPage() {
                           </label>
                           &nbsp;&nbsp;&nbsp;&nbsp;
                           <b>
-                            <label class="font-weight-bold">New</label>
+                            <label class="font-weight-bold">
+                              {request.type}
+                            </label>
                           </b>
                         </div>
                         <div class="form-group form-inline">
@@ -109,14 +87,16 @@ function confirmationPage() {
                           </label>
                           &nbsp;&nbsp;&nbsp;&nbsp;
                           <b>
-                            <label class="font-weight-bold">Urgent</label>
+                            <label class="font-weight-bold">
+                              {request.requestModeValue}
+                            </label>
                           </b>
                         </div>
                       </fieldset>
                     </div>
                     <div class="col-md-6">
                       <fieldset>
-                        <legend>Appointment Site</legend>
+                        <legend>Appointment Details</legend>
                         <hr class="text-primary" />
                         <div class="col-md-6">
                           <div class="form-group form-inline">
@@ -125,7 +105,9 @@ function confirmationPage() {
                             </label>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <b>
-                              <label class="font-weight-bold">2020-09-26</label>
+                              <label class="font-weight-bold">
+                                {request.appointmentResponse.date}
+                              </label>
                             </b>
                           </div>
                           <div class="form-group form-inline">
@@ -134,7 +116,16 @@ function confirmationPage() {
                             </label>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <b>
-                              <label class="font-weight-bold">11:00 Am</label>
+                              <label class="font-weight-bold">
+                                {request.appointmentResponse.duration.startTime}
+                                {'-'}
+                                {
+                                  request.appointmentResponse.duration.endTime
+                                }{' '}
+                                {request.appointmentResponse.duration.isMorning
+                                  ? 'Am'
+                                  : 'Pm'}
+                              </label>
                             </b>
                           </div>
                           <div class="form-group form-inline">
@@ -167,24 +158,16 @@ function confirmationPage() {
                       </tr>
                     </MDBTableHead>
                     <MDBTableBody>
-                      <tr>
-                        <td>1</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                      </tr>
+                      {request.personResponses.map((person, index) => {
+                        return (
+                          <tr>
+                            <td>{index}</td>
+                            <td>{person.firstName}</td>
+                            <td>{person.lastName}</td>
+                            <td>{person.id}</td>
+                          </tr>
+                        );
+                      })}
                     </MDBTableBody>
                   </MDBTable>
                 </div>
@@ -198,4 +181,4 @@ function confirmationPage() {
     </>
   );
 }
-export default confirmationPage;
+export default ConfirmationPage;

@@ -8,9 +8,11 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from '../common/Spinner';
 import { MDBCol, MDBRow } from 'mdbreact';
+import { useHistory } from 'react-router-dom';
 
 const Fileupload = forwardRef((props, ref) => {
-  debugger;
+  const history = useHistory();
+
   let [successMessage, setsuccessMessage] = useState(false);
   let [errorMessage, seterrorMessage] = useState(false);
   const accesstoken = localStorage.systemToken;
@@ -32,7 +34,7 @@ const Fileupload = forwardRef((props, ref) => {
   let requestPersonId = useSelector(
     (state) => state.commonData[0].requestPersonId
   );
-  console.log(requestPersonId);
+
   const [loading, setloading] = useState(false);
   const [filename, setfilename] = useState({
     1: '',
@@ -60,6 +62,9 @@ const Fileupload = forwardRef((props, ref) => {
       return true;
     },
   }));
+  const counter = useSelector((state) => state);
+  const serviceData = counter.service[counter.service.length - 1];
+  const requestMode = serviceData.isUrgent;
   const submit = async (e) => {
     debugger;
     e.preventDefault();
@@ -100,7 +105,11 @@ const Fileupload = forwardRef((props, ref) => {
       console.log(response.data);
       setsuccessMessage(true);
       setloading(false);
-      props.VerticalNext();
+      if (requestMode) {
+        history.push('/Confirmation');
+      } else {
+        props.VerticalNext();
+      }
     } catch (error) {
       console.log('error' + error.message);
       seterrorMessage(true);
@@ -165,33 +174,28 @@ const Fileupload = forwardRef((props, ref) => {
       {loading ? (
         <Spinner />
       ) : (
-
-
-          <form onSubmit={e => submit(e)}>
-            {successMessage &&
-              <div class="alert alert-success" role="alert">
-                Operation sucessfully completed
-       </div>
-            }
-            {errorMessage &&
-              <div class="alert alert-danger" role="alert">
-                Oops! Something went wrong.
-        </div>
-            }
-            {inputs}
-            <MDBRow>
-              <MDBCol md="9"></MDBCol>
-              <MDBCol>
-              <button className="btn btn-primary ml-auto" type="submit">Upload</button>
-              </MDBCol>
-              
-            </MDBRow>
-
-          </form>
-
-
-
-        )}
+        <form onSubmit={(e) => submit(e)}>
+          {successMessage && (
+            <div class="alert alert-success" role="alert">
+              Operation sucessfully completed
+            </div>
+          )}
+          {errorMessage && (
+            <div class="alert alert-danger" role="alert">
+              Oops! Something went wrong.
+            </div>
+          )}
+          {inputs}
+          <MDBRow>
+            <MDBCol md="9"></MDBCol>
+            <MDBCol>
+              <button className="btn btn-primary ml-auto" type="submit">
+                Upload
+              </button>
+            </MDBCol>
+          </MDBRow>
+        </form>
+      )}
     </div>
   );
 });

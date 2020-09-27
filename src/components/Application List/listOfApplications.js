@@ -106,7 +106,7 @@ export default function ListOfApplications(props) {
                                     <i class="far fa-trash-alt fa-lg"></i>
                                   </div>
                                 </a>
-
+                                {/* {user.requestStatus == 'Requested' ? null : ( */}
                                 <a
                                   className="hoverWhite"
                                   onClick={() =>
@@ -122,6 +122,7 @@ export default function ListOfApplications(props) {
                                     <i class="fas fa-edit fa-lg"></i>
                                   </div>
                                 </a>
+                                {/* )} */}
 
                                 <a
                                   className="hoverWhite"
@@ -132,7 +133,7 @@ export default function ListOfApplications(props) {
                                     <i class="fas fa-eye fa-lg"></i>
                                   </div>
                                 </a>
-
+                                {/* {user.requestStatus == 'Requested' ? null : ( */}
                                 <a
                                   className="hoverWhite"
                                   onClick={() =>
@@ -144,6 +145,7 @@ export default function ListOfApplications(props) {
                                     <i class="fas fa-calendar fa-lg"></i>
                                   </div>
                                 </a>
+                                {/* )} */}
 
                                 <Dialog
                                   open={open}

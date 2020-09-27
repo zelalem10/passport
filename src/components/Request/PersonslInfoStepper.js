@@ -1,4 +1,9 @@
-import React, { useState, useRef, forwardRef, useImperativeHandle } from 'react';
+import React, {
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -29,9 +34,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function getSteps() {
-  return ['Personal Detail', 'Address', 'Family', 'Passport info', 'Attachment'];
+  return [
+    'Personal Detail',
+    'Address',
+    'Family',
+    'Passport info',
+    'Attachment',
+  ];
 }
-const PersonalInfoStepper=forwardRef((props, ref) => {
+const PersonalInfoStepper = forwardRef((props, ref) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [formCompleted, setFormCompleted] = useState(false);
@@ -43,9 +54,9 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const childRef = useRef();
-  const VerticalNext=()=>{
+  const VerticalNext = () => {
     props.Next();
-  }
+  };
   const handleNext = () => {
     // if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
     //   childRef.current.saveData();
@@ -58,8 +69,6 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
     childRef.current.saveData();
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     //}
-    
- 
   };
 
   const handleBack = () => {
@@ -80,8 +89,9 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
       var addressInfo = counter.address[counter.address.length - 1];
       var familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
       const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
-      const appointment=counter.appointmentDate[counter.appointmentDate.length - 1]
-     
+      const appointment =
+        counter.appointmentDate[counter.appointmentDate.length - 1];
+
       const accesstoken = localStorage.systemToken;
       const usertoken = localStorage.userToken;
       const config = {
@@ -91,29 +101,41 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
         requestId: 0,
         requestMode: 0,
         requestTypeId: 2,
-        appointmentId:appointment?appointment.id :1,
+        appointmentId: appointment ? appointment.id : 1,
         userName: '',
         status: 0,
         confirmationNumber: '',
         applicants: [
           {
             personId: 0,
-            firstName: personalInfo ? personalInfo.firstName.toUpperCase(): null,
-            middleName: personalInfo ? personalInfo.middleName.toUpperCase(): null,
+            firstName: personalInfo
+              ? personalInfo.firstName.toUpperCase()
+              : null,
+            middleName: personalInfo
+              ? personalInfo.middleName.toUpperCase()
+              : null,
             lastName: personalInfo ? personalInfo.lastName.toUpperCase() : null,
             geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
             geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
             geezLastName: personalInfo ? personalInfo.geezLastName : null,
             dateOfBirth: personalInfo ? personalInfo.birthDate : null,
-            gender: personalInfo ? Number.parseInt(personalInfo.gender, 10): null,
-            nationalityId: personalInfo ? Number.parseInt(personalInfo.nationalityId, 10) : null,
+            gender: personalInfo
+              ? Number.parseInt(personalInfo.gender, 10)
+              : null,
+            nationalityId: personalInfo
+              ? Number.parseInt(personalInfo.nationalityId, 10)
+              : null,
             height: personalInfo ? personalInfo.height : null,
             eyeColor: personalInfo ? personalInfo.eyeColor : null,
             hairColor: personalInfo ? personalInfo.hairColor : null,
-            occupationId: personalInfo ? Number.parseInt(personalInfo.occupationId, 10) : null,
+            occupationId: personalInfo
+              ? Number.parseInt(personalInfo.occupationId, 10)
+              : null,
             halfCast: personalInfo ? personalInfo.halfCast : null,
             enrolmentDate: personalInfo ? personalInfo.birthDate : null,
-            birthCertificateId: personalInfo? personalInfo.birthCertificatNo: '',
+            birthCertificateId: personalInfo
+              ? personalInfo.birthCertificatNo
+              : '',
             photoPath: '',
             employeeID: '',
             applicationNumber: '',
@@ -121,15 +143,21 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
             isUnder18: personalInfo ? personalInfo.isUnder18 : false,
             isAdoption: personalInfo ? personalInfo.isAdoption : false,
             passportNumber: travelPlan ? travelPlan.passportNumber : null,
-            issueDate:  new Date(),
-            expireDate:  new Date(),
+            issueDate: new Date(),
+            expireDate: new Date(),
             passportType: travelPlan ? travelPlan.passportType : null,
             isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
-            pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10): 0,
-            maritalStatus: personalInfo ? Number.parseInt(personalInfo.martialStatus, 10): 0,
-            birthCertificateId: personalInfo? personalInfo.birthCertificatNo: null,
-            phoneNumber: personalInfo? personalInfo.phoneNumber: null,
-            email: personalInfo? personalInfo.email: null,
+            pageQuantity: travelPlan
+              ? Number.parseInt(travelPlan.pageQuantity, 10)
+              : 0,
+            maritalStatus: personalInfo
+              ? Number.parseInt(personalInfo.martialStatus, 10)
+              : 0,
+            birthCertificateId: personalInfo
+              ? personalInfo.birthCertificatNo
+              : null,
+            phoneNumber: personalInfo ? personalInfo.phoneNumber : null,
+            email: personalInfo ? personalInfo.email : null,
             address: {
               personId: 0,
               addressId: 0,
@@ -148,18 +176,18 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
         ],
       };
       debugger;
-      console.log(requestBody)
+      console.log(requestBody);
       API.post(
         'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest',
         requestBody,
         config
       )
         .then((todo) => {
-          debugger
+          debugger;
           setResponseMessage(todo.data.message);
           setResponseAlert(true);
           setIsSuccess(true);
-          console.log(todo.data)
+          console.log(todo.data);
           const commonData = {
             requestPersonId: todo.data.personResponses[0].requestPersonId,
           };
@@ -168,7 +196,7 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
         .catch((err) => {
-          debugger
+          debugger;
           console.log('AXIOS ERROR: ', err.response);
           setResponseMessage(err.response.data.title);
           setResponseAlert(true);
@@ -184,24 +212,27 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
       case 2:
         return <FamilyInformation ref={childRef} />;
       case 3:
-        return <TravelPlan 
-        ref={childRef}
-        resMessage={responseMessage}
-        isSucces={isSuccess}
-        respnseGet={responseAlert}/>;
+        return (
+          <TravelPlan
+            ref={childRef}
+            resMessage={responseMessage}
+            isSucces={isSuccess}
+            respnseGet={responseAlert}
+          />
+        );
       case 4:
-        return <Attachment ref={childRef}  VerticalNext={VerticalNext} />;
+        return <Attachment ref={childRef} VerticalNext={VerticalNext} />;
       default:
         return 'Unknown stepIndex';
     }
   }
   useImperativeHandle(ref, () => ({
-    saveData(){
+    saveData() {
       //setDataSaved(true)
     },
     isCompleted() {
       return formCompleted;
-    }
+    },
   }));
   return (
     <div className={classes.root} style={{ marginBottom: '5rem' }}>
@@ -225,40 +256,38 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
             <Typography className={classes.instructions}>
               {getStepContent(activeStep)}
             </Typography>
-            {activeStep === steps.length - 1 ? (null)
-            :(
-            <Grid container spacing={1}>
-              <Grid item xs={3}>
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  className={classes.backButton}
-                >
-                  Back
-                </Button>
-              </Grid>
-              <hr></hr>
-                 <Grid item xs={1}>
-                {activeStep === steps.length - 2 ? (
+            {activeStep === steps.length - 1 ? null : (
+              <Grid container spacing={1}>
+                <Grid item xs={3}>
                   <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleSubmit}
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    className={classes.backButton}
                   >
-                    Submit
+                    Back
                   </Button>
-                ) : (
-                  activeStep === steps.length - 1 ?(null):(<Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                  >
-                    Next
-                  </Button>)
-                  
-                )}
+                </Grid>
+                <hr></hr>
+                <Grid item xs={1}>
+                  {activeStep === steps.length - 2 ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleSubmit}
+                    >
+                      Submit
+                    </Button>
+                  ) : activeStep === steps.length - 1 ? null : (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                    >
+                      Next
+                    </Button>
+                  )}
+                </Grid>
               </Grid>
-             </Grid>
             )}
           </div>
         )}
@@ -266,4 +295,4 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
     </div>
   );
 });
-export default PersonalInfoStepper
+export default PersonalInfoStepper;
