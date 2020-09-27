@@ -71,27 +71,23 @@ const FooterPage = () => {
         <MDBRow>
           <img
             className="pr-3 pt-3 "
-            src={require('../../images/default-source/footer_img/first.png')}
+            src={require('../../images/default-source/footer_img/CbeBank.jpg')}
           ></img>
           <img
             className="pr-3 pt-3"
-            src={require('../../images/default-source/footer_img/second.png')}
+            src={require('../../images/default-source/footer_img/CbeBirr.jpg')}
           ></img>
           <img
             className="pr-3 pt-3"
-            src={require('../../images/default-source/footer_img/third.png')}
+            src={require('../../images/default-source/footer_img/amole.jpg')}
           ></img>
           <img
             className="pr-3 pt-3"
-            src={require('../../images/default-source/footer_img/fifth.png')}
+            src={require('../../images/default-source/footer_img/pss.jpg')}
           ></img>
           <img
             className="pr-3 pt-3"
-            src={require('../../images/default-source/footer_img/fourth.png')}
-          ></img>
-          <img
-            className="pr-3 pt-3"
-            src={require('../../images/default-source/footer_img/sixth.png')}
+            src={require('../../images/default-source/footer_img/Abisiniya.jpg')}
           ></img>
         </MDBRow>
         <MDBRow>

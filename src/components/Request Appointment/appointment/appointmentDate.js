@@ -177,6 +177,7 @@ const MyApp = forwardRef((props, ref) => {
             date: stringDateValue,
             dateTimeFormat: 'yyyy-MM-dd',
             urgentQuotaId: urgentQuotaId,
+            noOfApplicants: 1,
           },
         })
           .then((response) => {
@@ -209,6 +210,7 @@ const MyApp = forwardRef((props, ref) => {
             date: stringDateValue,
             durationId: parseInt(selectTime),
             dateTimeFormat: 'yyyy-MM-dd',
+            noOfApplicants: parseInt(data.numberOfApplicants),
           },
         })
           .then((response) => {
@@ -499,27 +501,29 @@ const MyApp = forwardRef((props, ref) => {
     <div>
       <MDBContainer className=" pt-3" fluid>
         <h3 className="heading-secondary">Appointment - Date and Time</h3>
-        <div>
-          <FormControlLabel
-            control={
-              <IOSSwitch
-                checked={isUrgentAppointment}
-                onChange={() => handleIsUrgent()}
-                name="checkedB"
-              />
-            }
-            label="Does the request urgent?"
-          />
+        {data.isGroup ? null : (
+          <div>
+            <FormControlLabel
+              control={
+                <IOSSwitch
+                  checked={isUrgentAppointment}
+                  onChange={() => handleIsUrgent()}
+                  name="checkedB"
+                />
+              }
+              label="Does the request urgent?"
+            />
 
-          {isUrgentAppointment ? (
-            <MDBTypography note noteColor="danger" noteTitle="Note danger: ">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum
-              doloremque officia laboriosam. Itaque ex obcaecati architecto! Qui
-              necessitatibus delectus placeat illo rem id nisi consequatur esse,
-              sint perspiciatis soluta porro?
-            </MDBTypography>
-          ) : null}
-        </div>
+            {isUrgentAppointment ? (
+              <MDBTypography note noteColor="danger" noteTitle="Note danger: ">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum
+                doloremque officia laboriosam. Itaque ex obcaecati architecto!
+                Qui necessitatibus delectus placeat illo rem id nisi consequatur
+                esse, sint perspiciatis soluta porro?
+              </MDBTypography>
+            ) : null}
+          </div>
+        )}
         <MDBRow key={key}>
           <MDBCol md="6">
             <h3>Date</h3>
