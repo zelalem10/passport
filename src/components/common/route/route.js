@@ -18,6 +18,7 @@ import PayWithPSS from '../../Payment/PayWithPSS';
 import contactUs from '../../Help and Support/contactUs';
 import about from '../../Help and Support/about';
 import confirmationPage from '../../confirmationPage';
+import InstructionPage from '../../InstructionPage';
 
 function PassportRoute() {
   //   childUrl = window.open('/preview', '_blank')
@@ -40,6 +41,7 @@ function PassportRoute() {
       <Route path="/Information" component={Information} />
 
       <Route path="/Confirmation" component={confirmationPage} />
+      <Route path="/InstructionPage" component={InstructionPage} />
 
       <Route path="/Pay_With_PSS" component={PayWithPSS} />
       <Route path="/contactUs" component={contactUs} />
