@@ -6,6 +6,7 @@ import GroupNavigation from '../GroupRequest/GroupNavigation';
 import PaymentSelection from '../Payment/PaymentSelection';
 import Confirmation from '../Payment/Responses/Confirmation';
 import { Tab, Row, Nav, Col, Button, Card } from 'react-bootstrap';
+import ViewAppointment from '../Request/viewAppointment';
 import { MDBModal, MDBModalBody, MDBBtn } from 'mdbreact';
 import {
   BsCheck,
@@ -33,6 +34,7 @@ export default function RequestStepper() {
   const counter = useSelector((state) => state);
   const isGroup = counter.service[counter.service.length - 1].isGroup;
   const childRef = useRef();
+  const summaryRef = useRef();
   const siteRef = useRef();
   const dispatch = useDispatch();
   function handelNext() {
@@ -72,11 +74,17 @@ export default function RequestStepper() {
   function handelPersonalInfo() {
     setIndexValue(2);
   }
-  function handelPayment() {
+  function handelSummary() {
     setIndexValue(3);
   }
-  function handelConfirmation() {
+  function handelPayment() {
     setIndexValue(4);
+  }
+  function handelConfirmation() {
+    setIndexValue(5);
+  }
+  function handelPaymentSelection(optionId) {
+    setSelectedPaymentOption(optionId);
   }
   useEffect(() => {
     if (counter.commonData.length === 0) {
@@ -125,24 +133,33 @@ export default function RequestStepper() {
                     {formCompleted[2] ? <BsCheck /> : null}
                   </Nav.Link>
                 </Nav.Item>
-
                 <Nav.Item>
                   <Nav.Link
                     eventKey={activeKey[3]}
-                    onClick={handelPayment}
+                    onClick={handelSummary}
                     disabled={formCompleted[3] === true ? false : true}
                   >
-                    <BsWallet /> Payment{formCompleted[3] ? <BsCheck /> : null}
+                    <i class="fas fa-list-alt"></i> Summary
+                    {formCompleted[3] ? <BsCheck /> : null}
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link
                     eventKey={activeKey[4]}
-                    onClick={handelConfirmation}
+                    onClick={handelPayment}
                     disabled={formCompleted[4] === true ? false : true}
                   >
+                    <BsWallet /> Payment{formCompleted[4] ? <BsCheck /> : null}
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link
+                    eventKey={activeKey[5]}
+                    onClick={handelConfirmation}
+                    disabled={formCompleted[5] === true ? false : true}
+                  >
                     <BsFillInfoCircleFill /> Confirmation
-                    {formCompleted[4] ? <BsCheck /> : null}
+                    {formCompleted[5] ? <BsCheck /> : null}
                   </Nav.Link>
                 </Nav.Item>
               </Nav>
@@ -160,13 +177,16 @@ export default function RequestStepper() {
                 {isGroup === true ? (
                   <GroupNavigation ref={childRef} />
                 ) : (
-                    <PersonalInfoStepper ref={childRef} Next={handelNext} />
-                  )}
+                  <PersonalInfoStepper ref={childRef} Next={handelNext} />
+                )}
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[3]}>
-                <PaymentSelection />
+                <ViewAppointment ref={summaryRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[4]}>
+                <PaymentSelection />
+              </Tab.Pane>
+              <Tab.Pane eventKey={activeKey[5]}>
                 <Confirmation />
               </Tab.Pane>
             </Tab.Content>
