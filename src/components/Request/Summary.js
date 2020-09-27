@@ -8,7 +8,8 @@ import { MDBContainer, MDBTypography, MDBBox } from 'mdbreact';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useSelector } from 'react-redux';
 import { fi } from 'date-fns/locale';
-import ViewGroupAppointment from './viewGroupAppointment';
+import ViewGroupAppointment from './GroupSummary';
+import { useHistory } from 'react-router-dom';
 
 const Accordion = withStyles({
   root: {
@@ -53,16 +54,26 @@ const AccordionDetails = withStyles((theme) => ({
 
 const ViewAppointment = forwardRef((props, ref) => {
   debugger;
+  const history = useHistory();
   const [expanded, setExpanded] = React.useState('panel1');
-  const [isRight, setIsRight] = useState(false);
   const [formCompleted, setFormCompleted] = useState(false);
+  const [dataSaved, setDataSaved] = useState(false);
   const data = useSelector((state) => state);
+  
+  const serviceData = data.service[data.service.length - 1];
+  const requestMode = serviceData.isUrgent;
 
   let displayedApplication = data.request[data.request.length - 1];
   const confirmInformation = () => {
-    setIsRight(!isRight);
+    setFormCompleted(!formCompleted);
   };
   useImperativeHandle(ref, () => ({
+    saveData(){
+      setDataSaved(true);
+      if(formCompleted && requestMode){
+        history.push('/Confirmation');
+      }
+    },
     isCompleted() {
       return formCompleted;
     },
@@ -556,11 +567,14 @@ const ViewAppointment = forwardRef((props, ref) => {
                 Confirm Applicant Details
               </label>
             </div>
-            <div className="text-monospace">
+            {(setFormCompleted != true && dataSaved===true)?(
+              <div className="text-monospace">
               <p className="check-agree">
                 Please check this box if you want to proceed
               </p>
             </div>
+            ):(null)}
+            
           </MDBTypography>
         </MDBContainer>
       );

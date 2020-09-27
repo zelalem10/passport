@@ -180,7 +180,11 @@ const MyApp = forwardRef((props, ref) => {
           },
         })
           .then((response) => {
+            debugger;
             let newdate = new Date(response.data.date);
+            if(newdate){
+              setFormCompleted(true);
+            }
             let newYear = newdate.getFullYear();
             let newMonth = (1 + newdate.getMonth()).toString();
             newMonth = newMonth.length > 1 ? newMonth : '0' + newMonth;
@@ -208,7 +212,12 @@ const MyApp = forwardRef((props, ref) => {
           },
         })
           .then((response) => {
+            debugger;
             let newdate = new Date(response.data.date);
+            if(newdate){
+              setFormCompleted(true);
+              console.log(formCompleted);
+            }
             let newYear = newdate.getFullYear();
             let newMonth = (1 + newdate.getMonth()).toString();
             newMonth = newMonth.length > 1 ? newMonth : '0' + newMonth;
@@ -220,6 +229,7 @@ const MyApp = forwardRef((props, ref) => {
             } - ${response.data.duration.endTime} ${
               response.data.duration.isMorning ? 'AM' : 'PM'
             } 
+            
         `);
             dispatch(addAppointmentDate(response.data));
           })

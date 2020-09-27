@@ -8,10 +8,10 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from '../common/Spinner';
 import { MDBCol, MDBRow } from 'mdbreact';
-import { useHistory } from 'react-router-dom';
+
 
 const Fileupload = forwardRef((props, ref) => {
-  const history = useHistory();
+ 
 
   let [successMessage, setsuccessMessage] = useState(false);
   let [errorMessage, seterrorMessage] = useState(false);
@@ -105,11 +105,9 @@ const Fileupload = forwardRef((props, ref) => {
       console.log(response.data);
       setsuccessMessage(true);
       setloading(false);
-      if (requestMode) {
-        history.push('/Confirmation');
-      } else {
+      
         props.VerticalNext();
-      }
+     
     } catch (error) {
       console.log('error' + error.message);
       seterrorMessage(true);
