@@ -18,7 +18,9 @@ const Fileupload = forwardRef((props, ref) => {
   let attachmentlength = localStorage.getItem("attachmentlength");
   let attachmentPath = JSON.parse(localStorage.getItem("attachmentPath"));
   let attachmentType = JSON.parse(localStorage.getItem("attachmentType"));
+  let attachmentId = JSON.parse(localStorage.getItem("attachmentId"));
 
+  
   const [loading, setloading] = useState(false);
   const [filename, setfilename] = useState({
     1:'',
@@ -68,15 +70,15 @@ const Fileupload = forwardRef((props, ref) => {
     //   formData.append(fileType, files);
 
     // }
-    for (let i = 0; i < files.length; i++) {
+    for (let i = 0; i < attachmentlength; i++) {
+      
       formData.append('personRequestId', requestPersonId);
-      console.log(requestPersonId)
-      formData.append(fileType[i], files[i]);
+      formData.append(attachmentId[i], files[i]);
       console.log(files[i])
-      console.log(fileType[i])
+      console.log(attachmentId[i])
     }
       
-    const url = 'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadAttachment';
+    const url = 'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadChangeAttachment';
 
     const config = {
       headers: {

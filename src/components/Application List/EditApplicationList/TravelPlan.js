@@ -50,6 +50,9 @@ const TravelPlan = forwardRef((props, ref) => {
   let attachmentlength;
   let attachmentPath = [];
   let attachmentType = [];
+  let attachmentId = [];
+
+  
 
   console.log(displayedApplication)
 
@@ -59,7 +62,7 @@ const TravelPlan = forwardRef((props, ref) => {
       method: 'get',
       url:
         'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
-        params: { requestId: requestPersonId },
+        params: { personRequestId: requestPersonId },
     })
       .then((Response) => {
         debugger;
@@ -68,7 +71,7 @@ const TravelPlan = forwardRef((props, ref) => {
         for (let i=0; i< attachmentlength; i++){
           attachmentPath.push(Response.data.attachments[i].attachmentPath)
           attachmentType.push(Response.data.attachments[i].attachmentType)
-          
+          attachmentId.push(Response.data.attachments[i].attachmentId)
         }
         if (localStorage.attachmentPath) {
           localStorage.removeItem('attachmentPath');
@@ -76,8 +79,13 @@ const TravelPlan = forwardRef((props, ref) => {
         if (localStorage.attachmentType) {
           localStorage.removeItem('attachmentType');
         }
+        if (localStorage.attachmentId) {
+          localStorage.removeItem('attachmentId');
+        }
         localStorage.setItem('attachmentPath', JSON.stringify(attachmentPath));
         localStorage.setItem('attachmentType', JSON.stringify(attachmentType));
+        localStorage.setItem('attachmentId', JSON.stringify(attachmentId));
+
 
       })
       .catch((err) => {

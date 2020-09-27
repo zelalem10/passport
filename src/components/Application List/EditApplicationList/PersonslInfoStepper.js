@@ -397,7 +397,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                   <hr></hr>
 
                   <Grid item xs={1}>
-                    {activeStep === steps.length - 2 ? (
+                    {activeStep === steps.length - 1 ? (
                       <div className="multistep-form__step">
                         <a
                           class="specialty-next-step button float-right vertical-margin-2"
