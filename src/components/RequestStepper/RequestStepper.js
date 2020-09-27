@@ -6,6 +6,7 @@ import GroupNavigation from '../GroupRequest/GroupNavigation';
 import PaymentSelection from '../Payment/PaymentSelection';
 import Confirmation from '../Payment/Responses/Confirmation';
 import { Tab, Row, Nav, Col, Button, Card } from 'react-bootstrap';
+import ViewAppointment from '../Request/viewAppointment';
 import { MDBModal, MDBModalBody, MDBBtn } from 'mdbreact';
 import {
   BsCheck,
@@ -42,16 +43,21 @@ export default function RequestStepper() {
   const serviceVal = counter.service[counter.service.length - 1];
   const isGroup = counter.service[counter.service.length - 1].isGroup;
   const childRef = useRef();
+  const summaryRef = useRef();
   const dispatch = useDispatch();
   function handelNext() {
-    //if (childRef.current.isCompleted() === true) {
-      childRef.current.saveData();
-      setIndexValue((prevActiveStep) => prevActiveStep + 1);
-      formCompleted[indexValue] = true;
-    // } else {
-    //   inompleteAlert[indexValue] = true;
-    // }
-
+    if (indexValue == 3) {
+      if (summaryRef.current.isCompleted() === true) {
+        summaryRef.current.saveData();
+        setIndexValue((prevActiveStep) => prevActiveStep + 1);
+        formCompleted[indexValue] = true;
+      } else {
+        inompleteAlert[indexValue] = true;
+      }
+    }
+    childRef.current.saveData();
+    setIndexValue((prevActiveStep) => prevActiveStep + 1);
+    formCompleted[indexValue] = true;
   }
   function handelPrevious() {
     setIndexValue(indexValue - 1);
@@ -65,11 +71,14 @@ export default function RequestStepper() {
   function handelPersonalInfo() {
     setIndexValue(2);
   }
-  function handelPayment() {
+  function handelSummary() {
     setIndexValue(3);
   }
-  function handelConfirmation() {
+  function handelPayment() {
     setIndexValue(4);
+  }
+  function handelConfirmation() {
+    setIndexValue(5);
   }
   function handelPaymentSelection(optionId) {
     setSelectedPaymentOption(optionId);
@@ -121,24 +130,33 @@ export default function RequestStepper() {
                     {formCompleted[2] ? <BsCheck /> : null}
                   </Nav.Link>
                 </Nav.Item>
-
                 <Nav.Item>
                   <Nav.Link
                     eventKey={activeKey[3]}
-                    onClick={handelPayment}
+                    onClick={handelSummary}
                     disabled={formCompleted[3] === true ? false : true}
                   >
-                    <BsWallet /> Payment{formCompleted[3] ? <BsCheck /> : null}
+                    <i class="fas fa-list-alt"></i> Summary
+                    {formCompleted[3] ? <BsCheck /> : null}
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link
                     eventKey={activeKey[4]}
-                    onClick={handelConfirmation}
+                    onClick={handelPayment}
                     disabled={formCompleted[4] === true ? false : true}
                   >
+                    <BsWallet /> Payment{formCompleted[4] ? <BsCheck /> : null}
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link
+                    eventKey={activeKey[5]}
+                    onClick={handelConfirmation}
+                    disabled={formCompleted[5] === true ? false : true}
+                  >
                     <BsFillInfoCircleFill /> Confirmation
-                    {formCompleted[4] ? <BsCheck /> : null}
+                    {formCompleted[5] ? <BsCheck /> : null}
                   </Nav.Link>
                 </Nav.Item>
               </Nav>
@@ -154,41 +172,45 @@ export default function RequestStepper() {
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[2]}>
                 {isGroup === true ? (
-                  <GroupNavigation  ref={childRef} />
+                  <GroupNavigation ref={childRef} />
                 ) : (
-                    <PersonalInfoStepper ref={childRef} Next={handelNext} />
-                  )}
+                  <PersonalInfoStepper ref={childRef} Next={handelNext} />
+                )}
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[3]}>
-                <PaymentSelection />
+                <ViewAppointment ref={summaryRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[4]}>
+                <PaymentSelection />
+              </Tab.Pane>
+              <Tab.Pane eventKey={activeKey[5]}>
                 <Confirmation />
               </Tab.Pane>
             </Tab.Content>
           </Col>
         </Row>
-        {indexValue===2?(null):(<Row>
-          <Col md={3}></Col>
-          <Col md={2}>
-            <Button
-              variant="primary"
-              onClick={handelPrevious}
-              disabled={indexValue == 0 ? true : false}
-            >
-              <BsArrowLeftShort /> previous
-            </Button>{' '}
-          </Col>
-          <Col md={5}></Col>
-          <Col md={2}>
-            <Button variant="primary" onClick={handelNext}>
-              Next
-              <BsArrowRightShort />
-            </Button>{' '}
-          </Col>
-        </Row>
-      )}
-        </div>
+        {indexValue === 2 ? null : (
+          <Row>
+            <Col md={3}></Col>
+            <Col md={2}>
+              <Button
+                variant="primary"
+                onClick={handelPrevious}
+                disabled={indexValue == 0 ? true : false}
+              >
+                <BsArrowLeftShort /> previous
+              </Button>{' '}
+            </Col>
+            <Col md={5}></Col>
+            <Col md={2}>
+              <Button variant="primary" onClick={handelNext}>
+                Next
+                <BsArrowRightShort />
+              </Button>{' '}
+            </Col>
+          </Row>
+        )}
+      </div>
     </Tab.Container>
   );
 }
