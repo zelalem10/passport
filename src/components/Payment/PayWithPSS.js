@@ -22,7 +22,7 @@ const PayWithPSS = () => {
             lastName: 'Tilahun',
             email: 'atehun@gmail.com',
             phone: "0932876051",
-            amount: 10,
+            amount: 600,
             currency: "ETB",
             city: "Addis Ababa",
             country: "Ethiopia",
@@ -32,13 +32,13 @@ const PayWithPSS = () => {
             Status: 4,
             OrderId: "",
             otp: "",
-            requestId: 3,
+            requestId: 7465,
         };
         API.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
             .then((todo) => {
                 debugger;
-                setContentResponse(`${todo.data.redirectMSG}`)
-                
+                setContentResponse(todo.data.redirectMSG)
+    
                 console.log("MSG: ", todo.data.redirectMSG);
             })
             .catch((err) => {
@@ -46,17 +46,8 @@ const PayWithPSS = () => {
             })
     }, [])
     return (
-        returnBack === true ? (<PaymentSelection />) : (
-             <MDBContainer>
-                <MDBCardBody>
-                   <div dangerouslySetInnerHTML={{__html: contentResponse}} />
-                    {/* {parse(contentResponse)} */}
-                      <MDBBtn color="warning" size="sm" onClick={hadndelBack}> Back to selection </MDBBtn>
-                  </MDBCardBody>
-              </MDBContainer>
-            // <a href='/pssTest.html' target='_blank'>link to test.html</a>
-         
-    )
+        returnBack === true ? (<PaymentSelection />) :
+         (<div dangerouslySetInnerHTML={{__html: contentResponse}} />)
     )
 }
 

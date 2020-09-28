@@ -68,10 +68,10 @@ const PersonalInfo = forwardRef((props, ref) => {
         dispatch(addPersonalInfo(personalInfo));
     }
     const accesstoken = localStorage.systemToken;
-      const usertoken = localStorage.userToken;
-      const config = {
+    const usertoken = localStorage.userToken;
+    const config = {
         headers: { Authorization: 'Bearer ' + accesstoken },
-      };
+    };
     useImperativeHandle(ref, () => ({
         saveData() {
             setPersonalInfo((prevState) => ({

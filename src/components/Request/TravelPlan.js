@@ -20,6 +20,8 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import API from '../Utils/API';
+
 
 function requestTypeGetter(requetTypeId) {
   switch (requetTypeId) {
@@ -57,57 +59,19 @@ const TravelPlan = forwardRef((props, ref) => {
     correctionReason:true,
     isDatacorrected: true,
   });
-
+  const [passportTypeList, setPassportTypeList]=useState([]);
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const isRequired = 'is required!';
   const accesstoken = localStorage.systemToken;
-  let requestTypefromRedux = useSelector((state) => state.service);
+  const usertoken = localStorage.userToken;
+  const config = {
+      headers: { Authorization: 'Bearer ' + accesstoken },
+  };  let requestTypefromRedux = useSelector((state) => state.service);
   let requestTypeId =
     requestTypefromRedux[requestTypefromRedux.length - 1].appointemntType;
 
-  useEffect(() => {
-    axios({
-      headers: { Authorization: 'Bearer ' + accesstoken },
-      method: 'get',
-      url:
-        'https://epassportservices.azurewebsites.net/Master/api/V1.0/OfficeRequestType/GetRequiredAttachementsByRequestTypeId',
-      params: { requestTypeId: requestTypeId },
-    })
-      .then((response) => {
-        let requiredAttachements = response.data.requiredAttachements.length;
-        let requiredAttachementType = [];
-        let attachmentTypeName = [];
-        for (let i = 0; i < response.data.requiredAttachements.length; i++) {
-          requiredAttachementType.push(
-            response.data.requiredAttachements[i].attachmentTypeId
-          );
-          attachmentTypeName.push(
-            response.data.requiredAttachements[i].attachmentType
-          );
-
-          console.log(response.data.requiredAttachements);
-        }
-        console.log(requiredAttachementType);
-
-        if (localStorage.requiredAttachements) {
-          localStorage.removeItem('requiredAttachements');
-        }
-        localStorage.setItem('requiredAttachements', requiredAttachements);
-        localStorage.setItem(
-          'requiredAttachementType',
-          JSON.stringify(requiredAttachementType)
-        );
-        localStorage.setItem(
-          'attachmentTypeName',
-          JSON.stringify(attachmentTypeName)
-        );
-      })
-      .catch((error) => {
-        console.log('error' + error.message);
-      });
-  }, []);
-
+ 
   if (counter.travelPlan.length === 0) {
     dispatch(addTravelPlan(travelPlan));
   }
@@ -186,6 +150,7 @@ const TravelPlan = forwardRef((props, ref) => {
   const serviceSelcetion = counter.service[counter.service.length - 1];
   const requestType = serviceSelcetion.appointemntType;
   const requestTypeStr = requestTypeGetter(requestType);
+
   useEffect(() => {
     if (counter.travelPlan.length === 0) {
       dispatch(addTravelPlan(travelPlan));
@@ -202,6 +167,55 @@ const TravelPlan = forwardRef((props, ref) => {
       isDatacorrected: prevInfo ? prevInfo.isDatacorrected : false,
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
     }));
+  
+    API.get(
+      'https://epassportservices.azurewebsites.net/Master/api/V1.0/PassportPage/GetAll', config)
+      .then((todo) => {
+        setPassportTypeList(todo.data.pagePassports);
+      })
+      .catch((err) => {
+          console.log('AXIOS ERROR: ', err.response);
+      });
+
+    axios({
+      headers: { Authorization: 'Bearer ' + accesstoken },
+      method: 'get',
+      url:
+        'https://epassportservices.azurewebsites.net/Master/api/V1.0/OfficeRequestType/GetRequiredAttachementsByRequestTypeId',
+      params: { requestTypeId: requestTypeId },
+    })
+      .then((response) => {
+        let requiredAttachements = response.data.requiredAttachements.length;
+        let requiredAttachementType = [];
+        let attachmentTypeName = [];
+        for (let i = 0; i < response.data.requiredAttachements.length; i++) {
+          requiredAttachementType.push(
+            response.data.requiredAttachements[i].attachmentTypeId
+          );
+          attachmentTypeName.push(
+            response.data.requiredAttachements[i].attachmentType
+          );
+
+          console.log(response.data.requiredAttachements);
+        }
+        console.log(requiredAttachementType);
+
+        if (localStorage.requiredAttachements) {
+          localStorage.removeItem('requiredAttachements');
+        }
+        localStorage.setItem('requiredAttachements', requiredAttachements);
+        localStorage.setItem(
+          'requiredAttachementType',
+          JSON.stringify(requiredAttachementType)
+        );
+        localStorage.setItem(
+          'attachmentTypeName',
+          JSON.stringify(attachmentTypeName)
+        );
+      })
+      .catch((error) => {
+        console.log('error' + error.message);
+      });
   }, []);
 
   return (
@@ -217,20 +231,27 @@ const TravelPlan = forwardRef((props, ref) => {
         <form>
           <div className="grey-text">
             <MDBRow>
-            <MDBCol>
-                <label>Page Quantity</label>
-                <select className="browser-default custom-select" name="pageQuantity" onChange={handleChange}>
-                  <option value="0">32</option>
-                  <option value="1">64</option>
-                </select>
+
+              <MDBCol className="required-field">
+                <div>
+                  <label>
+                    Page Quantity<i style={{ color: 'red' }}>*</i>{' '}
+                  </label>
+                  <select className="browser-default custom-select" name="pageQuantity" onChange={handleChange}>
+                    <option>select page quantity</option>
+                    {passportTypeList.map((passportType) => (
+                      <option value={passportType.pageQuantityVal}>{passportType.pageQuantity}</option>
+                    ))}
+                  </select>
+                </div>
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.pageQuantity == true &&
                     travelPlan.dataSaved == true
                     ? 'Page quantity ' + isRequired
                     : null}
-                </span>
-              </MDBCol>
+                </span>                            </MDBCol>
+              
               <MDBCol>
                 <MDBInput
                   valueDefault={prevInfo ? prevInfo.filledBy : null}

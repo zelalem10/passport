@@ -3,6 +3,8 @@ import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'rea
 import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addAddressInfo from '../../redux/actions/addAddressInfoAction';
+import API from '../Utils/API';
+
 
 const Address = forwardRef((props, ref) => {
     const [addressInfo, setAddressInfo] = useState({
@@ -28,8 +30,14 @@ const Address = forwardRef((props, ref) => {
         poBox: true,
         phoneNumber: true
     });
+    const [countryList, setCountryList]=useState([]);
     const dispatch = useDispatch();
     const counter = useSelector((state) => state);
+    const accesstoken = localStorage.systemToken;
+    const usertoken = localStorage.userToken;
+    const config = {
+        headers: { Authorization: 'Bearer ' + accesstoken },
+    };
     if (counter.address.length === 0) {
         dispatch(addAddressInfo(addressInfo));
     }
@@ -89,13 +97,19 @@ const Address = forwardRef((props, ref) => {
             poBox: prevInfo ? prevInfo.poBox : "",
             requestPlace: prevInfo ? prevInfo.requestPlace : "",
         }))
+
+        API.get(
+            'https://epassportservices.azurewebsites.net/Master/api/V1.0/Country/GetAll', config)
+            .then((todo) => {
+                setCountryList(todo.data.countrys);
+            })
     }, []);
     return (
         <MDBCard>
             <MDBCardBody>
                 <form >
                     <MDBRow>
-                        <MDBCol>
+                        {/* <MDBCol>
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.country : null}
                                 name="country"
@@ -105,7 +119,28 @@ const Address = forwardRef((props, ref) => {
                                 label="Country"
                             />
                             <span style={{ color: "red" }}> {(notCompleted.country == true && addressInfo.dataSaved == true) ? "Country" + isRequired : null}</span>
-                        </MDBCol>
+                        </MDBCol> */}
+
+                        <MDBCol className="required-field">
+                <div>
+                  <label>
+                    Country<i style={{ color: 'red' }}>*</i>{' '}
+                  </label>
+                  <select className="browser-default custom-select" name="country" onChange={handleChange}>
+                    <option>select country</option>
+                    {countryList.map((country) => (
+                      <option value={country.code}>{country.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <span style={{ color: 'red' }}>
+                  {' '}
+                  {notCompleted.country == true &&
+                    addressInfo.dataSaved == true
+                    ? 'Country ' + isRequired
+                    : null}
+                </span>                            </MDBCol>
+              
                         <MDBCol>
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.city : null}

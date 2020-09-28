@@ -16,7 +16,7 @@ function SystemToken() {
         localStorage.setItem('systemToken', response.data.accessToken);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response);
       });
   }, []);
 
