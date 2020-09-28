@@ -184,6 +184,11 @@ const NavbarPage = (props) => {
                 <MDBNavLink to="/contactUs">Contact Us</MDBNavLink>
               </MDBNavItem>
 
+              <MDBNavItem className={navPath == '/Pay_With_PSS' ? 'active' : ''}>
+                <MDBNavLink to="/Pay_With_PSS">PSS</MDBNavLink>
+              </MDBNavItem>
+              
+
               {token && (
                 <MDBNavItem
                   className={navPath == '/Application-List' ? 'active' : ''}

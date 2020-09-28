@@ -64,8 +64,8 @@ const ViewAppointment = forwardRef((props, ref) => {
   const requestMode = serviceData.isUrgent;
 
   let displayedApplication = data.request[data.request.length - 1];
-  const confirmInformation = () => {
-    setFormCompleted(!formCompleted);
+  const confirmInformation = (e) => {
+    setFormCompleted(e.target.checked);
   };
   useImperativeHandle(ref, () => ({
     saveData(){
@@ -561,13 +561,13 @@ const ViewAppointment = forwardRef((props, ref) => {
                 type="checkbox"
                 class="custom-control-input"
                 id="defaultUnchecked"
-                onClick={confirmInformation}
+                onClick={(e)=> confirmInformation(e)}
               />
               <label class="custom-control-label" for="defaultUnchecked">
                 Confirm Applicant Details
               </label>
             </div>
-            {(setFormCompleted != true && dataSaved===true)?(
+            {(formCompleted===false && dataSaved===true)?(
               <div className="text-monospace">
               <p className="check-agree">
                 Please check this box if you want to proceed

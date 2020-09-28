@@ -55,7 +55,9 @@ export default function RequestStepper() {
       personalRef.current.saveData();
       setIndexValue((prevActiveStep) => prevActiveStep + 1);
       formCompleted[indexValue] = true;
-    } else if (indexValue === 3) {
+    }
+    else if(indexValue===3){
+      summaryRef.current.saveData();
       if (summaryRef.current.isCompleted() === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
         formCompleted[indexValue] = true;
@@ -195,16 +197,16 @@ export default function RequestStepper() {
             </Tab.Content>
           </Col>
         </Row>
-        {/* {indexValue === 2 ? (null) : ( */}
-        <Row>
-          <Col md={3}></Col>
-          <Col md={2}>
-            <Button
-              variant="primary"
-              onClick={handelPrevious}
-              disabled={indexValue == 0 ? true : false}
-            >
-              <BsArrowLeftShort /> previous
+        {indexValue === 2 ? (null) : (
+          <Row>
+            <Col md={3}></Col>
+            <Col md={2}>
+              <Button
+                variant="primary"
+                onClick={handelPrevious}
+                disabled={indexValue == 0 ? true : false}
+              >
+                <BsArrowLeftShort /> previous
             </Button>{' '}
           </Col>
           <Col md={5}></Col>
@@ -212,10 +214,10 @@ export default function RequestStepper() {
             <Button variant="primary" onClick={handelNext}>
               Next
               <BsArrowRightShort />
-            </Button>{' '}
-          </Col>
-        </Row>
-        {/* )} */}
+              </Button>{' '}
+            </Col>
+          </Row>
+         )} 
       </div>
     </Tab.Container>
   );
