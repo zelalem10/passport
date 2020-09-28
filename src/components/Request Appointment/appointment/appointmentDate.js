@@ -181,7 +181,7 @@ const MyApp = forwardRef((props, ref) => {
           },
         })
           .then((response) => {
-              dispatch(response.data.appointmentResponses.urgentAppointmentResponses));
+              dispatch(response.data.appointmentResponses.urgentAppointmentResponses);
             if(response.data.appointmentResponses){
             setFormCompleted(true);
             }
