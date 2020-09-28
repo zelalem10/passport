@@ -181,7 +181,11 @@ const MyApp = forwardRef((props, ref) => {
           },
         })
           .then((response) => {
-            dispatch(addAppointmentDate(response.data.appointmentResponses));
+            dispatch(
+              addAppointmentDate(
+                response.data.appointmentResponses.urgentAppointmentResponses
+              )
+            );
           })
           .catch((error) => {
             console.log('error' + error);
