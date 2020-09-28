@@ -6,8 +6,7 @@ import GroupNavigation from '../GroupRequest/GroupNavigation';
 import PaymentSelection from '../Payment/PaymentSelection';
 import Confirmation from '../Payment/Responses/Confirmation';
 import { Tab, Row, Nav, Col, Button, Card } from 'react-bootstrap';
-import ViewAppointment from '../Request/viewAppointment';
-import { MDBModal, MDBModalBody, MDBBtn } from 'mdbreact';
+import ViewAppointment from '../Request/Summary';
 import {
   BsCheck,
   BsArrowRightShort,
@@ -22,16 +21,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import addPaymentOptionId from '../../redux/actions/addPaymentOptionIdAction';
 
 export default function RequestStepper() {
-  const [indexValue, setIndexValue] = useState(4);
-  const [selectedPaymentOption, setSelectedPaymentOption] = useState(0);
+  const [indexValue, setIndexValue] = useState(0);
   const [formCompleted, setFormCompleted] = useState([
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
-  const [inompleteAlert, setInompleteAlert] = useState([
     false,
     false,
     false,
@@ -40,24 +31,47 @@ export default function RequestStepper() {
   ]);
   const activeKey = ['first', 'second', 'third', 'fourth', 'Fivth'];
   const counter = useSelector((state) => state);
-  const serviceVal = counter.service[counter.service.length - 1];
   const isGroup = counter.service[counter.service.length - 1].isGroup;
-  const childRef = useRef();
+  const personalRef = useRef();
+  const siteRef = useRef();
+  const appointmentRef = useRef();
   const summaryRef = useRef();
+  const paymentRef = useRef();
   const dispatch = useDispatch();
   function handelNext() {
-    if (indexValue == 3) {
-      if (summaryRef.current.isCompleted() === true) {
-        summaryRef.current.saveData();
+    if(indexValue===0){
+      siteRef.current.saveData();
+      if (siteRef.current.isCompleted() === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
         formCompleted[indexValue] = true;
-      } else {
-        inompleteAlert[indexValue] = true;
-      }
+      } 
     }
-    childRef.current.saveData();
-    setIndexValue((prevActiveStep) => prevActiveStep + 1);
-    formCompleted[indexValue] = true;
+    else if(indexValue===1){
+      appointmentRef.current.saveData();
+      if (appointmentRef.current.isCompleted() === true) {
+        setIndexValue((prevActiveStep) => prevActiveStep + 1);
+        formCompleted[indexValue] = true;
+      } 
+    }
+    else if (indexValue === 2) {
+      personalRef.current.saveData();
+      setIndexValue((prevActiveStep) => prevActiveStep + 1);
+      formCompleted[indexValue] = true;
+    }
+    else if(indexValue===3){
+      if (summaryRef.current.isCompleted() === true) {
+        setIndexValue((prevActiveStep) => prevActiveStep + 1);
+        formCompleted[indexValue] = true;
+      } 
+    }
+    else if(indexValue===4){
+      paymentRef.current.saveData();
+      if (paymentRef.current.isCompleted() === true) {
+        setIndexValue((prevActiveStep) => prevActiveStep + 1);
+        formCompleted[indexValue] = true;
+      } 
+    }
+   
   }
   function handelPrevious() {
     setIndexValue(indexValue - 1);
@@ -79,9 +93,6 @@ export default function RequestStepper() {
   }
   function handelConfirmation() {
     setIndexValue(5);
-  }
-  function handelPaymentSelection(optionId) {
-    setSelectedPaymentOption(optionId);
   }
   useEffect(() => {
     if (counter.commonData.length === 0) {
@@ -165,23 +176,23 @@ export default function RequestStepper() {
           <Col sm={9}>
             <Tab.Content>
               <Tab.Pane eventKey={activeKey[0]}>
-                <SiteSelection ref={childRef} />
+                <SiteSelection ref={siteRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[1]}>
-                <DateSelection ref={childRef} />
+                <DateSelection ref={appointmentRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[2]}>
                 {isGroup === true ? (
-                  <GroupNavigation ref={childRef} />
+                  <GroupNavigation ref={personalRef} />
                 ) : (
-                  <PersonalInfoStepper ref={childRef} Next={handelNext} />
+                  <PersonalInfoStepper ref={personalRef} Next={handelNext} />
                 )}
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[3]}>
                 <ViewAppointment ref={summaryRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[4]}>
-                <PaymentSelection />
+                <PaymentSelection  ref={paymentRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[5]}>
                 <Confirmation />
@@ -189,7 +200,7 @@ export default function RequestStepper() {
             </Tab.Content>
           </Col>
         </Row>
-        {indexValue === 2 ? null : (
+        {/* {indexValue === 2 ? (null) : ( */}
           <Row>
             <Col md={3}></Col>
             <Col md={2}>
@@ -199,17 +210,17 @@ export default function RequestStepper() {
                 disabled={indexValue == 0 ? true : false}
               >
                 <BsArrowLeftShort /> previous
-              </Button>{' '}
+            </Button>{' '}
             </Col>
             <Col md={5}></Col>
             <Col md={2}>
               <Button variant="primary" onClick={handelNext}>
                 Next
-                <BsArrowRightShort />
+              <BsArrowRightShort />
               </Button>{' '}
             </Col>
           </Row>
-        )}
+        {/* )} */}
       </div>
     </Tab.Container>
   );

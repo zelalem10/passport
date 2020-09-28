@@ -145,6 +145,9 @@ const PaymentSelection = forwardRef((props, ref) => {
     setFormCompleted(event.target.checked);
   };
   useImperativeHandle(ref, () => ({
+    saveData(){
+
+    },
     isCompleted() {
       return formCompleted;
     },
