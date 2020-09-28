@@ -45,8 +45,8 @@ code {
 }
 .passport-CarouselCaption {
   padding-bottom: 0 !important;
-  top: 10%;
-  bottom: auto !important;
+  bottom: 10% !important;
+  top: auto !important;
   background: rgba(0, 0, 0, 0.35);
   width: 50%;
   height: auto;
@@ -55,6 +55,7 @@ code {
   font-size: 2em;
   text-shadow: 1px 1px 11px #000;
 }
+
 .passport-CarouselCaption .passport-btn {
   background-color: #ffd700 !important;
   color: #000000;
@@ -348,3 +349,4 @@ code {
   padding: 5px;
   border-radius: 5px;
 }
+

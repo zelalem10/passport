@@ -46,14 +46,14 @@ function Status(props) {
                       </MDBRow>
                     </div>
 
-                    <input
+                    {/* <input
                       type="text"
                       className="form-control"
                       placeholder="Passport Number"
                       value={PassportNumber}
                       onChange={(e) => setPassportNumber(e.target.value)}
                     />
-                    <br />
+                    <br /> */}
                     <input
                       type="text"
                       className="form-control"

@@ -8,8 +8,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from 'react-bootstrap';
 
 function InstructionPage() {
+  const [priceInfo, setprceInfo] = useState("");
   const [requestSubmited, setRequestSubmited] = useState(false);
-  const [instruction, setInstruction] = useState("");
+  const [instructions, setInstructions] = useState([]);
   const [message, setMessage] = useState("");
   const [flowType, setFlowType] = useState(0);
   const [status, setStatus] = useState(0);
@@ -25,34 +26,34 @@ function InstructionPage() {
       headers: { Authorization: "Bearer " + accesstoken }
     };
     const body = {
-      firstName: 'Atalay',
-      lastName: 'Tilahun',
-      email: 'atehun@gmail.com',
-      phone: "0932876051",
-      amount: 10,
-      currency: "ETB",
-      city: "Addis Ababa",
-      country: "Ethiopia",
-      channel: "Mobile",
-      paymentOptionsId: 2,
-      traceNumbers: "",
-      Status: 4,
-      OrderId: "",
-      otp: "",
-      requestId: 3,
+      FirstName : "Zelalem",
+      LastName:"Belayneh",
+      Email:"Zelalem@gmail.com",
+      Phone:"+251944772455",
+      Amount:3000,
+      Currency:"ETB",
+      City:"Addis Ababa",
+      Country:"ET",
+      Channel:"Mobile",
+      PaymentOptionsId:2,
+      username : "ETHIOUSER",
+      password : "123456",
+      requestId: 3
     };
     axios.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
-      .then((todo) => {
-    
-        console.log(todo.data)
-        setStatus(todo.data.status)
-        setInstruction(todo.data.instruction)
-        setFlowType(todo.data.paymentFlowType)
-        setMessage(todo.data.message)
+      .then((resopnse) => {
+        debugger;
+    alert('success')
+        console.log(resopnse.data)
+        setprceInfo(resopnse.data)
+        setStatus(resopnse.data.status)
+        setInstructions(resopnse.data.instractions)
+        setFlowType(resopnse.data.paymentFlowType)
+        setMessage(resopnse.data.message)
         setRequestSubmited(true)
       })
       .catch((err) => {
-
+        alert('err')
         console.log("AXIOS ERROR: ", err.response);
       })
   }, [])
@@ -63,40 +64,26 @@ function InstructionPage() {
         <div class="container">
           <div class="row">
 
-            <div class="col-md-8">
+  
+              <div class="col-md-8">
               <div class="u-center-text u-margin-bottom-big"><h2 class="heading-secondary">Payment Instruction</h2></div>
-
-              <h5 class="font-weight-bold u-center-text m3-5">Please follow step below to process payment</h5>
               <div class="alert alert-success my-4 p-3" role="alert">
                   Thank you for making this request. Please visit the website to follow the status.
               </div>
+              <h5 class="font-weight-bold u-center-text m3-5">Please follow step below to process payment</h5>
+              {instructions.length
+            ? instructions.map((instruction) => (
               <div class="d-flex">
 
                 <div class="p-3 align-self-start">
                   <i class="fas fa-check fa-1x"></i>
                 </div>
                 <div class="p-3 align-self-end">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi distinctio iusto, perspiciatis mollitia natus harum?
+                {instruction.description}
             </div>
               </div>
-
-              <div class="d-flex">
-                <div class="p-3 align-self-start">
-                  <i class="fas fa-check fa-1x"></i>
-                </div>
-                <div class="p-3 align-self-end">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi distinctio iusto, perspiciatis mollitia natus harum?
-            </div>
-              </div>
-
-              <div class="d-flex">
-                <div class="p-3 align-self-start">
-                  <i class="fas fa-check fa-1x"></i>
-                </div>
-                <div class="p-3 align-self-end">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi distinctio iusto, perspiciatis mollitia natus harum?
-            </div>
-              </div>
+              ))
+            : null}
 
               <p class="">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi distinctio iusto, perspiciatis mollitia natus harum?
@@ -111,7 +98,9 @@ function InstructionPage() {
           </p>
 
             </div>
-            <div class="col-md-4 order-md-2 mb-4 mt-5">
+          
+  
+       <div class="col-md-4 order-md-2 mb-4 mt-5">
        
               <ul class="list-group mb-3">
               <li class="list-group-item ePassprt-color"><h5>Pricing Information</h5></li>
@@ -120,13 +109,13 @@ function InstructionPage() {
                     <h6 class="my-0">Selected Payment Option</h6>
                   </div><span class="text-muted">CBE</span></li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed"><div><h6 class="my-0">Order code</h6>
-                </div><span class="text-muted">DSFDDFE</span></li><li class="list-group-item d-flex justify-content-between lh-condensed">
+            </div><span class="text-muted">{priceInfo.orderId}</span></li><li class="list-group-item d-flex justify-content-between lh-condensed">
                   <div>
                     <h6 class="my-0">Page quantity</h6>
                   </div><span class="text-muted">32</span>
                 </li><li class="list-group-item d-flex justify-content-between">
                   <span>Amount</span>
-                  <strong>600</strong>
+                  <strong>{priceInfo.amount}</strong>
                 </li>
               </ul>
             </div>

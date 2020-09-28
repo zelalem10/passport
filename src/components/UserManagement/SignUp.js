@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import ReCAPTCHA from "react-google-recaptcha"
 
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
 
@@ -28,7 +29,8 @@ const intialState = {
     phoneNumberError : '',
 
   },
-  
+  human: false,
+  disabled: true
 }
 
 class SignUp extends Component {
@@ -128,6 +130,24 @@ class SignUp extends Component {
     }
 
     }
+
+ // ReCAPTCHA Client Side
+ onCaptchaLoad = () => {
+  console.log('Captcha loaded.')
+}
+
+verifyCaptcha = (res) => {
+  if(res) {
+    this.setState({ human: true, humanKey: res })
+    this.setState({ disabled: this.isDisabled() })
+  }
+}
+
+// ReCAPTCHA Expired
+expireCaptcha = () => {
+  this.setState({ human: false, humanKey: null })
+  this.setState({ disabled: this.isDisabled() })
+}
 
     render() {
         const {personRequest} = this.state
@@ -260,6 +280,12 @@ class SignUp extends Component {
                   <div className='red-text' style={Errorstyle}>{this.state.passwordTwoError}</div>
                   ) : null}
                 </div>
+              
+                <ReCAPTCHA 
+                            sitekey="6LfMx48UAAAAABKWC1MVZN4pEtJ_CiY-E5hz8jKm" 
+                            onChange={this.verifyCaptcha}
+                            onExpired={this.expireCaptcha} 
+                            />
                 <MDBRow className='d-flex align-items-center mb-4 signUpbutton'>
                 <MDBCol md='6' className='text-center my-2'>
                   <MDBBtn className='z-depth-1 btn-info' type="submit" rounded block>
