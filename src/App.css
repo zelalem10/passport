@@ -321,8 +321,8 @@ button.print-button {
   justify-content: space-between;
 }
 .payment-container .card {
-  padding: 50px;
-  margin: 50px auto;
+  padding: 5%;
+  margin: 5% auto;
   max-width: 850px;
   width: 100%;
   background: #fff;
@@ -486,13 +486,21 @@ button.print-button {
   border-color: #28333b;
   color: #28333b;
 }
-.payment-card-logo {
-  width: 150px;
+
+@media (max-width: 1439px) {
+  .payment-container .card .card-body .payment-type .types {
+    width: 50%;
+  }
 }
-@media (min-width: 768px) {
+@media (max-width: 1022px) {
+  .payment-container .card .card-body .payment-type .types {
+    width: 100%;
+  }
 }
 /* ***************************** end payment css ****************************************** */
-.medium .btn, .medium .btn:link, .medium .btn:visited {
+.medium .btn,
+.medium .btn:link,
+.medium .btn:visited {
   text-transform: uppercase;
   text-decoration: none;
   padding: 0.5rem 3rem;
@@ -505,11 +513,11 @@ button.print-button {
   cursor: pointer;
 }
 .medium .btnBlu {
-  background-color: #093c73 ;
+  background-color: #093c73;
   color: #fff;
 }
 .medium .btn:hover {
-  background-color: #093c73 ;
+  background-color: #093c73;
   color: #fff;
 }
 .equalcard {
@@ -525,20 +533,21 @@ button.print-button {
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid rgba(0,0,0,.125);
-  border-radius: .25rem;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
 }
 .bg-passport {
-  background-color: #093c73!important;
+  background-color: #093c73 !important;
 }
-.Informationforicon .fas, #create-section .fas {
+.Informationforicon .fas,
+#create-section .fas {
   color: #093c73;
   background: #fff;
   padding: 5px;
   border-radius: 5px;
 }
 .faq-accordion .MuiAccordionSummary-content {
-  margin: 0px 0 !important; 
+  margin: 0px 0 !important;
   display: flex;
   flex-grow: 1;
   transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -555,7 +564,9 @@ button.print-button {
   position: relative;
   width: 90%;
 }
-.medium .btn, .medium .btn:link, .medium .btn:visited {
+.medium .btn,
+.medium .btn:link,
+.medium .btn:visited {
   text-transform: uppercase;
   text-decoration: none;
   padding: 0.5rem 3rem;
@@ -568,11 +579,11 @@ button.print-button {
   cursor: pointer;
 }
 .medium .btnBlu {
-  background-color: #093c73 ;
+  background-color: #093c73;
   color: #fff;
 }
 .medium .btn:hover {
-  background-color: #093c73 ;
+  background-color: #093c73;
   color: #fff;
 }
 .equalcard {
@@ -588,20 +599,21 @@ button.print-button {
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid rgba(0,0,0,.125);
-  border-radius: .25rem;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
 }
 .bg-passport {
-  background-color: #093c73!important;
+  background-color: #093c73 !important;
 }
-.Informationforicon .fas, #create-section .fas {
+.Informationforicon .fas,
+#create-section .fas {
   color: #093c73;
   background: #fff;
   padding: 5px;
   border-radius: 5px;
 }
 .faq-accordion .MuiAccordionSummary-content {
-  margin: 0px 0 !important; 
+  margin: 0px 0 !important;
   display: flex;
   flex-grow: 1;
   transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -618,6 +630,6 @@ button.print-button {
   position: relative;
   width: 90%;
 }
-.w-10{
+.w-10 {
   width: 10% !important;
 }

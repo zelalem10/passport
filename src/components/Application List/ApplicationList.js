@@ -34,7 +34,7 @@ function ApplicationList() {
   const [displayRequestId, setDisplayRequestId] = useState('');
   const [cancelRequestId, setCancelRequestId] = useState('');
   const [isEdit, setIsEdit] = useState(false);
-  const [isGroup, setIsGroup] = useState(false);
+
   const [numOfApplicants, setNumOfApplicants] = useState(0);
   const [handleDisplayId, sethandleDisplayId] = useState('');
   const [loading, setloading] = useState(true);
@@ -46,13 +46,7 @@ function ApplicationList() {
     debugger;
     setDisplayRequestId(id);
   };
-  const handleEdit = (id, numberOfApplicants) => {
-    if (numberOfApplicants === 1) {
-      setIsGroup(false);
-    } else {
-      setNumOfApplicants(numberOfApplicants);
-      setIsGroup(true);
-    }
+  const handleEdit = (id) => {
     setDisplayRequestId(id);
     setIsEdit(true);
   };
@@ -89,6 +83,7 @@ function ApplicationList() {
         }
       })
       .catch((err) => {
+        debugger;
         setloading(false);
       });
   }, [isCancelSchedule]);
@@ -133,17 +128,10 @@ function ApplicationList() {
         cancelRequestId={cancelRequestId}
       />
     );
-  } else if (displayRequestId && isEdit && !isGroup) {
+  } else if (displayRequestId && isEdit) {
     return (
       <HorizontalLabelPositionBelowStepper
         displayRequestId={displayRequestId}
-      />
-    );
-  } else if (displayRequestId && isEdit && isGroup) {
-    return (
-      <GroupRequestStepper
-        displayRequestId={displayRequestId}
-        numOfApplicants={numOfApplicants}
       />
     );
   }

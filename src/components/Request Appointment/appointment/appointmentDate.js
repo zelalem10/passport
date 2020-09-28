@@ -6,7 +6,13 @@ import React, {
 } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { MDBContainer, MDBRow, MDBCol, MDBTypography } from 'mdbreact';
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBTypography,
+  MDBAlert,
+} from 'mdbreact';
 import axios from 'axios';
 import AvailableTimeSlot from './appointmetTimeSlots';
 import './disabledates.css';
@@ -33,6 +39,7 @@ const MyApp = forwardRef((props, ref) => {
     key: '',
     active: false,
   });
+  const [errorMessage, setErrorMessage] = useState('');
 
   const [showAlert, setShowAlert] = useState('');
   const [newAppointment, setNewAppointment] = useState();
@@ -181,13 +188,24 @@ const MyApp = forwardRef((props, ref) => {
           },
         })
           .then((response) => {
-              dispatch(response.data.appointmentResponses.urgentAppointmentResponses));
-            if(response.data.appointmentResponses){
-            setFormCompleted(true);
+            console.log(response.data);
+            dispatch(
+              addAppointmentDate(response.data.urgentAppointmentResponses)
+            );
+            if (response.data.urgentAppointmentResponses) {
+              setFormCompleted(true);
+            } else {
+              setErrorMessage(response.data.message);
             }
           })
           .catch((error) => {
-            console.log('error' + error);
+            if (state.date && state.time) {
+              setErrorMessage(error.message);
+            } else if (state.date && !state.time) {
+              setErrorMessage('Please Select Time Interval');
+            } else {
+              setErrorMessage('Please Select Date and Time Interval');
+            }
           });
       } else {
         axios({
@@ -205,17 +223,21 @@ const MyApp = forwardRef((props, ref) => {
           },
         })
           .then((response) => {
-          
-            
             dispatch(addAppointmentDate(response.data.appointmentResponses));
-            if(response.data.appointmentResponses){
+            if (response.data.appointmentResponses) {
               setFormCompleted(true);
-              }
+            } else {
+              setErrorMessage(response.data.message);
+            }
           })
           .catch((error) => {
-            debugger;
-            setShowAlert(error.message);
-            console.log('error' + error);
+            if (state.date && state.time) {
+              setErrorMessage(error.message);
+            } else if (state.date && !state.time) {
+              setErrorMessage('Please Select Time Interval');
+            } else {
+              setErrorMessage('Please Select Date and Time Interval');
+            }
           });
       }
     },
@@ -548,6 +570,13 @@ const MyApp = forwardRef((props, ref) => {
             </MDBCol>
           ) : null}
         </MDBRow>
+        {errorMessage ? (
+          <MDBRow className="pt-3">
+            <MDBCol>
+              <MDBAlert color="danger">{errorMessage}</MDBAlert>
+            </MDBCol>
+          </MDBRow>
+        ) : null}
       </MDBContainer>
     </div>
   );

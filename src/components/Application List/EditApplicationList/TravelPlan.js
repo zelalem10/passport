@@ -7,39 +7,22 @@ import React, {
 import { MDBRow, MDBCol, MDBInput, MDBCardBody, MDBCard } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addTravelPlan from '../../../redux/actions/addTravelPlanAction';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+import { Card } from 'react-bootstrap';
+
 import axios from 'axios';
 
 const TravelPlan = forwardRef((props, ref) => {
   const [validated, setValidated] = useState(false);
   const {
-    flightData,
-    flightNumber,
     filledBy,
     pageQuantity,
-    passportType,
-    passportNumber,
-    expirationDate,
-    issueDate,
-    isDatacorrected,
     displayedApplication,
-    personalInformation
+    personalInformation,
   } = props;
   debugger;
   const [travelPlan, setTravelPlan] = useState({
-    travelDate: flightData,
-    ticketNumber: flightNumber,
     filledBy: filledBy,
     pageQuantity: pageQuantity,
-    passportType: passportType,
-    passportNumber: passportNumber,
-    expirationDate: expirationDate,
-    issueDate: issueDate,
-    isDatacorrected: isDatacorrected,
     dataSaved: false,
   });
   debugger;
@@ -52,9 +35,7 @@ const TravelPlan = forwardRef((props, ref) => {
   let attachmentType = [];
   let attachmentId = [];
 
-  
-
-  console.log(displayedApplication)
+  console.log(displayedApplication);
 
   useEffect(() => {
     axios({
@@ -62,16 +43,16 @@ const TravelPlan = forwardRef((props, ref) => {
       method: 'get',
       url:
         'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
-        params: { personRequestId: requestPersonId },
+      params: { personRequestId: requestPersonId },
     })
       .then((Response) => {
         debugger;
         attachmentlength = Response.data.attachments.length;
         localStorage.setItem('attachmentlength', attachmentlength);
-        for (let i=0; i< attachmentlength; i++){
-          attachmentPath.push(Response.data.attachments[i].attachmentPath)
-          attachmentType.push(Response.data.attachments[i].attachmentType)
-          attachmentId.push(Response.data.attachments[i].attachmentId)
+        for (let i = 0; i < attachmentlength; i++) {
+          attachmentPath.push(Response.data.attachments[i].attachmentPath);
+          attachmentType.push(Response.data.attachments[i].attachmentType);
+          attachmentId.push(Response.data.attachments[i].attachmentId);
         }
         if (localStorage.attachmentPath) {
           localStorage.removeItem('attachmentPath');
@@ -85,8 +66,6 @@ const TravelPlan = forwardRef((props, ref) => {
         localStorage.setItem('attachmentPath', JSON.stringify(attachmentPath));
         localStorage.setItem('attachmentType', JSON.stringify(attachmentType));
         localStorage.setItem('attachmentId', JSON.stringify(attachmentId));
-
-
       })
       .catch((err) => {
         console.log(err);
@@ -121,48 +100,11 @@ const TravelPlan = forwardRef((props, ref) => {
   useEffect(() => {
     setTravelPlan((prevState) => ({
       ...prevState,
-      travelDate: prevInfo ? new Date(prevInfo.travelDate) : null,
-      ticketNumber: prevInfo ? prevInfo.ticketNumber : null,
       filledBy: prevInfo ? prevInfo.filledBy : null,
       pageQuantity: prevInfo ? prevInfo.pageQuantity : '0',
-      passportType: prevInfo ? prevInfo.passportType : null,
-      passportNumber: prevInfo ? prevInfo.passportNumber : null,
-      expirationDate: prevInfo ? new Date(prevInfo.expirationDate) : null,
-      issueDate: prevInfo ? new Date(prevInfo.issueDate) : null,
-      isDatacorrected: prevInfo ? prevInfo.isDatacorrected : false,
     }));
   }, []);
 
-  const [selectedtravelDate, setSelectedtravelDate] = React.useState(
-    new Date(prevInfo ? prevInfo.travelDate : new Date())
-  );
-  const [selectedissueDate, setSelectedissueDate] = React.useState(
-    new Date(prevInfo ? prevInfo.issueDate : new Date())
-  );
-  const [selectedexpirationDate, setSelectedexpirationDate] = React.useState(
-    new Date(prevInfo ? prevInfo.expirationDate : new Date())
-  );
-  const handletravelDateChange = (date) => {
-    setSelectedtravelDate(date);
-    setTravelPlan((prevState) => ({
-      ...prevState,
-      travelDate: date,
-    }));
-  };
-  const handleissueDateChange = (date) => {
-    setSelectedissueDate(date);
-    setTravelPlan((prevState) => ({
-      ...prevState,
-      issueDate: date,
-    }));
-  };
-  const handleexpirationDateChange = (date) => {
-    setSelectedexpirationDate(date);
-    setTravelPlan((prevState) => ({
-      ...prevState,
-      expirationDate: date,
-    }));
-  };
   const handleCheck = (name, checked) => {
     setTravelPlan((prevState) => ({
       ...prevState,
@@ -170,36 +112,11 @@ const TravelPlan = forwardRef((props, ref) => {
     }));
   };
   return (
-    <MDBCard>
-      <MDBCardBody>
+    <Card.Body>
+      <blockquote className=" mb-0">
         <form>
           <div className="grey-text">
             <MDBRow>
-              <MDBCol className="date-picker">
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    margin="normal"
-                    id="date-picker-dialog"
-                    label="Travel Date"
-                    format="MM/dd/yyyy"
-                    value={selectedtravelDate}
-                    onChange={handletravelDateChange}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                </MuiPickersUtilsProvider>
-              </MDBCol>
-              <MDBCol>
-                <MDBInput
-                  valueDefault={prevInfo ? prevInfo.ticketNumber : null}
-                  name="ticketNumber"
-                  className="form-control"
-                  onBlur={handleChange}
-                  type="text"
-                  label="Ticket Number"
-                />
-              </MDBCol>
               <MDBCol>
                 <MDBInput
                   valueDefault={prevInfo ? prevInfo.filledBy : null}
@@ -218,80 +135,10 @@ const TravelPlan = forwardRef((props, ref) => {
                 </select>
               </MDBCol>
             </MDBRow>
-            <MDBRow>
-              <MDBCol>
-                <MDBInput
-                  valueDefault={prevInfo ? prevInfo.passportType : null}
-                  name="passportType"
-                  className="form-control"
-                  onBlur={handleChange}
-                  type="text"
-                  label="Passport Type"
-                />
-              </MDBCol>
-              <MDBCol>
-                <MDBInput
-                  valueDefault={prevInfo ? prevInfo.passportNumber : null}
-                  name="passportNumber"
-                  className="form-control"
-                  onBlur={handleChange}
-                  type="text"
-                  label="Passport Number"
-                />
-              </MDBCol>
-              <MDBCol className="date-picker">
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    margin="normal"
-                    id="date-picker-dialog"
-                    label="Expiration Date"
-                    format="MM/dd/yyyy"
-                    value={selectedexpirationDate}
-                    onChange={handleexpirationDateChange}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                </MuiPickersUtilsProvider>
-              </MDBCol>
-              <MDBCol className="date-picker">
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    margin="normal"
-                    id="date-picker-dialog"
-                    label="Issue Date"
-                    format="MM/dd/yyyy"
-                    value={selectedissueDate}
-                    onChange={handleissueDateChange}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                </MuiPickersUtilsProvider>
-              </MDBCol>
-            </MDBRow>
-            <MDBRow>
-              <MDBCol>
-                <label></label>
-                <div class="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    id="isCorrection"
-                    onChange={(e) =>
-                      handleCheck('isDatacorrected', e.target.checked)
-                    }
-                  />
-                  <label class="custom-control-label" for="isCorrection">
-                    Is Data corrected
-                  </label>
-                </div>
-              </MDBCol>
-            </MDBRow>
           </div>
         </form>
-      </MDBCardBody>
-    </MDBCard>
+      </blockquote>
+    </Card.Body>
   );
 });
 
