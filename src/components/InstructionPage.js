@@ -30,7 +30,7 @@ function InstructionPage() {
       LastName:"Belayneh",
       Email:"Zelalem@gmail.com",
       Phone:"+251944772455",
-      Amount:3000,
+      Amount:600,
       Currency:"ETB",
       City:"Addis Ababa",
       Country:"ET",
@@ -38,7 +38,7 @@ function InstructionPage() {
       PaymentOptionsId:2,
       username : "ETHIOUSER",
       password : "123456",
-      requestId: 3
+      requestId: 7465
     };
     axios.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
       .then((resopnse) => {

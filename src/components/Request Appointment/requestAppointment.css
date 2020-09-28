@@ -120,7 +120,7 @@ h1 {
   padding-left: 0;
 }
 .card--link.card--teal:hover {
-  background: #00becb !important;
+  background: #184de7  !important;
   color: #fefefe;
 }
 .icon:before,
@@ -263,7 +263,7 @@ p .video__toggle {
 }
 
 .sidebar__box--border {
-  border-top: 0.5625rem solid #f19800;
+  border-top: 0.5625rem solid #224b9f;
 }
 .sidebar__box {
   background: #fefefe;
@@ -317,7 +317,7 @@ p .video__toggle {
 }
 .small-12 .card--teal,
 .request-type .request-card .card--link:hover .card--teal + .card--gray {
-  background-color: #00a0af !important;
+  background-color: #224b9f !important;
   color: #fefefe !important;
 }
 .button.gray {
@@ -346,7 +346,7 @@ p .video__toggle {
 }
 
 .button.hollow:hover {
-  background: #224b9f;
+  background: #3e79ee;
   color: #fefefe !important;
 }
 .applicants-button {
@@ -355,8 +355,8 @@ p .video__toggle {
 }
 .applicants-button:hover {
   background-color: transparent !important;
-  border-color: #224b9f !important;
-  color: #224b9f !important;
+  border-color: #3e79ee !important;
+  color: #3e79ee !important;
 }
 .specialty-next-step.button {
   display: flex;
@@ -380,11 +380,11 @@ p .video__toggle {
 }
 .specialty-next-step.button:hover {
   background-color: transparent;
-  border-color: #224b9f;
-  color: #224b9f !important;
+  border-color: #3e79ee;
+  color: #3e79ee !important;
 }
 .sidebar__box--teal {
-  border-top-color: #00a0af;
+  border-top-color: #224b9f;
 }
 .large-offset-1 .sidebar.small {
   max-width: unset;
@@ -459,7 +459,7 @@ ul.list--single-line li .icon {
   vertical-align: middle;
 }
 .orange {
-  color: #f19800;
+  color: #224b9f;
 }
 .sidebar__box ul {
   list-style: none;
@@ -484,7 +484,7 @@ ul.list--single-line li .icon {
   .card--link:hover
   .card--teal
   + .card--gray {
-  background-color: #00a0af !important;
+  background-color: #224b9f !important;
   color: #fefefe !important;
 }
 .renew-passport-multistep .card--small-gutters .row .card {
@@ -669,13 +669,13 @@ ul.list--single-line li .icon {
 }
 .addFamily .col-example {
   padding: 1rem;
-  background-color: #33b5e5;
+  background-color: #224b9f;
   border: 2px solid #fff;
   color: #fff;
   text-align: center;
 }
 .accordion__button:hover {
-  color: #00a0af;
+  color: #3e79ee;
 }
 .accordion__button.edit {
   right: -3%;

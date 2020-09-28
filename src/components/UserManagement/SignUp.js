@@ -137,6 +137,7 @@ class SignUp extends Component {
 }
 
 verifyCaptcha = (res) => {
+  console.log('Captcha loaded.')
   if(res) {
     this.setState({ human: true, humanKey: res })
     this.setState({ disabled: this.isDisabled() })
@@ -145,6 +146,7 @@ verifyCaptcha = (res) => {
 
 // ReCAPTCHA Expired
 expireCaptcha = () => {
+  console.log('Captcha loaded.')
   this.setState({ human: false, humanKey: null })
   this.setState({ disabled: this.isDisabled() })
 }
