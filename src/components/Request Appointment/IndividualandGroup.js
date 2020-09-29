@@ -26,20 +26,22 @@ function IndividualandGroup(props) {
         fluid
       >
         <MDBRow>
-          <MDBCol className="medium-8" sm="12" lg="7">
+          <MDBCol lg="7">
+
+
+
             <div className="multistep-form__step">
-              <h2 className="h1">Request an Appointment</h2>
+              <h2 className="heading-secondary">Request an Appointment</h2>
 
               <div className="rtf">
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
+                By proceeding with this application, I understand that I am signifying my consent to the disclosure, collection, 
+              and use of my personal information and the data required under the Ethiopian Passport Act as amended and its Implementing 
+              Rules and Regulations. My consent effectively constitutes a waiver of any and all privacy rights pertaining to the disclosure, 
+              collection, and use of my personal information and data under the specific terms and condition of Ethiopian Online Passport 
+              Appointment System.
+                  <br></br>
+     
                 </p>
                 <div>
                   <div class="custom-control custom-checkbox">

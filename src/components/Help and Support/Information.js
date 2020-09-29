@@ -188,7 +188,7 @@ export default function Information() {
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For Passport Page Run Out
+                                    For Passport Page RunOut
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
