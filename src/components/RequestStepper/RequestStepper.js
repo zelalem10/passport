@@ -47,11 +47,13 @@ export default function RequestStepper() {
       } 
     }
     else if(indexValue===1){
-      appointmentRef.current.saveData();
       if (appointmentRef.current.isCompleted() === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
         formCompleted[indexValue] = true;
-      } 
+      }
+      else{
+        appointmentRef.current.saveData();
+      }
     }
     else if (indexValue === 2) {
       personalRef.current.saveData();
@@ -180,7 +182,7 @@ export default function RequestStepper() {
                 <SiteSelection ref={siteRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[1]}>
-                <DateSelection ref={appointmentRef} />
+                <DateSelection ref={appointmentRef} Next={handelNext} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[2]}>
                 {isGroup === true ? (

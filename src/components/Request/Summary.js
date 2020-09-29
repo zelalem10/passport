@@ -84,7 +84,7 @@ const ViewAppointment = forwardRef((props, ref) => {
     : null;
   if (personalInfo) {
     if (personalInfo.length === 1) {
-      const personalInformation = displayedApplication.personResponses[0];
+      const personalInformation = displayedApplication.personResponses;
       const addressInformation = personalInformation.address;
       const familyInformation = personalInformation.familyResponses;
 
