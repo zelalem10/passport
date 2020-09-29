@@ -47,17 +47,17 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
     props.Next();
   }
   const handleNext = () => {
-    // if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
-    //   childRef.current.saveData();
-    //   const isVilid = childRef.current.Validate();
-    //   if (isVilid == true) {
-    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //   }
-    // }
-    // else {
+    if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
+      childRef.current.saveData();
+      const isVilid = childRef.current.Validate();
+      if (isVilid == true) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }
+    }
+    else {
     childRef.current.saveData();
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //}
+    }
     
  
   };
@@ -166,14 +166,14 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
           const commonData = {
             requestPersonId: todo.data.serviceResponseList[0].personResponses.requestPersonId,
           };
-          dispatch(newRequest(todo.data.serviceResponseList));
+          dispatch(newRequest(todo.data.serviceResponseList[0]));
           dispatch(addCommonData(commonData));
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
         .catch((err) => {
           debugger
           console.log('AXIOS ERROR: ', err.response);
-          if (err.response.data != null)
+          if (err.response != null)
             setResponseMessage(err.response.data.title);
           else
             setResponseMessage("something goes wrong!");
@@ -231,8 +231,7 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
             <Typography className={classes.instructions}>
               {getStepContent(activeStep)}
             </Typography>
-            {activeStep === steps.length - 1 ? (null)
-            :(
+            
             <Grid container spacing={1}>
               <Grid item xs={3}>
                 <Button
@@ -244,6 +243,8 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
                 </Button>
               </Grid>
               <hr></hr>
+              {activeStep === steps.length - 1 ? (null)
+            :(
                  <Grid item xs={1}>
                 {activeStep === steps.length - 2 ? (
                   <Button
@@ -261,11 +262,11 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
                   >
                     Next
                   </Button>)
-                  
                 )}
               </Grid>
-             </Grid>
             )}
+             </Grid>
+
           </div>
         )}
       </div>
