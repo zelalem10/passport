@@ -18,7 +18,7 @@ function AddMoreFamily(props) {
         <MDBCol sm="12">
           <div className="multistep-form__step">
             <h2 className="h1">Family Details</h2>
-            {data.map((item,index) => (
+            {data.map((item, index) => (
               <MDBCard reverse className="mb-2">
                 <MDBCardBody cascade className="text-center">
                   <div className="accordion-title enabled">
@@ -31,7 +31,7 @@ function AddMoreFamily(props) {
                     </button>
                     <button
                       aria-hidden="true"
-                      onClick={() => props.editThisFamily(item.id,index)}
+                      onClick={() => props.editThisFamily(item.id, index)}
                       className="accordion__button edit icon icon--expand"
                     >
                       <i class="fas fa-edit fa-lg"></i>
@@ -65,6 +65,18 @@ function AddMoreFamily(props) {
                     <div className="row">
                       <div className="small-12 medium-8 column">
                         <div className="grey-text">
+                          <select
+                            name="famType"
+                            onChange={props.handleInput}
+                            className="browser-default custom-select"
+                          >
+                            <option style={{ display: 'none' }}>
+                              Choose your option
+                            </option>
+                            {familyType.map((item) => (
+                              <option value={item.id}>{item.type}</option>
+                            ))}
+                          </select>
                           <MDBInput
                             label="First Name"
                             group
@@ -83,18 +95,6 @@ function AddMoreFamily(props) {
                             validate
                             onChange={props.handleInput}
                           />
-                          <select
-                            name="famType"
-                            onChange={props.handleInput}
-                            className="browser-default custom-select"
-                          >
-                            <option style={{ display: 'none' }}>
-                              Choose your option
-                            </option>
-                            {familyType.map((item) => (
-                              <option value={item.id}>{item.type}</option>
-                            ))}
-                          </select>
                         </div>
                       </div>
                     </div>

@@ -78,14 +78,14 @@ const ViewAppointment = forwardRef((props, ref) => {
       return formCompleted;
     },
   }));
-
+  debugger;
   const personalInfo = displayedApplication
     ? displayedApplication.personResponses
     : null;
   if (personalInfo) {
     if (personalInfo.length === 1) {
       const appointmentResponse = displayedApplication.appointmentResponse;
-      const personalInformation = displayedApplication.personResponses[0];
+      const personalInformation = displayedApplication.personResponses;
       const addressInformation = personalInformation.address;
       const familyInformation = personalInformation.familyResponses;
 
@@ -139,7 +139,7 @@ const ViewAppointment = forwardRef((props, ref) => {
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <b>
                   <label class="font-weight-bold">
-                    {displayedApplication.appointmentResponse.date}
+                    {appointmentResponse ? appointmentResponse.date : null}
                   </label>
                 </b>
               </div>
@@ -150,9 +150,9 @@ const ViewAppointment = forwardRef((props, ref) => {
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <b>
                   <label class="font-weight-bold">
-                    {displayedApplication.appointmentResponse.startTime}
+                    {appointmentResponse ? appointmentResponse.startTime : null}
                     {'-'}
-                    {displayedApplication.appointmentResponse.endTime}
+                    {appointmentResponse ? appointmentResponse.endTime : null}
                   </label>
                 </b>
               </div>

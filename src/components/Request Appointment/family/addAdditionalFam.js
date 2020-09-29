@@ -22,6 +22,18 @@ function AddFamily(props) {
                     <div className="row">
                       <div className="small-12 medium-8 column">
                         <div className="grey-text">
+                        <select
+                            name="famType"
+                            onChange={props.handleInputAdd}
+                            className="browser-default custom-select"
+                          >
+                            <option style={{ display: 'none' }}>
+                              Choose your option
+                            </option>
+                            {familyType.map((item) => (
+                              <option value={item.id}>{item.type}</option>
+                            ))}
+                          </select>
                           <MDBInput
                             label="First Name"
                             group
@@ -40,18 +52,7 @@ function AddFamily(props) {
                             validate
                             onChange={props.handleInputAdd}
                           />
-                          <select
-                            name="famType"
-                            onChange={props.handleInputAdd}
-                            className="browser-default custom-select"
-                          >
-                            <option style={{ display: 'none' }}>
-                              Choose your option
-                            </option>
-                            {familyType.map((item) => (
-                              <option value={item.id}>{item.type}</option>
-                            ))}
-                          </select>
+                          
                         </div>
                       </div>
                     </div>

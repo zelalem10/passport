@@ -9,10 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Spinner from '../common/Spinner';
 import { MDBCol, MDBRow } from 'mdbreact';
 
-
 const Fileupload = forwardRef((props, ref) => {
- 
-
   let [successMessage, setsuccessMessage] = useState(false);
   let [errorMessage, seterrorMessage] = useState(false);
   const accesstoken = localStorage.systemToken;

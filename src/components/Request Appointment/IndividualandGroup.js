@@ -32,14 +32,16 @@ function IndividualandGroup(props) {
 
               <div className="rtf">
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
+                  Users accept the responsibility for supplying, checking, and
+                  verifying the accuracy and correctness of the information they
+                  provide. Incorrect or inaccurate information may result in
+                  forfeiture of passport application.
+                  <br />
+                  <br />
+                  All fees are non-refundable. Fees shall be forfeited for
+                  applicants who fail to show up on their confirmed appointment,
+                  applicants who cancel their appointment, applicants whose
+                  application was rejected due to incorrect information.
                 </p>
                 <div>
                   <div class="custom-control custom-checkbox">
