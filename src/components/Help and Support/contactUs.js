@@ -43,27 +43,30 @@ const ContactUs = () => {
                 <div class="col-md-6 my-5">
                     <div class='card p-4'>
                         <h3 class="text-center my-4">Please fill out this form to contact us</h3>
-                        <div class="row mb-4">
+                        <div class="row">
                             <div class="col">
                                 <div className="form-group">
-                                    <input type="text" className="form-control" placeholder="Firs Name" />
+                                    <MDBInput type="text" label="Firs Name" outline />
                                 </div>
                             </div>
                             <div class="col">
                                 <div className="form-group">
-                                    <input type="text" className="form-control" placeholder="Last Name" />
+                                  
+                                    <MDBInput type="text" label="Last Name" outline />
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div className="form-group">
-                                    <input type="text" className="form-control" placeholder="Phone Number" />
+                                   
+                                    <MDBInput type="text" label="Phone Number" outline />
                                 </div>
                             </div>
                             <div class="col">
                                 <div className="form-group">
-                                    <input type="email" className="form-control" placeholder="Your e-mail" />
+                 
+                                    <MDBInput type="text" label="Your e-mail" outline />
                                 </div>
                             </div>
                         </div>

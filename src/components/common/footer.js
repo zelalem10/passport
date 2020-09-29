@@ -79,11 +79,11 @@ const FooterPage = () => {
           ></img>
           <img
             className="pr-3 pt-3"
-            src={require('../../images/default-source/footer_img/Amole.jpg')}
+            src={require('../../images/default-source/footer_img/amole.jpg')}
           ></img>
           <img
             className="pr-3 pt-3"
-            src={require('../../images/default-source/footer_img/Pss.jpg')}
+            src={require('../../images/default-source/footer_img/pss.jpg')}
           ></img>
           <img
             className="pr-3 pt-3"

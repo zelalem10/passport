@@ -350,3 +350,9 @@ code {
   border-radius: 5px;
 }
 
+.noShadow .card {
+  font-weight: 400;
+  border: 0;
+  border: 1px solid rgba(0,0,0,.125) !important;
+  box-shadow: none;
+}
