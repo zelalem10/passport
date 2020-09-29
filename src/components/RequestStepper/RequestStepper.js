@@ -39,21 +39,19 @@ export default function RequestStepper() {
   const paymentRef = useRef();
   const dispatch = useDispatch();
   function handelNext() {
-    if(indexValue===0){
+    if (indexValue === 0) {
       siteRef.current.saveData();
       if (siteRef.current.isCompleted() === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
         formCompleted[indexValue] = true;
-      } 
-    }
-    else if(indexValue===1){
+      }
+    } else if (indexValue === 1) {
       appointmentRef.current.saveData();
       if (appointmentRef.current.isCompleted() === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
         formCompleted[indexValue] = true;
-      } 
-    }
-    else if (indexValue === 2) {
+      }
+    } else if (indexValue === 2) {
       personalRef.current.saveData();
       setIndexValue((prevActiveStep) => prevActiveStep + 1);
       formCompleted[indexValue] = true;
@@ -63,16 +61,14 @@ export default function RequestStepper() {
       if (summaryRef.current.isCompleted() === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
         formCompleted[indexValue] = true;
-      } 
-    }
-    else if(indexValue===4){
+      }
+    } else if (indexValue === 4) {
       paymentRef.current.saveData();
       if (paymentRef.current.isCompleted() === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
         formCompleted[indexValue] = true;
-      } 
+      }
     }
-   
   }
   function handelPrevious() {
     setIndexValue(indexValue - 1);
@@ -193,7 +189,7 @@ export default function RequestStepper() {
                 <ViewAppointment ref={summaryRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[4]}>
-                <PaymentSelection  ref={paymentRef} />
+                <PaymentSelection ref={paymentRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[5]}>
                 <Confirmation />
@@ -212,11 +208,11 @@ export default function RequestStepper() {
               >
                 <BsArrowLeftShort /> previous
             </Button>{' '}
-            </Col>
-            <Col md={5}></Col>
-            <Col md={2}>
-              <Button variant="primary" onClick={handelNext}>
-                Next
+          </Col>
+          <Col md={5}></Col>
+          <Col md={2}>
+            <Button variant="primary" onClick={handelNext}>
+              Next
               <BsArrowRightShort />
               </Button>{' '}
             </Col>
