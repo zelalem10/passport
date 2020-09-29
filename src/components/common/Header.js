@@ -124,7 +124,7 @@ const NavbarPage = (props) => {
                 href="https://www.ethiopianairlines.com"
                 className="text-dark mr-2"
               >
-                Ethioian Airlines
+              Ethiopian airlines
               </a>
             </MDBNavItem>
             <MDBNavItem>
@@ -133,7 +133,7 @@ const NavbarPage = (props) => {
                 href="https://www.ethiopianskylighthotel.com"
                 className="text-dark mr-2"
               >
-                Ethioian Skylight Hotel
+                Ethiopian Skylight Hotel
               </a>
         
             </MDBNavItem>

@@ -26,22 +26,22 @@ function IndividualandGroup(props) {
         fluid
       >
         <MDBRow>
-          <MDBCol className="medium-8" sm="12" lg="7">
+          <MDBCol lg="7">
+
+
+
             <div className="multistep-form__step">
-              <h2 className="h1">Request an Appointment</h2>
+              <h2 className="heading-secondary">Request an Appointment</h2>
 
               <div className="rtf">
-                <p class="text-justify">
-                  Users accept the responsibility for supplying, checking, and
-                  verifying the accuracy and correctness of the information they
-                  provide. Incorrect or inaccurate information may result in
-                  forfeiture of passport application.
-                  <br />
-                  <br />
-                  All fees are non-refundable. Fees shall be forfeited for
-                  applicants who fail to show up on their confirmed appointment,
-                  applicants who cancel their appointment, applicants whose
-                  application was rejected due to incorrect information.
+                <p>
+                By proceeding with this application, I understand that I am signifying my consent to the disclosure, collection, 
+              and use of my personal information and the data required under the Ethiopian Passport Act as amended and its Implementing 
+              Rules and Regulations. My consent effectively constitutes a waiver of any and all privacy rights pertaining to the disclosure, 
+              collection, and use of my personal information and data under the specific terms and condition of Ethiopian Online Passport 
+              Appointment System.
+                  <br></br>
+     
                 </p>
                 <div>
                   <h5>TERMS AND CONDITIONS</h5>
