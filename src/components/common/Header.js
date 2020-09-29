@@ -96,20 +96,17 @@ const NavbarPage = (props) => {
       <MDBNavbar className="headerOne">
         <MDBContainer fluid style={{ width: '80%' }}>
           <MDBNavbarNav left>
-            <div class="row">
-              {/* <div class="col-md-3">
-                <h1 className="header-title">ePassport</h1>
-              </div> */}
-              <div class="col-md-3">
+      
+         
                 <Link to="/">
                   <img
-                    src={require('../../images/default-source/shared/logotwo.png')}
-                    className="img-fluid logo-img"
+                    src={require('../../images/default-source/shared/INVEA-logo.png')}
+                    className="img-fluid logo-img w-100"
                     alt="Ethiopian ePassport logo"
                   />
                 </Link>
-              </div>
-            </div>
+          
+        
           </MDBNavbarNav>
           <MDBNav right>
             <MDBNavItem>

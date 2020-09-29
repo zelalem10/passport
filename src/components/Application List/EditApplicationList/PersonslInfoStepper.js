@@ -70,7 +70,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
     }
   }
   const personalInformation = displayedApplication
-    ? displayedApplication.personResponses[0]
+    ? displayedApplication.personResponses
     : null;
   const personId = personalInformation ? personalInformation.id : null;
   const addressInformation = personalInformation
@@ -175,11 +175,6 @@ export default function HorizontalLabelPositionBelowStepper(props) {
           isUnder18: personalInfo ? personalInfo.isAdoption : false,
 
           isAdoption: personalInfo ? personalInfo.isAdoption : false,
-          passportNumber: travelPlanInfo.passportNumber,
-          issueDate: travelPlanInfo.issueDate,
-          expireDate: travelPlanInfo.expirationDate,
-          passportType: travelPlanInfo.passportType,
-          isDatacorrected: travelPlanInfo.isDatacorrected,
           pageQuantity: travelPlanInfo.pageQuantity,
           nationality: 1,
 
@@ -211,8 +206,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
         },
       ],
     };
-    debugger;
-    console.log(requestBody);
+
     API.put(
       'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/UpdateRequest',
       requestBody,
@@ -237,7 +231,6 @@ export default function HorizontalLabelPositionBelowStepper(props) {
           <PersonalInfo
             ref={childRef}
             personalInformation={personalInformation}
-            
           />
         );
 
@@ -268,18 +261,19 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             expirationDate={personalInformation.expireDate}
             issueDate={personalInformation.issueDate}
             isDatacorrected={personalInformation.isDatacorrected}
-            displayedApplication={displayedApplication} 
-            personalInformation={personalInformation} 
-            
+            displayedApplication={displayedApplication}
+            personalInformation={personalInformation}
           />
         );
 
       case 4:
-        return <Attachment 
-        ref={childRef} 
-        displayedApplication={displayedApplication} 
-        personalInformation={personalInformation}
-        />;
+        return (
+          <Attachment
+            ref={childRef}
+            displayedApplication={displayedApplication}
+            personalInformation={personalInformation}
+          />
+        );
 
       default:
         return 'Unknown stepIndex';
