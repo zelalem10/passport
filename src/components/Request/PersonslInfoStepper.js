@@ -58,17 +58,19 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     props.Next();
   };
   const handleNext = () => {
-    // if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
-    //   childRef.current.saveData();
-    //   const isVilid = childRef.current.Validate();
-    //   if (isVilid == true) {
-    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //   }
-    // }
-    // else {
+    if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
+      childRef.current.saveData();
+      const isVilid = childRef.current.Validate();
+      if (isVilid == true) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }
+    }
+    else {
     childRef.current.saveData();
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //}
+    }
+    
+ 
   };
 
   const handleBack = () => {
@@ -196,14 +198,14 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           const commonData = {
             requestPersonId: todo.data.serviceResponseList[0].personResponses.requestPersonId,
           };
-          dispatch(newRequest(todo.data.serviceResponseList));
+          dispatch(newRequest(todo.data.serviceResponseList[0]));
           dispatch(addCommonData(commonData));
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
         .catch((err) => {
           debugger;
           console.log('AXIOS ERROR: ', err.response);
-          if (err.response.data != null)
+          if (err.response != null)
             setResponseMessage(err.response.data.title);
           else
             setResponseMessage("something goes wrong!");
@@ -264,39 +266,42 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             <Typography className={classes.instructions}>
               {getStepContent(activeStep)}
             </Typography>
-            {activeStep === steps.length - 1 ? null : (
-              <Grid container spacing={1}>
-                <Grid item xs={3}>
+            
+            <Grid container spacing={1}>
+              <Grid item xs={3}>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  className={classes.backButton}
+                >
+                  Back
+                </Button>
+              </Grid>
+              <hr></hr>
+              {activeStep === steps.length - 1 ? (null)
+            :(
+                 <Grid item xs={1}>
+                {activeStep === steps.length - 2 ? (
                   <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.backButton}
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSubmit}
                   >
-                    Back
+                    Submit
                   </Button>
-                </Grid>
-                <hr></hr>
-                <Grid item xs={1}>
-                  {activeStep === steps.length - 2 ? (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleSubmit}
-                    >
-                      Submit
-                    </Button>
-                  ) : activeStep === steps.length - 1 ? null : (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleNext}
-                    >
-                      Next
-                    </Button>
-                  )}
-                </Grid>
+                ) : (
+                  activeStep === steps.length - 1 ?(null):(<Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                  >
+                    Next
+                  </Button>)
+                )}
               </Grid>
             )}
+             </Grid>
+
           </div>
         )}
       </div>
