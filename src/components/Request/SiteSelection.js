@@ -29,6 +29,7 @@ const SiteSelection = forwardRef((props, ref) => {
     cityId: "",
     reagionId: "",
     deliverySiteId: "",
+    durationDays: 0,
   });
   const [formCompleted, setFormCompleted] = useState(false);
   const [dataSaved, setDataSaved] = useState(false);
@@ -90,6 +91,10 @@ const SiteSelection = forwardRef((props, ref) => {
       setOfficeAddress(selectedOff[0].address);
       setOfficeContact(selectedOff[0].fax);
       setDuration(selectedOff[0].noOfDaysForProcess)
+      setOfficeInfo((prevState) => ({
+        ...prevState,
+        durationDays: selectedOff[0].noOfDaysForProcess,
+      }));
     }
     else {
       setOfficeName("");
