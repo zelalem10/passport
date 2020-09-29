@@ -59,7 +59,7 @@ const ViewAppointment = forwardRef((props, ref) => {
   const [formCompleted, setFormCompleted] = useState(false);
   const [dataSaved, setDataSaved] = useState(false);
   const data = useSelector((state) => state);
-  
+
   const serviceData = data.service[data.service.length - 1];
   const requestMode = serviceData.isUrgent;
 
@@ -68,9 +68,9 @@ const ViewAppointment = forwardRef((props, ref) => {
     setFormCompleted(e.target.checked);
   };
   useImperativeHandle(ref, () => ({
-    saveData(){
+    saveData() {
       setDataSaved(true);
-      if(formCompleted && requestMode){
+      if (formCompleted && requestMode) {
         history.push('/Confirmation');
       }
     },
@@ -84,6 +84,7 @@ const ViewAppointment = forwardRef((props, ref) => {
     : null;
   if (personalInfo) {
     if (personalInfo.length === 1) {
+      const appointmentResponse = displayedApplication.appointmentResponse;
       const personalInformation = displayedApplication.personResponses[0];
       const addressInformation = personalInformation.address;
       const familyInformation = personalInformation.familyResponses;
@@ -142,6 +143,19 @@ const ViewAppointment = forwardRef((props, ref) => {
                   </label>
                 </b>
               </div>
+              <div class="form-group form-inline passport-display">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Appointement Time:{' '}
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {displayedApplication.appointmentResponse.startTime}
+                    {'-'}
+                    {displayedApplication.appointmentResponse.endTime}
+                  </label>
+                </b>
+              </div>
             </div>
           </div>
           <div
@@ -184,6 +198,40 @@ const ViewAppointment = forwardRef((props, ref) => {
                     <b>
                       <label class="font-weight-bold">
                         {personalInformation.lastName}
+                      </label>
+                    </b>
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Geez First Name
+                    </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>
+                      <label class="font-weight-bold">
+                        {personalInformation.geezFirstName}
+                      </label>
+                    </b>
+                  </div>
+
+                  <div class="form-group form-inline">
+                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Geez Middle Name
+                    </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>
+                      <label class="font-weight-bold">
+                        {personalInformation.geezMiddleName}
+                      </label>
+                    </b>
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Geez Last Name
+                    </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>
+                      <label class="font-weight-bold">
+                        {personalInformation.geezLastName}
                       </label>
                     </b>
                   </div>
@@ -297,6 +345,28 @@ const ViewAppointment = forwardRef((props, ref) => {
                     <b>
                       <label class="font-weight-bold">
                         {personalInformation.birthCity}
+                      </label>
+                    </b>
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Phone Number
+                    </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>
+                      <label class="font-weight-bold">
+                        {personalInformation.phoneNumber}
+                      </label>
+                    </b>
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Email
+                    </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>
+                      <label class="font-weight-bold">
+                        {personalInformation.email}
                       </label>
                     </b>
                   </div>
@@ -418,28 +488,7 @@ const ViewAppointment = forwardRef((props, ref) => {
                       </label>
                     </b>
                   </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Phone Number
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {addressInformation.phoneNumber}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Email
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {addressInformation.email}
-                      </label>
-                    </b>
-                  </div>
+
                   <div class="form-group form-inline">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                       Request Place
@@ -561,20 +610,19 @@ const ViewAppointment = forwardRef((props, ref) => {
                 type="checkbox"
                 class="custom-control-input"
                 id="defaultUnchecked"
-                onClick={(e)=> confirmInformation(e)}
+                onClick={(e) => confirmInformation(e)}
               />
               <label class="custom-control-label" for="defaultUnchecked">
                 Confirm Applicant Details
               </label>
             </div>
-            {(formCompleted===false && dataSaved===true)?(
+            {formCompleted === false && dataSaved === true ? (
               <div className="text-monospace">
-              <p className="check-agree">
-                Please check this box if you want to proceed
-              </p>
-            </div>
-            ):(null)}
-            
+                <p className="check-agree">
+                  Please check this box if you want to proceed
+                </p>
+              </div>
+            ) : null}
           </MDBTypography>
         </MDBContainer>
       );

@@ -92,12 +92,7 @@ export default function ListOfApplications(props) {
                                   </div>{' '}
                                 </div>
 
-                                {/* <p>
-
-                    {person.html_url}
-                </p> */}
-
-                                <a
+                                {/* <a
                                   className="hoverWhite"
                                   onClick={() => openModal(user.requestId)}
                                 >
@@ -105,8 +100,8 @@ export default function ListOfApplications(props) {
                                   <div class="float-right mr-4">
                                     <i class="far fa-trash-alt fa-lg"></i>
                                   </div>
-                                </a>
-                                {/* {user.requestStatus == 'Requested' ? null : ( */}
+                                </a> */}
+
                                 <a
                                   className="hoverWhite"
                                   onClick={() => handleEdit(user.requestId)}

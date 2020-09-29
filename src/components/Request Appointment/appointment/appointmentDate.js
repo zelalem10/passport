@@ -153,7 +153,6 @@ const MyApp = forwardRef((props, ref) => {
       formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
       let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
       if (isUrgentAppointment) {
-        debugger;
         if (availableDateAndQota) {
           for (let i = 0; i < availableDateAndQota.length; i++) {
             let dateTobeformated = new Date(availableDateAndQota[i].date);
@@ -259,7 +258,6 @@ const MyApp = forwardRef((props, ref) => {
     toggleClass(e);
   };
   useEffect(() => {
-    debugger;
     axios({
       headers: {
         Authorization: 'Bearer ' + token,
@@ -268,7 +266,6 @@ const MyApp = forwardRef((props, ref) => {
       url: baseUrl + '/Master/api/V1.0/AdvancedRestriction/GetAll',
     })
       .then(async (response) => {
-        debugger;
         advancedRestrictionData = response.data.advancedRestrictions[0];
         setResponse(response.data.advancedRestrictions[0]);
         const headers = {
@@ -460,12 +457,12 @@ const MyApp = forwardRef((props, ref) => {
       });
   }, [isUrgentAppointment]);
   const onChange = (date) => {
-    debugger;
     setState({ ...state, date: date });
     showTimeSlots(date);
   };
   const showTimeSlots = (date) => {
     if (!isUrgentAppointment) {
+      debugger;
       let timeSlotsForSpecificDate = [];
       for (let i = 0; i < availableTimes.length; i++) {
         let dateAV = new Date(availableTimes[i].date);
@@ -478,15 +475,19 @@ const MyApp = forwardRef((props, ref) => {
         let stringDate = date.toString();
         let stringFormatedavDate = new Date(formatedavDate).toString();
         if (stringFormatedavDate === stringDate) {
-          for (let l = 0; l < availableTimes[i].durations.length; l++) {
-            timeSlotsForSpecificDate.push({
-              time:
-                availableTimes[i].durations[l].startTime +
-                ' - ' +
-                availableTimes[i].durations[l].endTime,
-              id: availableTimes[i].durations[l].id,
-              isMorning: availableTimes[i].durations[l].isMorning,
-            });
+          if (availableTimes[i]) {
+            if (availableTimes[i].hasOwnProperty('durations')) {
+              for (let l = 0; l < availableTimes[i].durations.length; l++) {
+                timeSlotsForSpecificDate.push({
+                  time:
+                    availableTimes[i].durations[l].startTime +
+                    ' - ' +
+                    availableTimes[i].durations[l].endTime,
+                  id: availableTimes[i].durations[l].id,
+                  isMorning: availableTimes[i].durations[l].isMorning,
+                });
+              }
+            }
           }
         }
       }
