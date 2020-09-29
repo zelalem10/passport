@@ -2,9 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\components",
-    "\\src\\components\\Request"
+    "\\src\\components"
   ],
-  "SelectedNode": "\\src\\components\\Request\\PersonalInfo.js",
+  "SelectedNode": "\\public",
   "PreviewInSolutionExplorer": false
 }
