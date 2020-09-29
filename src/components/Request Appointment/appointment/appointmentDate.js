@@ -22,6 +22,7 @@ import * as serviceActions from '../../../redux/actions/serviceActions';
 import Switch from '@material-ui/core/Switch';
 import { withStyles } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { faBrush } from '@fortawesome/free-solid-svg-icons';
 
 const MyApp = forwardRef((props, ref) => {
   const [state, setState] = useState({ date: new Date(), time: '' });
@@ -41,14 +42,23 @@ const MyApp = forwardRef((props, ref) => {
   });
   const [errorMessage, setErrorMessage] = useState('');
 
-  const [showAlert, setShowAlert] = useState('');
-  const [newAppointment, setNewAppointment] = useState();
-  const [newDisplayTime, setNewDisplayTime] = useState('');
+  const [officeInformation, setOfficeInformation] = useState({});
   const [isUrgentAppointment, setIsUrgentAppointment] = useState(false);
   const [data, setData] = useState({});
   const [availableDateAndQota, setavailableDateAndQota] = useState([]);
 
   const counter = useSelector((state) => state);
+  const siteInfo = counter.siteInformation[counter.siteInformation.length - 1];
+  if (officeInformation && siteInfo) {
+    if (
+      !officeInformation.hasOwnProperty('offceId') &&
+      siteInfo.hasOwnProperty('offceId')
+    ) {
+      console.log('heeeeeyeeeeeeeeeeeeeeeeeeeeeee');
+      setOfficeInformation(siteInfo);
+    }
+  }
+  const durationLength = siteInfo ? siteInfo.durationDays : null;
   if (
     counter.service.length !== 0 &&
     Object.keys(data).length === 0 &&
@@ -56,10 +66,14 @@ const MyApp = forwardRef((props, ref) => {
   ) {
     setData(counter.service[counter.service.length - 1]);
   }
-
+  let selectDays = new Date(state.date);
+  let estimatedDays = selectDays.setDate(selectDays.getDate() + durationLength);
+  let estimatedDate = new Date(estimatedDays);
   const handleIsUrgent = () => {
     setShowAvailableTimeSlots(false);
+    setTimeSlots([]);
     setState({ ...state, date: new Date() });
+
     setIsUrgentAppointment(!isUrgentAppointment);
     dispatch(
       serviceActions.selectService({
@@ -266,6 +280,7 @@ const MyApp = forwardRef((props, ref) => {
       url: baseUrl + '/Master/api/V1.0/AdvancedRestriction/GetAll',
     })
       .then(async (response) => {
+        debugger;
         advancedRestrictionData = response.data.advancedRestrictions[0];
         setResponse(response.data.advancedRestrictions[0]);
         const headers = {
@@ -292,8 +307,8 @@ const MyApp = forwardRef((props, ref) => {
                     response.data.advancedRestrictions[0].maxDays * 86400000
                 )
               ),
-              requestTypeId: 2,
-              officeId: 7,
+              requestTypeId: data.appointemntType,
+              officeId: parseInt(siteInfo.offceId),
             },
           })
             .then((responses) => {
@@ -381,11 +396,12 @@ const MyApp = forwardRef((props, ref) => {
                     response.data.advancedRestrictions[0].maxDays * 86400000
                 )
               ),
-              requestTypeId: 2,
-              officeId: 7,
+              requestTypeId: data.appointemntType,
+              officeId: parseInt(siteInfo.offceId),
             },
           })
             .then((responses) => {
+              debugger;
               for (
                 let i = 0;
                 i < responses.data.availableDateAndTimes.length;
@@ -448,14 +464,16 @@ const MyApp = forwardRef((props, ref) => {
               }
             })
             .catch((error) => {
+              debugger;
               console.log('error' + error);
             });
         }
       })
       .catch((error) => {
+        debugger;
         console.log('error' + error);
       });
-  }, [isUrgentAppointment]);
+  }, [isUrgentAppointment, officeInformation]);
   const onChange = (date) => {
     setState({ ...state, date: date });
     showTimeSlots(date);
@@ -521,7 +539,18 @@ const MyApp = forwardRef((props, ref) => {
                 Qui necessitatibus delectus placeat illo rem id nisi consequatur
                 esse, sint perspiciatis soluta porro?
               </MDBTypography>
-            ) : null}
+            ) : (
+              <MDBTypography
+                note
+                noteColor="info"
+                noteTitle={`Note info: ${durationLength} `}
+              >
+                Estimated Delivery date is within {durationLength} days{' '}
+                {timeSlots.length > 0 ? (
+                  <b>{selectDays.toISOString().substr(0, 10)}</b>
+                ) : null}
+              </MDBTypography>
+            )}
           </div>
         )}
         <MDBRow key={key}>

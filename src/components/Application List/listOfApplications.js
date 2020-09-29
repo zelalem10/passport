@@ -64,7 +64,10 @@ export default function ListOfApplications(props) {
                             <a class="small-12 column row card--link vertical-margin-1 ">
                               <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
                                 <h5>
-                                  <strong>Request Type : {user.type} </strong>
+                                  <strong>
+                                    {user.personResponses.firstName}{' '}
+                                    {user.personResponses.middleName}{' '}
+                                  </strong>
                                 </h5>
 
                                 <div class="text-center vertical-margin-half"></div>
@@ -74,9 +77,17 @@ export default function ListOfApplications(props) {
                                 <div>
                                   <div>
                                     <strong className="d-inline">
+                                      Request Type :{' '}
+                                    </strong>
+                                    {user.type}
+                                  </div>
+                                  <div>
+                                    <strong className="d-inline">
                                       Request Date :{' '}
                                     </strong>
-                                    {user.requestDate}
+                                    {new Date(user.requestDate)
+                                      .toISOString()
+                                      .substr(0, 10)}
                                   </div>
                                   <div>
                                     <strong className="d-inline">
