@@ -17,7 +17,6 @@ const SiteSelection = forwardRef((props, ref) => {
   const [officeName, setOfficeName] = useState('');
   const [officeAddress, setOfficeAddress] = useState('');
   const [officeContact, setOfficeContact] = useState('');
-
   const [selectedDeliverySiteId, setSelectedDeliverySiteId] = useState(0);
   const [deliveryOfficeName, setDeliveryOfficeName] = useState('');
   const [deliveryOfficeAddress, setdeliveryOfficeAddress] = useState('');
@@ -26,10 +25,11 @@ const SiteSelection = forwardRef((props, ref) => {
 
   const [duration, setDuration] = useState('');
   const [officeInfo, setOfficeInfo] = useState({
-    offceId: 0,
-    cityId: 0,
-    reagionId: 0,
-    deliverySiteId: 0,
+    offceId: "",
+    cityId: "",
+    reagionId: "",
+    deliverySiteId: "",
+    durationDays: 0,
   });
   const [formCompleted, setFormCompleted] = useState(false);
   const [dataSaved, setDataSaved] = useState(false);
@@ -51,7 +51,12 @@ const SiteSelection = forwardRef((props, ref) => {
   };
 
   const handleRegionChange = (event) => {
+    const id=event.target.value;
     const selectedRegion = regionList.filter(item => item.id == event.target.value);
+    setOfficeInfo((prevState) => ({
+      ...prevState,
+      reagionId: id,
+  }));
     setNotCompleted((prevState) => ({
       ...prevState,
       reagionId: false,
@@ -59,14 +64,15 @@ const SiteSelection = forwardRef((props, ref) => {
     setCityList(selectedRegion.length > 0 ? selectedRegion[0].cities : []);
   };
   function handeleCityChange(event) {
+    const id=event.target.value;
     setNotCompleted((prevState) => ({
       ...prevState,
       cityId: false,
     }));
-    //   setOfficeInfo((prevState) => ({
-    //     ...prevState,
-    //     cityId: event.target.value,
-    // }));
+      setOfficeInfo((prevState) => ({
+        ...prevState,
+        cityId: id,
+    }));
     API.get(officeURL + event.target.value, config)
       .then((todo) => {
         setOfficeList(todo.data.offices);
@@ -78,18 +84,32 @@ const SiteSelection = forwardRef((props, ref) => {
 
   function handelOfficeChange(event) {
     setOfficeId(event.target.value)
+    const id=event.target.value;
     const selectedOff = officeList.filter(office => office.id == event.target.value)
     if (selectedOff.length > 0) {
       setOfficeName(selectedOff[0].name);
       setOfficeAddress(selectedOff[0].address);
       setOfficeContact(selectedOff[0].fax);
+      setDuration(selectedOff[0].noOfDaysForProcess)
+      setOfficeInfo((prevState) => ({
+        ...prevState,
+        durationDays: selectedOff[0].noOfDaysForProcess,
+      }));
     }
     else {
       setOfficeName("");
       setOfficeAddress("");
       setOfficeContact("");
     }
-
+    setOfficeInfo((prevState) => ({
+      ...prevState,
+      offceId: id,
+    }));
+    setNotCompleted((prevState) => ({
+      ...prevState,
+      officeId: false,
+    }));
+ 
     API.get(deliverySiteURL + officeId, config)
       .then((todo) => {
         setDeliverySiteList(todo.data.deliverySites);
@@ -98,28 +118,20 @@ const SiteSelection = forwardRef((props, ref) => {
         console.log('AXIOS ERROR: ', err.response);
       });
 
-    setOfficeInfo((prevState) => ({
-      ...prevState,
-      offceId: officeId,
-    }));
-    setNotCompleted((prevState) => ({
-      ...prevState,
-      officeId: false,
-    }));
-  }
+     }
 
   function handelDeliveryChange(event) {
+    const id=event.target.value;
     setSelectedDeliverySiteId(event.target.value)
     setOfficeInfo((prevState) => ({
       ...prevState,
-      deliverySiteId: selectedDeliverySiteId,
+      deliverySiteId: id,
     }));
     setNotCompleted((prevState) => ({
       ...prevState,
       deliverySiteId: false,
     }));
     const selectedDelivery = deliverySiteList.filter(site => site.id == event.target.value);
-    console.log(selectedDelivery);
     if(selectedDelivery.length>0)
     {
       setDeliveryOfficeName(selectedDelivery[0].siteName);
@@ -132,7 +144,6 @@ const SiteSelection = forwardRef((props, ref) => {
       setdeliveryOfficeContact("");
     }
     setFormCompleted(true)
-    console.log(officeInfo)
   }
 
   useImperativeHandle(ref, () => ({
@@ -168,7 +179,7 @@ const SiteSelection = forwardRef((props, ref) => {
                   </label>
                   <ReactBootstrap.Form.Control
                     option={regionList}
-                    onChange={handleRegionChange}
+                    onChange={(e)=> handleRegionChange(e)}
                     as="select"
                   >
                     <option>select Region</option>
@@ -287,12 +298,12 @@ const SiteSelection = forwardRef((props, ref) => {
                             ></i>{' '}<a href="tel:officeContact">{officeContact}{' '}</a>
                           </strong>
                         </li>
-                        <hr />
+                        {/* <hr />
                         <li>
                           <strong>
                             Process duration :&nbsp;&nbsp;<a >{duration}{' '}</a>
                           </strong>
-                        </li>
+                        </li> */}
                       </ul>
                     </fieldset>
                       </MDBCol>

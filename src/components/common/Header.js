@@ -183,6 +183,7 @@ const NavbarPage = (props) => {
               <MDBNavItem className={navPath == '/contactUs' ? 'active' : ''}>
                 <MDBNavLink to="/contactUs">Contact Us</MDBNavLink>
               </MDBNavItem>
+              
 
               {token && (
                 <MDBNavItem
