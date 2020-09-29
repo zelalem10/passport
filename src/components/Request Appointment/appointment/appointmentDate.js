@@ -207,6 +207,7 @@ const MyApp = forwardRef((props, ref) => {
             );
             if (response.data.urgentAppointmentResponses) {
               setFormCompleted(true);
+              props.Next();
             } else {
               setErrorMessage(response.data.message);
             }
@@ -239,6 +240,7 @@ const MyApp = forwardRef((props, ref) => {
             dispatch(addAppointmentDate(response.data.appointmentResponses));
             if (response.data.appointmentResponses) {
               setFormCompleted(true);
+              props.Next();
             } else {
               setErrorMessage(response.data.message);
             }

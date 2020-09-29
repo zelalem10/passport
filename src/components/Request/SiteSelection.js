@@ -182,7 +182,7 @@ const SiteSelection = forwardRef((props, ref) => {
                     onChange={(e)=> handleRegionChange(e)}
                     as="select"
                   >
-                    <option>select Region</option>
+                    <option>Select Region</option>
                     {regionList.map((region) => (
                       <option value={region.id}>{region.name}</option>
                     ))}
@@ -280,13 +280,13 @@ const SiteSelection = forwardRef((props, ref) => {
                       <ul class="list--no-indent list--no-bullets ng-star-inserted">
                         <li>
                           <strong>
-                            Office name:&nbsp;&nbsp;<a href="#">{officeName}{' '}</a>
+                            Site office name:&nbsp;&nbsp;<a href="#">{officeName}{' '}</a>
                           </strong>
                         </li>
                         <hr />
                         <li>
                           <strong>
-                            Office Address:&nbsp;&nbsp;<a href="#">{officeAddress}{' '}</a>
+                           Site Address:&nbsp;&nbsp;<a href="#">{officeAddress}{' '}</a>
                           </strong>
                         </li>
                         <hr />

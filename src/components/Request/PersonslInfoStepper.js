@@ -89,9 +89,9 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
       var addressInfo = counter.address[counter.address.length - 1];
       var familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
       const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
-      const appointment =
-        counter.appointmentDate[counter.appointmentDate.length - 1];
-
+      const appointment=counter.appointmentDate[counter.appointmentDate.length - 1]
+      const siteInfo=counter.siteInformation[counter.siteInformation.length - 1]
+     
       const accesstoken = localStorage.systemToken;
       const usertoken = localStorage.userToken;
       const config = {
@@ -100,6 +100,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
       const requestBody = {
         requestId: 0,
         requestMode: 0,
+        officeId:siteInfo? Number.parseInt(siteInfo.offceId, 10):0,
         requestTypeId: 2,
         appointmentIds: appointment ? [appointment[0].id] : 1,
         userName: '',
@@ -193,17 +194,19 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           setIsSuccess(true);
           console.log(todo.data);
           const commonData = {
-            requestPersonId:
-              todo.data.serviceRequest.personResponses[0].requestPersonId,
+            requestPersonId: todo.data.serviceResponseList[0].personResponses.requestPersonId,
           };
-          dispatch(newRequest(todo.data.serviceRequest));
+          dispatch(newRequest(todo.data.serviceResponseList));
           dispatch(addCommonData(commonData));
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
         .catch((err) => {
           debugger;
           console.log('AXIOS ERROR: ', err.response);
-          setResponseMessage(err.response.data.title);
+          if (err.response.data != null)
+            setResponseMessage(err.response.data.title);
+          else
+            setResponseMessage("something goes wrong!");
           setResponseAlert(true);
         });
     }
