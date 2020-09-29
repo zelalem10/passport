@@ -109,13 +109,7 @@ export default function ListOfApplications(props) {
                                 {/* {user.requestStatus == 'Requested' ? null : ( */}
                                 <a
                                   className="hoverWhite"
-                                  onClick={() =>
-                                    handleEdit(
-                                      user.requestId,
-
-                                      user.personResponses.length
-                                    )
-                                  }
+                                  onClick={() => handleEdit(user.requestId)}
                                 >
                                   {' '}
                                   <div class="float-right mr-4">

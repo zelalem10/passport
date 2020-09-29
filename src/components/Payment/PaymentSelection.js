@@ -145,9 +145,7 @@ const PaymentSelection = forwardRef((props, ref) => {
     setFormCompleted(event.target.checked);
   };
   useImperativeHandle(ref, () => ({
-    saveData(){
-
-    },
+    saveData() {},
     isCompleted() {
       return formCompleted;
     },
@@ -192,7 +190,7 @@ const PaymentSelection = forwardRef((props, ref) => {
                   <h4>Choose payment method below</h4>
                   {paymentOptions.map((paymentOption) => (
                     <div
-                      class="types flex col-md-4 justify-space-between"
+                      class="types flex col-sm-12 justify-space-between"
                       onClick={() => handelClick(paymentOption.id)}
                     >
                       <div

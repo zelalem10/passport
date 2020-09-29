@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/f820f329-c7dc-4318-93e5-dbe1a9c94ef3/resourceGroups/ePassportResourceGroup/providers/Microsoft.Web/sites/passportservices",
+    "appService.deploySubpath": "."
+}

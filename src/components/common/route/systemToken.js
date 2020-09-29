@@ -16,7 +16,7 @@ function SystemToken() {
         localStorage.setItem('systemToken', response.data.accessToken);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response);
       });
   }, []);
 
@@ -32,7 +32,7 @@ function SystemToken() {
       .then((response) => {
         localStorage.setItem('countryRegions', JSON.stringify(response.data.countryRegions));
 
-      console.log(response)
+      //console.log(response)
       })
       .catch((error) => {
         console.log(error);
