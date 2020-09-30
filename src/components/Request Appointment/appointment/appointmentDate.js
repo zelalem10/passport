@@ -22,6 +22,7 @@ import * as serviceActions from '../../../redux/actions/serviceActions';
 import Switch from '@material-ui/core/Switch';
 import { withStyles } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { faBrush } from '@fortawesome/free-solid-svg-icons';
 
 const MyApp = forwardRef((props, ref) => {
   const [state, setState] = useState({ date: new Date(), time: '' });
@@ -41,14 +42,23 @@ const MyApp = forwardRef((props, ref) => {
   });
   const [errorMessage, setErrorMessage] = useState('');
 
-  const [showAlert, setShowAlert] = useState('');
-  const [newAppointment, setNewAppointment] = useState();
-  const [newDisplayTime, setNewDisplayTime] = useState('');
+  const [officeInformation, setOfficeInformation] = useState({});
   const [isUrgentAppointment, setIsUrgentAppointment] = useState(false);
   const [data, setData] = useState({});
   const [availableDateAndQota, setavailableDateAndQota] = useState([]);
 
   const counter = useSelector((state) => state);
+  const siteInfo = counter.siteInformation[counter.siteInformation.length - 1];
+  if (officeInformation && siteInfo) {
+    if (
+      !officeInformation.hasOwnProperty('offceId') &&
+      siteInfo.hasOwnProperty('offceId')
+    ) {
+      console.log('heeeeeyeeeeeeeeeeeeeeeeeeeeeee');
+      setOfficeInformation(siteInfo);
+    }
+  }
+  const durationLength = siteInfo ? siteInfo.durationDays : null;
   if (
     counter.service.length !== 0 &&
     Object.keys(data).length === 0 &&
@@ -56,10 +66,14 @@ const MyApp = forwardRef((props, ref) => {
   ) {
     setData(counter.service[counter.service.length - 1]);
   }
-
+  let selectDays = new Date(state.date);
+  let estimatedDays = selectDays.setDate(selectDays.getDate() + durationLength);
+  let estimatedDate = new Date(estimatedDays);
   const handleIsUrgent = () => {
     setShowAvailableTimeSlots(false);
+    setTimeSlots([]);
     setState({ ...state, date: new Date() });
+
     setIsUrgentAppointment(!isUrgentAppointment);
     dispatch(
       serviceActions.selectService({
@@ -153,7 +167,6 @@ const MyApp = forwardRef((props, ref) => {
       formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
       let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
       if (isUrgentAppointment) {
-        debugger;
         if (availableDateAndQota) {
           for (let i = 0; i < availableDateAndQota.length; i++) {
             let dateTobeformated = new Date(availableDateAndQota[i].date);
@@ -261,7 +274,6 @@ const MyApp = forwardRef((props, ref) => {
     toggleClass(e);
   };
   useEffect(() => {
-    debugger;
     axios({
       headers: {
         Authorization: 'Bearer ' + token,
@@ -297,8 +309,8 @@ const MyApp = forwardRef((props, ref) => {
                     response.data.advancedRestrictions[0].maxDays * 86400000
                 )
               ),
-              requestTypeId: 2,
-              officeId: 7,
+              requestTypeId: data.appointemntType,
+              officeId: parseInt(siteInfo.offceId),
             },
           })
             .then((responses) => {
@@ -386,11 +398,12 @@ const MyApp = forwardRef((props, ref) => {
                     response.data.advancedRestrictions[0].maxDays * 86400000
                 )
               ),
-              requestTypeId: 2,
-              officeId: 7,
+              requestTypeId: data.appointemntType,
+              officeId: parseInt(siteInfo.offceId),
             },
           })
             .then((responses) => {
+              debugger;
               for (
                 let i = 0;
                 i < responses.data.availableDateAndTimes.length;
@@ -453,21 +466,23 @@ const MyApp = forwardRef((props, ref) => {
               }
             })
             .catch((error) => {
+              debugger;
               console.log('error' + error);
             });
         }
       })
       .catch((error) => {
+        debugger;
         console.log('error' + error);
       });
-  }, [isUrgentAppointment]);
+  }, [isUrgentAppointment, officeInformation]);
   const onChange = (date) => {
-    debugger;
     setState({ ...state, date: date });
     showTimeSlots(date);
   };
   const showTimeSlots = (date) => {
     if (!isUrgentAppointment) {
+      debugger;
       let timeSlotsForSpecificDate = [];
       for (let i = 0; i < availableTimes.length; i++) {
         let dateAV = new Date(availableTimes[i].date);
@@ -480,15 +495,19 @@ const MyApp = forwardRef((props, ref) => {
         let stringDate = date.toString();
         let stringFormatedavDate = new Date(formatedavDate).toString();
         if (stringFormatedavDate === stringDate) {
-          for (let l = 0; l < availableTimes[i].durations.length; l++) {
-            timeSlotsForSpecificDate.push({
-              time:
-                availableTimes[i].durations[l].startTime +
-                ' - ' +
-                availableTimes[i].durations[l].endTime,
-              id: availableTimes[i].durations[l].id,
-              isMorning: availableTimes[i].durations[l].isMorning,
-            });
+          if (availableTimes[i]) {
+            if (availableTimes[i].hasOwnProperty('durations')) {
+              for (let l = 0; l < availableTimes[i].durations.length; l++) {
+                timeSlotsForSpecificDate.push({
+                  time:
+                    availableTimes[i].durations[l].startTime +
+                    ' - ' +
+                    availableTimes[i].durations[l].endTime,
+                  id: availableTimes[i].durations[l].id,
+                  isMorning: availableTimes[i].durations[l].isMorning,
+                });
+              }
+            }
           }
         }
       }
@@ -522,7 +541,18 @@ const MyApp = forwardRef((props, ref) => {
                 Qui necessitatibus delectus placeat illo rem id nisi consequatur
                 esse, sint perspiciatis soluta porro?
               </MDBTypography>
-            ) : null}
+            ) : (
+              <MDBTypography
+                note
+                noteColor="info"
+                noteTitle={`Note info: ${durationLength} `}
+              >
+                Estimated Delivery date is within {durationLength} days{' '}
+                {timeSlots.length > 0 ? (
+                  <b>{selectDays.toISOString().substr(0, 10)}</b>
+                ) : null}
+              </MDBTypography>
+            )}
           </div>
         )}
         <MDBRow key={key}>

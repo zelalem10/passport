@@ -59,8 +59,7 @@ export default function RequestStepper() {
       personalRef.current.saveData();
       setIndexValue((prevActiveStep) => prevActiveStep + 1);
       formCompleted[indexValue] = true;
-    }
-    else if(indexValue===3){
+    } else if (indexValue === 3) {
       summaryRef.current.saveData();
       if (summaryRef.current.isCompleted() === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
@@ -203,7 +202,7 @@ export default function RequestStepper() {
             </Tab.Content>
           </Col>
         </Row>
-        {indexValue === 2 ? (null) : (
+        {indexValue === 2 ? null : (
           <Row>
             <Col md={3}></Col>
             <Col md={2}>
@@ -223,7 +222,7 @@ export default function RequestStepper() {
               </Button>{' '}
             </Col>
           </Row>
-         )} 
+        )}
       </div>
     </Tab.Container>
   );
