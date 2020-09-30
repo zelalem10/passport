@@ -37,6 +37,7 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
   const [formCompleted, setFormCompleted] = useState(true);
   const [responseAlert, setResponseAlert] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [responseMessage, setResponseMessage] = useState('');
 
   const steps = getSteps();
@@ -65,7 +66,7 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
+  
   const handleReset = () => {
     setActiveStep(0);
   };
@@ -75,14 +76,14 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
     if (isVilid != true) {
       //setResponseMessage("Ple")
     } else {
-      var personalInfo =
-        counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
+      var personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
       var addressInfo = counter.address[counter.address.length - 1];
       var familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
       const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
       const appointment=counter.appointmentDate[counter.appointmentDate.length - 1]
       const siteInfo=counter.siteInformation[counter.siteInformation.length - 1]
-     
+      let isUrgent=counter.service[counter.service.length - 1].isUrgent;
+
       const accesstoken = localStorage.systemToken;
       const usertoken = localStorage.userToken;
       const config = {
@@ -90,7 +91,7 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
       };
       const requestBody = {
         requestId: 0,
-        requestMode: 0,
+        requestMode: isUrgent===true?1:0,
         officeId:siteInfo? Number.parseInt(siteInfo.offceId, 10):0,
         requestTypeId: 2,
         appointmentIds:appointment?[appointment[0].id] :1,
@@ -137,10 +138,11 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
               personId: 0,
               addressId: 0,
               city: addressInfo ? addressInfo.city : null,
-              country: addressInfo ? addressInfo.country : null,
+              region: addressInfo ? addressInfo.region : null,
               state: addressInfo ? addressInfo.state : null,
               zone: addressInfo ? addressInfo.zone : null,
               wereda: addressInfo ? addressInfo.woreda : null,
+              kebele: addressInfo ? addressInfo.kebele : null,
               street: addressInfo ? addressInfo.street : null,
               houseNo: addressInfo ? addressInfo.houseNo : null,
               poBox: addressInfo ? addressInfo.poBox : null,
@@ -181,6 +183,12 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
         });
     }
   };
+  const handelUploading=()=>{
+    setIsUploading(true)
+  }
+  const finifhUploading=()=>{
+    setIsUploading(false);
+  }
   function getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
@@ -196,7 +204,7 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
         isSucces={isSuccess}
         respnseGet={responseAlert}/>;
       case 4:
-        return <Attachment ref={childRef}  VerticalNext={VerticalNext} />;
+        return <Attachment ref={childRef} hideBack={handelUploading} showBack={finifhUploading}  VerticalNext={VerticalNext} />;
       default:
         return 'Unknown stepIndex';
     }
@@ -227,6 +235,7 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
             <Button onClick={handleReset}>Reset</Button>
           </div>
         ) : (
+          isUploading===false?(
           <div>
             <Typography className={classes.instructions}>
               {getStepContent(activeStep)}
@@ -268,6 +277,7 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
              </Grid>
 
           </div>
+          ):(null)
         )}
       </div>
     </div>

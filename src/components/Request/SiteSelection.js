@@ -175,14 +175,14 @@ const SiteSelection = forwardRef((props, ref) => {
               <MDBRow>
                 <MDBCol>
                   <label>
-                    Region<i style={{ color: 'red' }}>*</i>{' '}
+                    Site Location<i style={{ color: 'red' }}>*</i>{' '}
                   </label>
                   <ReactBootstrap.Form.Control
                     option={regionList}
                     onChange={(e)=> handleRegionChange(e)}
                     as="select"
                   >
-                    <option>Select Region</option>
+                    <option>Select site location</option>
                     {regionList.map((region) => (
                       <option value={region.id}>{region.name}</option>
                     ))}
@@ -201,7 +201,7 @@ const SiteSelection = forwardRef((props, ref) => {
                     onChange={handeleCityChange}
                     as="select"
                   >
-                    <option>select city</option>
+                    <option>Select city</option>
                     {cityList
                       .map((city) => (
                         <option value={city.id}>{city.name}</option>
@@ -221,7 +221,7 @@ const SiteSelection = forwardRef((props, ref) => {
                     onChange={handelOfficeChange}
                     as="select"
                   >
-                    <option>select office</option>
+                    <option>Select office</option>
                     {officeList.map((office) => (
                       <option value={office.id} name={office.name} key={office.address}>{office.name}</option>
                     ))}
@@ -241,7 +241,7 @@ const SiteSelection = forwardRef((props, ref) => {
                     onChange={handelDeliveryChange}
                     as="select"
                   >
-                    <option>select delivery site</option>
+                    <option>Select delivery site</option>
                     {deliverySiteList.map((site) => (
                       <option value={site.id} name={site.name}>{site.siteName}</option>
                     ))}
@@ -280,13 +280,13 @@ const SiteSelection = forwardRef((props, ref) => {
                       <ul class="list--no-indent list--no-bullets ng-star-inserted">
                         <li>
                           <strong>
-                            Site office name:&nbsp;&nbsp;<a href="#">{officeName}{' '}</a>
+                            Office name:&nbsp;&nbsp;<a href="#">{officeName}{' '}</a>
                           </strong>
                         </li>
                         <hr />
                         <li>
                           <strong>
-                           Site Address:&nbsp;&nbsp;<a href="#">{officeAddress}{' '}</a>
+                            Address:&nbsp;&nbsp;<a href="#">{officeAddress}{' '}</a>
                           </strong>
                         </li>
                         <hr />
@@ -319,7 +319,7 @@ const SiteSelection = forwardRef((props, ref) => {
                         <hr />
                         <li>
                           <strong>
-                            Office Address:&nbsp;&nbsp;<a href="#">{deliveryOfficeAddress}{' '}</a>
+                            Address:&nbsp;&nbsp;<a href="#">{deliveryOfficeAddress}{' '}</a>
                           </strong>
                         </li>
                         <hr />

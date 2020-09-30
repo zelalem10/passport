@@ -61,6 +61,7 @@ const Fileupload = forwardRef((props, ref) => {
   }));
 
   const submit = async (e) => {
+    //props.hideBack();
     debugger;
     e.preventDefault();
     setloading(true);
@@ -100,12 +101,13 @@ const Fileupload = forwardRef((props, ref) => {
       console.log(response.data);
       setsuccessMessage(true);
       setloading(false);
-
+      props.showBack();
       props.VerticalNext();
     } catch (error) {
       console.log('error' + error.message);
       seterrorMessage(true);
       setloading(false);
+      //props.showBack();
     }
   };
   const onChange = (e) => {
