@@ -88,6 +88,7 @@ const ViewAppointment = forwardRef((props, ref) => {
     ? displayedApplication.personResponses
     : null;
   if (personalInfo) {
+    debugger;
     const appointmentResponse = displayedApplication.appointmentResponse;
     const personalInformation = displayedApplication.personResponses;
     const addressInformation = personalInformation.address;
@@ -102,8 +103,7 @@ const ViewAppointment = forwardRef((props, ref) => {
       axios({
         headers: { Authorization: 'Bearer ' + accesstoken },
         method: 'get',
-        url:
-          'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
+        url: 'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
         params: { personRequestId: requestPersonId },
       })
         .then((Response) => {

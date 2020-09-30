@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const FooterPage = () => {
   return (
     <MDBFooter
-      style={{ backgroundColor: '#424242' }}
+      style={{ backgroundColor: '#093c73' }}
       className="font-small pt-4 mt-4"
     >
       <MDBContainer
