@@ -22,13 +22,13 @@ function AddFamily(props) {
                     <div className="row">
                       <div className="small-12 medium-8 column">
                         <div className="grey-text">
-                        <select
+                          <select
                             name="famType"
                             onChange={props.handleInputAdd}
                             className="browser-default custom-select"
                           >
                             <option style={{ display: 'none' }}>
-                              Choose your option
+                              Select family type
                             </option>
                             {familyType.map((item) => (
                               <option value={item.id}>{item.type}</option>
@@ -52,7 +52,6 @@ function AddFamily(props) {
                             validate
                             onChange={props.handleInputAdd}
                           />
-                          
                         </div>
                       </div>
                     </div>

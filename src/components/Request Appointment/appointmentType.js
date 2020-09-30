@@ -87,7 +87,6 @@ function AppointmetType(props) {
             </div>
             <a class="button hollow gray vertical-margin-2 " onClick={backTo}>
               <i class="fas fa-arrow-left"></i> Previous
-              <span class="show-for-medium"> Screen</span>
             </a>
           </div>
         </MDBCol>

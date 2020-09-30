@@ -15,15 +15,26 @@ import {
 import DateFnsUtils from '@date-io/date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import addPersonalInfo from '../../../redux/actions/addPersonalInfoAction';
-
-const config = {
-  headers: {
-    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk3MjEzNTU5LCJleHAiOjE1OTcyMjc5NTksImlhdCI6MTU5NzIxMzU1OX0.IJihXj3WJQEsNjFjYIL8-Z2LmtKvT250dl04L8YmIIw`,
-  },
-};
+import API from '../../Utils/API';
 
 const PersonalInfo = forwardRef((props, ref) => {
+  const [nationalityList, setNationalityList] = useState([]);
+  const [occupationList, setOccupationList] = useState([]);
   const { personalInformation } = props;
+  const tokenValue = () => {
+    const UserToken = localStorage.userToken;
+
+    if (UserToken) {
+      return UserToken;
+    } else {
+      const SystemToken = localStorage.systemToken;
+      return SystemToken;
+    }
+  };
+  const token = tokenValue();
+  const config = {
+    headers: { Authorization: 'Bearer ' + token },
+  };
 
   const [personalInfo, setPersonalInfo] = useState({
     id: personalInformation.id,
@@ -42,7 +53,7 @@ const PersonalInfo = forwardRef((props, ref) => {
     communicationMethod: personalInformation.communicationMethod,
     occupationId: personalInformation.occupationId,
     isHalfCast: personalInformation.isHalfCast,
-    nationality: personalInformation.nationality,
+    nationalityId: personalInformation.nationalityId,
     martialStatus: personalInformation.martialStatus,
     isUnder18: personalInformation.isUnder18,
     isAdoption: personalInformation.isAdoption,
@@ -51,7 +62,28 @@ const PersonalInfo = forwardRef((props, ref) => {
     birthCertificateId: personalInformation.passportRes.birthCertificateId,
     dataSaved: false,
   });
-
+  useEffect(() => {
+    API.get(
+      'https://epassportservices.azurewebsites.net/Master/api/V1.0/Nationality/GetAll',
+      config
+    )
+      .then((todo) => {
+        setNationalityList(todo.data.nationalitys);
+      })
+      .catch((err) => {
+        console.log('AXIOS ERROR: ', err.response);
+      });
+    API.get(
+      'https://epassportservices.azurewebsites.net/Master/api/V1.0/Occupation/GetAll',
+      config
+    )
+      .then((todo) => {
+        setOccupationList(todo.data.occupations);
+      })
+      .catch((err) => {
+        console.log('AXIOS ERROR: ', err.response);
+      });
+  }, []);
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const personRef = React.useRef();
@@ -109,11 +141,11 @@ const PersonalInfo = forwardRef((props, ref) => {
       birthPlace: prevInfo ? prevInfo.birthPlace : null,
       enrolmentDate: prevInfo ? new Date(prevInfo.enrolmentDate) : null,
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
-      occupationId: prevInfo ? prevInfo.occupationId : '',
+      occupationId: prevInfo ? parseInt(prevInfo.occupationId) : 0,
       isHalfCast: prevInfo ? prevInfo.isHalfCast : false,
       isAdoption: prevInfo ? prevInfo.isAdoption : false,
       isUnder18: prevInfo ? prevInfo.isUnder18 : false,
-      nationality: prevInfo ? prevInfo.nationality : '',
+      nationalityId: prevInfo ? parseInt(prevInfo.nationalityId) : 0,
       martialStatus: prevInfo ? prevInfo.martialStatus : '',
       phoneNumber: prevInfo ? prevInfo.phoneNumber : null,
       email: prevInfo ? prevInfo.email : null,
@@ -242,18 +274,26 @@ const PersonalInfo = forwardRef((props, ref) => {
               </MDBCol>
             </MDBCol>
             <MDBCol md="3">
-              <MDBCol className="required-field">
-                <MDBInput
-                  label="Nationality"
-                  group
-                  type="text"
-                  name="nationality"
-                  validate
-                  error="wrong"
-                  success="right"
-                  valueDefault={prevInfo ? prevInfo.nationality : null}
-                  onChange={handleChange}
-                />
+              <MDBCol>
+                <div
+                  className="md-form form-group passport-select"
+                  style={{ 'margin-bottom': '2.5rem' }}
+                >
+                  <label class="passport-selectList-label">
+                    Nationality<i style={{ color: 'red' }}>*</i>{' '}
+                  </label>
+                  <select
+                    name="nationalityId"
+                    onChange={handleChange}
+                    className="browser-default custom-select"
+                    defaultValue={prevInfo ? prevInfo.nationalityId : 0}
+                  >
+                    <option disabled>select Nationality</option>
+                    {nationalityList.map((nationality) => (
+                      <option value={nationality.id}>{nationality.code}</option>
+                    ))}
+                  </select>
+                </div>
               </MDBCol>
             </MDBCol>
           </MDBRow>
@@ -295,6 +335,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                   className="md-form form-group passport-select"
                   style={{ 'margin-bottom': '2.5rem' }}
                 >
+                  <label class="passport-selectList-label">Gender</label>
                   <select
                     name="gender"
                     onChange={handleChange}
@@ -314,6 +355,9 @@ const PersonalInfo = forwardRef((props, ref) => {
                   className="md-form form-group passport-select"
                   style={{ 'margin-bottom': '2.5rem' }}
                 >
+                  <label class="passport-selectList-label">
+                    Marital Status
+                  </label>
                   <select
                     name="martialStatus"
                     onChange={handleChange}
@@ -332,17 +376,25 @@ const PersonalInfo = forwardRef((props, ref) => {
           <MDBRow>
             <MDBCol md="3">
               <MDBCol>
-                <MDBInput
-                  label="Occupation"
-                  group
-                  type="text"
-                  name="occupation"
-                  validate
-                  error="wrong"
-                  success="right"
-                  valueDefault={prevInfo ? prevInfo.occupation : null}
-                  onChange={handleChange}
-                />
+                <div
+                  className="md-form form-group passport-select"
+                  style={{ 'margin-bottom': '2.5rem' }}
+                >
+                  <label class="passport-selectList-label">
+                    Occupation<i style={{ color: 'red' }}>*</i>{' '}
+                  </label>
+                  <select
+                    name="occupationId"
+                    onChange={handleChange}
+                    className="browser-default custom-select"
+                    defaultValue={prevInfo ? prevInfo.occupationId : 0}
+                  >
+                    <option disabled>select Occupation</option>
+                    {occupationList.map((occupation) => (
+                      <option value={occupation.id}>{occupation.title}</option>
+                    ))}
+                  </select>
+                </div>
               </MDBCol>
             </MDBCol>
             <MDBCol md="3">

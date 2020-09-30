@@ -53,7 +53,6 @@ const AccordionDetails = withStyles((theme) => ({
 }))(MuiAccordionDetails);
 
 const ViewAppointment = forwardRef((props, ref) => {
-  debugger;
   const history = useHistory();
   const [expanded, setExpanded] = React.useState('panel1');
   const [formCompleted, setFormCompleted] = useState(false);
@@ -149,9 +148,18 @@ const ViewAppointment = forwardRef((props, ref) => {
               &nbsp;&nbsp;&nbsp;&nbsp;
               <b>
                 <label class="font-weight-bold">
-                  {appointmentResponse ? appointmentResponse.startTime : null}
+                  {appointmentResponse
+                    ? appointmentResponse.duration.startTime
+                    : null}
                   {'-'}
-                  {appointmentResponse ? appointmentResponse.endTime : null}
+                  {appointmentResponse
+                    ? appointmentResponse.duration.endTime
+                    : null}
+                  {appointmentResponse
+                    ? appointmentResponse.duration.isMorning
+                      ? 'AM'
+                      : 'PM'
+                    : null}
                 </label>
               </b>
             </div>

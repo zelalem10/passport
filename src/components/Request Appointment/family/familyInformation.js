@@ -7,6 +7,7 @@ import React, {
 import FamilyForm from './familyForm';
 import { useDispatch, useSelector } from 'react-redux';
 import addFamily from '../../../redux/actions/addFamilyAction';
+import familyType from '../../../redux/actions/familyTypeAction';
 
 import axios from 'axios';
 const FamilyInformation = forwardRef((props, ref) => {
@@ -54,6 +55,7 @@ const FamilyInformation = forwardRef((props, ref) => {
     })
       .then(async (response) => {
         setFamilyType(response.data.familyTypesResponse);
+        dispatch(familyType(response.data.familyTypesResponse));
       })
       .catch((error) => {
         console.log('error' + error);

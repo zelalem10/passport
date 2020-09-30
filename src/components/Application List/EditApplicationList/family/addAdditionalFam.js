@@ -46,7 +46,7 @@ function AddFamily(props) {
                             className="browser-default custom-select"
                           >
                             <option style={{ display: 'none' }}>
-                              Choose your option
+                              Select family type
                             </option>
                             {familyType.map((item) => (
                               <option value={item.id}>{item.type}</option>
