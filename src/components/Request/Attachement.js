@@ -126,13 +126,14 @@ const Fileupload = forwardRef((props, ref) => {
   for (let i = 0; i < requiredAttachements; i++) {
     debugger;
     inputs.push(
-      <div class="row">
-        <div class="col-lg-4">
+      <div class='container'>
+      <div class="row my-4">
+        <div class="col-md-5">
           <label for="exampleInputEmail1" class="mr-1">
             {attachmentTypeName[i]} :
           </label>
         </div>
-        <div class="col-lg-8 my-3">
+        <div class="col-md-5">
           <div className="input-group">
             <div className="input-group-prepend">
               <span className="input-group-text" id="inputGroupFileAddon01">
@@ -153,12 +154,13 @@ const Fileupload = forwardRef((props, ref) => {
                 {filename[requiredAttachementType[i]] ? (
                   filename[requiredAttachementType[i]]
                 ) : (
-                  <div>Choose {attachmentTypeName[i]}</div>
+                  <div>Choose file</div>
                 )}
               </label>
             </div>
           </div>
         </div>
+      </div>
       </div>
     );
   }

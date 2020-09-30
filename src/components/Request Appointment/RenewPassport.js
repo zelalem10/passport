@@ -51,7 +51,7 @@ function RenewPassport(props) {
                   onClick={() => props.handleReplacmentReason('Page Left')}
                 >
                   <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
-                    <strong>Replacment of Valid Passport</strong>
+                    <strong>Replacment of Page Runout</strong>
                     <div class="text-center vertical-margin-half">
                       <i class="fas fa-arrow-circle-right fa-lg"></i>
                     </div>
