@@ -17,20 +17,17 @@ const FooterPage = () => {
         <MDBRow>
           <MDBCol md="4" style={{ 'padding-left': 0 }}>
             <h5 className="title" style={{ fontWeight: 400 }}>
-              About
+              About Passport Service
             </h5>
             <ul style={{ 'padding-left': 0 }}>
               <li className="list-unstyled">
-                <a href="#!">Oridnary Passport</a>
+                <a href="/Information">Requirements</a>
               </li>
               <li className="list-unstyled">
-                <a href="#!">Diplomatic Passport</a>
+                <a href="/request-appointment">Schedule an Appointment</a>
               </li>
               <li className="list-unstyled">
-                <a href="#!">Replacment Passport 32 Pages</a>
-              </li>
-              <li className="list-unstyled">
-                <a href="#!">Replacment of Stolen Passport</a>
+                <a href="/status">Status</a>
               </li>
             </ul>
           </MDBCol>
@@ -39,14 +36,19 @@ const FooterPage = () => {
               Contact
             </h5>
             <ul style={{ 'padding-left': 0 }}>
+            <li className="list-unstyled">
+            <span class="fa  fa-map-marker"></span>
+            <a href="/contactUs"><strong class="text-white evisa-footer">&nbsp;Addis Ababa, Ethiopia</strong></a>
+
+              </li>
               <li className="list-unstyled">
-                <a href="#!">
+                <a href="/contactUs">
                   <FontAwesomeIcon className="fa-rotate-90" icon={faPhone} />
                   +251(11)1553899
                 </a>
               </li>
               <li className="list-unstyled">
-                <a href="#!">
+                <a href="/contactUs">
                   <FontAwesomeIcon icon={faEnvelope} />
                   epassport@et.gov
                 </a>
@@ -60,9 +62,6 @@ const FooterPage = () => {
             <ul style={{ 'padding-left': 0 }}>
               <li className="list-unstyled">
                 <a href="Faq">FAQ</a>
-              </li>
-              <li className="list-unstyled">
-                <a href="#!">Terms and Conditions</a>
               </li>
             </ul>
           </MDBCol>

@@ -126,8 +126,8 @@ const Fileupload = forwardRef((props, ref) => {
   for (let i = 0; i < requiredAttachements; i++) {
     debugger;
     inputs.push(
-      <div class='container'>
-      <div class="row my-4">
+
+      <div class="row my-5">
         <div class="col-md-5">
           <label for="exampleInputEmail1" class="mr-1">
             {attachmentTypeName[i]} :
@@ -161,7 +161,7 @@ const Fileupload = forwardRef((props, ref) => {
           </div>
         </div>
       </div>
-      </div>
+
     );
   }
 
@@ -170,6 +170,7 @@ const Fileupload = forwardRef((props, ref) => {
       {loading ? (
         <Spinner />
       ) : (
+        <div class='container'>
         <form onSubmit={(e) => submit(e)}>
           {successMessage && (
             <div class="alert alert-success" role="alert">
@@ -185,12 +186,13 @@ const Fileupload = forwardRef((props, ref) => {
           <MDBRow>
             <MDBCol md="9"></MDBCol>
             <MDBCol>
-              <button className="btn btn-primary ml-auto" type="submit">
+              <button className="btn btn-primary text-right" type="submit">
                 Upload
               </button>
             </MDBCol>
           </MDBRow>
         </form>
+      </div>
       )}
     </div>
   );
