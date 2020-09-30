@@ -94,7 +94,7 @@ const NavbarPage = (props) => {
   return (
     <Fragment>
       <MDBNavbar className="headerOne">
-        <MDBContainer fluid style={{ width: '80%' }}>
+        <MDBContainer className="passport-container"  fluid>
           <MDBNavbarNav left>
       
          
@@ -108,26 +108,26 @@ const NavbarPage = (props) => {
           
         
           </MDBNavbarNav>
-          <MDBNav right>
-            <MDBNavItem>
+          <MDBNav right >
+            <MDBNavItem className='d-none d-md-block'>
               <a
                 style={style}
                 href="https://www.evisa.gov.et"
-                className="text-dark mr-2 "
+                className="text-dark mr-4"
               >
                 E-visaa
               </a>
             </MDBNavItem>
-            <MDBNavItem>
+            <MDBNavItem className='d-none d-md-block'>
               <a
                 style={style}
                 href="https://www.ethiopianairlines.com"
-                className="text-dark mr-2"
+                className="text-dark mr-4"
               >
               Ethiopian airlines
               </a>
             </MDBNavItem>
-            <MDBNavItem>
+            <MDBNavItem className='d-none d-md-block'>
               <a
                 style={style}
                 href="https://www.ethiopianskylighthotel.com"
@@ -143,7 +143,7 @@ const NavbarPage = (props) => {
       <MDBNavbar className="headerTwo" dark expand="md">
         <MDBNavbarToggler onClick={() => toggleOpen(!navOpen)} />
         <MDBCollapse id="navbarCollapse3" isOpen={navOpen} navbar>
-          <MDBContainer fluid style={{ width: '80%' }}>
+          <MDBContainer className="passport-container"  fluid>
             <MDBNavbarNav className="d-flex" left>
               {/* <MDBNavItem className={navPath == '/' ? 'active' : ''}>
                 <MDBNavLink to="/" activeClassName="active">

@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { fi } from 'date-fns/locale';
 import ViewGroupAppointment from './GroupSummary';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 const Accordion = withStyles({
   root: {
@@ -53,6 +54,8 @@ const AccordionDetails = withStyles((theme) => ({
 }))(MuiAccordionDetails);
 
 const ViewAppointment = forwardRef((props, ref) => {
+  debugger;
+  const accesstoken = localStorage.systemToken;
   const history = useHistory();
   const [expanded, setExpanded] = React.useState('panel1');
   const [formCompleted, setFormCompleted] = useState(false);
@@ -63,6 +66,9 @@ const ViewAppointment = forwardRef((props, ref) => {
   const requestMode = serviceData.isUrgent;
 
   let displayedApplication = data.request[data.request.length - 1];
+  
+
+  
   const confirmInformation = (e) => {
     setFormCompleted(e.target.checked);
   };
@@ -86,11 +92,31 @@ const ViewAppointment = forwardRef((props, ref) => {
     const personalInformation = displayedApplication.personResponses;
     const addressInformation = personalInformation.address;
     const familyInformation = personalInformation.familyResponses;
-
+    const requestPersonId = personalInformation.requestPersonId;
+    console.log(requestPersonId);
     const handleChange = (panel) => (event, newExpanded) => {
       setExpanded(newExpanded ? panel : false);
     };
-
+    
+    useEffect(() => {
+      axios({
+        headers: { Authorization: 'Bearer ' + accesstoken },
+        method: 'get',
+        url:
+          'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
+        params: { personRequestId: requestPersonId },
+      })
+        .then((Response) => {
+          debugger;
+      alert('success')
+        
+      
+        })
+        .catch((err) => {
+          alert('error')
+        });
+    }, []);
+  
     return (
       <MDBContainer className="passport-container pt-5" fluid>
         <div class="div-title text-center mywizardcss pt-3 pb-3">

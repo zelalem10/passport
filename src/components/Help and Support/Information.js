@@ -22,7 +22,7 @@ export default function Information() {
     const classes = useStyles();
 
     return (
-        <MDBContainer fluid style={{ width: '80%' }}>
+        <MDBContainer className="passport-container"  fluid>
             <div class="row passportaccordion" >
                 <div class="col-lg-8 mr-5">
                 <div class="u-center-text u-margin-bottom-big mt-5">
@@ -37,7 +37,7 @@ export default function Information() {
                                 id="panel1a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For New Passport
+                                    New Passport
                             </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -111,7 +111,7 @@ export default function Information() {
                                 id="panel2a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For Expired Passport
+                                    Expired Passport
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -188,7 +188,7 @@ export default function Information() {
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For Passport Page RunOut
+                                    Passport Page RunOut
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -267,7 +267,7 @@ export default function Information() {
                                 id="panel4a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For Damaged Passport
+                                    Damaged Passport
           </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -360,7 +360,7 @@ export default function Information() {
                                 id="panel2a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For Lost/Stolen Passport
+                                    Lost/Stolen Passport
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -445,7 +445,7 @@ export default function Information() {
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For Change of Passport Data
+                                    Change of Passport Data
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -541,7 +541,7 @@ export default function Information() {
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For Not Expired Passport
+                                    Not Expired Passport
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -627,7 +627,7 @@ If your passport is With 2 or {'<'} 2 years of valid date, you should have to pu
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For Applicant Under 18
+                                    Applicant Under 18
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -661,7 +661,7 @@ If your passport is With 2 or {'<'} 2 years of valid date, you should have to pu
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For Urgent Service
+                                    Urgent Service
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -700,7 +700,7 @@ If your passport is With 2 or {'<'} 2 years of valid date, you should have to pu
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For Emergency
+                                   Emergency
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
