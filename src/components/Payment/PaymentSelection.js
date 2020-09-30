@@ -28,6 +28,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import API from '../Utils/API';
 import token from '../common/accessToken';
 import Response from './Responses/Confirmation';
+import PricingInfo from './PricingDetail'
 
 const useStyles = makeStyles({
   root: {
@@ -60,7 +61,7 @@ const PaymentSelection = forwardRef((props, ref) => {
   const [flowType, setFlowType] = useState(0);
   const [status, setStatus] = useState(0);
   const [formCompleted, setFormCompleted] = useState(false);
-  const [test, setTest] = useState({ id: 10 });
+  const [dataSaved, setDataSaved] = useState(false);
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const accesstoken = localStorage.systemToken;
@@ -134,7 +135,6 @@ const PaymentSelection = forwardRef((props, ref) => {
       });
   }, []);
   const handelClick = (optionId) => {
-    debugger;
     setSelectedOption(optionId);
     const selectedId = { optionId: optionId };
     dispatch(addPaymentOptionId(selectedId));
@@ -145,7 +145,9 @@ const PaymentSelection = forwardRef((props, ref) => {
     setFormCompleted(event.target.checked);
   };
   useImperativeHandle(ref, () => ({
-    saveData() {},
+    saveData() {
+      setDataSaved(true)
+    },
     isCompleted() {
       return formCompleted;
     },
@@ -222,7 +224,8 @@ const PaymentSelection = forwardRef((props, ref) => {
               <strong>Pricing Information</strong>
             </span>
           </h4>
-          <ul class="list-group mb-3">
+          <PricingInfo />
+          {/* <ul class="list-group mb-3">
             <li class="list-group-item d-flex justify-content-between lh-condensed">
               <div>
                 <h6 class="my-0">Request type</h6>
@@ -248,8 +251,10 @@ const PaymentSelection = forwardRef((props, ref) => {
               <span>Total Price (ETB)</span>
               <strong>600</strong>
             </li>
-          </ul>
+          </ul> */}
         </div>
+        
+        
         {/* <MDBCol md="4">
           <app-right-content
             class="small-12 medium-4 large-offset-1 large-4 column sticky-container"
@@ -310,6 +315,7 @@ const PaymentSelection = forwardRef((props, ref) => {
           onChange={handelConfirm}
           indeterminate
         />
+        <span style={{ color: "red" }}> {(formCompleted === false && dataSaved=== true) ? "Please confirm to agree to terms and conditions" : null}</span>
         <label class="custom-control-label" for="defaultUncheckedDisabled2">
           Agree to terms and conditions
         </label>

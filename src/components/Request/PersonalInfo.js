@@ -13,6 +13,7 @@ import API from '../Utils/API';
 const PersonalInfo = forwardRef((props, ref) => {
     const [nationalityList, setNationalityList] = useState([])
     const [occupationList, setOccupationList] = useState([])
+    const [defaultNationalityId, setDefaultNationalityId]=useState(0);
     const [personalInfo, setPersonalInfo] = useState({
         firstName: "",
         middleName: "",
@@ -32,7 +33,7 @@ const PersonalInfo = forwardRef((props, ref) => {
         isHalfCast: false,
         isUnder18: false,
         isAdoption: false,
-        nationalityId: 0,
+        nationalityId: defaultNationalityId,
         phoneNumber: "",
         email: "",
         dataSaved: false,
@@ -178,6 +179,10 @@ const PersonalInfo = forwardRef((props, ref) => {
         API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/Nationality/GetAll', config)
             .then((todo) => {
                 setNationalityList(todo.data.nationalitys);
+                setPersonalInfo((prevState) => ({
+                    ...prevState,
+                    nationalityId: todo.data.nationalitys.filter((nationality)=>nationality.code=="ET")[0]?todo.data.nationalitys.filter((nationality)=>nationality.code=="ET")[0].id:0,
+                }))
             })
             .catch((err) => {
                 console.log('AXIOS ERROR: ', err.response);
@@ -282,10 +287,12 @@ const PersonalInfo = forwardRef((props, ref) => {
                                     <label>
                                         Nationality<i style={{ color: 'red' }}>*</i>{' '}
                                     </label>
-                                    <select className="browser-default custom-select" name="nationalityId" onChange={handleChange}>
+                                    <select className="browser-default custom-select"
+                                     name="nationalityId" 
+                                     onChange={handleChange}>
                                         <option>select Nationality</option>
                                         {nationalityList.map((nationality) => (
-                                            <option value={nationality.id}>{nationality.code}</option>
+                                            <option value={nationality.id} selected={nationality.code==="ET"} >{nationality.code}</option>
                                         ))}
                                     </select>
                                 </div>
