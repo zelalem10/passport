@@ -33,15 +33,12 @@ function RenewPassport(props) {
                     </div>
                   </div>
                   <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
-                    <p>
-                      If your child will be a new patient with a given
-                      department at Nationwide Children’s, please select this
-                      type of appointment.
-                    </p>
-                    <p>
-                      {' '}
-                      We welcome patients who have a diagnosis and have recently
-                      moved and need help with their transfer of care.{' '}
+                    <p class="text-justify">
+                      Expired passport, applicants are requested to schedule for
+                      appointment. You receive confirmation via email or SMS.
+                      Print the last page which has your appointment date and
+                      time. Take the paper with you to your appointment
+                      consular.
                     </p>
                   </div>
                 </a>
@@ -57,9 +54,12 @@ function RenewPassport(props) {
                     </div>
                   </div>
                   <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
-                    <p>
-                      If your child has been seen by this department in the
-                      past, please select this type of appointment.
+                    <p class="text-justify">
+                      Page runout (not expired) passport, applicants are
+                      requested to schedule for appointment. You receive
+                      confirmation via email or SMS. Print the last page which
+                      has your appointment date and time. Take the paper with
+                      you to your appointment consular.
                     </p>
                   </div>
                 </a>
@@ -76,15 +76,18 @@ function RenewPassport(props) {
                   </div>
                   <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
                     <p>
-                      If your child has been seen by this department in the
-                      past, please select this type of appointment.
+                      Damaged passport, applicants are requested to schedule for
+                      appointment. You receive confirmation via email or SMS.
+                      Print the last page which has your appointment date and
+                      time. Take the paper with you to your appointment
+                      consular.
                     </p>
                   </div>
                 </a>
               </div>
               <div class="clear clearfix vertical-margin-2">
                 <a class="button hollow gray ng-star-inserted" onClick={backTo}>
-                  <i class="fas fa-arrow-left"></i> Previous Screen{' '}
+                  <i class="fas fa-arrow-left"></i> Previous
                 </a>
               </div>
             </div>

@@ -9,6 +9,7 @@ import HorizontalLabelPositionBelowStepper from './EditApplicationList/PersonslI
 import GroupRequestStepper from './EditApplicationList/Group/GroupNavigation';
 import RescheduleAppointment from './Rescheduleappointment/appointmentDate';
 import { useHistory } from 'react-router-dom';
+import GetContent from '../Payment/PaymentSelection';
 
 function ApplicationList() {
   const tokenValue = () => {
@@ -40,6 +41,8 @@ function ApplicationList() {
   const [loading, setloading] = useState(true);
   const [Message, setMessage] = useState(false);
   const [isCancelSchedule, setisCancelSchedule] = useState(false);
+  const [handlePaymentId, setHandlePaymentId] = useState('');
+  const [goToPayment, setGoToPayment] = useState(false);
   let history = useHistory();
 
   const handleDisplay = (id) => {
@@ -88,6 +91,11 @@ function ApplicationList() {
       });
   }, [isCancelSchedule]);
 
+  //payment for urgent
+  const handlePayment = (id) => {
+    setHandlePaymentId(id);
+    setGoToPayment(true);
+  };
   //cancel a single schedule
   function cancelSchedule(requestId) {
     debugger;
@@ -109,6 +117,9 @@ function ApplicationList() {
         setOpen(false);
         history.push('/Application-List');
       });
+  }
+  if (goToPayment) {
+    return <GetContent handlePaymentId={handlePaymentId} />;
   }
   if (handleDisplayId) {
     return <RescheduleAppointment handleDisplayId={handleDisplayId} />;

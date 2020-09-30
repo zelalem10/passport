@@ -11,8 +11,8 @@ function AvailableTimeSlot(props) {
           <MDBTableHead>
             <tr>
               <th>
-                {props.selectedDate}
-                <br></br> Times shown in: Africa/Addis_Ababa-EAT
+                <b>{props.selectedDate}</b>
+                <br></br> <b>Times shown in: Africa/Addis_Ababa-EAT</b>
               </th>
             </tr>
           </MDBTableHead>
@@ -22,7 +22,9 @@ function AvailableTimeSlot(props) {
                 <MDBTable id="displayMorningAppts">
                   <MDBTableHead>
                     <tr>
-                      <th>Morning</th>
+                      <th>
+                        <b>Morning</b>
+                      </th>
                     </tr>
                   </MDBTableHead>
                   <MDBTableBody>
@@ -55,7 +57,9 @@ function AvailableTimeSlot(props) {
                 <MDBTable id="displayAfternoonAppts">
                   <MDBTableHead>
                     <tr>
-                      <th>Afternoon</th>
+                      <th>
+                        <b>Afternoon</b>
+                      </th>
                     </tr>
                   </MDBTableHead>
                   <MDBTableBody>
@@ -91,7 +95,7 @@ function AvailableTimeSlot(props) {
       </div>
     );
   } else {
-    return <p className="bg-info text">Please select a date</p>;
+    return <p className="bg-info text p-2">Please select a date</p>;
   }
 }
 

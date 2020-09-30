@@ -42,7 +42,6 @@ function NumberOfApplicant(props) {
               onClick={backTo}
             >
               <i class="fas fa-arrow-left"></i> Previous
-              <span class="show-for-medium"> Screen</span>
             </a>
             <a
               class="specialty-next-step button float-right vertical-margin-2"

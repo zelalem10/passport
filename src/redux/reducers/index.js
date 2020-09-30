@@ -13,10 +13,11 @@ import groupPersonalInfo from './GroupRequest/groupPersonalInfoReducer';
 import applicationList from './applicationListReducer';
 import editFamilyData from './editAddFamilyReducer';
 import commonData from './commonDataReducer';
-import request from './newRequestReducer'
-import paymentOption from './paymentOptionReducer'
+import request from './newRequestReducer';
+import paymentOption from './paymentOptionReducer';
 import appointmentTypes from './appointmentTypeReducer';
 import siteInformation from './saveSiteInformationRedux';
+import familyType from './familyTypeReducer';
 const rootReducer = combineReducers({
   service,
   familyReducer,
@@ -35,5 +36,6 @@ const rootReducer = combineReducers({
   paymentOption,
   appointmentTypes,
   siteInformation,
+  familyType,
 });
 export default rootReducer;

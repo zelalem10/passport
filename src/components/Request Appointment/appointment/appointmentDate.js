@@ -545,7 +545,7 @@ const MyApp = forwardRef((props, ref) => {
               <MDBTypography
                 note
                 noteColor="info"
-                noteTitle={`Note info: ${durationLength} `}
+                noteTitle={`Notification: ${durationLength} `}
               >
                 Estimated Delivery date is within {durationLength} days{' '}
                 {timeSlots.length > 0 ? (
@@ -558,34 +558,36 @@ const MyApp = forwardRef((props, ref) => {
         <MDBRow key={key}>
           <MDBCol md="6">
             <h3>Date</h3>
-            <Calendar
-              allowPartialRange
-              onChange={onChange}
-              value={state.date}
-              minDate={
-                new Date(
-                  new Date().setTime(
-                    new Date().getTime() + respone.minDays * 86400000
+            <div id="chooseAppointments">
+              <Calendar
+                allowPartialRange
+                onChange={onChange}
+                value={state.date}
+                minDate={
+                  new Date(
+                    new Date().setTime(
+                      new Date().getTime() + respone.minDays * 86400000
+                    )
                   )
-                )
-              }
-              maxDate={
-                new Date(
-                  new Date().setTime(
-                    new Date().getTime() + respone.maxDays * 86400000
+                }
+                maxDate={
+                  new Date(
+                    new Date().setTime(
+                      new Date().getTime() + respone.maxDays * 86400000
+                    )
                   )
-                )
-              }
-              tileDisabled={({ date, view }) =>
-                view === 'month' && // Block day tiles only
-                disabledDate.some(
-                  (disabledDateItem) =>
-                    date.getFullYear() === disabledDateItem.getFullYear() &&
-                    date.getMonth() === disabledDateItem.getMonth() &&
-                    date.getDate() === disabledDateItem.getDate()
-                )
-              }
-            />
+                }
+                tileDisabled={({ date, view }) =>
+                  view === 'month' && // Block day tiles only
+                  disabledDate.some(
+                    (disabledDateItem) =>
+                      date.getFullYear() === disabledDateItem.getFullYear() &&
+                      date.getMonth() === disabledDateItem.getMonth() &&
+                      date.getDate() === disabledDateItem.getDate()
+                  )
+                }
+              />
+            </div>
           </MDBCol>
           {!isUrgentAppointment ? (
             <MDBCol md="6">

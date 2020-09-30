@@ -10,8 +10,7 @@ function AddFirstFamily(props) {
             <h2 className="h1">Family Details</h2>
             <div className="d-flex flex-column">
               <div className="p-2 col-example text-left">
-                You don't have added any Family yet please. Click the below
-                button to add family
+                No family added yet.
               </div>
             </div>
             <a

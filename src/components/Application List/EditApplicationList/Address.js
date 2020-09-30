@@ -8,9 +8,10 @@ import { MDBContainer, MDBCol, MDBInput, MDBRow } from 'mdbreact';
 import { Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import addAddressInfo from '../../../redux/actions/addAddressInfoAction';
+import API from '../../Utils/API';
 
 const Address = forwardRef((props, ref) => {
-  debugger;
+  const [countryList, setCountryList] = useState([]);
   const { addressInformation } = props;
   console.log(addressInformation);
   const [addressInfo, setAddressInfo] = useState({
@@ -26,6 +27,20 @@ const Address = forwardRef((props, ref) => {
     requestPlace: addressInformation.requestPlace,
     dataSaved: false,
   });
+  const tokenValue = () => {
+    const UserToken = localStorage.userToken;
+
+    if (UserToken) {
+      return UserToken;
+    } else {
+      const SystemToken = localStorage.systemToken;
+      return SystemToken;
+    }
+  };
+  const token = tokenValue();
+  const config = {
+    headers: { Authorization: 'Bearer ' + token },
+  };
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   if (counter.address.length === 0) {
@@ -43,6 +58,14 @@ const Address = forwardRef((props, ref) => {
       //alert("Validation")
     },
   }));
+  useEffect(() => {
+    API.get(
+      'https://epassportservices.azurewebsites.net/Master/api/V1.0/Country/GetAll',
+      config
+    ).then((todo) => {
+      setCountryList(todo.data.countrys);
+    });
+  }, []);
   const handleChange = (event) => {
     const { name, value } = event.target;
     setAddressInfo((prevState) => ({
@@ -75,21 +98,26 @@ const Address = forwardRef((props, ref) => {
           <MDBRow>
             <MDBCol md="4">
               <MDBCol>
-                <MDBInput
-                  label="Country"
-                  group
-                  type="text"
-                  name="country"
-                  validate
-                  error="wrong"
-                  success="right"
-                  valueDefault={prevInfo ? prevInfo.country : null}
-                  onChange={handleChange}
-                />
+                <div
+                  className="md-form form-group passport-select"
+                  style={{ 'margin-bottom': '2.5rem' }}
+                >
+                  <select
+                    name="country"
+                    onChange={handleChange}
+                    className="browser-default custom-select"
+                    defaultValue={prevInfo ? prevInfo.occupationId : 0}
+                  >
+                    <option>select country</option>
+                    {countryList.map((country) => (
+                      <option value={country.code}>{country.name}</option>
+                    ))}
+                  </select>
+                </div>
               </MDBCol>
             </MDBCol>
             <MDBCol md="4">
-              <MDBCol>
+              <MDBCol className="required-field">
                 <MDBInput
                   label="City"
                   group
