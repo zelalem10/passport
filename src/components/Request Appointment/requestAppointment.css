@@ -120,7 +120,7 @@ h1 {
   padding-left: 0;
 }
 .card--link.card--teal:hover {
-  background: #184de7  !important;
+  background: #184de7 !important;
   color: #fefefe;
 }
 .icon:before,
@@ -736,10 +736,6 @@ select {
   text-align: center;
   padding-top: 2%;
 }
-/* .header-title {
-  color: #ffffff;
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 900;
-  vertical-align: 0 mm;
-} */
+.termConditions {
+  color: red;
+}

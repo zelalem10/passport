@@ -47,17 +47,17 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
     props.Next();
   }
   const handleNext = () => {
-    // if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
-    //   childRef.current.saveData();
-    //   const isVilid = childRef.current.Validate();
-    //   if (isVilid == true) {
-    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //   }
-    // }
-    // else {
+    if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
+      childRef.current.saveData();
+      const isVilid = childRef.current.Validate();
+      if (isVilid == true) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }
+    }
+    else {
     childRef.current.saveData();
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //}
+    }
     
  
   };
@@ -81,6 +81,7 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
       var familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
       const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
       const appointment=counter.appointmentDate[counter.appointmentDate.length - 1]
+      const siteInfo=counter.siteInformation[counter.siteInformation.length - 1]
      
       const accesstoken = localStorage.systemToken;
       const usertoken = localStorage.userToken;
@@ -90,6 +91,7 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
       const requestBody = {
         requestId: 0,
         requestMode: 0,
+        officeId:siteInfo? Number.parseInt(siteInfo.offceId, 10):0,
         requestTypeId: 2,
         appointmentIds:appointment?[appointment[0].id] :1,
         userName: '',
@@ -151,7 +153,7 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
       debugger;
       console.log(requestBody)
       API.post(
-        'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest',
+        'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest',
         requestBody,
         config
       )
@@ -162,16 +164,19 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
           setIsSuccess(true);
           console.log(todo.data)
           const commonData = {
-            requestPersonId: todo.data.serviceRequest.personResponses[0].requestPersonId,
+            requestPersonId: todo.data.serviceResponseList[0].personResponses.requestPersonId,
           };
-          dispatch(newRequest(todo.data.serviceRequest));
+          dispatch(newRequest(todo.data.serviceResponseList[0]));
           dispatch(addCommonData(commonData));
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
         .catch((err) => {
           debugger
           console.log('AXIOS ERROR: ', err.response);
-          setResponseMessage(err.response.data.title);
+          if (err.response != null)
+            setResponseMessage(err.response.data.title);
+          else
+            setResponseMessage("something goes wrong!");
           setResponseAlert(true);
         });
     }
@@ -226,8 +231,7 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
             <Typography className={classes.instructions}>
               {getStepContent(activeStep)}
             </Typography>
-            {activeStep === steps.length - 1 ? (null)
-            :(
+            
             <Grid container spacing={1}>
               <Grid item xs={3}>
                 <Button
@@ -239,6 +243,8 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
                 </Button>
               </Grid>
               <hr></hr>
+              {activeStep === steps.length - 1 ? (null)
+            :(
                  <Grid item xs={1}>
                 {activeStep === steps.length - 2 ? (
                   <Button
@@ -256,11 +262,11 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
                   >
                     Next
                   </Button>)
-                  
                 )}
               </Grid>
-             </Grid>
             )}
+             </Grid>
+
           </div>
         )}
       </div>

@@ -30,7 +30,7 @@ const Address = forwardRef((props, ref) => {
         poBox: true,
         phoneNumber: true
     });
-    const [countryList, setCountryList]=useState([]);
+    const [countryList, setCountryList] = useState([]);
     const dispatch = useDispatch();
     const counter = useSelector((state) => state);
     const accesstoken = localStorage.systemToken;
@@ -122,26 +122,26 @@ const Address = forwardRef((props, ref) => {
                         </MDBCol> */}
 
                         <MDBCol className="required-field">
-                <div>
-                  <label>
-                    Country<i style={{ color: 'red' }}>*</i>{' '}
-                  </label>
-                  <select className="browser-default custom-select" name="country" onChange={handleChange}>
-                    <option>select country</option>
-                    {countryList.map((country) => (
-                      <option value={country.code}>{country.name}</option>
-                    ))}
-                  </select>
-                </div>
-                <span style={{ color: 'red' }}>
-                  {' '}
-                  {notCompleted.country == true &&
-                    addressInfo.dataSaved == true
-                    ? 'Country ' + isRequired
-                    : null}
-                </span>                            </MDBCol>
-              
-                        <MDBCol>
+                            <div>
+                                <label>
+                                    Country<i style={{ color: 'red' }}>*</i>{' '}
+                                </label>
+                                <select className="browser-default custom-select" name="country" onChange={handleChange}>
+                                    <option>select country</option>
+                                    {countryList.map((country) => (
+                                        <option value={country.code}>{country.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <span style={{ color: 'red' }}>
+                                {' '}
+                                {notCompleted.country == true &&
+                                    addressInfo.dataSaved == true
+                                    ? 'Country ' + isRequired
+                                    : null}
+                            </span>                            </MDBCol>
+
+                        <MDBCol className="required-field">
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.city : null}
                                 name="city"
@@ -216,7 +216,7 @@ const Address = forwardRef((props, ref) => {
                         </MDBCol>
                     </MDBRow>
                     <MDBRow>
-                       <MDBCol>
+                        <MDBCol>
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.requestPlace : null}
                                 name="requestPlace"

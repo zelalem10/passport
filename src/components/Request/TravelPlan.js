@@ -22,7 +22,6 @@ import {
 import DateFnsUtils from '@date-io/date-fns';
 import API from '../Utils/API';
 
-
 function requestTypeGetter(requetTypeId) {
   switch (requetTypeId) {
     case 2:
@@ -56,22 +55,22 @@ const TravelPlan = forwardRef((props, ref) => {
     passportNumber: true,
     expirationDate: true,
     issueDate: true,
-    correctionReason:true,
+    correctionReason: true,
     isDatacorrected: true,
   });
-  const [passportTypeList, setPassportTypeList]=useState([]);
+  const [passportTypeList, setPassportTypeList] = useState([]);
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const isRequired = 'is required!';
   const accesstoken = localStorage.systemToken;
   const usertoken = localStorage.userToken;
   const config = {
-      headers: { Authorization: 'Bearer ' + accesstoken },
-  };  let requestTypefromRedux = useSelector((state) => state.service);
+    headers: { Authorization: 'Bearer ' + accesstoken },
+  };
+  let requestTypefromRedux = useSelector((state) => state.service);
   let requestTypeId =
     requestTypefromRedux[requestTypefromRedux.length - 1].appointemntType;
 
- 
   if (counter.travelPlan.length === 0) {
     dispatch(addTravelPlan(travelPlan));
   }
@@ -91,13 +90,10 @@ const TravelPlan = forwardRef((props, ref) => {
         passportNumber: travelPlan.passportNumber === '' ? true : false,
         expirationDate: travelPlan.expirationDate === '' ? true : false,
         issueDate: travelPlan.issueDate === '' ? true : false,
-        correctionReason:travelPlan.correctionReason===''? true :false,
+        correctionReason: travelPlan.correctionReason === '' ? true : false,
         passportNumber: travelPlan.passportNumber === '' ? true : false,
       });
-      if (
-        notCompleted.pageQuantity === true
-      )
-        return false;
+      if (notCompleted.pageQuantity === true) return false;
       else return true;
     },
   }));
@@ -163,18 +159,20 @@ const TravelPlan = forwardRef((props, ref) => {
       passportNumber: prevInfo ? prevInfo.passportNumber : null,
       expirationDate: prevInfo ? new Date(prevInfo.expirationDate) : null,
       issueDate: prevInfo ? new Date(prevInfo.issueDate) : null,
-      correctionReason: prevInfo? prevInfo.correctionReason:null,
+      correctionReason: prevInfo ? prevInfo.correctionReason : null,
       isDatacorrected: prevInfo ? prevInfo.isDatacorrected : false,
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
     }));
-  
+
     API.get(
-      'https://epassportservices.azurewebsites.net/Master/api/V1.0/PassportPage/GetAll', config)
+      'https://epassportservices.azurewebsites.net/Master/api/V1.0/PassportPage/GetAll',
+      config
+    )
       .then((todo) => {
         setPassportTypeList(todo.data.pagePassports);
       })
       .catch((err) => {
-          console.log('AXIOS ERROR: ', err.response);
+        console.log('AXIOS ERROR: ', err.response);
       });
 
     axios({
@@ -225,33 +223,39 @@ const TravelPlan = forwardRef((props, ref) => {
           props.isSucces === true ? (
             <MDBAlert color="success">{props.resMessage}</MDBAlert>
           ) : (
-              <MDBAlert color="danger">{props.resMessage}</MDBAlert>
-            )
+            <MDBAlert color="danger">{props.resMessage}</MDBAlert>
+          )
         ) : null}
         <form>
           <div className="grey-text">
             <MDBRow>
-
               <MDBCol className="required-field">
                 <div>
                   <label>
                     Page Quantity<i style={{ color: 'red' }}>*</i>{' '}
                   </label>
-                  <select className="browser-default custom-select" name="pageQuantity" onChange={handleChange}>
+                  <select
+                    className="browser-default custom-select"
+                    name="pageQuantity"
+                    onChange={handleChange}
+                  >
                     <option>select page quantity</option>
                     {passportTypeList.map((passportType) => (
-                      <option value={passportType.pageQuantityVal}>{passportType.pageQuantity}</option>
+                      <option value={passportType.pageQuantityVal}>
+                        {passportType.pageQuantity}
+                      </option>
                     ))}
                   </select>
                 </div>
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.pageQuantity == true &&
-                    travelPlan.dataSaved == true
+                  travelPlan.dataSaved == true
                     ? 'Page quantity ' + isRequired
                     : null}
-                </span>                            </MDBCol>
-              
+                </span>{' '}
+              </MDBCol>
+
               <MDBCol>
                 <MDBInput
                   valueDefault={prevInfo ? prevInfo.filledBy : null}
@@ -280,7 +284,7 @@ const TravelPlan = forwardRef((props, ref) => {
                   <span style={{ color: 'red' }}>
                     {' '}
                     {notCompleted.passportType == true &&
-                      travelPlan.dataSaved == true
+                    travelPlan.dataSaved == true
                       ? 'Passport type' + isRequired
                       : null}
                   </span>
@@ -326,47 +330,53 @@ const TravelPlan = forwardRef((props, ref) => {
                   </MuiPickersUtilsProvider>
                 </MDBCol>
               </MDBRow>
-            ) : (null)}
+            ) : null}
             <MDBRow>
-            {(requestTypeStr === 'Correction' || travelPlan.isDatacorrected===true) ? (
-            <MDBCol md="3">
-                <label>Correction type</label>
-                <select className="browser-default custom-select" name="correctionReason" onChange={handleChange}>
-                  <option value="">select correction type</option>
-                  <option value="0">NameCorrection</option>
-                  <option value="1">Birth Date Correction</option>
-                  <option value="2">Both Name and Birth Date Correction</option>
-
-                </select>
-                <span style={{ color: 'red' }}>
-                  {' '}
-                  {notCompleted.correctionReason == true &&
+              {requestTypeStr === 'Correction' ||
+              travelPlan.isDatacorrected === true ? (
+                <MDBCol md="3">
+                  <label>Correction type</label>
+                  <select
+                    className="browser-default custom-select"
+                    name="correctionReason"
+                    onChange={handleChange}
+                  >
+                    <option value="">select correction type</option>
+                    <option value="0">NameCorrection</option>
+                    <option value="1">Birth Date Correction</option>
+                    <option value="2">
+                      Both Name and Birth Date Correction
+                    </option>
+                  </select>
+                  <span style={{ color: 'red' }}>
+                    {' '}
+                    {notCompleted.correctionReason == true &&
                     travelPlan.dataSaved == true
-                    ? 'correction reason ' + isRequired
-                    : null}
-                </span>
-              </MDBCol>
-              ):(null)}
+                      ? 'correction reason ' + isRequired
+                      : null}
+                  </span>
+                </MDBCol>
+              ) : null}
 
               {requestTypeStr === 'Renew/Replacement' ||
-                requestTypeStr === 'Lost' ? (
-                  <MDBCol>
-                    <label></label>
-                    <div class="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="isCorrection"
-                        onChange={(e) =>
-                          handleCheck('isDatacorrected', e.target.checked)
-                        }
-                      />
-                      <label class="custom-control-label" for="isCorrection">
-                        Is Data correction
+              requestTypeStr === 'Lost' ? (
+                <MDBCol>
+                  <label></label>
+                  <div class="custom-control custom-checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="isCorrection"
+                      onChange={(e) =>
+                        handleCheck('isDatacorrected', e.target.checked)
+                      }
+                    />
+                    <label class="custom-control-label" for="isCorrection">
+                      Is Data correction
                     </label>
-                    </div>
-                  </MDBCol>
-                ) : null}
+                  </div>
+                </MDBCol>
+              ) : null}
             </MDBRow>
           </div>
         </form>

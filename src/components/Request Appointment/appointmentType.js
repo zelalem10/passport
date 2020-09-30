@@ -56,8 +56,8 @@ function AppointmetType(props) {
       <MDBRow>
         <MDBCol className="medium-8" sm="12" lg="7">
           <div className="multistep-form__step">
-            <h2 className="h1">What type of appointment do you need?</h2>
-           
+            <h2 className="h1">Schedule for Appointment</h2>
+
             <div className="rtf"></div>
             <div className="row align-center vertical-margin-2">
               <div className="small-11 column request-type">
@@ -77,7 +77,7 @@ function AppointmetType(props) {
                           <i class="fas fa-arrow-circle-right fa-lg"></i>
                         </div>
                       </div>
-                      <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold text-left">
+                      <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold text-justify">
                         <p>{request.descrption}</p>
                       </div>
                     </a>

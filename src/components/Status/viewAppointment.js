@@ -170,6 +170,39 @@ export default function ViewAppointment(props) {
                   </div>
                   <div class="form-group form-inline">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Geez First Name
+                    </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>
+                      <label class="font-weight-bold">
+                        {personalInformation.geezFirstName}
+                      </label>
+                    </b>
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Geez Last Name
+                    </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>
+                      <label class="font-weight-bold">
+                        {personalInformation.geezLastName}
+                      </label>
+                    </b>
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Geez Middle Name
+                    </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>
+                      <label class="font-weight-bold">
+                        {personalInformation.geezMiddleName}
+                      </label>
+                    </b>
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                       Date of Birth
                     </label>
                     &nbsp;&nbsp;&nbsp;&nbsp;
@@ -273,23 +306,35 @@ export default function ViewAppointment(props) {
                   </div>
                   <div class="form-group form-inline">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Birth Country
+                      Birth Place
                     </label>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {personalInformation.birthCountry}
+                        {personalInformation.birthPlace}
+                      </label>
+                    </b>
+                  </div>
+
+                  <div class="form-group form-inline">
+                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Phone Number
+                    </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>
+                      <label class="font-weight-bold">
+                        {personalInformation.phoneNumber}
                       </label>
                     </b>
                   </div>
                   <div class="form-group form-inline">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Birth City
+                      Email
                     </label>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {personalInformation.birthCity}
+                        {personalInformation.email}
                       </label>
                     </b>
                   </div>
@@ -386,28 +431,7 @@ export default function ViewAppointment(props) {
                       </label>
                     </b>
                   </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Phone Number
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {addressInformation.phoneNumber}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Email
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {addressInformation.email}
-                      </label>
-                    </b>
-                  </div>
+
                   <div class="form-group form-inline">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                       Request Place

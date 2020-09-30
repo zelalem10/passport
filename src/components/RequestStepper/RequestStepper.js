@@ -39,36 +39,41 @@ export default function RequestStepper() {
   const paymentRef = useRef();
   const dispatch = useDispatch();
   function handelNext() {
-    if (indexValue === 0) {
+    if(indexValue===0){
       siteRef.current.saveData();
       if (siteRef.current.isCompleted() === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
         formCompleted[indexValue] = true;
-      }
-    } else if (indexValue === 1) {
-      appointmentRef.current.saveData();
+      } 
+    }
+    else if(indexValue===1){
       if (appointmentRef.current.isCompleted() === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
         formCompleted[indexValue] = true;
       }
-    } else if (indexValue === 2) {
+      else{
+        appointmentRef.current.saveData();
+      }
+    }
+    else if (indexValue === 2) {
       personalRef.current.saveData();
       setIndexValue((prevActiveStep) => prevActiveStep + 1);
       formCompleted[indexValue] = true;
-    }
-    else if(indexValue===3){
+    } else if (indexValue === 3) {
       summaryRef.current.saveData();
       if (summaryRef.current.isCompleted() === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
         formCompleted[indexValue] = true;
-      }
-    } else if (indexValue === 4) {
+      } 
+    }
+    else if(indexValue===4){
       paymentRef.current.saveData();
       if (paymentRef.current.isCompleted() === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
         formCompleted[indexValue] = true;
-      }
+      } 
     }
+   
   }
   function handelPrevious() {
     setIndexValue(indexValue - 1);
@@ -176,7 +181,7 @@ export default function RequestStepper() {
                 <SiteSelection ref={siteRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[1]}>
-                <DateSelection ref={appointmentRef} />
+                <DateSelection ref={appointmentRef} Next={handelNext} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[2]}>
                 {isGroup === true ? (
@@ -189,7 +194,7 @@ export default function RequestStepper() {
                 <ViewAppointment ref={summaryRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[4]}>
-                <PaymentSelection ref={paymentRef} />
+                <PaymentSelection  ref={paymentRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[5]}>
                 <Confirmation />
@@ -197,7 +202,7 @@ export default function RequestStepper() {
             </Tab.Content>
           </Col>
         </Row>
-        {indexValue === 2 ? (null) : (
+        {indexValue === 2 ? null : (
           <Row>
             <Col lg={3}></Col>
             <Col lg={2}>
@@ -217,7 +222,7 @@ export default function RequestStepper() {
               </Button>{' '}
             </Col>
           </Row>
-         )} 
+        )}
       </div>
     </Tab.Container>
   );

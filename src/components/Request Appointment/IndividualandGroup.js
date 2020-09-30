@@ -44,6 +44,18 @@ function IndividualandGroup(props) {
      
                 </p>
                 <div>
+                  <h5>TERMS AND CONDITIONS</h5>
+                  <p class="text-justify termConditions">
+                    By proceeding with this application, I understand that I am
+                    signifying my consent to the disclosure, collection, and use
+                    of my personal information and the data required under the
+                    Ethiopian Passport Act as amended and its Implementing Rules
+                    and Regulations. My consent effectively constitutes a waiver
+                    of any and all privacy rights pertaining to the disclosure,
+                    collection, and use of my personal information and data
+                    under the specific terms and condition of Ethiopian Online
+                    Passport Appointment System.
+                  </p>
                   <div class="custom-control custom-checkbox">
                     <input
                       type="checkbox"
