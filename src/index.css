@@ -209,8 +209,7 @@ code {
 @media only screen and (max-width: 767px) {
   .logo-img {
     background-color: #ffffff;
-    width: 50%;
-    max-width: 50% !important;
+    max-width: 100% !important;
     align-items: left;
   }
 }
@@ -355,4 +354,11 @@ code {
   border: 0;
   border: 1px solid rgba(0,0,0,.125) !important;
   box-shadow: none;
+}
+
+
+@media only screen and (max-width: 767px) {
+  .align-right-small {
+    margin-right: auto!important;
+  }
 }

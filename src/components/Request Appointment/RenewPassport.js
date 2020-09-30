@@ -20,14 +20,14 @@ function RenewPassport(props) {
         <MDBCol sm="12" lg="7">
           <app-doctor-type-step class="ng-trigger ng-trigger-stepTransitions ng-tns-c1-0 ng-star-inserted">
             <div class="multistep-form__step renew-passport-multistep">
-              <h2 className="h1">Which type of issue are you facing?</h2>
+              <h2 className="h1">Which type of Service you need?</h2>
               <div class="card card--small-gutters card--shadow vertical-margin-2">
                 <a
                   class="small-12 column row card--link"
                   onClick={() => props.handleReplacmentReason('Expired')}
                 >
                   <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
-                    <strong>Expired</strong>
+                    <strong>Expired Passport</strong>
                     <div class="text-center vertical-margin-half">
                       <i class="fas fa-arrow-circle-right fa-lg"></i>
                     </div>
@@ -51,7 +51,7 @@ function RenewPassport(props) {
                   onClick={() => props.handleReplacmentReason('Page Left')}
                 >
                   <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
-                    <strong>Replacment Of Valid</strong>
+                    <strong>Replacment of Valid Passport</strong>
                     <div class="text-center vertical-margin-half">
                       <i class="fas fa-arrow-circle-right fa-lg"></i>
                     </div>
@@ -69,7 +69,7 @@ function RenewPassport(props) {
                   onClick={() => props.handleReplacmentReason('Damaged')}
                 >
                   <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
-                    <strong>Damaged</strong>
+                    <strong>Damaged Passport</strong>
                     <div class="text-center vertical-margin-half">
                       <i class="fas fa-arrow-circle-right fa-lg"></i>
                     </div>

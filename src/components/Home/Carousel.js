@@ -7,6 +7,7 @@ import {
   MDBView,
   MDBBtn,
   MDBContainer,
+  MDBCardTitle,
 } from 'mdbreact';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -40,13 +41,9 @@ const CarouselPage = () => {
             <MDBCarouselCaption className="passport-CarouselCaption">
               <h3 className="h3-responsive">
                 Welcome to Ethiopian <br></br>
-                passport Services
+                Passport Services
               </h3>
-              <Link to="/request-appointment">
-                <MDBBtn className="passport-btn d-none d-sm-block">
-                  Request Appointment
-                </MDBBtn>
-              </Link>
+   
             </MDBCarouselCaption>
           </MDBCarouselItem>
          
@@ -62,13 +59,9 @@ const CarouselPage = () => {
             <MDBCarouselCaption className="passport-CarouselCaption">
               <h3 className="h3-responsive">
                 Welcome to Ethiopian <br></br>
-                passport Services
+                Passport Services
               </h3>
-              <Link to="/request-appointment">
-                <MDBBtn className="passport-btn d-none d-sm-block">
-                  Request Appointment
-                </MDBBtn>
-              </Link>
+       
             </MDBCarouselCaption>
           </MDBCarouselItem>
           <MDBCarouselItem itemId="3">
@@ -83,13 +76,9 @@ const CarouselPage = () => {
             <MDBCarouselCaption className="passport-CarouselCaption">
               <h3 className="h3-responsive">
                 Welcome to Ethiopian <br></br>
-                passport Services
+                Passport Services
               </h3>
-              <Link to="/request-appointment">
-                <MDBBtn className="passport-btn d-none d-sm-block">
-                  Request Appointment
-                </MDBBtn>
-              </Link>
+          
             </MDBCarouselCaption>
           </MDBCarouselItem>
           <MDBCarouselItem itemId="4">
@@ -104,13 +93,9 @@ const CarouselPage = () => {
             <MDBCarouselCaption className="passport-CarouselCaption">
               <h3 className="h3-responsive">
                 Welcome to Ethiopian <br></br>
-                e-passport Services
+                Passport Services
               </h3>
-              <Link to="/request-appointment">
-                <MDBBtn className="passport-btn d-none d-sm-block">
-                  Request Appointment
-                </MDBBtn>
-              </Link>
+         
             </MDBCarouselCaption>
           </MDBCarouselItem>
           <MDBCarouselItem itemId="5">
@@ -125,13 +110,9 @@ const CarouselPage = () => {
             <MDBCarouselCaption className="passport-CarouselCaption">
               <h3 className="h3-responsive">
                 Welcome to Ethiopian <br></br>
-                e-passport Services
+                Passport Services
               </h3>
-              <Link to="/request-appointment">
-                <MDBBtn className="passport-btn d-none d-sm-block">
-                  Request Appointment
-                </MDBBtn>
-              </Link>
+          
             </MDBCarouselCaption>
           </MDBCarouselItem>
           <MDBCarouselItem itemId="6">
@@ -146,13 +127,9 @@ const CarouselPage = () => {
             <MDBCarouselCaption className="passport-CarouselCaption">
               <h3 className="h3-responsive">
                 Welcome to Ethiopian <br></br>
-                e-passport Services
+                Passport Services
               </h3>
-              <Link to="/request-appointment">
-                <MDBBtn className="passport-btn d-none d-sm-block">
-                  Request Appointment
-                </MDBBtn>
-              </Link>
+          
             </MDBCarouselCaption>
           </MDBCarouselItem>
     

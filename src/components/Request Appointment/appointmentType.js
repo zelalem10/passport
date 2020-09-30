@@ -77,7 +77,7 @@ function AppointmetType(props) {
                           <i class="fas fa-arrow-circle-right fa-lg"></i>
                         </div>
                       </div>
-                      <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
+                      <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold text-left">
                         <p>{request.descrption}</p>
                       </div>
                     </a>
