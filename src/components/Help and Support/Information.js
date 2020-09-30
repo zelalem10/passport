@@ -37,13 +37,13 @@ export default function Information() {
                                 id="panel1a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For New passport
+                                    For New Passport
                             </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Typography>
                                     <p class='font-weight-bold'>
-                                        New Passport applicants must fulfill the following requirements.
+                                        New Passport applicants must fulfil the following requirements.
                                     </p>
 
                                     <br></br>
@@ -111,13 +111,13 @@ export default function Information() {
                                 id="panel2a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For expired passport
+                                    For Expired Passport
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Typography>
                                     <p class='font-weight-bold'>
-                                        Expired Passport applicants must fulfill the following requirements.
+                                        Expired Passport applicants must fulfil the following requirements.
                                     </p>
 
                                     <br></br>
@@ -188,13 +188,13 @@ export default function Information() {
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For passport page run out
+                                    For Passport Page RunOut
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Typography>
                                     <p class='font-weight-bold'>
-                                        For applicants of passport page run out must fulfill the following requirements.
+                                        For applicants of passport page run out must fulfil the following requirements.
     If your passport is With 3 or {'<'} 3 pages left
 
                                     </p>
@@ -267,13 +267,13 @@ export default function Information() {
                                 id="panel4a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For damaged passport
+                                    For Damaged Passport
           </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Typography>
                                     <p class='font-weight-bold'>
-                                        For applicants of damaged passport must fulfill the following requirements.
+                                        For applicants of damaged passport must fulfil the following requirements.
                                         If your passport is damaged through different reasons
 
 
@@ -360,13 +360,13 @@ export default function Information() {
                                 id="panel2a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For lost/stolen passport
+                                    For Lost/Stolen Passport
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Typography>
                                     <p class='font-weight-bold'>
-                                        For applicants of Lost/Stolen passport must fulfill the following requirements.
+                                        For applicants of Lost/Stolen passport must fulfil the following requirements.
                                 </p>
 
                                     <br></br>
@@ -445,14 +445,14 @@ export default function Information() {
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For  change of  passport  data
+                                    For Change of Passport Data
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Typography>
 
                                     <p class='font-weight-bold'>
-                                        Applicants for change of passport data must fulfill the following requirements.
+                                        Applicants for change of passport data must fulfil the following requirements.
                                         If you need to change the passport information like name change, birth place and birth date
 
                                 </p>
@@ -541,13 +541,13 @@ export default function Information() {
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For not expired passport
+                                    For Not Expired Passport
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Typography>
                                     <p class='font-weight-bold'>
-                                        Applicants for change of passport data must fulfill the following requirements.
+                                        Applicants for change of passport data must fulfil the following requirements.
 If your passport is With 2 or {'<'} 2 years of valid date, you should have to put the reason like DV, scholarship, foreign residence permit, and embassy appointment.
 
 
@@ -627,7 +627,7 @@ If your passport is With 2 or {'<'} 2 years of valid date, you should have to pu
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For applicant under 18
+                                    For Applicant Under 18
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -661,7 +661,7 @@ If your passport is With 2 or {'<'} 2 years of valid date, you should have to pu
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For urgent service
+                                    For Urgent Service
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -700,7 +700,7 @@ If your passport is With 2 or {'<'} 2 years of valid date, you should have to pu
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For emergency
+                                    For Emergency
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -727,7 +727,6 @@ If your passport is With 2 or {'<'} 2 years of valid date, you should have to pu
                             <li class="list-group-item"><a class="text-dark" href="/Diplomatic Passport">Diplomatic Passport</a></li>
                             <li class="list-group-item"><a class="text-dark" href="/Replacment Passport 32 Pages">Replacment Passport 32 Pages</a></li>
                             <li class="list-group-item"><a class="text-dark" href="/Replacment of Stolen Passport">Replacment of Stolen Passport</a></li>
-                            <li class="list-group-item"><a class="text-dark" href="/visa-types/journalist-visa">Journalist Visa - JV</a></li>
                             <li class="list-group-item"><a class="text-dark" href="/Terms and Conditions">Terms and Conditions</a></li>
 
                         </ul>

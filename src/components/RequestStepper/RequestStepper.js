@@ -102,7 +102,7 @@ export default function RequestStepper() {
     <Tab.Container defaultActiveKey="first" activeKey={activeKey[indexValue]}>
       <div style={{ margin: '2rem' }}>
         <Row>
-          <Col variant="secondary" md={3}>
+          <Col variant="secondary" lg={3}>
             <Card>
               <Card.Header>Request Appointment </Card.Header>
               <Nav variant="pills" className="flex-column">
@@ -171,7 +171,7 @@ export default function RequestStepper() {
               </Nav>
             </Card>
           </Col>
-          <Col sm={9}>
+          <Col lg={9}>
             <Tab.Content>
               <Tab.Pane eventKey={activeKey[0]}>
                 <SiteSelection ref={siteRef} />
