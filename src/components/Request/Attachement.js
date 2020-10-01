@@ -61,6 +61,7 @@ const Fileupload = forwardRef((props, ref) => {
   }));
 
   const submit = async (e) => {
+    //props.hideBack();
     debugger;
     e.preventDefault();
     setloading(true);
@@ -96,8 +97,6 @@ const Fileupload = forwardRef((props, ref) => {
 
     //return post(url, formData, config);
     try {
-      props.hideBack();
-      setloading(true);
       const response = await axios.post(url, formData, config);
       console.log(response.data);
       setsuccessMessage(true);
@@ -108,7 +107,7 @@ const Fileupload = forwardRef((props, ref) => {
       console.log('error' + error.message);
       seterrorMessage(true);
       setloading(false);
-      props.showBack();
+      //props.showBack();
     }
   };
   const onChange = (e) => {

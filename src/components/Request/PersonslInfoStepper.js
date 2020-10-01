@@ -73,15 +73,13 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
     if (isVilid != true) {
       //setResponseMessage("Ple")
     } else {
-      var personalInfo =
-        counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
+      var personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
       var addressInfo = counter.address[counter.address.length - 1];
       var familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
       const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
-      const appointment =
-        counter.appointmentDate[counter.appointmentDate.length - 1];
-      const siteInfo =
-        counter.siteInformation[counter.siteInformation.length - 1];
+      const appointment=counter.appointmentDate[counter.appointmentDate.length - 1]
+      const siteInfo=counter.siteInformation[counter.siteInformation.length - 1]
+      let isUrgent=counter.service[counter.service.length - 1].isUrgent;
 
       const accesstoken = localStorage.systemToken;
       const usertoken = localStorage.userToken;
@@ -90,8 +88,8 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
       };
       const requestBody = {
         requestId: 0,
-        requestMode: 0,
-        officeId: siteInfo ? Number.parseInt(siteInfo.offceId, 10) : 0,
+        requestMode: isUrgent===true?1:0,
+        officeId:siteInfo? Number.parseInt(siteInfo.offceId, 10):0,
         requestTypeId: 2,
         appointmentIds:appointment?[appointment[0].id] :1,
         userName: '',
