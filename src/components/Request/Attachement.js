@@ -7,7 +7,7 @@ import React, {
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from '../common/Spinner';
-import { MDBCol, MDBRow } from 'mdbreact';
+import { MDBCol, MDBRow, MDBBadge } from 'mdbreact';
 
 const Fileupload = forwardRef((props, ref) => {
   let [successMessage, setsuccessMessage] = useState(false);
@@ -69,15 +69,7 @@ const Fileupload = forwardRef((props, ref) => {
     seterrorMessage(false);
     console.log(files);
     console.log(fileType);
-    // for (let i = 0; i < requiredAttachements; i++) {
-    //   files = e.target[i].files[0];
-    //   let fileType = e.target[i].id;
-    //   console.log(files)
-    //   console.log(fileType)
-    //   formData.append('personRequestId', requestPersonId);
-    //   formData.append(fileType, files);
 
-    // }
     for (let i = 0; i < files.length; i++) {
       formData.append('personRequestId', requestPersonId);
       formData.append(fileType[i], files[i]);
@@ -129,11 +121,9 @@ const Fileupload = forwardRef((props, ref) => {
     debugger;
     inputs.push(
 
-      <div class="row my-5">
-        <div class="col-md-5">
-          <label for="exampleInputEmail1" class="mr-1">
-            {attachmentTypeName[i]} :
-          </label>
+      <div class="row my-5" id='attachmentmargin'>
+        <div class="col-md-5 text-right">
+        <MDBBadge color="primary p-3"> {attachmentTypeName[i]} </MDBBadge>
         </div>
         <div class="col-md-5">
           <div className="input-group">
@@ -149,6 +139,7 @@ const Fileupload = forwardRef((props, ref) => {
                 id={requiredAttachementType[i]}
                 className="custom-file-input"
                 aria-describedby="inputGroupFileAddon01"
+                accept="image/png,image/gif,image/jpeg,image/jpg,application/pdf"
                 onChange={(e) => onChange(e)}
               />
 

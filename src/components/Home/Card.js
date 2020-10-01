@@ -28,7 +28,7 @@ const CardExample = () => {
             <Link class="card-title text-white" to="/request-appointment">Start New Application</Link> 
               </MDBCardTitle>
             <MDBCardText>
-            Do you want to secure Ethiopian e-Visa now? Provide all requested information and apply.
+            Do you want to secure Ethiopian Passport now? Provide all requested information and apply.
             </MDBCardText>
           </MDBCardBody>
         </MDBCard>

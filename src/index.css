@@ -534,3 +534,7 @@ code {
 .headerTwo {
   background-color: #093c73 !important;
 }
+#attachmentmargin .badge-primary {
+  color: #fff !important;
+  background-color: #093d75 !important;
+}

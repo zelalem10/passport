@@ -538,7 +538,7 @@ const ViewAppointment = forwardRef((props, ref) => {
               </fieldset>
               <fieldset>
               <ul class="list-group mb-3">
-                      <li class="list-group-item ePassprt-color"><h5>Attachments Information</h5></li>
+                      <li class="list-group-item ePassprt-color"><h5>Attachment Information</h5></li>
                 {
                   attachment.length
                     ? attachment.map((attachmentitem) => (
