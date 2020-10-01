@@ -106,17 +106,7 @@ export default function ListOfApplications(props) {
                                     {user.requestStatus}
                                   </div>{' '}
                                 </div>
-
-                                {/* <a
-                                  className="hoverWhite"
-                                  onClick={() => openModal(user.requestId)}
-                                >
-                                  {' '}
-                                  <div class="float-right mr-4">
-                                    <i class="far fa-trash-alt fa-lg"></i>
-                                  </div>
-                                </a> */}
-
+                                {/* {user.} */}
                                 <a
                                   className="hoverWhite"
                                   onClick={() => handleEdit(user.requestId)}
@@ -126,7 +116,6 @@ export default function ListOfApplications(props) {
                                     <i class="fas fa-edit fa-lg"></i>
                                   </div>
                                 </a>
-                                {/* )} */}
 
                                 <a
                                   className="hoverWhite"
@@ -137,7 +126,7 @@ export default function ListOfApplications(props) {
                                     <i class="fas fa-eye fa-lg"></i>
                                   </div>
                                 </a>
-                                {/* {user.requestStatus == 'Requested' ? null : ( */}
+
                                 <a
                                   className="hoverWhite"
                                   onClick={() =>
@@ -149,7 +138,6 @@ export default function ListOfApplications(props) {
                                     <i class="fas fa-calendar fa-lg"></i>
                                   </div>
                                 </a>
-                                {/* )} */}
 
                                 <Dialog
                                   open={open}
