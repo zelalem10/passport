@@ -1,12 +1,12 @@
 import React from 'react';
-import { MDBIcon, MDBContainer, MDBBtn, MDBInput,  MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
+import { MDBIcon, MDBContainer, MDBBtn, MDBInput, MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 
 const ContactUs = () => {
     return (
 
-            
+
         <MDBContainer className="passport-card-deck passport-container my-3" fluid>
-           
+
             <div class="row">
                 <div class="col-md-3 my-5">
                     <div class="card p-2">
@@ -20,19 +20,19 @@ const ContactUs = () => {
                             <h4>Phone</h4>
                             <p>8133 FREE CALL</p>
                             <h4>Social Media Link</h4>
-                            <div class="d-inline">                            
-                            <a href="#!" className="fb-ic ePassprt-text-color">
-                                <MDBIcon fab icon="facebook-f" className='mr-2' />
-                                <p class='d-inline ePassprt-text-color'>FDRE Immigration Nationality and Vital Events Agency</p>
-                                
-                            </a></div>
+                            <div class="d-inline">
+                                <Link to="#!" className="fb-ic ePassprt-text-color">
+                                    <MDBIcon fab icon="facebook-f" className='mr-2' />
+                                    <p class='d-inline ePassprt-text-color'>FDRE Immigration Nationality and Vital Events Agency</p>
+
+                                </Link></div>
                             <br></br>
-                            <div class="d-inline">     
-                            <a href="#!" className="tw-ic ePassprt-text-color">
-                                <MDBIcon fab icon="twitter" className='mr-2'/>
-                                <p class='d-inline ePassprt-text-color'>Immigration Nationality and Vital Event Agency</p>
-                     
-                            </a></div>
+                            <div class="d-inline">
+                                <Link to="#!" className="tw-ic ePassprt-text-color">
+                                    <MDBIcon fab icon="twitter" className='mr-2' />
+                                    <p class='d-inline ePassprt-text-color'>Immigration Nationality and Vital Event Agency</p>
+
+                                </Link></div>
 
 
 
@@ -51,7 +51,7 @@ const ContactUs = () => {
                             </div>
                             <div class="col">
                                 <div className="form-group">
-                                  
+
                                     <MDBInput type="text" label="Last Name" outline />
                                 </div>
                             </div>
@@ -59,13 +59,13 @@ const ContactUs = () => {
                         <div class="row">
                             <div class="col">
                                 <div className="form-group">
-                                   
+
                                     <MDBInput type="text" label="Phone Number" outline />
                                 </div>
                             </div>
                             <div class="col">
                                 <div className="form-group">
-                 
+
                                     <MDBInput type="text" label="Your e-mail" outline />
                                 </div>
                             </div>
@@ -77,77 +77,77 @@ const ContactUs = () => {
                                 </div>
                             </div>
                             <div class="col-12 medium text-center">
-                                <a href="/Information" class="btn btnBlu">Submit</a>
+                                <Link to="/Information" class="btn btnBlu">Submit</Link>
                             </div>
                         </div>
 
                     </div>
                 </div>
                 <div class="col-md-3 my-5">
-                <MDBTable>
-        <thead class="thead-lightt">
-        <tr>
-          <th>Brach Office name</th>
-          <th>Phone number </th>
-          <th>FAX Number</th>
-        </tr>
-      </thead>
-      <MDBTableBody>
-        <tr>
-          <td>Bahrdar</td>
-          <td>0582263730</td>
-          <td>0582264022</td>
-        </tr>
-        <tr>
-          <td>Mekelle </td>
-          <td>0344416772</td>
-          <td>0344409291</td>
-        </tr>
-        <tr>
-          <td>Dessie</td>
-          <td>0331122581</td>
-          <td>0331123837</td>
-        </tr>
-        <tr>
-          <td>Semera</td>
-          <td>0333662077</td>
-          <td>0336660282</td>
-        </tr>
-        <tr>
-          <td>Diredawa</td>
-          <td>0251112497</td>
-          <td>0251117880</td>
-        </tr>
-        <tr>
-          <td>Adama</td>
-          <td>0222126637</td>
-          <td>0222128463</td>
-        </tr>
-        <tr>
-          <td>Jigjiga</td>
-          <td>----------</td>
-          <td>0252782038</td>
-        </tr>
-        <tr>
-          <td>Hawasa</td>
-          <td>0462214223</td>
-          <td>0462213143</td>
-        </tr>
-        <tr>
-          <td>Jimma</td>
-          <td>0471116745</td>
-          <td>0471121228</td>
-        </tr>
+                    <MDBTable>
+                        <thead class="thead-lightt">
+                            <tr>
+                                <th>Brach Office name</th>
+                                <th>Phone number </th>
+                                <th>FAX Number</th>
+                            </tr>
+                        </thead>
+                        <MDBTableBody>
+                            <tr>
+                                <td>Bahrdar</td>
+                                <td>0582263730</td>
+                                <td>0582264022</td>
+                            </tr>
+                            <tr>
+                                <td>Mekelle </td>
+                                <td>0344416772</td>
+                                <td>0344409291</td>
+                            </tr>
+                            <tr>
+                                <td>Dessie</td>
+                                <td>0331122581</td>
+                                <td>0331123837</td>
+                            </tr>
+                            <tr>
+                                <td>Semera</td>
+                                <td>0333662077</td>
+                                <td>0336660282</td>
+                            </tr>
+                            <tr>
+                                <td>Diredawa</td>
+                                <td>0251112497</td>
+                                <td>0251117880</td>
+                            </tr>
+                            <tr>
+                                <td>Adama</td>
+                                <td>0222126637</td>
+                                <td>0222128463</td>
+                            </tr>
+                            <tr>
+                                <td>Jigjiga</td>
+                                <td>----------</td>
+                                <td>0252782038</td>
+                            </tr>
+                            <tr>
+                                <td>Hawasa</td>
+                                <td>0462214223</td>
+                                <td>0462213143</td>
+                            </tr>
+                            <tr>
+                                <td>Jimma</td>
+                                <td>0471116745</td>
+                                <td>0471121228</td>
+                            </tr>
 
-      </MDBTableBody>
-    </MDBTable>
-             </div>
-              
+                        </MDBTableBody>
+                    </MDBTable>
+                </div>
+
             </div>
 
- 
+
         </MDBContainer>
-   );
+    );
 };
 
 export default ContactUs;

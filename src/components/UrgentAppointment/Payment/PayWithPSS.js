@@ -61,8 +61,8 @@ const PayWithPSS = () => {
     
     <p>
       Attributes can also be modified.
-      All links like <a href="https://facebook.github.io/react/">this one</a>
-      and <a href="https://github.com/wrakky/react-html-parser">this one</a>
+      All links like <Link to="https://facebook.github.io/react/">this one</Link>
+      and <Link to="https://github.com/wrakky/react-html-parser">this one</Link>
       will automatically have the <code>target="_blank"</code> attribute added to them.
     </p>
     

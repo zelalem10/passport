@@ -75,7 +75,7 @@ const BoxPage = () => {
   
 
 
-            <div class="col-12 medium text-center my-3"><a href="/Information" class="btn btnBlu">Read More</a></div>
+                      <div class="col-12 medium text-center my-3"><Link to="/Information" class="btn btnBlu">Read More</Link></div>
           </div>
         </div>
       </MDBContainer>
