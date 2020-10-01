@@ -13,6 +13,7 @@ import {
     MDBCardText,
     MDBBtn
 } from 'mdbreact';
+import { Link } from 'react-router-dom';
 
 const MultiCarouselPage = () => {
     return (

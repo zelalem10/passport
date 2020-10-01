@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import { validate } from '@material-ui/pickers';
 import { red } from '@material-ui/core/colors';
+import { Link } from 'react-router-dom';
+
 function IndividualandGroup(props) {
     const [isAgreed, setIsAgreed] = useState(false);
     const [needValidation, setneedValidation] = useState(false);

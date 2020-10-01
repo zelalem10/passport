@@ -20,6 +20,8 @@ import ReactHtmlParser, {
   htmlparser2,
 } from 'react-html-parser';
 
+import { Link } from 'react-router-dom';
+
 const PayWithPSS = () => {
   const [contentResponse, setContentResponse] = useState('');
   const [returnBack, setReturnBack] = useState(false);

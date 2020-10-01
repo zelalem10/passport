@@ -1,5 +1,6 @@
 import React from 'react';
 import { MDBBox, MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
+import { Link } from 'react-router-dom';
 
 const BoxPage = () => {
   return (

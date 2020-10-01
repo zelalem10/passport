@@ -1,5 +1,6 @@
 import React from 'react';
 import { MDBIcon, MDBContainer, MDBBtn, MDBInput, MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
+import { Link } from 'react-router-dom';
 
 const ContactUs = () => {
     return (

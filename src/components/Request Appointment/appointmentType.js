@@ -3,6 +3,7 @@ import { MDBRow, MDBContainer, MDBCol, MDBInput } from 'mdbreact';
 import axios from 'axios';
 import addAppointmentType from '../../redux/actions/appointmentType';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 function AppointmetType(props) {
     const dispatch = useDispatch();
