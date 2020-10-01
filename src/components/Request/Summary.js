@@ -54,7 +54,6 @@ const AccordionDetails = withStyles((theme) => ({
 }))(MuiAccordionDetails);
 
 const ViewAppointment = forwardRef((props, ref) => {
-  debugger;
   const accesstoken = localStorage.systemToken;
   const history = useHistory();
   const [expanded, setExpanded] = React.useState('panel1');
@@ -89,19 +88,18 @@ const ViewAppointment = forwardRef((props, ref) => {
       return formCompleted;
     },
   }));
-  debugger;
+
   const personalInfo = displayedApplication
     ? displayedApplication.personResponses
     : null;
   if (personalInfo) {
-    debugger;
+
     const appointmentResponse = displayedApplication.appointmentResponse;
     const personalInformation = displayedApplication.personResponses;
     const addressInformation = personalInformation.address;
     const familyInformation = personalInformation.familyResponses;
     requestPersonId = personalInformation.requestPersonId;
    
-    debugger;
     axios({
       headers: { Authorization: 'Bearer ' + accesstoken },
       method: 'get',

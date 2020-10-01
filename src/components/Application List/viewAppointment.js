@@ -82,7 +82,6 @@ export default function ViewAppointment(props) {
 
     requestPersonId = personalInformation.requestPersonId;
 
-    debugger;
     axios({
       headers: { Authorization: 'Bearer ' + accesstoken },
       method: 'get',
