@@ -548,27 +548,25 @@ const ViewAppointment = forwardRef((props, ref) => {
                 </div>
               </fieldset>
               <fieldset>
-                <legend class="text-primary">Attachments</legend>
-                <hr class="text-primary" />
-
-           
+              <ul class="list-group mb-3">
+                      <li class="list-group-item ePassprt-color"><h5>Attachments Information</h5></li>
                 {
-                attachment.length
-            ? attachment.map((attachmentitem) => (
-              <div class="form-group form-inline">
-              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-              {attachmentitem.attachmentType} 
-              </label>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              <b>
-              <a href={attachmentitem.attachmentPath} >View File</a>
-              </b>
-            </div>
+                  attachment.length
+                    ? attachment.map((attachmentitem) => (
+       
+ 
+                    <li class="list-group-item d-flex justify-content-between">
+                          <span>{attachmentitem.attachmentType} </span>
+                          <strong><a href={attachmentitem.attachmentPath} >View File</a></strong>
+                    </li>
+               
 
-     ))
-     : <h6>Please wait...</h6>}
-                </fieldset>
-            </div>
+                    ))
+                    : <h6>Please wait...</h6>
+                }
+              </ul>
+              </fieldset>
+</div>
           </div>
         </div>
         <MDBTypography blockquote bqColor="primary">
