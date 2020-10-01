@@ -69,7 +69,7 @@ label {
 }
 .passport-select .custom-select:focus {
   box-shadow: unset !important;
-  border-bottom: 1px solid #4285f4 !important;
+  border-bottom: 1px solid #224b9f !important;
 }
 .date-picker .MuiFormControl-marginNormal {
   margin-top: unset !important;
@@ -87,10 +87,10 @@ label {
   }
 }
 .changed-appointment {
-  background-color: #007fa3;
+  background-color: #224b9f;
 }
 .save-appointment-btn .btn-default {
-  background-color: #17a2b8 !important;
+  background-color: #224b9f !important;
 }
 .date-picker .MuiFormControl-root {
   width: 100%;
@@ -111,4 +111,8 @@ label {
 }
 .passport-selectList-label {
   top: -25px !important;
+}
+.react-calendar__navigation__label {
+  color: #ffffff;
+  background-color: #224b9f !important ;
 }

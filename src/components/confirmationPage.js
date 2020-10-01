@@ -110,24 +110,30 @@ function ConfirmationPage() {
                               </label>
                             </b>
                           </div>
-                          <div class="form-group form-inline">
-                            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                              Appointment Time
-                            </label>
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <b>
-                              <label class="font-weight-bold">
-                                {request.appointmentResponse.duration.startTime}
-                                {'-'}
-                                {
-                                  request.appointmentResponse.duration.endTime
-                                }{' '}
-                                {request.appointmentResponse.duration.isMorning
-                                  ? 'Am'
-                                  : 'Pm'}
+                          {request.appointmentResponse.duration ? (
+                            <div class="form-group form-inline">
+                              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                                Appointment Time
                               </label>
-                            </b>
-                          </div>
+                              &nbsp;&nbsp;&nbsp;&nbsp;
+                              <b>
+                                <label class="font-weight-bold">
+                                  {
+                                    request.appointmentResponse.duration
+                                      .startTime
+                                  }
+                                  {'-'}
+                                  {
+                                    request.appointmentResponse.duration.endTime
+                                  }{' '}
+                                  {request.appointmentResponse.duration
+                                    .isMorning
+                                    ? 'Am'
+                                    : 'Pm'}
+                                </label>
+                              </b>
+                            </div>
+                          ) : null}
                           <div class="form-group form-inline">
                             <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                               Office
@@ -158,16 +164,12 @@ function ConfirmationPage() {
                       </tr>
                     </MDBTableHead>
                     <MDBTableBody>
-                      {request.personResponses.map((person, index) => {
-                        return (
-                          <tr>
-                            <td>{index}</td>
-                            <td>{person.firstName}</td>
-                            <td>{person.lastName}</td>
-                            <td>{person.id}</td>
-                          </tr>
-                        );
-                      })}
+                      <tr>
+                        <td>{1}</td>
+                        <td>{request.personResponses.firstName}</td>
+                        <td>{request.personResponses.lastName}</td>
+                        <td>{request.personResponses.id}</td>
+                      </tr>
                     </MDBTableBody>
                   </MDBTable>
                 </div>

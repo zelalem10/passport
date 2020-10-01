@@ -54,7 +54,6 @@ const MyApp = forwardRef((props, ref) => {
       !officeInformation.hasOwnProperty('offceId') &&
       siteInfo.hasOwnProperty('offceId')
     ) {
-      console.log('heeeeeyeeeeeeeeeeeeeeeeeeeeeee');
       setOfficeInformation(siteInfo);
     }
   }
@@ -201,6 +200,7 @@ const MyApp = forwardRef((props, ref) => {
           },
         })
           .then((response) => {
+            debugger;
             console.log(response.data);
             dispatch(
               addAppointmentDate(response.data.urgentAppointmentResponses)
@@ -213,6 +213,7 @@ const MyApp = forwardRef((props, ref) => {
             }
           })
           .catch((error) => {
+            debugger;
             if (state.date && state.time) {
               setErrorMessage(error.message);
             } else if (state.date && !state.time) {
