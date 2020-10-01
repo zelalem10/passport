@@ -3,38 +3,44 @@ import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'rea
 import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addAddressInfo from '../../redux/actions/addAddressInfoAction';
+import API from '../Utils/API';
+
 
 const Address = forwardRef((props, ref) => {
     const [addressInfo, setAddressInfo] = useState({
         applicantNumber: props.applicantNumber,
-        country: "",
+        region: "",
         city: "",
         state: "",
         zone: "",
         woreda: "",
+        kebele: "",
         street: "",
         houseNo: "",
         poBox: "",
-        phoneNumber: "",
-        email: "",
         requestPlace: "",
         dataSaved: false
     });
     const [notCompleted, setNotCompleted] = useState({
-        country: true,
+        region: true,
         city: true,
         state: true,
         zone: true,
         woreda: true,
+        kebele: true,
         street: true,
         houseNo: true,
         poBox: true,
-        phoneNumber: true,
-        email: true,
-        requestPlace: true
+        phoneNumber: true
     });
+    const [regionList, setRegionList] = useState([]);
     const dispatch = useDispatch();
     const counter = useSelector((state) => state);
+    const accesstoken = localStorage.systemToken;
+    const usertoken = localStorage.userToken;
+    const config = {
+        headers: { Authorization: 'Bearer ' + accesstoken },
+    };
     if (counter.address.length === 0) {
         dispatch(addAddressInfo(addressInfo));
     }
@@ -48,21 +54,21 @@ const Address = forwardRef((props, ref) => {
         },
         Validate() {
             setNotCompleted({
-                country: addressInfo.country==="" ? true: false,
-                city: addressInfo.city==="" ? true: false,
-                state: addressInfo.state==="" ? true: false,
-                zone: addressInfo.zone==="" ? true: false,
-                woreda: addressInfo.woreda==="" ? true: false,
-                street: addressInfo.street==="" ? true: false,
-                houseNo: addressInfo.houseNo==="" ? true: false,
-                poBox: addressInfo.poBox==="" ? true: false,
-                phoneNumber: addressInfo.phoneNumber==="" ? true: false,
-                email: addressInfo.email==="" ? true: false,
-                requestPlace: addressInfo.requestPlace==="" ? true: false,})
-            if (notCompleted.country == true || notCompleted.city == true || notCompleted.phoneNumber == true)
-            return false
+                region: addressInfo.region === "" ? true : false,
+                city: addressInfo.city === "" ? true : false,
+                state: addressInfo.state === "" ? true : false,
+                zone: addressInfo.zone === "" ? true : false,
+                woreda: addressInfo.woreda === "" ? true : false,
+                kebele: addressInfo.kebele === "" ? true : false,
+                street: addressInfo.street === "" ? true : false,
+                houseNo: addressInfo.houseNo === "" ? true : false,
+                poBox: addressInfo.poBox === "" ? true : false,
+                requestPlace: addressInfo.requestPlace === "" ? true : false,
+            })
+            if (notCompleted.region == true || notCompleted.city == true)
+                return false
             else
-             return true
+                return true
         }
     }));
     const handleChange = (event) => {
@@ -80,13 +86,12 @@ const Address = forwardRef((props, ref) => {
         dispatch(addAddressInfo(addressInfo));
 
     }
-    const resultLength=counter.address.filter(item => item.applicantNumber == props.applicantNumber).length;
-    var prevInfo = counter.address.filter(item => item.applicantNumber == props.applicantNumber)[resultLength-1]
+    var prevInfo = counter.address[counter.address.length - 1]
     const isRequired = "is required!"
     useEffect(() => {
         setAddressInfo((prevState) => ({
             ...prevState,
-            country: prevInfo ? prevInfo.country : "",
+            region: prevInfo ? prevInfo.region : "",
             city: prevInfo ? prevInfo.city : "",
             state: prevInfo ? prevInfo.state : "",
             zone: prevInfo ? prevInfo.zone : "",
@@ -94,15 +99,21 @@ const Address = forwardRef((props, ref) => {
             street: prevInfo ? prevInfo.street : "",
             houseNo: prevInfo ? prevInfo.houseNo : "",
             poBox: prevInfo ? prevInfo.poBox : "",
-            phoneNumber: prevInfo ? prevInfo.phoneNumber : "",
-            email: prevInfo ? prevInfo.email : "",
             requestPlace: prevInfo ? prevInfo.requestPlace : "",
         }))
+
+        API.get(
+            'https://epassportservices.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
+            .then((todo) => {
+                setRegionList(todo.data.countryRegions);
+            })
     }, []);
     return (
+        <MDBCard>
+            <MDBCardBody>
                 <form >
                     <MDBRow>
-                        <MDBCol>
+                        {/* <MDBCol>
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.country : null}
                                 name="country"
@@ -112,8 +123,29 @@ const Address = forwardRef((props, ref) => {
                                 label="Country"
                             />
                             <span style={{ color: "red" }}> {(notCompleted.country == true && addressInfo.dataSaved == true) ? "Country" + isRequired : null}</span>
-                        </MDBCol>
-                        <MDBCol>
+                        </MDBCol> */}
+
+                        <MDBCol className="required-field">
+                            <div>
+                                <label>
+                                    Region<i style={{ color: 'red' }}>*</i>{' '}
+                                </label>
+                                <select className="browser-default custom-select" name="region" onChange={handleChange}>
+                                    <option>Select region</option>
+                                    {regionList.map((region) => (
+                                        <option value={region.name} selected={prevInfo && (region.name===prevInfo.region)}>{region.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <span style={{ color: 'red' }}>
+                                {' '}
+                                {notCompleted.region == true &&
+                                    addressInfo.dataSaved == true
+                                    ? 'Region ' + isRequired
+                                    : null}
+                            </span>                            </MDBCol>
+
+                        <MDBCol className="required-field">
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.city : null}
                                 name="city"
@@ -158,6 +190,16 @@ const Address = forwardRef((props, ref) => {
                         </MDBCol>
                         <MDBCol>
                             <MDBInput
+                                valueDefault={prevInfo ? prevInfo.kebele : null}
+                                name="kebele"
+                                className="form-control"
+                                onBlur={handleChange}
+                                type="text"
+                                label="Kebele"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
                                 valueDefault={prevInfo ? prevInfo.street : null}
                                 name="street"
                                 className="form-control"
@@ -176,6 +218,8 @@ const Address = forwardRef((props, ref) => {
                                 label="House No."
                             />
                         </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
                         <MDBCol>
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.poBox : null}
@@ -184,29 +228,6 @@ const Address = forwardRef((props, ref) => {
                                 onBlur={handleChange}
                                 type="text"
                                 label="Po. Box"
-                            />
-                        </MDBCol>
-                    </MDBRow>
-                    <MDBRow>
-                        <MDBCol>
-                            <MDBInput
-                                valueDefault={prevInfo ? prevInfo.phoneNumber : null}
-                                name="phoneNumber"
-                                className="form-control"
-                                onBlur={handleChange}
-                                type="text"
-                                label="Phone Number"
-                            />
-                            <span style={{ color: "red" }}> {(notCompleted.phoneNumber == true && addressInfo.dataSaved == true) ? "Phone Number " + isRequired : null}</span>
-                        </MDBCol>
-                        <MDBCol>
-                            <MDBInput
-                                valueDefault={prevInfo ? prevInfo.email : null}
-                                name="email"
-                                className="form-control"
-                                onBlur={handleChange}
-                                type="email"
-                                label="Email"
                             />
                         </MDBCol>
                         <MDBCol>
@@ -219,9 +240,14 @@ const Address = forwardRef((props, ref) => {
                                 label="Request Place"
                             />
                         </MDBCol>
+                        <MDBCol></MDBCol>
+                        <MDBCol></MDBCol>
+                        <MDBCol></MDBCol>
                     </MDBRow>
                 </form>
-     );
+            </MDBCardBody>
+        </MDBCard>
+    );
 });
 
 export default Address

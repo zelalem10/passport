@@ -58,8 +58,9 @@ export default function RequestStepper() {
     else if (indexValue === 2) {
       personalRef.current.saveData();
       setIndexValue((prevActiveStep) => prevActiveStep + 1);
-      formCompleted[indexValue] = true;
-    } else if (indexValue === 3) {
+      formCompleted[2] = true;
+    }
+     else if (indexValue === 3) {
       summaryRef.current.saveData();
       if (summaryRef.current.isCompleted() === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);

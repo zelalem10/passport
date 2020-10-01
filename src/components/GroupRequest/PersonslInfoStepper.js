@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, forwardRef, useImperativeHandle } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -18,7 +18,6 @@ import API from '../Utils/API';
 import addCommonData from '../../redux/actions/addCommonDataAction';
 
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -34,30 +33,39 @@ const useStyles = makeStyles((theme) => ({
 function getSteps() {
   return ['Personal Detail', 'Address', 'Family', 'Passport info', 'Attachment'];
 }
-export default function HorizontalLabelPositionBelowStepper(props) {
+const PersonalInfoStepper = forwardRef((props, ref) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
-  const [formCompleted, setFormCompleted] = useState(false);
+  const [formCompleted, setFormCompleted] = useState(true);
+  const [responseAlert, setResponseAlert] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [responseMessage, setResponseMessage] = useState('');
+
   const steps = getSteps();
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const childRef = useRef();
   const accesstoken = localStorage.systemToken;
+  const usertoken = localStorage.userToken;
   const config = {
-    headers: { Authorization: "Bearer " + accesstoken }
+    headers: { Authorization: 'Bearer ' + accesstoken },
   };
+  const VerticalNext=()=>{
+    props.Next();
+  }
   const handleNext = () => {
-    if (activeStep == 0 || activeStep == 1 ||activeStep == 2 || activeStep == 3) {
+    if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
       childRef.current.saveData();
-      // const isVilid = childRef.current.Validate();
-      // if (isVilid == true) {
+      const isVilid = childRef.current.Validate();
+      if (isVilid == true) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       }
-    // }
-    // else {
-    //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    // }
-
+    }
+    else {
+    childRef.current.saveData();
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
   };
 
   const handleBack = () => {
@@ -68,8 +76,12 @@ export default function HorizontalLabelPositionBelowStepper(props) {
     setActiveStep(0);
   };
   const handleSubmit = () => {
-    const requestInfo = counter.request;
-     
+    childRef.current.saveData();
+    const isVilid = childRef.current.Validate();
+    if (isVilid != true) {
+      //setResponseMessage("Ple")
+    } else {
+      const requestInfo = counter.request;
       const personalInfoLength = counter.personalInfoReducer.filter(item => item.applicantNumber == props.applicantNumber).length;
       var personalInfo = counter.personalInfoReducer.filter(item => item.applicantNumber == props.applicantNumber)[personalInfoLength - 1]
       const addressLength = counter.address.filter(item => item.applicantNumber == props.applicantNumber).length;
@@ -91,150 +103,178 @@ export default function HorizontalLabelPositionBelowStepper(props) {
         }
       }
     })[familyLength - 1];
+    const siteInfo=counter.siteInformation[counter.siteInformation.length - 1]
+    let isUrgent=counter.service[counter.service.length - 1].isUrgent;
       const requestBody = {
         requestId: 0,
-        requestMode: 0,
+        requestMode: isUrgent===true?1:0,
+        officeId: siteInfo? Number.parseInt(siteInfo.offceId, 10):0,
+        deliverySiteId: siteInfo? Number.parseInt(siteInfo.deliverySiteId, 10):0,
         requestTypeId: 2,
-        appointmentId:appointment?appointment.id :1,
+        appointmentIds:appointment?[appointment[0].id] :[],
         userName: '',
         status: 0,
         confirmationNumber: '',
         applicants: [
           {
             personId: 0,
-            firstName: personalInfo ? personalInfo.firstName.toUpperCase() : null,
-            middleName: personalInfo ? personalInfo.middleName.toUpperCase() : null,
+            firstName: personalInfo ? personalInfo.firstName.toUpperCase(): null,
+            middleName: personalInfo ? personalInfo.middleName.toUpperCase(): null,
             lastName: personalInfo ? personalInfo.lastName.toUpperCase() : null,
             geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
             geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
             geezLastName: personalInfo ? personalInfo.geezLastName : null,
             dateOfBirth: personalInfo ? personalInfo.birthDate : null,
-            gender: personalInfo ? Number.parseInt(personalInfo.gender, 10) : null,
-            nationalityId: 1,
+            gender: personalInfo ? Number.parseInt(personalInfo.gender, 10): null,
+            nationalityId: personalInfo ? Number.parseInt(personalInfo.nationalityId, 10) : null,
             height: personalInfo ? personalInfo.height : null,
             eyeColor: personalInfo ? personalInfo.eyeColor : null,
             hairColor: personalInfo ? personalInfo.hairColor : null,
-            occupationId: 1,
+            occupationId: personalInfo ? Number.parseInt(personalInfo.occupationId, 10) : null,
             halfCast: personalInfo ? personalInfo.halfCast : null,
-            enrolmentDate: personalInfo ? personalInfo.enrolmentDate : null,
-            birthCertificateId: personalInfo ? personalInfo.birthCertificatNo : "",
-            photoPath: "",
-            employeeID: "",
-            applicationNumber: "",
-            organizationID: "",
+            enrolmentDate: personalInfo ? personalInfo.birthDate : null,
+            birthCertificateId: personalInfo? personalInfo.birthCertificatNo: '',
+            photoPath: '',
+            employeeID: '',
+            applicationNumber: '',
+            organizationID: '',
             isUnder18: personalInfo ? personalInfo.isUnder18 : false,
             isAdoption: personalInfo ? personalInfo.isAdoption : false,
             passportNumber: travelPlan ? travelPlan.passportNumber : null,
             issueDate:  new Date(),
             expireDate:  new Date(),
-            passportType:  travelPlan ? travelPlan.passportType : null,
-            isDatacorrected:  travelPlan ? travelPlan.isDatacorrected : false,
-            pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10) : false,
-            maritalStatus: personalInfo ? Number.parseInt(personalInfo.martialStatus, 10) : null,
-            birthCertificateId: personalInfo ? personalInfo.birthCertificatNo : null,
+            passportType: travelPlan ? travelPlan.passportType : null,
+            isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
+            pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10): 0,
+            correctionType: travelPlan ? (travelPlan.correctionReason && travelPlan.correctionReason!="")?Number.parseInt(travelPlan.correctionReason, 10):0: 0,
+            maritalStatus: personalInfo ? Number.parseInt(personalInfo.martialStatus, 10): 0,
+            birthCertificateId: personalInfo? personalInfo.birthCertificatNo: null,
+            phoneNumber: personalInfo? personalInfo.phoneNumber: null,
+            email: personalInfo? personalInfo.email: null,
             address: {
               personId: 0,
               addressId: 0,
               city: addressInfo ? addressInfo.city : null,
-              country: addressInfo ? addressInfo.country : null,
+              region: addressInfo ? addressInfo.region : null,
               state: addressInfo ? addressInfo.state : null,
               zone: addressInfo ? addressInfo.zone : null,
               wereda: addressInfo ? addressInfo.woreda : null,
+              kebele: addressInfo ? addressInfo.kebele : null,
               street: addressInfo ? addressInfo.street : null,
               houseNo: addressInfo ? addressInfo.houseNo : null,
               poBox: addressInfo ? addressInfo.poBox : null,
-              phoneNumber: addressInfo ? addressInfo.phoneNumber : null,
-              email: addressInfo ? addressInfo.email : null,
-              requestPlace: addressInfo ? addressInfo.requestPlace : null
+              requestPlace: addressInfo ? addressInfo.requestPlace : null,
             },
             familyRequests: familyInfo,
-          }
-        ]
+          },
+        ],
       };
-      if (props.applicantNumber == 1) {
-      API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/NewRequest', requestBody, config)
+      if (props.applicantNumber === 1) {
+      API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest', requestBody, config)
         .then((todo) => {
-          dispatch(newRequest(todo.data))
+          setResponseMessage(todo.data.message);
+          setResponseAlert(true);
+          setIsSuccess(true);
           const commonData = {
-            requestPersonId: todo.data.personResponses[0].requestPersonId,
+            requestPersonId: todo.data.serviceResponseList[0].personResponses.requestPersonId,
           };
+          dispatch(newRequest(todo.data.serviceResponseList[0]));
           dispatch(addCommonData(commonData));
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
         .catch((err) => {
+          console.log('body=: ', requestBody);
           console.log('AXIOS ERROR: ', err.response);
-          console.log('ERROR Title: ', err.data);
+          if (err.response != null)
+            setResponseMessage(err.response.data.title);
+          else
+            setResponseMessage("something goes wrong!");
+          setResponseAlert(true);
         });
     }
     else if (requestInfo != null) {
       const requestBody = {
-        requestId: requestInfo[requestInfo.length - 1].requestId,
-        flightNumber: "",
-        flightDate: "2020-09-14T11:28:49.495Z",
+        requestId: requestInfo[0].langth>0? requestInfo[0].id:0,
+        appointmentIds:appointment?[appointment[0].id] :[],
         applicants: [
           {
             personId: 0,
-            firstName: personalInfo ? personalInfo.firstName.toUpperCase() : null,
-            middleName: personalInfo ? personalInfo.middleName.toUpperCase() : null,
+            firstName: personalInfo ? personalInfo.firstName.toUpperCase(): null,
+            middleName: personalInfo ? personalInfo.middleName.toUpperCase(): null,
             lastName: personalInfo ? personalInfo.lastName.toUpperCase() : null,
             geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
             geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
             geezLastName: personalInfo ? personalInfo.geezLastName : null,
             dateOfBirth: personalInfo ? personalInfo.birthDate : null,
-            gender: personalInfo ? Number.parseInt(personalInfo.gender, 10) : null,
-            nationalityId: 1,
+            gender: personalInfo ? Number.parseInt(personalInfo.gender, 10): null,
+            nationalityId: personalInfo ? Number.parseInt(personalInfo.nationalityId, 10) : null,
             height: personalInfo ? personalInfo.height : null,
             eyeColor: personalInfo ? personalInfo.eyeColor : null,
             hairColor: personalInfo ? personalInfo.hairColor : null,
-            occupationId: 1,
+            occupationId: personalInfo ? Number.parseInt(personalInfo.occupationId, 10) : null,
             halfCast: personalInfo ? personalInfo.halfCast : null,
-            enrolmentDate: personalInfo ? personalInfo.enrolmentDate : null,
-            birthCertificateId: personalInfo ? personalInfo.birthCertificatNo : "",
-            photoPath: "",
-            employeeID: "",
-            applicationNumber: "",
-            organizationID: "",
+            enrolmentDate: personalInfo ? personalInfo.birthDate : null,
+            birthCertificateId: personalInfo? personalInfo.birthCertificatNo: '',
+            photoPath: '',
+            employeeID: '',
+            applicationNumber: '',
+            organizationID: '',
             isUnder18: personalInfo ? personalInfo.isUnder18 : false,
             isAdoption: personalInfo ? personalInfo.isAdoption : false,
             passportNumber: travelPlan ? travelPlan.passportNumber : null,
             issueDate:  new Date(),
             expireDate:  new Date(),
-            passportType:  travelPlan ? travelPlan.passportType : null,
-            isDatacorrected:  travelPlan ? travelPlan.isDatacorrected : false,
-            pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10) : false,
-            maritalStatus: personalInfo ? Number.parseInt(personalInfo.martialStatus, 10) : null,
-            birthCertificateId: personalInfo ? personalInfo.birthCertificatNo : null,
+            passportType: travelPlan ? travelPlan.passportType : null,
+            isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
+            pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10): 0,
+            correctionType: travelPlan ? (travelPlan.correctionReason && travelPlan.correctionReason!="")?Number.parseInt(travelPlan.correctionReason, 10):0: 0,
+            maritalStatus: personalInfo ? Number.parseInt(personalInfo.martialStatus, 10): 0,
+            birthCertificateId: personalInfo? personalInfo.birthCertificatNo: null,
+            phoneNumber: personalInfo? personalInfo.phoneNumber: null,
+            email: personalInfo? personalInfo.email: null,
             address: {
               personId: 0,
               addressId: 0,
               city: addressInfo ? addressInfo.city : null,
-              country: addressInfo ? addressInfo.country : null,
+              region: addressInfo ? addressInfo.region : null,
               state: addressInfo ? addressInfo.state : null,
               zone: addressInfo ? addressInfo.zone : null,
               wereda: addressInfo ? addressInfo.woreda : null,
+              kebele: addressInfo ? addressInfo.kebele : null,
               street: addressInfo ? addressInfo.street : null,
               houseNo: addressInfo ? addressInfo.houseNo : null,
               poBox: addressInfo ? addressInfo.poBox : null,
-              phoneNumber: addressInfo ? addressInfo.phoneNumber : null,
-              email: addressInfo ? addressInfo.email : null,
               requestPlace: addressInfo ? addressInfo.requestPlace : null,
             },
-            // familyRequests: familyInfo,
+            familyRequests: familyInfo,
           },
         ],
       };
       API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/AddPerson', requestBody, config)
         .then((todo) => {
-          console.log(todo.data)
+          setResponseMessage(todo.data.message);
+          setResponseAlert(true);
+          setIsSuccess(true);
+          const commonData = {
+            requestPersonId: todo.data.serviceResponseList[0].personResponses.requestPersonId,
+          };
+          dispatch(newRequest(todo.data.serviceResponseList[0]));
+          dispatch(addCommonData(commonData));
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
         .catch((err) => {
           console.log('AXIOS ERROR: ', err.response);
+          if (err.response != null)
+            setResponseMessage(err.response.data.title);
+          else
+            setResponseMessage("something goes wrong!");
+          setResponseAlert(true);
         });
     }
     else {
       alert("Please save the first Applicant")
     }
+  }
   }
   function getStepContent(stepIndex) {
     switch (stepIndex) {
@@ -245,16 +285,30 @@ export default function HorizontalLabelPositionBelowStepper(props) {
       case 2:
         return <FamilyInformation ref={childRef} applicantNumber={props.applicantNumber} />;
       case 3:
-        return <TravelPlan ref={childRef} applicantNumber={props.applicantNumber} />;
+        return <TravelPlan 
+         applicantNumber={props.applicantNumber}
+         ref={childRef}
+         resMessage={responseMessage}
+         isSucces={isSuccess}
+         respnseGet={responseAlert}/>;
       case 4:
         return <Attachment />;
       default:
         return 'Unknown stepIndex';
     }
   }
-  return (
-    
-    <div className={classes.root} style={{ marginBottom: "5rem" }}>
+
+  useImperativeHandle(ref, () => ({
+    saveData(){
+      //setDataSaved(true)
+    },
+    isCompleted() {
+      return formCompleted;
+    }
+  }));
+
+  return (   
+    <div className={classes.root} style={{ marginBottom: '5rem' }}>
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
           <Step key={label}>
@@ -265,46 +319,58 @@ export default function HorizontalLabelPositionBelowStepper(props) {
       <div>
         {activeStep === steps.length ? (
           <div>
-            <Typography className={classes.instructions}>All steps completed</Typography>
+            <Typography className={classes.instructions}>
+              All steps completed
+            </Typography>
             <Button onClick={handleReset}>Reset</Button>
           </div>
         ) : (
-            <div>
-              <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-              <Grid container spacing={1}>
-                <Grid item xs={3} >
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.backButton}
-                  >
-                    Back
-              </Button>
-                </Grid>
-                <hr></hr>
-                <Grid item xs={1}>
-                  {activeStep === steps.length - 2 ? (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleSubmit}
-                    >
-                      Submit
-                    </Button>
-                  ) : (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleNext}
-                      >
-                        Next
-                      </Button>
-                    )}
-                </Grid>
+          isUploading===false?(
+          <div>
+            <Typography className={classes.instructions}>
+              {getStepContent(activeStep)}
+            </Typography>
+            
+            <Grid container spacing={1}>
+              <Grid item xs={3}>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  className={classes.backButton}
+                >
+                  Back
+                </Button>
               </Grid>
-            </div>
-          )}
+              <hr></hr>
+              {activeStep === steps.length - 1 ? (null)
+            :(
+                 <Grid item xs={1}>
+                {activeStep === steps.length - 2 ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSubmit}
+                  >
+                    Submit
+                  </Button>
+                ) : (
+                  activeStep === steps.length - 1 ?(null):(<Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                  >
+                    Next
+                  </Button>)
+                )}
+              </Grid>
+            )}
+             </Grid>
+
+          </div>
+          ):(null)
+        )}
       </div>
     </div>
   );
-}
+});
+export default PersonalInfoStepper

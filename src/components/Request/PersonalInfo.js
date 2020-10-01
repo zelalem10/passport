@@ -13,7 +13,6 @@ import API from '../Utils/API';
 const PersonalInfo = forwardRef((props, ref) => {
     const [nationalityList, setNationalityList] = useState([])
     const [occupationList, setOccupationList] = useState([])
-    const [defaultNationalityId, setDefaultNationalityId]=useState(0);
     const [personalInfo, setPersonalInfo] = useState({
         firstName: "",
         middleName: "",
@@ -24,16 +23,16 @@ const PersonalInfo = forwardRef((props, ref) => {
         birthPlace: "",
         birthCertificatNo: "",
         birthDate: "",
-        gender: "1",
+        gender: "",
         height: "",
         eyeColor: "",
         hairColor: "Black",
-        martialStatus: "0",
+        martialStatus: "",
         occupationId: 0,
         isHalfCast: false,
         isUnder18: false,
         isAdoption: false,
-        nationalityId: defaultNationalityId,
+        nationalityId: 0,
         phoneNumber: "",
         email: "",
         dataSaved: false,
@@ -48,9 +47,9 @@ const PersonalInfo = forwardRef((props, ref) => {
         geezLastName: true,
         birthPlace: true,
         birthCertificatNo: true,
-        martialStatus: false,
+        martialStatus: true,
         birthDate: true,
-        gender: false,
+        gender: true,
         height: true,
         eyeColor: true,
         hairColor: true,
@@ -108,7 +107,8 @@ const PersonalInfo = forwardRef((props, ref) => {
             if (notCompleted.firstName == true || notCompleted.lastName || notCompleted.middleName == true
                 || notCompleted.birthDate == true || notCompleted.geezFirstName == true || notCompleted.geezLastName
                 || notCompleted.geezLastName == true || notCompleted.nationality == true || notCompleted.gender == true
-                || notCompleted.occupationId == true|| notCompleted.phoneNumber == true|| notCompleted.email == true
+                || notCompleted.occupationId == true|| notCompleted.phoneNumber == true || notCompleted.email == true
+                || notCompleted.gender == true || notCompleted.martialStatus == true
             )
                 return false;
             else
@@ -165,7 +165,7 @@ const PersonalInfo = forwardRef((props, ref) => {
             birthDate: prevInfo ? prevInfo.birthDate : "",
             birthCertificatNo: prevInfo ? prevInfo.birthCertificatNo : "",
             height: prevInfo ? prevInfo.height : "",
-            gender: prevInfo ? prevInfo.gender : "1",
+            gender: prevInfo ? prevInfo.gender : "",
             eyeColor: prevInfo ? prevInfo.eyeColor : "",
             hairColor: prevInfo ? prevInfo.hairColor : "Black",
             occupationId: prevInfo ? prevInfo.occupationId : 0,
@@ -175,14 +175,18 @@ const PersonalInfo = forwardRef((props, ref) => {
             nationalityId: prevInfo ? prevInfo.nationalityId : 0,
             phoneNumber: prevInfo ? prevInfo.phoneNumber : "",
             email: prevInfo ? prevInfo.email : "",
+            martialStatus: prevInfo ? prevInfo.martialStatus : "",
         }))
         API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/Nationality/GetAll', config)
             .then((todo) => {
                 setNationalityList(todo.data.nationalitys);
-                setPersonalInfo((prevState) => ({
-                    ...prevState,
-                    nationalityId: todo.data.nationalitys.filter((nationality)=>nationality.code=="ET")[0]?todo.data.nationalitys.filter((nationality)=>nationality.code=="ET")[0].id:0,
-                }))
+                if(prevInfo && Number.parseInt( prevInfo.nationalityId, 10)===0)
+                {
+                    setPersonalInfo((prevState) => ({
+                        ...prevState,
+                        nationalityId: todo.data.nationalitys.filter((nationality)=>nationality.code=="ET")[0]?todo.data.nationalitys.filter((nationality)=>nationality.code=="ET")[0].id:0,
+                    }))
+                }
             })
             .catch((err) => {
                 console.log('AXIOS ERROR: ', err.response);
@@ -292,7 +296,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                                      onChange={handleChange}>
                                         <option>select Nationality</option>
                                         {nationalityList.map((nationality) => (
-                                            <option value={nationality.id} selected={nationality.code==="ET"} >{nationality.code}</option>
+                                            <option value={nationality.id} selected={(prevInfo && Number.parseInt( prevInfo.nationalityId, 10)===nationality.id)?true : nationality.code==="ET"} >{nationality.code}</option>
                                         ))}
                                     </select>
                                 </div>
@@ -353,7 +357,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                                     <select className="browser-default custom-select" name="occupationId" onChange={handleChange}>
                                         <option>select Occupation</option>
                                         {occupationList.map((occupation) => (
-                                            <option value={occupation.id}>{occupation.title}</option>
+                                            <option value={occupation.id} selected={occupation.id===Number.parseInt(personalInfo.occupationId, 10)}>{occupation.title}</option>
                                         ))}
                                     </select>
                                     <span style={{ color: "red" }}> {(notCompleted.occupationId == true && personalInfo.dataSaved == true) ? "Occupation " + isRequired : null}</span>
@@ -362,30 +366,37 @@ const PersonalInfo = forwardRef((props, ref) => {
                             <MDBCol>
                                 <label>Hair Color</label>
                                 <select className="browser-default custom-select" name="hairColor" onChange={handleChange}>
-                                    <option value="Black">Black</option>
-                                    <option value="Brown">Brown</option>
-                                    <option value="Blond">Blond</option>
-                                    <option value="Auburn">Auburn</option>
-                                    <option value="Red">Red</option>
-                                    <option value="Grey">Grey</option>
-                                    <option value="White">White</option>
+                                    <option value="Black" selected={personalInfo.hairColor==="Black"}>Black</option>
+                                    <option value="Brown" selected={personalInfo.hairColor==="Brown"}>Brown</option>
+                                    <option value="Blond" selected={personalInfo.hairColor==="Blond"}>Blond</option>
+                                    <option value="Auburn" selected={personalInfo.hairColor==="Auburn"}>Auburn</option>
+                                    <option value="Red" selected={personalInfo.hairColor==="Red"}>Red</option>
+                                    <option value="Grey" selected={personalInfo.hairColor==="Grey"}>Grey</option>
+                                    <option value="White" selected={personalInfo.hairColor==="White"}>White</option>
                                 </select>
                             </MDBCol>
                             <MDBCol>
-                                <label>Gender</label>
+                                <div>
+                                <label>Gender <i style={{ color: 'red' }}>*</i>{' '}</label>
                                 <select className="browser-default custom-select" name="gender" onChange={handleChange}>
-                                    <option value="1">Male</option>
-                                    <option value="0">Female</option>
+                                    <option value="" selected={personalInfo.gender===""}>Select gender</option>
+                                    <option value="1" selected={personalInfo.gender==="1"}>Male</option>
+                                    <option value="0" selected={personalInfo.gender==="0"}>Female</option>
                                 </select>
+                                <span style={{ color: "red" }}> {(notCompleted.gender == true && personalInfo.dataSaved == true) ? "Gender " + isRequired : null}</span>
+                                </div>
                             </MDBCol>
                             <MDBCol>
-                                <label>Martial status</label>
+                                <div>
+                                <label>Martial status <i style={{ color: 'red' }}>*</i>{' '} </label>
                                 <select className="browser-default custom-select" name="martialStatus" onChange={handleChange}>
-                                    <option value="">Select status</option>
-                                    <option value="0">Single</option>
-                                    <option value="1">Married</option>
-                                    <option value="2">Divorced</option>
+                                    <option value="" selected={personalInfo.martialStatus===""}>Select status</option>
+                                    <option value="0" selected={personalInfo.martialStatus==="0"}>Single</option>
+                                    <option value="1" selected={personalInfo.martialStatus==="1"}>Married</option>
+                                    <option value="2" selected={personalInfo.martialStatus==="2"}>Divorced</option>
                                 </select>
+                                <span style={{ color: "red" }}> {(notCompleted.martialStatus == true && personalInfo.dataSaved == true) ? "Martial status " + isRequired : null}</span>
+                                </div>
                             </MDBCol>
                         </MDBRow>
                         <MDBRow>

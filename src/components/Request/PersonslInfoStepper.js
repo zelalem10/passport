@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 function getSteps() {
   return ['Personal Detail', 'Address', 'Family', 'Passport info', 'Attachment'];
 }
-const PersonalInfoStepper=forwardRef((props, ref) => {
+const PersonalInfoStepper = forwardRef((props, ref) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [formCompleted, setFormCompleted] = useState(true);
@@ -44,6 +44,11 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const childRef = useRef();
+  const accesstoken = localStorage.systemToken;
+  const usertoken = localStorage.userToken;
+  const config = {
+    headers: { Authorization: 'Bearer ' + accesstoken },
+  };
   const VerticalNext=()=>{
     props.Next();
   }
@@ -59,8 +64,6 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
     childRef.current.saveData();
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
-    
- 
   };
 
   const handleBack = () => {
@@ -76,25 +79,20 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
     if (isVilid != true) {
       //setResponseMessage("Ple")
     } else {
-      var personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
-      var addressInfo = counter.address[counter.address.length - 1];
-      var familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
-      const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
-      const appointment=counter.appointmentDate[counter.appointmentDate.length - 1]
-      const siteInfo=counter.siteInformation[counter.siteInformation.length - 1]
-      let isUrgent=counter.service[counter.service.length - 1].isUrgent;
-
-      const accesstoken = localStorage.systemToken;
-      const usertoken = localStorage.userToken;
-      const config = {
-        headers: { Authorization: 'Bearer ' + accesstoken },
-      };
+      let personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
+      let addressInfo = counter.address[counter.address.length - 1];
+      let familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
+      let travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
+      let appointment=counter.appointmentDate[counter.appointmentDate.length - 1]
+      let siteInfo=counter.siteInformation[counter.siteInformation.length - 1]
+      let serviceInfo=counter.service[counter.service.length - 1]
       const requestBody = {
         requestId: 0,
-        requestMode: isUrgent===true?1:0,
+        requestMode: (serviceInfo &&serviceInfo.isUrgent===true)?1:0,
         officeId:siteInfo? Number.parseInt(siteInfo.offceId, 10):0,
-        requestTypeId: 2,
-        appointmentIds:appointment?[appointment[0].id] :1,
+        deliverySiteId: siteInfo? Number.parseInt(siteInfo.deliverySiteId, 10):0,
+        requestTypeId: serviceInfo? Number.parseInt(serviceInfo.appointemntType, 10):0,
+        appointmentIds:appointment?[appointment[0].id] :[],
         userName: '',
         status: 0,
         confirmationNumber: '',
@@ -129,7 +127,7 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
             passportType: travelPlan ? travelPlan.passportType : null,
             isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
             pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10): 0,
-            correctionType: (travelPlan && travelPlan.correctionReason!="") ? Number.parseInt(travelPlan.correctionReason, 10): 0,
+            correctionType: travelPlan ? (travelPlan.correctionReason && travelPlan.correctionReason!="")?Number.parseInt(travelPlan.correctionReason, 10):0: 0,
             maritalStatus: personalInfo ? Number.parseInt(personalInfo.martialStatus, 10): 0,
             birthCertificateId: personalInfo? personalInfo.birthCertificatNo: null,
             phoneNumber: personalInfo? personalInfo.phoneNumber: null,
@@ -153,18 +151,15 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
         ],
       };
       debugger;
-      console.log(requestBody)
       API.post(
         'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest',
         requestBody,
         config
       )
         .then((todo) => {
-          debugger
           setResponseMessage(todo.data.message);
           setResponseAlert(true);
           setIsSuccess(true);
-          console.log(todo.data)
           const commonData = {
             requestPersonId: todo.data.serviceResponseList[0].personResponses.requestPersonId,
           };
@@ -173,7 +168,7 @@ const PersonalInfoStepper=forwardRef((props, ref) => {
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
         .catch((err) => {
-          debugger
+          console.log("Body: ", requestBody)
           console.log('AXIOS ERROR: ', err.response);
           if (err.response != null)
             setResponseMessage(err.response.data.title);
