@@ -2,11 +2,12 @@ import React from 'react';
 import { MDBCol, MDBContainer, MDBRow, MDBFooter } from 'mdbreact';
 import { faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 
 const FooterPage = () => {
   return (
     <MDBFooter
-      style={{ backgroundColor: '#424242' }}
+      style={{ backgroundColor: '#093c73' }}
       className="font-small pt-4 mt-4"
     >
       <MDBContainer
@@ -21,13 +22,13 @@ const FooterPage = () => {
             </h5>
             <ul style={{ 'padding-left': 0 }}>
               <li className="list-unstyled">
-                <a href="/Information">Requirements</a>
+                <Link to="/Information">Requirements</Link>
               </li>
               <li className="list-unstyled">
-                <a href="/request-appointment">Schedule an Appointment</a>
+                <Link to="/request-appointment">Schedule an Appointment</Link>
               </li>
               <li className="list-unstyled">
-                <a href="/status">Status</a>
+                <Link to="/status">Status</Link>
               </li>
             </ul>
           </MDBCol>
@@ -38,20 +39,20 @@ const FooterPage = () => {
             <ul style={{ 'padding-left': 0 }}>
             <li className="list-unstyled">
             <span class="fa  fa-map-marker"></span>
-            <a href="/contactUs"><strong class="text-white evisa-footer">&nbsp;Addis Ababa, Ethiopia</strong></a>
+            <Link to="/contactUs"><strong class="text-white evisa-footer">&nbsp;Addis Ababa, Ethiopia</strong></Link>
 
               </li>
               <li className="list-unstyled">
-                <a href="/contactUs">
+                <Link to="/contactUs">
                   <FontAwesomeIcon className="fa-rotate-90" icon={faPhone} />
                   +251(11)1553899
-                </a>
+                </Link>
               </li>
               <li className="list-unstyled">
-                <a href="/contactUs">
+                <Link to="/contactUs">
                   <FontAwesomeIcon icon={faEnvelope} />
                   epassport@et.gov
-                </a>
+                </Link>
               </li>
             </ul>
           </MDBCol>
@@ -61,7 +62,7 @@ const FooterPage = () => {
             </h5>
             <ul style={{ 'padding-left': 0 }}>
               <li className="list-unstyled">
-                <a href="Faq">FAQ</a>
+                <Link to="/Faq">FAQ</Link>
               </li>
             </ul>
           </MDBCol>

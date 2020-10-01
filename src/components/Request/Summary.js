@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { MDBContainer, MDBTypography, MDBBox } from 'mdbreact';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useSelector } from 'react-redux';
-import { fi } from 'date-fns/locale';
+import { de, fi } from 'date-fns/locale';
 import ViewGroupAppointment from './GroupSummary';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -66,7 +66,13 @@ const ViewAppointment = forwardRef((props, ref) => {
   const requestMode = serviceData.isUrgent;
 
   let displayedApplication = data.request[data.request.length - 1];
-  
+
+  let requestPersonId;
+  let attachmentlength;
+  const [attachment, setattachment] = useState([]);
+
+  let atachmentsample = [];
+
 
   
   const confirmInformation = (e) => {
@@ -88,35 +94,43 @@ const ViewAppointment = forwardRef((props, ref) => {
     ? displayedApplication.personResponses
     : null;
   if (personalInfo) {
+    debugger;
     const appointmentResponse = displayedApplication.appointmentResponse;
     const personalInformation = displayedApplication.personResponses;
     const addressInformation = personalInformation.address;
     const familyInformation = personalInformation.familyResponses;
-    const requestPersonId = personalInformation.requestPersonId;
-    console.log(requestPersonId);
+    requestPersonId = personalInformation.requestPersonId;
+   
+    debugger;
+    axios({
+      headers: { Authorization: 'Bearer ' + accesstoken },
+      method: 'get',
+      url: 'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
+      params: { personRequestId: requestPersonId },
+    })
+      .then((Response) => {
+
+        attachmentlength = Response.data.attachments.length;
+
+        for (let i = 0; i < attachmentlength; i++) {
+          atachmentsample.push(Response.data.attachments[i]);
+
+        }
+        setattachment(atachmentsample)
+        console.log(attachment)
+      })
+      .catch((err) => {
+     
+        console.log(err);
+      });
+
     const handleChange = (panel) => (event, newExpanded) => {
       setExpanded(newExpanded ? panel : false);
     };
     
-    useEffect(() => {
-      axios({
-        headers: { Authorization: 'Bearer ' + accesstoken },
-        method: 'get',
-        url:
-          'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
-        params: { personRequestId: requestPersonId },
-      })
-        .then((Response) => {
-          debugger;
-      alert('success')
-        
-      
-        })
-        .catch((err) => {
-          alert('error')
-        });
-    }, []);
+
   
+
     return (
       <MDBContainer className="passport-container pt-5" fluid>
         <div class="div-title text-center mywizardcss pt-3 pb-3">
@@ -537,95 +551,23 @@ const ViewAppointment = forwardRef((props, ref) => {
                 <legend class="text-primary">Attachments</legend>
                 <hr class="text-primary" />
 
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    First Name
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newFirstName">
-                      Yisacc
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Surname
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newSurName">
-                      aberham
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Gender
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newGender">
-                      male
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Date of Birth
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newBirthDate">
-                      August 17 2020
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Country of Birth
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newCountryOfBirthId">
-                      Albania
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Place of Birth
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newPlaceOfBirth">
-                      ddddfd
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Address Country
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newAddressCountryId">
-                      Ethiopia
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Address City
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <lable class="font-weight-bold" id="newAddressCity">
-                      addis ababa
-                    </lable>
-                  </b>
-                </div>
-              </fieldset>
+           
+                {
+                attachment.length
+            ? attachment.map((attachmentitem) => (
+              <div class="form-group form-inline">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+              {attachmentitem.attachmentType} 
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+              <a href={attachmentitem.attachmentPath} >View File</a>
+              </b>
+            </div>
+
+     ))
+     : <h6>Please wait...</h6>}
+                </fieldset>
             </div>
           </div>
         </div>

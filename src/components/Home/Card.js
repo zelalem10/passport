@@ -9,7 +9,7 @@ import {
   MDBCardBody,
   MDBContainer,
 } from 'mdbreact';
-
+import { Link } from 'react-router-dom';
 import { faPassport } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -25,7 +25,7 @@ const CardExample = () => {
             src={require('../../images/icons/new-passport-.png')}
           ></img>
             <MDBCardTitle tag="h5">
-            <a class="card-title text-white" href="/request-appointment">Start New Application</a> 
+            <Link class="card-title text-white" to="/request-appointment">Start New Application</Link> 
               </MDBCardTitle>
             <MDBCardText>
             Do you want to secure Ethiopian e-Visa now? Provide all requested information and apply.
@@ -40,7 +40,7 @@ const CardExample = () => {
             src={require('../../images/icons/Passport-renewal.png')}
           ></img>
             <MDBCardTitle tag="h5">
-            <a class="card-title text-white" href="/SignUp">REGISTER</a> 
+            <Link class="card-title text-white" to="/SignUp">REGISTER</Link> 
           
               </MDBCardTitle>
             <MDBCardText>
@@ -57,7 +57,7 @@ const CardExample = () => {
             src={require('../../images/icons/check status copy.png')}
           ></img>
             <MDBCardTitle tag="h5">
-            <a class="card-title text-white" href="/Status"> Check Status</a> 
+            <Link class="card-title text-white" to="/Status"> Check Status</Link> 
             
               </MDBCardTitle>
             <MDBCardText>
