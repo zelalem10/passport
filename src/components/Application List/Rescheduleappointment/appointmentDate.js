@@ -23,9 +23,7 @@ function RescheduleAppointment(props) {
   }
   let appointmentDetails = displayedApplication.appointmentResponse;
 
-  let officeId = appointmentDetails
-    ? appointmentDetails.duration.officeId
-    : null;
+  let officeId = displayedApplication ? displayedApplication.officeId : null;
   if (displayedApplication.requestMode == 1 && !isUrgentAppointment) {
     setIsUrgentAppointment(true);
   }
@@ -98,7 +96,6 @@ function RescheduleAppointment(props) {
       url: baseUrl + '/Master/api/V1.0/AdvancedRestriction/GetAll',
     })
       .then(async (response) => {
-        debugger;
         advancedRestrictionData = response.data.advancedRestrictions[0];
         setResponse(response.data.advancedRestrictions[0]);
         const headers = {
@@ -141,7 +138,7 @@ function RescheduleAppointment(props) {
                     response.data.advancedRestrictions[0].maxDays * 86400000
                 )
               ),
-              requestTypeId: data.appointemntType,
+              requestTypeId: requestTypeId,
               officeId: officeId,
             },
           })
@@ -209,7 +206,7 @@ function RescheduleAppointment(props) {
               }
             })
             .catch((error) => {
-              console.log('error' + error);
+              console.log('error' + error.data.message);
             });
         } else {
           axios({
@@ -235,6 +232,7 @@ function RescheduleAppointment(props) {
             },
           })
             .then((responses) => {
+              debugger;
               for (
                 let i = 0;
                 i < responses.data.availableDateAndTimes.length;
@@ -297,6 +295,7 @@ function RescheduleAppointment(props) {
               }
             })
             .catch((error) => {
+              debugger;
               console.log('error' + error);
             });
         }
@@ -344,13 +343,15 @@ function RescheduleAppointment(props) {
     }
   };
   const dateValue = state.date.toString();
-
-  let displayTime = state
-    ? `${previousAppointment} ${appointmentDetails.duration.startTime} - ${
-        appointmentDetails.duration.endTime
-      } ${appointmentDetails.duration.isMorning ? 'AM' : 'PM'} 
+  let displayTime = '';
+  if (displayedApplication.requestMode == 0) {
+    displayTime = state
+      ? `${previousAppointment} ${appointmentDetails.duration.startTime} - ${
+          appointmentDetails.duration.endTime
+        } ${appointmentDetails.duration.isMorning ? 'AM' : 'PM'} 
       `
-    : null;
+      : null;
+  }
   const saveNewAppointment = () => {
     let formatedYear = state.date.getFullYear();
     let formatedMonth = (1 + state.date.getMonth()).toString();
@@ -395,20 +396,19 @@ function RescheduleAppointment(props) {
         },
       })
         .then((response) => {
-          debugger;
           console.log(response.data);
           dispatch(
             addAppointmentDate(response.data.urgentAppointmentResponses)
           );
           if (response.data.urgentAppointmentResponses) {
             setFormCompleted(true);
-            props.Next();
+            setNewAppointment(response.data.urgentAppointmentResponses[0].date);
+            setNewDisplayTime(response.data.urgentAppointmentResponses[0].date);
           } else {
             setErrorMessage(response.data.message);
           }
         })
         .catch((error) => {
-          debugger;
           if (state.date && state.time) {
             setErrorMessage(error.message);
           } else if (state.date && !state.time) {
@@ -418,6 +418,14 @@ function RescheduleAppointment(props) {
           }
         });
     } else {
+      let sampleData = {
+        id: appointmentDetails.id,
+        date: stringDateValue,
+        requestId: displayedApplication.requestId,
+        durationId: parseInt(selectTime),
+        dateTimeFormat: 'yyyy-MM-dd',
+      };
+      console.log(sampleData);
       axios({
         headers: {
           Authorization: 'Bearer ' + accesstoken,
@@ -433,7 +441,6 @@ function RescheduleAppointment(props) {
         },
       })
         .then((response) => {
-          debugger;
           let newdate = new Date(response.data.date);
           let newYear = newdate.getFullYear();
           let newMonth = (1 + newdate.getMonth()).toString();
@@ -449,7 +456,6 @@ function RescheduleAppointment(props) {
         `);
         })
         .catch((error) => {
-          debugger;
           console.log('error' + error);
         });
     }
@@ -457,7 +463,11 @@ function RescheduleAppointment(props) {
   return (
     <div>
       <MDBContainer className="passport-container pt-3" fluid>
-        <h4>Appointment Date - {displayTime}</h4>
+        <h4>
+          {displayedApplication.requestMode == 0
+            ? `Appointment Date - ${displayTime}`
+            : `Appointment Date - ${previousAppointment}`}
+        </h4>
         {newAppointment ? (
           <MDBAlert color="success">Changed To - {newDisplayTime}</MDBAlert>
         ) : null}
@@ -520,6 +530,19 @@ function RescheduleAppointment(props) {
                 class="btn btn-default text-white btn-block"
               >
                 Save New Date Time
+              </button>
+            </MDBCol>
+          </MDBRow>
+        ) : null}
+        {isUrgentAppointment && !isOnLoad ? (
+          <MDBRow>
+            <MDBCol md="6" className="pt-3 text-right save-appointment-btn">
+              <button
+                onClick={saveNewAppointment}
+                type="button"
+                class="btn btn-default text-white btn-block"
+              >
+                Save New Date
               </button>
             </MDBCol>
           </MDBRow>

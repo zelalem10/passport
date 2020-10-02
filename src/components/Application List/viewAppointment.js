@@ -58,6 +58,26 @@ export default function ViewAppointment(props) {
   const data = useSelector((state) => state);
   const appList = data.applicationList[data.applicationList.length - 1];
   let displayedApplication = {};
+  const getOccupation = (id) => {
+    let occupations = localStorage.occupations;
+    for (let index = 0; index < occupations.length; index++) {
+      if (occupations[index].id == id) {
+        return occupations[index].title;
+      }
+    }
+  };
+  const getFamilyType = (id) => {
+    let FamilyTypes = localStorage.occupations;
+  };
+  const getNationalitys = (id) => {
+    let Nationalitys = JSON.parse(localStorage.nationalitys);
+    for (let index = 0; index < Nationalitys.length; index++) {
+      if (Nationalitys[index].id == id) {
+        return Nationalitys[index].name;
+      }
+    }
+  };
+
   const { displayRequestId } = props;
   const backToList = () => {
     window.location.href = '/Application-List';
@@ -84,25 +104,22 @@ export default function ViewAppointment(props) {
     axios({
       headers: { Authorization: 'Bearer ' + accesstoken },
       method: 'get',
-      url: 'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
+      url:
+        'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
       params: { personRequestId: requestPersonId },
     })
       .then((Response) => {
-
         attachmentlength = Response.data.attachments.length;
 
         for (let i = 0; i < attachmentlength; i++) {
           atachmentsample.push(Response.data.attachments[i]);
-
         }
-        setattachment(atachmentsample)
-        console.log(attachment)
+        setattachment(atachmentsample);
+        console.log(attachment);
       })
       .catch((err) => {
-
         console.log(err);
       });
-
 
     const handleChange = (panel) => (event, newExpanded) => {
       setExpanded(newExpanded ? panel : false);
@@ -234,7 +251,7 @@ export default function ViewAppointment(props) {
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {personalInformation.nationality}
+                      {getNationalitys(personalInformation.nationalityId)}
                     </label>
                   </b>
                 </div>
@@ -278,7 +295,7 @@ export default function ViewAppointment(props) {
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {personalInformation.occupation}
+                      {getOccupation(personalInformation.occupationId)}
                     </label>
                   </b>
                 </div>
@@ -466,26 +483,27 @@ export default function ViewAppointment(props) {
                 </fieldset>
               ) : null}
               <fieldset>
-              <ul class="list-group mb-3">
-                      <li class="list-group-item ePassprt-color"><h5>Attachment Information</h5></li>
-                {
-                  attachment.length
-                    ? attachment.map((attachmentitem) => (
-       
- 
-                    <li class="list-group-item d-flex justify-content-between">
-                          <span>{attachmentitem.attachmentType} </span>
-                          <strong><a href={attachmentitem.attachmentPath} >View File</a></strong>
-                    </li>
-               
-
+                <ul class="list-group mb-3">
+                  <li class="list-group-item ePassprt-color">
+                    <h5>Attachment Information</h5>
+                  </li>
+                  {attachment.length ? (
+                    attachment.map((attachmentitem) => (
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span>{attachmentitem.attachmentType} </span>
+                        <strong>
+                          <a href={attachmentitem.attachmentPath}>View File</a>
+                        </strong>
+                      </li>
                     ))
-                    : <h6 class='my-3'>
-                        <MDBBadge color="warning p-3">You Don't Have Attachment Information</MDBBadge>
-                      
-                      </h6>
-                }
-              </ul>
+                  ) : (
+                    <h6 class="my-3">
+                      <MDBBadge color="warning p-3">
+                        You Don't Have Attachment Information
+                      </MDBBadge>
+                    </h6>
+                  )}
+                </ul>
               </fieldset>
             </div>
           </div>

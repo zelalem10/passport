@@ -59,7 +59,7 @@ function AddMoreFamily(props) {
                   </a>
 
                   <form className="mb-2">
-                    <div className="row">
+                    <div className="row p-3">
                       <div className="small-12 medium-8 column">
                         <div className="grey-text">
                           <MDBInput

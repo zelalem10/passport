@@ -38,21 +38,21 @@ export default function ListOfApplications(props) {
       {loading ? (
         <Spinner />
       ) : (
-          <div className="my-5">
-            <div class="row">
-              <div class="col-3"></div>
-              <div class="col-6">
-                {Message && (
-                  <div class="alert alert-danger" role="alert">
-                    {Message}
-                  </div>
-                )}
-              </div>
-              <div class="col-3"></div>
+        <div className="my-5">
+          <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6">
+              {Message && (
+                <div class="alert alert-danger" role="alert">
+                  {Message}
+                </div>
+              )}
             </div>
+            <div class="col-3"></div>
+          </div>
 
-            {users.length
-              ? users.map((user) => (
+          {users.length
+            ? users.map((user) => (
                 <MDBContainer
                   className="passport-container pt-3 applist"
                   id="request-an-appointment"
@@ -64,7 +64,7 @@ export default function ListOfApplications(props) {
                           <div class="request-card card card--small-gutters card--shadow row ">
                             <a class="small-12 column row card--link">
                               <div class="small-12 medium-4 column card  card--teal flex flex--column align-center text-center p-4">
-                                <h5 class='vertical-center text-center'>
+                                <h5 class="vertical-center text-center">
                                   <strong>
                                     {user.personResponses.firstName}{' '}
                                     {user.personResponses.middleName}{' '}
@@ -139,41 +139,43 @@ export default function ListOfApplications(props) {
                                   onClick={() => handleDisplay(user.requestId)}
                                 >
                                   {' '}
-
                                   <MDBTooltip
-                                  domElement
-                                  tag="span"
-                                  placement="top"
-                                >
-                              
-                                  <span class="float-right mr-4">
-                                    <i class="fas fa-eye fa-lg"></i>
-                                  </span>
-                                  <span className="white-text"> View your application</span>
-                                </MDBTooltip>
-                             
+                                    domElement
+                                    tag="span"
+                                    placement="top"
+                                  >
+                                    <span class="float-right mr-4">
+                                      <i class="fas fa-eye fa-lg"></i>
+                                    </span>
+                                    <span className="white-text">
+                                      {' '}
+                                      View your application
+                                    </span>
+                                  </MDBTooltip>
                                 </a>
-
-                                <a
-                                  className="hoverWhite"
-                                  onClick={() =>
-                                    handleReschedule(user.requestId)
-                                  }
-                                >
-                                  {' '}
-                                  <MDBTooltip
-                                  domElement
-                                  tag="span"
-                                  placement="top"
-                                >
-                              
-                                  <span class="float-right mr-4">
-                                    <i class="fas fa-calendar fa-lg"></i>
-                                  </span>
-                                  <span className="white-text"> Re schedule your application</span>
-                                </MDBTooltip>
-                            
-                                </a>
+                                {user.requestStatus == 'Paid' ? (
+                                  <a
+                                    className="hoverWhite"
+                                    onClick={() =>
+                                      handleReschedule(user.requestId)
+                                    }
+                                  >
+                                    {' '}
+                                    <MDBTooltip
+                                      domElement
+                                      tag="span"
+                                      placement="top"
+                                    >
+                                      <span class="float-right mr-4">
+                                        <i class="fas fa-calendar fa-lg"></i>
+                                      </span>
+                                      <span className="white-text">
+                                        {' '}
+                                        Re schedule your application
+                                      </span>
+                                    </MDBTooltip>
+                                  </a>
+                                ) : null}
 
                                 <Dialog
                                   open={open}
@@ -219,9 +221,9 @@ export default function ListOfApplications(props) {
                   </MDBRow>
                 </MDBContainer>
               ))
-              : null}
-          </div>
-        )}
+            : null}
+        </div>
+      )}
     </div>
   );
 }

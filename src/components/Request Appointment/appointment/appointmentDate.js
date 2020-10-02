@@ -285,8 +285,16 @@ const MyApp = forwardRef((props, ref) => {
     })
       .then(async (response) => {
         debugger;
-        advancedRestrictionData = response.data.advancedRestrictions[0];
-        setResponse(response.data.advancedRestrictions[0]);
+        advancedRestrictionData = siteInfo
+          ? response.data.advancedRestrictions.filter(
+              (advanceRestriction) =>
+                advanceRestriction.officeId == parseInt(siteInfo.offceId)
+            )[0]
+          : response.data.advancedRestrictions[0];
+        advancedRestrictionData = advancedRestrictionData
+          ? advancedRestrictionData
+          : response.data.advancedRestrictions[0];
+        setResponse(advancedRestrictionData);
         const headers = {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + token,
@@ -302,13 +310,13 @@ const MyApp = forwardRef((props, ref) => {
               startDate: new Date(
                 new Date().setTime(
                   new Date().getTime() +
-                    response.data.advancedRestrictions[0].minDays * 86400000
+                    advancedRestrictionData.minDays * 86400000
                 )
               ),
               endDate: new Date(
                 new Date().setTime(
                   new Date().getTime() +
-                    response.data.advancedRestrictions[0].maxDays * 86400000
+                    advancedRestrictionData.maxDays * 86400000
                 )
               ),
               requestTypeId: data.appointemntType,
@@ -316,6 +324,7 @@ const MyApp = forwardRef((props, ref) => {
             },
           })
             .then((responses) => {
+              debugger;
               setavailableDateAndQota(responses.data.availableDateAndTimes);
               for (
                 let i = 0;
@@ -391,13 +400,13 @@ const MyApp = forwardRef((props, ref) => {
               startDate: new Date(
                 new Date().setTime(
                   new Date().getTime() +
-                    response.data.advancedRestrictions[0].minDays * 86400000
+                    advancedRestrictionData.minDays * 86400000
                 )
               ),
               endDate: new Date(
                 new Date().setTime(
                   new Date().getTime() +
-                    response.data.advancedRestrictions[0].maxDays * 86400000
+                    advancedRestrictionData.maxDays * 86400000
                 )
               ),
               requestTypeId: data.appointemntType,
@@ -406,6 +415,7 @@ const MyApp = forwardRef((props, ref) => {
           })
             .then((responses) => {
               debugger;
+              console.log(responses.data.availableDateAndTimes);
               for (
                 let i = 0;
                 i < responses.data.availableDateAndTimes.length;
@@ -474,6 +484,7 @@ const MyApp = forwardRef((props, ref) => {
         }
       })
       .catch((error) => {
+        debugger;
         console.log('error' + error);
       });
   }, [isUrgentAppointment, officeInformation]);
@@ -484,6 +495,8 @@ const MyApp = forwardRef((props, ref) => {
   const showTimeSlots = (date) => {
     if (!isUrgentAppointment) {
       debugger;
+      let formatedSelectedDate =
+        date.getFullYear() + ',' + (date.getMonth() + 1) + ',' + date.getDate();
       let timeSlotsForSpecificDate = [];
       for (let i = 0; i < availableTimes.length; i++) {
         let dateAV = new Date(availableTimes[i].date);
@@ -493,7 +506,7 @@ const MyApp = forwardRef((props, ref) => {
           (dateAV.getMonth() + 1) +
           ',' +
           dateAV.getDate();
-        let stringDate = date.toString();
+        let stringDate = new Date(formatedSelectedDate).toString();
         let stringFormatedavDate = new Date(formatedavDate).toString();
         if (stringFormatedavDate === stringDate) {
           if (availableTimes[i]) {
