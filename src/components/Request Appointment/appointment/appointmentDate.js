@@ -275,6 +275,7 @@ const MyApp = forwardRef((props, ref) => {
     toggleClass(e);
   };
   useEffect(() => {
+    debugger;
     axios({
       headers: {
         Authorization: 'Bearer ' + token,
@@ -473,7 +474,6 @@ const MyApp = forwardRef((props, ref) => {
         }
       })
       .catch((error) => {
-        debugger;
         console.log('error' + error);
       });
   }, [isUrgentAppointment, officeInformation]);
@@ -536,11 +536,10 @@ const MyApp = forwardRef((props, ref) => {
             />
 
             {isUrgentAppointment ? (
-              <MDBTypography note noteColor="danger" noteTitle="Note danger: ">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum
-                doloremque officia laboriosam. Itaque ex obcaecati architecto!
-                Qui necessitatibus delectus placeat illo rem id nisi consequatur
-                esse, sint perspiciatis soluta porro?
+              <MDBTypography note noteColor="danger" noteTitle="Notice: ">
+                Request for urgent may be considered if the purpose of travel is
+                for medical or legal emergency purposes, death in the family,
+                etc
               </MDBTypography>
             ) : (
               <MDBTypography

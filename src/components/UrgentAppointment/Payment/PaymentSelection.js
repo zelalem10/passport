@@ -22,6 +22,7 @@ import {
 } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addPaymentOptionId from '../../../redux/actions/addPaymentOptionIdAction';
+import InstructionPage from './InstructionPage';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -51,77 +52,45 @@ function requestTypeGetter(requetTypeId) {
   }
 }
 const PaymentSelection = forwardRef((props, ref) => {
+  const { handlePaymentId } = props;
   const [selectedOption, setSelectedOption] = useState();
-  const [optionSelected, setOptionSelected] = useState(false);
+  const [optionSelected, setOptionSelected] = useState('');
   const [paymentOptions, setPaymentOptions] = useState([]);
-  const [requestSubmited, setRequestSubmited] = useState(false);
-  const [instruction, setInstruction] = useState('');
-  const [message, setMessage] = useState('');
-  const [flowType, setFlowType] = useState(0);
-  const [status, setStatus] = useState(0);
+  const [procced, setProcced] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const [formCompleted, setFormCompleted] = useState(false);
-  const [test, setTest] = useState({ id: 10 });
   const dispatch = useDispatch();
-  const counter = useSelector((state) => state);
+  const data = useSelector((state) => state);
+  const appList = data.applicationList[data.applicationList.length - 1];
+  let displayedApplication = {};
+
+  for (let item in appList) {
+    if (appList[item].requestId == handlePaymentId) {
+      displayedApplication = appList[item];
+    }
+  }
+  const personalInformation = displayedApplication.personResponses;
   const accesstoken = localStorage.systemToken;
-  const serviceSelcetion = counter.service[counter.service.length - 1];
-  const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
-  const requestType = serviceSelcetion.appointemntType;
+  const requestType = displayedApplication.requestTypeId;
   const requestTypeStr = requestTypeGetter(requestType);
   const config = {
     headers: { Authorization: 'Bearer ' + accesstoken },
   };
-  const classes = useStyles();
-  function getSelectedOption(id) {
-    const config = {
-      headers: { Authorization: token },
-    };
-    const body = {
-      firstName: 'Atalay',
-      lastName: 'Tilahun',
-      email: 'atehun@gmail.com',
-      phone: '0932876051',
-      amount: 10,
-      currency: 'ETB',
-      city: 'Addis Ababa',
-      country: 'Ethiopia',
-      channel: 'Amole',
-      paymentOptionsId: id,
-      traceNumbers: '',
-      Status: 4,
-      OrderId: '',
-      otp: '',
-      requestId: 3,
-    };
-    API.post(
-      'https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest',
-      body,
-      config
-    )
-      .then((todo) => {
-        console.log(todo.data);
-        setStatus(todo.data.status);
-        setInstruction(todo.data.instruction);
-        setFlowType(todo.data.paymentFlowType);
-        setMessage(todo.data.message);
-        setRequestSubmited(true);
-      })
-      .catch((err) => {
-        console.log('AXIOS ERROR: ', err.response);
-      });
-  }
-  function GetContent(paymentFlowType) {
-    switch (paymentFlowType) {
-      case 1:
-        return (
-          <Response
-            instruction={instruction}
-            message={message}
-            status={status}
-          />
-        );
+  const handleProcced = () => {
+    if (formCompleted && optionSelected) {
+      setProcced(true);
+    } else if (!formCompleted && optionSelected) {
+      setErrorMessage('Please check this box if you want to proceed');
+    } else if (formCompleted && !optionSelected) {
+      setErrorMessage('Please Choose payment method');
+    } else {
+      setErrorMessage(
+        'Please Choose payment method and check this box if you want to proceed'
+      );
     }
-  }
+  };
+  const classes = useStyles();
 
   useEffect(() => {
     API.get(
@@ -134,187 +103,133 @@ const PaymentSelection = forwardRef((props, ref) => {
       });
   }, []);
   const handelClick = (optionId) => {
-    debugger;
     setSelectedOption(optionId);
+    setOptionSelected(optionId);
     const selectedId = { optionId: optionId };
     dispatch(addPaymentOptionId(selectedId));
-    console.log(optionId);
-    //setOptionSelected(true);
   };
   const handelConfirm = (event) => {
     setFormCompleted(event.target.checked);
   };
-  useImperativeHandle(ref, () => ({
-    saveData() {},
-    isCompleted() {
-      return formCompleted;
-    },
-  }));
-  return (
-    <MDBContainer className="payment-container" fluid>
-      <MDBRow>
-        <MDBCol md="8">
-          <MDBRow>
-            {/* {paymentOptions.map((paymentOption) => (
-                  <MDBCol md="4" style={{ marginTop: '2rem' }}>
-                    <MDBCard
-                      className={
-                        selectedOption === paymentOption.id ? classes.root : ''
-                      }
-                      style={{ marginBottom: '5px' }}
-                      onClick={() => handelClick(paymentOption.id)}
-                    >
-                      <MDBCardImage
-                        className="img-fluid"
-                        style={{ height: '80px', width: '100%' }}
-                        src={paymentOption.imageUrl}
-                        waves
-                      />
-                      
-                      <MDBCardTitle>
-                        <MDBRow>
-                          <MDBCol md="4"></MDBCol>
-                          <MDBCol md="8">{paymentOption.name}</MDBCol>
-                        </MDBRow>
-                      </MDBCardTitle>
-                    </MDBCard>
-                  </MDBCol>
-                ))} */}
 
-            <article class="card">
-              <div class="card-title">
-                <h3 class="heading-secondary">Payment</h3>
-              </div>
-              <div class="card-body">
-                <div class="payment-type">
-                  <h4>Choose payment method below</h4>
-                  {paymentOptions.map((paymentOption) => (
-                    <div
-                      class="types flex col-sm-12 justify-space-between"
-                      onClick={() => handelClick(paymentOption.id)}
-                    >
+  if (formCompleted && optionSelected && procced) {
+    return (
+      <InstructionPage
+        personalInformation={personalInformation}
+        requestId={displayedApplication.requestId}
+      />
+    );
+  } else {
+    return (
+      <MDBContainer className="passport-container payment-container" fluid>
+        <MDBRow>
+          <MDBCol md="8">
+            <MDBRow>
+              <article class="card">
+                <div class="card-title">
+                  <h3 class="heading-secondary">Payment</h3>
+                </div>
+                <div class="card-body">
+                  <div class="payment-type">
+                    <h4>Choose payment method</h4>
+                    {paymentOptions.map((paymentOption) => (
                       <div
-                        class={`type ${
-                          paymentOption.id == selectedOption ? 'selected' : ''
-                        }`}
+                        class="types flex col-sm-12 justify-space-between"
+                        onClick={() => handelClick(paymentOption.id)}
                       >
-                        <div class="logo">
-                          {/* <i class="far fa-credit-card"></i> */}
-                          <img
-                            class="payment-card-logo"
-                            src={paymentOption.imageUrl}
-                          ></img>
-                        </div>
-                        <div class="text">
-                          <p>Pay with {paymentOption.name}</p>
+                        <div
+                          class={`type ${
+                            paymentOption.id == selectedOption ? 'selected' : ''
+                          }`}
+                        >
+                          <div class="logo">
+                            {/* <i class="far fa-credit-card"></i> */}
+                            <img
+                              class="payment-card-logo"
+                              src={paymentOption.imageUrl}
+                            ></img>
+                          </div>
+                          <div class="text">
+                            <p>Pay with {paymentOption.name}</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </article>
-          </MDBRow>
-        </MDBCol>
-        <div class="col-md-4 order-md-2 mb-4 mt-5">
-          <h4 class="d-flex justify-content-between align-items-center mb-4-5">
-            <span class="text-muted">
-              <strong>Pricing Information</strong>
-            </span>
-          </h4>
-          <ul class="list-group mb-3">
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-              <div>
-                <h6 class="my-0">Request type</h6>
-              </div>
-              <span class="text-muted">{requestTypeStr}</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-              <div>
-                <h6 class="my-0">Request Mode</h6>
-              </div>
+              </article>
+            </MDBRow>
+          </MDBCol>
+          <div class="col-md-4 order-md-2 mb-4 mt-5">
+            <h4 class="d-flex justify-content-between align-items-center mb-4-5">
               <span class="text-muted">
-                {serviceSelcetion.isUrgent ? 'Urgent' : 'Normal'}
+                <strong>Pricing Information</strong>
               </span>
-            </li>
+            </h4>
+            <ul class="list-group mb-3">
+              <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                  <h6 class="my-0">Request type</h6>
+                </div>
+                <span class="text-muted">{displayedApplication.type}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                  <h6 class="my-0">Request Mode</h6>
+                </div>
+                <span class="text-muted">Urgent</span>
+              </li>
 
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-              <div>
-                <h6 class="my-0">Page quantity</h6>
+              <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                  <h6 class="my-0">Page quantity</h6>
+                </div>
+                <span class="text-muted">
+                  {personalInformation.passportRes.pageQuantity}
+                </span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Total Price (ETB)</span>
+                <strong>600</strong>
+              </li>
+            </ul>
+          </div>
+        </MDBRow>
+        <MDBCol md="8">
+          <div class="custom-control custom-checkbox">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="defaultUncheckedDisabled2"
+              onChange={handelConfirm}
+              indeterminate
+            />
+            <label class="custom-control-label" for="defaultUncheckedDisabled2">
+              Agree to terms and conditions
+            </label>
+            {errorMessage ? (
+              <div className="text-monospace">
+                <p className="check-agree">{errorMessage}</p>
               </div>
-              <span class="text-muted">32</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span>Total Price (ETB)</span>
-              <strong>600</strong>
-            </li>
-          </ul>
-        </div>
-        {/* <MDBCol md="4">
-          <app-right-content
-            class="small-12 medium-4 large-offset-1 large-4 column sticky-container"
-            data-sticky-container=""
-            _nghost-kxs-c3=""
-          >
-            <aside
-              class="sidebar small sticky is-anchored is-at-top"
-              data-btm-anchor="request-an-appointment:bottom"
-              data-margin-top="2"
-              data-sticky="s2eunn-sticky"
-              data-sticky-on="medium"
-              data-top-anchor="180"
-              id="raa-sidebar"
-              data-resize="raa-sidebar"
-              data-mutate="raa-sidebar"
-              data-events="mutate"
+            ) : null}
+          </div>
+
+          <div class="pt-3 multistep-form__step">
+            <a class="button hollow gray vertical-margin-2 ng-star-inserted">
+              <i class="fas fa-arrow-left"></i> Return to My Applications
+            </a>
+            <a
+              class="specialty-next-step button float-right vertical-margin-2"
+              onClick={() => handleProcced()}
             >
-              <div class="sidebar__box sidebar__box--border ng-star-inserted">
-                <h4>Pricing Information</h4>
-                <MDBListGroup>
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center">
-                    Request type
-                    <MDBBadge color="primary" pill>
-                      {requestTypeStr}
-                    </MDBBadge>
-                  </MDBListGroupItem>
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center">
-                    Request Mode
-                    <MDBBadge color="primary" pill>
-                      {serviceSelcetion.isUrgent ? 'Urgent' : 'Normal'}
-                    </MDBBadge>
-                  </MDBListGroupItem>
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center">
-                    Total Price
-                    <MDBBadge color="primary" pill>
-                      600
-                    </MDBBadge>
-                  </MDBListGroupItem>
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center">
-                    Page quantity
-                    <MDBBadge color="primary" pill>
-                      32
-                    </MDBBadge>
-                  </MDBListGroupItem>
-                </MDBListGroup>
-              </div>
-            </aside>
-          </app-right-content>
-        </MDBCol> */}
-      </MDBRow>
-
-      <div class="custom-control custom-checkbox">
-        <input
-          type="checkbox"
-          class="custom-control-input"
-          id="defaultUncheckedDisabled2"
-          onChange={handelConfirm}
-          indeterminate
-        />
-        <label class="custom-control-label" for="defaultUncheckedDisabled2">
-          Agree to terms and conditions
-        </label>
-      </div>
-    </MDBContainer>
-  );
+              {' '}
+              Proceed <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </MDBCol>
+      </MDBContainer>
+    );
+  }
 });
+
 export default PaymentSelection;
