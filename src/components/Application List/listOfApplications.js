@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MDBRow, MDBContainer, MDBCol } from 'mdbreact';
+import { MDBRow, MDBContainer, MDBCol, MDBTooltip } from 'mdbreact';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -37,21 +37,21 @@ export default function ListOfApplications(props) {
       {loading ? (
         <Spinner />
       ) : (
-        <div className="my-5">
-          <div class="row">
-            <div class="col-3"></div>
-            <div class="col-6">
-              {Message && (
-                <div class="alert alert-danger" role="alert">
-                  {Message}
-                </div>
-              )}
+          <div className="my-5">
+            <div class="row">
+              <div class="col-3"></div>
+              <div class="col-6">
+                {Message && (
+                  <div class="alert alert-danger" role="alert">
+                    {Message}
+                  </div>
+                )}
+              </div>
+              <div class="col-3"></div>
             </div>
-            <div class="col-3"></div>
-          </div>
 
-          {users.length
-            ? users.map((user) => (
+            {users.length
+              ? users.map((user) => (
                 <MDBContainer
                   className="passport-container pt-3 applist"
                   id="request-an-appointment"
@@ -61,9 +61,9 @@ export default function ListOfApplications(props) {
                       <div className="multistep-form__step">
                         <div className="small-12 column request-type">
                           <div class="request-card card card--small-gutters card--shadow row ">
-                            <a class="small-12 column row card--link vertical-margin-1 ">
-                              <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
-                                <h5>
+                            <a class="small-12 column row card--link">
+                              <div class="small-12 medium-4 column card  card--teal flex flex--column align-center text-center p-4">
+                                <h5 class='vertical-center text-center'>
                                   <strong>
                                     {user.personResponses.firstName}{' '}
                                     {user.personResponses.middleName}{' '}
@@ -73,7 +73,7 @@ export default function ListOfApplications(props) {
                                 <div class="text-center vertical-margin-half"></div>
                               </div>
 
-                              <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
+                              <div class="small-12 medium-8 column card  card--gray rtf rtf--small bold p-4">
                                 <div>
                                   <div>
                                     <strong className="d-inline">
@@ -112,15 +112,24 @@ export default function ListOfApplications(props) {
                                     <i class="far fa-trash-alt fa-lg"></i>
                                   </div>
                                 </a> */}
-
+                              
                                 <a
                                   className="hoverWhite"
                                   onClick={() => handleEdit(user.requestId)}
                                 >
                                   {' '}
-                                  <div class="float-right mr-4">
+                                  <MDBTooltip
+                                  domElement
+                                  tag="span"
+                                  placement="top"
+                                >
+                              
+                                  <span class="float-right mr-4">
                                     <i class="fas fa-edit fa-lg"></i>
-                                  </div>
+                                  </span>
+                                  <span className="white-text"> Edit your application</span>
+                                </MDBTooltip>
+                               
                                 </a>
                                 {/* )} */}
 
@@ -129,9 +138,19 @@ export default function ListOfApplications(props) {
                                   onClick={() => handleDisplay(user.requestId)}
                                 >
                                   {' '}
-                                  <div class="float-right mr-4">
+
+                                  <MDBTooltip
+                                  domElement
+                                  tag="span"
+                                  placement="top"
+                                >
+                              
+                                  <span class="float-right mr-4">
                                     <i class="fas fa-eye fa-lg"></i>
-                                  </div>
+                                  </span>
+                                  <span className="white-text"> View your application</span>
+                                </MDBTooltip>
+                             
                                 </a>
                                 {/* {user.requestStatus == 'Requested' ? null : ( */}
                                 <a
@@ -141,9 +160,18 @@ export default function ListOfApplications(props) {
                                   }
                                 >
                                   {' '}
-                                  <div class="float-right mr-4">
+                                  <MDBTooltip
+                                  domElement
+                                  tag="span"
+                                  placement="top"
+                                >
+                              
+                                  <span class="float-right mr-4">
                                     <i class="fas fa-calendar fa-lg"></i>
-                                  </div>
+                                  </span>
+                                  <span className="white-text"> Re schedule your application</span>
+                                </MDBTooltip>
+                            
                                 </a>
                                 {/* )} */}
 
@@ -191,9 +219,9 @@ export default function ListOfApplications(props) {
                   </MDBRow>
                 </MDBContainer>
               ))
-            : null}
-        </div>
-      )}
+              : null}
+          </div>
+        )}
     </div>
   );
 }

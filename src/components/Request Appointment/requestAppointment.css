@@ -15,7 +15,7 @@ h1 {
 
 .card--small-gutters,
 .card--small-gutters.row {
-  padding: 0.75rem !important;
+  padding: 0.75rem;
 }
 .card--small-gutters > .column:first-child {
   padding-left: 0;
