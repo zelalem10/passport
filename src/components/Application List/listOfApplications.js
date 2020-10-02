@@ -83,9 +83,13 @@ export default function ListOfApplications(props) {
                                   </div>
                                   <div>
                                     <strong className="d-inline">
-                                      Request Date :{' '}
+                                      Appointment Date :{' '}
                                     </strong>
-                                    {new Date(user.requestDate)
+                                    {new Date(
+                                      user.appointmentResponse
+                                        ? user.appointmentResponse.date
+                                        : null
+                                    )
                                       .toISOString()
                                       .substr(0, 10)}
                                   </div>
@@ -131,7 +135,6 @@ export default function ListOfApplications(props) {
                                 </MDBTooltip>
                                
                                 </a>
-                                {/* )} */}
 
                                 <a
                                   className="hoverWhite"
@@ -152,7 +155,7 @@ export default function ListOfApplications(props) {
                                 </MDBTooltip>
                              
                                 </a>
-                                {/* {user.requestStatus == 'Requested' ? null : ( */}
+
                                 <a
                                   className="hoverWhite"
                                   onClick={() =>
@@ -173,7 +176,6 @@ export default function ListOfApplications(props) {
                                 </MDBTooltip>
                             
                                 </a>
-                                {/* )} */}
 
                                 <Dialog
                                   open={open}

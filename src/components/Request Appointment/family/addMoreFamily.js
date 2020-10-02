@@ -25,10 +25,11 @@ function AddMoreFamily(props) {
                     <button
                       onClick={() => props.deleteThisFamily(item.id)}
                       aria-hidden="true"
-                      className="accordion__button icon icon--expand"
+                      className="accordion__button family-delete-icon icon icon--expand"
                     >
-                      <i class="fas fa-minus-circle fa-lg"></i>
+                      <i class="fas fa-trash-alt fa-lg"></i>
                     </button>
+
                     <button
                       aria-hidden="true"
                       onClick={() => props.editThisFamily(item.id, index)}
@@ -71,7 +72,7 @@ function AddMoreFamily(props) {
                             className="browser-default custom-select"
                           >
                             <option style={{ display: 'none' }}>
-                              Choose your option
+                              Select family type
                             </option>
                             {familyType.map((item) => (
                               <option value={item.id}>{item.type}</option>

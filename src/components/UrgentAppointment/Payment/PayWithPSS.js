@@ -19,7 +19,6 @@ import ReactHtmlParser, {
   convertNodeToElement,
   htmlparser2,
 } from 'react-html-parser';
-
 import { Link } from 'react-router-dom';
 
 const PayWithPSS = () => {

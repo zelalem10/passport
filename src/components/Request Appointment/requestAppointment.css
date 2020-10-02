@@ -171,7 +171,7 @@ p .video__toggle {
   text-transform: none !important;
 }
 .card--small-gutters .small-12 .card {
-  padding: 2rem;
+  padding: 2rem !important;
   position: relative;
   transition: background 0.25s;
 }
@@ -737,5 +737,18 @@ select {
   padding-top: 2%;
 }
 .termConditions {
-  color: red;
+  color: #ff0000;
+}
+.next-button {
+  text-align: right !important;
+}
+.family-delete-icon {
+  color: #ff0000;
+}
+.family-delete-icon:hover {
+  color: #713031;
+}
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background: #093c73 !important;
 }

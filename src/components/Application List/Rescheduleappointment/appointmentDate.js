@@ -20,7 +20,10 @@ function RescheduleAppointment(props) {
     }
   }
   let appointmentDetails = displayedApplication.appointmentResponse;
-  debugger;
+  let officeId = appointmentDetails
+    ? appointmentDetails.duration.officeId
+    : null;
+  let requestTypeId = displayedApplication.requestTypeId;
   let dateAppointmentDetails = new Date(appointmentDetails.date);
   let year = dateAppointmentDetails.getFullYear();
   let month = (1 + dateAppointmentDetails.getMonth()).toString();
@@ -107,8 +110,8 @@ function RescheduleAppointment(props) {
                 response.data.advancedRestrictions[0].maxDays * 86400000
             )
           ),
-          requestTypeId: 2,
-          officeId: 7,
+          requestTypeId: requestTypeId,
+          officeId: officeId,
         };
         axios({
           headers: headers,
@@ -127,8 +130,8 @@ function RescheduleAppointment(props) {
                   response.data.advancedRestrictions[0].maxDays * 86400000
               )
             ),
-            requestTypeId: 2,
-            officeId: 7,
+            requestTypeId: requestTypeId,
+            officeId: officeId,
           },
         })
           .then((responses) => {
@@ -268,6 +271,7 @@ function RescheduleAppointment(props) {
       },
     })
       .then((response) => {
+        debugger;
         let newdate = new Date(response.data.date);
         let newYear = newdate.getFullYear();
         let newMonth = (1 + newdate.getMonth()).toString();
@@ -283,6 +287,7 @@ function RescheduleAppointment(props) {
         `);
       })
       .catch((error) => {
+        debugger;
         console.log('error' + error);
       });
   };
@@ -297,34 +302,36 @@ function RescheduleAppointment(props) {
         <MDBRow key={key}>
           <MDBCol md="6">
             <h3>Date</h3>
-            <Calendar
-              allowPartialRange
-              onChange={onChange}
-              value={state.date}
-              minDate={
-                new Date(
-                  new Date().setTime(
-                    new Date().getTime() + respone.minDays * 86400000
+            <div id="chooseAppointments">
+              <Calendar
+                allowPartialRange
+                onChange={onChange}
+                value={state.date}
+                minDate={
+                  new Date(
+                    new Date().setTime(
+                      new Date().getTime() + respone.minDays * 86400000
+                    )
                   )
-                )
-              }
-              maxDate={
-                new Date(
-                  new Date().setTime(
-                    new Date().getTime() + respone.maxDays * 86400000
+                }
+                maxDate={
+                  new Date(
+                    new Date().setTime(
+                      new Date().getTime() + respone.maxDays * 86400000
+                    )
                   )
-                )
-              }
-              tileDisabled={({ date, view }) =>
-                view === 'month' && // Block day tiles only
-                disabledDate.some(
-                  (disabledDateItem) =>
-                    date.getFullYear() === disabledDateItem.getFullYear() &&
-                    date.getMonth() === disabledDateItem.getMonth() &&
-                    date.getDate() === disabledDateItem.getDate()
-                )
-              }
-            />
+                }
+                tileDisabled={({ date, view }) =>
+                  view === 'month' && // Block day tiles only
+                  disabledDate.some(
+                    (disabledDateItem) =>
+                      date.getFullYear() === disabledDateItem.getFullYear() &&
+                      date.getMonth() === disabledDateItem.getMonth() &&
+                      date.getDate() === disabledDateItem.getDate()
+                  )
+                }
+              />
+            </div>
           </MDBCol>
           <MDBCol md="6">
             <h3>Time</h3>

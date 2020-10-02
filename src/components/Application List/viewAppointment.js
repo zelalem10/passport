@@ -6,7 +6,6 @@ import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBBadge } from 'mdbreact';
 import './viewAppointment.css';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useSelector } from 'react-redux';
 import { fi } from 'date-fns/locale';
 import ViewGroupAppointment from './viewGroupAppointment';

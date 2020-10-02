@@ -26,16 +26,16 @@
   color: #fff;
   border-radius: 25px;
 }
-fieldset {
+/* fieldset {
   width: 500px;
   border: 4px ridge #ff0000;
   font-family: Arial, sans-serif;
   padding: lOpx;
 }
 legend {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-weight: bold;
-}
+} */
 .view-appointment-group legend {
   font-size: 1.25rem;
 }
@@ -69,16 +69,16 @@ label {
 }
 .passport-select .custom-select:focus {
   box-shadow: unset !important;
-  border-bottom: 1px solid #4285f4 !important;
+  border-bottom: 1px solid #224b9f !important;
 }
 .date-picker .MuiFormControl-marginNormal {
   margin-top: unset !important;
   margin-bottom: unset !important;
 }
-.date-picker [type='text'] {
+.date-picker [type="text"] {
   box-shadow: unset !important;
 }
-.travel-date-picker [type='text'] {
+.travel-date-picker [type="text"] {
   box-shadow: unset !important;
 }
 @media only screen and (max-width: 580px) {
@@ -87,10 +87,10 @@ label {
   }
 }
 .changed-appointment {
-  background-color: #007fa3;
+  background-color: #224b9f;
 }
 .save-appointment-btn .btn-default {
-  background-color: #17a2b8 !important;
+  background-color: #224b9f !important;
 }
 .date-picker .MuiFormControl-root {
   width: 100%;
@@ -100,7 +100,7 @@ label {
   margin-bottom: 1rem !important;
 }
 .required-field .md-form label:after {
-  content: '*' !important;
+  content: "*" !important;
   color: red !important;
   display: inline !important;
   position: relative !important;
@@ -108,4 +108,11 @@ label {
   top: 0 !important;
   font-size: 1.2rem;
   font-weight: 700;
+}
+.passport-selectList-label {
+  top: -25px !important;
+}
+.react-calendar__navigation__label {
+  color: #ffffff;
+  background-color: #224b9f !important ;
 }

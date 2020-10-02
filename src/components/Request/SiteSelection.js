@@ -5,7 +5,7 @@ import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody } from 'mdbreact';
 import API from '../Utils/API';
 import { useDispatch, useSelector } from 'react-redux';
 import saveSiteInformation from '../../redux/actions/siteInformationAction';
-
+import { Link } from 'react-router-dom';
 
 const accesstoken = localStorage.systemToken;
 const SiteSelection = forwardRef((props, ref) => {
@@ -278,13 +278,13 @@ const SiteSelection = forwardRef((props, ref) => {
                       <ul class="list--no-indent list--no-bullets ng-star-inserted">
                         <li>
                           <strong>
-                            Office name:&nbsp;&nbsp;<a href="#">{officeName}{' '}</a>
+                                                              Office name:&nbsp;&nbsp;<Link to="#">{officeName}{' '}</Link>
                           </strong>
                         </li>
                         <hr />
                         <li>
                           <strong>
-                            Address:&nbsp;&nbsp;<a href="#">{officeAddress}{' '}</a>
+                                                              Address:&nbsp;&nbsp;<Link to="#">{officeAddress}{' '}</Link>
                           </strong>
                         </li>
                         <hr />
@@ -293,7 +293,7 @@ const SiteSelection = forwardRef((props, ref) => {
                             Contact :&nbsp;&nbsp;<i
                               aria-hidden="true"
                               class="fas fa-phone fa-rotate-180"
-                            ></i>{' '}<a href="tel:officeContact">{officeContact}{' '}</a>
+                                                              ></i>{' '}<Link to="tel:officeContact">{officeContact}{' '}</Link>
                           </strong>
                         </li>
                         {/* <hr />
@@ -311,13 +311,13 @@ const SiteSelection = forwardRef((props, ref) => {
                       <ul class="list--no-indent list--no-bullets ng-star-inserted">
                         <li>
                           <strong>
-                            Office name:&nbsp;&nbsp;<a href="#">{deliveryOfficeName}{' '}</a>
+                                                              Office name:&nbsp;&nbsp;<Link to="#">{deliveryOfficeName}{' '}</Link>
                           </strong>
                         </li>
                         <hr />
                         <li>
                           <strong>
-                            Address:&nbsp;&nbsp;<a href="#">{deliveryOfficeAddress}{' '}</a>
+                                                              Address:&nbsp;&nbsp;<Link to="#">{deliveryOfficeAddress}{' '}</Link>
                           </strong>
                         </li>
                         <hr />

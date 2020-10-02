@@ -179,19 +179,30 @@ const ViewAppointment = forwardRef((props, ref) => {
                 </label>
               </b>
             </div>
-            <div class="form-group form-inline passport-display">
-              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                Appointement Time:{' '}
-              </label>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              <b>
-                <label class="font-weight-bold">
-                  {appointmentResponse ? appointmentResponse.startTime : null}
-                  {'-'}
-                  {appointmentResponse ? appointmentResponse.endTime : null}
+            {appointmentResponse.duration ? (
+              <div class="form-group form-inline passport-display">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Appointement Time:{' '}
                 </label>
-              </b>
-            </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {appointmentResponse
+                      ? appointmentResponse.duration.startTime
+                      : null}
+                    {'-'}
+                    {appointmentResponse
+                      ? appointmentResponse.duration.endTime
+                      : null}
+                    {appointmentResponse
+                      ? appointmentResponse.duration.isMorning
+                        ? 'AM'
+                        : 'PM'
+                      : null}
+                  </label>
+                </b>
+              </div>
+            ) : null}
           </div>
         </div>
         <div
