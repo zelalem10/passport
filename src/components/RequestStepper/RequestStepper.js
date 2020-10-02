@@ -4,7 +4,7 @@ import DateSelection from '../Request Appointment/appointment/appointmentDate';
 import PersonalInfoStepper from '../Request/PersonslInfoStepper';
 import GroupNavigation from '../GroupRequest/GroupNavigation';
 import PaymentSelection from '../Payment/PaymentSelection';
-import Confirmation from '../Payment/Responses/Confirmation';
+import Instraction from '../Payment/Responses/InstructionPage';
 import { Tab, Row, Nav, Col, Button, Card } from 'react-bootstrap';
 import ViewAppointment from '../Request/Summary';
 import {
@@ -28,8 +28,9 @@ export default function RequestStepper() {
     false,
     false,
     false,
+    false,
   ]);
-  const activeKey = ['first', 'second', 'third', 'fourth', 'Fivth'];
+  const activeKey = ['first', 'second', 'third', 'fourth', 'Fivth', 'Sixth'];
   const counter = useSelector((state) => state);
   const isGroup = counter.service[counter.service.length - 1].isGroup;
   const personalRef = useRef();
@@ -169,7 +170,7 @@ export default function RequestStepper() {
                     onClick={handelConfirmation}
                     disabled={formCompleted[5] === true ? false : true}
                   >
-                    <BsFillInfoCircleFill /> Confirmation
+                    <BsFillInfoCircleFill /> Instruction
                     {formCompleted[5] ? <BsCheck /> : null}
                   </Nav.Link>
                 </Nav.Item>
@@ -198,7 +199,7 @@ export default function RequestStepper() {
                 <PaymentSelection  ref={paymentRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[5]}>
-                <Confirmation />
+                <Instraction />
               </Tab.Pane>
             </Tab.Content>
           </Col>

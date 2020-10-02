@@ -52,7 +52,7 @@ function requestTypeGetter(requetTypeId) {
   }
 }
 const PaymentSelection = forwardRef((props, ref) => {
-  const [selectedOption, setSelectedOption] = useState();
+  const [selectedOption, setSelectedOption] = useState(0);
   const [optionSelected, setOptionSelected] = useState(false);
   const [paymentOptions, setPaymentOptions] = useState([]);
   const [requestSubmited, setRequestSubmited] = useState(false);
@@ -136,16 +136,14 @@ const PaymentSelection = forwardRef((props, ref) => {
   }, []);
   const handelClick = (optionId) => {
     setSelectedOption(optionId);
-    const selectedId = { optionId: optionId };
-    dispatch(addPaymentOptionId(selectedId));
-    console.log(optionId);
-    //setOptionSelected(true);
   };
   const handelConfirm = (event) => {
     setFormCompleted(event.target.checked);
   };
   useImperativeHandle(ref, () => ({
     saveData() {
+      const selectedId = { optionId: selectedOption };
+    dispatch(addPaymentOptionId(selectedId));
       setDataSaved(true)
     },
     isCompleted() {

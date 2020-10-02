@@ -81,7 +81,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     if (isVilid != true) {
       //setResponseMessage("Ple")
     } else {
-      const requestInfo = counter.request;
+      const requestInfo = counter.request[counter.request.length-1];
       const personalInfoLength = counter.personalInfoReducer.filter(item => item.applicantNumber == props.applicantNumber).length;
       var personalInfo = counter.personalInfoReducer.filter(item => item.applicantNumber == props.applicantNumber)[personalInfoLength - 1]
       const addressLength = counter.address.filter(item => item.applicantNumber == props.applicantNumber).length;
@@ -105,71 +105,72 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     })[familyLength - 1];
     const siteInfo=counter.siteInformation[counter.siteInformation.length - 1]
     let isUrgent=counter.service[counter.service.length - 1].isUrgent;
-      const requestBody = {
-        requestId: 0,
-        requestMode: isUrgent===true?1:0,
-        officeId: siteInfo? Number.parseInt(siteInfo.offceId, 10):0,
-        deliverySiteId: siteInfo? Number.parseInt(siteInfo.deliverySiteId, 10):0,
-        requestTypeId: 2,
-        appointmentIds:appointment?[appointment[0].id] :[],
-        userName: '',
-        status: 0,
-        confirmationNumber: '',
-        applicants: [
-          {
-            personId: 0,
-            firstName: personalInfo ? personalInfo.firstName.toUpperCase(): null,
-            middleName: personalInfo ? personalInfo.middleName.toUpperCase(): null,
-            lastName: personalInfo ? personalInfo.lastName.toUpperCase() : null,
-            geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
-            geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
-            geezLastName: personalInfo ? personalInfo.geezLastName : null,
-            dateOfBirth: personalInfo ? personalInfo.birthDate : null,
-            gender: personalInfo ? Number.parseInt(personalInfo.gender, 10): null,
-            nationalityId: personalInfo ? Number.parseInt(personalInfo.nationalityId, 10) : null,
-            height: personalInfo ? personalInfo.height : null,
-            eyeColor: personalInfo ? personalInfo.eyeColor : null,
-            hairColor: personalInfo ? personalInfo.hairColor : null,
-            occupationId: personalInfo ? Number.parseInt(personalInfo.occupationId, 10) : null,
-            halfCast: personalInfo ? personalInfo.halfCast : null,
-            enrolmentDate: personalInfo ? personalInfo.birthDate : null,
-            birthCertificateId: personalInfo? personalInfo.birthCertificatNo: '',
-            photoPath: '',
-            employeeID: '',
-            applicationNumber: '',
-            organizationID: '',
-            isUnder18: personalInfo ? personalInfo.isUnder18 : false,
-            isAdoption: personalInfo ? personalInfo.isAdoption : false,
-            passportNumber: travelPlan ? travelPlan.passportNumber : null,
-            issueDate:  new Date(),
-            expireDate:  new Date(),
-            passportType: travelPlan ? travelPlan.passportType : null,
-            isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
-            pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10): 0,
-            correctionType: travelPlan ? (travelPlan.correctionReason && travelPlan.correctionReason!="")?Number.parseInt(travelPlan.correctionReason, 10):0: 0,
-            maritalStatus: personalInfo ? Number.parseInt(personalInfo.martialStatus, 10): 0,
-            birthCertificateId: personalInfo? personalInfo.birthCertificatNo: null,
-            phoneNumber: personalInfo? personalInfo.phoneNumber: null,
-            email: personalInfo? personalInfo.email: null,
-            address: {
-              personId: 0,
-              addressId: 0,
-              city: addressInfo ? addressInfo.city : null,
-              region: addressInfo ? addressInfo.region : null,
-              state: addressInfo ? addressInfo.state : null,
-              zone: addressInfo ? addressInfo.zone : null,
-              wereda: addressInfo ? addressInfo.woreda : null,
-              kebele: addressInfo ? addressInfo.kebele : null,
-              street: addressInfo ? addressInfo.street : null,
-              houseNo: addressInfo ? addressInfo.houseNo : null,
-              poBox: addressInfo ? addressInfo.poBox : null,
-              requestPlace: addressInfo ? addressInfo.requestPlace : null,
-            },
-            familyRequests: familyInfo,
-          },
-        ],
-      };
+      
       if (props.applicantNumber === 1) {
+        let requestBody = {
+          requestId: 0,
+          requestMode: isUrgent===true?1:0,
+          officeId: siteInfo? Number.parseInt(siteInfo.offceId, 10):0,
+          deliverySiteId: siteInfo? Number.parseInt(siteInfo.deliverySiteId, 10):0,
+          requestTypeId: 2,
+          appointmentIds:appointment?[appointment[0].id] :[],
+          userName: '',
+          status: 0,
+          confirmationNumber: '',
+          applicants: [
+            {
+              personId: 0,
+              firstName: personalInfo ? personalInfo.firstName.toUpperCase(): null,
+              middleName: personalInfo ? personalInfo.middleName.toUpperCase(): null,
+              lastName: personalInfo ? personalInfo.lastName.toUpperCase() : null,
+              geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
+              geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
+              geezLastName: personalInfo ? personalInfo.geezLastName : null,
+              dateOfBirth: personalInfo ? personalInfo.birthDate : null,
+              gender: personalInfo ? Number.parseInt(personalInfo.gender, 10): null,
+              nationalityId: personalInfo ? Number.parseInt(personalInfo.nationalityId, 10) : null,
+              height: personalInfo ? personalInfo.height : null,
+              eyeColor: personalInfo ? personalInfo.eyeColor : null,
+              hairColor: personalInfo ? personalInfo.hairColor : null,
+              occupationId: personalInfo ? Number.parseInt(personalInfo.occupationId, 10) : null,
+              halfCast: personalInfo ? personalInfo.halfCast : null,
+              enrolmentDate: personalInfo ? personalInfo.birthDate : null,
+              birthCertificateId: personalInfo? personalInfo.birthCertificatNo: '',
+              photoPath: '',
+              employeeID: '',
+              applicationNumber: '',
+              organizationID: '',
+              isUnder18: personalInfo ? personalInfo.isUnder18 : false,
+              isAdoption: personalInfo ? personalInfo.isAdoption : false,
+              passportNumber: travelPlan ? travelPlan.passportNumber : null,
+              issueDate:  new Date(),
+              expireDate:  new Date(),
+              passportType: travelPlan ? travelPlan.passportType : null,
+              isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
+              pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10): 0,
+              correctionType: travelPlan ? (travelPlan.correctionReason && travelPlan.correctionReason!="")?Number.parseInt(travelPlan.correctionReason, 10):0: 0,
+              maritalStatus: personalInfo ? Number.parseInt(personalInfo.martialStatus, 10): 0,
+              birthCertificateId: personalInfo? personalInfo.birthCertificatNo: null,
+              phoneNumber: personalInfo? personalInfo.phoneNumber: null,
+              email: personalInfo? personalInfo.email: null,
+              address: {
+                personId: 0,
+                addressId: 0,
+                city: addressInfo ? addressInfo.city : null,
+                region: addressInfo ? addressInfo.region : null,
+                state: addressInfo ? addressInfo.state : null,
+                zone: addressInfo ? addressInfo.zone : null,
+                wereda: addressInfo ? addressInfo.woreda : null,
+                kebele: addressInfo ? addressInfo.kebele : null,
+                street: addressInfo ? addressInfo.street : null,
+                houseNo: addressInfo ? addressInfo.houseNo : null,
+                poBox: addressInfo ? addressInfo.poBox : null,
+                requestPlace: addressInfo ? addressInfo.requestPlace : null,
+              },
+              familyRequests: familyInfo,
+            },
+          ],
+        };
       API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest', requestBody, config)
         .then((todo) => {
           setResponseMessage(todo.data.message);
@@ -193,9 +194,9 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
         });
     }
     else if (requestInfo != null) {
-      const requestBody = {
-        requestId: requestInfo[0].langth>0? requestInfo[0].id:0,
-        appointmentIds:appointment?[appointment[0].id] :[],
+      let requestBody = {
+        requestId: requestInfo.requestId,
+        appointmentIds:appointment?[appointment[props.applicantNumber-1].id] :[],
         applicants: [
           {
             personId: 0,
@@ -263,6 +264,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
         .catch((err) => {
+          console.log('Body: ', requestBody);
           console.log('AXIOS ERROR: ', err.response);
           if (err.response != null)
             setResponseMessage(err.response.data.title);
@@ -292,7 +294,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
          isSucces={isSuccess}
          respnseGet={responseAlert}/>;
       case 4:
-        return <Attachment />;
+        return <Attachment applicantNumber={props.applicantNumber} />;
       default:
         return 'Unknown stepIndex';
     }

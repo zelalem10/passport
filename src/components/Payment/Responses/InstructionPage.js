@@ -18,6 +18,7 @@ function InstructionPage() {
   const counter = useSelector((state) => state);
   const selectedId = { optionId: 0 }
   var selectedOption = counter.paymentOption[counter.paymentOption.length - 1]
+  const requestInfo = counter.request[counter.request.length-1];
   console.log(selectedOption)
 
   useEffect(() => {
@@ -35,15 +36,13 @@ function InstructionPage() {
       City:"Addis Ababa",
       Country:"ET",
       Channel:"Mobile",
-      PaymentOptionsId:2,
+      PaymentOptionsId:selectedOption? selectedOption.optionId:0,
       username : "ETHIOUSER",
       password : "123456",
-      requestId: 7465
+      requestId: requestInfo?requestInfo.requestId:0,
     };
     axios.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
       .then((resopnse) => {
-        debugger;
-    alert('success')
         console.log(resopnse.data)
         setprceInfo(resopnse.data)
         setStatus(resopnse.data.status)
@@ -53,7 +52,6 @@ function InstructionPage() {
         setRequestSubmited(true)
       })
       .catch((err) => {
-        alert('err')
         console.log("AXIOS ERROR: ", err.response);
       })
   }, [])

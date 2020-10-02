@@ -12,6 +12,8 @@ import { MDBCol, MDBRow } from 'mdbreact';
 const Fileupload = forwardRef((props, ref) => {
   let [successMessage, setsuccessMessage] = useState(false);
   let [errorMessage, seterrorMessage] = useState(false);
+  const counter = useSelector((state) => state);
+  const numberOfApplicants = parseInt(counter.service[counter.service.length - 1].numberOfApplicants, 10);
   const accesstoken = localStorage.systemToken;
   const formData = new FormData();
   let requestTypeId;
@@ -101,13 +103,12 @@ const Fileupload = forwardRef((props, ref) => {
       console.log(response.data);
       setsuccessMessage(true);
       setloading(false);
-      props.showBack();
-      props.VerticalNext();
+      if (numberOfApplicants === props.applicantNumber)
+        props.VerticalNext();
     } catch (error) {
       console.log('error' + error.message);
       seterrorMessage(true);
       setloading(false);
-      //props.showBack();
     }
   };
   const onChange = (e) => {

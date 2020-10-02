@@ -4,8 +4,7 @@ import {
     MDBTableHead, MDBBtn, MDBCollapse, MDBCollapseHeader,
     MDBIcon, MDBListGroup, MDBListGroupItem, MDBCol, MDBCard
 } from 'mdbreact';
-
-
+import { useDispatch, useSelector } from 'react-redux';
 import API from '../Utils/API'
 const accesstoken = localStorage.userToken;
 const config = {
@@ -17,13 +16,15 @@ const BasicTable = () => {
   const [totalPriceList, setTotalPriceList] = useState([]);
   const [individualPrice, setIndividualPrice]=useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [counter, setCounter] = useState(1);
-
+  const counter = useSelector((state) => state);
+  
   const toggleCollapse =() => {
     setIsOppened(!isOppened);
   }
+  const requestInfo = counter.request[counter.request.length-1];
+  let requestId=requestInfo?requestInfo.requestId:0;
   useEffect(() => {
-    API.get("https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=3", config)
+    API.get("https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId="+requestId, config)
         .then((todo) => 
         {
             setTotalPriceList(todo.data.priceTotalDetail);
@@ -78,7 +79,7 @@ const BasicTable = () => {
             <MDBCollapse id="basicCollapse" isOpen={isOppened}>
                 {individualPrice.map((prices) =>
                     <MDBListGroup>
-                        <MDBListGroupItem href="#" active>Applicant {counter}</MDBListGroupItem>
+                        <MDBListGroupItem href="#" active>Applicant 1</MDBListGroupItem>
                         <MDBTable hover>
                             <MDBTableHead>
                             </MDBTableHead>

@@ -18,7 +18,7 @@ import PayWithPSS from '../../Payment/PayWithPSS';
 import contactUs from '../../Help and Support/contactUs';
 import about from '../../Help and Support/about';
 import confirmationPage from '../../confirmationPage';
-import InstructionPage from '../../InstructionPage';
+import InstructionPage from '../../Payment/Responses/InstructionPage';
 
 function PassportRoute() {
   //   childUrl = window.open('/preview', '_blank')
