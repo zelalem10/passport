@@ -9,7 +9,7 @@ import HorizontalLabelPositionBelowStepper from './EditApplicationList/PersonslI
 import GroupRequestStepper from './EditApplicationList/Group/GroupNavigation';
 import RescheduleAppointment from './Rescheduleappointment/appointmentDate';
 import { useHistory } from 'react-router-dom';
-import GetContent from '../Payment/PaymentSelection';
+import GetContent from '../UrgentAppointment/Payment/PaymentSelection';
 
 function ApplicationList() {
   const tokenValue = () => {
@@ -73,7 +73,6 @@ function ApplicationList() {
         'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/GetMyApplications',
     })
       .then((Response) => {
-        debugger;
         console.log(Response.data);
         setloading(false);
         setusers(Response.data.serviceResponseList);
@@ -86,7 +85,6 @@ function ApplicationList() {
         }
       })
       .catch((err) => {
-        debugger;
         setloading(false);
       });
   }, [isCancelSchedule]);
@@ -137,6 +135,7 @@ function ApplicationList() {
         loading={loading}
         Message={Message}
         cancelRequestId={cancelRequestId}
+        handlePayment={handlePayment}
       />
     );
   } else if (displayRequestId && isEdit) {

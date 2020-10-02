@@ -21,6 +21,7 @@ export default function ListOfApplications(props) {
     loading,
     Message,
     cancelRequestId,
+    handlePayment,
   } = props;
   debugger;
   return (
@@ -106,35 +107,32 @@ export default function ListOfApplications(props) {
                                     {user.requestStatus}
                                   </div>{' '}
                                 </div>
-
-                                {/* <a
-                                  className="hoverWhite"
-                                  onClick={() => openModal(user.requestId)}
-                                >
-                                  {' '}
-                                  <div class="float-right mr-4">
-                                    <i class="far fa-trash-alt fa-lg"></i>
-                                  </div>
-                                </a> */}
-                              
-                                <a
-                                  className="hoverWhite"
-                                  onClick={() => handleEdit(user.requestId)}
-                                >
-                                  {' '}
-                                  <MDBTooltip
-                                  domElement
-                                  tag="span"
-                                  placement="top"
-                                >
-                              
-                                  <span class="float-right mr-4">
-                                    <i class="fas fa-edit fa-lg"></i>
-                                  </span>
-                                  <span className="white-text"> Edit your application</span>
-                                </MDBTooltip>
-                               
-                                </a>
+                                {user.requestStatus == 'UrgentRequested' &&
+                                user.requestStatus == 'UrgentRequested' ? (
+                                  <a
+                                    className="hoverWhite"
+                                    onClick={() =>
+                                      handlePayment(user.requestId)
+                                    }
+                                  >
+                                    {' '}
+                                    <div class="float-right mr-4">
+                                      <i class="fas fa-credit-card fa-lg"></i>
+                                    </div>
+                                  </a>
+                                ) : null}
+                                {user.requestStatus == 'SendforCorrection' &&
+                                user.requestStatus == 'Initial' ? (
+                                  <a
+                                    className="hoverWhite"
+                                    onClick={() => handleEdit(user.requestId)}
+                                  >
+                                    {' '}
+                                    <div class="float-right mr-4">
+                                      <i class="fas fa-edit fa-lg"></i>
+                                    </div>
+                                  </a>
+                                ) : null}
 
                                 <a
                                   className="hoverWhite"
