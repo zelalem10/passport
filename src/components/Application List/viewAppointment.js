@@ -59,7 +59,8 @@ export default function ViewAppointment(props) {
   const appList = data.applicationList[data.applicationList.length - 1];
   let displayedApplication = {};
   const getOccupation = (id) => {
-    let occupations = localStorage.occupations;
+    debugger;
+    let occupations = JSON.parse(localStorage.occupations);
     for (let index = 0; index < occupations.length; index++) {
       if (occupations[index].id == id) {
         return occupations[index].title;
@@ -67,7 +68,12 @@ export default function ViewAppointment(props) {
     }
   };
   const getFamilyType = (id) => {
-    let FamilyTypes = localStorage.occupations;
+    let FamilyTypes = JSON.parse(localStorage.familyTypesResponse);
+    for (let index = 0; index < FamilyTypes.length; index++) {
+      if (FamilyTypes[index].id == id) {
+        return FamilyTypes[index].type;
+      }
+    }
   };
   const getNationalitys = (id) => {
     let Nationalitys = JSON.parse(localStorage.nationalitys);
@@ -470,7 +476,7 @@ export default function ViewAppointment(props) {
                   {familyInformation.map((family) => (
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        {family.familtyType}
+                        {getFamilyType(family.familtyTypeId)}
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
