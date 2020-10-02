@@ -282,8 +282,8 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
               {getStepContent(activeStep)}
             </Typography>
 
-            <Grid container spacing={1}>
-              <Grid item xs={3}>
+              <div class='row'>
+              <div class='col-sm-6 text-left'>
                 <Button
                   disabled={activeStep === 0}
                   onClick={handleBack}
@@ -291,10 +291,9 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                 >
                   Back
                 </Button>
-              </Grid>
-              <hr></hr>
+              </div>
               {activeStep === steps.length - 1 ? null : (
-                <Grid item xs={1}>
+                <div class='col-sm-6 text-right'>
                   {activeStep === steps.length - 2 ? (
                     <Button
                       variant="contained"
@@ -312,9 +311,11 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                       Next
                     </Button>
                   )}
-                </Grid>
+                </div>
               )}
-            </Grid>
+              </div>
+       
+
           </div>
         ) : null}
       </div>

@@ -153,8 +153,8 @@ const Fileupload = forwardRef((props, ref) => {
     inputs.push(
 
       <div class="row my-5" id='attachmentmargin'>
-        <div class="col-md-5 text-right">
-        <MDBBadge color="primary p-3"> {attachmentTypeName[i]} </MDBBadge>
+        <div class="col-md-5 passport-text-right">
+        <MDBBadge color="primary smallPadding "> {attachmentTypeName[i]} </MDBBadge>
         </div>
         <div class="col-md-5">
           <div className="input-group">
@@ -178,7 +178,7 @@ const Fileupload = forwardRef((props, ref) => {
                 {filename[requiredAttachementType[i]] ? (
                   filename[requiredAttachementType[i]]
                 ) : (
-                  <div>Choose file</div>
+                  <div class='smallFont'>Choose file</div>
                 )}
               </label>
             </div>
