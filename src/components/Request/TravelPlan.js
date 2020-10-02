@@ -229,7 +229,7 @@ const TravelPlan = forwardRef((props, ref) => {
         <form>
           <div className="grey-text">
             <MDBRow>
-              <MDBCol className="required-field">
+              <MDBCol md="4"  className="required-field">
                 <div>
                   <label>
                     Page Quantity<i style={{ color: 'red' }}>*</i>{' '}
@@ -256,7 +256,7 @@ const TravelPlan = forwardRef((props, ref) => {
                 </span>{' '}
               </MDBCol>
 
-              <MDBCol>
+              <MDBCol md="4" >
                 <MDBInput
                   valueDefault={prevInfo ? prevInfo.filledBy : null}
                   name="filledBy"
@@ -266,13 +266,12 @@ const TravelPlan = forwardRef((props, ref) => {
                   label="Application filled by"
                 />
               </MDBCol>
-              <MDBCol></MDBCol>
-              <MDBCol></MDBCol>
+
             </MDBRow>
-            <hr />
+ 
             {requestTypeStr != 'New' ? (
               <MDBRow>
-                <MDBCol>
+                <MDBCol md="3">
                   <MDBInput
                     valueDefault={prevInfo ? prevInfo.passportType : null}
                     name="passportType"
@@ -289,7 +288,7 @@ const TravelPlan = forwardRef((props, ref) => {
                       : null}
                   </span>
                 </MDBCol>
-                <MDBCol>
+                <MDBCol md="3">
                   <MDBInput
                     valueDefault={prevInfo ? prevInfo.passportNumber : null}
                     name="passportNumber"
@@ -299,7 +298,7 @@ const TravelPlan = forwardRef((props, ref) => {
                     label="Passport Number"
                   />
                 </MDBCol>
-                <MDBCol className="date-picker">
+                <MDBCol md="3" className="date-picker">
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
                       margin="normal"
@@ -314,7 +313,7 @@ const TravelPlan = forwardRef((props, ref) => {
                     />
                   </MuiPickersUtilsProvider>
                 </MDBCol>
-                <MDBCol className="date-picker">
+                <MDBCol md="3" className="date-picker">
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
                       margin="normal"
@@ -360,7 +359,7 @@ const TravelPlan = forwardRef((props, ref) => {
 
               {requestTypeStr === 'Renew/Replacement' ||
               requestTypeStr === 'Lost' ? (
-                <MDBCol>
+                <MDBCol md="3">
                   <label></label>
                   <div class="custom-control custom-checkbox">
                     <input

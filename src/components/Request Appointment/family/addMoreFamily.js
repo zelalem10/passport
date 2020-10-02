@@ -27,15 +27,15 @@ function AddMoreFamily(props) {
                       aria-hidden="true"
                       className="accordion__button family-delete-icon icon icon--expand"
                     >
-                      <i class="fas fa-trash-alt fa-lg"></i>
+                      <i class="fas fa-trash-alt fa-sm "></i>
                     </button>
 
                     <button
                       aria-hidden="true"
                       onClick={() => props.editThisFamily(item.id, index)}
-                      className="accordion__button edit icon icon--expand"
+                      className="accordion__button edit icon icon--expand "
                     >
-                      <i class="fas fa-edit fa-lg"></i>
+                      <i class="fas fa-edit fa-sm"></i>
                     </button>
                   </div>
                   <MDBCardTitle>

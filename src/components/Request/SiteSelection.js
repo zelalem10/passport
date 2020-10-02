@@ -170,8 +170,8 @@ const SiteSelection = forwardRef((props, ref) => {
     <MDBCard style={{ marginBottom: "1rem" }}>
       <MDBCardBody>
         <form>
-          <MDBRow>
-            <MDBCol md="4">
+          <div class='row noShadow'>
+            <div class="col-md-4">
               <MDBRow>
                 <MDBCol className='mb-3'>
                   <label>
@@ -247,8 +247,8 @@ const SiteSelection = forwardRef((props, ref) => {
                   <span style={{ color: "red" }}> {(notCompleted.deliverySiteId == true && dataSaved == true) ? "Please select delivery site" : null}</span>
                 </MDBCol>
               </MDBRow >
-            </MDBCol >
-            <MDBCol md="8">
+            </div>
+            <div class="col-md-8">
               <app-right-content
                 class="small-12 medium-4 large-offset-1 large-4 column sticky-container"
                 data-sticky-container=""
@@ -337,8 +337,8 @@ const SiteSelection = forwardRef((props, ref) => {
 
                 </aside>
               </app-right-content>
-            </MDBCol>
-          </MDBRow>
+            </div>
+          </div>
         </form>
       </MDBCardBody>
     </MDBCard>
