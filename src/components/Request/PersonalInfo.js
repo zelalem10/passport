@@ -9,6 +9,8 @@ import {
 import '../Application List/viewAppointment.css'
 import DateFnsUtils from '@date-io/date-fns';
 import API from '../Utils/API';
+import isEmail from 'validator/es/lib/isEmail';
+
 
 const PersonalInfo = forwardRef((props, ref) => {
     const [nationalityList, setNationalityList] = useState([])
@@ -325,7 +327,8 @@ const PersonalInfo = forwardRef((props, ref) => {
                                 type="email"
                                 label="Email"
                             />
-                            <span style={{ color: "red" }}> {(notCompleted.email == true && personalInfo.dataSaved == true) ? "Email " + isRequired : null}</span>
+                            <span style={{ color: "red" }}> {(notCompleted.email === true && personalInfo.dataSaved === true) ? "Email " + isRequired : null}</span>
+                            <span style={{ color: "red" }}> {(notCompleted.email === false && isEmail(personalInfo.email) === false && personalInfo.dataSaved == true) ? "Please insert the correct email formatt" : null}</span>
                         </MDBCol>
                         
                             <MDBCol>

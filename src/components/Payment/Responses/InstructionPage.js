@@ -61,8 +61,6 @@ function InstructionPage() {
       <div id="share-section" class="bg-light text-muted py-5">
         <div class="container">
           <div class="row">
-
-  
               <div class="col-md-8">
               <div class="u-center-text u-margin-bottom-big"><h2 class="heading-secondary">Payment Instruction</h2></div>
               <div class="alert alert-success my-4 p-3" role="alert">
