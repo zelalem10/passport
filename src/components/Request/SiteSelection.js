@@ -5,7 +5,7 @@ import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody } from 'mdbreact';
 import API from '../Utils/API';
 import { useDispatch, useSelector } from 'react-redux';
 import saveSiteInformation from '../../redux/actions/siteInformationAction';
-
+import { Link } from 'react-router-dom';
 
 const accesstoken = localStorage.systemToken;
 const SiteSelection = forwardRef((props, ref) => {
@@ -170,10 +170,10 @@ const SiteSelection = forwardRef((props, ref) => {
     <MDBCard style={{ marginBottom: "1rem" }}>
       <MDBCardBody>
         <form>
-          <MDBRow>
-            <MDBCol md="4">
+          <div class='row noShadow'>
+            <div class="col-md-4">
               <MDBRow>
-                <MDBCol>
+                <MDBCol className='mb-3'>
                   <label>
                     Site Location<i style={{ color: 'red' }}>*</i>{' '}
                   </label>
@@ -188,11 +188,10 @@ const SiteSelection = forwardRef((props, ref) => {
                     ))}
                   </ReactBootstrap.Form.Control>
                   <span style={{ color: "red" }}> {(notCompleted.reagionId == true && dataSaved == true) ? "Please select region" : null}</span>
-                </MDBCol>
+                </MDBCol >
               </MDBRow>
-              <hr></hr>
               <MDBRow>
-                <MDBCol>
+                <MDBCol className='mb-3'>
                   <label>
                     City<i style={{ color: 'red' }}>*</i>
                   </label>
@@ -210,9 +209,9 @@ const SiteSelection = forwardRef((props, ref) => {
                   <span style={{ color: "red" }}> {(notCompleted.cityId == true && dataSaved == true) ? "Please select city" : null}</span>
                 </MDBCol>
               </MDBRow>
-              <hr></hr>
+      
               <MDBRow>
-                <MDBCol>
+                <MDBCol className='mb-3'>
                   <label>
                     Office<i style={{ color: 'red' }}>*</i>
                   </label>
@@ -230,9 +229,8 @@ const SiteSelection = forwardRef((props, ref) => {
                 </MDBCol>
               </MDBRow>
 
-              <hr></hr>
               <MDBRow>
-                <MDBCol>
+                <MDBCol className='mb-3'>
                   <label>
                     Delivery Site<i style={{ color: 'red' }}>*</i>
                   </label>
@@ -248,9 +246,9 @@ const SiteSelection = forwardRef((props, ref) => {
                   </ReactBootstrap.Form.Control>
                   <span style={{ color: "red" }}> {(notCompleted.deliverySiteId == true && dataSaved == true) ? "Please select delivery site" : null}</span>
                 </MDBCol>
-              </MDBRow>
-            </MDBCol>
-            <MDBCol md="8">
+              </MDBRow >
+            </div>
+            <div class="col-md-8">
               <app-right-content
                 class="small-12 medium-4 large-offset-1 large-4 column sticky-container"
                 data-sticky-container=""
@@ -280,13 +278,13 @@ const SiteSelection = forwardRef((props, ref) => {
                       <ul class="list--no-indent list--no-bullets ng-star-inserted">
                         <li>
                           <strong>
-                            Office name:&nbsp;&nbsp;<a href="#">{officeName}{' '}</a>
+                                                              Office name:&nbsp;&nbsp;<Link to="#">{officeName}{' '}</Link>
                           </strong>
                         </li>
                         <hr />
                         <li>
                           <strong>
-                            Address:&nbsp;&nbsp;<a href="#">{officeAddress}{' '}</a>
+                                                              Address:&nbsp;&nbsp;<Link to="#">{officeAddress}{' '}</Link>
                           </strong>
                         </li>
                         <hr />
@@ -295,7 +293,7 @@ const SiteSelection = forwardRef((props, ref) => {
                             Contact :&nbsp;&nbsp;<i
                               aria-hidden="true"
                               class="fas fa-phone fa-rotate-180"
-                            ></i>{' '}<a href="tel:officeContact">{officeContact}{' '}</a>
+                                                              ></i>{' '}<Link to="tel:officeContact">{officeContact}{' '}</Link>
                           </strong>
                         </li>
                         {/* <hr />
@@ -313,13 +311,13 @@ const SiteSelection = forwardRef((props, ref) => {
                       <ul class="list--no-indent list--no-bullets ng-star-inserted">
                         <li>
                           <strong>
-                            Office name:&nbsp;&nbsp;<a href="#">{deliveryOfficeName}{' '}</a>
+                                                              Office name:&nbsp;&nbsp;<Link to="#">{deliveryOfficeName}{' '}</Link>
                           </strong>
                         </li>
                         <hr />
                         <li>
                           <strong>
-                            Address:&nbsp;&nbsp;<a href="#">{deliveryOfficeAddress}{' '}</a>
+                                                              Address:&nbsp;&nbsp;<Link to="#">{deliveryOfficeAddress}{' '}</Link>
                           </strong>
                         </li>
                         <hr />
@@ -339,8 +337,8 @@ const SiteSelection = forwardRef((props, ref) => {
 
                 </aside>
               </app-right-content>
-            </MDBCol>
-          </MDBRow>
+            </div>
+          </div>
         </form>
       </MDBCardBody>
     </MDBCard>

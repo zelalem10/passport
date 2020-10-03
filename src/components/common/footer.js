@@ -2,11 +2,12 @@ import React from 'react';
 import { MDBCol, MDBContainer, MDBRow, MDBFooter } from 'mdbreact';
 import { faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 
 const FooterPage = () => {
   return (
     <MDBFooter
-      style={{ backgroundColor: '#424242' }}
+      style={{ backgroundColor: '#093c73' }}
       className="font-small pt-4 mt-4"
     >
       <MDBContainer
@@ -17,20 +18,17 @@ const FooterPage = () => {
         <MDBRow>
           <MDBCol md="4" style={{ 'padding-left': 0 }}>
             <h5 className="title" style={{ fontWeight: 400 }}>
-              About
+              About Passport Service
             </h5>
             <ul style={{ 'padding-left': 0 }}>
               <li className="list-unstyled">
-                <a href="#!">Oridnary Passport</a>
+                <Link to="/Information">Requirements</Link>
               </li>
               <li className="list-unstyled">
-                <a href="#!">Diplomatic Passport</a>
+                <Link to="/request-appointment">Schedule an Appointment</Link>
               </li>
               <li className="list-unstyled">
-                <a href="#!">Replacment Passport 32 Pages</a>
-              </li>
-              <li className="list-unstyled">
-                <a href="#!">Replacment of Stolen Passport</a>
+                <Link to="/status">Status</Link>
               </li>
             </ul>
           </MDBCol>
@@ -39,17 +37,22 @@ const FooterPage = () => {
               Contact
             </h5>
             <ul style={{ 'padding-left': 0 }}>
-              <li className="list-unstyled">
-                <a href="#!">
-                  <FontAwesomeIcon className="fa-rotate-90" icon={faPhone} />
-                  +251(11)1553899
-                </a>
+            <li className="list-unstyled">
+            <span class="fa  fa-map-marker"></span>
+            <Link to="/contactUs"><strong class="text-white evisa-footer">&nbsp;Addis Ababa, Ethiopia</strong></Link>
+
               </li>
               <li className="list-unstyled">
-                <a href="#!">
+                <Link to="/contactUs">
+                  <FontAwesomeIcon className="fa-rotate-90" icon={faPhone} />
+                  +251(11)1553899
+                </Link>
+              </li>
+              <li className="list-unstyled">
+                <Link to="/contactUs">
                   <FontAwesomeIcon icon={faEnvelope} />
                   epassport@et.gov
-                </a>
+                </Link>
               </li>
             </ul>
           </MDBCol>
@@ -59,10 +62,7 @@ const FooterPage = () => {
             </h5>
             <ul style={{ 'padding-left': 0 }}>
               <li className="list-unstyled">
-                <a href="Faq">FAQ</a>
-              </li>
-              <li className="list-unstyled">
-                <a href="#!">Terms and Conditions</a>
+                <Link to="/Faq">FAQ</Link>
               </li>
             </ul>
           </MDBCol>

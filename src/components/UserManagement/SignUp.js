@@ -71,32 +71,32 @@ class SignUp extends Component {
     }
 
     if (!this.state.personRequest.firstName) {
-      firstNameError = 'Please Enter Your First Name.';
+      firstNameError = 'First name is required.';
     }
     if (!this.state.personRequest.middleName) {
-      MiddleNameError = 'Please Enter Your Middle Name.';
+      MiddleNameError = 'Middle Name is required.';
     }
 
     if (!this.state.personRequest.lastName) {
-      lastNameError = 'Please Enter Your Last Name.';
+      lastNameError = 'Last Name is required.';
     }
     if (!this.state.personRequest.phoneNumber) {
-      phoneNumberError = 'Please Enter Your phone Number.';
+      phoneNumberError = 'Phone Number is required.';
     }
     if (!this.state.personRequest.email) {
-      emailError = 'Please Enter Your Email Address.';
+      emailError = 'Email Address is required.';
     }
     if (!this.state.personRequest.password) {
-      passwordError = 'Please Enter Your Password.';
+      passwordError = 'Password is required.';
     }
     else if (this.state.personRequest.password.length < 6) {
-      passwordError = 'Please Enter at Least 6 Charachter.';
+      passwordError = 'At Least 6 Charachter is required.';
     }
     if (!this.state.personRequest.passwordTwo) {
-      passwordTwoError = 'Please Enter Your Password.';
+      passwordTwoError = 'Password is required.';
     }
     else if (this.state.personRequest.passwordTwo.length < 6) {
-      passwordTwoError = 'Please enter at least 6 charachter.';
+      passwordTwoError = 'At least 6 charachter is required.';
     }
     else if (this.state.personRequest.password !== this.state.personRequest.passwordTwo) {
       passwordTwoError = 'Passwords Do Not Match.';
@@ -173,7 +173,7 @@ class SignUp extends Component {
                     <MDBRow className="d-flex justify-content-center white-text">
 
                       <h4 className="white-text my-3 py-3 font-weight-bold">
-                        <span class="fa fa-user-plus mr-2"></span> Personal information
+                        <span class="fa fa-user-plus mr-2"></span> Register
 </h4>
                     </MDBRow>
                   </div>
@@ -330,9 +330,9 @@ class SignUp extends Component {
                     </MDBCol>
                     <MDBCol md='6'>
                       <p className='font-medium grey-text d-flex justify-content-end'>
-                        Have an account?
-                    <a href='/signIn' color="cyan" className='blue-text ml-1'>Log in</a>
-
+                      
+                    <a href='/signIn' color="cyan" className='blue-text mr-1'>Log In</a>
+                    If already registered?
                       </p>
                     </MDBCol>
                   </MDBRow>

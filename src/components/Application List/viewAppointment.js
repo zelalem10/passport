@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
-import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBBadge } from 'mdbreact';
 import './viewAppointment.css';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useSelector } from 'react-redux';
 import { fi } from 'date-fns/locale';
 import ViewGroupAppointment from './viewGroupAppointment';
+import axios from 'axios';
 
 const Accordion = withStyles({
   root: {
@@ -53,10 +53,45 @@ const AccordionDetails = withStyles((theme) => ({
 }))(MuiAccordionDetails);
 
 export default function ViewAppointment(props) {
+  const accesstoken = localStorage.systemToken;
   const [expanded, setExpanded] = React.useState('panel1');
   const data = useSelector((state) => state);
   const appList = data.applicationList[data.applicationList.length - 1];
   let displayedApplication = {};
+  const getOccupation = (id) => {
+    debugger;
+    let occupations = JSON.parse(localStorage.occupations);
+    for (let index = 0; index < occupations.length; index++) {
+      if (occupations[index].id == id) {
+        return occupations[index].title;
+      }
+    }
+  };
+  // const getCountryRegion = (id) => {
+  //   let countryRegion = JSON.parse(localStorage.countryRegions);
+  //   for (let index = 0; index < countryRegion.length; index++) {
+  //     if (countryRegion[index].id == id) {
+  //       return countryRegion[index].type;
+  //     }
+  //   }
+  // };
+  const getFamilyType = (id) => {
+    let FamilyTypes = JSON.parse(localStorage.familyTypesResponse);
+    for (let index = 0; index < FamilyTypes.length; index++) {
+      if (FamilyTypes[index].id == id) {
+        return FamilyTypes[index].type;
+      }
+    }
+  };
+  const getNationalitys = (id) => {
+    let Nationalitys = JSON.parse(localStorage.nationalitys);
+    for (let index = 0; index < Nationalitys.length; index++) {
+      if (Nationalitys[index].id == id) {
+        return Nationalitys[index].name;
+      }
+    }
+  };
+
   const { displayRequestId } = props;
   const backToList = () => {
     window.location.href = '/Application-List';
@@ -67,12 +102,38 @@ export default function ViewAppointment(props) {
     }
   }
   const personalInformation = displayedApplication.personResponses;
+  let requestPersonId;
+  let attachmentlength;
+  const [attachment, setattachment] = useState([]);
+  let atachmentsample = [];
 
   if (personalInformation) {
     // if (personalInfo.length === 1) {
-
+    const personalInformation = displayedApplication.personResponses;
     const addressInformation = personalInformation.address;
     const familyInformation = personalInformation.familyResponses;
+
+    requestPersonId = personalInformation.requestPersonId;
+
+    axios({
+      headers: { Authorization: 'Bearer ' + accesstoken },
+      method: 'get',
+      url:
+        'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
+      params: { personRequestId: requestPersonId },
+    })
+      .then((Response) => {
+        attachmentlength = Response.data.attachments.length;
+
+        for (let i = 0; i < attachmentlength; i++) {
+          atachmentsample.push(Response.data.attachments[i]);
+        }
+        setattachment(atachmentsample);
+        console.log(attachment);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     const handleChange = (panel) => (event, newExpanded) => {
       setExpanded(newExpanded ? panel : false);
@@ -204,7 +265,7 @@ export default function ViewAppointment(props) {
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {personalInformation.nationality}
+                      {getNationalitys(personalInformation.nationalityId)}
                     </label>
                   </b>
                 </div>
@@ -248,7 +309,7 @@ export default function ViewAppointment(props) {
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {personalInformation.occupation}
+                      {getOccupation(personalInformation.occupationId)}
                     </label>
                   </b>
                 </div>
@@ -266,23 +327,23 @@ export default function ViewAppointment(props) {
 
                 <div class="form-group form-inline">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Birth Country
+                    Phone Number
                   </label>
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {personalInformation.birthCountry}
+                      {personalInformation.phoneNumber}
                     </label>
                   </b>
                 </div>
                 <div class="form-group form-inline">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Birth City
+                    Email
                   </label>
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {personalInformation.birthCity}
+                      {personalInformation.email}
                     </label>
                   </b>
                 </div>
@@ -292,12 +353,12 @@ export default function ViewAppointment(props) {
                 <hr class="text-primary" />
                 <div class="form-group form-inline">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Country
+                    Region
                   </label>
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {addressInformation.country}
+                      {addressInformation.region}
                     </label>
                   </b>
                 </div>
@@ -379,28 +440,7 @@ export default function ViewAppointment(props) {
                     </label>
                   </b>
                 </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Phone Number
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {addressInformation.phoneNumber}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Email
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {addressInformation.email}
-                    </label>
-                  </b>
-                </div>
+
                 <div class="form-group form-inline">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                     Request Place
@@ -423,7 +463,7 @@ export default function ViewAppointment(props) {
                   {familyInformation.map((family) => (
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        {family.familtyType}
+                        {getFamilyType(family.familtyTypeId)}
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
@@ -436,97 +476,27 @@ export default function ViewAppointment(props) {
                 </fieldset>
               ) : null}
               <fieldset>
-                <legend class="text-primary">Attachments</legend>
-                <hr class="text-primary" />
-
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    First Name
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newFirstName">
-                      Yisacc
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Surname
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newSurName">
-                      aberham
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Gender
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newGender">
-                      male
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Date of Birth
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newBirthDate">
-                      August 17 2020
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Country of Birth
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newCountryOfBirthId">
-                      Albania
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Place of Birth
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newPlaceOfBirth">
-                      ddddfd
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Address Country
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newAddressCountryId">
-                      Ethiopia
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Address City
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <lable class="font-weight-bold" id="newAddressCity">
-                      addis ababa
-                    </lable>
-                  </b>
-                </div>
+                <ul class="list-group mb-3">
+                  <li class="list-group-item ePassprt-color">
+                    <h5>Attachment Information</h5>
+                  </li>
+                  {attachment.length ? (
+                    attachment.map((attachmentitem) => (
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span>{attachmentitem.attachmentType} </span>
+                        <strong>
+                          <a href={attachmentitem.attachmentPath}>View File</a>
+                        </strong>
+                      </li>
+                    ))
+                  ) : (
+                    <h6 class="my-3">
+                      <MDBBadge color="warning p-3">
+                        You Don't Have Attachment Information
+                      </MDBBadge>
+                    </h6>
+                  )}
+                </ul>
               </fieldset>
             </div>
           </div>

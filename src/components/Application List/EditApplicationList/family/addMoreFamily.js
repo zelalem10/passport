@@ -59,7 +59,7 @@ function AddMoreFamily(props) {
                   </a>
 
                   <form className="mb-2">
-                    <div className="row">
+                    <div className="row p-3">
                       <div className="small-12 medium-8 column">
                         <div className="grey-text">
                           <MDBInput
@@ -86,7 +86,7 @@ function AddMoreFamily(props) {
                             className="browser-default custom-select"
                           >
                             <option style={{ display: 'none' }}>
-                              Choose your option
+                              Select family type
                             </option>
                             {familyType.map((item) => (
                               <option value={item.id}>{item.type}</option>

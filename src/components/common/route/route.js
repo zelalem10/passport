@@ -18,7 +18,8 @@ import PayWithPSS from '../../Payment/PayWithPSS';
 import contactUs from '../../Help and Support/contactUs';
 import about from '../../Help and Support/about';
 import confirmationPage from '../../confirmationPage';
-import InstructionPage from '../../Payment/Responses/InstructionPage';
+import InstructionPage from '../../InstructionPage';
+import GetContent from '../../UrgentAppointment/Payment/PaymentSelection';
 
 function PassportRoute() {
   //   childUrl = window.open('/preview', '_blank')
@@ -46,7 +47,7 @@ function PassportRoute() {
       <Route path="/Pay_With_PSS" component={PayWithPSS} />
       <Route path="/contactUs" component={contactUs} />
       <Route path="/about" component={about} />
-      {/* <Status loading={loading} /> */}
+      <Route path="/urgentAppointmentPayment" component={GetContent} />
     </>
   );
 }

@@ -15,7 +15,7 @@ h1 {
 
 .card--small-gutters,
 .card--small-gutters.row {
-  padding: 0.75rem !important;
+  padding: 0.75rem;
 }
 .card--small-gutters > .column:first-child {
   padding-left: 0;
@@ -171,7 +171,7 @@ p .video__toggle {
   text-transform: none !important;
 }
 .card--small-gutters .small-12 .card {
-  padding: 2rem;
+  padding: 2rem !important;
   position: relative;
   transition: background 0.25s;
 }
@@ -346,7 +346,7 @@ p .video__toggle {
 }
 
 .button.hollow:hover {
-  background: #3e79ee;
+  background: #224b9f;
   color: #fefefe !important;
 }
 .applicants-button {
@@ -737,5 +737,18 @@ select {
   padding-top: 2%;
 }
 .termConditions {
-  color: red;
+  color: #ff0000;
+}
+.next-button {
+  text-align: right !important;
+}
+.family-delete-icon {
+  color: #ff0000;
+}
+.family-delete-icon:hover {
+  color: #713031;
+}
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background: #093c73 !important;
 }

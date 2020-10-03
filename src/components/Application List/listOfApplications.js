@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MDBRow, MDBContainer, MDBCol } from 'mdbreact';
+import { MDBRow, MDBContainer, MDBCol, MDBTooltip } from 'mdbreact';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -21,6 +21,7 @@ export default function ListOfApplications(props) {
     loading,
     Message,
     cancelRequestId,
+    handlePayment,
   } = props;
   debugger;
   return (
@@ -61,9 +62,9 @@ export default function ListOfApplications(props) {
                       <div className="multistep-form__step">
                         <div className="small-12 column request-type">
                           <div class="request-card card card--small-gutters card--shadow row ">
-                            <a class="small-12 column row card--link vertical-margin-1 ">
-                              <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
-                                <h5>
+                            <a class="small-12 column row card--link">
+                              <div class="small-12 medium-4 column card  card--teal flex flex--column align-center text-center p-4">
+                                <h5 class="vertical-center text-center">
                                   <strong>
                                     {user.personResponses.firstName}{' '}
                                     {user.personResponses.middleName}{' '}
@@ -73,7 +74,7 @@ export default function ListOfApplications(props) {
                                 <div class="text-center vertical-margin-half"></div>
                               </div>
 
-                              <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
+                              <div class="small-12 medium-8 column card  card--gray rtf rtf--small bold p-4">
                                 <div>
                                   <div>
                                     <strong className="d-inline">
@@ -83,9 +84,13 @@ export default function ListOfApplications(props) {
                                   </div>
                                   <div>
                                     <strong className="d-inline">
-                                      Request Date :{' '}
+                                      Appointment Date :{' '}
                                     </strong>
-                                    {new Date(user.requestDate)
+                                    {new Date(
+                                      user.appointmentResponse
+                                        ? user.appointmentResponse.date
+                                        : null
+                                    )
                                       .toISOString()
                                       .substr(0, 10)}
                                   </div>
@@ -102,50 +107,75 @@ export default function ListOfApplications(props) {
                                     {user.requestStatus}
                                   </div>{' '}
                                 </div>
-
-                                {/* <a
-                                  className="hoverWhite"
-                                  onClick={() => openModal(user.requestId)}
-                                >
-                                  {' '}
-                                  <div class="float-right mr-4">
-                                    <i class="far fa-trash-alt fa-lg"></i>
-                                  </div>
-                                </a> */}
-
-                                <a
-                                  className="hoverWhite"
-                                  onClick={() => handleEdit(user.requestId)}
-                                >
-                                  {' '}
-                                  <div class="float-right mr-4">
-                                    <i class="fas fa-edit fa-lg"></i>
-                                  </div>
-                                </a>
-                                {/* )} */}
+                                {user.requestStatus == 'UrgentRequested' &&
+                                user.requestStatus == 'UrgentRequested' ? (
+                                  <a
+                                    className="hoverWhite"
+                                    onClick={() =>
+                                      handlePayment(user.requestId)
+                                    }
+                                  >
+                                    {' '}
+                                    <div class="float-right mr-4">
+                                      <i class="fas fa-credit-card fa-lg"></i>
+                                    </div>
+                                  </a>
+                                ) : null}
+                                {user.requestStatus == 'SendforCorrection' &&
+                                user.requestStatus == 'Initial' ? (
+                                  <a
+                                    className="hoverWhite"
+                                    onClick={() => handleEdit(user.requestId)}
+                                  >
+                                    {' '}
+                                    <div class="float-right mr-4">
+                                      <i class="fas fa-edit fa-lg"></i>
+                                    </div>
+                                  </a>
+                                ) : null}
 
                                 <a
                                   className="hoverWhite"
                                   onClick={() => handleDisplay(user.requestId)}
                                 >
                                   {' '}
-                                  <div class="float-right mr-4">
-                                    <i class="fas fa-eye fa-lg"></i>
-                                  </div>
+                                  <MDBTooltip
+                                    domElement
+                                    tag="span"
+                                    placement="top"
+                                  >
+                                    <span class="float-right mr-4">
+                                      <i class="fas fa-eye fa-lg"></i>
+                                    </span>
+                                    <span className="white-text">
+                                      {' '}
+                                      View your application
+                                    </span>
+                                  </MDBTooltip>
                                 </a>
-                                {/* {user.requestStatus == 'Requested' ? null : ( */}
-                                <a
-                                  className="hoverWhite"
-                                  onClick={() =>
-                                    handleReschedule(user.requestId)
-                                  }
-                                >
-                                  {' '}
-                                  <div class="float-right mr-4">
-                                    <i class="fas fa-calendar fa-lg"></i>
-                                  </div>
-                                </a>
-                                {/* )} */}
+                                {user.requestStatus == 'Paid' ? (
+                                  <a
+                                    className="hoverWhite"
+                                    onClick={() =>
+                                      handleReschedule(user.requestId)
+                                    }
+                                  >
+                                    {' '}
+                                    <MDBTooltip
+                                      domElement
+                                      tag="span"
+                                      placement="top"
+                                    >
+                                      <span class="float-right mr-4">
+                                        <i class="fas fa-calendar fa-lg"></i>
+                                      </span>
+                                      <span className="white-text">
+                                        {' '}
+                                        Re schedule your application
+                                      </span>
+                                    </MDBTooltip>
+                                  </a>
+                                ) : null}
 
                                 <Dialog
                                   open={open}

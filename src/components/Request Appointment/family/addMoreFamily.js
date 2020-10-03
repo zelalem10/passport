@@ -25,16 +25,17 @@ function AddMoreFamily(props) {
                     <button
                       onClick={() => props.deleteThisFamily(item.id)}
                       aria-hidden="true"
-                      className="accordion__button icon icon--expand"
+                      className="accordion__button family-delete-icon icon icon--expand"
                     >
-                      <i class="fas fa-minus-circle fa-lg"></i>
+                      <i class="fas fa-trash-alt fa-sm "></i>
                     </button>
+
                     <button
                       aria-hidden="true"
                       onClick={() => props.editThisFamily(item.id, index)}
-                      className="accordion__button edit icon icon--expand"
+                      className="accordion__button edit icon icon--expand "
                     >
-                      <i class="fas fa-edit fa-lg"></i>
+                      <i class="fas fa-edit fa-sm"></i>
                     </button>
                   </div>
                   <MDBCardTitle>
@@ -62,7 +63,7 @@ function AddMoreFamily(props) {
                   </a>
 
                   <form className="mb-2">
-                    <div className="row">
+                    <div className="row p-3">
                       <div className="small-12 medium-8 column">
                         <div className="grey-text">
                           <select
@@ -71,7 +72,7 @@ function AddMoreFamily(props) {
                             className="browser-default custom-select"
                           >
                             <option style={{ display: 'none' }}>
-                              Choose your option
+                              Select family type
                             </option>
                             {familyType.map((item) => (
                               <option value={item.id}>{item.type}</option>

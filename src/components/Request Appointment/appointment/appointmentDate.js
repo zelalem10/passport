@@ -54,7 +54,6 @@ const MyApp = forwardRef((props, ref) => {
       !officeInformation.hasOwnProperty('offceId') &&
       siteInfo.hasOwnProperty('offceId')
     ) {
-      console.log('heeeeeyeeeeeeeeeeeeeeeeeeeeeee');
       setOfficeInformation(siteInfo);
     }
   }
@@ -282,9 +281,16 @@ const MyApp = forwardRef((props, ref) => {
       url: baseUrl + '/Master/api/V1.0/AdvancedRestriction/GetAll',
     })
       .then(async (response) => {
-        debugger;
-        advancedRestrictionData = response.data.advancedRestrictions[0];
-        setResponse(response.data.advancedRestrictions[0]);
+        advancedRestrictionData = siteInfo
+          ? response.data.advancedRestrictions.filter(
+              (advanceRestriction) =>
+                advanceRestriction.officeId == parseInt(siteInfo.offceId)
+            )[0]
+          : response.data.advancedRestrictions[0];
+        advancedRestrictionData = advancedRestrictionData
+          ? advancedRestrictionData
+          : response.data.advancedRestrictions[0];
+        setResponse(advancedRestrictionData);
         const headers = {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + token,
@@ -300,17 +306,18 @@ const MyApp = forwardRef((props, ref) => {
               startDate: new Date(
                 new Date().setTime(
                   new Date().getTime() +
-                    response.data.advancedRestrictions[0].minDays * 86400000
+                    advancedRestrictionData.minDays * 86400000
                 )
               ),
               endDate: new Date(
                 new Date().setTime(
                   new Date().getTime() +
-                    response.data.advancedRestrictions[0].maxDays * 86400000
+                    advancedRestrictionData.maxDays * 86400000
                 )
               ),
               requestTypeId: data.appointemntType,
               officeId: parseInt(siteInfo.offceId),
+              noOfApplicants: 1,
             },
           })
             .then((responses) => {
@@ -389,21 +396,22 @@ const MyApp = forwardRef((props, ref) => {
               startDate: new Date(
                 new Date().setTime(
                   new Date().getTime() +
-                    response.data.advancedRestrictions[0].minDays * 86400000
+                    advancedRestrictionData.minDays * 86400000
                 )
               ),
               endDate: new Date(
                 new Date().setTime(
                   new Date().getTime() +
-                    response.data.advancedRestrictions[0].maxDays * 86400000
+                    advancedRestrictionData.maxDays * 86400000
                 )
               ),
               requestTypeId: data.appointemntType,
               officeId: parseInt(siteInfo.offceId),
+              noOfApplicants: parseInt(data.numberOfApplicants),
             },
           })
             .then((responses) => {
-              debugger;
+              console.log(responses.data.availableDateAndTimes);
               for (
                 let i = 0;
                 i < responses.data.availableDateAndTimes.length;
@@ -466,13 +474,11 @@ const MyApp = forwardRef((props, ref) => {
               }
             })
             .catch((error) => {
-              debugger;
               console.log('error' + error);
             });
         }
       })
       .catch((error) => {
-        debugger;
         console.log('error' + error);
       });
   }, [isUrgentAppointment, officeInformation]);
@@ -482,7 +488,8 @@ const MyApp = forwardRef((props, ref) => {
   };
   const showTimeSlots = (date) => {
     if (!isUrgentAppointment) {
-      debugger;
+      let formatedSelectedDate =
+        date.getFullYear() + ',' + (date.getMonth() + 1) + ',' + date.getDate();
       let timeSlotsForSpecificDate = [];
       for (let i = 0; i < availableTimes.length; i++) {
         let dateAV = new Date(availableTimes[i].date);
@@ -492,7 +499,7 @@ const MyApp = forwardRef((props, ref) => {
           (dateAV.getMonth() + 1) +
           ',' +
           dateAV.getDate();
-        let stringDate = date.toString();
+        let stringDate = new Date(formatedSelectedDate).toString();
         let stringFormatedavDate = new Date(formatedavDate).toString();
         if (stringFormatedavDate === stringDate) {
           if (availableTimes[i]) {
@@ -535,21 +542,24 @@ const MyApp = forwardRef((props, ref) => {
             />
 
             {isUrgentAppointment ? (
-              <MDBTypography note noteColor="danger" noteTitle="Note danger: ">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum
-                doloremque officia laboriosam. Itaque ex obcaecati architecto!
-                Qui necessitatibus delectus placeat illo rem id nisi consequatur
-                esse, sint perspiciatis soluta porro?
+              <MDBTypography note noteColor="danger" noteTitle="Notice: ">
+                Request for urgent may be considered if the purpose of travel is
+                for medical or legal emergency purposes, death in the family,
+                etc
               </MDBTypography>
             ) : (
               <MDBTypography
                 note
                 noteColor="info"
-                noteTitle={`Note info: ${durationLength} `}
+                noteTitle={`Notification: ${durationLength} `}
               >
                 Estimated Delivery date is within {durationLength} days{' '}
                 {timeSlots.length > 0 ? (
-                  <b>{selectDays.toISOString().substr(0, 10)}</b>
+                  <b>{`${selectDays.getFullYear()} 
+                  -
+                  ${selectDays.getMonth() + 1}
+                  -
+                  ${selectDays.getDate()}`}</b>
                 ) : null}
               </MDBTypography>
             )}
@@ -558,34 +568,36 @@ const MyApp = forwardRef((props, ref) => {
         <MDBRow key={key}>
           <MDBCol md="6">
             <h3>Date</h3>
-            <Calendar
-              allowPartialRange
-              onChange={onChange}
-              value={state.date}
-              minDate={
-                new Date(
-                  new Date().setTime(
-                    new Date().getTime() + respone.minDays * 86400000
+            <div id="chooseAppointments">
+              <Calendar
+                allowPartialRange
+                onChange={onChange}
+                value={state.date}
+                minDate={
+                  new Date(
+                    new Date().setTime(
+                      new Date().getTime() + respone.minDays * 86400000
+                    )
                   )
-                )
-              }
-              maxDate={
-                new Date(
-                  new Date().setTime(
-                    new Date().getTime() + respone.maxDays * 86400000
+                }
+                maxDate={
+                  new Date(
+                    new Date().setTime(
+                      new Date().getTime() + respone.maxDays * 86400000
+                    )
                   )
-                )
-              }
-              tileDisabled={({ date, view }) =>
-                view === 'month' && // Block day tiles only
-                disabledDate.some(
-                  (disabledDateItem) =>
-                    date.getFullYear() === disabledDateItem.getFullYear() &&
-                    date.getMonth() === disabledDateItem.getMonth() &&
-                    date.getDate() === disabledDateItem.getDate()
-                )
-              }
-            />
+                }
+                tileDisabled={({ date, view }) =>
+                  view === 'month' && // Block day tiles only
+                  disabledDate.some(
+                    (disabledDateItem) =>
+                      date.getFullYear() === disabledDateItem.getFullYear() &&
+                      date.getMonth() === disabledDateItem.getMonth() &&
+                      date.getDate() === disabledDateItem.getDate()
+                  )
+                }
+              />
+            </div>
           </MDBCol>
           {!isUrgentAppointment ? (
             <MDBCol md="6">

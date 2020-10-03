@@ -6,6 +6,7 @@ import GroupNavigation from '../GroupRequest/GroupNavigation';
 import PaymentSelection from '../Payment/PaymentSelection';
 import Instraction from '../Payment/Responses/InstructionPage';
 import { Tab, Row, Nav, Col, Button, Card } from 'react-bootstrap';
+import { MDBCol, MDBContainer, MDBRow } from 'mdbreact';
 import ViewAppointment from '../Request/Summary';
 import {
   BsCheck,
@@ -40,23 +41,20 @@ export default function RequestStepper() {
   const paymentRef = useRef();
   const dispatch = useDispatch();
   function handelNext() {
-    if(indexValue===0){
+    if (indexValue === 0) {
       siteRef.current.saveData();
       if (siteRef.current.isCompleted() === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
         formCompleted[indexValue] = true;
-      } 
-    }
-    else if(indexValue===1){
+      }
+    } else if (indexValue === 1) {
       if (appointmentRef.current.isCompleted() === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
         formCompleted[indexValue] = true;
-      }
-      else{
+      } else {
         appointmentRef.current.saveData();
       }
-    }
-    else if (indexValue === 2) {
+    } else if (indexValue === 2) {
       personalRef.current.saveData();
       setIndexValue((prevActiveStep) => prevActiveStep + 1);
       formCompleted[2] = true;
@@ -66,16 +64,14 @@ export default function RequestStepper() {
       if (summaryRef.current.isCompleted() === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
         formCompleted[indexValue] = true;
-      } 
-    }
-    else if(indexValue===4){
+      }
+    } else if (indexValue === 4) {
       paymentRef.current.saveData();
       if (paymentRef.current.isCompleted() === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
         formCompleted[indexValue] = true;
-      } 
+      }
     }
-   
   }
   function handelPrevious() {
     setIndexValue(indexValue - 1);
@@ -108,7 +104,7 @@ export default function RequestStepper() {
     <Tab.Container defaultActiveKey="first" activeKey={activeKey[indexValue]}>
       <div style={{ margin: '2rem' }}>
         <Row>
-          <Col variant="secondary" lg={3}>
+          <Col variant="secondary" lg={3} className='mb-4'>
             <Card>
               <Card.Header>Request Appointment </Card.Header>
               <Nav variant="pills" className="flex-column">
@@ -196,7 +192,7 @@ export default function RequestStepper() {
                 <ViewAppointment ref={summaryRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[4]}>
-                <PaymentSelection  ref={paymentRef} />
+                <PaymentSelection ref={paymentRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[5]}>
                 <Instraction />
@@ -205,25 +201,29 @@ export default function RequestStepper() {
           </Col>
         </Row>
         {indexValue === 2 ? null : (
-          <Row>
-            <Col lg={3}></Col>
-            <Col lg={2}>
-              <Button
-                variant="primary"
-                onClick={handelPrevious}
-                disabled={indexValue == 0 ? true : false}
-              >
-                <BsArrowLeftShort /> previous
-            </Button>{' '}
-          </Col>
-          <Col lg={5}></Col>
-          <Col lg={2}>
-            <Button variant="primary" onClick={handelNext}>
-              Next
-              <BsArrowRightShort />
-              </Button>{' '}
+          <MDBRow>
+            <Col sm={3}></Col>
+            <Col sm={9}>
+              <MDBRow>
+                <MDBCol md={2}>
+                  <Button
+                    variant="primary"
+                    onClick={handelPrevious}
+                    disabled={indexValue == 0 ? true : false}
+                  >
+                    <BsArrowLeftShort /> previous
+                  </Button>{' '}
+                </MDBCol>
+                <MDBCol md={8}></MDBCol>
+                <MDBCol md={2} className="next-button">
+                  <Button variant="primary" onClick={handelNext}>
+                    Next
+                    <BsArrowRightShort />
+                  </Button>{' '}
+                </MDBCol>
+              </MDBRow>
             </Col>
-          </Row>
+          </MDBRow>
         )}
       </div>
     </Tab.Container>

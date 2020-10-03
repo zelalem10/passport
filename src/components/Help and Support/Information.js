@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { MDBContainer } from 'mdbreact';
 import '../Help and Support/Faq.css'
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,7 +23,7 @@ export default function Information() {
     const classes = useStyles();
 
     return (
-        <MDBContainer fluid style={{ width: '80%' }}>
+        <MDBContainer className="passport-container"  fluid>
             <div class="row passportaccordion" >
                 <div class="col-lg-8 mr-5">
                 <div class="u-center-text u-margin-bottom-big mt-5">
@@ -37,7 +38,7 @@ export default function Information() {
                                 id="panel1a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For New Passport
+                                    New Passport
                             </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -102,7 +103,7 @@ export default function Information() {
 
                                 </Typography>
                             </AccordionDetails>
-                            <div class="col-12 medium text-center my-3"><a href="/request-appointment" class="btn btnBlu">Apply Now</a></div>
+                            <div class="col-12 medium text-center my-3"><Link to="/request-appointment" class="btn btnBlu">Apply Now</Link></div>
                         </Accordion>
                         <Accordion className='accordion-item'>
                             <AccordionSummary
@@ -111,7 +112,7 @@ export default function Information() {
                                 id="panel2a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For Expired Passport
+                                    Expired Passport
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -179,7 +180,7 @@ export default function Information() {
 
 
                             </AccordionDetails>
-                            <div class="col-12 medium text-center my-3"><a href="/request-appointment" class="btn btnBlu">Apply Now</a></div>
+                            <div class="col-12 medium text-center my-3"><Link to="/request-appointment" class="btn btnBlu">Apply Now</Link></div>
                         </Accordion>
                         <Accordion className='accordion-item'>
                             <AccordionSummary
@@ -188,7 +189,7 @@ export default function Information() {
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For Passport Page RunOut
+                                    Passport Page RunOut
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -258,7 +259,7 @@ export default function Information() {
                                 </Typography>
 
                             </AccordionDetails>
-                            <div class="col-12 medium text-center my-3"><a href="/request-appointment" class="btn btnBlu">Apply Now</a></div>
+                            <div class="col-12 medium text-center my-3"><Link to="/request-appointment" class="btn btnBlu">Apply Now</Link></div>
                         </Accordion>
                         <Accordion className='accordion-item'>
                             <AccordionSummary
@@ -267,7 +268,7 @@ export default function Information() {
                                 id="panel4a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For Damaged Passport
+                                    Damaged Passport
           </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -351,7 +352,7 @@ export default function Information() {
 
 
                             </AccordionDetails>
-                            <div class="col-12 medium text-center my-3"><a href="/request-appointment" class="btn btnBlu">Apply Now</a></div>
+                            <div class="col-12 medium text-center my-3"><Link to="/request-appointment" class="btn btnBlu">Apply Now</Link></div>
                         </Accordion>
                         <Accordion className='accordion-item'>
                             <AccordionSummary
@@ -360,7 +361,7 @@ export default function Information() {
                                 id="panel2a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For Lost/Stolen Passport
+                                    Lost/Stolen Passport
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -435,7 +436,7 @@ export default function Information() {
                                 </Typography>
 
                             </AccordionDetails>
-                            <div class="col-12 medium text-center my-3"><a href="/request-appointment" class="btn btnBlu">Apply Now</a></div>
+                            <div class="col-12 medium text-center my-3"><Link to="/request-appointment" class="btn btnBlu">Apply Now</Link></div>
 
                         </Accordion>
                         <Accordion className='accordion-item'>
@@ -445,7 +446,7 @@ export default function Information() {
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For Change of Passport Data
+                                    Change of Passport Data
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -532,7 +533,7 @@ export default function Information() {
 
                                 </Typography>
                             </AccordionDetails>
-                            <div class="col-12 medium text-center my-3"><a href="/request-appointment" class="btn btnBlu">Apply Now</a></div>
+                            <div class="col-12 medium text-center my-3"><Link to="/request-appointment" class="btn btnBlu">Apply Now</Link></div>
                         </Accordion>
                         <Accordion className='accordion-item'>
                             <AccordionSummary
@@ -541,7 +542,7 @@ export default function Information() {
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For Not Expired Passport
+                                    Not Expired Passport
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -617,7 +618,7 @@ If your passport is With 2 or {'<'} 2 years of valid date, you should have to pu
                                 </Typography>
 
                             </AccordionDetails>
-                            <div class="col-12 medium text-center my-3"><a href="/request-appointment" class="btn btnBlu">Apply Now</a></div>
+                            <div class="col-12 medium text-center my-3"><Link to="/request-appointment" class="btn btnBlu">Apply Now</Link></div>
 
                         </Accordion>
                         <Accordion className='accordion-item'>
@@ -627,7 +628,7 @@ If your passport is With 2 or {'<'} 2 years of valid date, you should have to pu
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For Applicant Under 18
+                                    Applicant Under 18
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -651,7 +652,7 @@ If your passport is With 2 or {'<'} 2 years of valid date, you should have to pu
                                 </Typography>
 
                             </AccordionDetails>
-                            <div class="col-12 medium text-center my-3"><a href="/request-appointment" class="btn btnBlu">Apply Now</a></div>
+                            <div class="col-12 medium text-center my-3"><Link to="/request-appointment" class="btn btnBlu">Apply Now</Link></div>
 
                         </Accordion>
                         <Accordion className='accordion-item'>
@@ -661,7 +662,7 @@ If your passport is With 2 or {'<'} 2 years of valid date, you should have to pu
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For Urgent Service
+                                    Urgent Service
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -690,7 +691,7 @@ If your passport is With 2 or {'<'} 2 years of valid date, you should have to pu
                                 </Typography>
 
                             </AccordionDetails>
-                            <div class="col-12 medium text-center my-3"><a href="/request-appointment" class="btn btnBlu">Apply Now</a></div>
+                            <div class="col-12 medium text-center my-3"><Link to="/request-appointment" class="btn btnBlu">Apply Now</Link></div>
 
                         </Accordion>
                         <Accordion className='accordion-item'>
@@ -700,7 +701,7 @@ If your passport is With 2 or {'<'} 2 years of valid date, you should have to pu
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    For Emergency
+                                   Emergency
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -713,7 +714,7 @@ If your passport is With 2 or {'<'} 2 years of valid date, you should have to pu
 
 
                             </AccordionDetails>
-                            <div class="col-12 medium text-center my-3"><a href="/request-appointment" class="btn btnBlu">Apply Now</a></div>
+                            <div class="col-12 medium text-center my-3"><Link to="/request-appointment" class="btn btnBlu">Apply Now</Link></div>
                         </Accordion>
 
                     </div>
@@ -722,12 +723,12 @@ If your passport is With 2 or {'<'} 2 years of valid date, you should have to pu
                     <div class="evisalist mt-5">
                         <ul class="list-group">
                             <li class="list-group-item ePassprt-color">RELATED LINKS</li>
-                            <li class="list-group-item"><a class="text-dark" href="/FAQ">FAQ</a></li>
-                            <li class="list-group-item"><a class="text-dark" href="/Oridnary Passport">Oridnary Passport</a></li>
-                            <li class="list-group-item"><a class="text-dark" href="/Diplomatic Passport">Diplomatic Passport</a></li>
-                            <li class="list-group-item"><a class="text-dark" href="/Replacment Passport 32 Pages">Replacment Passport 32 Pages</a></li>
-                            <li class="list-group-item"><a class="text-dark" href="/Replacment of Stolen Passport">Replacment of Stolen Passport</a></li>
-                            <li class="list-group-item"><a class="text-dark" href="/Terms and Conditions">Terms and Conditions</a></li>
+                            <li class="list-group-item"><Link class="text-dark" to="/FAQ">FAQ</Link></li>
+                            <li class="list-group-item"><Link class="text-dark" to="/Oridnary Passport">Oridnary Passport</Link></li>
+                            <li class="list-group-item"><Link class="text-dark" to="/Diplomatic Passport">Diplomatic Passport</Link></li>
+                            <li class="list-group-item"><Link class="text-dark" to="/Replacment Passport 32 Pages">Replacment Passport 32 Pages</Link></li>
+                            <li class="list-group-item"><Link class="text-dark" to="/Replacment of Stolen Passport">Replacment of Stolen Passport</Link></li>
+                            <li class="list-group-item"><Link class="text-dark" to="/Terms and Conditions">Terms and Conditions</Link></li>
 
                         </ul>
                     </div>

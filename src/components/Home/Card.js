@@ -9,7 +9,7 @@ import {
   MDBCardBody,
   MDBContainer,
 } from 'mdbreact';
-
+import { Link } from 'react-router-dom';
 import { faPassport } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -24,10 +24,11 @@ const CardExample = () => {
             className="w-10 mb-2"
             src={require('../../images/icons/new-passport-.png')}
           ></img>
-            <MDBCardTitle tag="h5">Start new application</MDBCardTitle>
+            <MDBCardTitle tag="h5">
+            <Link class="card-title text-white" to="/request-appointment">Start New Application</Link> 
+              </MDBCardTitle>
             <MDBCardText>
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
+            Do you want to secure Ethiopian Passport now? Provide all requested information and apply.
             </MDBCardText>
           </MDBCardBody>
         </MDBCard>
@@ -38,10 +39,13 @@ const CardExample = () => {
             className="w-10 mb-2"
             src={require('../../images/icons/Passport-renewal.png')}
           ></img>
-            <MDBCardTitle tag="h5">I already have a passport</MDBCardTitle>
+            <MDBCardTitle tag="h5">
+            <Link class="card-title text-white" to="/SignUp">REGISTER</Link> 
+          
+              </MDBCardTitle>
             <MDBCardText>
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
+            Are you planning to be a frequent Passport user? 
+            Register and let us remember you so that you won’t have to fill application forms from scratch every time. This is optional.
             </MDBCardText>
           </MDBCardBody>
         </MDBCard>
@@ -52,10 +56,12 @@ const CardExample = () => {
             className="w-10 mb-2"
             src={require('../../images/icons/check status copy.png')}
           ></img>
-            <MDBCardTitle tag="h5">Check Status</MDBCardTitle>
+            <MDBCardTitle tag="h5">
+            <Link class="card-title text-white" to="/Status"> Check Status</Link> 
+            
+              </MDBCardTitle>
             <MDBCardText>
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
+            What is the status of my Ethiopian Passport request? Provide all requested tracking information and check now.
             </MDBCardText>
           </MDBCardBody>
         </MDBCard>

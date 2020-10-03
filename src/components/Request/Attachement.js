@@ -7,11 +7,10 @@ import React, {
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from '../common/Spinner';
-import { MDBCol, MDBRow } from 'mdbreact';
+import { MDBCol, MDBRow, MDBBadge } from 'mdbreact';
 
 const Fileupload = forwardRef((props, ref) => {
-  let [successMessage, setsuccessMessage] = useState(false);
-  let [errorMessage, seterrorMessage] = useState(false);
+
   const accesstoken = localStorage.systemToken;
   const formData = new FormData();
   let requestTypeId;
@@ -31,7 +30,8 @@ const Fileupload = forwardRef((props, ref) => {
   let requestPersonId = useSelector(
     (state) => state.commonData[0].requestPersonId
   );
-
+  const [errorMessage, seterrorMessage] = useState([]);
+  let fileError = [];
   const [loading, setloading] = useState(false);
   const [filename, setfilename] = useState({
     1: '',
@@ -47,6 +47,7 @@ const Fileupload = forwardRef((props, ref) => {
     11: '',
     12: '',
   });
+  
 
   useImperativeHandle(ref, () => ({
     saveData() {
@@ -59,56 +60,78 @@ const Fileupload = forwardRef((props, ref) => {
       return true;
     },
   }));
+  
+  const validate = (files) => {
+    debugger;
+  
+    if (files.length < attachmentTypeName.length){
+      fileError.push(
+        `You Should have to Choose all files`
+      );
+     
+    }
+    // else  if (files.length > 0) { 
+    //     for (const i = 0; i <= files.length - 1; i++) { 
+
+    //         // The size of the file. 
+    //         if (files[i].size >= 4096) { 
+    //           fileError.push(
+    //             "File too Big, please select a file less than 4mb"
+    //           );
+                  
+    //         } 
+    //     } 
+    // } 
+  
+
+  seterrorMessage(fileError)
+  
+      if(fileError.length > 0){
+        return false;
+      }
+  
+  
+      return true;
+    }
 
   const submit = async (e) => {
     //props.hideBack();
     debugger;
     e.preventDefault();
-    setloading(true);
-    setsuccessMessage(false);
-    seterrorMessage(false);
-    console.log(files);
-    console.log(fileType);
-    // for (let i = 0; i < requiredAttachements; i++) {
-    //   files = e.target[i].files[0];
-    //   let fileType = e.target[i].id;
-    //   console.log(files)
-    //   console.log(fileType)
-    //   formData.append('personRequestId', requestPersonId);
-    //   formData.append(fileType, files);
+    fileError = [];
+    const isValid = validate(files);
+    if (isValid){
+      setloading(true);
 
-    // }
-    for (let i = 0; i < files.length; i++) {
-      formData.append('personRequestId', requestPersonId);
-      formData.append(fileType[i], files[i]);
-      console.log(files[i]);
-      console.log(fileType[i]);
-    }
-
-    const url =
-      'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadAttachment';
-
-    const config = {
-      headers: {
-        'content-type': 'multipart/form-data',
-        Authorization: 'Bearer ' + accesstoken,
-      },
-    };
+      for (let i = 0; i < files.length; i++) {
+        formData.append('personRequestId', requestPersonId);
+        formData.append(fileType[i], files[i]);
+        console.log(files[i]);
+        console.log(fileType[i]);
+      }
+  
+      const url = 'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadAttachment';
+  
+      const config = {
+        headers: {
+          'content-type': 'multipart/form-data',
+          Authorization: 'Bearer ' + accesstoken,
+        },
+      };
 
     //return post(url, formData, config);
     try {
       const response = await axios.post(url, formData, config);
       console.log(response.data);
-      setsuccessMessage(true);
       setloading(false);
       props.showBack();
       props.VerticalNext();
     } catch (error) {
       console.log('error' + error.message);
-      seterrorMessage(true);
       setloading(false);
       //props.showBack();
     }
+  }
   };
   const onChange = (e) => {
     debugger;
@@ -128,13 +151,12 @@ const Fileupload = forwardRef((props, ref) => {
   for (let i = 0; i < requiredAttachements; i++) {
     debugger;
     inputs.push(
-      <div class="row">
-        <div class="col-lg-4">
-          <label for="exampleInputEmail1" class="mr-1">
-            {attachmentTypeName[i]} :
-          </label>
+
+      <div class="row my-5" id='attachmentmargin'>
+        <div class="col-md-5 passport-text-right">
+        <MDBBadge color="primary smallPadding "> {attachmentTypeName[i]} </MDBBadge>
         </div>
-        <div class="col-lg-8 my-3">
+        <div class="col-md-5">
           <div className="input-group">
             <div className="input-group-prepend">
               <span className="input-group-text" id="inputGroupFileAddon01">
@@ -148,6 +170,7 @@ const Fileupload = forwardRef((props, ref) => {
                 id={requiredAttachementType[i]}
                 className="custom-file-input"
                 aria-describedby="inputGroupFileAddon01"
+                accept="image/png,image/gif,image/jpeg,image/jpg,application/pdf"
                 onChange={(e) => onChange(e)}
               />
 
@@ -155,13 +178,14 @@ const Fileupload = forwardRef((props, ref) => {
                 {filename[requiredAttachementType[i]] ? (
                   filename[requiredAttachementType[i]]
                 ) : (
-                  <div>Choose {attachmentTypeName[i]}</div>
+                  <div class='smallFont'>Choose file</div>
                 )}
               </label>
             </div>
           </div>
         </div>
       </div>
+
     );
   }
 
@@ -170,27 +194,36 @@ const Fileupload = forwardRef((props, ref) => {
       {loading ? (
         <Spinner />
       ) : (
+        <div class='container'>
         <form onSubmit={(e) => submit(e)}>
-          {successMessage && (
-            <div class="alert alert-success" role="alert">
-              Operation sucessfully completed
-            </div>
-          )}
-          {errorMessage && (
-            <div class="alert alert-danger" role="alert">
-              Oops! Something went wrong.
-            </div>
-          )}
+    
+        <div class="row " >
+        <div class="col-md-10 ">
+        {
+           errorMessage.length ? 
+           errorMessage.map((error) => (
+            <div class="alert alert-danger text-center" role="alert">
+                {error}
+           </div>
+              ))
+              : null
+    
+            }
+          </div>
+          </div>
+        
+        
           {inputs}
           <MDBRow>
             <MDBCol md="9"></MDBCol>
             <MDBCol>
-              <button className="btn btn-primary ml-auto" type="submit">
+              <button className="btn btn-primary text-right" type="submit">
                 Upload
               </button>
             </MDBCol>
           </MDBRow>
         </form>
+      </div>
       )}
     </div>
   );

@@ -9,6 +9,7 @@ import HorizontalLabelPositionBelowStepper from './EditApplicationList/PersonslI
 import GroupRequestStepper from './EditApplicationList/Group/GroupNavigation';
 import RescheduleAppointment from './Rescheduleappointment/appointmentDate';
 import { useHistory } from 'react-router-dom';
+import GetContent from '../UrgentAppointment/Payment/PaymentSelection';
 
 function ApplicationList() {
   const tokenValue = () => {
@@ -40,6 +41,8 @@ function ApplicationList() {
   const [loading, setloading] = useState(true);
   const [Message, setMessage] = useState(false);
   const [isCancelSchedule, setisCancelSchedule] = useState(false);
+  const [handlePaymentId, setHandlePaymentId] = useState('');
+  const [goToPayment, setGoToPayment] = useState(false);
   let history = useHistory();
 
   const handleDisplay = (id) => {
@@ -70,7 +73,6 @@ function ApplicationList() {
         'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/GetMyApplications',
     })
       .then((Response) => {
-        debugger;
         console.log(Response.data);
         setloading(false);
         setusers(Response.data.serviceResponseList);
@@ -83,11 +85,15 @@ function ApplicationList() {
         }
       })
       .catch((err) => {
-        debugger;
         setloading(false);
       });
   }, [isCancelSchedule]);
 
+  //payment for urgent
+  const handlePayment = (id) => {
+    setHandlePaymentId(id);
+    setGoToPayment(true);
+  };
   //cancel a single schedule
   function cancelSchedule(requestId) {
     debugger;
@@ -110,6 +116,9 @@ function ApplicationList() {
         history.push('/Application-List');
       });
   }
+  if (goToPayment) {
+    return <GetContent handlePaymentId={handlePaymentId} />;
+  }
   if (handleDisplayId) {
     return <RescheduleAppointment handleDisplayId={handleDisplayId} />;
   } else if (!displayRequestId && !isEdit) {
@@ -126,6 +135,7 @@ function ApplicationList() {
         loading={loading}
         Message={Message}
         cancelRequestId={cancelRequestId}
+        handlePayment={handlePayment}
       />
     );
   } else if (displayRequestId && isEdit) {

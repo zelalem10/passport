@@ -41,7 +41,7 @@ function Status(props) {
                     <div className="header pt-3 textBackground my-5">
                       <MDBRow className="d-flex justify-content-center">
                         <h4 className="white-text mb-3 pt-3 font-weight-bold">
-                          Check e-Passport status
+                          Check Passport status
                         </h4>
                       </MDBRow>
                     </div>

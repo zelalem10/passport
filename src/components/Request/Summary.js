@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
@@ -7,9 +7,10 @@ import Typography from '@material-ui/core/Typography';
 import { MDBContainer, MDBTypography, MDBBox } from 'mdbreact';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useSelector } from 'react-redux';
-import { fi } from 'date-fns/locale';
+import { de, fi } from 'date-fns/locale';
 import ViewGroupAppointment from './GroupSummary';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 const Accordion = withStyles({
   root: {
@@ -53,7 +54,7 @@ const AccordionDetails = withStyles((theme) => ({
 }))(MuiAccordionDetails);
 
 const ViewAppointment = forwardRef((props, ref) => {
-  debugger;
+  const accesstoken = localStorage.systemToken;
   const history = useHistory();
   const [expanded, setExpanded] = React.useState('panel1');
   const [formCompleted, setFormCompleted] = useState(false);
@@ -64,6 +65,15 @@ const ViewAppointment = forwardRef((props, ref) => {
   const requestMode = serviceData.isUrgent;
 
   let displayedApplication = data.request[data.request.length - 1];
+
+  let requestPersonId;
+  let attachmentlength;
+  const [attachment, setattachment] = useState([]);
+
+  let atachmentsample = [];
+
+
+  
   const confirmInformation = (e) => {
     setFormCompleted(e.target.checked);
   };
@@ -78,19 +88,46 @@ const ViewAppointment = forwardRef((props, ref) => {
       return formCompleted;
     },
   }));
-  debugger;
+
   const personalInfo = displayedApplication
     ? displayedApplication.personResponses
     : null;
   if (personalInfo) {
+
     const appointmentResponse = displayedApplication.appointmentResponse;
     const personalInformation = displayedApplication.personResponses;
     const addressInformation = personalInformation.address;
     const familyInformation = personalInformation.familyResponses;
+    requestPersonId = personalInformation.requestPersonId;
+   
+    axios({
+      headers: { Authorization: 'Bearer ' + accesstoken },
+      method: 'get',
+      url: 'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
+      params: { personRequestId: requestPersonId },
+    })
+      .then((Response) => {
+
+        attachmentlength = Response.data.attachments.length;
+
+        for (let i = 0; i < attachmentlength; i++) {
+          atachmentsample.push(Response.data.attachments[i]);
+
+        }
+        setattachment(atachmentsample)
+        console.log(attachment)
+      })
+      .catch((err) => {
+     
+        console.log(err);
+      });
 
     const handleChange = (panel) => (event, newExpanded) => {
       setExpanded(newExpanded ? panel : false);
     };
+    
+
+  
 
     return (
       <MDBContainer className="passport-container pt-5" fluid>
@@ -142,19 +179,30 @@ const ViewAppointment = forwardRef((props, ref) => {
                 </label>
               </b>
             </div>
-            <div class="form-group form-inline passport-display">
-              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                Appointement Time:{' '}
-              </label>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              <b>
-                <label class="font-weight-bold">
-                  {appointmentResponse ? appointmentResponse.startTime : null}
-                  {'-'}
-                  {appointmentResponse ? appointmentResponse.endTime : null}
+            {appointmentResponse.duration ? (
+              <div class="form-group form-inline passport-display">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Appointement Time:{' '}
                 </label>
-              </b>
-            </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {appointmentResponse
+                      ? appointmentResponse.duration.startTime
+                      : null}
+                    {'-'}
+                    {appointmentResponse
+                      ? appointmentResponse.duration.endTime
+                      : null}
+                    {appointmentResponse
+                      ? appointmentResponse.duration.isMorning
+                        ? 'AM'
+                        : 'PM'
+                      : null}
+                  </label>
+                </b>
+              </div>
+            ) : null}
           </div>
         </div>
         <div
@@ -498,99 +546,25 @@ const ViewAppointment = forwardRef((props, ref) => {
                 </div>
               </fieldset>
               <fieldset>
-                <legend class="text-primary">Attachments</legend>
-                <hr class="text-primary" />
+              <ul class="list-group mb-3">
+                      <li class="list-group-item ePassprt-color"><h5>Attachment Information</h5></li>
+                {
+                  attachment.length
+                    ? attachment.map((attachmentitem) => (
+       
+ 
+                    <li class="list-group-item d-flex justify-content-between">
+                          <span>{attachmentitem.attachmentType} </span>
+                          <strong><a href={attachmentitem.attachmentPath} >View File</a></strong>
+                    </li>
+               
 
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    First Name
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newFirstName">
-                      Yisacc
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Surname
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newSurName">
-                      aberham
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Gender
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newGender">
-                      male
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Date of Birth
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newBirthDate">
-                      August 17 2020
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Country of Birth
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newCountryOfBirthId">
-                      Albania
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Place of Birth
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newPlaceOfBirth">
-                      ddddfd
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Address Country
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold" id="newAddressCountryId">
-                      Ethiopia
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Address City
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <lable class="font-weight-bold" id="newAddressCity">
-                      addis ababa
-                    </lable>
-                  </b>
-                </div>
+                    ))
+                    : <h6>Please wait...</h6>
+                }
+              </ul>
               </fieldset>
-            </div>
+</div>
           </div>
         </div>
         <MDBTypography blockquote bqColor="primary">
