@@ -317,6 +317,7 @@ const MyApp = forwardRef((props, ref) => {
               ),
               requestTypeId: data.appointemntType,
               officeId: parseInt(siteInfo.offceId),
+              noOfApplicants: 1,
             },
           })
             .then((responses) => {
@@ -406,6 +407,7 @@ const MyApp = forwardRef((props, ref) => {
               ),
               requestTypeId: data.appointemntType,
               officeId: parseInt(siteInfo.offceId),
+              noOfApplicants: parseInt(data.numberOfApplicants),
             },
           })
             .then((responses) => {
@@ -553,10 +555,10 @@ const MyApp = forwardRef((props, ref) => {
               >
                 Estimated Delivery date is within {durationLength} days{' '}
                 {timeSlots.length > 0 ? (
-                  <b>{selectDays`${selectDays.getFullYear()} +
-                  ',' +
-                  (${selectDays.getMonth() + 1}) +
-                  ',' +
+                  <b>{`${selectDays.getFullYear()} 
+                  -
+                  ${selectDays.getMonth() + 1}
+                  -
                   ${selectDays.getDate()}`}</b>
                 ) : null}
               </MDBTypography>

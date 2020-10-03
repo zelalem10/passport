@@ -67,6 +67,14 @@ export default function ViewAppointment(props) {
       }
     }
   };
+  // const getCountryRegion = (id) => {
+  //   let countryRegion = JSON.parse(localStorage.countryRegions);
+  //   for (let index = 0; index < countryRegion.length; index++) {
+  //     if (countryRegion[index].id == id) {
+  //       return countryRegion[index].type;
+  //     }
+  //   }
+  // };
   const getFamilyType = (id) => {
     let FamilyTypes = JSON.parse(localStorage.familyTypesResponse);
     for (let index = 0; index < FamilyTypes.length; index++) {
@@ -319,23 +327,23 @@ export default function ViewAppointment(props) {
 
                 <div class="form-group form-inline">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Birth Country
+                    Phone Number
                   </label>
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {personalInformation.birthCountry}
+                      {personalInformation.phoneNumber}
                     </label>
                   </b>
                 </div>
                 <div class="form-group form-inline">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Birth City
+                    Email
                   </label>
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {personalInformation.birthCity}
+                      {personalInformation.email}
                     </label>
                   </b>
                 </div>
@@ -345,12 +353,12 @@ export default function ViewAppointment(props) {
                 <hr class="text-primary" />
                 <div class="form-group form-inline">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Country
+                    Region
                   </label>
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {addressInformation.country}
+                      {addressInformation.region}
                     </label>
                   </b>
                 </div>
@@ -432,28 +440,7 @@ export default function ViewAppointment(props) {
                     </label>
                   </b>
                 </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Phone Number
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {addressInformation.phoneNumber}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Email
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {addressInformation.email}
-                    </label>
-                  </b>
-                </div>
+
                 <div class="form-group form-inline">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                     Request Place
