@@ -43,7 +43,7 @@ const MultiCarouselPage = () => {
                                             src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(18).jpg'
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>New passport</MDBCardTitle>
+                                            <MDBCardTitle>New Passport</MDBCardTitle>
                                             <MDBCardText>
                                                 New Passport applicants must fulfill the following requirements.
                     </MDBCardText>
@@ -60,7 +60,7 @@ const MultiCarouselPage = () => {
                                             src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(35).jpg'
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>For Expired passport</MDBCardTitle>
+                                            <MDBCardTitle>Expired Passport</MDBCardTitle>
                                             <MDBCardText>
                                                 Expired Passport applicants must fulfill the following requirements.
                     </MDBCardText>
@@ -76,9 +76,9 @@ const MultiCarouselPage = () => {
                                             src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(35).jpg'
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>For passport page run out</MDBCardTitle>
+                                            <MDBCardTitle>Passport Page Runout</MDBCardTitle>
                                             <MDBCardText>
-                                                For applicants of passport page run out must fulfill the following requirements.
+                                                For applicants of passport pagerun out must fulfill the following requirements.
                     </MDBCardText>
                                             <Link to="/Information" class="btn btnBlu">See More</Link>
                                         </MDBCardBody>
@@ -91,7 +91,7 @@ const MultiCarouselPage = () => {
                                             src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(35).jpg'
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>For Damaged Passport</MDBCardTitle>
+                                            <MDBCardTitle>Damaged Passport</MDBCardTitle>
                                             <MDBCardText>
                                                 For applicants of damaged passport must fulfill the following requirements.
 
@@ -112,7 +112,7 @@ const MultiCarouselPage = () => {
                                             src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(47).jpg'
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>For Lost/Stolen passport</MDBCardTitle>
+                                            <MDBCardTitle>Lost/Stolen passport</MDBCardTitle>
                                             <MDBCardText>
                                                 For applicants of Lost/Stolen passport must fulfill the following requirements.
                     </MDBCardText>
@@ -127,7 +127,7 @@ const MultiCarouselPage = () => {
                                             src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(48).jpg'
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>For Change of Passport Data</MDBCardTitle>
+                                            <MDBCardTitle>Change of Passport Data</MDBCardTitle>
                                             <MDBCardText>
                                                 Applicants for change of passport data must fulfill the following requirements.
 
@@ -143,7 +143,7 @@ const MultiCarouselPage = () => {
                                             src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(47).jpg'
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>For valid passport </MDBCardTitle>
+                                            <MDBCardTitle>Valid Passport </MDBCardTitle>
                                             <MDBCardText>
                                                 Applicants for change of passport data must fulfill the following requirements.
                     </MDBCardText>
@@ -158,7 +158,7 @@ const MultiCarouselPage = () => {
                                             src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(47).jpg'
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>For Applicant under 18</MDBCardTitle>
+                                            <MDBCardTitle>Applicant Under 18</MDBCardTitle>
                                             <MDBCardText>
                                                 If the applicant is under 18, parents or guardians are required to attach the following document
                     </MDBCardText>
@@ -178,7 +178,7 @@ const MultiCarouselPage = () => {
                                             src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(45).jpg'
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>For Urgent service </MDBCardTitle>
+                                            <MDBCardTitle>Urgent Service </MDBCardTitle>
                                             <MDBCardText>
                                                 If you are applying for Urgent Services, you must have reason or evidence like
                     </MDBCardText>
@@ -193,7 +193,7 @@ const MultiCarouselPage = () => {
                                             src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(41).jpg'
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>For Emergency</MDBCardTitle>
+                                            <MDBCardTitle>Emergency</MDBCardTitle>
                                             <MDBCardText>
                                                 Emergency requests are handled in INVEA main office or branch offices in person.
                     </MDBCardText>
@@ -208,7 +208,7 @@ const MultiCarouselPage = () => {
                                             src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(18).jpg'
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>New passport</MDBCardTitle>
+                                            <MDBCardTitle>New Passport</MDBCardTitle>
                                             <MDBCardText>
                                                 New Passport applicants must fulfill the following requirements.
                     </MDBCardText>
@@ -225,7 +225,7 @@ const MultiCarouselPage = () => {
                                             src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(35).jpg'
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>For Expired passport</MDBCardTitle>
+                                            <MDBCardTitle>Expired Passport</MDBCardTitle>
                                             <MDBCardText>
                                                 Expired Passport applicants must fulfill the following requirements.
                     </MDBCardText>
