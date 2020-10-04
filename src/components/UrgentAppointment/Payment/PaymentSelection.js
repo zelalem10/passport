@@ -4,31 +4,15 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from 'react';
-import {
-  MDBBtn,
-  MDBInput,
-  MDBListGroup,
-  MDBListGroupItem,
-  MDBBadge,
-  MDBCard,
-  MDBCardHeader,
-  MDBContainer,
-  MDBCardBody,
-  MDBCardImage,
-  MDBCardTitle,
-  MDBCardText,
-  MDBCol,
-  MDBRow,
-} from 'mdbreact';
+import { MDBContainer, MDBCol, MDBRow } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addPaymentOptionId from '../../../redux/actions/addPaymentOptionIdAction';
 import InstructionPage from './InstructionPage';
 
 import { makeStyles } from '@material-ui/core/styles';
+import BasicTable from './PricingDetail';
 
 import API from '../../Utils/API';
-import token from '../../common/accessToken';
-import Response from './Responses/Confirmation';
 
 const useStyles = makeStyles({
   root: {
@@ -166,7 +150,7 @@ const PaymentSelection = forwardRef((props, ref) => {
                 <strong>Pricing Information</strong>
               </span>
             </h4>
-            <ul class="list-group mb-3">
+            {/*<ul class="list-group mb-3">
               <li class="list-group-item d-flex justify-content-between lh-condensed">
                 <div>
                   <h6 class="my-0">Request type</h6>
@@ -192,7 +176,8 @@ const PaymentSelection = forwardRef((props, ref) => {
                 <span>Total Price (ETB)</span>
                 <strong>600</strong>
               </li>
-            </ul>
+            </ul> */}
+            <BasicTable handlePaymentId={handlePaymentId} />
           </div>
         </MDBRow>
         <MDBCol md="8">

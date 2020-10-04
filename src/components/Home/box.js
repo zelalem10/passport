@@ -66,7 +66,7 @@ const BoxPage = () => {
               <div class="p-2 align-self-end">
               Please be warned that dealing with fixers (illegal arrangements) is at your own risk and expense;              </div>
             </div>
-            <div class="d-flex">
+            <div class="d-flex mb-5" >
               <div class="p-2 align-self-start">
                 <i class="fas fa-check fa-1x"></i>
               </div>
@@ -76,7 +76,7 @@ const BoxPage = () => {
   
 
 
-                      <div class="col-12 medium text-center my-3"><Link to="/Information" class="btn btnBlu">Read More</Link></div>
+                      {/* <div class="col-12 medium text-center my-3"><Link to="/Information" class="btn btnBlu">Read More</Link></div> */}
           </div>
         </div>
       </MDBContainer>
