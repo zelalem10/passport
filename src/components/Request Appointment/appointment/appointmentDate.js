@@ -200,7 +200,6 @@ const MyApp = forwardRef((props, ref) => {
           },
         })
           .then((response) => {
-            debugger;
             console.log(response.data);
             dispatch(
               addAppointmentDate(response.data.urgentAppointmentResponses)
@@ -213,7 +212,6 @@ const MyApp = forwardRef((props, ref) => {
             }
           })
           .catch((error) => {
-            debugger;
             if (state.date && state.time) {
               setErrorMessage(error.message);
             } else if (state.date && !state.time) {
@@ -275,7 +273,6 @@ const MyApp = forwardRef((props, ref) => {
     toggleClass(e);
   };
   useEffect(() => {
-    debugger;
     axios({
       headers: {
         Authorization: 'Bearer ' + token,
@@ -284,7 +281,6 @@ const MyApp = forwardRef((props, ref) => {
       url: baseUrl + '/Master/api/V1.0/AdvancedRestriction/GetAll',
     })
       .then(async (response) => {
-        debugger;
         advancedRestrictionData = siteInfo
           ? response.data.advancedRestrictions.filter(
               (advanceRestriction) =>
@@ -321,10 +317,10 @@ const MyApp = forwardRef((props, ref) => {
               ),
               requestTypeId: data.appointemntType,
               officeId: parseInt(siteInfo.offceId),
+              noOfApplicants: 1,
             },
           })
             .then((responses) => {
-              debugger;
               setavailableDateAndQota(responses.data.availableDateAndTimes);
               for (
                 let i = 0;
@@ -411,10 +407,10 @@ const MyApp = forwardRef((props, ref) => {
               ),
               requestTypeId: data.appointemntType,
               officeId: parseInt(siteInfo.offceId),
+              noOfApplicants: parseInt(data.numberOfApplicants),
             },
           })
             .then((responses) => {
-              debugger;
               console.log(responses.data.availableDateAndTimes);
               for (
                 let i = 0;
@@ -478,13 +474,11 @@ const MyApp = forwardRef((props, ref) => {
               }
             })
             .catch((error) => {
-              debugger;
               console.log('error' + error);
             });
         }
       })
       .catch((error) => {
-        debugger;
         console.log('error' + error);
       });
   }, [isUrgentAppointment, officeInformation]);
@@ -494,7 +488,6 @@ const MyApp = forwardRef((props, ref) => {
   };
   const showTimeSlots = (date) => {
     if (!isUrgentAppointment) {
-      debugger;
       let formatedSelectedDate =
         date.getFullYear() + ',' + (date.getMonth() + 1) + ',' + date.getDate();
       let timeSlotsForSpecificDate = [];
@@ -562,7 +555,11 @@ const MyApp = forwardRef((props, ref) => {
               >
                 Estimated Delivery date is within {durationLength} days{' '}
                 {timeSlots.length > 0 ? (
-                  <b>{selectDays.toISOString().substr(0, 10)}</b>
+                  <b>{`${selectDays.getFullYear()} 
+                  -
+                  ${selectDays.getMonth() + 1}
+                  -
+                  ${selectDays.getDate()}`}</b>
                 ) : null}
               </MDBTypography>
             )}
