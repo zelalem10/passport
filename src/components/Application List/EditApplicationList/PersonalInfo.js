@@ -62,28 +62,12 @@ const PersonalInfo = forwardRef((props, ref) => {
     birthCertificateId: personalInformation.passportRes.birthCertificateId,
     dataSaved: false,
   });
-  useEffect(() => {
-    API.get(
-      'https://epassportservices.azurewebsites.net/Master/api/V1.0/Nationality/GetAll',
-      config
-    )
-      .then((todo) => {
-        setNationalityList(todo.data.nationalitys);
-      })
-      .catch((err) => {
-        console.log('AXIOS ERROR: ', err.response);
-      });
-    API.get(
-      'https://epassportservices.azurewebsites.net/Master/api/V1.0/Occupation/GetAll',
-      config
-    )
-      .then((todo) => {
-        setOccupationList(todo.data.occupations);
-      })
-      .catch((err) => {
-        console.log('AXIOS ERROR: ', err.response);
-      });
-  }, []);
+  if (nationalityList.length === 0) {
+    setNationalityList(JSON.parse(localStorage.nationalitys));
+  }
+  if (occupationList.length === 0) {
+    setOccupationList(JSON.parse(localStorage.occupations));
+  }
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const personRef = React.useRef();
@@ -137,7 +121,6 @@ const PersonalInfo = forwardRef((props, ref) => {
       gender: prevInfo ? parseInt(prevInfo.gender) : null,
       eyeColor: prevInfo ? prevInfo.eyeColor : null,
       hairColor: prevInfo ? prevInfo.hairColor : null,
-      isHalfCast: prevInfo ? prevInfo.isHalfCast : null,
       birthPlace: prevInfo ? prevInfo.birthPlace : null,
       enrolmentDate: prevInfo ? new Date(prevInfo.enrolmentDate) : null,
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
@@ -280,7 +263,13 @@ const PersonalInfo = forwardRef((props, ref) => {
                   style={{ 'margin-bottom': '2.5rem' }}
                 >
                   <label class="passport-selectList-label">
-                    Nationality<i style={{ color: 'red' }}>*</i>{' '}
+                    Nationality
+                    <i
+                      class="required-for-select-list"
+                      style={{ color: 'red' }}
+                    >
+                      *
+                    </i>{' '}
                   </label>
                   <select
                     name="nationalityId"
@@ -290,7 +279,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                   >
                     <option disabled>select Nationality</option>
                     {nationalityList.map((nationality) => (
-                      <option value={nationality.id}>{nationality.code}</option>
+                      <option value={nationality.id}>{nationality.name}</option>
                     ))}
                   </select>
                 </div>
@@ -381,7 +370,13 @@ const PersonalInfo = forwardRef((props, ref) => {
                   style={{ 'margin-bottom': '2.5rem' }}
                 >
                   <label class="passport-selectList-label">
-                    Occupation<i style={{ color: 'red' }}>*</i>{' '}
+                    Occupation
+                    <i
+                      class="required-for-select-list"
+                      style={{ color: 'red' }}
+                    >
+                      *
+                    </i>{' '}
                   </label>
                   <select
                     name="occupationId"
@@ -482,7 +477,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                   <input
                     type="checkbox"
                     class="custom-control-input"
-                    defaultValue={prevInfo ? prevInfo.isHalfCast : false}
+                    defaultChecked={prevInfo ? prevInfo.isHalfCast : false}
                     name="isHalfCast"
                     id="isHalfCast"
                     onChange={(e) =>
@@ -501,7 +496,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                   <input
                     type="checkbox"
                     class="custom-control-input"
-                    defaultValue={prevInfo ? prevInfo.isUnder18 : false}
+                    defaultChecked={prevInfo ? prevInfo.isUnder18 : false}
                     name="isUnder18"
                     id="isUnder18"
                     onChange={(e) => handleCheck('isUnder18', e.target.checked)}
@@ -519,7 +514,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                     type="checkbox"
                     group
                     class="custom-control-input"
-                    defaultValue={prevInfo ? prevInfo.isAdoption : false}
+                    defaultChecked={prevInfo ? prevInfo.isAdoption : false}
                     name="isAdoption"
                     id="isAdoption"
                     onChange={(e) =>
