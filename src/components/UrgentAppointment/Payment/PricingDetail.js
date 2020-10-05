@@ -1,123 +1,138 @@
 import React, { useState, useEffect } from 'react';
 import {
-    MDBContainer, MDBRow, MDBTable, MDBTableBody,
-    MDBTableHead, MDBBtn, MDBCollapse, MDBCollapseHeader,
-    MDBIcon, MDBListGroup, MDBListGroupItem, MDBCol, MDBCard
+  MDBContainer,
+  MDBRow,
+  MDBTable,
+  MDBTableBody,
+  MDBTableHead,
+  MDBBtn,
+  MDBCollapse,
+  MDBCollapseHeader,
+  MDBIcon,
+  MDBListGroup,
+  MDBListGroupItem,
+  MDBCol,
+  MDBCard,
 } from 'mdbreact';
 
-
-import API from '../Utils/API'
+import API from '../../Utils/API';
 const accesstoken = localStorage.userToken;
 const config = {
-    headers: { Authorization: "Bearer " + accesstoken }
+  headers: { Authorization: 'Bearer ' + accesstoken },
 };
 
-const BasicTable = () => {
+const BasicTable = (props) => {
+  const { handlePaymentId } = props;
   const [isOppened, setIsOppened] = useState(false);
   const [totalPriceList, setTotalPriceList] = useState([]);
-  const [individualPrice, setIndividualPrice]=useState([]);
+  const [individualPrice, setIndividualPrice] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [counter, setCounter] = useState(1);
+  const [counter, setCounter] = useState(1); 
 
-  const toggleCollapse =() => {
+  const toggleCollapse = () => {
     setIsOppened(!isOppened);
-  }
+  };
   useEffect(() => {
-    API.get("https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=3", config)
-        .then((todo) => 
-        {
-            setTotalPriceList(todo.data.priceTotalDetail);
-            setIndividualPrice(todo.data.individualPrice);
-            setTotalPrice(todo.data.totalPrice);
-        }
-        )
-        .catch((err) => {
-            console.log("AXIOS ERROR: ", err.response);
-        })
-}, [])
-    return (
-        <MDBContainer>
+    API.get(
+      `https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=${handlePaymentId}`,
+      config
+    )
+      .then((todo) => {
+        setTotalPriceList(todo.data.priceTotalDetail);
+        setIndividualPrice(todo.data.individualPrice);
+        setTotalPrice(todo.data.totalPrice);
+      })
+      .catch((err) => {
+        console.log('AXIOS ERROR: ', err.response);
+      });
+  }, []);
+  return (
+    <MDBContainer>
+      <MDBTable hover>
+        <MDBTableHead></MDBTableHead>
+        <MDBTableBody>
+          {totalPriceList.map((totalPrice) => (
+            <tr>
+              <td>
+                <h6 className="font-weight-bolder text-muted text-uppercase">
+                  {' '}
+                  {totalPrice.lable}
+                </h6>
+              </td>
+              <td>
+                <h6 className="font-weight-bolder text-muted text-uppercase">
+                  {' '}
+                  {totalPrice.amount}
+                </h6>
+              </td>
+            </tr>
+          ))}
 
-            <MDBTable hover>
-                <MDBTableHead>
-                    {/* <tr>
-          <th>First</th>
-          <th>Last</th>
-          <th>Handle</th>
-        </tr> */}
-                </MDBTableHead>
-                <MDBTableBody>
-                    {totalPriceList.map((totalPrice) =>
-                        <tr>
-                            <td><h6 className="font-weight-bolder text-muted text-uppercase"> {totalPrice.lable}</h6></td>
-                            <td><h6 className="font-weight-bolder text-muted text-uppercase"> {totalPrice.amount}</h6></td>
-                        </tr>
-
-                    )}
-                    
-                    <tr>
-                        <td><h6 className="font-weight-bold text-danger"> Total</h6> </td>
-                    <td><h6 className="font-weight-bold text-danger"> {totalPrice} ETB</h6> </td>
-                    </tr>
-                </MDBTableBody>
-            </MDBTable>
-            {individualPrice.length>0?(
-                <MDBCard>
-                    <MDBRow>
-                <MDBCol md="8"></MDBCol>
-                <MDBCol>
-                    <MDBBtn
-                        color="primary"
-                        onClick={toggleCollapse}
-                        style={{ marginBottom: "1rem" }}
-                    >
-                        View Detail<MDBIcon icon="angle-down" />
-                    </MDBBtn>
-                </MDBCol>
-            </MDBRow>
-            <MDBCollapse id="basicCollapse" isOpen={isOppened}>
-                {individualPrice.map((prices) =>
-                    <MDBListGroup>
-                        <MDBListGroupItem href="#" active>Applicant {counter}</MDBListGroupItem>
-                        <MDBTable hover>
-                            <MDBTableHead>
-                            </MDBTableHead>
-                            {prices.priceDetail.map((detail) =>
-                                <MDBTableBody>
-                                    <tr>
-                                        <td><h6 className="font-weight-bolder text-muted text-uppercase"> {detail.lable}</h6></td>
-                                        <td><h6 className="font-weight-bolder text-muted text-uppercase"> {detail.amount}</h6></td>
-                                    </tr>
-                                </MDBTableBody>
-                            )}
-                        </MDBTable>
-                    </MDBListGroup>
-
-                )}
-            </MDBCollapse>
-                </MDBCard>
-            ):(null)}
-            
-        </MDBContainer>
-    );
-}
+          <tr>
+            <td>
+              <h6 className="font-weight-bold text-danger"> Total</h6>{' '}
+            </td>
+            <td>
+              <h6 className="font-weight-bold text-danger">
+                {' '}
+                {totalPrice} ETB
+              </h6>{' '}
+            </td>
+          </tr>
+        </MDBTableBody>
+      </MDBTable>
+      {individualPrice.length > 0 ? (
+        <MDBCard>
+          <MDBRow>
+            <MDBCol md="8"></MDBCol>
+            <MDBCol>
+              <MDBBtn
+                color="primary"
+                onClick={toggleCollapse}
+                style={{ marginBottom: '1rem' }}
+              >
+                View Detail
+                <MDBIcon icon="angle-down" />
+              </MDBBtn>
+            </MDBCol>
+          </MDBRow>
+          <MDBCollapse id="basicCollapse" isOpen={isOppened}>
+            {individualPrice.map((prices) => (
+              <MDBListGroup>
+                <MDBListGroupItem href="#" active>
+                  Applicant {counter}
+                </MDBListGroupItem>
+                <MDBTable hover>
+                  <MDBTableHead></MDBTableHead>
+                  {prices.priceDetail.map((detail) => (
+                    <MDBTableBody>
+                      <tr>
+                        <td>
+                          <h6 className="font-weight-bolder text-muted text-uppercase">
+                            {' '}
+                            {detail.lable}
+                          </h6>
+                        </td>
+                        <td>
+                          <h6 className="font-weight-bolder text-muted text-uppercase">
+                            {' '}
+                            {detail.amount}
+                          </h6>
+                        </td>
+                      </tr>
+                    </MDBTableBody>
+                  ))}
+                </MDBTable>
+              </MDBListGroup>
+            ))}
+          </MDBCollapse>
+        </MDBCard>
+      ) : null}
+    </MDBContainer>
+  );
+};
 
 export default BasicTable;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import React from 'react';
 // import PropTypes from 'prop-types';
@@ -236,7 +251,6 @@ export default BasicTable;
 //                         </MDBTableBody>
 //                     </MDBTable>
 
-                    
 //                 </MDBContainer>
 //             </TabPanel>
 //             <TabPanel value={value} index={1}>
@@ -254,8 +268,7 @@ export default BasicTable;
 //                         <MDBListGroupItem href="#" active>Applicant 1</MDBListGroupItem>
 //                         <MDBTable hover>
 //                             <MDBTableHead>
-                                
-                            
+
 //                             </MDBTableHead>
 //                             <MDBTableBody>
 //                                 <tr>
