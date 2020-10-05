@@ -121,8 +121,8 @@ export default function ListOfApplications(props) {
                                     </div>
                                   </a>
                                 ) : null}
-                                {user.requestStatus == 'SendforCorrection' &&
-                                user.requestStatus == 'Initial' ? (
+                                {/* {user.requestStatus == 'SendforCorrection' &&
+                                user.requestStatus == 'Initial' ? ( */}
                                   <a
                                     className="hoverWhite"
                                     onClick={() => handleEdit(user.requestId)}
@@ -132,7 +132,7 @@ export default function ListOfApplications(props) {
                                       <i class="fas fa-edit fa-lg"></i>
                                     </div>
                                   </a>
-                                ) : null}
+                                {/* ) : null} */}
 
                                 <a
                                   className="hoverWhite"
