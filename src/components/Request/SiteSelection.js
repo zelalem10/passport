@@ -42,7 +42,7 @@ const SiteSelection = forwardRef((props, ref) => {
 
   const accesstoken = localStorage.systemToken;
   const dispatch = useDispatch();
-  const deliverySiteURL = "https://epassportservices.azurewebsites.net/Master/api/V1.0/DeliverySite/GetByOffice?OfficeId="
+  const deliverySiteURL = "https://epassportservices.azurewebsites.net/Master/api/V1.0/DeliverySite/GetAll?OfficeId="
   const officeURL = 'https://epassportservices.azurewebsites.net/Master/api/V1.0/Office/GetByCityId?id=';
   const config = {
     headers: {
@@ -110,7 +110,7 @@ const SiteSelection = forwardRef((props, ref) => {
       officeId: false,
     }));
  
-    API.get(deliverySiteURL + id, config)
+    API.get(deliverySiteURL + officeId, config)
       .then((todo) => {
         setDeliverySiteList(todo.data.deliverySites);
       })
