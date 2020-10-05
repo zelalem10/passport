@@ -147,7 +147,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
               expireDate:  new Date(),
               passportType: travelPlan ? travelPlan.passportType : null,
               isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
-              pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10): 0,
+              passportPageId: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10): 0,
               correctionType: travelPlan ? (travelPlan.correctionReason && travelPlan.correctionReason!="")?Number.parseInt(travelPlan.correctionReason, 10):0: 0,
               maritalStatus: personalInfo ? Number.parseInt(personalInfo.martialStatus, 10): 0,
               birthCertificateId: personalInfo? personalInfo.birthCertificatNo: null,
@@ -194,6 +194,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
         });
     }
     else if (requestInfo != null) {
+      
       let requestBody = {
         requestId: Number.parseInt(requestInfo.requestId),
         appointmentIds:appointment?[appointment[props.applicantNumber-1].id] :[],
@@ -227,7 +228,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             expireDate:  new Date(),
             passportType: travelPlan ? travelPlan.passportType : null,
             isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
-            pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10): 0,
+            passportPageId: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10): 0,
             correctionType: travelPlan ? (travelPlan.correctionReason && travelPlan.correctionReason!="")?Number.parseInt(travelPlan.correctionReason, 10):0: 0,
             maritalStatus: personalInfo ? Number.parseInt(personalInfo.martialStatus, 10): 0,
             birthCertificateId: personalInfo? personalInfo.birthCertificatNo: null,

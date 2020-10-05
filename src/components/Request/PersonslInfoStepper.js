@@ -86,6 +86,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
       let appointment=counter.appointmentDate[counter.appointmentDate.length - 1]
       let siteInfo=counter.siteInformation[counter.siteInformation.length - 1]
       let serviceInfo=counter.service[counter.service.length - 1]
+
       const requestBody = {
         requestId: 0,
         requestMode: (serviceInfo &&serviceInfo.isUrgent===true)?1:0,
@@ -126,7 +127,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             expireDate:  new Date(),
             passportType: travelPlan ? travelPlan.passportType : null,
             isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
-            pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10): 0,
+            passportPageId: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10): 0,
             correctionType: travelPlan ? (travelPlan.correctionReason && travelPlan.correctionReason!="")?Number.parseInt(travelPlan.correctionReason, 10):0: 0,
             maritalStatus: personalInfo ? Number.parseInt(personalInfo.martialStatus, 10): 0,
             birthCertificateId: personalInfo? personalInfo.birthCertificatNo: null,

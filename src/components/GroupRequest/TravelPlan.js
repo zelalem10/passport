@@ -40,7 +40,7 @@ import React, {
     const [travelPlan, setTravelPlan] = useState({
       applicantNumber: props.applicantNumber,
       filledBy: '',
-      pageQuantity: '0',
+      pageQuantity: 0,
       passportType: '',
       passportNumber: '',
       expirationDate: '',
@@ -86,7 +86,7 @@ import React, {
       Validate() {
         setNotCompleted({
           filledBy: travelPlan.filledBy === '' ? true : false,
-          pageQuantity: travelPlan.pageQuantity === '' ? true : false,
+          pageQuantity: travelPlan.pageQuantity === 0 ? true : false,
           passportType: travelPlan.passportType === '' ? true : false,
           passportNumber: travelPlan.passportNumber === '' ? true : false,
           expirationDate: travelPlan.expirationDate === '' ? true : false,
@@ -155,7 +155,7 @@ import React, {
       setTravelPlan((prevState) => ({
         ...prevState,
         filledBy: prevInfo ? prevInfo.filledBy : null,
-        pageQuantity: prevInfo ? prevInfo.pageQuantity : '0',
+        pageQuantity: prevInfo ? prevInfo.pageQuantity : 0,
         passportType: prevInfo ? prevInfo.passportType : null,
         passportNumber: prevInfo ? prevInfo.passportNumber : null,
         expirationDate: prevInfo ? new Date(prevInfo.expirationDate) : null,
@@ -242,8 +242,8 @@ import React, {
                     >
                       <option>select page quantity</option>
                       {passportTypeList.map((passportType) => (
-                        <option value={passportType.pageQuantityVal}>
-                          {passportType.pageQuantity}
+                        <option value={passportType.id}>
+                          {passportType.passportPage}
                         </option>
                       ))}
                     </select>

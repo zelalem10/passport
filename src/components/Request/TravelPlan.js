@@ -39,7 +39,7 @@ function requestTypeGetter(requetTypeId) {
 const TravelPlan = forwardRef((props, ref) => {
   const [travelPlan, setTravelPlan] = useState({
     filledBy: '',
-    pageQuantity: '0',
+    pageQuantity: 0,
     passportType: '',
     passportNumber: '',
     expirationDate: '',
@@ -85,7 +85,7 @@ const TravelPlan = forwardRef((props, ref) => {
     Validate() {
       setNotCompleted({
         filledBy: travelPlan.filledBy === '' ? true : false,
-        pageQuantity: travelPlan.pageQuantity === '' ? true : false,
+        pageQuantity: travelPlan.pageQuantity === 0 ? true : false,
         passportType: travelPlan.passportType === '' ? true : false,
         passportNumber: travelPlan.passportNumber === '' ? true : false,
         expirationDate: travelPlan.expirationDate === '' ? true : false,
@@ -104,7 +104,10 @@ const TravelPlan = forwardRef((props, ref) => {
       ...prevState,
       [name]: value,
     }));
-    dispatch(addTravelPlan(travelPlan));
+    if(value !=0){
+      dispatch(addTravelPlan(travelPlan))
+    }
+    
   };
   const handleCheck = (name, checked) => {
     setTravelPlan((prevState) => ({
@@ -154,7 +157,7 @@ const TravelPlan = forwardRef((props, ref) => {
     setTravelPlan((prevState) => ({
       ...prevState,
       filledBy: prevInfo ? prevInfo.filledBy : null,
-      pageQuantity: prevInfo ? prevInfo.pageQuantity : '0',
+      pageQuantity: prevInfo ? prevInfo.pageQuantity : 0,
       passportType: prevInfo ? prevInfo.passportType : null,
       passportNumber: prevInfo ? prevInfo.passportNumber : null,
       expirationDate: prevInfo ? new Date(prevInfo.expirationDate) : null,
@@ -232,17 +235,17 @@ const TravelPlan = forwardRef((props, ref) => {
               <MDBCol md="4"  className="required-field">
                 <div>
                   <label>
-                    Page Quantity<i style={{ color: 'red' }}>*</i>{' '}
+                    Passport Page<i style={{ color: 'red' }}>*</i>{' '}
                   </label>
                   <select
                     className="browser-default custom-select"
                     name="pageQuantity"
                     onChange={handleChange}
                   >
-                    <option>select page quantity</option>
+                    <option>Select passport page</option>
                     {passportTypeList.map((passportType) => (
-                      <option value={passportType.pageQuantityVal}>
-                        {passportType.pageQuantity}
+                      <option value={passportType.id}>
+                        {passportType.passportPage}
                       </option>
                     ))}
                   </select>
