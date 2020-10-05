@@ -164,10 +164,10 @@ const Fileupload = forwardRef((props, ref) => {
     inputs.push(
 
       <div class="row my-5" id='attachmentmargin'>
-        <div class="col-md-5 passport-text-right">
+        <div class="col-lg-5 passport-text-right">
           <MDBBadge color="primary smallPadding "> {attachmentNames[i]} </MDBBadge>
         </div>
-        <div class="col-md-5">
+        <div class="col-lg-5">
           <div className="input-group">
             <div className="input-group-prepend">
               <span className="input-group-text" id="inputGroupFileAddon01">
