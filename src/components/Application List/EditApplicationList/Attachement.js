@@ -1,8 +1,7 @@
 import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
 import Spinner from '../../common/Spinner';
-
+import { MDBBadge } from 'mdbreact';
 const Fileupload = forwardRef((props, ref) => {
   debugger;
   const { displayedApplication,personalInformation} = props;
@@ -70,7 +69,7 @@ const Fileupload = forwardRef((props, ref) => {
     //   formData.append(fileType, files);
 
     // }
-    for (let i = 0; i < attachmentlength; i++) {
+    for (let i = 0; i < files.length; i++) {
       
       formData.append('personRequestId', requestPersonId);
       formData.append(attachmentId[i], files[i]);
@@ -118,14 +117,14 @@ const Fileupload = forwardRef((props, ref) => {
   for (let i = 0; i < attachmentlength; i++) {
     debugger;
     inputs.push(
-      <div class="row p-3">
-         <div class="col-lg-4 pl-5">
-         <label for="exampleInputEmail1" class='pl-4'>{attachmentType[i]} :</label>
+      <div class="row p-3" id='attachmentmargin'>
+         <div class="col-lg-4 passport-text-right">
+         <MDBBadge color="primary smallPadding "> {attachmentType[i]}</MDBBadge>
          </div>
  
          
     
-        <div class="col-lg-8 mb-2 pr-5">
+        <div class="col-lg-6 mb-2 pr-5">
         <div class="row">
           <div class="col-lg-2">
           <a href={attachmentPath[i]} >View File</a>

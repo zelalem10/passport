@@ -139,11 +139,10 @@ const ViewAppointment = forwardRef((props, ref) => {
         for (let i = 0; i < attachmentlength; i++) {
           atachmentsample.push(Response.data.attachments[i]);
         }
-        setattachment(atachmentsample);
-        console.log(attachment);
+        setattachment(atachmentsample)
       })
       .catch((err) => {
-        console.log(err);
+     
       });
 
     const handleChange = (panel) => (event, newExpanded) => {

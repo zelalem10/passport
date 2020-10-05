@@ -114,7 +114,7 @@ const Address = forwardRef((props, ref) => {
                     <MDBRow>
                        
 
-                        <MDBCol className="required-field">
+                        <MDBCol md="3" className="required-field">
                             <div>
                                 <label>
                                     Region<i style={{ color: 'red' }}>*</i>{' '}
@@ -122,7 +122,7 @@ const Address = forwardRef((props, ref) => {
                                 <select className="browser-default custom-select" name="region" onChange={handleChange}>
                                     <option>Select region</option>
                                     {regionList.map((region) => (
-                                        <option value={region.name} selected={prevInfo && (region.name===prevInfo.region)}>{region.name}</option>
+                                        <option value={region.name}>{region.name}</option>
                                     ))}
                                 </select>
                             </div>
@@ -134,7 +134,7 @@ const Address = forwardRef((props, ref) => {
                                     : null}
                             </span>                            </MDBCol>
 
-                        <MDBCol className="required-field">
+                        <MDBCol md="3" className="required-field">
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.city : null}
                                 name="city"
@@ -145,7 +145,7 @@ const Address = forwardRef((props, ref) => {
                             />
                             <span style={{ color: "red" }}> {(notCompleted.city == true && addressInfo.dataSaved == true) ? "City " + isRequired : null}</span>
                         </MDBCol>
-                        <MDBCol>
+                        <MDBCol md="3">
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.state : null}
                                 name="state"
@@ -155,7 +155,7 @@ const Address = forwardRef((props, ref) => {
                                 label="State"
                             />
                         </MDBCol>
-                        <MDBCol>
+                        <MDBCol md="3">
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.zone : null}
                                 name="zone"
@@ -167,7 +167,7 @@ const Address = forwardRef((props, ref) => {
                         </MDBCol>
                     </MDBRow>
                     <MDBRow>
-                        <MDBCol>
+                        <MDBCol md="3">
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.woreda : null}
                                 name="woreda"
@@ -177,7 +177,7 @@ const Address = forwardRef((props, ref) => {
                                 label="Woreda"
                             />
                         </MDBCol>
-                        <MDBCol>
+                        <MDBCol md="3">
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.kebele : null}
                                 name="kebele"
@@ -187,7 +187,7 @@ const Address = forwardRef((props, ref) => {
                                 label="Kebele"
                             />
                         </MDBCol>
-                        <MDBCol>
+                        <MDBCol md="3">
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.street : null}
                                 name="street"
@@ -197,7 +197,7 @@ const Address = forwardRef((props, ref) => {
                                 label="Street"
                             />
                         </MDBCol>
-                        <MDBCol>
+                        <MDBCol md="3">
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.houseNo : null}
                                 name="houseNo"
@@ -209,7 +209,7 @@ const Address = forwardRef((props, ref) => {
                         </MDBCol>
                     </MDBRow>
                     <MDBRow>
-                        <MDBCol>
+                        <MDBCol md="3">
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.poBox : null}
                                 name="poBox"
@@ -219,7 +219,7 @@ const Address = forwardRef((props, ref) => {
                                 label="Po. Box"
                             />
                         </MDBCol>
-                        <MDBCol>
+                        <MDBCol md="3">
                             <MDBInput
                                 valueDefault={prevInfo ? prevInfo.requestPlace : null}
                                 name="requestPlace"
@@ -229,9 +229,6 @@ const Address = forwardRef((props, ref) => {
                                 label="Request Place"
                             />
                         </MDBCol>
-                        <MDBCol></MDBCol>
-                        <MDBCol></MDBCol>
-                        <MDBCol></MDBCol>
                     </MDBRow>
                 </form>
             </MDBCardBody>
