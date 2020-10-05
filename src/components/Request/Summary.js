@@ -100,28 +100,27 @@ const ViewAppointment = forwardRef((props, ref) => {
     const familyInformation = personalInformation.familyResponses;
     requestPersonId = personalInformation.requestPersonId;
    
-    axios({
-      headers: { Authorization: 'Bearer ' + accesstoken },
-      method: 'get',
-      url: 'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
-      params: { personRequestId: requestPersonId },
-    })
-      .then((Response) => {
+    // axios({
+    //   headers: { Authorization: 'Bearer ' + accesstoken },
+    //   method: 'get',
+    //   url: 'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
+    //   params: { personRequestId: requestPersonId },
+    // })
+    //   .then((Response) => {
 
-        attachmentlength = Response.data.attachments.length;
+    //     attachmentlength = Response.data.attachments.length;
 
-        for (let i = 0; i < attachmentlength; i++) {
-          atachmentsample.push(Response.data.attachments[i]);
+    //     for (let i = 0; i < attachmentlength; i++) {
+    //       atachmentsample.push(Response.data.attachments[i]);
 
-        }
-        setattachment(atachmentsample)
-        console.log(attachment)
-      })
-      .catch((err) => {
+    //     }
+    //     setattachment(atachmentsample)
+    //     //console.log(attachment)
+    //   })
+    //   .catch((err) => {
      
-        console.log(err);
-      });
-
+    //     //console.log(err);
+    //   });
     const handleChange = (panel) => (event, newExpanded) => {
       setExpanded(newExpanded ? panel : false);
     };
@@ -595,7 +594,8 @@ const ViewAppointment = forwardRef((props, ref) => {
         </MDBTypography>
       </MDBContainer>
     );
-  } else {
+  }
+   else {
     return <div>Before request made</div>;
   }
 });
