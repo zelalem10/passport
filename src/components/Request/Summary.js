@@ -1,4 +1,9 @@
-import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
+import React, {
+  useState,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
@@ -72,8 +77,6 @@ const ViewAppointment = forwardRef((props, ref) => {
 
   let atachmentsample = [];
 
-
-  
   const confirmInformation = (e) => {
     setFormCompleted(e.target.checked);
   };
@@ -88,45 +91,64 @@ const ViewAppointment = forwardRef((props, ref) => {
       return formCompleted;
     },
   }));
-
+  const getOccupation = (id) => {
+    debugger;
+    let occupations = JSON.parse(localStorage.occupations);
+    for (let index = 0; index < occupations.length; index++) {
+      if (occupations[index].id == id) {
+        return occupations[index].title;
+      }
+    }
+  };
+  const getFamilyType = (id) => {
+    let FamilyTypes = JSON.parse(localStorage.familyTypesResponse);
+    for (let index = 0; index < FamilyTypes.length; index++) {
+      if (FamilyTypes[index].id == id) {
+        return FamilyTypes[index].type;
+      }
+    }
+  };
+  const getNationalitys = (id) => {
+    let Nationalitys = JSON.parse(localStorage.nationalitys);
+    for (let index = 0; index < Nationalitys.length; index++) {
+      if (Nationalitys[index].id == id) {
+        return Nationalitys[index].name;
+      }
+    }
+  };
   const personalInfo = displayedApplication
     ? displayedApplication.personResponses
     : null;
   if (personalInfo) {
-
     const appointmentResponse = displayedApplication.appointmentResponse;
     const personalInformation = displayedApplication.personResponses;
     const addressInformation = personalInformation.address;
     const familyInformation = personalInformation.familyResponses;
     requestPersonId = personalInformation.requestPersonId;
-   
-    // axios({
-    //   headers: { Authorization: 'Bearer ' + accesstoken },
-    //   method: 'get',
-    //   url: 'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
-    //   params: { personRequestId: requestPersonId },
-    // })
-    //   .then((Response) => {
 
-    //     attachmentlength = Response.data.attachments.length;
+    axios({
+      headers: { Authorization: 'Bearer ' + accesstoken },
+      method: 'get',
+      url:
+        'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
+      params: { personRequestId: requestPersonId },
+    })
+      .then((Response) => {
+        attachmentlength = Response.data.attachments.length;
 
-    //     for (let i = 0; i < attachmentlength; i++) {
-    //       atachmentsample.push(Response.data.attachments[i]);
+        for (let i = 0; i < attachmentlength; i++) {
+          atachmentsample.push(Response.data.attachments[i]);
+        }
+        setattachment(atachmentsample);
+        console.log(attachment);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
-    //     }
-    //     setattachment(atachmentsample)
-    //     //console.log(attachment)
-    //   })
-    //   .catch((err) => {
-     
-    //     //console.log(err);
-    //   });
     const handleChange = (panel) => (event, newExpanded) => {
       setExpanded(newExpanded ? panel : false);
     };
-    
-
-  
 
     return (
       <MDBContainer className="passport-container pt-5" fluid>
@@ -312,7 +334,7 @@ const ViewAppointment = forwardRef((props, ref) => {
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {personalInformation.nationality}
+                      {getNationalitys(personalInformation.nationalityId)}
                     </label>
                   </b>
                 </div>
@@ -356,7 +378,7 @@ const ViewAppointment = forwardRef((props, ref) => {
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {personalInformation.occupation}
+                      {getOccupation(personalInformation.occupationId)}
                     </label>
                   </b>
                 </div>
@@ -372,28 +394,6 @@ const ViewAppointment = forwardRef((props, ref) => {
                   </b>
                 </div>
 
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Birth Country
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {personalInformation.birthCountry}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Birth City
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {personalInformation.birthCity}
-                    </label>
-                  </b>
-                </div>
                 <div class="form-group form-inline">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                     Phone Number
@@ -424,7 +424,7 @@ const ViewAppointment = forwardRef((props, ref) => {
                   {familyInformation.map((family) => (
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        {family.familtyType}
+                        {getFamilyType(family.familtyTypeId)}
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
@@ -444,12 +444,12 @@ const ViewAppointment = forwardRef((props, ref) => {
                 <hr class="text-primary" />
                 <div class="form-group form-inline">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Country
+                    Region
                   </label>
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {addressInformation.country}
+                      {addressInformation.region}
                     </label>
                   </b>
                 </div>
@@ -545,25 +545,25 @@ const ViewAppointment = forwardRef((props, ref) => {
                 </div>
               </fieldset>
               <fieldset>
-              <ul class="list-group mb-3">
-                      <li class="list-group-item ePassprt-color"><h5>Attachment Information</h5></li>
-                {
-                  attachment.length
-                    ? attachment.map((attachmentitem) => (
-       
- 
-                    <li class="list-group-item d-flex justify-content-between">
-                          <span>{attachmentitem.attachmentType} </span>
-                          <strong><a href={attachmentitem.attachmentPath} >View File</a></strong>
-                    </li>
-               
-
+                <ul class="list-group mb-3">
+                  <li class="list-group-item ePassprt-color">
+                    <h5>Attachment Information</h5>
+                  </li>
+                  {attachment.length ? (
+                    attachment.map((attachmentitem) => (
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span>{attachmentitem.attachmentType} </span>
+                        <strong>
+                          <a href={attachmentitem.attachmentPath}>View File</a>
+                        </strong>
+                      </li>
                     ))
-                    : <h6>Please wait...</h6>
-                }
-              </ul>
+                  ) : (
+                    <h6>Please wait...</h6>
+                  )}
+                </ul>
               </fieldset>
-</div>
+            </div>
           </div>
         </div>
         <MDBTypography blockquote bqColor="primary">

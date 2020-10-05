@@ -69,7 +69,6 @@ function InstructionPage(props) {
         setRequestSubmited(true);
       })
       .catch((err) => {
-        alert('err');
         console.log('AXIOS ERROR: ', err.response);
       });
   }, []);

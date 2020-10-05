@@ -16,7 +16,7 @@ const Address = forwardRef((props, ref) => {
   console.log(addressInformation);
   const [addressInfo, setAddressInfo] = useState({
     id: addressInformation.id,
-    country: addressInformation.country,
+    region: addressInformation.region,
     city: addressInformation.city,
     state: addressInformation.state,
     zone: addressInformation.zone,
@@ -58,14 +58,7 @@ const Address = forwardRef((props, ref) => {
       //alert("Validation")
     },
   }));
-  useEffect(() => {
-    API.get(
-      'https://epassportservices.azurewebsites.net/Master/api/V1.0/Country/GetAll',
-      config
-    ).then((todo) => {
-      setCountryList(todo.data.countrys);
-    });
-  }, []);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setAddressInfo((prevState) => ({
@@ -73,12 +66,22 @@ const Address = forwardRef((props, ref) => {
       [name]: value,
     }));
   };
+  if (countryList.length === 0) {
+    setCountryList(JSON.parse(localStorage.countryRegions));
+  }
+  const getCountryRegion = (id) => {
+    // for (let index = 0; index < countryRegion.length; index++) {
+    //   if (countryRegion[index].id == id) {
+    //     return countryRegion[index].type;
+    //   }
+    // }
+  };
   var prevInfo = counter.address[counter.address.length - 1];
   useEffect(() => {
     setAddressInfo((prevState) => ({
       ...prevState,
       id: prevInfo ? prevInfo.id : null,
-      country: prevInfo ? prevInfo.country : null,
+      region: prevInfo ? prevInfo.region : null,
       city: prevInfo ? prevInfo.city : null,
       state: prevInfo ? prevInfo.state : null,
       zone: prevInfo ? prevInfo.zone : null,
@@ -102,15 +105,24 @@ const Address = forwardRef((props, ref) => {
                   className="md-form form-group passport-select"
                   style={{ 'margin-bottom': '2.5rem' }}
                 >
+                  <label class="passport-selectList-label">
+                    Region
+                    <i
+                      class="required-for-select-list"
+                      style={{ color: 'red' }}
+                    >
+                      *
+                    </i>{' '}
+                  </label>
                   <select
-                    name="country"
+                    name="region"
                     onChange={handleChange}
                     className="browser-default custom-select"
-                    defaultValue={prevInfo ? prevInfo.occupationId : 0}
+                    // defaultValue={prevInfo ? prevInfo.nationalityId : 0}
                   >
-                    <option>select country</option>
-                    {countryList.map((country) => (
-                      <option value={country.code}>{country.name}</option>
+                    <option disabled>select Region</option>
+                    {countryList.map((region) => (
+                      <option value={region.name}>{region.name}</option>
                     ))}
                   </select>
                 </div>

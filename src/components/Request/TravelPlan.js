@@ -179,7 +179,7 @@ const TravelPlan = forwardRef((props, ref) => {
       headers: { Authorization: 'Bearer ' + accesstoken },
       method: 'get',
       url:
-        'https://epassportservices.azurewebsites.net/Master/api/V1.0/OfficeRequestType/GetRequiredAttachementsByRequestTypeId',
+        'https://epassportservices.azurewebsites.net/Master/api/V1.0/Attachement/GetRequiredAttachements',
       params: { requestTypeId: requestTypeId },
     })
       .then((response) => {

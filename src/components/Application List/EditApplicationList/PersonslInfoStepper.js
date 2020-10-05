@@ -28,6 +28,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import API from '../../Utils/API';
 import { MDBContainer, MDBCard, MDBAlert } from 'mdbreact';
+import { parse } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -99,6 +100,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   };
 
   const handleFinish = () => {
+    debugger;
     var personalInfo =
       counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
 
@@ -142,8 +144,12 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
           gender: personalInfo ? parseInt(personalInfo.gender) : null,
 
-          nationality: personalInfo ? personalInfo.nationality : null,
-          occupationId: personalInfo ? personalInfo.occupationId : null,
+          nationalityId: personalInfo
+            ? parseInt(personalInfo.nationalityId)
+            : null,
+          occupationId: personalInfo
+            ? parseInt(personalInfo.occupationId)
+            : null,
 
           height: personalInfo ? personalInfo.height : null,
 
@@ -172,11 +178,10 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
           organizationID: '',
 
-          isUnder18: personalInfo ? personalInfo.isAdoption : false,
+          isUnder18: personalInfo ? personalInfo.isUnder18 : false,
 
           isAdoption: personalInfo ? personalInfo.isAdoption : false,
           pageQuantity: travelPlanInfo.pageQuantity,
-          nationality: 1,
 
           address: {
             personId: personalInformation.id,
@@ -185,7 +190,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
             city: addressInfo ? addressInfo.city : null,
 
-            country: addressInfo ? addressInfo.country : null,
+            region: addressInfo ? addressInfo.region : null,
 
             state: addressInfo ? addressInfo.state : null,
 
@@ -206,7 +211,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
         },
       ],
     };
-
+    console.log(JSON.stringify(requestBody));
     API.put(
       'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/UpdateRequest',
       requestBody,
@@ -382,7 +387,6 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                           onClick={handleBack}
                         >
                           <i class="fas fa-arrow-left"></i> Previous
-                          <span class="show-for-medium"> Screen</span>
                         </a>
                       </div>
                     )}
@@ -391,7 +395,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                   <hr></hr>
 
                   <Grid item xs={1}>
-                    {activeStep === steps.length - 1 ? (
+                    {activeStep === steps.length - 2 ? (
                       <div className="multistep-form__step">
                         <a
                           class="specialty-next-step button float-right vertical-margin-2"
