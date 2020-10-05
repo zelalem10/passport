@@ -195,7 +195,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     }
     else if (requestInfo != null) {
       let requestBody = {
-        requestId: requestInfo.requestId,
+        requestId: Number.parseInt(requestInfo.requestId),
         appointmentIds:appointment?[appointment[props.applicantNumber-1].id] :[],
         applicants: [
           {
@@ -251,8 +251,10 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           },
         ],
       };
-      API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/AddPerson', requestBody, config)
+      API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/AddPerson',requestBody, config)
         .then((todo) => {
+          debugger;
+          //console.log("body ", JSON.parse(requestBody))
           setResponseMessage(todo.data.message);
           setResponseAlert(true);
           setIsSuccess(true);
@@ -264,7 +266,8 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
         .catch((err) => {
-          console.log('Body: ', requestBody);
+          debugger;
+          // console.log('Body: ', requestBody);
           console.log('AXIOS ERROR: ', err.response);
           if (err.response != null)
             setResponseMessage(err.response.data.title);
@@ -294,7 +297,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
          isSucces={isSuccess}
          respnseGet={responseAlert}/>;
       case 4:
-        return <Attachment applicantNumber={props.applicantNumber} />;
+        return <Attachment applicantNumber={props.applicantNumber} VerticalNext={VerticalNext} />;
       default:
         return 'Unknown stepIndex';
     }

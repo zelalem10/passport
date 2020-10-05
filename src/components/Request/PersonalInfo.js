@@ -16,27 +16,27 @@ const PersonalInfo = forwardRef((props, ref) => {
     const [nationalityList, setNationalityList] = useState([])
     const [occupationList, setOccupationList] = useState([])
     const [personalInfo, setPersonalInfo] = useState({
-        firstName: "",
-        middleName: "",
-        lastName: "",
-        geezFirstName: "",
-        geezMiddleName: "",
-        geezLastName: "",
-        birthPlace: "",
-        birthCertificatNo: "",
-        birthDate: "",
-        gender: "",
-        height: "",
-        eyeColor: "",
-        hairColor: "Black",
-        martialStatus: "",
-        occupationId: 0,
-        isHalfCast: false,
-        isUnder18: false,
-        isAdoption: false,
-        nationalityId: 0,
-        phoneNumber: "",
-        email: "",
+        firstName: prevInfo ? prevInfo.firstName : "",
+        middleName: prevInfo ? prevInfo.middleName : "",
+        lastName: prevInfo ? prevInfo.lastName : "",
+        geezFirstName: prevInfo ? prevInfo.geezFirstName : "",
+        geezMiddleName: prevInfo ? prevInfo.geezMiddleName : "",
+        geezLastName: prevInfo ? prevInfo.geezLastName : "",
+        birthPlace: prevInfo ? prevInfo.birthPlace : "",
+        birthDate: prevInfo ? prevInfo.birthDate : "",
+        birthCertificatNo: prevInfo ? prevInfo.birthCertificatNo : "",
+        height: prevInfo ? prevInfo.height : "",
+        gender: prevInfo ? prevInfo.gender : "",
+        eyeColor: prevInfo ? prevInfo.eyeColor : "",
+        hairColor: prevInfo ? prevInfo.hairColor : "Black",
+        occupationId: prevInfo ? prevInfo.occupationId : 0,
+        isHalfCast: prevInfo ? prevInfo.isHalfCast : false,
+        isAdoption: prevInfo ? prevInfo.isAdoption : false,
+        isUnder18: prevInfo ? prevInfo.isUnder18 : false,
+        nationalityId: prevInfo ? prevInfo.nationalityId : 0,
+        phoneNumber: prevInfo ? prevInfo.phoneNumber : "",
+        email: prevInfo ? prevInfo.email : "",
+        martialStatus: prevInfo ? prevInfo.martialStatus : "",
         dataSaved: false,
         formCompleted: false
     });
@@ -179,6 +179,7 @@ const PersonalInfo = forwardRef((props, ref) => {
             email: prevInfo ? prevInfo.email : "",
             martialStatus: prevInfo ? prevInfo.martialStatus : "",
         }))
+        
         API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/Nationality/GetAll', config)
             .then((todo) => {
                 setNationalityList(todo.data.nationalitys);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useImperativeHandle, forwardRef } from 'react';
 import { Tab, Row, Col, Button, Card } from 'react-bootstrap';
 import HorizontalStepper from '../GroupRequest/PersonslInfoStepper';
 import { BsCheck } from 'react-icons/bs';
@@ -52,7 +52,7 @@ const AccordionDetails = withStyles((theme) => ({
     padding: theme.spacing(2),
   },
 }))(MuiAccordionDetails);
-export default function RequestStepper() {
+const GroupNavigation = forwardRef((props, ref) => {
   const [completedForms, setCompletedForms] = useState([false, false, false]);
   const [personalInfo, setPersonalInfo] = useState({
     firstName: '',
@@ -83,6 +83,15 @@ export default function RequestStepper() {
   function handelNext() {
     console.log(counter.groupPersonalInfo);
   }
+  
+  useImperativeHandle(ref, () => ({
+    saveData(){
+      //setDataSaved(true)
+    },
+    isCompleted() {
+      return formCompleted;
+    }
+  }));
   return (
     <MDBContainer className=" view-appointment-group pt-3" fluid>
       <Card className="pt-3">
@@ -142,6 +151,7 @@ export default function RequestStepper() {
                     <HorizontalStepper
                       applicantNumber={applicantNumber}
                       handeler={handelNext}
+                      Next={props.Next}
                     />
                   </AccordionDetails>
                 </Accordion>
@@ -180,4 +190,6 @@ export default function RequestStepper() {
     //     </Card.Body>
     // </Card>
   );
-}
+});
+export default GroupNavigation
+

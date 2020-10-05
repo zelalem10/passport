@@ -199,7 +199,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
         isSucces={isSuccess}
         respnseGet={responseAlert}/>;
       case 4:
-        return <Attachment ref={childRef} hideBack={handelUploading} showBack={finifhUploading}  VerticalNext={VerticalNext} />;
+        return <Attachment ref={childRef} hideBack={handelUploading} showBack={finifhUploading} VerticalNext={VerticalNext} />;
       default:
         return 'Unknown stepIndex';
     }
