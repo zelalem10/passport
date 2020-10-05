@@ -181,7 +181,7 @@ export default function RequestStepper() {
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[2]}>
                 {isGroup === true ? (
-                  <GroupNavigation ref={personalRef} />
+                  <GroupNavigation ref={personalRef} Next={handelNext} />
                 ) : (
                   <PersonalInfoStepper ref={personalRef} Next={handelNext} />
                 )}

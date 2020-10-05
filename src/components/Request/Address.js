@@ -112,17 +112,7 @@ const Address = forwardRef((props, ref) => {
             <MDBCardBody>
                 <form >
                     <MDBRow>
-                        {/* <MDBCol>
-                            <MDBInput
-                                valueDefault={prevInfo ? prevInfo.country : null}
-                                name="country"
-                                className="form-control"
-                                onBlur={handleChange}
-                                type="text"
-                                label="Country"
-                            />
-                            <span style={{ color: "red" }}> {(notCompleted.country == true && addressInfo.dataSaved == true) ? "Country" + isRequired : null}</span>
-                        </MDBCol> */}
+                       
 
                         <MDBCol md="3" className="required-field">
                             <div>

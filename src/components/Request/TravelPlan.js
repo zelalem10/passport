@@ -306,9 +306,9 @@ const TravelPlan = forwardRef((props, ref) => {
                     onChange={handleChange}
                   >
                     <option value="">select correction type</option>
-                    <option value="0">NameCorrection</option>
-                    <option value="1">Birth Date Correction</option>
-                    <option value="2">
+                    <option value="1">NameCorrection</option>
+                    <option value="2">Birth Date Correction</option>
+                    <option value="3">
                       Both Name and Birth Date Correction
                     </option>
                   </select>

@@ -23,7 +23,11 @@ export default function ListOfApplications(props) {
     cancelRequestId,
     handlePayment,
   } = props;
-  debugger;
+  const addDays = (date) => {
+    var date = new Date(date);
+    date.setDate(date.getDate() + 1);
+    return date;
+  };
   return (
     <div>
       <MDBContainer>
@@ -153,7 +157,9 @@ export default function ListOfApplications(props) {
                                     </span>
                                   </MDBTooltip>
                                 </a>
-                                {user.requestStatus == 'Paid' ? (
+                                {user.requestStatus == 'PaymentCompleted' &&
+                                addDays(user.currentDate) <
+                                  new Date(user.appointmentResponse.date) ? (
                                   <a
                                     className="hoverWhite"
                                     onClick={() =>

@@ -64,13 +64,13 @@ const Fileupload = forwardRef((props, ref) => {
 
   const submit = async (e) => {
     //props.hideBack();
-    debugger;
+
     e.preventDefault();
     setloading(true);
     setsuccessMessage(false);
     seterrorMessage(false);
-    console.log(files);
-    console.log(fileType);
+    // console.log(files);
+    // console.log(fileType);
     // for (let i = 0; i < requiredAttachements; i++) {
     //   files = e.target[i].files[0];
     //   let fileType = e.target[i].id;
@@ -83,8 +83,8 @@ const Fileupload = forwardRef((props, ref) => {
     for (let i = 0; i < files.length; i++) {
       formData.append('personRequestId', requestPersonId);
       formData.append(fileType[i], files[i]);
-      console.log(files[i]);
-      console.log(fileType[i]);
+      // console.log(files[i]);
+      // console.log(fileType[i]);
     }
 
     const url =
@@ -112,7 +112,6 @@ const Fileupload = forwardRef((props, ref) => {
     }
   };
   const onChange = (e) => {
-    debugger;
     setfiles([...files, e.target.files[0]]);
     setfileType([...fileType, e.target.id]);
     //files = e.target.files[0];
@@ -127,7 +126,6 @@ const Fileupload = forwardRef((props, ref) => {
   };
 
   for (let i = 0; i < requiredAttachements; i++) {
-    debugger;
     inputs.push(
       <div class="row">
         <div class="col-lg-4">
