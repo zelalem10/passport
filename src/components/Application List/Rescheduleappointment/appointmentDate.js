@@ -117,6 +117,7 @@ function RescheduleAppointment(props) {
           ),
           requestTypeId: requestTypeId,
           officeId: officeId,
+          noOfApplicants: 1,
         };
         if (isUrgentAppointment) {
           axios({
@@ -140,6 +141,7 @@ function RescheduleAppointment(props) {
               ),
               requestTypeId: requestTypeId,
               officeId: officeId,
+              noOfApplicants: 1,
             },
           })
             .then((responses) => {
@@ -229,6 +231,7 @@ function RescheduleAppointment(props) {
               ),
               requestTypeId: requestTypeId,
               officeId: officeId,
+              noOfApplicants: 1,
             },
           })
             .then((responses) => {

@@ -75,10 +75,10 @@ label {
   margin-top: unset !important;
   margin-bottom: unset !important;
 }
-.date-picker [type="text"] {
+.date-picker [type='text'] {
   box-shadow: unset !important;
 }
-.travel-date-picker [type="text"] {
+.travel-date-picker [type='text'] {
   box-shadow: unset !important;
 }
 @media only screen and (max-width: 580px) {
@@ -100,7 +100,7 @@ label {
   margin-bottom: 1rem !important;
 }
 .required-field .md-form label:after {
-  content: "*" !important;
+  content: ' *' !important;
   color: red !important;
   display: inline !important;
   position: relative !important;
@@ -115,4 +115,10 @@ label {
 .react-calendar__navigation__label {
   color: #ffffff;
   background-color: #224b9f !important ;
+}
+.passport-selectList-label {
+  width: 100% !important;
+}
+.required-for-select-list {
+  font-weight: 700 !important;
 }

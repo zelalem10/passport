@@ -86,9 +86,10 @@ const FamilyInformation = forwardRef((props, ref) => {
     }));
   };
   const getFamilyType = (id) => {
-    for (let index = 0; index < familyType.length; index++) {
-      if (familyType[index].id == id) {
-        return familyType[index].type;
+    let FamilyTypes = JSON.parse(localStorage.familyTypesResponse);
+    for (let index = 0; index < FamilyTypes.length; index++) {
+      if (FamilyTypes[index].id == id) {
+        return FamilyTypes[index].type;
       }
     }
   };
@@ -233,6 +234,7 @@ const FamilyInformation = forwardRef((props, ref) => {
       saveEditedData={saveEdited}
       handleEditInput={handleUserEditInput}
       familyType={familyType}
+      getFamilyType={getFamilyType}
     />
   );
 });
