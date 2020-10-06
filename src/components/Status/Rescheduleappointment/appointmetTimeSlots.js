@@ -9,12 +9,14 @@ function AvailableTimeSlot(props) {
   if (showAndHide === true) {
     return (
       <div id="chooseAppointments">
-        <MDBTable id="apptTable">
+        <MDBTable id="apptTable" class="table-responsive">
           <MDBTableHead>
             <tr>
               <th>
-                {props.selectedDate}
-                <br></br> Times shown in: Africa/Addis_Ababa-EAT
+                <b>
+                  {props.selectedDate}
+                  <br></br> Times shown in: Africa/Addis_Ababa-EAT
+                </b>
               </th>
             </tr>
           </MDBTableHead>
@@ -24,7 +26,9 @@ function AvailableTimeSlot(props) {
                 <MDBTable id="displayMorningAppts">
                   <MDBTableHead>
                     <tr>
-                      <th>Morning</th>
+                      <th>
+                        <b>Morning</b>
+                      </th>
                     </tr>
                   </MDBTableHead>
                   <MDBTableBody>
@@ -57,7 +61,9 @@ function AvailableTimeSlot(props) {
                 <MDBTable id="displayAfternoonAppts">
                   <MDBTableHead>
                     <tr>
-                      <th>Afternoon</th>
+                      <th>
+                        <b>Afternoon</b>
+                      </th>
                     </tr>
                   </MDBTableHead>
                   <MDBTableBody>

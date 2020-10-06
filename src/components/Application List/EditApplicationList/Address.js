@@ -122,7 +122,12 @@ const Address = forwardRef((props, ref) => {
                   >
                     <option disabled>select Region</option>
                     {countryList.map((region) => (
-                      <option value={region.name}>{region.name}</option>
+                      <option
+                        value={region.name}
+                        selected={region.name === prevInfo.region}
+                      >
+                        {region.name}
+                      </option>
                     ))}
                   </select>
                 </div>

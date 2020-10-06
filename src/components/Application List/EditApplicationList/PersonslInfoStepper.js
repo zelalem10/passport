@@ -100,7 +100,6 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   };
 
   const handleFinish = () => {
-    debugger;
     var personalInfo =
       counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
 
@@ -181,7 +180,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
           isUnder18: personalInfo ? personalInfo.isUnder18 : false,
 
           isAdoption: personalInfo ? personalInfo.isAdoption : false,
-          pageQuantity: travelPlanInfo.pageQuantity,
+          passportPageId: travelPlanInfo.passportPageId,
 
           address: {
             personId: personalInformation.id,
@@ -220,12 +219,10 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
       .then((todo) => {
         handleNext();
-        setDisplayAlert(todo.data.message);
       })
 
       .catch((err) => {
         console.log('AXIOS ERROR: ', err);
-        setDisplayAlert('error : ' + err.message);
       });
   };
 
@@ -257,17 +254,9 @@ export default function HorizontalLabelPositionBelowStepper(props) {
         return (
           <TravelPlan
             ref={childRef}
-            flightData={personalInformation.flightDate}
-            flightNumber={personalInformation.flightNumber}
-            filledBy={personalInformation.filledBy}
-            pageQuantity={personalInformation.pageQuantity}
-            passportType={personalInformation.passportType}
-            passportNumber={personalInformation.passportNumber}
-            expirationDate={personalInformation.expireDate}
-            issueDate={personalInformation.issueDate}
-            isDatacorrected={personalInformation.isDatacorrected}
-            displayedApplication={displayedApplication}
+            passportRes={personalInformation.passportRes}
             personalInformation={personalInformation}
+            displayedApplication={displayedApplication}
           />
         );
 
