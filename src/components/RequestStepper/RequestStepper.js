@@ -4,7 +4,7 @@ import DateSelection from '../Request Appointment/appointment/appointmentDate';
 import PersonalInfoStepper from '../Request/PersonslInfoStepper';
 import GroupNavigation from '../GroupRequest/GroupNavigation';
 import PaymentSelection from '../Payment/PaymentSelection';
-import Confirmation from '../Payment/Responses/Confirmation';
+import Confirmation from '../Payment/Responses/InstructionPage';
 import { Tab, Row, Nav, Col, Button, Card } from 'react-bootstrap';
 import { MDBCol, MDBContainer, MDBRow } from 'mdbreact';
 import ViewAppointment from '../Request/Summary';
@@ -29,8 +29,9 @@ export default function RequestStepper() {
     false,
     false,
     false,
+    false,
   ]);
-  const activeKey = ['first', 'second', 'third', 'fourth', 'Fivth'];
+  const activeKey = ['first', 'second', 'third', 'fourth', 'Fivth', 'Sixth'];
   const counter = useSelector((state) => state);
   const isGroup = counter.service[counter.service.length - 1].isGroup;
   const personalRef = useRef();
