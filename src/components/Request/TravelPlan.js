@@ -68,8 +68,7 @@ const TravelPlan = forwardRef((props, ref) => {
     headers: { Authorization: 'Bearer ' + accesstoken },
   };
   let requestTypefromRedux = useSelector((state) => state.service);
-  let requestTypeId =
-    requestTypefromRedux[requestTypefromRedux.length - 1].appointemntType;
+  let personalInfoReducer = useSelector((state) => state.personalInfoReducer);
 
   if (counter.travelPlan.length === 0) {
     dispatch(addTravelPlan(travelPlan));
@@ -147,6 +146,11 @@ const TravelPlan = forwardRef((props, ref) => {
   const requestType = serviceSelcetion.appointemntType;
   const requestTypeStr = requestTypeGetter(requestType);
 
+  let travelPlanInfo = useSelector((state) => state.travelPlan);
+  let hasDataCorrection = travelPlanInfo[travelPlanInfo.length - 1].isDatacorrected;
+
+  console.log(hasDataCorrection)
+
   useEffect(() => {
     if (counter.travelPlan.length === 0) {
       dispatch(addTravelPlan(travelPlan));
@@ -175,45 +179,6 @@ const TravelPlan = forwardRef((props, ref) => {
         console.log('AXIOS ERROR: ', err.response);
       });
 
-    axios({
-      headers: { Authorization: 'Bearer ' + accesstoken },
-      method: 'get',
-      url:
-        'https://epassportservices.azurewebsites.net/Master/api/V1.0/Attachement/GetRequiredAttachements',
-      params: { requestTypeId: requestTypeId },
-    })
-      .then((response) => {
-        let requiredAttachements = response.data.requiredAttachements.length;
-        let requiredAttachementType = [];
-        let attachmentTypeName = [];
-        for (let i = 0; i < response.data.requiredAttachements.length; i++) {
-          requiredAttachementType.push(
-            response.data.requiredAttachements[i].attachmentTypeId
-          );
-          attachmentTypeName.push(
-            response.data.requiredAttachements[i].attachmentType
-          );
-
-          console.log(response.data.requiredAttachements);
-        }
-        console.log(requiredAttachementType);
-
-        if (localStorage.requiredAttachements) {
-          localStorage.removeItem('requiredAttachements');
-        }
-        localStorage.setItem('requiredAttachements', requiredAttachements);
-        localStorage.setItem(
-          'requiredAttachementType',
-          JSON.stringify(requiredAttachementType)
-        );
-        localStorage.setItem(
-          'attachmentTypeName',
-          JSON.stringify(attachmentTypeName)
-        );
-      })
-      .catch((error) => {
-        console.log('error' + error.message);
-      });
   }, []);
 
   return (
@@ -341,9 +306,9 @@ const TravelPlan = forwardRef((props, ref) => {
                     onChange={handleChange}
                   >
                     <option value="">select correction type</option>
-                    <option value="0">NameCorrection</option>
-                    <option value="1">Birth Date Correction</option>
-                    <option value="2">
+                    <option value="1">NameCorrection</option>
+                    <option value="2">Birth Date Correction</option>
+                    <option value="3">
                       Both Name and Birth Date Correction
                     </option>
                   </select>

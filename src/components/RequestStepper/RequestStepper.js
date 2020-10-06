@@ -4,7 +4,7 @@ import DateSelection from '../Request Appointment/appointment/appointmentDate';
 import PersonalInfoStepper from '../Request/PersonslInfoStepper';
 import GroupNavigation from '../GroupRequest/GroupNavigation';
 import PaymentSelection from '../Payment/PaymentSelection';
-import Instraction from '../Payment/Responses/InstructionPage';
+import Confirmation from '../Payment/Responses/Confirmation';
 import { Tab, Row, Nav, Col, Button, Card } from 'react-bootstrap';
 import { MDBCol, MDBContainer, MDBRow } from 'mdbreact';
 import ViewAppointment from '../Request/Summary';
@@ -29,9 +29,8 @@ export default function RequestStepper() {
     false,
     false,
     false,
-    false,
   ]);
-  const activeKey = ['first', 'second', 'third', 'fourth', 'Fivth', 'Sixth'];
+  const activeKey = ['first', 'second', 'third', 'fourth', 'Fivth'];
   const counter = useSelector((state) => state);
   const isGroup = counter.service[counter.service.length - 1].isGroup;
   const personalRef = useRef();
@@ -57,9 +56,8 @@ export default function RequestStepper() {
     } else if (indexValue === 2) {
       personalRef.current.saveData();
       setIndexValue((prevActiveStep) => prevActiveStep + 1);
-      formCompleted[2] = true;
-    }
-     else if (indexValue === 3) {
+      formCompleted[indexValue] = true;
+    } else if (indexValue === 3) {
       summaryRef.current.saveData();
       if (summaryRef.current.isCompleted() === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
@@ -166,7 +164,7 @@ export default function RequestStepper() {
                     onClick={handelConfirmation}
                     disabled={formCompleted[5] === true ? false : true}
                   >
-                    <BsFillInfoCircleFill /> Instruction
+                    <BsFillInfoCircleFill /> Confirmation
                     {formCompleted[5] ? <BsCheck /> : null}
                   </Nav.Link>
                 </Nav.Item>
@@ -183,7 +181,7 @@ export default function RequestStepper() {
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[2]}>
                 {isGroup === true ? (
-                  <GroupNavigation ref={personalRef} />
+                  <GroupNavigation ref={personalRef} Next={handelNext} />
                 ) : (
                   <PersonalInfoStepper ref={personalRef} Next={handelNext} />
                 )}
@@ -195,7 +193,7 @@ export default function RequestStepper() {
                 <PaymentSelection ref={paymentRef} />
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[5]}>
-                <Instraction />
+                <Confirmation />
               </Tab.Pane>
             </Tab.Content>
           </Col>

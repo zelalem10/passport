@@ -1,4 +1,9 @@
-import React, { useState, useRef, forwardRef, useImperativeHandle } from 'react';
+import React, {
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -29,7 +34,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function getSteps() {
-  return ['Personal Detail', 'Address', 'Family', 'Passport info', 'Attachment'];
+  return [
+    'Personal Detail',
+    'Address',
+    'Family',
+    'Passport info',
+    'Attachment',
+  ];
 }
 const PersonalInfoStepper = forwardRef((props, ref) => {
   const classes = useStyles();
@@ -44,14 +55,9 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const childRef = useRef();
-  const accesstoken = localStorage.systemToken;
-  const usertoken = localStorage.userToken;
-  const config = {
-    headers: { Authorization: 'Bearer ' + accesstoken },
-  };
-  const VerticalNext=()=>{
+  const VerticalNext = () => {
     props.Next();
-  }
+  };
   const handleNext = () => {
     if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
       childRef.current.saveData();
@@ -59,17 +65,16 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
       if (isVilid == true) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       }
-    }
-    else {
-    childRef.current.saveData();
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    } else {
+      childRef.current.saveData();
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-  
+
   const handleReset = () => {
     setActiveStep(0);
   };
@@ -79,42 +84,63 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     if (isVilid != true) {
       //setResponseMessage("Ple")
     } else {
-      let personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
-      let addressInfo = counter.address[counter.address.length - 1];
-      let familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
-      let travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
-      let appointment=counter.appointmentDate[counter.appointmentDate.length - 1]
-      let siteInfo=counter.siteInformation[counter.siteInformation.length - 1]
-      let serviceInfo=counter.service[counter.service.length - 1]
+      var personalInfo =
+        counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
+      var addressInfo = counter.address[counter.address.length - 1];
+      var familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
+      const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
+      const appointment =
+        counter.appointmentDate[counter.appointmentDate.length - 1];
+      const siteInfo =
+        counter.siteInformation[counter.siteInformation.length - 1];
+      let isUrgent = counter.service[counter.service.length - 1].isUrgent;
+
+      const accesstoken = localStorage.systemToken;
+      const usertoken = localStorage.userToken;
+      const config = {
+        headers: { Authorization: 'Bearer ' + accesstoken },
+      };
       const requestBody = {
         requestId: 0,
-        requestMode: (serviceInfo &&serviceInfo.isUrgent===true)?1:0,
-        officeId:siteInfo? Number.parseInt(siteInfo.offceId, 10):0,
-        deliverySiteId: siteInfo? Number.parseInt(siteInfo.deliverySiteId, 10):0,
-        requestTypeId: serviceInfo? Number.parseInt(serviceInfo.appointemntType, 10):0,
-        appointmentIds:appointment?[appointment[0].id] :[],
+        requestMode: isUrgent === true ? 1 : 0,
+        officeId: siteInfo ? Number.parseInt(siteInfo.offceId, 10) : 0,
+        requestTypeId: 2,
+        deliverySiteId: 1,
+        appointmentIds: appointment ? [appointment[0].id] : 1,
         userName: '',
         status: 0,
         confirmationNumber: '',
         applicants: [
           {
             personId: 0,
-            firstName: personalInfo ? personalInfo.firstName.toUpperCase(): null,
-            middleName: personalInfo ? personalInfo.middleName.toUpperCase(): null,
+            firstName: personalInfo
+              ? personalInfo.firstName.toUpperCase()
+              : null,
+            middleName: personalInfo
+              ? personalInfo.middleName.toUpperCase()
+              : null,
             lastName: personalInfo ? personalInfo.lastName.toUpperCase() : null,
             geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
             geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
             geezLastName: personalInfo ? personalInfo.geezLastName : null,
             dateOfBirth: personalInfo ? personalInfo.birthDate : null,
-            gender: personalInfo ? Number.parseInt(personalInfo.gender, 10): null,
-            nationalityId: personalInfo ? Number.parseInt(personalInfo.nationalityId, 10) : null,
+            gender: personalInfo
+              ? Number.parseInt(personalInfo.gender, 10)
+              : null,
+            nationalityId: personalInfo
+              ? Number.parseInt(personalInfo.nationalityId, 10)
+              : null,
             height: personalInfo ? personalInfo.height : null,
             eyeColor: personalInfo ? personalInfo.eyeColor : null,
             hairColor: personalInfo ? personalInfo.hairColor : null,
-            occupationId: personalInfo ? Number.parseInt(personalInfo.occupationId, 10) : null,
+            occupationId: personalInfo
+              ? Number.parseInt(personalInfo.occupationId, 10)
+              : null,
             halfCast: personalInfo ? personalInfo.halfCast : null,
             enrolmentDate: personalInfo ? personalInfo.birthDate : null,
-            birthCertificateId: personalInfo? personalInfo.birthCertificatNo: '',
+            birthCertificateId: personalInfo
+              ? personalInfo.birthCertificatNo
+              : '',
             photoPath: '',
             employeeID: '',
             applicationNumber: '',
@@ -122,16 +148,25 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             isUnder18: personalInfo ? personalInfo.isUnder18 : false,
             isAdoption: personalInfo ? personalInfo.isAdoption : false,
             passportNumber: travelPlan ? travelPlan.passportNumber : null,
-            issueDate:  new Date(),
-            expireDate:  new Date(),
+            issueDate: new Date(),
+            expireDate: new Date(),
             passportType: travelPlan ? travelPlan.passportType : null,
             isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
-            pageQuantity: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10): 0,
-            correctionType: travelPlan ? (travelPlan.correctionReason && travelPlan.correctionReason!="")?Number.parseInt(travelPlan.correctionReason, 10):0: 0,
-            maritalStatus: personalInfo ? Number.parseInt(personalInfo.martialStatus, 10): 0,
-            birthCertificateId: personalInfo? personalInfo.birthCertificatNo: null,
-            phoneNumber: personalInfo? personalInfo.phoneNumber: null,
-            email: personalInfo? personalInfo.email: null,
+            pageQuantity: travelPlan
+              ? Number.parseInt(travelPlan.pageQuantity, 10)
+              : 0,
+            correctionType:
+              travelPlan && travelPlan.correctionReason != ''
+                ? Number.parseInt(travelPlan.correctionReason, 10)
+                : 0,
+            maritalStatus: personalInfo
+              ? Number.parseInt(personalInfo.martialStatus, 10)
+              : 0,
+            birthCertificateId: personalInfo
+              ? personalInfo.birthCertificatNo
+              : null,
+            phoneNumber: personalInfo ? personalInfo.phoneNumber : null,
+            email: personalInfo ? personalInfo.email : null,
             address: {
               personId: 0,
               addressId: 0,
@@ -151,39 +186,41 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
         ],
       };
       debugger;
+      console.log(requestBody);
       API.post(
         'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest',
         requestBody,
         config
       )
         .then((todo) => {
+          debugger;
           setResponseMessage(todo.data.message);
           setResponseAlert(true);
           setIsSuccess(true);
+          console.log(todo.data);
           const commonData = {
-            requestPersonId: todo.data.serviceResponseList[0].personResponses.requestPersonId,
+            requestPersonId:
+              todo.data.serviceResponseList[0].personResponses.requestPersonId,
           };
           dispatch(newRequest(todo.data.serviceResponseList[0]));
           dispatch(addCommonData(commonData));
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
         .catch((err) => {
-          console.log("Body: ", requestBody)
+          debugger;
           console.log('AXIOS ERROR: ', err.response);
-          if (err.response != null)
-            setResponseMessage(err.response.data.title);
-          else
-            setResponseMessage("something goes wrong!");
+          if (err.response != null) setResponseMessage(err.response.data.title);
+          else setResponseMessage('something goes wrong!');
           setResponseAlert(true);
         });
     }
   };
-  const handelUploading=()=>{
-    setIsUploading(true)
-  }
-  const finifhUploading=()=>{
+  const handelUploading = () => {
+    setIsUploading(true);
+  };
+  const finifhUploading = () => {
     setIsUploading(false);
-  }
+  };
   function getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
@@ -193,24 +230,27 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
       case 2:
         return <FamilyInformation ref={childRef} />;
       case 3:
-        return <TravelPlan 
-        ref={childRef}
-        resMessage={responseMessage}
-        isSucces={isSuccess}
-        respnseGet={responseAlert}/>;
+        return (
+          <TravelPlan
+            ref={childRef}
+            resMessage={responseMessage}
+            isSucces={isSuccess}
+            respnseGet={responseAlert}
+          />
+        );
       case 4:
-        return <Attachment ref={childRef} hideBack={handelUploading} showBack={finifhUploading}  VerticalNext={VerticalNext} />;
+        return <Attachment ref={childRef} hideBack={handelUploading} showBack={finifhUploading} VerticalNext={VerticalNext} />;
       default:
         return 'Unknown stepIndex';
     }
   }
   useImperativeHandle(ref, () => ({
-    saveData(){
+    saveData() {
       //setDataSaved(true)
     },
     isCompleted() {
       return formCompleted;
-    }
+    },
   }));
   return (
     <div className={classes.root} style={{ marginBottom: '5rem' }}>
@@ -229,15 +269,14 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             </Typography>
             <Button onClick={handleReset}>Reset</Button>
           </div>
-        ) : (
-          isUploading===false?(
+        ) : isUploading === false ? (
           <div>
             <Typography className={classes.instructions}>
               {getStepContent(activeStep)}
             </Typography>
-            
-            <Grid container spacing={1}>
-              <Grid item xs={3}>
+
+              <div class='row'>
+              <div class='col-sm-6 text-left'>
                 <Button
                   disabled={activeStep === 0}
                   onClick={handleBack}
@@ -245,37 +284,35 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                 >
                   Back
                 </Button>
-              </Grid>
-              <hr></hr>
-              {activeStep === steps.length - 1 ? (null)
-            :(
-                 <Grid item xs={1}>
-                {activeStep === steps.length - 2 ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleSubmit}
-                  >
-                    Submit
-                  </Button>
-                ) : (
-                  activeStep === steps.length - 1 ?(null):(<Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                  >
-                    Next
-                  </Button>)
-                )}
-              </Grid>
-            )}
-             </Grid>
+              </div>
+              {activeStep === steps.length - 1 ? null : (
+                <div class='col-sm-6 text-right'>
+                  {activeStep === steps.length - 2 ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleSubmit}
+                    >
+                      Submit
+                    </Button>
+                  ) : activeStep === steps.length - 1 ? null : (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                    >
+                      Next
+                    </Button>
+                  )}
+                </div>
+              )}
+              </div>
+       
 
           </div>
-          ):(null)
-        )}
+        ) : null}
       </div>
     </div>
   );
 });
-export default PersonalInfoStepper
+export default PersonalInfoStepper;
