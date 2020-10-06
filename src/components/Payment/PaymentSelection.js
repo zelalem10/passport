@@ -153,7 +153,7 @@ const PaymentSelection = forwardRef((props, ref) => {
   return (
     <MDBContainer className="payment-container" fluid>
       <MDBRow>
-        <MDBCol md="8">
+        <MDBCol md="7">
           <MDBRow>
             {/* {paymentOptions.map((paymentOption) => (
                   <MDBCol md="4" style={{ marginTop: '2rem' }}>
