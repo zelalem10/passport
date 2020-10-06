@@ -9,6 +9,7 @@ import ViewAppointment from './viewAppointment';
 import HorizontalLabelPositionBelowStepper from './EditApplicationList/PersonslInfoStepper';
 import GroupRequestStepper from './EditApplicationList/Group/GroupNavigation';
 import RescheduleAppointment from './Rescheduleappointment/appointmentDate';
+import GetContent from '../UrgentAppointment/Payment/PaymentSelection';
 
 const Errorstyle = {
   fontSize: '1.2rem',
@@ -36,8 +37,6 @@ const MainStatus = () => {
   const [ShowForm, setShowForm] = useState(true);
 
   const [clearbutton, setclearbutton] = useState(false);
-
-  let [PassportNumber, setPassportNumber] = useState('');
   let [ApplicationNumber, setApplicationNumber] = useState('');
   let [ConfirmationNumber, setConfirmationNumber] = useState('');
 
@@ -51,6 +50,9 @@ const MainStatus = () => {
   const [isGroup, setIsGroup] = useState(false);
   const [numOfApplicants, setNumOfApplicants] = useState(0);
   const [handleDisplayId, sethandleDisplayId] = useState('');
+
+  const [handlePaymentId, setHandlePaymentId] = useState('');
+  const [goToPayment, setGoToPayment] = useState(false);
 
   const handleDisplay = (id) => {
     debugger;
@@ -74,7 +76,7 @@ const MainStatus = () => {
   const validate = () => {
     debugger;
 
-    if (!PassportNumber && !ApplicationNumber && !ConfirmationNumber) {
+    if (!ApplicationNumber && !ConfirmationNumber) {
       AllError = 'Please fill at least one field.';
     } else {
       AllError = '';
@@ -87,42 +89,21 @@ const MainStatus = () => {
 
     return true;
   };
+  const handlePayment = (id) => {
+    setHandlePaymentId(id);
+    setGoToPayment(true);
+  };
 
   const handleSubmit = (e) => {
+    debugger;
     e.preventDefault();
     setloading(true);
     const isValid = validate();
     if (isValid) {
-      setPassportNumber(PassportNumber);
       setApplicationNumber(ApplicationNumber);
       setConfirmationNumber(ConfirmationNumber);
 
-      if (PassportNumber) {
-        axios
-          .get(
-            `https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/GetRequestsByPassportNumber?passportNumber=${PassportNumber}`,
-            config
-          )
-          .then((response) => {
-            debugger;
-            setPassportNumberData(response.data);
-            setAllError('');
-            console.log(response.data)
-            if (response.data.status !== 0) {
-              setShowForm(false);
-              setShowPassportNumberResults(true);
-              setclearbutton(true);
-              setloading(false);
-              dispatch(addApplicationList(response.data));
-            }
-
-            console.log(response.data);
-          })
-          .catch((error) => {
-    
-            console.log('error' + error);
-          });
-      } else if (ApplicationNumber) {
+      if (ApplicationNumber) {
         axios
           .get(
             `https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/GetRequestsByApplicationNumber?applicationNumber=${ApplicationNumber}`,
@@ -130,20 +111,19 @@ const MainStatus = () => {
           )
           .then((response) => {
             debugger;
-            setApplicationNumberData(response.data);
+            setApplicationNumberData(response.data.serviceRequest);
             setAllError('');
             if (response.data.status !== 0) {
               setShowForm(false);
               setShowApplicationNumberResults(true);
               setclearbutton(true);
               setloading(false);
-              dispatch(addApplicationList(response.data));
+              dispatch(addApplicationList(response.data.serviceRequest));
             }
 
             console.log(response.data);
           })
           .catch((error) => {
-           
             console.log('error' + error);
           });
       } else if (ConfirmationNumber) {
@@ -153,20 +133,21 @@ const MainStatus = () => {
             config
           )
           .then((response) => {
-            setConfirmationNumberData(response.data);
+            debugger;
+            setConfirmationNumberData(response.data.serviceResponseList);
             setAllError('');
             if (response.data.status !== 0) {
               setShowForm(false);
               setShowConfirmationNumberDataResults(true);
               setclearbutton(true);
               setloading(false);
-              dispatch(addApplicationList(Response.data));
+              dispatch(addApplicationList(Response.data.serviceResponseList));
             }
 
             console.log(response.data);
           })
           .catch((error) => {
-           
+            debugger;
             console.log('error' + error);
           });
       }
@@ -181,8 +162,9 @@ const MainStatus = () => {
     setShowConfirmationNumberDataResults(false);
     setShowForm(true);
   };
-
-  if (handleDisplayId) {
+  if (goToPayment) {
+    return <GetContent handlePaymentId={handlePaymentId} />;
+  } else if (handleDisplayId) {
     return <RescheduleAppointment handleDisplayId={handleDisplayId} />;
   } else if (!displayRequestId && !isEdit) {
     return (
@@ -190,12 +172,10 @@ const MainStatus = () => {
         ApplicationNumberData={ApplicationNumberData}
         ShowForm={ShowForm}
         handleSubmit={handleSubmit}
-        setPassportNumber={setPassportNumber}
         ConfirmationNumberData={ConfirmationNumberData}
         clearbutton={clearbutton}
         showApplicationNumberResults={showApplicationNumberResults}
         PassportNumberData={PassportNumberData}
-        PassportNumber={PassportNumber}
         clearSerchItems={clearSerchItems}
         loading={loading}
         Errorstyle={Errorstyle}
@@ -211,21 +191,15 @@ const MainStatus = () => {
         handleReschedule={handleReschedule}
       />
     );
-  } else if (displayRequestId && isEdit && !isGroup) {
+  } else if (displayRequestId && isEdit) {
     return (
       <HorizontalLabelPositionBelowStepper
         displayRequestId={displayRequestId}
       />
     );
-  } else if (displayRequestId && isEdit && isGroup) {
-    return (
-      <GroupRequestStepper
-        displayRequestId={displayRequestId}
-        numOfApplicants={numOfApplicants}
-      />
-    );
+  } else {
+    return <ViewAppointment displayRequestId={displayRequestId} />;
   }
-  return <ViewAppointment displayRequestId={displayRequestId} />;
 };
 
 export default MainStatus;

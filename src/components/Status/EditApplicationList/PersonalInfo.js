@@ -15,16 +15,27 @@ import {
 import DateFnsUtils from '@date-io/date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import addPersonalInfo from '../../../redux/actions/addPersonalInfoAction';
-
-const config = {
-  headers: {
-    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiYXRhbGF5IiwibmJmIjoxNTk3MjEzNTU5LCJleHAiOjE1OTcyMjc5NTksImlhdCI6MTU5NzIxMzU1OX0.IJihXj3WJQEsNjFjYIL8-Z2LmtKvT250dl04L8YmIIw`,
-  },
-};
+import API from '../../Utils/API';
 
 const PersonalInfo = forwardRef((props, ref) => {
+  const [nationalityList, setNationalityList] = useState([]);
+  const [occupationList, setOccupationList] = useState([]);
   const { personalInformation } = props;
-  console.log(personalInformation);
+  const tokenValue = () => {
+    const UserToken = localStorage.userToken;
+
+    if (UserToken) {
+      return UserToken;
+    } else {
+      const SystemToken = localStorage.systemToken;
+      return SystemToken;
+    }
+  };
+  const token = tokenValue();
+  const config = {
+    headers: { Authorization: 'Bearer ' + token },
+  };
+
   const [personalInfo, setPersonalInfo] = useState({
     id: personalInformation.id,
     firstName: personalInformation.firstName,
@@ -40,12 +51,23 @@ const PersonalInfo = forwardRef((props, ref) => {
     eyeColor: personalInformation.eyeColor,
     hairColor: personalInformation.hairColor,
     communicationMethod: personalInformation.communicationMethod,
-    occupation: personalInformation.occupation,
-    halfCast: personalInformation.halfCast,
-    enrolmentDate: personalInformation.enrolmentDate,
-    nationality: personalInformation.nationality,
+    occupationId: personalInformation.occupationId,
+    isHalfCast: personalInformation.isHalfCast,
+    nationalityId: personalInformation.nationalityId,
+    martialStatus: personalInformation.martialStatus,
+    isUnder18: personalInformation.isUnder18,
+    isAdoption: personalInformation.isAdoption,
+    phoneNumber: personalInformation.phoneNumber,
+    email: personalInformation.email,
+    birthCertificateId: personalInformation.passportRes.birthCertificateId,
     dataSaved: false,
   });
+  if (nationalityList.length === 0) {
+    setNationalityList(JSON.parse(localStorage.nationalitys));
+  }
+  if (occupationList.length === 0) {
+    setOccupationList(JSON.parse(localStorage.occupations));
+  }
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const personRef = React.useRef();
@@ -65,6 +87,13 @@ const PersonalInfo = forwardRef((props, ref) => {
     },
   }));
 
+  const handleCheck = (name, checked) => {
+    setPersonalInfo((prevState) => ({
+      ...prevState,
+      [name]: checked,
+    }));
+  };
+
   const handleChange = (event) => {
     debugger;
     const { name, value } = event.target;
@@ -73,6 +102,7 @@ const PersonalInfo = forwardRef((props, ref) => {
       [name]: value,
     }));
   };
+
   var prevInfo =
     counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
   useEffect(() => {
@@ -88,22 +118,28 @@ const PersonalInfo = forwardRef((props, ref) => {
       geezLastName: prevInfo ? prevInfo.geezLastName : null,
       dateOfBirth: prevInfo ? new Date(prevInfo.dateOfBirth) : null,
       height: prevInfo ? prevInfo.height : null,
-      gender: prevInfo ? prevInfo.gender : null,
+      gender: prevInfo ? parseInt(prevInfo.gender) : null,
       eyeColor: prevInfo ? prevInfo.eyeColor : null,
       hairColor: prevInfo ? prevInfo.hairColor : null,
-      occupation: prevInfo ? prevInfo.occupation : null,
-      halfCast: prevInfo ? prevInfo.halfCast : null,
       birthPlace: prevInfo ? prevInfo.birthPlace : null,
       enrolmentDate: prevInfo ? new Date(prevInfo.enrolmentDate) : null,
-      nationality: prevInfo ? prevInfo.nationality : null,
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
+      occupationId: prevInfo ? parseInt(prevInfo.occupationId) : 0,
+      isHalfCast: prevInfo ? prevInfo.isHalfCast : false,
+      isAdoption: prevInfo ? prevInfo.isAdoption : false,
+      isUnder18: prevInfo ? prevInfo.isUnder18 : false,
+      nationalityId: prevInfo ? parseInt(prevInfo.nationalityId) : 0,
+      martialStatus: prevInfo ? prevInfo.martialStatus : '',
+      phoneNumber: prevInfo ? prevInfo.phoneNumber : null,
+      email: prevInfo ? prevInfo.email : null,
+      birthCertificateId: prevInfo ? prevInfo.birthCertificateId : null,
     }));
   }, []);
   const [selectedDate, setSelectedDate] = React.useState(
-    new Date(prevInfo ? prevInfo.dateOfBirth : '2014-08-18T21:11:54')
+    new Date(prevInfo ? prevInfo.dateOfBirth : new Date())
   );
   const [selectedEnrollmentDate, setSelectedEnrollmentDate] = React.useState(
-    new Date(prevInfo ? prevInfo.enrolmentDate : '2014-08-18T21:11:54')
+    new Date(prevInfo ? prevInfo.enrolmentDate : new Date())
   );
 
   const handleDateChange = (date) => {
@@ -113,20 +149,14 @@ const PersonalInfo = forwardRef((props, ref) => {
       dateOfBirth: date,
     }));
   };
-  const handleEnrollmentDateChange = (date) => {
-    setSelectedEnrollmentDate(date);
-    setPersonalInfo((prevState) => ({
-      ...prevState,
-      enrolmentDate: date,
-    }));
-  };
+
   return (
     <Card.Body>
       <blockquote className=" mb-0">
         <form>
           <MDBRow>
-            <MDBCol md="4">
-              <MDBCol>
+            <MDBCol md="3">
+              <MDBCol className="required-field">
                 <MDBInput
                   label="First Name"
                   group
@@ -139,7 +169,61 @@ const PersonalInfo = forwardRef((props, ref) => {
                   onChange={handleChange}
                 />
               </MDBCol>
-              <MDBCol>
+            </MDBCol>
+            <MDBCol md="3">
+              {' '}
+              <MDBCol className="required-field">
+                <MDBInput
+                  label="Middle Name"
+                  group
+                  type="text"
+                  name="middleName"
+                  validate
+                  error="wrong"
+                  success="right"
+                  valueDefault={prevInfo ? prevInfo.middleName : null}
+                  onChange={handleChange}
+                />
+              </MDBCol>
+            </MDBCol>
+            <MDBCol md="3">
+              <MDBCol className="required-field">
+                <MDBInput
+                  label="Last Name"
+                  group
+                  type="text"
+                  name="lastName"
+                  validate
+                  error="wrong"
+                  success="right"
+                  valueDefault={prevInfo ? prevInfo.lastName : null}
+                  onChange={handleChange}
+                />
+              </MDBCol>
+            </MDBCol>
+            <MDBCol md="3">
+              {' '}
+              <MDBCol className="date-picker birth-Date">
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    margin="normal"
+                    group
+                    id="date-picker-dialog"
+                    label="Date of birth"
+                    format="MM/dd/yyyy"
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+              </MDBCol>
+            </MDBCol>
+          </MDBRow>
+          <MDBRow>
+            <MDBCol md="3">
+              <MDBCol className="required-field">
                 <MDBInput
                   valueDefault={prevInfo ? prevInfo.geezFirstName : null}
                   name="geezFirstName"
@@ -149,49 +233,61 @@ const PersonalInfo = forwardRef((props, ref) => {
                   label="ስም"
                 />
               </MDBCol>
-              <MDBCol className="date-picker">
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Date of birth"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                </MuiPickersUtilsProvider>
-              </MDBCol>
-              <MDBCol>
+            </MDBCol>
+            <MDBCol md="3">
+              <MDBCol className="required-field">
                 <MDBInput
-                  label="Height"
-                  group
+                  valueDefault={prevInfo ? prevInfo.geezMiddleName : null}
+                  name="geezMiddleName"
+                  onBlur={handleChange}
                   type="text"
-                  name="height"
-                  validate
-                  error="wrong"
-                  success="right"
-                  valueDefault={prevInfo ? prevInfo.height : null}
-                  onChange={handleChange}
+                  label="የአባት ስም"
                 />
               </MDBCol>
-              <MDBCol>
+            </MDBCol>
+            <MDBCol md="3">
+              <MDBCol className="required-field">
                 <MDBInput
-                  label="Occupation"
-                  group
+                  valueDefault={prevInfo ? prevInfo.geezLastName : null}
+                  name="geezLastName"
+                  onBlur={handleChange}
                   type="text"
-                  name="occupation"
-                  validate
-                  error="wrong"
-                  success="right"
-                  valueDefault={prevInfo ? prevInfo.occupation : null}
-                  onChange={handleChange}
+                  label="የአያት ስም"
                 />
               </MDBCol>
+            </MDBCol>
+            <MDBCol md="3">
+              <MDBCol>
+                <div
+                  className="md-form form-group passport-select"
+                  style={{ 'margin-bottom': '2.5rem' }}
+                >
+                  <label class="passport-selectList-label">
+                    Nationality
+                    <i
+                      class="required-for-select-list"
+                      style={{ color: 'red' }}
+                    >
+                      *
+                    </i>{' '}
+                  </label>
+                  <select
+                    name="nationalityId"
+                    onChange={handleChange}
+                    className="browser-default custom-select"
+                    defaultValue={prevInfo ? prevInfo.nationalityId : 0}
+                  >
+                    <option disabled>select Nationality</option>
+                    {nationalityList.map((nationality) => (
+                      <option value={nationality.id} >{nationality.name}</option>
+                    ))}
+                  </select>
+                </div>
+              </MDBCol>
+            </MDBCol>
+          </MDBRow>
+          <MDBRow>
+            <MDBCol md="3">
               <MDBCol>
                 <MDBInput
                   label="Birth Place"
@@ -206,29 +302,112 @@ const PersonalInfo = forwardRef((props, ref) => {
                 />
               </MDBCol>
             </MDBCol>
-            <MDBCol md="4">
+            <MDBCol md="3">
+              {' '}
               <MDBCol>
                 <MDBInput
-                  label="Middle Name"
-                  group
+                  valueDefault={prevInfo ? prevInfo.birthCertificateId : null}
+                  name="birthCertificateId"
+                  onChange={handleChange}
                   type="text"
-                  name="middleName"
+                  label="Birth Certificat No"
+                  group
                   validate
                   error="wrong"
                   success="right"
-                  valueDefault={prevInfo ? prevInfo.middleName : null}
+                />
+              </MDBCol>
+            </MDBCol>
+            <MDBCol md="3">
+              <MDBCol>
+                <div
+                  className="md-form form-group passport-select"
+                  style={{ 'margin-bottom': '2.5rem' }}
+                >
+                  <label class="passport-selectList-label">Gender</label>
+                  <select
+                    name="gender"
+                    onChange={handleChange}
+                    className="browser-default custom-select"
+                    defaultValue={prevInfo ? prevInfo.gender : null}
+                  >
+                    <option disabled>Gender</option>
+                    <option value="1">Male</option>
+                    <option value="0">Female</option>
+                  </select>
+                </div>
+              </MDBCol>
+            </MDBCol>
+            <MDBCol md="3">
+              <MDBCol>
+                <div
+                  className="md-form form-group passport-select"
+                  style={{ 'margin-bottom': '2.5rem' }}
+                >
+                  <label class="passport-selectList-label">
+                    Marital Status
+                  </label>
+                  <select
+                    name="martialStatus"
+                    onChange={handleChange}
+                    className="browser-default custom-select"
+                    defaultValue={prevInfo ? prevInfo.martialStatus : null}
+                  >
+                    <option disabled>Marital Status</option>
+                    <option value="1">Single</option>
+                    <option value="0">Married</option>
+                    <option value="2">Divorced</option>
+                  </select>
+                </div>
+              </MDBCol>
+            </MDBCol>
+          </MDBRow>
+          <MDBRow>
+            <MDBCol md="3">
+              <MDBCol>
+                <div
+                  className="md-form form-group passport-select"
+                  style={{ 'margin-bottom': '2.5rem' }}
+                >
+                  <label class="passport-selectList-label">
+                    Occupation
+                    <i
+                      class="required-for-select-list"
+                      style={{ color: 'red' }}
+                    >
+                      *
+                    </i>{' '}
+                  </label>
+                  <select
+                    name="occupationId"
+                    onChange={handleChange}
+                    className="browser-default custom-select"
+                    defaultValue={prevInfo ? prevInfo.occupationId : 0}
+                  >
+                    <option disabled>select Occupation</option>
+                    {occupationList.map((occupation) => (
+                      <option value={occupation.id}>{occupation.title}</option>
+                    ))}
+                  </select>
+                </div>
+              </MDBCol>
+            </MDBCol>
+            <MDBCol md="3">
+              <MDBCol>
+                <MDBInput
+                  label="Height(cm)"
+                  group
+                  type="text"
+                  name="height"
+                  validate
+                  error="wrong"
+                  success="right"
+                  valueDefault={prevInfo ? prevInfo.height : null}
                   onChange={handleChange}
                 />
               </MDBCol>
-              <MDBCol>
-                <MDBInput
-                  valueDefault={prevInfo ? prevInfo.geezMiddleName : null}
-                  name="geezMiddleName"
-                  onBlur={handleChange}
-                  type="text"
-                  label="የአባት ስም"
-                />
-              </MDBCol>
+            </MDBCol>
+            <MDBCol md="3">
               <MDBCol>
                 <MDBInput
                   label="Eye Color"
@@ -242,88 +421,8 @@ const PersonalInfo = forwardRef((props, ref) => {
                   onChange={handleChange}
                 />
               </MDBCol>
-              <MDBCol>
-                <MDBInput
-                  label="Half Cast"
-                  group
-                  type="text"
-                  name="halfCast"
-                  validate
-                  error="wrong"
-                  success="right"
-                  valueDefault={prevInfo ? prevInfo.halfCast : null}
-                  onChange={handleChange}
-                />
-              </MDBCol>
-              <MDBCol>
-                <MDBInput
-                  label="Nationality"
-                  group
-                  type="text"
-                  name="nationality"
-                  validate
-                  error="wrong"
-                  success="right"
-                  valueDefault={prevInfo ? prevInfo.nationality : null}
-                  onChange={handleChange}
-                />
-              </MDBCol>
             </MDBCol>
-            <MDBCol md="4">
-              <MDBInput
-                label="Last Name"
-                group
-                type="text"
-                name="lastName"
-                validate
-                error="wrong"
-                success="right"
-                valueDefault={prevInfo ? prevInfo.lastName : null}
-                onChange={handleChange}
-              />
-              <MDBCol>
-                <MDBInput
-                  valueDefault={prevInfo ? prevInfo.geezLastName : null}
-                  name="geezLastName"
-                  onBlur={handleChange}
-                  type="text"
-                  label="የአያት ስም"
-                />
-              </MDBCol>
-              <MDBCol>
-                <div
-                  className="md-form form-group passport-select"
-                  style={{ 'margin-bottom': '2.5rem' }}
-                >
-                  <select
-                    name="gender"
-                    onChange={handleChange}
-                    className="browser-default custom-select"
-                    defaultValue={prevInfo ? prevInfo.gender : null}
-                  >
-                    <option style={{ display: 'none' }}>Gender</option>
-                    <option value="1">Male</option>
-                    <option value="0">Female</option>
-                  </select>
-                </div>
-              </MDBCol>
-              <MDBCol className="date-picker">
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Enrollment Date"
-                    value={selectedEnrollmentDate}
-                    onChange={handleEnrollmentDateChange}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                </MuiPickersUtilsProvider>
-              </MDBCol>
+            <MDBCol md="3">
               <MDBCol>
                 <MDBInput
                   label="Hair Color"
@@ -336,6 +435,96 @@ const PersonalInfo = forwardRef((props, ref) => {
                   valueDefault={prevInfo ? prevInfo.hairColor : null}
                   onChange={handleChange}
                 />
+              </MDBCol>
+            </MDBCol>
+          </MDBRow>
+          <MDBRow>
+            <MDBCol md="3">
+              <MDBCol className="required-field">
+                <MDBInput
+                  label="Phone Number"
+                  group
+                  type="tel"
+                  name="phoneNumber"
+                  validate
+                  error="wrong"
+                  success="right"
+                  valueDefault={prevInfo ? prevInfo.phoneNumber : null}
+                  onChange={handleChange}
+                />
+              </MDBCol>
+            </MDBCol>
+            <MDBCol md="3">
+              <MDBCol>
+                <MDBInput
+                  label="Email"
+                  group
+                  type="email"
+                  name="email"
+                  validate
+                  error="wrong"
+                  success="right"
+                  valueDefault={prevInfo ? prevInfo.email : null}
+                  onChange={handleChange}
+                />
+              </MDBCol>
+            </MDBCol>
+          </MDBRow>
+          <MDBRow>
+            <MDBCol md="3">
+              <MDBCol>
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    defaultChecked={prevInfo ? prevInfo.isHalfCast : false}
+                    name="isHalfCast"
+                    id="isHalfCast"
+                    onChange={(e) =>
+                      handleCheck('isHalfCast', e.target.checked)
+                    }
+                  />
+                  <label class="custom-control-label" for="isHalfCast">
+                    Is Halfcast
+                  </label>
+                </div>
+              </MDBCol>
+            </MDBCol>
+            <MDBCol md="3">
+              <MDBCol>
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    defaultChecked={prevInfo ? prevInfo.isUnder18 : false}
+                    name="isUnder18"
+                    id="isUnder18"
+                    onChange={(e) => handleCheck('isUnder18', e.target.checked)}
+                  />
+                  <label class="custom-control-label" for="isUnder18">
+                    Is Under 18
+                  </label>
+                </div>
+              </MDBCol>
+            </MDBCol>
+            <MDBCol md="3">
+              <MDBCol>
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    group
+                    class="custom-control-input"
+                    defaultChecked={prevInfo ? prevInfo.isAdoption : false}
+                    name="isAdoption"
+                    id="isAdoption"
+                    onChange={(e) =>
+                      handleCheck('isAdoption', e.target.checked)
+                    }
+                  />
+                  <label class="custom-control-label" for="isAdoption">
+                    Is Adoption
+                  </label>
+                </div>
               </MDBCol>
             </MDBCol>
           </MDBRow>

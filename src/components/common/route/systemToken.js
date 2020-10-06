@@ -98,6 +98,22 @@ function SystemToken() {
       .catch((error) => {
         console.log('error' + error);
       });
+
+    API.get(
+      'https://epassportservices.azurewebsites.net/Master/api/V1.0/PassportPage/GetAll',
+      config
+    )
+      .then((todo) => {
+        debugger;
+        localStorage.setItem(
+          'PassportPageQuantity',
+          JSON.stringify(todo.data.pagePassports)
+        );
+      })
+      .catch((error) => {
+        debugger;
+        console.log('error' + error);
+      });
   }, []);
 
   return <div></div>;
