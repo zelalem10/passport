@@ -12,17 +12,14 @@ import { Card } from 'react-bootstrap';
 import axios from 'axios';
 
 const TravelPlan = forwardRef((props, ref) => {
+  debugger;
   const [validated, setValidated] = useState(false);
-  const {
-    filledBy,
-    pageQuantity,
-    displayedApplication,
-    personalInformation,
-  } = props;
+  const [passportPages, setPassportPages] = useState([]);
+  const { passportRes, displayedApplication, personalInformation } = props;
   debugger;
   const [travelPlan, setTravelPlan] = useState({
-    filledBy: filledBy,
-    pageQuantity: pageQuantity,
+    filledBy: passportRes.filledBy,
+    passportPageId: parseInt(passportRes.passportPageId),
     dataSaved: false,
   });
   debugger;
@@ -89,6 +86,9 @@ const TravelPlan = forwardRef((props, ref) => {
       return true;
     },
   }));
+  if (passportPages.length === 0) {
+    setPassportPages(JSON.parse(localStorage.PassportPageQuantity));
+  }
   const handleChange = (event) => {
     const { name, value } = event.target;
     setTravelPlan((prevState) => ({
@@ -101,7 +101,7 @@ const TravelPlan = forwardRef((props, ref) => {
     setTravelPlan((prevState) => ({
       ...prevState,
       filledBy: prevInfo ? prevInfo.filledBy : null,
-      pageQuantity: prevInfo ? prevInfo.pageQuantity : '0',
+      passportPageId: prevInfo ? prevInfo.passportPageId : '0',
     }));
   }, []);
 
@@ -117,7 +117,7 @@ const TravelPlan = forwardRef((props, ref) => {
         <form>
           <div className="grey-text">
             <MDBRow>
-              <MDBCol>
+              <MDBCol md-4>
                 <MDBInput
                   valueDefault={prevInfo ? prevInfo.filledBy : null}
                   name="filledBy"
@@ -127,12 +127,36 @@ const TravelPlan = forwardRef((props, ref) => {
                   label="Application filled by"
                 />
               </MDBCol>
-              <MDBCol>
-                <label>Page Quantity</label>
-                <select className="browser-default custom-select">
-                  <option value="0">32</option>
-                  <option value="1">64</option>
-                </select>
+              <MDBCol md-4>
+                <MDBCol>
+                  <div
+                    className="md-form form-group passport-select"
+                    style={{ 'margin-bottom': '2.5rem' }}
+                  >
+                    <label class="passport-selectList-label">
+                      Passport Page
+                      <i
+                        class="required-for-select-list"
+                        style={{ color: 'red' }}
+                      >
+                        *
+                      </i>{' '}
+                    </label>
+                    <select
+                      name="passportPageId"
+                      onChange={handleChange}
+                      className="browser-default custom-select"
+                      defaultValue={prevInfo ? prevInfo.passportPageId : 0}
+                    >
+                      <option disabled>select Nationality</option>
+                      {passportPages.map((passPage) => (
+                        <option value={passPage.id}>
+                          {passPage.passportPage}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </MDBCol>
               </MDBCol>
             </MDBRow>
           </div>

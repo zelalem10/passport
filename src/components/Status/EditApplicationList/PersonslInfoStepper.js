@@ -27,7 +27,8 @@ import FamilyInformation from './family/familyInformation';
 import { useDispatch, useSelector } from 'react-redux';
 
 import API from '../../Utils/API';
-import { MDBContainer, MDBCard } from 'mdbreact';
+import { MDBContainer, MDBCard, MDBAlert } from 'mdbreact';
+import { parse } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,9 +51,11 @@ function getSteps() {
 }
 
 export default function HorizontalLabelPositionBelowStepper(props) {
+  debugger;
   const classes = useStyles();
 
   const [activeStep, setActiveStep] = useState(0);
+  const [displayAlert, setDisplayAlert] = useState('');
 
   const steps = getSteps();
 
@@ -63,12 +66,10 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   let displayedApplication = {};
   const { displayRequestId } = props;
 
-  if (appList.requestId == displayRequestId) {
-    displayedApplication = appList;
-  }
+  displayedApplication = appList;
 
   const personalInformation = displayedApplication
-    ? displayedApplication.personResponses[0]
+    ? displayedApplication.personResponses
     : null;
   const personId = personalInformation ? personalInformation.id : null;
   const addressInformation = personalInformation
@@ -91,6 +92,9 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
   const handleReset = () => {
     setActiveStep(0);
+  };
+  const backToApplicationList = () => {
+    window.location.href = '/Application-List';
   };
 
   const handleFinish = () => {
@@ -121,11 +125,13 @@ export default function HorizontalLabelPositionBelowStepper(props) {
         {
           personId: personalInfo ? personalInfo.id : null,
 
-          firstName: personalInfo ? personalInfo.firstName : null,
+          firstName: personalInfo ? personalInfo.firstName.toUpperCase() : null,
 
-          middleName: personalInfo ? personalInfo.middleName : null,
+          middleName: personalInfo
+            ? personalInfo.middleName.toUpperCase()
+            : null,
 
-          lastName: personalInfo ? personalInfo.lastName : null,
+          lastName: personalInfo ? personalInfo.lastName.toUpperCase() : null,
 
           geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
           geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
@@ -133,9 +139,14 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
           dateOfBirth: personalInfo ? personalInfo.dateOfBirth : null,
 
-          gender: personalInfo ? personalInfo.gender : null,
+          gender: personalInfo ? parseInt(personalInfo.gender) : null,
 
-          nationality: personalInfo ? personalInfo.nationality : null,
+          nationalityId: personalInfo
+            ? parseInt(personalInfo.nationalityId)
+            : null,
+          occupationId: personalInfo
+            ? parseInt(personalInfo.occupationId)
+            : null,
 
           height: personalInfo ? personalInfo.height : null,
 
@@ -143,13 +154,16 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
           hairColor: personalInfo ? personalInfo.hairColor : null,
 
-          occupation: personalInfo ? personalInfo.occupation : null,
-
-          halfCast: personalInfo ? personalInfo.halfCast : null,
-
-          enrolmentDate: personalInfo ? personalInfo.enrolmentDate : null,
+          isHalfCast: personalInfo ? personalInfo.isHalfCast : null,
 
           birthPlace: personalInfo ? personalInfo.birthPlace : null,
+
+          phoneNumber: personalInfo ? personalInfo.phoneNumber : null,
+
+          email: personalInfo ? personalInfo.email : null,
+          birthCertificateId: personalInfo
+            ? personalInfo.birthCertificateId
+            : null,
 
           flightDate: travelPlanInfo.travelDate,
           flightNumber: travelPlanInfo.ticketNumber,
@@ -161,9 +175,10 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
           organizationID: '',
 
-          isUnder18: true,
+          isUnder18: personalInfo ? personalInfo.isUnder18 : false,
 
-          isAdoption: true,
+          isAdoption: personalInfo ? personalInfo.isAdoption : false,
+          passportPageId: travelPlanInfo.passportPageId,
 
           address: {
             personId: personalInformation.id,
@@ -172,23 +187,19 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
             city: addressInfo ? addressInfo.city : null,
 
-            country: addressInfo ? addressInfo.country : null,
+            region: addressInfo ? addressInfo.region : null,
 
             state: addressInfo ? addressInfo.state : null,
 
             zone: addressInfo ? addressInfo.zone : null,
 
-            wereda: addressInfo ? addressInfo.woreda : null,
+            wereda: addressInfo ? addressInfo.wereda : null,
 
             street: addressInfo ? addressInfo.street : null,
 
             houseNo: addressInfo ? addressInfo.houseNo : null,
 
             poBox: addressInfo ? addressInfo.poBox : null,
-
-            phoneNumber: addressInfo ? addressInfo.phoneNumber : null,
-
-            email: addressInfo ? addressInfo.email : null,
 
             requestPlace: addressInfo ? addressInfo.requestPlace : null,
           },
@@ -197,7 +208,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
         },
       ],
     };
-
+    console.log(JSON.stringify(requestBody));
     API.put(
       'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/UpdateRequest',
       requestBody,
@@ -205,7 +216,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
     )
 
       .then((todo) => {
-        console.log(todo);
+        handleNext();
       })
 
       .catch((err) => {
@@ -241,13 +252,20 @@ export default function HorizontalLabelPositionBelowStepper(props) {
         return (
           <TravelPlan
             ref={childRef}
-            flightData={personalInformation.flightDate}
-            flightNumber={personalInformation.flightNumber}
+            passportRes={personalInformation.passportRes}
+            personalInformation={personalInformation}
+            displayedApplication={displayedApplication}
           />
         );
 
       case 4:
-        return <Attachment />;
+        return (
+          <Attachment
+            ref={childRef}
+            displayedApplication={displayedApplication}
+            personalInformation={personalInformation}
+          />
+        );
 
       default:
         return 'Unknown stepIndex';
@@ -307,6 +325,9 @@ export default function HorizontalLabelPositionBelowStepper(props) {
         </div>
       </div>
       <MDBCard style={{ marginBottom: '1rem' }}>
+        {displayAlert ? (
+          <MDBAlert color="success">{displayAlert}</MDBAlert>
+        ) : null}
         <div className={classes.root} style={{ marginBottom: '5rem' }}>
           <Stepper activeStep={activeStep} alternativeLabel>
             {steps.map((label) => (
@@ -334,7 +355,18 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                 <Grid container spacing={1}>
                   <Grid item xs={3}>
                     {activeStep === 0 ? (
-                      <div></div>
+                      <div className="multistep-form__step">
+                        <a
+                          class="button hollow gray vertical-margin-2 ng-star-inserted"
+                          onClick={backToApplicationList}
+                        >
+                          <i class="fas fa-arrow-left"></i> Back
+                          <span class="show-for-medium">
+                            {' '}
+                            To My Application List
+                          </span>
+                        </a>
+                      </div>
                     ) : (
                       <div className="multistep-form__step">
                         <a
@@ -342,7 +374,6 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                           onClick={handleBack}
                         >
                           <i class="fas fa-arrow-left"></i> Previous
-                          <span class="show-for-medium"> Screen</span>
                         </a>
                       </div>
                     )}
@@ -351,7 +382,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                   <hr></hr>
 
                   <Grid item xs={1}>
-                    {activeStep === steps.length - 1 ? (
+                    {activeStep === steps.length - 2 ? (
                       <div className="multistep-form__step">
                         <a
                           class="specialty-next-step button float-right vertical-margin-2"

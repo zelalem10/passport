@@ -125,18 +125,18 @@ export default function ListOfApplications(props) {
                                     </div>
                                   </a>
                                 ) : null}
-                                {/* {user.requestStatus == 'SendforCorrection' &&
-                                user.requestStatus == 'Initial' ? ( */}
-                                  <a
-                                    className="hoverWhite"
-                                    onClick={() => handleEdit(user.requestId)}
-                                  >
-                                    {' '}
-                                    <div class="float-right mr-4">
-                                      <i class="fas fa-edit fa-lg"></i>
-                                    </div>
-                                  </a>
-                                {/* ) : null} */}
+                                {user.requestStatus == 'SendforCorrection' &&
+                                user.requestStatus == 'Initial' ? (
+                                <a
+                                  className="hoverWhite"
+                                  onClick={() => handleEdit(user.requestId)}
+                                >
+                                  {' '}
+                                  <div class="float-right mr-4">
+                                    <i class="fas fa-edit fa-lg"></i>
+                                  </div>
+                                </a>
+                              ) : null} 
 
                                 <a
                                   className="hoverWhite"
