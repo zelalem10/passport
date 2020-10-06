@@ -94,7 +94,7 @@ export default function ViewAppointment(props) {
 
   const { displayRequestId } = props;
   const backToList = () => {
-    window.location.href = '/Application-List';
+    window.location.href = '/#/Application-List';
   };
   for (let item in appList) {
     if (appList[item].requestId == displayRequestId) {

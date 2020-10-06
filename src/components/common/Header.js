@@ -1,4 +1,10 @@
-import React, { Component, useState, useEffect, useContext, Fragment } from 'react';
+import React, {
+  Component,
+  useState,
+  useEffect,
+  useContext,
+  Fragment,
+} from 'react';
 import {
   logout,
   authentication,
@@ -19,8 +25,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
-
 
 const NavbarPage = (props) => {
   const navPath = props.location.pathname;
@@ -50,30 +54,31 @@ const NavbarPage = (props) => {
   let lastName;
 
   const checkToken = useSelector((state) => state.userData);
-  if(localStorage.logedInUsedData){
+  if (localStorage.logedInUsedData) {
     var retrievpersonalDetail = localStorage.getItem('logedInUsedData');
 
     let personalDetail = JSON.parse(retrievpersonalDetail);
-     firstName = personalDetail.firstName;
-     lastName = personalDetail.lastName;
+    firstName = personalDetail.firstName;
+    lastName = personalDetail.lastName;
   }
 
   const authLinks = (
     <div>
       <div class="loyalty-bar__menu-left user-information">
-  <span class="d-none d-lg-inline-block">Welcome,</span> <strong class="font-medium user mr-5">{firstName}  {lastName}</strong> 
-        <span class="d-none d-lg-inline-block"><ul className="navbar-nav ml-auto">
-        <li className="nav-item">
-       
-          <a className="nav-link" href="#" onClick={logout}>
-          <i class="fas fa-sign-out-alt"></i>  <strong>Log out</strong>  
-          </a>
-        </li>
-      </ul></span>
-       
-      
+        <span class="d-none d-lg-inline-block">Welcome,</span>{' '}
+        <strong class="font-medium user mr-5">
+          {firstName} {lastName}
+        </strong>
+        <span class="d-none d-lg-inline-block">
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item">
+              <a className="nav-link" href="#" onClick={logout}>
+                <i class="fas fa-sign-out-alt"></i> <strong>Log out</strong>
+              </a>
+            </li>
+          </ul>
+        </span>
       </div>
-    
     </div>
   );
 
@@ -94,22 +99,18 @@ const NavbarPage = (props) => {
   return (
     <Fragment>
       <MDBNavbar className="headerOne">
-        <MDBContainer className="passport-container"  fluid>
+        <MDBContainer className="passport-container" fluid>
           <MDBNavbarNav left>
-      
-         
-                <Link to="/">
-                  <img
-                    src={require('../../images/default-source/shared/INVEA-logo.png')}
-                    className="img-fluid logo-img w-100"
-                    alt="Ethiopian ePassport logo"
-                  />
-                </Link>
-          
-        
+            <Link to="/">
+              <img
+                src={require('../../images/default-source/shared/INVEA-logo.png')}
+                className="img-fluid logo-img w-100"
+                alt="Ethiopian ePassport logo"
+              />
+            </Link>
           </MDBNavbarNav>
-          <MDBNav right >
-            <MDBNavItem className='d-none d-md-block'>
+          <MDBNav right>
+            <MDBNavItem className="d-none d-md-block">
               <a
                 style={style}
                 href="https://www.evisa.gov.et"
@@ -118,16 +119,16 @@ const NavbarPage = (props) => {
                 E-visaa
               </a>
             </MDBNavItem>
-            <MDBNavItem className='d-none d-md-block'>
+            <MDBNavItem className="d-none d-md-block">
               <a
                 style={style}
                 href="https://www.ethiopianairlines.com"
                 className="text-dark mr-4"
               >
-              Ethiopian airlines
+                Ethiopian airlines
               </a>
             </MDBNavItem>
-            <MDBNavItem className='d-none d-md-block'>
+            <MDBNavItem className="d-none d-md-block">
               <a
                 style={style}
                 href="https://www.ethiopianskylighthotel.com"
@@ -135,7 +136,6 @@ const NavbarPage = (props) => {
               >
                 Ethiopian Skylight Hotel
               </a>
-        
             </MDBNavItem>
           </MDBNav>
         </MDBContainer>
@@ -143,7 +143,7 @@ const NavbarPage = (props) => {
       <MDBNavbar className="headerTwo" dark expand="md">
         <MDBNavbarToggler onClick={() => toggleOpen(!navOpen)} />
         <MDBCollapse id="navbarCollapse3" isOpen={navOpen} navbar>
-          <MDBContainer className="passport-container"  fluid>
+          <MDBContainer className="passport-container" fluid>
             <MDBNavbarNav className="d-flex" left>
               {/* <MDBNavItem className={navPath == '/' ? 'active' : ''}>
                 <MDBNavLink to="/" activeClassName="active">
@@ -154,15 +154,13 @@ const NavbarPage = (props) => {
                 className={navPath == '/request-appointment' ? 'active' : ''}
               >
                 <MDBNavLink to="/request-appointment">
-                Schedule an Appointment
+                  Schedule an Appointment
                 </MDBNavLink>
-        
               </MDBNavItem>
 
-                <MDBNavItem className={navPath == '/Information' ? 'active' : ''}>
+              <MDBNavItem className={navPath == '/Information' ? 'active' : ''}>
                 <MDBNavLink to="/Information">Requirements</MDBNavLink>
               </MDBNavItem>
-
 
               {/* <MDBNavItem
                 className={navPath == '/check-status' ? 'active' : ''}
@@ -180,13 +178,14 @@ const NavbarPage = (props) => {
               <MDBNavItem className={navPath == '/contactUs' ? 'active' : ''}>
                 <MDBNavLink to="/contactUs">Contact Us</MDBNavLink>
               </MDBNavItem>
-              
 
               {token && (
                 <MDBNavItem
                   className={navPath == '/Application-List' ? 'active' : ''}
                 >
-                  <MDBNavLink to="/Application-List">Manage Application</MDBNavLink>
+                  <MDBNavLink to="/Application-List">
+                    Manage Application
+                  </MDBNavLink>
                 </MDBNavItem>
               )}
             </MDBNavbarNav>
