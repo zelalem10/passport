@@ -70,9 +70,9 @@ const Fileupload = forwardRef((props, ref) => {
 
     // }
     for (let i = 0; i < files.length; i++) {
-      
+      debugger;
       formData.append('personRequestId', requestPersonId);
-      formData.append(attachmentId[i], files[i]);
+      formData.append(fileType[i], files[i]);
       console.log(files[i])
       console.log(attachmentId[i])
     }
@@ -140,14 +140,14 @@ const Fileupload = forwardRef((props, ref) => {
               <input
                 name={`input-${i}`}
                 type="file"
-                id={attachmentPath[i]}
+                id={attachmentId[i]}
                 className="custom-file-input"
                 aria-describedby="inputGroupFileAddon01"
                 onChange={e => onChange(e)}
               />
 
               <label className="custom-file-label" htmlFor="inputGroupFile01">
-               {filename[attachmentPath[i]] ? filename[attachmentPath[i]]
+               {filename[attachmentId[i]] ? filename[attachmentId[i]]
                : <div>Choose File</div> 
   }
               </label>

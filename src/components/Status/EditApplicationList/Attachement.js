@@ -1,257 +1,198 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import * as attachimentAction from '../../../redux/actions/attachimentAction';
-import { MDBBtn, MDBContainer } from 'mdbreact';
-const Errorstyle = {
-  marginLeft: '4.5rem',
-  marginBottom: '1rem',
-};
-
-export default function FileUpload() {
+import Spinner from '../../common/Spinner';
+import { MDBBadge } from 'mdbreact';
+const Fileupload = forwardRef((props, ref) => {
+  debugger;
+  const { displayedApplication,personalInformation} = props;
+  let [successMessage, setsuccessMessage] = useState(false);
+  let [errorMessage, seterrorMessage] = useState(false);
   const accesstoken = localStorage.systemToken;
+  const formData = new FormData();
 
-  const [files, setFiles] = useState([]);
-  const [filesnameOne, setFilesnameOne] = useState([]);
-  const [filesnameTwo, setFilesnameTwo] = useState([]);
-  let [emptyError, setemptyError] = useState('');
-  let [sizeError, setsizeError] = useState('');
+  const [files, setfiles] = useState([]);
+  const [fileType, setfileType] = useState([]);
+  const inputs = [];
+  let requestPersonId = personalInformation.requestPersonId;
+  let attachmentlength = localStorage.getItem("attachmentlength");
+  let attachmentPath = JSON.parse(localStorage.getItem("attachmentPath"));
+  let attachmentType = JSON.parse(localStorage.getItem("attachmentType"));
+  let attachmentId = JSON.parse(localStorage.getItem("attachmentId"));
 
-  const dispatch = useDispatch();
+  
+  const [loading, setloading] = useState(false);
+  const [filename, setfilename] = useState({
+    1:'',
+    2:'',
+    3:'',
+    4:'',
+    5:'',
+    6:'',
+    7:'',
+    8:'',
+    9:'',
+    10:'',
+    11:'',
+    12:''
 
-  //validate the form
-  function validate() {
+  });
+
+
+
+  useImperativeHandle(ref, () => ({
+    saveData() {
+      setfiles((prevState) => ({
+        ...prevState,
+        dataSaved: true,
+      }));
+    },
+    Validate() {
+      return true
+    }
+  }));
+
+
+  const submit = async (e) => {
     debugger;
-
-    if (files.length === 0) {
-      emptyError = "Um, Couldn't find the file please choose the file.";
-    } else emptyError = '';
-
-    if (files) {
-      if (files.size > 5000) {
-        sizeError = 'File too Big, please select a file less than 2mb';
-      } else sizeError = '';
-    }
-
-    if (emptyError || sizeError) {
-      setemptyError(emptyError);
-      setsizeError(sizeError);
-      return false;
-    } else {
-      setemptyError('');
-      setsizeError('');
-    }
-
-    return true;
-  }
-
-  // onChange function that reads first files on uploading them
-  function onFileUploadOne(event) {
-    event.preventDefault();
-
-    let id = event.target.id;
-
-    let file_reader = new FileReader();
-
-    let file = event.target.files[0];
-
-    file_reader.onload = () => {
-      setFiles([...files, { file_id: id, uploaded_file: file_reader.result }]);
-    };
-
-    for (let i = 0; i < event.target.files.length; i++) {
-      setFilesnameOne([
-        ...filesnameOne,
-        { file_name: event.target.files[i].name },
-      ]);
-    }
-    file_reader.readAsDataURL(file);
-  }
-
-  // onChange function that reads second files on uploading them
-  function onFileUploadTwo(event) {
-    event.preventDefault();
-
-    let id = event.target.id;
-
-    let file_reader = new FileReader();
-
-    let file = event.target.files[0];
-
-    file_reader.onload = () => {
-      setFiles([...files, { file_id: id, uploaded_file: file_reader.result }]);
-    };
-
-    for (let i = 0; i < event.target.files.length; i++) {
-      setFilesnameTwo([
-        ...filesnameTwo,
-        { file_name: event.target.files[i].name },
-      ]);
-    }
-
-    file_reader.readAsDataURL(file);
-  }
-
-  // handle submit button for form
-  function handleSubmit(e) {
     e.preventDefault();
-    const isValid = validate();
-    if (isValid) {
-      dispatch(attachimentAction.attachimentAction(files));
+    setloading(true);
+    setsuccessMessage(false);
+    seterrorMessage(false);
+    console.log(files)
+    console.log(fileType)
+    // for (let i = 0; i < requiredAttachements; i++) {
+    //   files = e.target[i].files[0];
+    //   let fileType = e.target[i].id;
+    //   console.log(files)
+    //   console.log(fileType)
+    //   formData.append('personRequestId', requestPersonId);
+    //   formData.append(fileType, files);
 
-      axios({
-        headers: {
-          Authorization: `Bearer ` + accesstoken,
-          'Content-Type': 'multipart/form-data',
-        },
-        method: 'post',
-        url:
-          'https://epassportservices.azurewebsites.net/Person/api/V1.0/Person/UploadAttachment',
-        data: {
-          key: files.file_id,
-          value: files.uploaded_file,
-        },
-      })
-        .then((response) => {
-          alert('success');
-          console.log('success' + response);
-        })
-        .catch((error) => {
-          console.log('error' + error);
-          alert('Error');
-        });
+    // }
+    for (let i = 0; i < files.length; i++) {
+      
+      formData.append('personRequestId', requestPersonId);
+      formData.append(fileType[i], files[i]);
+      console.log(files[i])
+
     }
+      
+    const url = 'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadChangeAttachment';
+
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+        'Authorization': 'Bearer ' + accesstoken
+      },
+    };
+
+    //return post(url, formData, config);
+    try {
+      const response = await axios.post(url, formData, config);
+      console.log(response.data);
+      setsuccessMessage(true);
+      setloading(false);
+    } catch (error) {
+      console.log("error" + error.message);
+      seterrorMessage(true);
+      setloading(false);
+    }
+
+  }
+  const onChange = (e) => {
+    debugger;
+    setfiles([...files, e.target.files[0]]);
+    setfileType([...fileType, e.target.id]);
+      //files = e.target.files[0];
+      //fileType = e.target.id;
+      
+
+
+    const { id, value } = e.target;
+  
+    setfilename((prevState) => ({
+      ...prevState,[id]:value.replace(/^.*[\\\/]/, '')}))
+    }
+
+  for (let i = 0; i < attachmentlength; i++) {
+    debugger;
+    inputs.push(
+      <div class="row p-3" id='attachmentmargin'>
+         <div class="col-lg-4 passport-text-right">
+         <MDBBadge color="primary smallPadding "> {attachmentType[i]}</MDBBadge>
+         </div>
+ 
+         
+    
+        <div class="col-lg-6 mb-2 pr-5">
+        <div class="row">
+          <div class="col-lg-2">
+          <a href={attachmentPath[i]} >View File</a>
+          </div>
+          <div class="col-lg-10">
+          <div className="input-group">
+            <div className="input-group-prepend">
+              <span className="input-group-text" id="inputGroupFileAddon01">
+                Change
+                    </span>
+            </div>
+            <div className="custom-file">
+              <input
+                name={`input-${i}`}
+                type="file"
+                id={attachmentId[i]}
+                className="custom-file-input"
+                aria-describedby="inputGroupFileAddon01"
+                onChange={e => onChange(e)}
+              />
+
+              <label className="custom-file-label" htmlFor="inputGroupFile01">
+               {filename[attachmentId[i]] ? filename[attachmentId[i]]
+               : <div>Choose File</div> 
+  }
+              </label>
+            </div>
+          </div>
+
+          </div>
+
+        </div>
+
+    
+        </div>
+      </div>
+    )
+
   }
 
   return (
-    <>
-      {emptyError ? (
-        <div className="red-text" style={Errorstyle}>
-          {emptyError}
-        </div>
+    <div>
+      {loading ? (
+        <Spinner />
       ) : (
-        sizeError && (
-          <div className="red-text" style={Errorstyle}>
-            {sizeError}
-          </div>
-        )
-      )}
-      <form className="mx-5" onSubmit={handleSubmit}>
-        <div className="row my-3">
-          <div class="col-lg-4">
-            <div>
-              <select className="browser-default custom-select">
-                <option>Choose your option</option>
-                <option value="1">Option 1</option>
-                <option value="2">Option 2</option>
-                <option value="3">Option 3</option>
-              </select>
-            </div>
-          </div>
 
-          <div class="col-lg-8">
-            <div className="input-group">
-              <div className="input-group-prepend">
-                <span className="input-group-text" id="inputGroupFileAddon01">
-                  Upload File
-                </span>
-              </div>
-              <div className="custom-file">
-                <input
-                  id={1}
-                  multiple
-                  type="file"
-                  className="custom-file-input"
-                  aria-describedby="birthCertificate1"
-                  accept="image/*"
-                  onChange={onFileUploadOne}
-                />
-                <div>
-                  {filesnameOne.length ? (
-                    filesnameOne.map((name) => (
-                      <label
-                        className="custom-file-label"
-                        htmlFor="inputGroupFile01"
-                      >
-                        {name.file_name}
-                      </label>
-                    ))
-                  ) : (
-                    <label
-                      className="custom-file-label"
-                      htmlFor="inputGroupFile01"
-                    >
-                      Choose file
-                    </label>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <div className="row my3">
-          <div class="col-lg-4">
-            <div>
-              <select className="browser-default custom-select">
-                <option>Choose your option</option>
-                <option value="1">Option 1</option>
-                <option value="2">Option 2</option>
-                <option value="3">Option 3</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-lg-8">
-            <div className="input-group">
-              <div className="input-group-prepend">
-                <span className="input-group-text" id="inputGroupFileAddon01">
-                  Upload File
-                </span>
-              </div>
-              <div className="custom-file">
-                <input
-                  id={2}
-                  multiple
-                  type="file"
-                  className="custom-file-input"
-                  aria-describedby="birthCertificate2"
-                  accept="image/*"
-                  onChange={onFileUploadTwo}
-                />
-                <div>
-                  {filesnameTwo.length ? (
-                    filesnameTwo.map((name) => (
-                      <label
-                        className="custom-file-label"
-                        htmlFor="inputGroupFile02"
-                      >
-                        {name.file_name}
-                      </label>
-                    ))
-                  ) : (
-                    <label
-                      className="custom-file-label"
-                      htmlFor="inputGroupFile02"
-                    >
-                      Choose file
-                    </label>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
+          <form onSubmit={e => submit(e)}>
+            {successMessage &&
+              <div class="alert alert-success" role="alert">
+                Operation sucessfully completed
+       </div>
+            }
+            {errorMessage &&
+              <div class="alert alert-danger" role="alert">
+                Oops! Something went wrong.
         </div>
+            }
+            {inputs}
+            <button className="btn btn-primary float-right mr-3" type="submit">Upload</button>
 
-        <div className="text-center signUpbutton mt-2">
-          <MDBBtn
-            id="btnLoad"
-            type="submit"
-            className="btn btn-info float-right mr-4"
-          >
-            Upload
-          </MDBBtn>
-        </div>
-      </form>
-    </>
-  );
-}
+          </form>
+
+
+
+        )}
+    </div>
+
+  )
+});
+export default Fileupload

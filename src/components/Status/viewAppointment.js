@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
@@ -9,6 +9,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useSelector } from 'react-redux';
 import { fi } from 'date-fns/locale';
 import ViewGroupAppointment from './viewGroupAppointment';
+import axios from 'axios';
 
 const Accordion = withStyles({
   root: {
@@ -52,6 +53,7 @@ const AccordionDetails = withStyles((theme) => ({
 }))(MuiAccordionDetails);
 
 export default function ViewAppointment(props) {
+  const accesstoken = localStorage.systemToken;
   const [expanded, setExpanded] = React.useState('panel1');
   const data = useSelector((state) => state);
   const appList = data.applicationList[data.applicationList.length - 1];
@@ -62,11 +64,37 @@ export default function ViewAppointment(props) {
     displayedApplication = appList;
   }
   const personalInfo = displayedApplication.personResponses;
+  let requestPersonId;
+  let attachmentlength;
+  const [attachment, setattachment] = useState([]);
+  let atachmentsample = [];
   debugger;
   if (personalInfo) {
     const personalInformation = displayedApplication.personResponses;
     const addressInformation = personalInformation.address;
     const familyInformation = personalInformation.familyResponses;
+
+    requestPersonId = personalInformation.requestPersonId;
+
+    axios({
+      headers: { Authorization: 'Bearer ' + accesstoken },
+      method: 'get',
+      url:
+        'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
+      params: { personRequestId: requestPersonId },
+    })
+      .then((Response) => {
+        attachmentlength = Response.data.attachments.length;
+
+        for (let i = 0; i < attachmentlength; i++) {
+          atachmentsample.push(Response.data.attachments[i]);
+        }
+        setattachment(atachmentsample);
+        console.log(attachment);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     const handleChange = (panel) => (event, newExpanded) => {
       setExpanded(newExpanded ? panel : false);
@@ -443,12 +471,12 @@ export default function ViewAppointment(props) {
                   ))}
                 </fieldset>
               ) : null}
-              <fieldset>
+          <fieldset>
                 <ul class="list-group mb-3">
                   <li class="list-group-item ePassprt-color">
                     <h5>Attachment Information</h5>
                   </li>
-                  {/* {attachment.length ? (
+                  {attachment.length ? (
                     attachment.map((attachmentitem) => (
                       <li class="list-group-item d-flex justify-content-between">
                         <span>{attachmentitem.attachmentType} </span>
@@ -463,7 +491,7 @@ export default function ViewAppointment(props) {
                         You Don't Have Attachment Information
                       </MDBBadge>
                     </h6>
-                  )} */}
+                  )}
                 </ul>
               </fieldset>
             </div>
