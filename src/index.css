@@ -602,6 +602,19 @@ fieldset {
   text-align: left!important;
 }
 
+@media only screen and (max-width: 1024px) {
+
+  .smallPadding{
+    padding: 0.8rem!important;
+  }
+  #attachmentmargin .badge {
+    font-size: 70%;
+  }
+  .passport-text-right {
+    text-align: left!important;
+  }
+  }
+
 @media only screen and (max-width: 500px) {
   .accordion__button.edit {
     right: 10% !important;
@@ -647,10 +660,3 @@ fieldset {
 
 }
 
-@media only screen and (max-width: 900px) {
-
-.passport-text-right {
-  text-align: left!important;
-}
-
-}
