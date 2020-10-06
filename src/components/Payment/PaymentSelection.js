@@ -53,14 +53,11 @@ function requestTypeGetter(requetTypeId) {
 }
 const PaymentSelection = forwardRef((props, ref) => {
   const [selectedOption, setSelectedOption] = useState(0);
-  const [optionSelected, setOptionSelected] = useState(false);
   const [paymentOptions, setPaymentOptions] = useState([]);
-  const [requestSubmited, setRequestSubmited] = useState(false);
   const [instruction, setInstruction] = useState('');
   const [message, setMessage] = useState('');
-  const [flowType, setFlowType] = useState(0);
   const [status, setStatus] = useState(0);
-  const [formCompleted, setFormCompleted] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
   const [dataSaved, setDataSaved] = useState(false);
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
@@ -103,9 +100,7 @@ const PaymentSelection = forwardRef((props, ref) => {
         console.log(todo.data);
         setStatus(todo.data.status);
         setInstruction(todo.data.instruction);
-        setFlowType(todo.data.paymentFlowType);
         setMessage(todo.data.message);
-        setRequestSubmited(true);
       })
       .catch((err) => {
         console.log('AXIOS ERROR: ', err.response);
@@ -138,16 +133,22 @@ const PaymentSelection = forwardRef((props, ref) => {
     setSelectedOption(optionId);
   };
   const handelConfirm = (event) => {
-    setFormCompleted(event.target.checked);
+    setConfirmed(event.target.checked)
+    
   };
   useImperativeHandle(ref, () => ({
     saveData() {
       const selectedId = { optionId: selectedOption };
-    dispatch(addPaymentOptionId(selectedId));
+      dispatch(addPaymentOptionId(selectedId));
       setDataSaved(true)
     },
     isCompleted() {
-      return formCompleted;
+      if(selectedOption>0 && confirmed===true){
+        return true;
+      }
+      else{
+        return false;
+      }
     },
   }));
   return (
@@ -155,32 +156,6 @@ const PaymentSelection = forwardRef((props, ref) => {
       <MDBRow>
         <MDBCol md="7">
           <MDBRow>
-            {/* {paymentOptions.map((paymentOption) => (
-                  <MDBCol md="4" style={{ marginTop: '2rem' }}>
-                    <MDBCard
-                      className={
-                        selectedOption === paymentOption.id ? classes.root : ''
-                      }
-                      style={{ marginBottom: '5px' }}
-                      onClick={() => handelClick(paymentOption.id)}
-                    >
-                      <MDBCardImage
-                        className="img-fluid"
-                        style={{ height: '80px', width: '100%' }}
-                        src={paymentOption.imageUrl}
-                        waves
-                      />
-                      
-                      <MDBCardTitle>
-                        <MDBRow>
-                          <MDBCol md="4"></MDBCol>
-                          <MDBCol md="8">{paymentOption.name}</MDBCol>
-                        </MDBRow>
-                      </MDBCardTitle>
-                    </MDBCard>
-                  </MDBCol>
-                ))} */}
-
             <article class="card">
               <div class="card-title">
                 <h3 class="heading-secondary">Payment</h3>
@@ -223,88 +198,15 @@ const PaymentSelection = forwardRef((props, ref) => {
             </span>
           </h4>
           <PricingInfo />
-          {/* <ul class="list-group mb-3">
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-              <div>
-                <h6 class="my-0">Request type</h6>
-              </div>
-              <span class="text-muted">{requestTypeStr}</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-              <div>
-                <h6 class="my-0">Request Mode</h6>
-              </div>
-              <span class="text-muted">
-                {serviceSelcetion.isUrgent ? 'Urgent' : 'Normal'}
-              </span>
-            </li>
-
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-              <div>
-                <h6 class="my-0">Page quantity</h6>
-              </div>
-              <span class="text-muted">32</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span>Total Price (ETB)</span>
-              <strong>600</strong>
-            </li>
-          </ul> */}
         </div>
         
         
-        {/* <MDBCol md="4">
-          <app-right-content
-            class="small-12 medium-4 large-offset-1 large-4 column sticky-container"
-            data-sticky-container=""
-            _nghost-kxs-c3=""
-          >
-            <aside
-              class="sidebar small sticky is-anchored is-at-top"
-              data-btm-anchor="request-an-appointment:bottom"
-              data-margin-top="2"
-              data-sticky="s2eunn-sticky"
-              data-sticky-on="medium"
-              data-top-anchor="180"
-              id="raa-sidebar"
-              data-resize="raa-sidebar"
-              data-mutate="raa-sidebar"
-              data-events="mutate"
-            >
-              <div class="sidebar__box sidebar__box--border ng-star-inserted">
-                <h4>Pricing Information</h4>
-                <MDBListGroup>
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center">
-                    Request type
-                    <MDBBadge color="primary" pill>
-                      {requestTypeStr}
-                    </MDBBadge>
-                  </MDBListGroupItem>
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center">
-                    Request Mode
-                    <MDBBadge color="primary" pill>
-                      {serviceSelcetion.isUrgent ? 'Urgent' : 'Normal'}
-                    </MDBBadge>
-                  </MDBListGroupItem>
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center">
-                    Total Price
-                    <MDBBadge color="primary" pill>
-                      600
-                    </MDBBadge>
-                  </MDBListGroupItem>
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center">
-                    Page quantity
-                    <MDBBadge color="primary" pill>
-                      32
-                    </MDBBadge>
-                  </MDBListGroupItem>
-                </MDBListGroup>
-              </div>
-            </aside>
-          </app-right-content>
-        </MDBCol> */}
+        
       </MDBRow>
-
+      <MDBRow>
+      <span style={{ color: "red" }}> {(selectedOption === 0 && dataSaved=== true) ? "Please select a payment option" : null}</span>
+      </MDBRow>
+      <hr />
       <div class="custom-control custom-checkbox">
         <input
           type="checkbox"
@@ -313,10 +215,11 @@ const PaymentSelection = forwardRef((props, ref) => {
           onChange={handelConfirm}
           indeterminate
         />
-        <span style={{ color: "red" }}> {(formCompleted === false && dataSaved=== true) ? "Please confirm to agree to terms and conditions" : null}</span>
         <label class="custom-control-label" for="defaultUncheckedDisabled2">
           Agree to terms and conditions
-        </label>
+        </label><br />
+        <span style={{ color: "red" }}> {(confirmed === false && selectedOption>0 && dataSaved=== true) ? "Please confirm to agree to terms and conditions" : null}</span>
+        
       </div>
     </MDBContainer>
   );

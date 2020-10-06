@@ -6,6 +6,8 @@ import {
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from 'react-bootstrap';
+import API from '../../Utils/API';
+
 
 function InstructionPage() {
   const [priceInfo, setprceInfo] = useState("");
@@ -14,24 +16,34 @@ function InstructionPage() {
   const [message, setMessage] = useState("");
   const [flowType, setFlowType] = useState(0);
   const [status, setStatus] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
-  const selectedId = { optionId: 0 }
-  var selectedOption = counter.paymentOption[counter.paymentOption.length - 1]
-  const requestInfo = counter.request[counter.request.length-1];
-  console.log(selectedOption)
-
-  useEffect(() => {
-    const accesstoken = localStorage.systemToken;
+  const accesstoken = localStorage.systemToken;
     const config = {
       headers: { Authorization: "Bearer " + accesstoken }
     };
+  var selectedOption = counter.paymentOption[counter.paymentOption.length - 1]
+  const requestInfo = counter.request[counter.request.length-1];
+  let travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
+  let requestId=requestInfo?requestInfo.requestId:0;
+  API.get("https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId="+requestId, config)
+  .then((todo) => 
+  {
+      setTotalPrice(todo.data.totalPrice);
+  }
+  )
+  .catch((err) => {
+      console.log("AXIOS ERROR: ", err.response);
+  })
+    
     const body = {
       FirstName : "Zelalem",
       LastName:"Belayneh",
       Email:"Zelalem@gmail.com",
       Phone:"+251944772455",
-      Amount:600,
+      Amount:totalPrice,
       Currency:"ETB",
       City:"Addis Ababa",
       Country:"ET",
@@ -39,7 +51,7 @@ function InstructionPage() {
       PaymentOptionsId:selectedOption? selectedOption.optionId:0,
       username : "ETHIOUSER",
       password : "123456",
-      requestId: requestInfo?requestInfo.requestId:0,
+      requestId: requestId,
     };
     axios.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
       .then((resopnse) => {
@@ -54,7 +66,6 @@ function InstructionPage() {
       .catch((err) => {
         console.log("AXIOS ERROR: ", err.response);
       })
-  }, [])
 
   return (
     <>
@@ -108,7 +119,7 @@ function InstructionPage() {
             </div><span class="text-muted">{priceInfo.orderId}</span></li><li class="list-group-item d-flex justify-content-between lh-condensed">
                   <div>
                     <h6 class="my-0">Page quantity</h6>
-                  </div><span class="text-muted">32</span>
+                  </div><span class="text-muted">{travelPlan ? travelPlan.pageQuantity: 0}</span>
                 </li><li class="list-group-item d-flex justify-content-between">
                   <span>Amount</span>
                   <strong>{priceInfo.amount}</strong>
