@@ -487,9 +487,9 @@ export default function ViewAppointment(props) {
                     ))
                   ) : (
                     <h6 class="my-3">
-                      <MDBBadge color="warning p-3">
-                        You Don't Have Attachment Information
-                      </MDBBadge>
+                      <div class="alert alert-danger" role="alert">
+                      You Don't Have Attachment Information
+                      </div>
                     </h6>
                   )}
                 </ul>

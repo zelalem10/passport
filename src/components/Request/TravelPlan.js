@@ -149,10 +149,6 @@ const TravelPlan = forwardRef((props, ref) => {
   const requestType = serviceSelcetion.appointemntType;
   const requestTypeStr = requestTypeGetter(requestType);
 
-  let travelPlanInfo = useSelector((state) => state.travelPlan);
-  let hasDataCorrection = travelPlanInfo[travelPlanInfo.length - 1].isDatacorrected;
-
-  console.log(hasDataCorrection)
 
   useEffect(() => {
     if (counter.travelPlan.length === 0) {

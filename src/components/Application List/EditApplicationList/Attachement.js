@@ -116,52 +116,68 @@ const Fileupload = forwardRef((props, ref) => {
 
   for (let i = 0; i < attachmentlength; i++) {
     debugger;
-    inputs.push(
-      <div class="row p-3" id='attachmentmargin'>
-         <div class="col-lg-4 passport-text-right">
-         <MDBBadge color="primary smallPadding "> {attachmentType[i]}</MDBBadge>
-         </div>
- 
-         
-    
-        <div class="col-lg-6 mb-2 pr-5">
-        <div class="row">
-          <div class="col-lg-2">
-          <a href={attachmentPath[i]} >View File</a>
-          </div>
-          <div class="col-lg-10">
-          <div className="input-group">
-            <div className="input-group-prepend">
-              <span className="input-group-text" id="inputGroupFileAddon01">
-                Change
-                    </span>
+    if(attachmentlength > 0)
+    {
+      inputs.push(
+        <div class="row p-3" id='attachmentmargin'>
+           <div class="col-lg-4 passport-text-right">
+           <MDBBadge color="primary smallPadding "> {attachmentType[i]}</MDBBadge>
+           </div>
+   
+           
+      
+          <div class="col-lg-6 mb-2 pr-5">
+          <div class="row">
+            <div class="col-lg-2">
+            <a href={attachmentPath[i]} >View File</a>
             </div>
-            <div className="custom-file">
-              <input
-                name={`input-${i}`}
-                type="file"
-                id={attachmentId[i]}
-                className="custom-file-input"
-                aria-describedby="inputGroupFileAddon01"
-                onChange={e => onChange(e)}
-              />
-
-              <label className="custom-file-label" htmlFor="inputGroupFile01">
-               {filename[attachmentId[i]] ? filename[attachmentId[i]]
-               : <div>Choose File</div> 
-  }
-              </label>
+            <div class="col-lg-10">
+            <div className="input-group">
+              <div className="input-group-prepend">
+                <span className="input-group-text" id="inputGroupFileAddon01">
+                  Change
+                      </span>
+              </div>
+              <div className="custom-file">
+                <input
+                  name={`input-${i}`}
+                  type="file"
+                  id={attachmentId[i]}
+                  className="custom-file-input"
+                  aria-describedby="inputGroupFileAddon01"
+                  onChange={e => onChange(e)}
+                />
+  
+                <label className="custom-file-label" htmlFor="inputGroupFile01">
+                 {filename[attachmentId[i]] ? filename[attachmentId[i]]
+                 : <div>Choose File</div> 
+    }
+                </label>
+              </div>
             </div>
+  
+            </div>
+  
           </div>
-
+  
+      
           </div>
-
         </div>
+      )
+  
+    }
 
-    
-        </div>
-      </div>
-    )
+    else{
+      inputs.push(
+        <div class="row p-3" id='attachmentmargin'>
+           <div class="col-lg-4 passport-text-right">
+           <MDBBadge color="primary smallPadding "> No Attachment!</MDBBadge>
+           </div>
+   
+   </div>
+      )
+  
+    }
 
   }
 
@@ -171,6 +187,7 @@ const Fileupload = forwardRef((props, ref) => {
         <Spinner />
       ) : (
 
+  
 
           <form onSubmit={e => submit(e)}>
             {successMessage &&
