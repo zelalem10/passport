@@ -74,11 +74,12 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     setActiveStep(0);
   };
   const handleSubmit = () => {
-    childRef.current.saveData();
     const isVilid = childRef.current.Validate();
     if (isVilid != true) {
+      childRef.current.saveData();
       //setResponseMessage("Ple")
     } else {
+      childRef.current.saveData();
       let personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
       let addressInfo = counter.address[counter.address.length - 1];
       let familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
@@ -86,7 +87,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
       let appointment=counter.appointmentDate[counter.appointmentDate.length - 1]
       let siteInfo=counter.siteInformation[counter.siteInformation.length - 1]
       let serviceInfo=counter.service[counter.service.length - 1]
-
+      debugger;
       const requestBody = {
         requestId: 0,
         requestMode: (serviceInfo &&serviceInfo.isUrgent===true)?1:0,
@@ -133,6 +134,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             birthCertificateId: personalInfo? personalInfo.birthCertificatNo: null,
             phoneNumber: personalInfo? personalInfo.phoneNumber: null,
             email: personalInfo? personalInfo.email: null,
+            requestReason:0,
             address: {
               personId: 0,
               addressId: 0,

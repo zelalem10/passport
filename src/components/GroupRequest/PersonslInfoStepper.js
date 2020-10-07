@@ -153,6 +153,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
               birthCertificateId: personalInfo? personalInfo.birthCertificatNo: null,
               phoneNumber: personalInfo? personalInfo.phoneNumber: null,
               email: personalInfo? personalInfo.email: null,
+              requestReason:0,
               address: {
                 personId: 0,
                 addressId: 0,
@@ -234,6 +235,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             birthCertificateId: personalInfo? personalInfo.birthCertificatNo: null,
             phoneNumber: personalInfo? personalInfo.phoneNumber: null,
             email: personalInfo? personalInfo.email: null,
+            requestReason:0,
             address: {
               personId: 0,
               addressId: 0,
