@@ -12,6 +12,7 @@ import API from '../../Utils/API';
 
 const Address = forwardRef((props, ref) => {
   const [countryList, setCountryList] = useState([]);
+  const isRequired = 'is required!';
   const { addressInformation } = props;
   console.log(addressInformation);
   const [addressInfo, setAddressInfo] = useState({
@@ -21,11 +22,22 @@ const Address = forwardRef((props, ref) => {
     state: addressInformation.state,
     zone: addressInformation.zone,
     wereda: addressInformation.wereda,
+    kebele: addressInformation.kebele,
     street: addressInformation.street,
     houseNo: addressInformation.houseNo,
     poBox: addressInformation.poBox,
-    requestPlace: addressInformation.requestPlace,
     dataSaved: false,
+  });
+  const [notCompleted, setNotCompleted] = useState({
+    region: addressInformation.region ? false : true,
+    city: addressInformation.city ? false : true,
+    state: addressInformation.state ? false : true,
+    zone: addressInformation.zone ? false : true,
+    woreda: addressInformation.wereda ? false : true,
+    kebele: addressInformation.kebele ? false : true,
+    street: addressInformation.street ? false : true,
+    houseNo: addressInformation.houseNo ? false : true,
+    poBox: addressInformation.poBox ? false : true,
   });
   const tokenValue = () => {
     const UserToken = localStorage.userToken;
@@ -55,7 +67,21 @@ const Address = forwardRef((props, ref) => {
       dispatch(addAddressInfo(addressInfo));
     },
     Validate() {
-      //alert("Validation")
+      setNotCompleted({
+        region: addressInfo.region === '' ? true : false,
+        city: addressInfo.city === '' ? true : false,
+        state: addressInfo.state === '' ? true : false,
+        zone: addressInfo.zone === '' ? true : false,
+        woreda: addressInfo.woreda === '' ? true : false,
+        kebele: addressInfo.kebele === '' ? true : false,
+        street: addressInfo.street === '' ? true : false,
+        houseNo: addressInfo.houseNo === '' ? true : false,
+        poBox: addressInfo.poBox === '' ? true : false,
+        requestPlace: addressInfo.requestPlace === '' ? true : false,
+      });
+      if (notCompleted.region == true || notCompleted.city == true)
+        return false;
+      else return true;
     },
   }));
 
@@ -65,17 +91,17 @@ const Address = forwardRef((props, ref) => {
       ...prevState,
       [name]: value,
     }));
+    if (value != '') {
+      setNotCompleted((prevState) => ({
+        ...prevState,
+        [name]: false,
+      }));
+    }
   };
   if (countryList.length === 0) {
     setCountryList(JSON.parse(localStorage.countryRegions));
   }
-  const getCountryRegion = (id) => {
-    // for (let index = 0; index < countryRegion.length; index++) {
-    //   if (countryRegion[index].id == id) {
-    //     return countryRegion[index].type;
-    //   }
-    // }
-  };
+
   var prevInfo = counter.address[counter.address.length - 1];
   useEffect(() => {
     setAddressInfo((prevState) => ({
@@ -90,7 +116,7 @@ const Address = forwardRef((props, ref) => {
       houseNo: prevInfo ? prevInfo.houseNo : null,
       poBox: prevInfo ? prevInfo.poBox : null,
 
-      requestPlace: prevInfo ? prevInfo.requestPlace : null,
+      kebele: prevInfo ? prevInfo.kebele : null,
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
     }));
   }, []);
@@ -131,6 +157,12 @@ const Address = forwardRef((props, ref) => {
                     ))}
                   </select>
                 </div>
+                <span style={{ color: 'red' }}>
+                  {' '}
+                  {notCompleted.region == true && addressInfo.dataSaved == true
+                    ? 'Region ' + isRequired
+                    : null}
+                </span>
               </MDBCol>
             </MDBCol>
             <MDBCol md="4">
@@ -146,6 +178,12 @@ const Address = forwardRef((props, ref) => {
                   valueDefault={prevInfo ? prevInfo.city : null}
                   onChange={handleChange}
                 />
+                <span style={{ color: 'red' }}>
+                  {' '}
+                  {notCompleted.city == true && addressInfo.dataSaved == true
+                    ? 'City ' + isRequired
+                    : null}
+                </span>
               </MDBCol>
             </MDBCol>
             <MDBCol md="4">
@@ -215,14 +253,14 @@ const Address = forwardRef((props, ref) => {
             <MDBCol md="4">
               <MDBCol>
                 <MDBInput
-                  label="Request Place"
+                  label="Kebele"
                   group
                   type="text"
-                  name="requestPlace"
+                  name="kebele"
                   validate
                   error="wrong"
                   success="right"
-                  valueDefault={prevInfo ? prevInfo.requestPlace : null}
+                  valueDefault={prevInfo ? prevInfo.kebele : null}
                   onChange={handleChange}
                 />
               </MDBCol>

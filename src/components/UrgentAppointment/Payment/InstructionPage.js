@@ -34,6 +34,7 @@ function InstructionPage(props) {
     const config = {
       headers: { Authorization: 'Bearer ' + accesstoken },
     };
+    
     const body = {
       firstName: personalInformation.firstName,
       lastName: personalInformation.middleName,
@@ -58,7 +59,6 @@ function InstructionPage(props) {
         config
       )
       .then((resopnse) => {
-        debugger;
         alert('success');
         console.log(resopnse.data);
         setprceInfo(resopnse.data);

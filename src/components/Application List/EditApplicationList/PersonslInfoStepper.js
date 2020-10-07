@@ -28,7 +28,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import API from '../../Utils/API';
 import { MDBContainer, MDBCard, MDBAlert } from 'mdbreact';
-import { parse } from 'date-fns';
+import { isValid, parse } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +63,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   const counter = useSelector((state) => state);
   const appList = counter.applicationList[counter.applicationList.length - 1];
   let displayedApplication = {};
-  const { displayRequestId } = props;
+  const { displayRequestId, backToApplicationList } = props;
 
   for (let item in appList) {
     if (appList[item].requestId == displayRequestId) {
@@ -85,7 +85,14 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
   const handleNext = () => {
     childRef.current.saveData();
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
+      const isValid = childRef.current.Validate();
+      if (isValid == true) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }
+    } else {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
   };
 
   const handleBack = () => {
@@ -95,137 +102,142 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   const handleReset = () => {
     setActiveStep(0);
   };
-  const backToApplicationList = () => {
-    window.location.href = '/Application-List';
-  };
 
   const handleFinish = () => {
-    var personalInfo =
-      counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
+    childRef.current.saveData();
+    const isVilid = childRef.current.Validate();
+    if (isVilid != true) {
+      //setResponseMessage("Ple")
+    } else {
+      var personalInfo =
+        counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
 
-    var addressInfo = counter.address[counter.address.length - 1];
-    var familyInfo = counter.editFamilyData[counter.editFamilyData.length - 1];
-    var travelPlanInfo = counter.travelPlan[counter.travelPlan.length - 1];
-    const accesstoken = localStorage.systemToken;
+      var addressInfo = counter.address[counter.address.length - 1];
+      var familyInfo =
+        counter.editFamilyData[counter.editFamilyData.length - 1];
+      var travelPlanInfo = counter.travelPlan[counter.travelPlan.length - 1];
+      const accesstoken = localStorage.systemToken;
 
-    const config = {
-      headers: {
-        Authorization: 'Bearer ' + accesstoken,
-      },
-    };
-
-    const requestBody = {
-      requestId: displayedApplication.requestId,
-      requestMode: displayedApplication.requestMode,
-      requestTypeId: displayedApplication.requestTypeId,
-
-      status: 0,
-
-      confirmationNumber: displayedApplication.confirmationNumber,
-
-      personRequest: [
-        {
-          personId: personalInfo ? personalInfo.id : null,
-
-          firstName: personalInfo ? personalInfo.firstName.toUpperCase() : null,
-
-          middleName: personalInfo
-            ? personalInfo.middleName.toUpperCase()
-            : null,
-
-          lastName: personalInfo ? personalInfo.lastName.toUpperCase() : null,
-
-          geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
-          geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
-          geezLastName: personalInfo ? personalInfo.geezLastName : null,
-
-          dateOfBirth: personalInfo ? personalInfo.dateOfBirth : null,
-
-          gender: personalInfo ? parseInt(personalInfo.gender) : null,
-
-          nationalityId: personalInfo
-            ? parseInt(personalInfo.nationalityId)
-            : null,
-          occupationId: personalInfo
-            ? parseInt(personalInfo.occupationId)
-            : null,
-
-          height: personalInfo ? personalInfo.height : null,
-
-          eyeColor: personalInfo ? personalInfo.eyeColor : null,
-
-          hairColor: personalInfo ? personalInfo.hairColor : null,
-
-          isHalfCast: personalInfo ? personalInfo.isHalfCast : null,
-
-          birthPlace: personalInfo ? personalInfo.birthPlace : null,
-
-          phoneNumber: personalInfo ? personalInfo.phoneNumber : null,
-
-          email: personalInfo ? personalInfo.email : null,
-          birthCertificateId: personalInfo
-            ? personalInfo.birthCertificateId
-            : null,
-
-          flightDate: travelPlanInfo.travelDate,
-          flightNumber: travelPlanInfo.ticketNumber,
-          photoPath: '',
-
-          employeeID: '',
-
-          applicationNumber: '',
-
-          organizationID: '',
-
-          isUnder18: personalInfo ? personalInfo.isUnder18 : false,
-
-          isAdoption: personalInfo ? personalInfo.isAdoption : false,
-          passportPageId: travelPlanInfo.passportPageId,
-
-          address: {
-            personId: personalInformation.id,
-
-            id: addressInfo ? addressInfo.id : null,
-
-            city: addressInfo ? addressInfo.city : null,
-
-            region: addressInfo ? addressInfo.region : null,
-
-            state: addressInfo ? addressInfo.state : null,
-
-            zone: addressInfo ? addressInfo.zone : null,
-
-            wereda: addressInfo ? addressInfo.wereda : null,
-
-            street: addressInfo ? addressInfo.street : null,
-
-            houseNo: addressInfo ? addressInfo.houseNo : null,
-
-            poBox: addressInfo ? addressInfo.poBox : null,
-
-            requestPlace: addressInfo ? addressInfo.requestPlace : null,
-          },
-
-          familyRequests: familyInfo,
+      const config = {
+        headers: {
+          Authorization: 'Bearer ' + accesstoken,
         },
-      ],
-    };
-    console.log(JSON.stringify(requestBody));
-    API.put(
-      'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/UpdateRequest',
-      requestBody,
-      config
-    )
+      };
 
-      .then((todo) => {
-        handleNext();
-      })
+      const requestBody = {
+        requestId: displayedApplication.requestId,
+        requestMode: displayedApplication.requestMode,
+        requestTypeId: displayedApplication.requestTypeId,
 
-      .catch((err) => {
-        console.log('AXIOS ERROR: ', err);
-      });
+        status: 0,
+
+        confirmationNumber: displayedApplication.confirmationNumber,
+
+        personRequest: [
+          {
+            personId: personalInfo ? personalInfo.id : null,
+
+            firstName: personalInfo
+              ? personalInfo.firstName.toUpperCase()
+              : null,
+
+            middleName: personalInfo
+              ? personalInfo.middleName.toUpperCase()
+              : null,
+
+            lastName: personalInfo ? personalInfo.lastName.toUpperCase() : null,
+
+            geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
+            geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
+            geezLastName: personalInfo ? personalInfo.geezLastName : null,
+
+            dateOfBirth: personalInfo ? personalInfo.dateOfBirth : null,
+
+            gender: personalInfo ? parseInt(personalInfo.gender) : null,
+
+            nationalityId: personalInfo
+              ? parseInt(personalInfo.nationalityId)
+              : null,
+            occupationId: personalInfo
+              ? parseInt(personalInfo.occupationId)
+              : null,
+
+            height: personalInfo ? personalInfo.height : null,
+
+            eyeColor: personalInfo ? personalInfo.eyeColor : null,
+
+            hairColor: personalInfo ? personalInfo.hairColor : null,
+
+            isHalfCast: personalInfo ? personalInfo.isHalfCast : null,
+
+            birthPlace: personalInfo ? personalInfo.birthPlace : null,
+
+            phoneNumber: personalInfo ? personalInfo.phoneNumber : null,
+
+            email: personalInfo ? personalInfo.email : null,
+            birthCertificateId: personalInfo
+              ? personalInfo.birthCertificateId
+              : null,
+
+            flightDate: travelPlanInfo.travelDate,
+            flightNumber: travelPlanInfo.ticketNumber,
+            photoPath: '',
+
+            employeeID: '',
+
+            applicationNumber: '',
+
+            organizationID: '',
+
+            isUnder18: personalInfo ? personalInfo.isUnder18 : false,
+
+            isAdoption: personalInfo ? personalInfo.isAdoption : false,
+            passportPageId: travelPlanInfo.passportPageId,
+
+            address: {
+              personId: personalInformation.id,
+
+              id: addressInfo ? addressInfo.id : null,
+
+              city: addressInfo ? addressInfo.city : null,
+
+              region: addressInfo ? addressInfo.region : null,
+
+              state: addressInfo ? addressInfo.state : null,
+
+              zone: addressInfo ? addressInfo.zone : null,
+
+              wereda: addressInfo ? addressInfo.wereda : null,
+
+              street: addressInfo ? addressInfo.street : null,
+
+              houseNo: addressInfo ? addressInfo.houseNo : null,
+
+              poBox: addressInfo ? addressInfo.poBox : null,
+
+              requestPlace: addressInfo ? addressInfo.requestPlace : null,
+            },
+
+            familyRequests: familyInfo,
+          },
+        ],
+      };
+      console.log(JSON.stringify(requestBody));
+      API.put(
+        'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/UpdateRequest',
+        requestBody,
+        config
+      )
+
+        .then((todo) => {
+          handleNext();
+        })
+
+        .catch((err) => {
+          console.log('AXIOS ERROR: ', err);
+        });
+    }
   };
-
   function getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
@@ -320,7 +332,9 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             &nbsp;&nbsp;&nbsp;&nbsp;
             <b>
               <label class="font-weight-bold">
-                {displayedApplication.appointmentResponse.date}
+                {displayedApplication.appointmentResponse
+                  ? displayedApplication.appointmentResponse.date
+                  : null}
               </label>
             </b>
           </div>

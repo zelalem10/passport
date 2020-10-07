@@ -185,7 +185,9 @@ export default function ViewAppointment(props) {
               &nbsp;&nbsp;&nbsp;&nbsp;
               <b>
                 <label class="font-weight-bold">
-                  {displayedApplication.appointmentResponse.date}
+                  {displayedApplication.appointmentResponse
+                    ? displayedApplication.appointmentResponse.date
+                    : null}
                 </label>
               </b>
             </div>

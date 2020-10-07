@@ -27,6 +27,17 @@ const Address = forwardRef((props, ref) => {
     requestPlace: addressInformation.requestPlace,
     dataSaved: false,
   });
+  const [notCompleted, setNotCompleted] = useState({
+    region: addressInformation.region ? false : true,
+    city: addressInformation.city ? false : true,
+    state: addressInformation.state ? false : true,
+    zone: addressInformation.zone ? false : true,
+    woreda: addressInformation.wereda ? false : true,
+    kebele: addressInformation.kebele ? false : true,
+    street: addressInformation.street ? false : true,
+    houseNo: addressInformation.houseNo ? false : true,
+    poBox: addressInformation.poBox ? false : true,
+  });
   const tokenValue = () => {
     const UserToken = localStorage.userToken;
 
@@ -43,6 +54,7 @@ const Address = forwardRef((props, ref) => {
   };
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
+  const isRequired = 'is required!';
   if (counter.address.length === 0) {
     dispatch(addAddressInfo(addressInfo));
   }
@@ -55,7 +67,21 @@ const Address = forwardRef((props, ref) => {
       dispatch(addAddressInfo(addressInfo));
     },
     Validate() {
-      //alert("Validation")
+      setNotCompleted({
+        region: addressInfo.region === '' ? true : false,
+        city: addressInfo.city === '' ? true : false,
+        state: addressInfo.state === '' ? true : false,
+        zone: addressInfo.zone === '' ? true : false,
+        woreda: addressInfo.woreda === '' ? true : false,
+        kebele: addressInfo.kebele === '' ? true : false,
+        street: addressInfo.street === '' ? true : false,
+        houseNo: addressInfo.houseNo === '' ? true : false,
+        poBox: addressInfo.poBox === '' ? true : false,
+        requestPlace: addressInfo.requestPlace === '' ? true : false,
+      });
+      if (notCompleted.region == true || notCompleted.city == true)
+        return false;
+      else return true;
     },
   }));
 
@@ -118,6 +144,7 @@ const Address = forwardRef((props, ref) => {
                     name="region"
                     onChange={handleChange}
                     className="browser-default custom-select"
+                    // defaultValue={prevInfo ? prevInfo.nationalityId : 0}
                   >
                     <option disabled>select Region</option>
                     {countryList.map((region) => (
@@ -130,6 +157,12 @@ const Address = forwardRef((props, ref) => {
                     ))}
                   </select>
                 </div>
+                <span style={{ color: 'red' }}>
+                  {' '}
+                  {notCompleted.region == true && addressInfo.dataSaved == true
+                    ? 'Region ' + isRequired
+                    : null}
+                </span>
               </MDBCol>
             </MDBCol>
             <MDBCol md="4">
@@ -145,6 +178,12 @@ const Address = forwardRef((props, ref) => {
                   valueDefault={prevInfo ? prevInfo.city : null}
                   onChange={handleChange}
                 />
+                <span style={{ color: 'red' }}>
+                  {' '}
+                  {notCompleted.city == true && addressInfo.dataSaved == true
+                    ? 'City ' + isRequired
+                    : null}
+                </span>
               </MDBCol>
             </MDBCol>
             <MDBCol md="4">
@@ -214,14 +253,14 @@ const Address = forwardRef((props, ref) => {
             <MDBCol md="4">
               <MDBCol>
                 <MDBInput
-                  label="Request Place"
+                  label="Kebele"
                   group
                   type="text"
-                  name="requestPlace"
+                  name="kebele"
                   validate
                   error="wrong"
                   success="right"
-                  valueDefault={prevInfo ? prevInfo.requestPlace : null}
+                  valueDefault={prevInfo ? prevInfo.kebele : null}
                   onChange={handleChange}
                 />
               </MDBCol>
