@@ -94,7 +94,7 @@ export default function ViewAppointment(props) {
 
   const { displayRequestId } = props;
   const backToList = () => {
-    window.location.href = '/Application-List';
+    window.location.href = '/#/Application-List';
   };
   for (let item in appList) {
     if (appList[item].requestId == displayRequestId) {
@@ -185,7 +185,9 @@ export default function ViewAppointment(props) {
               &nbsp;&nbsp;&nbsp;&nbsp;
               <b>
                 <label class="font-weight-bold">
-                  {displayedApplication.appointmentResponse.date}
+                  {displayedApplication.appointmentResponse
+                    ? displayedApplication.appointmentResponse.date
+                    : null}
                 </label>
               </b>
             </div>

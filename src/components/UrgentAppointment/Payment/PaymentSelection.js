@@ -177,7 +177,11 @@ const PaymentSelection = forwardRef((props, ref) => {
                 <strong>600</strong>
               </li>
             </ul> */}
-            <BasicTable handlePaymentId={handlePaymentId} />
+            <BasicTable
+              handlePaymentId={handlePaymentId}
+              firstName={personalInformation.firstName}
+              lastName={personalInformation.lastName}
+            />
           </div>
         </MDBRow>
         <MDBCol md="8">

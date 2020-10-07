@@ -16,13 +16,21 @@ const TravelPlan = forwardRef((props, ref) => {
   const [validated, setValidated] = useState(false);
   const [passportPages, setPassportPages] = useState([]);
   const { passportRes, displayedApplication, personalInformation } = props;
-  debugger;
   const [travelPlan, setTravelPlan] = useState({
     filledBy: passportRes.filledBy,
     passportPageId: parseInt(passportRes.passportPageId),
     dataSaved: false,
   });
-  debugger;
+  const [notCompleted, setNotCompleted] = useState({
+    filledBy: true,
+    pageQuantity: false,
+    passportType: true,
+    passportNumber: true,
+    expirationDate: true,
+    issueDate: true,
+    correctionReason: true,
+    isDatacorrected: true,
+  });
   const accesstoken = localStorage.systemToken;
 
   let requestPersonId = personalInformation.requestPersonId;
@@ -70,6 +78,7 @@ const TravelPlan = forwardRef((props, ref) => {
   }, []);
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
+  const isRequired = 'is required!';
   const personRef = React.useRef();
   if (counter.travelPlan.length === 0) {
     dispatch(addTravelPlan(travelPlan));
@@ -83,7 +92,18 @@ const TravelPlan = forwardRef((props, ref) => {
       dispatch(addTravelPlan(travelPlan));
     },
     Validate() {
-      return true;
+      setNotCompleted({
+        filledBy: travelPlan.filledBy === '' ? true : false,
+        pageQuantity: travelPlan.pageQuantity === 0 ? true : false,
+        passportType: travelPlan.passportType === '' ? true : false,
+        passportNumber: travelPlan.passportNumber === '' ? true : false,
+        expirationDate: travelPlan.expirationDate === '' ? true : false,
+        issueDate: travelPlan.issueDate === '' ? true : false,
+        correctionReason: travelPlan.correctionReason === '' ? true : false,
+        passportNumber: travelPlan.passportNumber === '' ? true : false,
+      });
+      if (notCompleted.pageQuantity === true) return false;
+      else return true;
     },
   }));
   if (passportPages.length === 0) {
@@ -118,16 +138,6 @@ const TravelPlan = forwardRef((props, ref) => {
           <div className="grey-text">
             <MDBRow>
               <MDBCol md-4>
-                <MDBInput
-                  valueDefault={prevInfo ? prevInfo.filledBy : null}
-                  name="filledBy"
-                  className="form-control"
-                  onBlur={handleChange}
-                  type="text"
-                  label="Application filled by"
-                />
-              </MDBCol>
-              <MDBCol md-4>
                 <MDBCol>
                   <div
                     className="md-form form-group passport-select"
@@ -156,8 +166,26 @@ const TravelPlan = forwardRef((props, ref) => {
                       ))}
                     </select>
                   </div>
+                  <span style={{ color: 'red' }}>
+                    {' '}
+                    {notCompleted.pageQuantity == true &&
+                    travelPlan.dataSaved == true
+                      ? 'Page quantity ' + isRequired
+                      : null}
+                  </span>{' '}
                 </MDBCol>
               </MDBCol>
+              <MDBCol md-4>
+                <MDBInput
+                  valueDefault={prevInfo ? prevInfo.filledBy : null}
+                  name="filledBy"
+                  className="form-control"
+                  onBlur={handleChange}
+                  type="text"
+                  label="Application filled by"
+                />
+              </MDBCol>
+              <MDBCol md-4></MDBCol>
             </MDBRow>
           </div>
         </form>

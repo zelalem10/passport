@@ -132,10 +132,10 @@ function Status(props) {
                                     <strong className="d-inline">
                                       Appointment Date :{' '}
                                     </strong>
-                                    {
-                                      ApplicationNumberData.appointmentResponse
-                                        .date
-                                    }
+                                    {ApplicationNumberData.appointmentResponse
+                                      ? ApplicationNumberData
+                                          .appointmentResponse.date
+                                      : null}
                                   </div>
                                   <div>
                                     <strong className="d-inline">
@@ -168,27 +168,27 @@ function Status(props) {
                                     </div>
                                   </a>
                                 ) : null}
-                                {ApplicationNumberData.requestStatus ==
+                                {/* {ApplicationNumberData.requestStatus ==
                                   'SendforCorrection' &&
                                 ApplicationNumberData.requestStatus ==
-                                  'Initial' ? (
-                                  <a
-                                    href="#"
-                                    onClick={() =>
-                                      handleEdit(
-                                        ApplicationNumberData.requestId,
+                                  'Initial' ? ( */}
+                                <a
+                                  href="#"
+                                  onClick={() =>
+                                    handleEdit(
+                                      ApplicationNumberData.requestId,
 
-                                        ApplicationNumberData.personResponses
-                                          .length
-                                      )
-                                    }
-                                  >
-                                    {' '}
-                                    <div class="float-right mr-4">
-                                      <i class="fas fa-edit fa-lg"></i>
-                                    </div>
-                                  </a>
-                                ) : null}
+                                      ApplicationNumberData.personResponses
+                                        .length
+                                    )
+                                  }
+                                >
+                                  {' '}
+                                  <div class="float-right mr-4">
+                                    <i class="fas fa-edit fa-lg"></i>
+                                  </div>
+                                </a>
+                                {/* ) : null} */}
                                 <a
                                   href="#"
                                   onClick={() =>
