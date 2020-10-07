@@ -92,7 +92,6 @@ const ViewAppointment = forwardRef((props, ref) => {
     },
   }));
   const getOccupation = (id) => {
-    debugger;
     let occupations = JSON.parse(localStorage.occupations);
     for (let index = 0; index < occupations.length; index++) {
       if (occupations[index].id == id) {

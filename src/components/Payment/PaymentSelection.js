@@ -56,6 +56,7 @@ const PaymentSelection = forwardRef((props, ref) => {
   const [paymentOptions, setPaymentOptions] = useState([]);
   const [instruction, setInstruction] = useState('');
   const [message, setMessage] = useState('');
+  const [code, setCode] = useState('');
   const [status, setStatus] = useState(0);
   const [confirmed, setConfirmed] = useState(false);
   const [dataSaved, setDataSaved] = useState(false);
@@ -65,7 +66,6 @@ const PaymentSelection = forwardRef((props, ref) => {
   const serviceSelcetion = counter.service[counter.service.length - 1];
   const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
   const requestType = serviceSelcetion.appointemntType;
-  const requestTypeStr = requestTypeGetter(requestType);
   const config = {
     headers: { Authorization: 'Bearer ' + accesstoken },
   };
@@ -129,7 +129,8 @@ const PaymentSelection = forwardRef((props, ref) => {
         console.log('AXIOS ERROR: ', err);
       });
   }, []);
-  const handelClick = (optionId) => {
+  const handelClick = (optionId,selectedCode) => {
+    setCode(selectedCode)
     setSelectedOption(optionId);
   };
   const handelConfirm = (event) => {
@@ -138,8 +139,33 @@ const PaymentSelection = forwardRef((props, ref) => {
   };
   useImperativeHandle(ref, () => ({
     saveData() {
-      const selectedId = { optionId: selectedOption };
-      dispatch(addPaymentOptionId(selectedId));
+  const requestInfo = counter.request[counter.request.length - 1];
+  const priceDetal= counter.priceInfo[counter.priceInfo.length - 1];
+  let requestId = 52;//requestInfo ? requestInfo.requestId : 0;
+    const body = {
+      FirstName: "Zelalem",
+      LastName: "Belayneh",
+      Email: "Zelalem@gmail.com",
+      Phone: "+251944772455",
+      Amount: priceDetal?priceDetal.totalAmount:0,
+      Currency: "ETB",
+      City: "Addis Ababa",
+      Country: "ET",
+      Channel: "Mobile",
+      PaymentOptionsId: selectedOption,
+      username: "ETHIOUSER",
+      password: "123456",
+      requestId: requestId,
+    };
+    API.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
+      .then((resopnse) => {
+        console.log(resopnse.data)
+        dispatch(addPaymentOptionId(resopnse.data));
+      })
+      .catch((err) => {
+        console.log("AXIOS ERROR: ", err.response);
+      })
+
       setDataSaved(true)
     },
     isCompleted() {
@@ -166,7 +192,7 @@ const PaymentSelection = forwardRef((props, ref) => {
                   {paymentOptions.map((paymentOption) => (
                     <div
                       class="types flex col-sm-12 justify-space-between"
-                      onClick={() => handelClick(paymentOption.id)}
+                      onClick={() => handelClick(paymentOption.id, paymentOption.code)}
                     >
                       <div
                         class={`type ${

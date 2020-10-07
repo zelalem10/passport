@@ -103,16 +103,14 @@ const TravelPlan = forwardRef((props, ref) => {
       ...prevState,
       [name]: value,
     }));
-    if(value !=0){
-      dispatch(addTravelPlan(travelPlan))
-    }
-    
+    dispatch(addTravelPlan(travelPlan))
   };
   const handleCheck = (name, checked) => {
     setTravelPlan((prevState) => ({
       ...prevState,
       [name]: checked,
     }));
+    dispatch(addTravelPlan(travelPlan))
   };
   const [selectedtravelDate, setSelectedtravelDate] = React.useState(
     new Date(prevInfo ? prevInfo.travelDate : new Date())

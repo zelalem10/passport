@@ -18,6 +18,7 @@ import paymentOption from './paymentOptionReducer';
 import appointmentTypes from './appointmentTypeReducer';
 import siteInformation from './saveSiteInformationRedux';
 import familyType from './familyTypeReducer';
+import priceInfo from './priceInfoReducer';
 const rootReducer = combineReducers({
   service,
   familyReducer,
@@ -37,5 +38,6 @@ const rootReducer = combineReducers({
   appointmentTypes,
   siteInformation,
   familyType,
+  priceInfo,
 });
 export default rootReducer;

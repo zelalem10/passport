@@ -21,76 +21,65 @@ function InstructionPage() {
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const accesstoken = localStorage.systemToken;
-    const config = {
-      headers: { Authorization: "Bearer " + accesstoken }
-    };
-  var selectedOption = counter.paymentOption[counter.paymentOption.length - 1]
-  const requestInfo = counter.request[counter.request.length-1];
-  let travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
-  let requestId=requestInfo?requestInfo.requestId:0;
-  API.get("https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId="+requestId, config)
-  .then((todo) => 
-  {
-      setTotalPrice(todo.data.totalPrice);
-  }
-  )
-  .catch((err) => {
-      console.log("AXIOS ERROR: ", err.response);
-  })
-    
-    const body = {
-      FirstName : "Zelalem",
-      LastName:"Belayneh",
-      Email:"Zelalem@gmail.com",
-      Phone:"+251944772455",
-      Amount:totalPrice,
-      Currency:"ETB",
-      City:"Addis Ababa",
-      Country:"ET",
-      Channel:"Mobile",
-      PaymentOptionsId:selectedOption? selectedOption.optionId:0,
-      username : "ETHIOUSER",
-      password : "123456",
-      requestId: requestId,
-    };
-    axios.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
-      .then((resopnse) => {
-        console.log(resopnse.data)
-        setprceInfo(resopnse.data)
-        setStatus(resopnse.data.status)
-        setInstructions(resopnse.data.instractions)
-        setFlowType(resopnse.data.paymentFlowType)
-        setMessage(resopnse.data.message)
-        setRequestSubmited(true)
-      })
-      .catch((err) => {
-        console.log("AXIOS ERROR: ", err.response);
-      })
+  const config = {
+    headers: { Authorization: "Bearer " + accesstoken }
+  };
+  // const selectedOption = counter.paymentOption[counter.paymentOption.length - 1]
+  // const requestInfo = counter.request[counter.request.length - 1];
+  // const priceDetal= counter.priceInfo[counter.priceInfo.length - 1];
+  // let requestId = 52;//requestInfo ? requestInfo.requestId : 0;
+  //   const body = {
+  //     FirstName: "Zelalem",
+  //     LastName: "Belayneh",
+  //     Email: "Zelalem@gmail.com",
+  //     Phone: "+251944772455",
+  //     Amount: priceDetal?priceDetal.totalAmount:0,
+  //     Currency: "ETB",
+  //     City: "Addis Ababa",
+  //     Country: "ET",
+  //     Channel: "Mobile",
+  //     PaymentOptionsId: selectedOption ? selectedOption.optionId : 0,
+  //     username: "ETHIOUSER",
+  //     password: "123456",
+  //     requestId: requestId,
+  //   };
+  //   API.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
+  //     .then((resopnse) => {
+  //       setprceInfo(resopnse.data)
+  //       setStatus(resopnse.data.status)
+  //       setInstructions(resopnse.data.instractions)
+  //       setFlowType(resopnse.data.paymentFlowType)
+  //       setMessage(resopnse.data.message)
+  //       setRequestSubmited(true)
+  //     })
+  //     .catch((err) => {
+  //       console.log("AXIOS ERROR: ", err.response);
+  //     })
 
   return (
     <>
       <div id="share-section" class="bg-light text-muted py-5">
         <div class="container">
           <div class="row">
-              <div class="col-md-8">
+            <div class="col-md-8">
               <div class="u-center-text u-margin-bottom-big"><h2 class="heading-secondary">Payment Instruction</h2></div>
               <div class="alert alert-success my-4 p-3" role="alert">
-                  Thank you for making this request. Please visit the website to follow the status.
+                Thank you for making this request. Please visit the website to follow the status.
               </div>
               <h5 class="font-weight-bold u-center-text m3-5">Please follow step below to process payment</h5>
               {instructions.length
-            ? instructions.map((instruction) => (
-              <div class="d-flex">
+                ? instructions.map((instruction) => (
+                  <div class="d-flex">
 
-                <div class="p-3 align-self-start">
-                  <i class="fas fa-check fa-1x"></i>
-                </div>
-                <div class="p-3 align-self-end">
-                {instruction.description}
-            </div>
-              </div>
-              ))
-            : null}
+                    <div class="p-3 align-self-start">
+                      <i class="fas fa-check fa-1x"></i>
+                    </div>
+                    <div class="p-3 align-self-end">
+                      {instruction.description}
+                    </div>
+                  </div>
+                ))
+                : null}
 
               <p class="">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi distinctio iusto, perspiciatis mollitia natus harum?
@@ -105,22 +94,21 @@ function InstructionPage() {
           </p>
 
             </div>
-          
-  
-       <div class="col-md-4 order-md-2 mb-4 mt-5">
-       
+
+
+            <div class="col-md-4 order-md-2 mb-4 mt-5">
+
               <ul class="list-group mb-3">
-              <li class="list-group-item ePassprt-color"><h5>Pricing Information</h5></li>
+                <li class="list-group-item ePassprt-color"><h5>Pricing Information</h5></li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                   <div>
                     <h6 class="my-0">Selected Payment Option</h6>
-                  </div><span class="text-muted">CBE</span></li>
+                  </div><span class="text-muted"> CBE</span></li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed"><div><h6 class="my-0">Order code</h6>
-            </div><span class="text-muted">{priceInfo.orderId}</span></li><li class="list-group-item d-flex justify-content-between lh-condensed">
-                  <div>
-                    <h6 class="my-0">Page quantity</h6>
-                  </div><span class="text-muted">{travelPlan ? travelPlan.pageQuantity: 0}</span>
-                </li><li class="list-group-item d-flex justify-content-between">
+                </div>
+                  <span class="text-muted">{priceInfo.orderId}</span></li>
+
+                <li class="list-group-item d-flex justify-content-between">
                   <span>Amount</span>
                   <strong>{priceInfo.amount}</strong>
                 </li>
