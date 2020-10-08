@@ -75,137 +75,159 @@ const PersonalInfo = forwardRef((props, ref) => {
     };
     useImperativeHandle(ref, () => ({
         saveData() {
-            setPersonalInfo((prevState) => ({
-                ...prevState,
-                dataSaved: true,
-            }));
-            dispatch(addPersonalInfo(personalInfo));
+          setPersonalInfo((prevState) => ({
+            ...prevState,
+            dataSaved: true,
+          }));
+          dispatch(addPersonalInfo(personalInfo));
         },
         Validate() {
-            setNotCompleted({
-                firstName: personalInfo.firstName === "" ? true : false,
-                middleName: personalInfo.middleName === "" ? true : false,
-                lastName: personalInfo.lastName === "" ? true : false,
-                geezFirstName: personalInfo.geezFirstName === "" ? true : false,
-                geezMiddleName: personalInfo.geezMiddleName === "" ? true : false,
-                geezLastName: personalInfo.geezLastName === "" ? true : false,
-                birthPlace: personalInfo.birthPlace === "" ? true : false,
-                birthCertificatNo: personalInfo.birthCertificatNo === "" ? true : false,
-                birthDate: personalInfo.birthDate === "" ? true : false,
-                gender: personalInfo.gender === "" ? true : false,
-                height: personalInfo.height === "" ? true : false,
-                eyeColor: personalInfo.eyeColor === "" ? true : false,
-                hairColor: personalInfo.hairColor === "" ? true : false,
-                occupationId: personalInfo.occupationId === 0 ? true : false,
-                isHalfCast: personalInfo.isHalfCast,
-                isUnder18: personalInfo.isUnder18,
-                isAdoption: personalInfo.isAdoption,
-                nationalityId: personalInfo.nationalityId === 0 ? true : false,
-                martialStatus: personalInfo.martialStatus === "" ? true : false,
-                phoneNumber: personalInfo.phoneNumber === "" ? true : false,
-                email: personalInfo.email === "" ? true : false,
-            })
-            if (notCompleted.firstName == true || notCompleted.lastName || notCompleted.middleName == true
-                || notCompleted.birthDate == true || notCompleted.geezFirstName == true || notCompleted.geezLastName
-                || notCompleted.geezLastName == true || notCompleted.nationality == true || notCompleted.gender == true
-                || notCompleted.occupationId == true|| notCompleted.phoneNumber == true || notCompleted.email == true
-                || notCompleted.gender == true || notCompleted.martialStatus == true
-            )
-                return false;
-            else
-                return true
-        }
-    }));
-    const [selectedDate, setSelectedDate] = React.useState(
+          if (
+            notCompleted.firstName === true ||
+            notCompleted.lastName === true ||
+            notCompleted.middleName === true ||
+            notCompleted.birthDate === true ||
+            notCompleted.geezFirstName === true ||
+            notCompleted.geezLastName===true ||
+            notCompleted.geezLastName === true ||
+            personalInfo.nationalityId === 0 ||
+            notCompleted.gender === true ||
+            notCompleted.occupationId === true ||
+            notCompleted.phoneNumber === true ||
+            notCompleted.email === true ||
+            notCompleted.gender === true ||
+            notCompleted.martialStatus === true
+          )
+            return false;
+          else 
+          return true;
+        },
+      }));
+      const [selectedDate, setSelectedDate] = React.useState(
         new Date(prevInfo ? prevInfo.dateOfBirth : new Date())
-    );
-    const handleDateChange = (date) => {
+      );
+      const handleDateChange = (date) => {
         setSelectedDate(date);
         setPersonalInfo((prevState) => ({
-            ...prevState,
-            birthDate: date,
+          ...prevState,
+          birthDate: date,
         }));
-        if (date != "") {
-            setNotCompleted((prevState) => ({
-                ...prevState,
-                birthDate: false,
-            }))
+        if (date != '') {
+          setNotCompleted((prevState) => ({
+            ...prevState,
+            birthDate: false,
+          }));
         }
-    };
-    const handleChange = (event) => {
+      };
+      const handleChange = (event) => {
         const { name, value } = event.target;
         setPersonalInfo((prevState) => ({
+          ...prevState,
+          [name]: value,
+        }));
+        debugger
+        if (value != '') {
+          setNotCompleted((prevState) => ({
             ...prevState,
-            [name]: value,
-        }))
-        if (value != "" && value != 0) {
-            setNotCompleted((prevState) => ({
-                ...prevState,
-                [name]: false,
-            }))
+            [name]: false,
+          }));
         }
         dispatch(addPersonalInfo(personalInfo));
-    }
-    const handleCheck = (name, checked) => {
+      };
+      const handleCheck = (name, checked) => {
         setPersonalInfo((prevState) => ({
-            ...prevState,
-            [name]: checked,
-        }))
-    }
-    var prevInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1]
-    useEffect(() => {
+          ...prevState,
+          [name]: checked,
+        }));
+      };
+      var prevInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
+      useEffect(() => {
         setPersonalInfo((prevState) => ({
-            ...prevState,
-            firstName: prevInfo ? prevInfo.firstName : "",
-            middleName: prevInfo ? prevInfo.middleName : "",
-            lastName: prevInfo ? prevInfo.lastName : "",
-            geezFirstName: prevInfo ? prevInfo.geezFirstName : "",
-            geezMiddleName: prevInfo ? prevInfo.geezMiddleName : "",
-            geezLastName: prevInfo ? prevInfo.geezLastName : "",
-            birthPlace: prevInfo ? prevInfo.birthPlace : "",
-            birthDate: prevInfo ? prevInfo.birthDate : "",
-            birthCertificatNo: prevInfo ? prevInfo.birthCertificatNo : "",
-            height: prevInfo ? prevInfo.height : "",
-            gender: prevInfo ? prevInfo.gender : "",
-            eyeColor: prevInfo ? prevInfo.eyeColor : "",
-            hairColor: prevInfo ? prevInfo.hairColor : "Black",
-            occupationId: prevInfo ? prevInfo.occupationId : 0,
-            isHalfCast: prevInfo ? prevInfo.isHalfCast : false,
-            isAdoption: prevInfo ? prevInfo.isAdoption : false,
-            isUnder18: prevInfo ? prevInfo.isUnder18 : false,
-            nationalityId: prevInfo ? prevInfo.nationalityId : 0,
-            phoneNumber: prevInfo ? prevInfo.phoneNumber : "",
-            email: prevInfo ? prevInfo.email : "",
-            martialStatus: prevInfo ? prevInfo.martialStatus : "",
-        }))
+          ...prevState,
+          firstName: prevInfo ? prevInfo.firstName : '',
+          middleName: prevInfo ? prevInfo.middleName : '',
+          lastName: prevInfo ? prevInfo.lastName : '',
+          geezFirstName: prevInfo ? prevInfo.geezFirstName : '',
+          geezMiddleName: prevInfo ? prevInfo.geezMiddleName : '',
+          geezLastName: prevInfo ? prevInfo.geezLastName : '',
+          birthPlace: prevInfo ? prevInfo.birthPlace : '',
+          birthDate: prevInfo ? prevInfo.birthDate : '',
+          birthCertificatNo: prevInfo ? prevInfo.birthCertificatNo : '',
+          height: prevInfo ? prevInfo.height : '',
+          gender: prevInfo ? prevInfo.gender : '',
+          eyeColor: prevInfo ? prevInfo.eyeColor : '',
+          hairColor: prevInfo ? prevInfo.hairColor : 'Black',
+          occupationId: prevInfo ? prevInfo.occupationId : 0,
+          isHalfCast: prevInfo ? prevInfo.isHalfCast : false,
+          isAdoption: prevInfo ? prevInfo.isAdoption : false,
+          isUnder18: prevInfo ? prevInfo.isUnder18 : false,
+          nationalityId: prevInfo ? prevInfo.nationalityId : 0,
+          phoneNumber: prevInfo ? prevInfo.phoneNumber : '',
+          email: prevInfo ? prevInfo.email : '',
+          martialStatus: prevInfo ? prevInfo.martialStatus : '',
+        }));
+        setNotCompleted({
+          firstName: prevInfo.firstName === '' ? true : false,
+          middleName: prevInfo.middleName === '' ? true : false,
+          lastName: prevInfo.lastName === '' ? true : false,
+          geezFirstName: prevInfo.geezFirstName === '' ? true : false,
+          geezMiddleName: prevInfo.geezMiddleName === '' ? true : false,
+          geezLastName: prevInfo.geezLastName === '' ? true : false,
+          birthPlace: prevInfo.birthPlace === '' ? true : false,
+          birthCertificatNo: prevInfo.birthCertificatNo === '' ? true : false,
+          birthDate: prevInfo.birthDate === '' ? true : false,
+          gender: prevInfo.gender === '' ? true : false,
+          height: prevInfo.height === '' ? true : false,
+          eyeColor: prevInfo.eyeColor === '' ? true : false,
+          hairColor: prevInfo.hairColor === '' ? true : false,
+          occupationId: prevInfo.occupationId === 0 ? true : false,
+          isHalfCast: prevInfo.isHalfCast,
+          isUnder18: prevInfo.isUnder18,
+          isAdoption: prevInfo.isAdoption,
+          nationalityId: prevInfo.nationalityId === 0 ? true : false,
+          martialStatus: prevInfo.martialStatus === '' ? true : false,
+          phoneNumber: prevInfo.phoneNumber === '' ? true : false,
+          email: prevInfo.email === '' ? true : false,
+        });
+    
         setNationalityList(JSON.parse(localStorage.nationalitys))
         if (nationalityList.length === 0) {
-            API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/Nationality/GetAll', config)
-                .then((todo) => {
-                    setNationalityList(todo.data.nationalitys);
-                    if (prevInfo && Number.parseInt(prevInfo.nationalityId, 10) === 0) {
-                        setPersonalInfo((prevState) => ({
-                            ...prevState,
-                            nationalityId: todo.data.nationalitys.filter((nationality) => nationality.code == "ET")[0] ? todo.data.nationalitys.filter((nationality) => nationality.code == "ET")[0].id : 0,
-                        }))
-                    }
-                })
-                .catch((err) => {
-                    console.log('AXIOS ERROR: ', err.response);
-                });
+          API.get(
+            'https://epassportservices.azurewebsites.net/Master/api/V1.0/Nationality/GetAll',
+            config
+          )
+            .then((todo) => {
+              setNationalityList(todo.data.nationalitys);
+              if (prevInfo && Number.parseInt(prevInfo.nationalityId, 10) === 0) {
+                setPersonalInfo((prevState) => ({
+                  ...prevState,
+                  nationalityId: todo.data.nationalitys.filter(
+                    (nationality) => nationality.code == 'ET'
+                  )[0]
+                    ? todo.data.nationalitys.filter(
+                      (nationality) => nationality.code == 'ET'
+                    )[0].id
+                    : 0,
+                }));
+              }
+            })
+            .catch((err) => {
+              console.log('AXIOS ERROR: ', err.response);
+            });
         }
+    
         setOccupationList(JSON.parse(localStorage.occupations))
         if (occupationList.length === 0) {
-            API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/Occupation/GetAll', config)
-                .then((todo) => {
-                    setOccupationList(todo.data.occupations);
-                })
-                .catch((err) => {
-                    console.log('AXIOS ERROR: ', err.response);
-                });
+          API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/Occupation/GetAll', config)
+            .then((todo) => {
+              setOccupationList(todo.data.occupations);
+            })
+            .catch((err) => {
+              console.log('AXIOS ERROR: ', err.response);
+            });
         }
-    }, []);
-    return (
+      }, []);
+      return (
         <MDBContainer>
             <MDBCard style={{ marginBottom: "1rem" }}>
                 <MDBCardBody>

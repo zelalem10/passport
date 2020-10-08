@@ -73,29 +73,7 @@ const TravelPlan = forwardRef((props, ref) => {
   if (counter.travelPlan.length === 0) {
     dispatch(addTravelPlan(travelPlan));
   }
-  useImperativeHandle(ref, () => ({
-    saveData() {
-      setTravelPlan((prevState) => ({
-        ...prevState,
-        dataSaved: true,
-      }));
-      dispatch(addTravelPlan(travelPlan));
-    },
-    Validate() {
-      setNotCompleted({
-        filledBy: travelPlan.filledBy === '' ? true : false,
-        pageQuantity: travelPlan.pageQuantity === 0 ? true : false,
-        passportType: travelPlan.passportType === '' ? true : false,
-        passportNumber: travelPlan.passportNumber === '' ? true : false,
-        expirationDate: travelPlan.expirationDate === '' ? true : false,
-        issueDate: travelPlan.issueDate === '' ? true : false,
-        correctionReason: travelPlan.correctionReason === '' ? true : false,
-        passportNumber: travelPlan.passportNumber === '' ? true : false,
-      });
-      if (notCompleted.pageQuantity === true) return false;
-      else return true;
-    },
-  }));
+  
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -121,13 +99,6 @@ const TravelPlan = forwardRef((props, ref) => {
   const [selectedexpirationDate, setSelectedexpirationDate] = React.useState(
     new Date(prevInfo ? prevInfo.expirationDate : new Date())
   );
-  const handletravelDateChange = (date) => {
-    setSelectedtravelDate(date);
-    setTravelPlan((prevState) => ({
-      ...prevState,
-      travelDate: date,
-    }));
-  };
   const handleissueDateChange = (date) => {
     setSelectedissueDate(date);
     setTravelPlan((prevState) => ({
@@ -147,7 +118,6 @@ const TravelPlan = forwardRef((props, ref) => {
   const requestType = serviceSelcetion.appointemntType;
   const requestTypeStr = requestTypeGetter(requestType);
 
-
   useEffect(() => {
     if (counter.travelPlan.length === 0) {
       dispatch(addTravelPlan(travelPlan));
@@ -165,19 +135,45 @@ const TravelPlan = forwardRef((props, ref) => {
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
     }));
 
-    API.get(
-      'https://epassportservices.azurewebsites.net/Master/api/V1.0/PassportPage/GetAll',
-      config
-    )
-      .then((todo) => {
-        setPassportTypeList(todo.data.pagePassports);
-      })
-      .catch((err) => {
-        console.log('AXIOS ERROR: ', err.response);
-      });
-
+    setPassportTypeList(JSON.parse(localStorage.PassportPageQuantity))
+    if(passportTypeList.length===0){
+      API.get(
+        'https://epassportservices.azurewebsites.net/Master/api/V1.0/PassportPage/GetAll',
+        config
+      )
+        .then((todo) => {
+          setPassportTypeList(todo.data.pagePassports);
+        })
+        .catch((err) => {
+          console.log('AXIOS ERROR: ', err.response);
+        });
+    }
   }, []);
 
+  useImperativeHandle(ref, () => ({
+    saveData() {
+      setTravelPlan((prevState) => ({
+        ...prevState,
+        dataSaved: true,
+      }));
+      dispatch(addTravelPlan(travelPlan));
+      return travelPlan;
+    },
+    Validate() {
+      setNotCompleted({
+        filledBy: travelPlan.filledBy === '' ? true : false,
+        pageQuantity: travelPlan.pageQuantity === 0 ? true : false,
+        passportType: travelPlan.passportType === '' ? true : false,
+        passportNumber: travelPlan.passportNumber === '' ? true : false,
+        expirationDate: travelPlan.expirationDate === '' ? true : false,
+        issueDate: travelPlan.issueDate === '' ? true : false,
+        correctionReason: travelPlan.correctionReason === '' ? true : false,
+        passportNumber: travelPlan.passportNumber === '' ? true : false,
+      });
+      if (notCompleted.pageQuantity === true) return false;
+      else return true;
+    },
+  }));
   return (
     <MDBCard>
       <MDBCardBody>

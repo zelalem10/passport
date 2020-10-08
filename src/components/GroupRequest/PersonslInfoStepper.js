@@ -76,7 +76,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     setActiveStep(0);
   };
   const handleSubmit = () => {
-    childRef.current.saveData();
+    const travelPlan= childRef.current.saveData();
     const isVilid = childRef.current.Validate();
     if (isVilid != true) {
       //setResponseMessage("Ple")
@@ -87,7 +87,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
       const addressLength = counter.address.filter(item => item.applicantNumber == props.applicantNumber).length;
       var addressInfo = counter.address.filter(item => item.applicantNumber == props.applicantNumber)[addressLength - 1];
       const travelPlanLength = counter.travelPlan.filter(item => item.applicantNumber == props.applicantNumber).length;
-      const travelPlan = counter.travelPlan.filter(item => item.applicantNumber == props.applicantNumber)[travelPlanLength - 1]
+      //const travelPlan = counter.travelPlan.filter(item => item.applicantNumber == props.applicantNumber)[travelPlanLength - 1]
       const appointment=counter.appointmentDate[counter.appointmentDate.length - 1]
       let replacementReason=counter.replacment[counter.replacment.length -1]
       const familyLength = counter.familyReducer.filter(function (items) {
@@ -109,7 +109,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
       
       if (props.applicantNumber === 1) {
         let requestBody = {
-          requestId: 0,
+          requestId: requestInfo ? Number.parseInt(requestInfo.requestId):0,
           requestMode: isUrgent===true?1:0,
           officeId: siteInfo? Number.parseInt(siteInfo.offceId, 10):0,
           deliverySiteId: siteInfo? Number.parseInt(siteInfo.deliverySiteId, 10):0,

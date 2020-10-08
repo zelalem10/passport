@@ -116,7 +116,7 @@ const NavbarPage = (props) => {
                 href="https://www.evisa.gov.et"
                 className="text-dark mr-4"
               >
-                E-visaa
+                E-visa
               </a>
             </MDBNavItem>
             <MDBNavItem className="d-none d-md-block">

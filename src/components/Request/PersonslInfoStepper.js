@@ -64,14 +64,14 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     props.Next();
   };
   const handleNext = () => {
+    debugger;
+    childRef.current.saveData();
     if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
-      childRef.current.saveData();
       const isVilid = childRef.current.Validate();
       if (isVilid == true) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       }
     } else {
-      childRef.current.saveData();
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
   };
@@ -84,16 +84,16 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     setActiveStep(0);
   };
   const handleSubmit = () => {
+    const travelPlan= childRef.current.saveData();
     const isVilid = childRef.current.Validate();
     if (isVilid != true) {
-      childRef.current.saveData();
       //setResponseMessage("Ple")
-    } else {
-      childRef.current.saveData();
+    }
+     else {
       let personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
       let addressInfo = counter.address[counter.address.length - 1];
       let familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
-      let travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
+      //let travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
       let appointment=counter.appointmentDate[counter.appointmentDate.length - 1]
       let siteInfo=counter.siteInformation[counter.siteInformation.length - 1]
       let serviceInfo=counter.service[counter.service.length - 1]

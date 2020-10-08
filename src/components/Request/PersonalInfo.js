@@ -26,6 +26,7 @@ import isEmail from 'validator/es/lib/isEmail';
 const PersonalInfo = forwardRef((props, ref) => {
   const [nationalityList, setNationalityList] = useState([]);
   const [occupationList, setOccupationList] = useState([]);
+
   const [personalInfo, setPersonalInfo] = useState({
     firstName: prevInfo ? prevInfo.firstName : '',
     middleName: prevInfo ? prevInfo.middleName : '',
@@ -94,47 +95,25 @@ const PersonalInfo = forwardRef((props, ref) => {
       dispatch(addPersonalInfo(personalInfo));
     },
     Validate() {
-      setNotCompleted({
-        firstName: personalInfo.firstName === '' ? true : false,
-        middleName: personalInfo.middleName === '' ? true : false,
-        lastName: personalInfo.lastName === '' ? true : false,
-        geezFirstName: personalInfo.geezFirstName === '' ? true : false,
-        geezMiddleName: personalInfo.geezMiddleName === '' ? true : false,
-        geezLastName: personalInfo.geezLastName === '' ? true : false,
-        birthPlace: personalInfo.birthPlace === '' ? true : false,
-        birthCertificatNo: personalInfo.birthCertificatNo === '' ? true : false,
-        birthDate: personalInfo.birthDate === '' ? true : false,
-        gender: personalInfo.gender === '' ? true : false,
-        height: personalInfo.height === '' ? true : false,
-        eyeColor: personalInfo.eyeColor === '' ? true : false,
-        hairColor: personalInfo.hairColor === '' ? true : false,
-        occupationId: personalInfo.occupationId === 0 ? true : false,
-        isHalfCast: personalInfo.isHalfCast,
-        isUnder18: personalInfo.isUnder18,
-        isAdoption: personalInfo.isAdoption,
-        nationalityId: personalInfo.nationalityId === 0 ? true : false,
-        martialStatus: personalInfo.martialStatus === '' ? true : false,
-        phoneNumber: personalInfo.phoneNumber === '' ? true : false,
-        email: personalInfo.email === '' ? true : false,
-      });
       if (
-        notCompleted.firstName == true ||
-        notCompleted.lastName ||
-        notCompleted.middleName == true ||
-        notCompleted.birthDate == true ||
-        notCompleted.geezFirstName == true ||
-        notCompleted.geezLastName ||
-        notCompleted.geezLastName == true ||
-        notCompleted.nationality == true ||
-        notCompleted.gender == true ||
-        notCompleted.occupationId == true ||
-        notCompleted.phoneNumber == true ||
-        notCompleted.email == true ||
-        notCompleted.gender == true ||
-        notCompleted.martialStatus == true
+        notCompleted.firstName === true ||
+        notCompleted.lastName === true ||
+        notCompleted.middleName === true ||
+        notCompleted.birthDate === true ||
+        notCompleted.geezFirstName === true ||
+        notCompleted.geezLastName===true ||
+        notCompleted.geezLastName === true ||
+        personalInfo.nationalityId === 0 ||
+        notCompleted.gender === true ||
+        notCompleted.occupationId === true ||
+        notCompleted.phoneNumber === true ||
+        notCompleted.email === true ||
+        notCompleted.gender === true ||
+        notCompleted.martialStatus === true
       )
         return false;
-      else return true;
+      else 
+      return true;
     },
   }));
   const [selectedDate, setSelectedDate] = React.useState(
@@ -159,7 +138,8 @@ const PersonalInfo = forwardRef((props, ref) => {
       ...prevState,
       [name]: value,
     }));
-    if (value != '' && value != 0) {
+    debugger
+    if (value != '') {
       setNotCompleted((prevState) => ({
         ...prevState,
         [name]: false,
@@ -173,8 +153,7 @@ const PersonalInfo = forwardRef((props, ref) => {
       [name]: checked,
     }));
   };
-  var prevInfo =
-    counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
+  var prevInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
   useEffect(() => {
     setPersonalInfo((prevState) => ({
       ...prevState,
@@ -200,6 +179,30 @@ const PersonalInfo = forwardRef((props, ref) => {
       email: prevInfo ? prevInfo.email : '',
       martialStatus: prevInfo ? prevInfo.martialStatus : '',
     }));
+    setNotCompleted({
+      firstName: prevInfo.firstName === '' ? true : false,
+      middleName: prevInfo.middleName === '' ? true : false,
+      lastName: prevInfo.lastName === '' ? true : false,
+      geezFirstName: prevInfo.geezFirstName === '' ? true : false,
+      geezMiddleName: prevInfo.geezMiddleName === '' ? true : false,
+      geezLastName: prevInfo.geezLastName === '' ? true : false,
+      birthPlace: prevInfo.birthPlace === '' ? true : false,
+      birthCertificatNo: prevInfo.birthCertificatNo === '' ? true : false,
+      birthDate: prevInfo.birthDate === '' ? true : false,
+      gender: prevInfo.gender === '' ? true : false,
+      height: prevInfo.height === '' ? true : false,
+      eyeColor: prevInfo.eyeColor === '' ? true : false,
+      hairColor: prevInfo.hairColor === '' ? true : false,
+      occupationId: prevInfo.occupationId === 0 ? true : false,
+      isHalfCast: prevInfo.isHalfCast,
+      isUnder18: prevInfo.isUnder18,
+      isAdoption: prevInfo.isAdoption,
+      nationalityId: prevInfo.nationalityId === 0 ? true : false,
+      martialStatus: prevInfo.martialStatus === '' ? true : false,
+      phoneNumber: prevInfo.phoneNumber === '' ? true : false,
+      email: prevInfo.email === '' ? true : false,
+    });
+
     setNationalityList(JSON.parse(localStorage.nationalitys))
     if (nationalityList.length === 0) {
       API.get(

@@ -53,18 +53,6 @@ const Address = forwardRef((props, ref) => {
             dispatch(addAddressInfo(addressInfo));
         },
         Validate() {
-            setNotCompleted({
-                region: addressInfo.region === "" ? true : false,
-                city: addressInfo.city === "" ? true : false,
-                state: addressInfo.state === "" ? true : false,
-                zone: addressInfo.zone === "" ? true : false,
-                woreda: addressInfo.woreda === "" ? true : false,
-                kebele: addressInfo.kebele === "" ? true : false,
-                street: addressInfo.street === "" ? true : false,
-                houseNo: addressInfo.houseNo === "" ? true : false,
-                poBox: addressInfo.poBox === "" ? true : false,
-                requestPlace: addressInfo.requestPlace === "" ? true : false,
-            })
             if (notCompleted.region == true || notCompleted.city == true)
                 return false
             else
@@ -102,11 +90,28 @@ const Address = forwardRef((props, ref) => {
             requestPlace: prevInfo ? prevInfo.requestPlace : "",
         }))
 
-        API.get(
-            'https://epassportservices.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
-            .then((todo) => {
+        setNotCompleted({
+            region: prevInfo.region === '' ? true : false,
+            city: prevInfo.city === '' ? true : false,
+            state: prevInfo.state === '' ? true : false,
+            zone: prevInfo.zone === '' ? true : false,
+            woreda: prevInfo.woreda === '' ? true : false,
+            kebele: prevInfo.kebele === '' ? true : false,
+            street: prevInfo.street === '' ? true : false,
+            houseNo: prevInfo.houseNo === '' ? true : false,
+            poBox: prevInfo.poBox === '' ? true : false,
+            requestPlace: prevInfo.requestPlace === '' ? true : false,
+          });
+          setRegionList(JSON.parse(localStorage.countryRegions))
+          if (regionList.length === 0) {
+            API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
+              .then((todo) => {
                 setRegionList(todo.data.countryRegions);
-            })
+              })
+              .catch((err) => {
+                console.log('AXIOS ERROR: ', err.response);
+              });
+          }
     }, []);
     return (
         <MDBCard>
