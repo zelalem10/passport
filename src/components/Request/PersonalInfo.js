@@ -469,6 +469,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 />
               </MDBCol>
             </MDBRow>
+            <hr />
             <MDBRow>
               <MDBCol md="3">
                 <div>
@@ -627,6 +628,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 </div>
               </MDBCol>
             </MDBRow>
+            <hr />
             <MDBRow>
               <MDBCol md="3">
                 <MDBInput
@@ -638,14 +640,22 @@ const PersonalInfo = forwardRef((props, ref) => {
                 />
               </MDBCol>
               <MDBCol md="3">
-                <MDBInput
-                  valueDefault={prevInfo ? prevInfo.eyeColor : null}
+                <div>
+                <label>Eye Color</label>
+                <select
+                  className="browser-default custom-select"
                   name="eyeColor"
                   onChange={handleChange}
-                  type="text"
-                  label="Eye Color"
-                />
-              </MDBCol>
+                >
+                  <option value=""> Select eye color </option>
+                  <option value="Black" selected={personalInfo.eyeColor === 'Black'}> Black </option>
+                  <option value="Brown"selected={personalInfo.eyeColor === 'Brown'}> Brown </option>
+                  <option value="Blue"selected={personalInfo.eyeColor === 'Blue'}> Blue </option>
+                  <option value="Other"selected={personalInfo.eyeColor === 'Other'}> Other </option>
+                </select>
+              
+                </div>
+                </MDBCol>
               <MDBCol md="3">
                 <label></label>
                 <div class="custom-control custom-checkbox">
