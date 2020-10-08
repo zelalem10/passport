@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import addPaymentOptionId from '../../redux/actions/addPaymentOptionIdAction';
 
 export default function RequestStepper() {
-  const [indexValue, setIndexValue] = useState(4);
+  const [indexValue, setIndexValue] = useState(0);
   const [formCompleted, setFormCompleted] = useState([
     false,
     false,
@@ -103,7 +103,7 @@ export default function RequestStepper() {
     <Tab.Container defaultActiveKey="first" activeKey={activeKey[indexValue]}>
       <div style={{ margin: '2rem' }}>
         <Row>
-          <Col variant="secondary" lg={3} className='mb-4'>
+          <Col variant="secondary" lg={3} className="mb-4">
             <Card>
               <Card.Header>Request Appointment </Card.Header>
               <Nav variant="pills" className="flex-column">

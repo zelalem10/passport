@@ -141,7 +141,7 @@ const PaymentSelection = forwardRef((props, ref) => {
     saveData() {
   const requestInfo = counter.request[counter.request.length - 1];
   const priceDetal= counter.priceInfo[counter.priceInfo.length - 1];
-  let requestId = 52;//requestInfo ? requestInfo.requestId : 0;
+  let requestId = 52;
     const body = {
       FirstName: "Zelalem",
       LastName: "Belayneh",

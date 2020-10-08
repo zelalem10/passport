@@ -15,7 +15,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from 'react-bootstrap';
 
 function InstructionPage(props) {
-  const { personalInformation, requestId } = props;
   const [priceInfo, setprceInfo] = useState('');
   const [requestSubmited, setRequestSubmited] = useState(false);
   const [instructions, setInstructions] = useState([]);
@@ -23,55 +22,10 @@ function InstructionPage(props) {
   const [flowType, setFlowType] = useState(0);
   const [status, setStatus] = useState(0);
   const dispatch = useDispatch();
-  const counter = useSelector((state) => state);
+  const data = useSelector((state) => state);
   const selectedId = { optionId: 0 };
 
-  var selectedOption = counter.paymentOption[counter.paymentOption.length - 1];
-  console.log(selectedOption);
-
-  useEffect(() => {
-    const accesstoken = localStorage.systemToken;
-    const config = {
-      headers: { Authorization: 'Bearer ' + accesstoken },
-    };
-    
-    const body = {
-      firstName: personalInformation.firstName,
-      lastName: personalInformation.middleName,
-      email: personalInformation.email,
-      phone: personalInformation.phoneNumber,
-      amount: 10,
-      currency: 'ETB',
-      city: 'Addis Ababa',
-      country: 'Ethiopia',
-      channel: 'Amole',
-      paymentOptionsId: selectedOption.id,
-      traceNumbers: '',
-      Status: 4,
-      OrderId: '',
-      otp: '',
-      requestId: requestId,
-    };
-    axios
-      .post(
-        'https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest',
-        body,
-        config
-      )
-      .then((resopnse) => {
-        alert('success');
-        console.log(resopnse.data);
-        setprceInfo(resopnse.data);
-        setStatus(resopnse.data.status);
-        setInstructions(resopnse.data.instractions);
-        setFlowType(resopnse.data.paymentFlowType);
-        setMessage(resopnse.data.message);
-        setRequestSubmited(true);
-      })
-      .catch((err) => {
-        console.log('AXIOS ERROR: ', err.response);
-      });
-  }, []);
+  let paymentInformation = data.paymentOption[data.paymentOption.length - 1];
 
   return (
     <>
@@ -89,17 +43,19 @@ function InstructionPage(props) {
               <h5 class="font-weight-bold u-center-text m3-5">
                 Please follow step below to process payment
               </h5>
-              {instructions.length
-                ? instructions.map((instruction) => (
-                    <div class="d-flex">
-                      <div class="p-3 align-self-start">
-                        <i class="fas fa-check fa-1x"></i>
+              {paymentInformation
+                ? paymentInformation.instractions.length
+                  ? paymentInformation.instractions.map((instruction) => (
+                      <div class="d-flex">
+                        <div class="p-3 align-self-start">
+                          <i class="fas fa-check fa-1x"></i>
+                        </div>
+                        <div class="p-3 align-self-end">
+                          {instruction.description}
+                        </div>
                       </div>
-                      <div class="p-3 align-self-end">
-                        {instruction.description}
-                      </div>
-                    </div>
-                  ))
+                    ))
+                  : null
                 : null}
 
               <p class="">
@@ -142,7 +98,7 @@ function InstructionPage(props) {
                 </li>
                 <li class="list-group-item d-flex justify-content-between">
                   <span>Amount</span>
-                  <strong>{priceInfo.amount}</strong>
+                  <strong>{paymentInformation.amount}</strong>
                 </li>
               </ul>
             </div>

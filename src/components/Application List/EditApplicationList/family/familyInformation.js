@@ -42,7 +42,8 @@ const FamilyInformation = forwardRef((props, ref) => {
   } else if (
     familiesInfo.length === 0 &&
     isOnLoad === true &&
-    counter.editFamilyData.length > 1
+    counter.editFamilyData.length > 1 &&
+    counter.editFamilyData[0].hasOwnProperty('firstName')
   ) {
     setFamiliesInfo(counter.editFamilyData[counter.editFamilyData.length - 1]);
   }

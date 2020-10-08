@@ -16,6 +16,8 @@ import {
 } from 'mdbreact';
 
 import API from '../../Utils/API';
+import addPriceInfo from '../../../redux/actions/priceInfoAction';
+import { useDispatch, useSelector } from 'react-redux';
 const accesstoken = localStorage.userToken;
 const config = {
   headers: { Authorization: 'Bearer ' + accesstoken },
@@ -32,6 +34,7 @@ const BasicTable = (props) => {
   const toggleCollapse = () => {
     setIsOppened(!isOppened);
   };
+  const dispatch = useDispatch();
   useEffect(() => {
     API.get(
       `https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=${handlePaymentId}`,
@@ -41,6 +44,7 @@ const BasicTable = (props) => {
         setTotalPriceList(todo.data.priceTotalDetail);
         setIndividualPrice(todo.data.individualPrice);
         setTotalPrice(todo.data.totalPrice);
+        dispatch(addPriceInfo({ totalAmount: todo.data.totalPrice }));
       })
       .catch((err) => {
         console.log('AXIOS ERROR: ', err.response);

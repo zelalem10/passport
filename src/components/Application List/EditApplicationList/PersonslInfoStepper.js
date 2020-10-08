@@ -63,7 +63,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   const counter = useSelector((state) => state);
   const appList = counter.applicationList[counter.applicationList.length - 1];
   let displayedApplication = {};
-  const { displayRequestId, backToApplicationList } = props;
+  const { displayRequestId, backToList } = props;
 
   for (let item in appList) {
     if (appList[item].requestId == displayRequestId) {
@@ -192,8 +192,18 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             isUnder18: personalInfo ? personalInfo.isUnder18 : false,
 
             isAdoption: personalInfo ? personalInfo.isAdoption : false,
-            passportPageId: travelPlanInfo.passportPageId,
-
+            passportPageId: travelPlanInfo
+              ? parseInt(travelPlanInfo.passportPageId)
+              : null,
+            passportNumber: travelPlanInfo
+              ? travelPlanInfo.passportNumber
+              : null,
+            issueDate: travelPlanInfo ? travelPlanInfo.issueDate : null,
+            expireDate: travelPlanInfo ? travelPlanInfo.expireDate : null,
+            passportType: travelPlanInfo ? travelPlanInfo.passportType : null,
+            isDatacorrected: travelPlanInfo
+              ? travelPlanInfo.isDatacorrected
+              : false,
             address: {
               personId: personalInformation.id,
 
@@ -223,6 +233,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
         ],
       };
       console.log(JSON.stringify(requestBody));
+      debugger;
       API.put(
         'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/UpdateRequest',
         requestBody,
@@ -374,7 +385,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                       <div className="multistep-form__step">
                         <a
                           class="button hollow gray vertical-margin-2 ng-star-inserted"
-                          onClick={backToApplicationList}
+                          onClick={backToList}
                         >
                           <i class="fas fa-arrow-left"></i> Back
                           <span class="show-for-medium">

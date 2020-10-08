@@ -53,6 +53,10 @@ function RescheduleAppointment(props) {
     key: '',
     active: false,
   });
+  const [
+    rescheduleNotAllowedMessage,
+    setRescheduleNotAllowedMessage,
+  ] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [formCompleted, setFormCompleted] = useState(false);
   const [newAppointment, setNewAppointment] = useState();
@@ -383,7 +387,6 @@ function RescheduleAppointment(props) {
           }
         }
       }
-
       axios({
         headers: {
           Authorization: 'Bearer ' + accesstoken,
@@ -391,7 +394,7 @@ function RescheduleAppointment(props) {
         method: 'post',
         url: baseUrl + '/Schedule/api/V1.0/Schedule/SubmitUrgentAppointment',
         data: {
-          id: 0,
+          id: appointmentDetails.id,
           date: stringDateValue,
           dateTimeFormat: 'yyyy-MM-dd',
           urgentQuotaId: urgentQuotaId,
@@ -399,6 +402,7 @@ function RescheduleAppointment(props) {
         },
       })
         .then((response) => {
+          debugger;
           console.log(response.data);
           dispatch(
             addAppointmentDate(response.data.urgentAppointmentResponses)
@@ -412,6 +416,7 @@ function RescheduleAppointment(props) {
           }
         })
         .catch((error) => {
+          debugger;
           if (state.date && state.time) {
             setErrorMessage(error.message);
           } else if (state.date && !state.time) {
@@ -428,7 +433,7 @@ function RescheduleAppointment(props) {
         durationId: parseInt(selectTime),
         dateTimeFormat: 'yyyy-MM-dd',
       };
-      console.log(sampleData);
+      console.log(JSON.stringify(sampleData));
       axios({
         headers: {
           Authorization: 'Bearer ' + accesstoken,
@@ -444,19 +449,24 @@ function RescheduleAppointment(props) {
         },
       })
         .then((response) => {
-          let newdate = new Date(response.data.date);
-          let newYear = newdate.getFullYear();
-          let newMonth = (1 + newdate.getMonth()).toString();
-          newMonth = newMonth.length > 1 ? newMonth : '0' + newMonth;
-          let newDay = newdate.getDate().toString();
-          newDay = newDay.length > 1 ? newDay : '0' + newDay;
-          setNewAppointment(newdate);
-          setNewDisplayTime(`${newdate.toISOString().substr(0, 10)} ${
-            response.data.duration.startTime
-          } - ${response.data.duration.endTime} ${
-            response.data.duration.isMorning ? 'AM' : 'PM'
-          } 
-        `);
+          debugger;
+          if (response.data.appointmentResp) {
+            let newdate = new Date(response.data.appointmentResp.date);
+            let newYear = newdate.getFullYear();
+            let newMonth = (1 + newdate.getMonth()).toString();
+            newMonth = newMonth.length > 1 ? newMonth : '0' + newMonth;
+            let newDay = newdate.getDate().toString();
+            newDay = newDay.length > 1 ? newDay : '0' + newDay;
+            setNewAppointment(newdate);
+            setNewDisplayTime(`${newdate.toISOString().substr(0, 10)} ${
+              response.data.duration.startTime
+            } - ${response.data.duration.endTime} ${
+              response.data.duration.isMorning ? 'AM' : 'PM'
+            } 
+          `);
+          } else {
+            setRescheduleNotAllowedMessage(response.data.message);
+          }
         })
         .catch((error) => {
           console.log('error' + error);
@@ -474,7 +484,9 @@ function RescheduleAppointment(props) {
         {newAppointment ? (
           <MDBAlert color="success">Changed To - {newDisplayTime}</MDBAlert>
         ) : null}
-
+        {rescheduleNotAllowedMessage ? (
+          <MDBAlert color="danger">{rescheduleNotAllowedMessage}</MDBAlert>
+        ) : null}
         <MDBRow key={key}>
           <MDBCol md="6">
             <h3>Date</h3>
