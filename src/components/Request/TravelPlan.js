@@ -183,7 +183,7 @@ const TravelPlan = forwardRef((props, ref) => {
       <MDBCardBody>
         {props.respnseGet === true ? (
           props.isSucces === true ? (
-            <MDBAlert color="success">{props.resMessage}</MDBAlert>
+            null
           ) : (
             <MDBAlert color="danger">{props.resMessage}</MDBAlert>
           )
@@ -203,7 +203,7 @@ const TravelPlan = forwardRef((props, ref) => {
                   >
                     <option>Select passport page</option>
                     {passportTypeList.map((passportType) => (
-                      <option value={passportType.id}>
+                      <option value={passportType.id} selected={passportType.id ===Number.parseInt(travelPlan.pageQuantity, 10)}>
                         {passportType.passportPage}
                       </option>
                     ))}
@@ -211,9 +211,9 @@ const TravelPlan = forwardRef((props, ref) => {
                 </div>
                 <span style={{ color: 'red' }}>
                   {' '}
-                  {notCompleted.pageQuantity == true &&
+                  {notCompleted.pageQuantity === true &&
                   travelPlan.dataSaved == true
-                    ? 'Page quantity ' + isRequired
+                    ? 'Passport page ' + isRequired
                     : null}
                 </span>{' '}
               </MDBCol>

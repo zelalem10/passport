@@ -64,16 +64,16 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     props.Next();
   };
   const handleNext = () => {
-    if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
-      childRef.current.saveData();
-      const isVilid = childRef.current.Validate();
-      if (isVilid == true) {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      }
-    } else {
+    // if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
+    //   childRef.current.saveData();
+    //   const isVilid = childRef.current.Validate();
+    //   if (isVilid == true) {
+    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    //   }
+    // } else {
       childRef.current.saveData();
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    }
+    //}
   };
 
   const handleBack = () => {
@@ -97,9 +97,10 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
       let appointment=counter.appointmentDate[counter.appointmentDate.length - 1]
       let siteInfo=counter.siteInformation[counter.siteInformation.length - 1]
       let serviceInfo=counter.service[counter.service.length - 1]
-      debugger;
+      let replacementReason=counter.replacment[counter.replacment.length -1]
+      const requestInfo = counter.request[counter.request.length-1];
       const requestBody = {
-        requestId: 0,
+        requestId: requestInfo ? Number.parseInt(requestInfo.requestId):0,
         requestMode: serviceInfo && serviceInfo.isUrgent === true ? 1 : 0,
         officeId: siteInfo ? Number.parseInt(siteInfo.offceId, 10) : 0,
         deliverySiteId: siteInfo
@@ -160,7 +161,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             birthCertificateId: personalInfo? personalInfo.birthCertificatNo: null,
             phoneNumber: personalInfo? personalInfo.phoneNumber: null,
             email: personalInfo? personalInfo.email: null,
-            requestReason:0,
+            requestReason:replacementReason? Number.parseInt(replacementReason.reasonForReplacment):0,
             address: {
               personId: 0,
               addressId: 0,

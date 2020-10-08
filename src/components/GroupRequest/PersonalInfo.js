@@ -178,28 +178,32 @@ const PersonalInfo = forwardRef((props, ref) => {
             email: prevInfo ? prevInfo.email : "",
             martialStatus: prevInfo ? prevInfo.martialStatus : "",
         }))
-        API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/Nationality/GetAll', config)
-            .then((todo) => {
-                setNationalityList(todo.data.nationalitys);
-                if(prevInfo && Number.parseInt( prevInfo.nationalityId, 10)===0)
-                {
-                    setPersonalInfo((prevState) => ({
-                        ...prevState,
-                        nationalityId: todo.data.nationalitys.filter((nationality)=>nationality.code=="ET")[0]?todo.data.nationalitys.filter((nationality)=>nationality.code=="ET")[0].id:0,
-                    }))
-                }
-            })
-            .catch((err) => {
-                console.log('AXIOS ERROR: ', err.response);
-            });
-        API.get(
-            'https://epassportservices.azurewebsites.net/Master/api/V1.0/Occupation/GetAll', config)
-            .then((todo) => {
-                setOccupationList(todo.data.occupations);
-            })
-            .catch((err) => {
-                console.log('AXIOS ERROR: ', err.response);
-            });
+        setNationalityList(JSON.parse(localStorage.nationalitys))
+        if (nationalityList.length === 0) {
+            API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/Nationality/GetAll', config)
+                .then((todo) => {
+                    setNationalityList(todo.data.nationalitys);
+                    if (prevInfo && Number.parseInt(prevInfo.nationalityId, 10) === 0) {
+                        setPersonalInfo((prevState) => ({
+                            ...prevState,
+                            nationalityId: todo.data.nationalitys.filter((nationality) => nationality.code == "ET")[0] ? todo.data.nationalitys.filter((nationality) => nationality.code == "ET")[0].id : 0,
+                        }))
+                    }
+                })
+                .catch((err) => {
+                    console.log('AXIOS ERROR: ', err.response);
+                });
+        }
+        setOccupationList(JSON.parse(localStorage.occupations))
+        if (occupationList.length === 0) {
+            API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/Occupation/GetAll', config)
+                .then((todo) => {
+                    setOccupationList(todo.data.occupations);
+                })
+                .catch((err) => {
+                    console.log('AXIOS ERROR: ', err.response);
+                });
+        }
     }, []);
     return (
         <MDBContainer>

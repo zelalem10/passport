@@ -133,7 +133,7 @@ const Address = forwardRef((props, ref) => {
                                 <select className="browser-default custom-select" name="region" onChange={handleChange}>
                                     <option>Select region</option>
                                     {regionList.map((region) => (
-                                        <option value={region.name} selected={prevInfo && (region.name===prevInfo.region)}>{region.name}</option>
+                                        <option value={region.name} selected={prevInfo !=null && (region.name===prevInfo.region)}>{region.name}</option>
                                     ))}
                                 </select>
                             </div>

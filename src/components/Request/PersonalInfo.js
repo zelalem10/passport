@@ -200,39 +200,42 @@ const PersonalInfo = forwardRef((props, ref) => {
       email: prevInfo ? prevInfo.email : '',
       martialStatus: prevInfo ? prevInfo.martialStatus : '',
     }));
-
-    API.get(
-      'https://epassportservices.azurewebsites.net/Master/api/V1.0/Nationality/GetAll',
-      config
-    )
-      .then((todo) => {
-        setNationalityList(todo.data.nationalitys);
-        if (prevInfo && Number.parseInt(prevInfo.nationalityId, 10) === 0) {
-          setPersonalInfo((prevState) => ({
-            ...prevState,
-            nationalityId: todo.data.nationalitys.filter(
-              (nationality) => nationality.code == 'ET'
-            )[0]
-              ? todo.data.nationalitys.filter(
+    setNationalityList(JSON.parse(localStorage.nationalitys))
+    if (nationalityList.length === 0) {
+      API.get(
+        'https://epassportservices.azurewebsites.net/Master/api/V1.0/Nationality/GetAll',
+        config
+      )
+        .then((todo) => {
+          setNationalityList(todo.data.nationalitys);
+          if (prevInfo && Number.parseInt(prevInfo.nationalityId, 10) === 0) {
+            setPersonalInfo((prevState) => ({
+              ...prevState,
+              nationalityId: todo.data.nationalitys.filter(
+                (nationality) => nationality.code == 'ET'
+              )[0]
+                ? todo.data.nationalitys.filter(
                   (nationality) => nationality.code == 'ET'
                 )[0].id
-              : 0,
-          }));
-        }
-      })
-      .catch((err) => {
-        console.log('AXIOS ERROR: ', err.response);
-      });
-    API.get(
-      'https://epassportservices.azurewebsites.net/Master/api/V1.0/Occupation/GetAll',
-      config
-    )
-      .then((todo) => {
-        setOccupationList(todo.data.occupations);
-      })
-      .catch((err) => {
-        console.log('AXIOS ERROR: ', err.response);
-      });
+                : 0,
+            }));
+          }
+        })
+        .catch((err) => {
+          console.log('AXIOS ERROR: ', err.response);
+        });
+    }
+
+    setOccupationList(JSON.parse(localStorage.occupations))
+    if (occupationList.length === 0) {
+      API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/Occupation/GetAll', config)
+        .then((todo) => {
+          setOccupationList(todo.data.occupations);
+        })
+        .catch((err) => {
+          console.log('AXIOS ERROR: ', err.response);
+        });
+    }
   }, []);
   return (
     <MDBContainer>
@@ -252,7 +255,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.firstName == true &&
-                  personalInfo.dataSaved == true
+                    personalInfo.dataSaved == true
                     ? 'First name ' + isRequired
                     : null}
                 </span>
@@ -268,7 +271,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.middleName == true &&
-                  personalInfo.dataSaved == true
+                    personalInfo.dataSaved == true
                     ? 'Middle name ' + isRequired
                     : null}
                 </span>
@@ -284,7 +287,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.lastName == true &&
-                  personalInfo.dataSaved == true
+                    personalInfo.dataSaved == true
                     ? 'Last name ' + isRequired
                     : null}
                 </span>
@@ -306,7 +309,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.birthDate == true &&
-                  personalInfo.dataSaved == true
+                    personalInfo.dataSaved == true
                     ? 'Birth date ' + isRequired
                     : null}
                 </span>
@@ -325,7 +328,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.geezFirstName == true &&
-                  personalInfo.dataSaved == true
+                    personalInfo.dataSaved == true
                     ? 'የአመልካቹ ስም አስፈላጊ ነው'
                     : null}
                 </span>
@@ -341,7 +344,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.geezMiddleName == true &&
-                  personalInfo.dataSaved == true
+                    personalInfo.dataSaved == true
                     ? 'የአባት ስም አስፈላጊ ነው'
                     : null}
                 </span>
@@ -357,7 +360,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.geezLastName == true &&
-                  personalInfo.dataSaved == true
+                    personalInfo.dataSaved == true
                     ? 'የአያት ስም አስፈላጊ ነው'
                     : null}
                 </span>
@@ -378,7 +381,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                         value={nationality.id}
                         selected={
                           prevInfo &&
-                          Number.parseInt(prevInfo.nationalityId, 10) ===
+                            Number.parseInt(prevInfo.nationalityId, 10) ===
                             nationality.id
                             ? true
                             : nationality.code === 'ET'
@@ -392,7 +395,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.nationalityId == true &&
-                  personalInfo.dataSaved == true
+                    personalInfo.dataSaved == true
                     ? 'Nationality ' + isRequired
                     : null}
                 </span>
@@ -412,7 +415,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.phoneNumber == true &&
-                  personalInfo.dataSaved == true
+                    personalInfo.dataSaved == true
                     ? 'Phone Number ' + isRequired
                     : null}
                 </span>
@@ -429,15 +432,15 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.email === true &&
-                  personalInfo.dataSaved === true
+                    personalInfo.dataSaved === true
                     ? 'Email ' + isRequired
                     : null}
                 </span>
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.email === false &&
-                  isEmail(personalInfo.email) === false &&
-                  personalInfo.dataSaved == true
+                    isEmail(personalInfo.email) === false &&
+                    personalInfo.dataSaved == true
                     ? 'Please insert the correct email formatt'
                     : null}
                 </span>
@@ -490,7 +493,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                   <span style={{ color: 'red' }}>
                     {' '}
                     {notCompleted.occupationId == true &&
-                    personalInfo.dataSaved == true
+                      personalInfo.dataSaved == true
                       ? 'Occupation ' + isRequired
                       : null}
                   </span>
@@ -570,7 +573,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                   <span style={{ color: 'red' }}>
                     {' '}
                     {notCompleted.gender == true &&
-                    personalInfo.dataSaved == true
+                      personalInfo.dataSaved == true
                       ? 'Gender ' + isRequired
                       : null}
                   </span>
@@ -614,7 +617,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                   <span style={{ color: 'red' }}>
                     {' '}
                     {notCompleted.martialStatus == true &&
-                    personalInfo.dataSaved == true
+                      personalInfo.dataSaved == true
                       ? 'Martial status ' + isRequired
                       : null}
                   </span>

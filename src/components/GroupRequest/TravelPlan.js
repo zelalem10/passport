@@ -242,7 +242,7 @@ import React, {
                     >
                       <option>select page quantity</option>
                       {passportTypeList.map((passportType) => (
-                        <option value={passportType.id}>
+                        <option value={passportType.id} selected={passportType.id ===Number.parseInt(travelPlan.pageQuantity, 10)}>
                           {passportType.passportPage}
                         </option>
                       ))}

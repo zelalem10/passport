@@ -89,6 +89,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
       const travelPlanLength = counter.travelPlan.filter(item => item.applicantNumber == props.applicantNumber).length;
       const travelPlan = counter.travelPlan.filter(item => item.applicantNumber == props.applicantNumber)[travelPlanLength - 1]
       const appointment=counter.appointmentDate[counter.appointmentDate.length - 1]
+      let replacementReason=counter.replacment[counter.replacment.length -1]
       const familyLength = counter.familyReducer.filter(function (items) {
       for (let item in items) {
         if (items[item].applicantNumber == props.applicantNumber) {
@@ -153,7 +154,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
               birthCertificateId: personalInfo? personalInfo.birthCertificatNo: null,
               phoneNumber: personalInfo? personalInfo.phoneNumber: null,
               email: personalInfo? personalInfo.email: null,
-              requestReason:0,
+              requestReason:replacementReason? Number.parseInt(replacementReason.reasonForReplacment):0,
               address: {
                 personId: 0,
                 addressId: 0,
@@ -235,7 +236,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             birthCertificateId: personalInfo? personalInfo.birthCertificatNo: null,
             phoneNumber: personalInfo? personalInfo.phoneNumber: null,
             email: personalInfo? personalInfo.email: null,
-            requestReason:0,
+            requestReason:replacementReason? Number.parseInt(replacementReason.reasonForReplacment):0,
             address: {
               personId: 0,
               addressId: 0,

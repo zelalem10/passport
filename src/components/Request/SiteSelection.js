@@ -157,14 +157,16 @@ const SiteSelection = forwardRef((props, ref) => {
   }));
 
   useEffect(() => {
-    API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
-      .then((todo) => {
-        setRegionList(todo.data.countryRegions);
-      })
-      .catch((err) => {
-        console.log('AXIOS ERROR: ', err.response);
-      });
-
+    setRegionList(JSON.parse(localStorage.countryRegions))
+    if (regionList.length === 0) {
+      API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
+        .then((todo) => {
+          setRegionList(todo.data.countryRegions);
+        })
+        .catch((err) => {
+          console.log('AXIOS ERROR: ', err.response);
+        });
+    }
   }, []);
   return (
     <MDBCard style={{ marginBottom: "1rem" }}>
