@@ -89,19 +89,21 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     const isVilid = childRef.current.Validate();
     if (isVilid != true) {
       //setResponseMessage("Ple")
-    }
-     else {
-      let personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
+    } else {
+      let personalInfo =
+        counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
       let addressInfo = counter.address[counter.address.length - 1];
       let familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
       //let travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
-      let appointment=counter.appointmentDate[counter.appointmentDate.length - 1]
-      let siteInfo=counter.siteInformation[counter.siteInformation.length - 1]
-      let serviceInfo=counter.service[counter.service.length - 1]
-      let replacementReason=counter.replacment[counter.replacment.length -1]
-      const requestInfo = counter.request[counter.request.length-1];
+      let appointment =
+        counter.appointmentDate[counter.appointmentDate.length - 1];
+      let siteInfo =
+        counter.siteInformation[counter.siteInformation.length - 1];
+      let serviceInfo = counter.service[counter.service.length - 1];
+      let replacementReason = counter.replacment[counter.replacment.length - 1];
+      const requestInfo = counter.request[counter.request.length - 1];
       const requestBody = {
-        requestId: requestInfo ? Number.parseInt(requestInfo.requestId):0,
+        requestId: requestInfo ? Number.parseInt(requestInfo.requestId) : 0,
         requestMode: serviceInfo && serviceInfo.isUrgent === true ? 1 : 0,
         officeId: siteInfo ? Number.parseInt(siteInfo.offceId, 10) : 0,
         deliverySiteId: siteInfo
@@ -156,13 +158,25 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             expireDate: new Date(),
             passportType: travelPlan ? travelPlan.passportType : null,
             isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
-            passportPageId: travelPlan ? Number.parseInt(travelPlan.pageQuantity, 10): 0,
-            correctionType: travelPlan ? (travelPlan.correctionReason && travelPlan.correctionReason!="")?Number.parseInt(travelPlan.correctionReason, 10):0: 0,
-            maritalStatus: personalInfo ? Number.parseInt(personalInfo.martialStatus, 10): 0,
-            birthCertificateId: personalInfo? personalInfo.birthCertificatNo: null,
-            phoneNumber: personalInfo? personalInfo.phoneNumber: null,
-            email: personalInfo? personalInfo.email: null,
-            requestReason:replacementReason? Number.parseInt(replacementReason.reasonForReplacment):0,
+            passportPageId: travelPlan
+              ? Number.parseInt(travelPlan.pageQuantity, 10)
+              : 0,
+            correctionType: travelPlan
+              ? travelPlan.correctionReason && travelPlan.correctionReason != ''
+                ? Number.parseInt(travelPlan.correctionReason, 10)
+                : 0
+              : 0,
+            maritalStatus: personalInfo
+              ? Number.parseInt(personalInfo.martialStatus, 10)
+              : 0,
+            birthCertificateId: personalInfo
+              ? personalInfo.birthCertificatNo
+              : null,
+            phoneNumber: personalInfo ? personalInfo.phoneNumber : null,
+            email: personalInfo ? personalInfo.email : null,
+            requestReason: replacementReason
+              ? Number.parseInt(replacementReason.reasonForReplacment)
+              : 0,
             address: {
               personId: 0,
               addressId: 0,
@@ -181,6 +195,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           },
         ],
       };
+      debugger;
       API.post(
         'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest',
         requestBody,

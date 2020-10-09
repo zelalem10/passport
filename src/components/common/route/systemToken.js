@@ -114,6 +114,24 @@ function SystemToken() {
         debugger;
         console.log('error' + error);
       });
+
+      axios({
+        headers: { Authorization: 'Bearer ' + accesstoken },
+        method: 'get',
+        url:
+          'https://epassportservices.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAllMasterData',
+      })
+        .then((response) => {
+          console.log(response.data)
+          localStorage.setItem('MasterData',JSON.stringify(response.data));
+  
+          //console.log(response)
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  
+  
   }, []);
 
   return <div></div>;
