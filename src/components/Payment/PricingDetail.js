@@ -17,7 +17,7 @@ const PricingDetail = () => {
     const [isOppened, setIsOppened] = useState(false);
     const [totalPriceList, setTotalPriceList] = useState([]);
     const [individualPrice, setIndividualPrice] = useState([]);
-    const [totalPrice, setTotalPrice] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(4);
     const counter = useSelector((state) => state);
     const dispatch = useDispatch();
 
