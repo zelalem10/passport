@@ -73,13 +73,13 @@ let requests=data.request[data.request.length - 1];
 if(requests && !displayedApplication){
   setDisplayedApplication(requests);
 }
- 
+let attachementResponse =  data.attachement[data.attachement.length - 1];
 
-  let requestPersonId;
-  let attachmentlength;
-  const [attachment, setattachment] = useState([]);
 
-  let atachmentsample = [];
+  let attachmentlength =attachementResponse? attachementResponse.length:0;
+
+  console.log(attachementResponse)
+  console.log(attachmentlength)
 
   const confirmInformation = (e) => {
     setFormCompleted(e.target.checked);
@@ -132,27 +132,6 @@ if(requests && !displayedApplication){
         const personalInformation = displayedApplication.personResponses;
         const addressInformation = personalInformation.address;
         const familyInformation = personalInformation.familyResponses;
-        requestPersonId = personalInformation.requestPersonId;
-
-        axios({
-          headers: { Authorization: 'Bearer ' + accesstoken },
-          method: 'get',
-          url:
-            'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
-          params: { personRequestId: requestPersonId },
-        })
-          .then((Response) => {
-            attachmentlength = Response.data.attachments.length;
-
-            for (let i = 0; i < attachmentlength; i++) {
-              atachmentsample.push(Response.data.attachments[i]);
-            }
-            setattachment(atachmentsample);
-            console.log(attachment);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
 
         const handleChange = (panel) => (event, newExpanded) => {
           setExpanded(newExpanded ? panel : false);
@@ -555,13 +534,16 @@ if(requests && !displayedApplication){
                       </b>
                     </div>
                   </fieldset>
+                  
                   <fieldset>
                     <ul class="list-group mb-3">
                       <li class="list-group-item ePassprt-color">
                         <h5>Attachment Information</h5>
                       </li>
-                      {attachment.length ? (
-                        attachment.map((attachmentitem) => (
+                      {
+                      attachementResponse? 
+                      attachementResponse.length &&  (
+                        attachementResponse.map((attachmentitem) => (
                           <li class="list-group-item d-flex justify-content-between">
                             <span>{attachmentitem.attachmentType} </span>
                             <strong>
@@ -571,8 +553,13 @@ if(requests && !displayedApplication){
                             </strong>
                           </li>
                         ))
-                      ) : (
-                        <h6>Please wait...</h6>
+                     
+                        ) : (
+                          <h6 class="my-3">
+                          <div class="alert alert-danger" role="alert">
+                          You Don't Have Attachment Information
+                          </div>
+                        </h6>
                       )}
                     </ul>
                   </fieldset>
