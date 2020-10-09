@@ -67,7 +67,7 @@ const MyApp = forwardRef((props, ref) => {
   }
   let selectDays = new Date(state.date);
   let estimatedDays = selectDays.setDate(selectDays.getDate() + durationLength);
-  let estimatedDate = new Date(estimatedDays);
+
   const handleIsUrgent = () => {
     setShowAvailableTimeSlots(false);
     setTimeSlots([]);
@@ -273,214 +273,217 @@ const MyApp = forwardRef((props, ref) => {
     toggleClass(e);
   };
   useEffect(() => {
-    axios({
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
-      method: 'get',
-      url: baseUrl + '/Master/api/V1.0/AdvancedRestriction/GetAll',
-    })
-      .then(async (response) => {
-        advancedRestrictionData = siteInfo
-          ? response.data.advancedRestrictions.filter(
-              (advanceRestriction) =>
-                advanceRestriction.officeId == parseInt(siteInfo.offceId)
-            )[0]
-          : response.data.advancedRestrictions[0];
-        advancedRestrictionData = advancedRestrictionData
-          ? advancedRestrictionData
-          : response.data.advancedRestrictions[0];
-        setResponse(advancedRestrictionData);
-        const headers = {
-          'Content-Type': 'application/json',
+    if (officeInformation.hasOwnProperty('offceId')) {
+      axios({
+        headers: {
           Authorization: 'Bearer ' + token,
-        };
-        if (isUrgentAppointment) {
-          axios({
-            headers: headers,
-            method: 'post',
-            url:
-              baseUrl +
-              '/Schedule/api/V1.0/Schedule/GetUrgentAvailableDateAndTimes',
-            data: {
-              startDate: new Date(
-                new Date().setTime(
-                  new Date().getTime() +
-                    advancedRestrictionData.minDays * 86400000
-                )
-              ),
-              endDate: new Date(
-                new Date().setTime(
-                  new Date().getTime() +
-                    advancedRestrictionData.maxDays * 86400000
-                )
-              ),
-              requestTypeId: data.appointemntType,
-              officeId: parseInt(siteInfo.offceId),
-              noOfApplicants: 1,
-            },
-          })
-            .then((responses) => {
-              setavailableDateAndQota(responses.data.availableDateAndTimes);
-              for (
-                let i = 0;
-                i < responses.data.availableDateAndTimes.length;
-                i++
-              ) {
-                availabletIMES.push(responses.data.availableDateAndTimes[i]);
-                let dateAV = new Date(
-                  responses.data.availableDateAndTimes[i].date
-                );
-                let formatedavDate =
-                  dateAV.getFullYear() +
-                  ',' +
-                  (dateAV.getMonth() + 1) +
-                  ',' +
-                  dateAV.getDate();
-                availableDates.push(new Date(formatedavDate).toString());
-              }
-              setAvailableTimes(availabletIMES);
-
-              let startDate = new Date(
-                new Date().setTime(
-                  new Date().getTime() +
-                    advancedRestrictionData.minDays * 86400000
-                )
-              );
-              let formatedDate =
-                startDate.getFullYear() +
-                ',' +
-                (startDate.getMonth() + 1) +
-                ',' +
-                startDate.getDate();
-
-              setAvailableDates(availableDates);
-
-              let currentDate = new Date(formatedDate);
-              let stopDate = new Date(
-                new Date().setTime(
-                  new Date().getTime() +
-                    advancedRestrictionData.maxDays * 86400000
-                )
-              );
-              while (currentDate <= stopDate) {
-                for (let i = 0; i < availableDates.length; i++) {
-                  let formatedCurrentDateString = currentDate.toString();
-                  if (
-                    availableDates.indexOf(
-                      new Date(formatedCurrentDateString).toString()
-                    ) === -1
-                  ) {
-                    disabledDates.push(new Date(currentDate));
-                  }
-                }
-                setDisabledDate(disabledDates);
-                currentDate = new Date(
-                  new Date().setTime(currentDate.getTime() + 1 * 86400000)
-                );
-              }
-              if (responses.data.availableDateAndTimes.length > 0) {
-                setKey(Math.random());
-              }
-            })
-            .catch((error) => {
-              console.log('error' + error);
-            });
-        } else {
-          axios({
-            headers: headers,
-            method: 'post',
-            url:
-              baseUrl + '/Schedule/api/V1.0/Schedule/GetAvailableDateAndTimes',
-            data: {
-              startDate: new Date(
-                new Date().setTime(
-                  new Date().getTime() +
-                    advancedRestrictionData.minDays * 86400000
-                )
-              ),
-              endDate: new Date(
-                new Date().setTime(
-                  new Date().getTime() +
-                    advancedRestrictionData.maxDays * 86400000
-                )
-              ),
-              requestTypeId: data.appointemntType,
-              officeId: parseInt(siteInfo.offceId),
-              noOfApplicants: parseInt(data.numberOfApplicants),
-            },
-          })
-            .then((responses) => {
-              console.log(responses.data.availableDateAndTimes);
-              for (
-                let i = 0;
-                i < responses.data.availableDateAndTimes.length;
-                i++
-              ) {
-                availabletIMES.push(responses.data.availableDateAndTimes[i]);
-                let dateAV = new Date(
-                  responses.data.availableDateAndTimes[i].date
-                );
-                let formatedavDate =
-                  dateAV.getFullYear() +
-                  ',' +
-                  (dateAV.getMonth() + 1) +
-                  ',' +
-                  dateAV.getDate();
-                availableDates.push(new Date(formatedavDate).toString());
-              }
-              setAvailableTimes(availabletIMES);
-
-              let startDate = new Date(
-                new Date().setTime(
-                  new Date().getTime() +
-                    advancedRestrictionData.minDays * 86400000
-                )
-              );
-              let formatedDate =
-                startDate.getFullYear() +
-                ',' +
-                (startDate.getMonth() + 1) +
-                ',' +
-                startDate.getDate();
-
-              setAvailableDates(availableDates);
-
-              let currentDate = new Date(formatedDate);
-              let stopDate = new Date(
-                new Date().setTime(
-                  new Date().getTime() +
-                    advancedRestrictionData.maxDays * 86400000
-                )
-              );
-              while (currentDate <= stopDate) {
-                for (let i = 0; i < availableDates.length; i++) {
-                  let formatedCurrentDateString = currentDate.toString();
-                  if (
-                    availableDates.indexOf(
-                      new Date(formatedCurrentDateString).toString()
-                    ) === -1
-                  ) {
-                    disabledDates.push(new Date(currentDate));
-                  }
-                }
-                setDisabledDate(disabledDates);
-                currentDate = new Date(
-                  new Date().setTime(currentDate.getTime() + 1 * 86400000)
-                );
-              }
-              if (responses.data.availableDateAndTimes.length > 0) {
-                setKey(Math.random());
-              }
-            })
-            .catch((error) => {
-              console.log('error' + error);
-            });
-        }
+        },
+        method: 'get',
+        url: baseUrl + '/Master/api/V1.0/AdvancedRestriction/GetAll',
       })
-      .catch((error) => {
-        console.log('error' + error);
-      });
+        .then(async (response) => {
+          advancedRestrictionData = siteInfo
+            ? response.data.advancedRestrictions.filter(
+                (advanceRestriction) =>
+                  advanceRestriction.officeId == parseInt(siteInfo.offceId)
+              )[0]
+            : response.data.advancedRestrictions[0];
+          advancedRestrictionData = advancedRestrictionData
+            ? advancedRestrictionData
+            : response.data.advancedRestrictions[0];
+          setResponse(advancedRestrictionData);
+          const headers = {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          };
+          if (isUrgentAppointment) {
+            axios({
+              headers: headers,
+              method: 'post',
+              url:
+                baseUrl +
+                '/Schedule/api/V1.0/Schedule/GetUrgentAvailableDateAndTimes',
+              data: {
+                startDate: new Date(
+                  new Date().setTime(
+                    new Date().getTime() +
+                      advancedRestrictionData.minDays * 86400000
+                  )
+                ),
+                endDate: new Date(
+                  new Date().setTime(
+                    new Date().getTime() +
+                      advancedRestrictionData.maxDays * 86400000
+                  )
+                ),
+                requestTypeId: data.appointemntType,
+                officeId: parseInt(siteInfo.offceId),
+                noOfApplicants: 1,
+              },
+            })
+              .then((responses) => {
+                setavailableDateAndQota(responses.data.availableDateAndTimes);
+                for (
+                  let i = 0;
+                  i < responses.data.availableDateAndTimes.length;
+                  i++
+                ) {
+                  availabletIMES.push(responses.data.availableDateAndTimes[i]);
+                  let dateAV = new Date(
+                    responses.data.availableDateAndTimes[i].date
+                  );
+                  let formatedavDate =
+                    dateAV.getFullYear() +
+                    ',' +
+                    (dateAV.getMonth() + 1) +
+                    ',' +
+                    dateAV.getDate();
+                  availableDates.push(new Date(formatedavDate).toString());
+                }
+                setAvailableTimes(availabletIMES);
+
+                let startDate = new Date(
+                  new Date().setTime(
+                    new Date().getTime() +
+                      advancedRestrictionData.minDays * 86400000
+                  )
+                );
+                let formatedDate =
+                  startDate.getFullYear() +
+                  ',' +
+                  (startDate.getMonth() + 1) +
+                  ',' +
+                  startDate.getDate();
+
+                setAvailableDates(availableDates);
+
+                let currentDate = new Date(formatedDate);
+                let stopDate = new Date(
+                  new Date().setTime(
+                    new Date().getTime() +
+                      advancedRestrictionData.maxDays * 86400000
+                  )
+                );
+                while (currentDate <= stopDate) {
+                  for (let i = 0; i < availableDates.length; i++) {
+                    let formatedCurrentDateString = currentDate.toString();
+                    if (
+                      availableDates.indexOf(
+                        new Date(formatedCurrentDateString).toString()
+                      ) === -1
+                    ) {
+                      disabledDates.push(new Date(currentDate));
+                    }
+                  }
+                  setDisabledDate(disabledDates);
+                  currentDate = new Date(
+                    new Date().setTime(currentDate.getTime() + 1 * 86400000)
+                  );
+                }
+                if (responses.data.availableDateAndTimes.length > 0) {
+                  setKey(Math.random());
+                }
+              })
+              .catch((error) => {
+                console.log('error' + error);
+              });
+          } else {
+            axios({
+              headers: headers,
+              method: 'post',
+              url:
+                baseUrl +
+                '/Schedule/api/V1.0/Schedule/GetAvailableDateAndTimes',
+              data: {
+                startDate: new Date(
+                  new Date().setTime(
+                    new Date().getTime() +
+                      advancedRestrictionData.minDays * 86400000
+                  )
+                ),
+                endDate: new Date(
+                  new Date().setTime(
+                    new Date().getTime() +
+                      advancedRestrictionData.maxDays * 86400000
+                  )
+                ),
+                requestTypeId: data.appointemntType,
+                officeId: parseInt(siteInfo.offceId),
+                noOfApplicants: parseInt(data.numberOfApplicants),
+              },
+            })
+              .then((responses) => {
+                console.log(responses.data.availableDateAndTimes);
+                for (
+                  let i = 0;
+                  i < responses.data.availableDateAndTimes.length;
+                  i++
+                ) {
+                  availabletIMES.push(responses.data.availableDateAndTimes[i]);
+                  let dateAV = new Date(
+                    responses.data.availableDateAndTimes[i].date
+                  );
+                  let formatedavDate =
+                    dateAV.getFullYear() +
+                    ',' +
+                    (dateAV.getMonth() + 1) +
+                    ',' +
+                    dateAV.getDate();
+                  availableDates.push(new Date(formatedavDate).toString());
+                }
+                setAvailableTimes(availabletIMES);
+
+                let startDate = new Date(
+                  new Date().setTime(
+                    new Date().getTime() +
+                      advancedRestrictionData.minDays * 86400000
+                  )
+                );
+                let formatedDate =
+                  startDate.getFullYear() +
+                  ',' +
+                  (startDate.getMonth() + 1) +
+                  ',' +
+                  startDate.getDate();
+
+                setAvailableDates(availableDates);
+
+                let currentDate = new Date(formatedDate);
+                let stopDate = new Date(
+                  new Date().setTime(
+                    new Date().getTime() +
+                      advancedRestrictionData.maxDays * 86400000
+                  )
+                );
+                while (currentDate <= stopDate) {
+                  for (let i = 0; i < availableDates.length; i++) {
+                    let formatedCurrentDateString = currentDate.toString();
+                    if (
+                      availableDates.indexOf(
+                        new Date(formatedCurrentDateString).toString()
+                      ) === -1
+                    ) {
+                      disabledDates.push(new Date(currentDate));
+                    }
+                  }
+                  setDisabledDate(disabledDates);
+                  currentDate = new Date(
+                    new Date().setTime(currentDate.getTime() + 1 * 86400000)
+                  );
+                }
+                if (responses.data.availableDateAndTimes.length > 0) {
+                  setKey(Math.random());
+                }
+              })
+              .catch((error) => {
+                console.log('error' + error);
+              });
+          }
+        })
+        .catch((error) => {
+          console.log('error' + error);
+        });
+    }
   }, [isUrgentAppointment, officeInformation]);
   const onChange = (date) => {
     setState({ ...state, date: date });

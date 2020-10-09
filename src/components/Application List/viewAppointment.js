@@ -59,7 +59,6 @@ export default function ViewAppointment(props) {
   const appList = data.applicationList[data.applicationList.length - 1];
   let displayedApplication = {};
   const getOccupation = (id) => {
-    debugger;
     let occupations = JSON.parse(localStorage.occupations);
     for (let index = 0; index < occupations.length; index++) {
       if (occupations[index].id == id) {
@@ -92,10 +91,8 @@ export default function ViewAppointment(props) {
     }
   };
 
-  const { displayRequestId } = props;
-  const backToList = () => {
-    window.location.href = '/#/Application-List';
-  };
+  const { displayRequestId, backToList } = props;
+
   for (let item in appList) {
     if (appList[item].requestId == displayRequestId) {
       displayedApplication = appList[item];

@@ -61,9 +61,39 @@ const PaymentSelection = forwardRef((props, ref) => {
   const config = {
     headers: { Authorization: 'Bearer ' + accesstoken },
   };
+  const priceDetail = data.priceInfo[data.priceInfo.length - 1];
   const handleProcced = () => {
     if (formCompleted && optionSelected) {
-      setProcced(true);
+      debugger;
+      const body = {
+        firstName: personalInformation.firstName,
+        lastName: personalInformation.middleName,
+        email: personalInformation.email,
+        phone: personalInformation.phoneNumber,
+        amount: priceDetail ? priceDetail.totalAmount : 0,
+        currency: 'ETB',
+        city: 'Addis Ababa',
+        country: 'Ethiopia',
+        channel: 'Amole',
+        paymentOptionsId: selectedOption,
+        traceNumbers: '',
+        Status: 4,
+        OrderId: '',
+        otp: '',
+        requestId: displayedApplication.requestId,
+      };
+      API.post(
+        'https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest',
+        body,
+        config
+      )
+        .then((resopnse) => {
+          dispatch(addPaymentOptionId(resopnse.data));
+          setProcced(true);
+        })
+        .catch((err) => {
+          setErrorMessage(err.response.data.message);
+        });
     } else if (!formCompleted && optionSelected) {
       setErrorMessage('Please check this box if you want to proceed');
     } else if (formCompleted && !optionSelected) {
@@ -97,12 +127,7 @@ const PaymentSelection = forwardRef((props, ref) => {
   };
 
   if (formCompleted && optionSelected && procced) {
-    return (
-      <InstructionPage
-        personalInformation={personalInformation}
-        requestId={displayedApplication.requestId}
-      />
-    );
+    return <InstructionPage />;
   } else {
     return (
       <MDBContainer className="passport-container payment-container" fluid>
@@ -150,33 +175,7 @@ const PaymentSelection = forwardRef((props, ref) => {
                 <strong>Pricing Information</strong>
               </span>
             </h4>
-            {/*<ul class="list-group mb-3">
-              <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <div>
-                  <h6 class="my-0">Request type</h6>
-                </div>
-                <span class="text-muted">{displayedApplication.type}</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <div>
-                  <h6 class="my-0">Request Mode</h6>
-                </div>
-                <span class="text-muted">Urgent</span>
-              </li>
 
-              <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <div>
-                  <h6 class="my-0">Page quantity</h6>
-                </div>
-                <span class="text-muted">
-                  {personalInformation.passportRes.pageQuantity}
-                </span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between">
-                <span>Total Price (ETB)</span>
-                <strong>600</strong>
-              </li>
-            </ul> */}
             <BasicTable
               handlePaymentId={handlePaymentId}
               firstName={personalInformation.firstName}

@@ -35,6 +35,7 @@ function ApplicationList() {
   const [displayRequestId, setDisplayRequestId] = useState('');
   const [cancelRequestId, setCancelRequestId] = useState('');
   const [isEdit, setIsEdit] = useState(false);
+  const [relodList, setRelodList] = useState(false);
 
   const [numOfApplicants, setNumOfApplicants] = useState(0);
   const [handleDisplayId, sethandleDisplayId] = useState('');
@@ -87,8 +88,13 @@ function ApplicationList() {
       .catch((err) => {
         setloading(false);
       });
-  }, [isCancelSchedule]);
-
+  }, [relodList]);
+  //back to appointment list
+  const backToList = () => {
+    setDisplayRequestId('');
+    setIsEdit(false);
+    setRelodList(!relodList);
+  };
   //payment for urgent
   const handlePayment = (id) => {
     setHandlePaymentId(id);
@@ -142,10 +148,17 @@ function ApplicationList() {
     return (
       <HorizontalLabelPositionBelowStepper
         displayRequestId={displayRequestId}
+        backToList={backToList}
+      />
+    );
+  } else if (displayRequestId) {
+    return (
+      <ViewAppointment
+        displayRequestId={displayRequestId}
+        backToList={backToList}
       />
     );
   }
-  return <ViewAppointment displayRequestId={displayRequestId} />;
 }
 
 export default ApplicationList;

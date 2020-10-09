@@ -111,8 +111,7 @@ export default function ListOfApplications(props) {
                                     {user.requestStatus}
                                   </div>{' '}
                                 </div>
-                                {user.requestStatus == 'UrgentRequested' &&
-                                user.requestStatus == 'UrgentRequested' ? (
+                                {user.requestStatus == 'UrgentApproved' ? (
                                   <a
                                     className="hoverWhite"
                                     onClick={() =>
@@ -159,7 +158,9 @@ export default function ListOfApplications(props) {
                                 </a>
                                 {user.requestStatus == 'PaymentCompleted' &&
                                 addDays(user.currentDate) <
-                                  new Date(user.appointmentResponse.date) ? (
+                                  (user.appointmentResponse
+                                    ? new Date(user.appointmentResponse.date)
+                                    : new Date()) ? (
                                   <a
                                     className="hoverWhite"
                                     onClick={() =>
