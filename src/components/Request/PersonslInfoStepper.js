@@ -84,6 +84,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     setActiveStep(0);
   };
   const handleSubmit = () => {
+    debugger;
     const travelPlan= childRef.current.saveData();
     const isVilid = childRef.current.Validate();
     if (isVilid != true) {

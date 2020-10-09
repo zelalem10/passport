@@ -16,6 +16,7 @@ import { de, fi } from 'date-fns/locale';
 import ViewGroupAppointment from './GroupSummary';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+
 const Accordion = withStyles({
   root: {
     border: '1px solid rgba(0, 0, 0, .125)',
@@ -68,467 +69,466 @@ const ViewAppointment = forwardRef((props, ref) => {
   const serviceData = data.service[data.service.length - 1];
   const requestMode = serviceData.isUrgent;
 
-  let displayedApplication = data.request;
-  if (displayedApplication.length === 1) {
-    let requestPersonId;
-    let attachmentlength;
-    const [attachment, setattachment] = useState([]);
+  let displayedApplication = data.request[data.request.length - 1];
 
-    let atachmentsample = [];
+  let requestPersonId;
+  let attachmentlength;
+  const [attachment, setattachment] = useState([]);
 
-    const confirmInformation = (e) => {
-      setFormCompleted(e.target.checked);
-    };
-    useImperativeHandle(ref, () => ({
-      saveData() {
-        setDataSaved(true);
-        if (formCompleted && requestMode) {
-          history.push('/Confirmation');
-        }
-      },
-      isCompleted() {
-        return formCompleted;
-      },
-    }));
-    const getOccupation = (id) => {
-      let occupations = JSON.parse(localStorage.occupations);
-      for (let index = 0; index < occupations.length; index++) {
-        if (occupations[index].id == id) {
-          return occupations[index].title;
-        }
-      }
-    };
-    const getFamilyType = (id) => {
-      let FamilyTypes = JSON.parse(localStorage.familyTypesResponse);
-      for (let index = 0; index < FamilyTypes.length; index++) {
-        if (FamilyTypes[index].id == id) {
-          return FamilyTypes[index].type;
-        }
-      }
-    };
-    const getNationalitys = (id) => {
-      let Nationalitys = JSON.parse(localStorage.nationalitys);
-      for (let index = 0; index < Nationalitys.length; index++) {
-        if (Nationalitys[index].id == id) {
-          return Nationalitys[index].name;
-        }
-      }
-    };
-    const personalInfo = displayedApplication
-      ? displayedApplication.personResponses
-      : null;
-    if (personalInfo) {
-      const appointmentResponse = displayedApplication.appointmentResponse;
-      const personalInformation = displayedApplication.personResponses;
-      const addressInformation = personalInformation.address;
-      const familyInformation = personalInformation.familyResponses;
-      requestPersonId = personalInformation.requestPersonId;
+  let atachmentsample = [];
 
-      axios({
-        headers: { Authorization: 'Bearer ' + accesstoken },
-        method: 'get',
-        url:
-          'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
-        params: { personRequestId: requestPersonId },
+  const confirmInformation = (e) => {
+    setFormCompleted(e.target.checked);
+  };
+  useImperativeHandle(ref, () => ({
+    saveData() {
+      setDataSaved(true);
+      if (formCompleted && requestMode) {
+        history.push('/Confirmation');
+      }
+    },
+    isCompleted() {
+      return formCompleted;
+    },
+  }));
+  const getOccupation = (id) => {
+    let occupations = JSON.parse(localStorage.occupations);
+    for (let index = 0; index < occupations.length; index++) {
+      if (occupations[index].id == id) {
+        return occupations[index].title;
+      }
+    }
+  };
+  const getFamilyType = (id) => {
+    let FamilyTypes = JSON.parse(localStorage.familyTypesResponse);
+    for (let index = 0; index < FamilyTypes.length; index++) {
+      if (FamilyTypes[index].id == id) {
+        return FamilyTypes[index].type;
+      }
+    }
+  };
+  const getNationalitys = (id) => {
+    let Nationalitys = JSON.parse(localStorage.nationalitys);
+    for (let index = 0; index < Nationalitys.length; index++) {
+      if (Nationalitys[index].id == id) {
+        return Nationalitys[index].name;
+      }
+    }
+  };
+  const personalInfo = displayedApplication
+    ? displayedApplication.personResponses
+    : null;
+  if (personalInfo) {
+    const appointmentResponse = displayedApplication.appointmentResponse;
+    const personalInformation = displayedApplication.personResponses;
+    const addressInformation = personalInformation.address;
+    const familyInformation = personalInformation.familyResponses;
+    requestPersonId = personalInformation.requestPersonId;
+
+    axios({
+      headers: { Authorization: 'Bearer ' + accesstoken },
+      method: 'get',
+      url:
+        'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
+      params: { personRequestId: requestPersonId },
+    })
+      .then((Response) => {
+        attachmentlength = Response.data.attachments.length;
+
+        for (let i = 0; i < attachmentlength; i++) {
+          atachmentsample.push(Response.data.attachments[i]);
+        }
+        setattachment(atachmentsample)
       })
-        .then((Response) => {
-          attachmentlength = Response.data.attachments.length;
+      .catch((err) => {
+     
+      });
 
-          for (let i = 0; i < attachmentlength; i++) {
-            atachmentsample.push(Response.data.attachments[i]);
-          }
-          setattachment(atachmentsample);
-        })
-        .catch((err) => {});
+    const handleChange = (panel) => (event, newExpanded) => {
+      setExpanded(newExpanded ? panel : false);
+    };
 
-      const handleChange = (panel) => (event, newExpanded) => {
-        setExpanded(newExpanded ? panel : false);
-      };
-
-      return (
-        <MDBContainer className="passport-container pt-5" fluid>
-          <div class="div-title text-center mywizardcss pt-3 pb-3">
-            <div className="header-display">
+    return (
+      <MDBContainer className="passport-container pt-5" fluid>
+        <div class="div-title text-center mywizardcss pt-3 pb-3">
+          <div className="header-display">
+            <div class="form-group form-inline passport-display">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Request Type:
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {displayedApplication.type}
+                </label>
+              </b>
+            </div>
+            <div class="form-group form-inline passport-display">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Request Status:
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {displayedApplication.requestStatus}
+                </label>
+              </b>
+            </div>
+            <div class="form-group form-inline passport-display">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Request Date:{' '}
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {new Date(displayedApplication.requestDate)
+                    .toISOString()
+                    .substr(0, 10)}
+                </label>
+              </b>
+            </div>
+            <div class="form-group form-inline passport-display">
+              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Appointement Date:{' '}
+              </label>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <b>
+                <label class="font-weight-bold">
+                  {appointmentResponse ? appointmentResponse.date : null}
+                </label>
+              </b>
+            </div>
+            {appointmentResponse.duration ? (
               <div class="form-group form-inline passport-display">
                 <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                  Request Type:
+                  Appointement Time:{' '}
                 </label>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <b>
                   <label class="font-weight-bold">
-                    {displayedApplication.type}
+                    {appointmentResponse
+                      ? appointmentResponse.duration.startTime
+                      : null}
+                    {'-'}
+                    {appointmentResponse
+                      ? appointmentResponse.duration.endTime
+                      : null}
+                    {appointmentResponse
+                      ? appointmentResponse.duration.isMorning
+                        ? 'AM'
+                        : 'PM'
+                      : null}
                   </label>
                 </b>
               </div>
-              <div class="form-group form-inline passport-display">
-                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                  Request Status:
-                </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <b>
-                  <label class="font-weight-bold">
-                    {displayedApplication.requestStatus}
-                  </label>
-                </b>
-              </div>
-              <div class="form-group form-inline passport-display">
-                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                  Request Date:{' '}
-                </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <b>
-                  <label class="font-weight-bold">
-                    {new Date(displayedApplication.requestDate)
-                      .toISOString()
-                      .substr(0, 10)}
-                  </label>
-                </b>
-              </div>
-              <div class="form-group form-inline passport-display">
-                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                  Appointement Date:{' '}
-                </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <b>
-                  <label class="font-weight-bold">
-                    {appointmentResponse ? appointmentResponse.date : null}
-                  </label>
-                </b>
-              </div>
-              {appointmentResponse.duration ? (
-                <div class="form-group form-inline passport-display">
+            ) : null}
+          </div>
+        </div>
+        <div
+          class="wizard-display setup-content"
+          id="step-5"
+          style={{ display: 'block' }}
+        >
+          <div class="row pt-4">
+            <div class="col-md-6">
+              <fieldset>
+                <legend class="text-primary">Personal Information</legend>
+                <hr class="text-primary" />
+                <div class="form-group form-inline">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Appointement Time:{' '}
+                    First Name
                   </label>
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {appointmentResponse
-                        ? appointmentResponse.duration.startTime
-                        : null}
-                      {'-'}
-                      {appointmentResponse
-                        ? appointmentResponse.duration.endTime
-                        : null}
-                      {appointmentResponse
-                        ? appointmentResponse.duration.isMorning
-                          ? 'AM'
-                          : 'PM'
-                        : null}
+                      {personalInformation.firstName}
                     </label>
                   </b>
                 </div>
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Last Name
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {personalInformation.middleName}
+                    </label>
+                  </b>
+                </div>
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Middle Name
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {personalInformation.lastName}
+                    </label>
+                  </b>
+                </div>
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Geez First Name
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {personalInformation.geezFirstName}
+                    </label>
+                  </b>
+                </div>
+
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Geez Middle Name
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {personalInformation.geezMiddleName}
+                    </label>
+                  </b>
+                </div>
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Geez Last Name
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {personalInformation.geezLastName}
+                    </label>
+                  </b>
+                </div>
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Date of Birth
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {new Date(personalInformation.dateOfBirth)
+                        .toISOString()
+                        .substr(0, 10)}
+                    </label>
+                  </b>
+                </div>
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Gender
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {personalInformation.gender == 1 ? 'Male' : 'Female'}
+                    </label>
+                  </b>
+                </div>
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Nationality
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {getNationalitys(personalInformation.nationalityId)}
+                    </label>
+                  </b>
+                </div>
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Height
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {personalInformation.height}
+                    </label>
+                  </b>
+                </div>
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Eye Color
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {personalInformation.eyeColor}
+                    </label>
+                  </b>
+                </div>
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Hair Color
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {personalInformation.hairColor}
+                    </label>
+                  </b>
+                </div>
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Occupation
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {getOccupation(personalInformation.occupationId)}
+                    </label>
+                  </b>
+                </div>
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Half Cast
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {personalInformation.halfCast}
+                    </label>
+                  </b>
+                </div>
+
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Phone Number
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {personalInformation.phoneNumber}
+                    </label>
+                  </b>
+                </div>
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Email
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {personalInformation.email}
+                    </label>
+                  </b>
+                </div>
+              </fieldset>
+              {familyInformation.length !== 0 ? (
+                <fieldset>
+                  <legend class="text-primary">Family Information</legend>
+                  <hr class="text-primary" />
+                  {familyInformation.map((family) => (
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                        {getFamilyType(family.familtyTypeId)}
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold" id="AccommodationTyppe">
+                          {family.firstName + ' ' + family.lastName}
+                        </label>
+                      </b>
+                    </div>
+                  ))}
+                </fieldset>
               ) : null}
             </div>
-          </div>
-          <div
-            class="wizard-display setup-content"
-            id="step-5"
-            style={{ display: 'block' }}
-          >
-            <div class="row pt-4">
-              <div class="col-md-6">
-                <fieldset>
-                  <legend class="text-primary">Personal Information</legend>
-                  <hr class="text-primary" />
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      First Name
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.firstName}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Last Name
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.middleName}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Middle Name
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.lastName}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Geez First Name
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.geezFirstName}
-                      </label>
-                    </b>
-                  </div>
 
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Geez Middle Name
+            <div className="col-md-6">
+              <fieldset>
+                <legend class="text-primary">Address Information</legend>
+                <hr class="text-primary" />
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Region
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {addressInformation.region}
                     </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.geezMiddleName}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Geez Last Name
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.geezLastName}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Date of Birth
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {new Date(personalInformation.dateOfBirth)
-                          .toISOString()
-                          .substr(0, 10)}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Gender
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.gender == 1 ? 'Male' : 'Female'}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Nationality
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {getNationalitys(personalInformation.nationalityId)}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Height
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.height}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Eye Color
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.eyeColor}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Hair Color
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.hairColor}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Occupation
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {getOccupation(personalInformation.occupationId)}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Half Cast
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.halfCast}
-                      </label>
-                    </b>
-                  </div>
+                  </b>
+                </div>
 
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Phone Number
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    City
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {addressInformation.city}
                     </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.phoneNumber}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Email
+                  </b>
+                </div>
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    State
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {addressInformation.state}
                     </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.email}
-                      </label>
-                    </b>
-                  </div>
-                </fieldset>
-                {familyInformation.length !== 0 ? (
-                  <fieldset>
-                    <legend class="text-primary">Family Information</legend>
-                    <hr class="text-primary" />
-                    {familyInformation.map((family) => (
-                      <div class="form-group form-inline">
-                        <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                          {getFamilyType(family.familtyTypeId)}
-                        </label>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <b>
-                          <label
-                            class="font-weight-bold"
-                            id="AccommodationTyppe"
-                          >
-                            {family.firstName + ' ' + family.lastName}
-                          </label>
-                        </b>
-                      </div>
-                    ))}
-                  </fieldset>
-                ) : null}
-              </div>
-
-              <div className="col-md-6">
-                <fieldset>
-                  <legend class="text-primary">Address Information</legend>
-                  <hr class="text-primary" />
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Region
+                  </b>
+                </div>
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Zone
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {addressInformation.zone}
                     </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {addressInformation.region}
-                      </label>
-                    </b>
-                  </div>
-
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      City
+                  </b>
+                </div>
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Wereda
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {addressInformation.wereda}
                     </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {addressInformation.city}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      State
+                  </b>
+                </div>
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Street
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {addressInformation.street}
                     </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {addressInformation.state}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Zone
+                  </b>
+                </div>
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    HouseNo
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {addressInformation.houseNo}
                     </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {addressInformation.zone}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Wereda
+                  </b>
+                </div>
+                <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    PoBox
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {addressInformation.poBox}
                     </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {addressInformation.wereda}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Street
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {addressInformation.street}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      HouseNo
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {addressInformation.houseNo}
-                      </label>
-                    </b>
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      PoBox
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {addressInformation.poBox}
-                      </label>
-                    </b>
-                  </div>
+                  </b>
+                </div>
 
                 <div class="form-group form-inline">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">

@@ -11,6 +11,7 @@ import { MDBCol, MDBRow, MDBBadge } from 'mdbreact';
 
 const Fileupload = forwardRef((props, ref) => {
   const accesstoken = localStorage.systemToken;
+  debugger;
   const formData = new FormData();
   let requestPersonId = useSelector((state) => state.commonData[0].requestPersonId);
   const [files, setfiles] = useState([]);
@@ -51,7 +52,7 @@ const Fileupload = forwardRef((props, ref) => {
     })
       .then((response) => {
         console.log(response)
-        
+        debugger;
         let requiredAttachements = response.data.requiredAttachements.length;
         setrequiredFile(requiredAttachements)
         let requiredAttachementType = [];
@@ -143,6 +144,8 @@ const Fileupload = forwardRef((props, ref) => {
         console.log('error' + error.message);
         setloading(false);
         //props.showBack();
+        props.showBack();
+        props.VerticalNext();
       }
     }
   };
