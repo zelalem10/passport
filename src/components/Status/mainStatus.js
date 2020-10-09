@@ -104,6 +104,7 @@ const MainStatus = () => {
       setConfirmationNumber(ConfirmationNumber);
 
       if (ApplicationNumber) {
+        debugger;
         axios
           .get(
             `https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/GetRequestsByApplicationNumber?applicationNumber=${ApplicationNumber}`,
@@ -124,6 +125,7 @@ const MainStatus = () => {
             console.log(response.data);
           })
           .catch((error) => {
+            debugger;
             console.log('error' + error);
           });
       } else if (ConfirmationNumber) {
