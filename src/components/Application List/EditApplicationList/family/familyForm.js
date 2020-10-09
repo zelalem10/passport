@@ -19,7 +19,7 @@ function FamilyForm(props) {
     handleEditInput,
     getFamilyType,
   } = props;
-  debugger;
+   ;
 
   if (!data && addAdditionalFamily === false) {
     return (

@@ -8,7 +8,7 @@ function Form() {
     let [responseData,setResponseData]=useState({});
     const [idFromButtonClick,setIdFromButtonClick]=useState('');
 	const handleSubmit =(e) => {
-        debugger;
+         ;
    // e.preventDefault();
     setIdFromButtonClick(id)
   

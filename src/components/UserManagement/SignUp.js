@@ -41,7 +41,7 @@ class SignUp extends Component {
 
   // ReCAPTCHA verify
   verifyCaptcha = (res) => {
-    debugger;
+     ;
     console.log('Captcha loaded.')
     if (res) {
       this.setState({ human: true, humanKey: res })
@@ -56,7 +56,7 @@ class SignUp extends Component {
 
   //validate form
   validate = () => {
-    debugger;
+     ;
     let firstNameError = '';
     let MiddleNameError = '';
     let lastNameError = '';

@@ -55,11 +55,11 @@ const MainStatus = () => {
   const [goToPayment, setGoToPayment] = useState(false);
 
   const handleDisplay = (id) => {
-    debugger;
+     ;
     setDisplayRequestId(id);
   };
   const handleEdit = (id, numberOfApplicants) => {
-    debugger;
+     ;
     if (numberOfApplicants === 1) {
       setIsGroup(false);
     } else {
@@ -74,7 +74,7 @@ const MainStatus = () => {
   };
   //validate form
   const validate = () => {
-    debugger;
+     ;
 
     if (!ApplicationNumber && !ConfirmationNumber) {
       AllError = 'Please fill at least one field.';
@@ -95,7 +95,7 @@ const MainStatus = () => {
   };
 
   const handleSubmit = (e) => {
-    debugger;
+     ;
     e.preventDefault();
     setloading(true);
     const isValid = validate();
@@ -110,7 +110,7 @@ const MainStatus = () => {
             config
           )
           .then((response) => {
-            debugger;
+             ;
             setApplicationNumberData(response.data.serviceRequest);
             setAllError('');
             if (response.data.status !== 0) {
@@ -133,7 +133,7 @@ const MainStatus = () => {
             config
           )
           .then((response) => {
-            debugger;
+             ;
             setConfirmationNumberData(response.data.serviceResponseList);
             setAllError('');
             if (response.data.status !== 0) {
@@ -147,7 +147,7 @@ const MainStatus = () => {
             console.log(response.data);
           })
           .catch((error) => {
-            debugger;
+             ;
             console.log('error' + error);
           });
       }
