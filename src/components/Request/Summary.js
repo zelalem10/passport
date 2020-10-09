@@ -65,11 +65,15 @@ const ViewAppointment = forwardRef((props, ref) => {
   const [formCompleted, setFormCompleted] = useState(false);
   const [dataSaved, setDataSaved] = useState(false);
   const data = useSelector((state) => state);
+  const [displayedApplication,setDisplayedApplication]=useState();
 
   const serviceData = data.service[data.service.length - 1];
   const requestMode = serviceData.isUrgent;
-
-  let displayedApplication = data.request[data.request.length - 1];
+let requests=data.request[data.request.length - 1];
+if(requests && !displayedApplication){
+  setDisplayedApplication(requests);
+}
+ 
 
   let requestPersonId;
   let attachmentlength;
@@ -116,8 +120,10 @@ const ViewAppointment = forwardRef((props, ref) => {
       }
     }
   };
-  if (displayedApplication ? displayedApplication.length === 0 : false) {
-    if (displayedApplication.length === 1) {
+  
+  if (displayedApplication) {
+    
+    if(displayedApplication.hasOwnProperty('personResponses')) {
       const personalInfo = displayedApplication
         ? displayedApplication.personResponses
         : null;
