@@ -557,7 +557,11 @@ const ViewAppointment = forwardRef((props, ref) => {
                       </li>
                     ))
                   ) : (
-                    <h6>Please wait...</h6>
+                    <h6 class="my-3">
+                    <div class="alert alert-danger" role="alert">
+                    You Don't Have Attachment Information
+                    </div>
+                  </h6>
                   )}
                 </ul>
               </fieldset>

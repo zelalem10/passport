@@ -143,19 +143,19 @@ const PaymentSelection = forwardRef((props, ref) => {
   const priceDetal= counter.priceInfo[counter.priceInfo.length - 1];
   let requestId = 52;//requestInfo ? requestInfo.requestId : 0;
     const body = {
-      FirstName: "Zelalem",
-      LastName: "Belayneh",
-      Email: "Zelalem@gmail.com",
-      Phone: "+251944772455",
-      Amount: priceDetal?priceDetal.totalAmount:0,
-      Currency: "ETB",
-      City: "Addis Ababa",
-      Country: "ET",
-      Channel: "Mobile",
-      PaymentOptionsId: selectedOption,
-      username: "ETHIOUSER",
-      password: "123456",
-      requestId: requestId,
+      FirstName : "Zelalem",
+      LastName:"Zelalem",
+      Email:"Zelalem@gmail.com",
+      Phone:"+251944772496",
+      Amount:600,
+      Currency:"ETB",
+      City:"Addis Ababa",
+      Country:"ET",
+      Channel:"Mobile",
+      PaymentOptionsId:2,
+      username : "ETHIOUSER",
+      password : "123456",
+      requestId: 50
     };
     API.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
       .then((resopnse) => {

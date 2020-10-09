@@ -3,59 +3,20 @@ import {
   MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardHeader, MDBCardFooter
   , MDBContainer, MDBRow, MDBCol
 } from "mdbreact";
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from 'react-bootstrap';
-import API from '../../Utils/API';
+
 
 
 function InstructionPage() {
-  const [priceInfo, setprceInfo] = useState("");
-  const [requestSubmited, setRequestSubmited] = useState(false);
-  const [instructions, setInstructions] = useState([]);
-  const [message, setMessage] = useState("");
-  const [flowType, setFlowType] = useState(0);
-  const [status, setStatus] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
+  let paymentInformation = useSelector((state) => state.paymentOption[1]);
+  let personRequestdata = useSelector((state) => state.request[state.request.length - 1]);
 
-  const dispatch = useDispatch();
-  const counter = useSelector((state) => state);
-  const accesstoken = localStorage.systemToken;
-  const config = {
-    headers: { Authorization: "Bearer " + accesstoken }
-  };
-  // const selectedOption = counter.paymentOption[counter.paymentOption.length - 1]
-  // const requestInfo = counter.request[counter.request.length - 1];
-  // const priceDetal= counter.priceInfo[counter.priceInfo.length - 1];
-  // let requestId = 52;//requestInfo ? requestInfo.requestId : 0;
-  //   const body = {
-  //     FirstName: "Zelalem",
-  //     LastName: "Belayneh",
-  //     Email: "Zelalem@gmail.com",
-  //     Phone: "+251944772455",
-  //     Amount: priceDetal?priceDetal.totalAmount:0,
-  //     Currency: "ETB",
-  //     City: "Addis Ababa",
-  //     Country: "ET",
-  //     Channel: "Mobile",
-  //     PaymentOptionsId: selectedOption ? selectedOption.optionId : 0,
-  //     username: "ETHIOUSER",
-  //     password: "123456",
-  //     requestId: requestId,
-  //   };
-  //   API.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
-  //     .then((resopnse) => {
-  //       setprceInfo(resopnse.data)
-  //       setStatus(resopnse.data.status)
-  //       setInstructions(resopnse.data.instractions)
-  //       setFlowType(resopnse.data.paymentFlowType)
-  //       setMessage(resopnse.data.message)
-  //       setRequestSubmited(true)
-  //     })
-  //     .catch((err) => {
-  //       console.log("AXIOS ERROR: ", err.response);
-  //     })
+  const personalInformation = personRequestdata
+  ? personRequestdata.personResponses
+  : null;
 
+  console.log(personalInformation)
   return (
     <>
       <div id="share-section" class="bg-light text-muted py-5">
@@ -67,8 +28,8 @@ function InstructionPage() {
                 Thank you for making this request. Please visit the website to follow the status.
               </div>
               <h5 class="font-weight-bold u-center-text m3-5">Please follow step below to process payment</h5>
-              {instructions.length
-                ? instructions.map((instruction) => (
+              {paymentInformation? paymentInformation.instractions.length
+                ? paymentInformation.instractions.map((instruction) => (
                   <div class="d-flex">
 
                     <div class="p-3 align-self-start">
@@ -79,7 +40,7 @@ function InstructionPage() {
                     </div>
                   </div>
                 ))
-                : null}
+                : null  :null}
 
               <p class="">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi distinctio iusto, perspiciatis mollitia natus harum?
@@ -97,20 +58,43 @@ function InstructionPage() {
 
 
             <div class="col-md-4 order-md-2 mb-4 mt-5">
+                <ul class="list-group mb-3">
+                    <li class="list-group-item ePassprt-color"><h5>Personal Information</h5></li>
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                      <div>
+                        <h6 class="my-0">First Name</h6>
+                      </div><span class="text-muted"> 
+                      {personalInformation? personalInformation.firstName : null}
+                      </span></li>
+                    <li class="list-group-item d-flex justify-content-between lh-condensed"><div><h6 class="my-0">Last Name</h6>
+                    </div>
+                      <span class="text-muted"> {personalInformation? personalInformation.lastName : null}</span></li>
 
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span>Phone Number</span>
+                      <strong>{personalInformation? personalInformation.phoneNumber:null}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span>Application Number</span>
+                      <strong>{personalInformation? personalInformation.applicationNumber:null}</strong>
+                    </li>
+                 
+                  </ul>
               <ul class="list-group mb-3">
                 <li class="list-group-item ePassprt-color"><h5>Pricing Information</h5></li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                   <div>
                     <h6 class="my-0">Selected Payment Option</h6>
-                  </div><span class="text-muted"> CBE</span></li>
+                  </div><span class="text-muted"> 
+                  {/* CBE */}
+                  </span></li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed"><div><h6 class="my-0">Order code</h6>
                 </div>
-                  <span class="text-muted">{priceInfo.orderId}</span></li>
+                  <span class="text-muted">{paymentInformation? paymentInformation.orderId:null}</span></li>
 
                 <li class="list-group-item d-flex justify-content-between">
                   <span>Amount</span>
-                  <strong>{priceInfo.amount}</strong>
+                  <strong>{paymentInformation? paymentInformation.amount:null}</strong>
                 </li>
               </ul>
             </div>

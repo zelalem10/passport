@@ -64,21 +64,19 @@ const NavbarPage = (props) => {
 
   const authLinks = (
     <div>
-      <div class="loyalty-bar__menu-left user-information">
-        <span class="d-none d-lg-inline-block">Welcome,</span>{' '}
-        <strong class="font-medium user mr-5">
-          {firstName} {lastName}
-        </strong>
-        <span class="d-none d-lg-inline-block">
-          <ul className="navbar-nav ml-auto">
-            <li className="nav-item">
-              <a className="nav-link" href="#" onClick={logout}>
-                <i class="fas fa-sign-out-alt"></i> <strong>Log out</strong>
-              </a>
-            </li>
-          </ul>
-        </span>
-      </div>
+      <ul className="navbar-nav ml-auto">
+        <li className="nav-item ml-auto">
+          <a className="nav-link" href="#">
+            <strong class='mr-md-3'> Welcome,   {firstName} {lastName}</strong>
+          </a>
+
+        </li>
+        <li className="nav-item ml-auto">
+          <a className="nav-link" href="#" onClick={logout}>
+            <i class="fas fa-sign-out-alt"></i> <strong>Log out</strong>
+          </a>
+        </li>
+      </ul>
     </div>
   );
 
