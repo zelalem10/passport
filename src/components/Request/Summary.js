@@ -530,75 +530,78 @@ const ViewAppointment = forwardRef((props, ref) => {
                     </b>
                   </div>
 
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Request Place
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {addressInformation.requestPlace}
+                  <div class="form-group form-inline">
+                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Request Place
                     </label>
-                  </b>
-                </div>
-              </fieldset>
-              <fieldset>
-                <ul class="list-group mb-3">
-                  <li class="list-group-item ePassprt-color">
-                    <h5>Attachment Information</h5>
-                  </li>
-                  {attachment.length ? (
-                    attachment.map((attachmentitem) => (
-                      <li class="list-group-item d-flex justify-content-between">
-                        <span>{attachmentitem.attachmentType} </span>
-                        <strong>
-                          <a href={attachmentitem.attachmentPath}>View File</a>
-                        </strong>
-                      </li>
-                    ))
-                  ) : (
-                    <h6 class="my-3">
-                    <div class="alert alert-danger" role="alert">
-                    You Don't Have Attachment Information
-                    </div>
-                  </h6>
-                  )}
-                </ul>
-              </fieldset>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>
+                      <label class="font-weight-bold">
+                        {addressInformation.requestPlace}
+                      </label>
+                    </b>
+                  </div>
+                </fieldset>
+                <fieldset>
+                  <ul class="list-group mb-3">
+                    <li class="list-group-item ePassprt-color">
+                      <h5>Attachment Information</h5>
+                    </li>
+                    {attachment.length ? (
+                      attachment.map((attachmentitem) => (
+                        <li class="list-group-item d-flex justify-content-between">
+                          <span>{attachmentitem.attachmentType} </span>
+                          <strong>
+                            <a href={attachmentitem.attachmentPath}>
+                              View File
+                            </a>
+                          </strong>
+                        </li>
+                      ))
+                    ) : (
+                      <h6 class="my-3">
+                        <div class="alert alert-danger" role="alert">
+                          You Don't Have Attachment Information
+                        </div>
+                      </h6>
+                    )}
+                  </ul>
+                </fieldset>
+              </div>
             </div>
           </div>
-        </div>
-        <MDBTypography blockquote bqColor="primary">
-          <MDBBox tag="p" mb={0} className="bq-title">
-            Please review your application details.
-          </MDBBox>
-          <p>
-            Please make sure these details exactly match the identity document.
-          </p>
-          <div class="custom-control custom-checkbox">
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              id="defaultUnchecked"
-              onClick={(e) => confirmInformation(e)}
-            />
-            <label class="custom-control-label" for="defaultUnchecked">
-              Confirm Applicant Details
-            </label>
-          </div>
-          {formCompleted === false && dataSaved === true ? (
-            <div className="text-monospace">
-              <p className="check-agree">
-                Please check this box if you want to proceed
-              </p>
+          <MDBTypography blockquote bqColor="primary">
+            <MDBBox tag="p" mb={0} className="bq-title">
+              Please review your application details.
+            </MDBBox>
+            <p>
+              Please make sure these details exactly match the identity
+              document.
+            </p>
+            <div class="custom-control custom-checkbox">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="defaultUnchecked"
+                onClick={(e) => confirmInformation(e)}
+              />
+              <label class="custom-control-label" for="defaultUnchecked">
+                Confirm Applicant Details
+              </label>
             </div>
-          ) : null}
-        </MDBTypography>
-      </MDBContainer>
-    );
-  }
-   else {
-    return <div>Before request made</div>;
+            {formCompleted === false && dataSaved === true ? (
+              <div className="text-monospace">
+                <p className="check-agree">
+                  Please check this box if you want to proceed
+                </p>
+              </div>
+            ) : null}
+          </MDBTypography>
+        </MDBContainer>
+      );
+    } else {
+      return <div>Before request made</div>;
+    }
   }
 });
 
