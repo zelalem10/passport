@@ -72,24 +72,24 @@ const ViewAppointment = forwardRef((props, ref) => {
   if (displayedApplication.length === 1) {
     let requestPersonId;
     let attachmentlength;
-    const [attachment, setattachment] = useState([]);
+//    const [attachment, setattachment] = useState([]);
 
     let atachmentsample = [];
 
     const confirmInformation = (e) => {
       setFormCompleted(e.target.checked);
     };
-    useImperativeHandle(ref, () => ({
-      saveData() {
-        setDataSaved(true);
-        if (formCompleted && requestMode) {
-          history.push('/Confirmation');
-        }
-      },
-      isCompleted() {
-        return formCompleted;
-      },
-    }));
+    // useImperativeHandle(ref, () => ({
+    //   saveData() {
+    //     setDataSaved(true);
+    //     if (formCompleted && requestMode) {
+    //       history.push('/Confirmation');
+    //     }
+    //   },
+    //   isCompleted() {
+    //     return formCompleted;
+    //   },
+    // }));
     const getOccupation = (id) => {
       let occupations = JSON.parse(localStorage.occupations);
       for (let index = 0; index < occupations.length; index++) {
@@ -137,7 +137,7 @@ const ViewAppointment = forwardRef((props, ref) => {
           for (let i = 0; i < attachmentlength; i++) {
             atachmentsample.push(Response.data.attachments[i]);
           }
-          setattachment(atachmentsample);
+         // setattachment(atachmentsample);
         })
         .catch((err) => {});
 
@@ -547,7 +547,7 @@ const ViewAppointment = forwardRef((props, ref) => {
                   <li class="list-group-item ePassprt-color">
                     <h5>Attachment Information</h5>
                   </li>
-                  {attachment.length ? (
+                  {/* {attachment.length ? (
                     attachment.map((attachmentitem) => (
                       <li class="list-group-item d-flex justify-content-between">
                         <span>{attachmentitem.attachmentType} </span>
@@ -562,7 +562,7 @@ const ViewAppointment = forwardRef((props, ref) => {
                     You Don't Have Attachment Information
                     </div>
                   </h6>
-                  )}
+                  )} */}
                 </ul>
               </fieldset>
             </div>
@@ -600,6 +600,6 @@ const ViewAppointment = forwardRef((props, ref) => {
    else {
     return <div>Before request made</div>;
   }
-});
+}});
 
 export default ViewAppointment;

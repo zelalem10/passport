@@ -50,6 +50,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [responseMessage, setResponseMessage] = useState('');
+  const [response, setResponse] = useState({});
 
   const steps = getSteps();
   const dispatch = useDispatch();
@@ -64,7 +65,6 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     props.Next();
   };
   const handleNext = () => {
-    debugger;
     childRef.current.saveData();
     if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
       const isVilid = childRef.current.Validate();
@@ -84,6 +84,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     setActiveStep(0);
   };
   const handleSubmit = () => {
+    debugger;
     const travelPlan= childRef.current.saveData();
     const isVilid = childRef.current.Validate();
     if (isVilid != true) {
@@ -193,11 +194,12 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             requestPersonId:
               todo.data.serviceResponseList[0].personResponses.requestPersonId,
           };
-          dispatch(newRequest(todo.data.serviceResponseList[0]));
           dispatch(addCommonData(commonData));
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
+          dispatch(newRequest(todo.data.serviceResponseList[0]))
         })
         .catch((err) => {
+          debugger;
           console.log('Body: ', requestBody);
           console.log('AXIOS ERROR: ', err.response);
           if (err.response != null) setResponseMessage(err.response.data.title);
