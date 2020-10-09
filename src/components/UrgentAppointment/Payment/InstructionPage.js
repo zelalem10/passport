@@ -88,7 +88,7 @@ function InstructionPage(props) {
                   <div>
                     <h6 class="my-0">Order code</h6>
                   </div>
-                  <span class="text-muted">{priceInfo.orderId}</span>
+                  <span class="text-muted">{paymentInformation.orderId}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                   <div>
