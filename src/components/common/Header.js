@@ -1,4 +1,15 @@
-import React, { Component } from 'react';
+import React, {
+  Component,
+  useState,
+  useEffect,
+  useContext,
+  Fragment,
+} from 'react';
+import {
+  logout,
+  authentication,
+} from '../../redux/actions/authenticationAction';
+
 import {
   MDBNavbar,
   MDBNavbarNav,
@@ -8,99 +19,181 @@ import {
   MDBCollapse,
   MDBCol,
   MDBNav,
+  MDBContainer,
 } from 'mdbreact';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-class NavbarPage extends Component {
-  state = {
-    isOpen: false,
+const NavbarPage = (props) => {
+  const navPath = props.location.pathname;
+  const [navOpen, toggleOpen] = useState(false);
+
+  const closeNav = () => {
+    toggleOpen(false);
   };
 
-  toggleCollapse = () => {
-    this.setState({ isOpen: !this.state.isOpen });
-  };
-  style = {
+  let history = useHistory();
+
+  function logout(e) {
+    e.preventDefault();
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('personalDetail');
+    localStorage.removeItem('userId');
+    history.push('/signIn');
+  }
+
+  let style = {
     color: 'black',
     'font-weight': '400',
   };
-  render() {
-    return (
-      <>
-        <MDBNavbar>
+  let token = localStorage.userToken;
+  let firstName;
+  let middelName;
+  let lastName;
+
+  const checkToken = useSelector((state) => state.userData);
+  if (localStorage.logedInUsedData) {
+    var retrievpersonalDetail = localStorage.getItem('logedInUsedData');
+
+    let personalDetail = JSON.parse(retrievpersonalDetail);
+    firstName = personalDetail.firstName;
+    lastName = personalDetail.lastName;
+  }
+
+  const authLinks = (
+    <div>
+      <ul className="navbar-nav ml-auto">
+        <li className="nav-item ml-auto">
+          <a className="nav-link" href="#">
+            <strong class='mr-md-3'> Welcome,   {firstName} {lastName}</strong>
+          </a>
+
+        </li>
+        <li className="nav-item ml-auto">
+          <a className="nav-link" href="#" onClick={logout}>
+            <i class="fas fa-sign-out-alt"></i> <strong>Log out</strong>
+          </a>
+        </li>
+      </ul>
+    </div>
+  );
+
+  const guestLinks = (
+    <ul className="navbar-nav ml-auto">
+      <li className="nav-item">
+        <Link className="nav-link" to="/SignUp">
+          Register
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link className="nav-link " to="/SignIn">
+          Log In
+        </Link>
+      </li>
+    </ul>
+  );
+  return (
+    <Fragment>
+      <MDBNavbar className="headerOne">
+        <MDBContainer className="passport-container" fluid>
           <MDBNavbarNav left>
-            <MDBCol md="4">
+            <Link to="/">
               <img
-                src="https://www.ethiopianairlines.com/images/default-source/default-album/icons/et-logo.png"
-                className="img-fluid"
-                alt=""
+                src={require('../../images/default-source/shared/INVEA-logo.png')}
+                className="img-fluid logo-img w-100"
+                alt="Ethiopian ePassport logo"
               />
-            </MDBCol>
+            </Link>
           </MDBNavbarNav>
           <MDBNav right>
-            <MDBNavItem>
-              <MDBNavLink style={this.style} to="#!">
+            <MDBNavItem className="d-none d-md-block">
+              <a
+                style={style}
+                href="https://www.evisa.gov.et"
+                className="text-dark mr-4"
+              >
                 E-visa
-              </MDBNavLink>
+              </a>
             </MDBNavItem>
-            <MDBNavItem>
-              <MDBNavLink
-                style={this.style}
-                to="https://www.ethiopianairlines.com"
+            <MDBNavItem className="d-none d-md-block">
+              <a
+                style={style}
+                href="https://www.ethiopianairlines.com"
+                className="text-dark mr-4"
               >
-                Ethioian Airlines
-              </MDBNavLink>
+                Ethiopian airlines
+              </a>
             </MDBNavItem>
-            <MDBNavItem>
-              <MDBNavLink
-                style={this.style}
-                to="https://www.ethiopianskylighthotel.com"
+            <MDBNavItem className="d-none d-md-block">
+              <a
+                style={style}
+                href="https://www.ethiopianskylighthotel.com"
+                className="text-dark mr-2"
               >
-                Ethioian Skylight Hotel
-              </MDBNavLink>
+                Ethiopian Skylight Hotel
+              </a>
             </MDBNavItem>
           </MDBNav>
-        </MDBNavbar>
-        <MDBNavbar className="headerNav" color="indigo" dark expand="md">
-          <MDBNavbarToggler onClick={this.toggleCollapse} />
-          <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
-            <MDBNavbarNav left>
-              <MDBNavItem active>
+        </MDBContainer>
+      </MDBNavbar>
+      <MDBNavbar className="headerTwo" dark expand="md">
+        <MDBNavbarToggler onClick={() => toggleOpen(!navOpen)} />
+        <MDBCollapse id="navbarCollapse3" isOpen={navOpen} navbar>
+          <MDBContainer className="passport-container" fluid>
+            <MDBNavbarNav className="d-flex" left>
+              {/* <MDBNavItem className={navPath == '/' ? 'active' : ''}>
                 <MDBNavLink to="/" activeClassName="active">
                   Home
                 </MDBNavLink>
-              </MDBNavItem>
-              <MDBNavItem>
+              </MDBNavItem> */}
+              <MDBNavItem
+                className={navPath == '/request-appointment' ? 'active' : ''}
+              >
                 <MDBNavLink to="/request-appointment">
-                  Request Appointment
+                  Schedule an Appointment
                 </MDBNavLink>
               </MDBNavItem>
-              <MDBNavItem>
-                <MDBNavLink to="/service">Service</MDBNavLink>
+
+              <MDBNavItem className={navPath == '/Information' ? 'active' : ''}>
+                <MDBNavLink to="/Information">Requirements</MDBNavLink>
               </MDBNavItem>
-              <MDBNavItem>
-                <MDBNavLink to="../CheckAvailablityPage">
-                  Check Availablity
-                </MDBNavLink>
+
+              {/* <MDBNavItem
+                className={navPath == '/check-status' ? 'active' : ''}
+              >
+                <MDBNavLink to="/check-status">Check Status</MDBNavLink>
+              </MDBNavItem> */}
+              <MDBNavItem className={navPath == '/Status' ? 'active' : ''}>
+                <MDBNavLink to="/Status">Status</MDBNavLink>
               </MDBNavItem>
-              <MDBNavItem>
-                <MDBNavLink to="#!">Check Status</MDBNavLink>
+
+              <MDBNavItem className={navPath == '/about' ? 'active' : ''}>
+                <MDBNavLink to="/about">About</MDBNavLink>
               </MDBNavItem>
-              <MDBNavItem>
-                <MDBNavLink to="#!">Manage Booking</MDBNavLink>
+
+              <MDBNavItem className={navPath == '/contactUs' ? 'active' : ''}>
+                <MDBNavLink to="/contactUs">Contact Us</MDBNavLink>
               </MDBNavItem>
+
+              {token && (
+                <MDBNavItem
+                  className={navPath == '/Application-List' ? 'active' : ''}
+                >
+                  <MDBNavLink to="/Application-List">
+                    Manage Application
+                  </MDBNavLink>
+                </MDBNavItem>
+              )}
             </MDBNavbarNav>
-            <MDBNavbarNav right>
-              <MDBNavItem>
-                <MDBNavLink to="#!">Register &nbsp;&nbsp;|</MDBNavLink>
-              </MDBNavItem>
-              <MDBNavItem>
-                <MDBNavLink to="#!">Login</MDBNavLink>
-              </MDBNavItem>
-            </MDBNavbarNav>
-          </MDBCollapse>
-        </MDBNavbar>
-     </>
-    );
-  }
-}
+
+            <MDBNavbarNav right>{token ? authLinks : guestLinks}</MDBNavbarNav>
+          </MDBContainer>
+        </MDBCollapse>
+      </MDBNavbar>
+    </Fragment>
+  );
+};
 
 export default NavbarPage;
