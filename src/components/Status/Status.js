@@ -150,24 +150,24 @@ function Status(props) {
                                     {ApplicationNumberData.requestStatus}
                                   </div>
                                 </div>
-                                {ApplicationNumberData.requestStatus ==
+                                {/* {ApplicationNumberData.requestStatus ==
                                   'UrgentRequested' &&
                                 ApplicationNumberData.requestStatus ==
-                                  'UrgentRequested' ? (
-                                  <a
-                                    className="hoverWhite"
-                                    onClick={() =>
-                                      handlePayment(
-                                        ApplicationNumberData.requestId
-                                      )
-                                    }
-                                  >
-                                    {' '}
-                                    <div class="float-right mr-4">
-                                      <i class="fas fa-credit-card fa-lg"></i>
-                                    </div>
-                                  </a>
-                                ) : null}
+                                  'UrgentRequested' ? ( */}
+                                <a
+                                  className="hoverWhite"
+                                  onClick={() =>
+                                    handlePayment(
+                                      ApplicationNumberData.requestId
+                                    )
+                                  }
+                                >
+                                  {' '}
+                                  <div class="float-right mr-4">
+                                    <i class="fas fa-credit-card fa-lg"></i>
+                                  </div>
+                                </a>
+                                {/* ) : null} */}
                                 {/* {ApplicationNumberData.requestStatus ==
                                   'SendforCorrection' &&
                                 ApplicationNumberData.requestStatus ==
@@ -202,26 +202,26 @@ function Status(props) {
                                     <i class="fas fa-eye fa-lg"></i>
                                   </div>
                                 </a>
-                                {ApplicationNumberData.requestStatus ==
+                                {/* {ApplicationNumberData.requestStatus ==
                                   'PaymentCompleted' &&
                                 addDays(ApplicationNumberData.currentDate) <
                                   new Date(
                                     ApplicationNumberData.appointmentResponse.date
-                                  ) ? (
-                                  <a
-                                    href="#"
-                                    onClick={() =>
-                                      handleReschedule(
-                                        ApplicationNumberData.requestId
-                                      )
-                                    }
-                                  >
-                                    {' '}
-                                    <div class="float-right mr-4">
-                                      <i class="fas fa-calendar fa-lg"></i>
-                                    </div>
-                                  </a>
-                                ) : null}
+                                  ) ? ( */}
+                                <a
+                                  href="#"
+                                  onClick={() =>
+                                    handleReschedule(
+                                      ApplicationNumberData.requestId
+                                    )
+                                  }
+                                >
+                                  {' '}
+                                  <div class="float-right mr-4">
+                                    <i class="fas fa-calendar fa-lg"></i>
+                                  </div>
+                                </a>
+                                {/* ) : null} */}
                               </div>
                             </a>
                           </div>

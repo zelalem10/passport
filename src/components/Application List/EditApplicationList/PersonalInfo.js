@@ -160,7 +160,6 @@ const PersonalInfo = forwardRef((props, ref) => {
   };
 
   const handleChange = (event) => {
-    debugger;
     const { name, value } = event.target;
     setPersonalInfo((prevState) => ({
       ...prevState,

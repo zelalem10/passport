@@ -21,7 +21,6 @@ const TravelPlan = forwardRef((props, ref) => {
   const counter = useSelector((state) => state);
   let travelInfo = [];
   if (counter.travelPlan.length === 0) {
-    debugger;
     for (let i = 0; i < applicants.length; i++) {
       travelInfo.push({
         applicantNumber: applicants[i].id,
@@ -55,7 +54,6 @@ const TravelPlan = forwardRef((props, ref) => {
   };
   let prevInfo;
   if (counter.travelPlan.length !== 0) {
-    debugger;
     const resultLength = counter.travelPlan.filter(
       (item) => item.applicantNumber == props.applicantNumber
     ).length;

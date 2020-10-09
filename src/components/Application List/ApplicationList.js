@@ -47,7 +47,6 @@ function ApplicationList() {
   let history = useHistory();
 
   const handleDisplay = (id) => {
-    debugger;
     setDisplayRequestId(id);
   };
   const handleEdit = (id) => {
@@ -102,7 +101,6 @@ function ApplicationList() {
   };
   //cancel a single schedule
   function cancelSchedule(requestId) {
-    debugger;
     axios({
       headers: { Authorization: 'Bearer ' + accesstoken },
       method: 'post',
@@ -149,6 +147,7 @@ function ApplicationList() {
       <HorizontalLabelPositionBelowStepper
         displayRequestId={displayRequestId}
         backToList={backToList}
+        status={false}
       />
     );
   } else if (displayRequestId) {
@@ -156,6 +155,7 @@ function ApplicationList() {
       <ViewAppointment
         displayRequestId={displayRequestId}
         backToList={backToList}
+        status={false}
       />
     );
   }

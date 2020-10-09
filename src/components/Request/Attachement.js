@@ -40,7 +40,6 @@ const Fileupload = forwardRef((props, ref) => {
   });
 
   useEffect(() => {
-    debugger;
     axios({
       headers: { Authorization: 'Bearer ' + accesstoken },
       method: 'get',
@@ -88,8 +87,6 @@ const Fileupload = forwardRef((props, ref) => {
   }));
 
   const validate = (files) => {
-    debugger;
-
     if (files.length < requiredFile) {
       fileError.push('You Should have to Choose all files');
     }
@@ -105,7 +102,6 @@ const Fileupload = forwardRef((props, ref) => {
 
   const submit = async (e) => {
     //props.hideBack();
-    debugger;
     e.preventDefault();
     fileError = [];
     const isValid = validate(files);

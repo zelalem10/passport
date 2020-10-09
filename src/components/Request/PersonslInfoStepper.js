@@ -64,7 +64,6 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     props.Next();
   };
   const handleNext = () => {
-    debugger;
     childRef.current.saveData();
     if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
       const isVilid = childRef.current.Validate();
@@ -194,7 +193,6 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           },
         ],
       };
-      debugger;
       API.post(
         'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest',
         requestBody,

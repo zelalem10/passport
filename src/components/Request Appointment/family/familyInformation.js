@@ -84,7 +84,6 @@ const FamilyInformation = forwardRef((props, ref) => {
     }));
   };
   const handleUserEditInput = (e) => {
-    debugger;
     const { name, value } = e.target;
     setEditdata((prevState) => ({
       ...prevState,

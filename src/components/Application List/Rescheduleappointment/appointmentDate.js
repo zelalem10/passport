@@ -8,19 +8,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import addAppointmentDate from '../../../redux/actions/addAppointmetntDate';
 
 function RescheduleAppointment(props) {
-  const { handleDisplayId } = props;
+  debugger;
+  const { handleDisplayId, status } = props;
   const counter = useSelector((state) => state);
   const appList = counter.applicationList[counter.applicationList.length - 1];
   const [isUrgentAppointment, setIsUrgentAppointment] = useState(false);
   const [availableDateAndQota, setavailableDateAndQota] = useState([]);
   let displayedApplication = {};
-  const { displayRequestId } = props;
-
-  for (let item in appList) {
-    if (appList[item].requestId == handleDisplayId) {
-      displayedApplication = appList[item];
+  if (status) {
+    displayedApplication = appList;
+  } else {
+    for (let item in appList) {
+      if (appList[item].requestId == handleDisplayId) {
+        displayedApplication = appList[item];
+      }
     }
   }
+
   let appointmentDetails = displayedApplication.appointmentResponse;
 
   let officeId = displayedApplication ? displayedApplication.officeId : null;
@@ -28,17 +32,23 @@ function RescheduleAppointment(props) {
     setIsUrgentAppointment(true);
   }
   let requestTypeId = displayedApplication.requestTypeId;
-  let dateAppointmentDetails = new Date(appointmentDetails.date);
-  let year = dateAppointmentDetails.getFullYear();
-  let month = (1 + dateAppointmentDetails.getMonth()).toString();
-  month = month.length > 1 ? month : '0' + month;
-  let day = dateAppointmentDetails.getDate().toString();
-  day = day.length > 1 ? day : '0' + day;
+  let dateAppointmentDetails = appointmentDetails
+    ? new Date(appointmentDetails.date)
+    : null;
   const [state, setState] = useState({ date: new Date(), time: '' });
+  let year = '';
+  let month = '';
+  let day = '';
+  if (dateAppointmentDetails) {
+    year = dateAppointmentDetails.getFullYear();
+    month = (1 + dateAppointmentDetails.getMonth()).toString();
+    month = month.length > 1 ? month : '0' + month;
+    day = dateAppointmentDetails.getDate().toString();
+    day = day.length > 1 ? day : '0' + day;
+  }
   const [previousAppointment, setPreviousAppointment] = useState(
     displayedApplication ? `${year} - ${month} - ${day}` : ''
   );
-
   const [respone, setResponse] = useState({});
   const [disabledDate, setDisabledDate] = useState([]);
   const [availableDatess, setAvailableDates] = useState([]);
@@ -239,7 +249,6 @@ function RescheduleAppointment(props) {
             },
           })
             .then((responses) => {
-              debugger;
               for (
                 let i = 0;
                 i < responses.data.availableDateAndTimes.length;
@@ -302,7 +311,6 @@ function RescheduleAppointment(props) {
               }
             })
             .catch((error) => {
-              debugger;
               console.log('error' + error);
             });
         }
@@ -352,11 +360,13 @@ function RescheduleAppointment(props) {
   const dateValue = state.date.toString();
   let displayTime = '';
   if (displayedApplication.requestMode == 0) {
-    displayTime = state
-      ? `${previousAppointment} ${appointmentDetails.duration.startTime} - ${
-          appointmentDetails.duration.endTime
-        } ${appointmentDetails.duration.isMorning ? 'AM' : 'PM'} 
+    displayTime = previousAppointment
+      ? state
+        ? `${previousAppointment} ${appointmentDetails.duration.startTime} - ${
+            appointmentDetails.duration.endTime
+          } ${appointmentDetails.duration.isMorning ? 'AM' : 'PM'} 
       `
+        : null
       : null;
   }
   const saveNewAppointment = () => {
@@ -402,7 +412,6 @@ function RescheduleAppointment(props) {
         },
       })
         .then((response) => {
-          debugger;
           console.log(response.data);
           dispatch(
             addAppointmentDate(response.data.urgentAppointmentResponses)
@@ -416,7 +425,6 @@ function RescheduleAppointment(props) {
           }
         })
         .catch((error) => {
-          debugger;
           if (state.date && state.time) {
             setErrorMessage(error.message);
           } else if (state.date && !state.time) {
@@ -449,7 +457,6 @@ function RescheduleAppointment(props) {
         },
       })
         .then((response) => {
-          debugger;
           if (response.data.appointmentResp) {
             let newdate = new Date(response.data.appointmentResp.date);
             let newYear = newdate.getFullYear();

@@ -109,7 +109,6 @@ const Address = forwardRef((props, ref) => {
   };
   let prevInfo;
   if (counter.address.length !== 0) {
-    debugger;
     const resultLength = counter.address.filter(
       (item) => item.applicantNumber == props.applicantNumber
     ).length;

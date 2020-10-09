@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import addApplicationList from '../../redux/actions/addApplicationLIst';
 import Status from './Status';
 import ViewAppointment from './viewAppointment';
-import HorizontalLabelPositionBelowStepper from './EditApplicationList/PersonslInfoStepper';
+import HorizontalLabelPositionBelowStepper from '../Application List/EditApplicationList/PersonslInfoStepper';
 import GroupRequestStepper from './EditApplicationList/Group/GroupNavigation';
-import RescheduleAppointment from './Rescheduleappointment/appointmentDate';
+import RescheduleAppointment from '../Application List/Rescheduleappointment/appointmentDate';
 import GetContent from '../UrgentAppointment/Payment/PaymentSelection';
 
 const Errorstyle = {
@@ -55,11 +55,9 @@ const MainStatus = () => {
   const [goToPayment, setGoToPayment] = useState(false);
 
   const handleDisplay = (id) => {
-    debugger;
     setDisplayRequestId(id);
   };
   const handleEdit = (id, numberOfApplicants) => {
-    debugger;
     if (numberOfApplicants === 1) {
       setIsGroup(false);
     } else {
@@ -74,8 +72,6 @@ const MainStatus = () => {
   };
   //validate form
   const validate = () => {
-    debugger;
-
     if (!ApplicationNumber && !ConfirmationNumber) {
       AllError = 'Please fill at least one field.';
     } else {
@@ -95,7 +91,6 @@ const MainStatus = () => {
   };
 
   const handleSubmit = (e) => {
-    debugger;
     e.preventDefault();
     setloading(true);
     const isValid = validate();
@@ -110,7 +105,6 @@ const MainStatus = () => {
             config
           )
           .then((response) => {
-            debugger;
             setApplicationNumberData(response.data.serviceRequest);
             setAllError('');
             if (response.data.status !== 0) {
@@ -133,7 +127,6 @@ const MainStatus = () => {
             config
           )
           .then((response) => {
-            debugger;
             setConfirmationNumberData(response.data.serviceResponseList);
             setAllError('');
             if (response.data.status !== 0) {
@@ -147,7 +140,6 @@ const MainStatus = () => {
             console.log(response.data);
           })
           .catch((error) => {
-            debugger;
             console.log('error' + error);
           });
       }
@@ -165,7 +157,9 @@ const MainStatus = () => {
   if (goToPayment) {
     return <GetContent handlePaymentId={handlePaymentId} />;
   } else if (handleDisplayId) {
-    return <RescheduleAppointment handleDisplayId={handleDisplayId} />;
+    return (
+      <RescheduleAppointment handleDisplayId={handleDisplayId} status={true} />
+    );
   } else if (!displayRequestId && !isEdit) {
     return (
       <Status
@@ -195,6 +189,7 @@ const MainStatus = () => {
     return (
       <HorizontalLabelPositionBelowStepper
         displayRequestId={displayRequestId}
+        status={true}
       />
     );
   } else {

@@ -17,7 +17,6 @@ import DateFnsUtils from '@date-io/date-fns';
 import axios from 'axios';
 
 const TravelPlan = forwardRef((props, ref) => {
-  debugger;
   const [validated, setValidated] = useState(false);
   const [passportPages, setPassportPages] = useState([]);
   const { passportRes, displayedApplication, personalInformation } = props;
@@ -60,7 +59,6 @@ const TravelPlan = forwardRef((props, ref) => {
       params: { personRequestId: requestPersonId },
     })
       .then((Response) => {
-        debugger;
         attachmentlength = Response.data.attachments.length;
         localStorage.setItem('attachmentlength', attachmentlength);
         for (let i = 0; i < attachmentlength; i++) {

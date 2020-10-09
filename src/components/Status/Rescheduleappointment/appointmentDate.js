@@ -235,7 +235,6 @@ function RescheduleAppointment(props) {
             },
           })
             .then((responses) => {
-              debugger;
               for (
                 let i = 0;
                 i < responses.data.availableDateAndTimes.length;
@@ -298,7 +297,6 @@ function RescheduleAppointment(props) {
               }
             })
             .catch((error) => {
-              debugger;
               console.log('error' + error);
             });
         }

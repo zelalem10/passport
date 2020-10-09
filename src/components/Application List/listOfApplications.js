@@ -183,42 +183,6 @@ export default function ListOfApplications(props) {
                                     </MDBTooltip>
                                   </a>
                                 ) : null}
-
-                                <Dialog
-                                  open={open}
-                                  onClose={handleClose}
-                                  aria-labelledby="alert-dialog-title"
-                                  aria-describedby="alert-dialog-description"
-                                >
-                                  <DialogTitle>
-                                    {
-                                      'Are you sure you want to cancel this Schedule?'
-                                    }
-                                  </DialogTitle>
-
-                                  <DialogContent>
-                                    <DialogContentText></DialogContentText>
-                                  </DialogContent>
-
-                                  <DialogActions>
-                                    <Button
-                                      onClick={() =>
-                                        cancelSchedule(cancelRequestId)
-                                      }
-                                      color="secondary"
-                                      autoFocus
-                                    >
-                                      Yes
-                                    </Button>
-
-                                    <Button
-                                      onClick={handleClose}
-                                      color="primary"
-                                    >
-                                      Cancel
-                                    </Button>
-                                  </DialogActions>
-                                </Dialog>
                               </div>
                             </a>
                           </div>

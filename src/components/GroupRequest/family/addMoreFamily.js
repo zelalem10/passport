@@ -23,7 +23,7 @@ function AddMoreFamily(props) {
                 <MDBCardBody cascade className="text-center">
                   <div className="accordion-title enabled">
                     <button
-                      onClick={() => props.deleteThisFamily(item.id,index)}
+                      onClick={() => props.deleteThisFamily(item.id, index)}
                       aria-hidden="true"
                       className="accordion__button icon icon--expand"
                     >
@@ -31,7 +31,7 @@ function AddMoreFamily(props) {
                     </button>
                     <button
                       aria-hidden="true"
-                      onClick={() => props.editThisFamily(item.id,index)}
+                      onClick={() => props.editThisFamily(item.id, index)}
                       className="accordion__button edit icon icon--expand"
                     >
                       <i class="fas fa-edit fa-lg"></i>
@@ -42,7 +42,6 @@ function AddMoreFamily(props) {
                   </MDBCardTitle>
                   <h5 className="indigo-text">
                     {familyType.map((val) => {
-                      debugger;
                       if (val.id == item.familtyTypeId) {
                         return <strong> {val.type}</strong>;
                       }

@@ -68,7 +68,6 @@ export default function ViewAppointment(props) {
   let attachmentlength;
   const [attachment, setattachment] = useState([]);
   let atachmentsample = [];
-  debugger;
   if (personalInfo) {
     const personalInformation = displayedApplication.personResponses;
     const addressInformation = personalInformation.address;
@@ -100,7 +99,6 @@ export default function ViewAppointment(props) {
       setExpanded(newExpanded ? panel : false);
     };
     const getOccupation = (id) => {
-      debugger;
       let occupations = JSON.parse(localStorage.occupations);
       for (let index = 0; index < occupations.length; index++) {
         if (occupations[index].id == id) {
@@ -471,7 +469,7 @@ export default function ViewAppointment(props) {
                   ))}
                 </fieldset>
               ) : null}
-          <fieldset>
+              <fieldset>
                 <ul class="list-group mb-3">
                   <li class="list-group-item ePassprt-color">
                     <h5>Attachment Information</h5>
@@ -488,7 +486,7 @@ export default function ViewAppointment(props) {
                   ) : (
                     <h6 class="my-3">
                       <div class="alert alert-danger" role="alert">
-                      You Don't Have Attachment Information
+                        You Don't Have Attachment Information
                       </div>
                     </h6>
                   )}

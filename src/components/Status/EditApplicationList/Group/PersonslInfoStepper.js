@@ -73,7 +73,6 @@ export default function HorizontalLabelPositionBelowStepperGroup(props) {
     setActiveStep(0);
   };
   const handleSubmit = () => {
-    debugger;
     const personalInfoLength = counter.personalInfoReducer.filter(
       (item) => item.id == props.applicantNumber
     ).length;
@@ -205,12 +204,10 @@ export default function HorizontalLabelPositionBelowStepperGroup(props) {
     )
 
       .then((todo) => {
-        debugger;
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       })
 
       .catch((err) => {
-        debugger;
         console.log('AXIOS ERROR: ', err.response);
       });
   };
