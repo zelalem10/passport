@@ -75,12 +75,6 @@ if(requests && !displayedApplication){
 }
 let attachementResponse =  data.attachement[data.attachement.length - 1];
 
-
-  let attachmentlength =attachementResponse? attachementResponse.length:0;
-
-  console.log(attachementResponse)
-  console.log(attachmentlength)
-
   const confirmInformation = (e) => {
     setFormCompleted(e.target.checked);
   };

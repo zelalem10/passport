@@ -99,10 +99,7 @@ export default function ViewAppointment(props) {
     }
   }
   const personalInformation = displayedApplication.personResponses;
-  let requestPersonId;
-  let attachmentlength;
-  const [attachment, setattachment] = useState([]);
-  let atachmentsample = [];
+
 
   if (personalInformation) {
     // if (personalInfo.length === 1) {
@@ -110,27 +107,8 @@ export default function ViewAppointment(props) {
     const addressInformation = personalInformation.address;
     const familyInformation = personalInformation.familyResponses;
 
-    requestPersonId = personalInformation.requestPersonId;
-
-    axios({
-      headers: { Authorization: 'Bearer ' + accesstoken },
-      method: 'get',
-      url:
-        'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
-      params: { personRequestId: requestPersonId },
-    })
-      .then((Response) => {
-        attachmentlength = Response.data.attachments.length;
-
-        for (let i = 0; i < attachmentlength; i++) {
-          atachmentsample.push(Response.data.attachments[i]);
-        }
-        setattachment(atachmentsample);
-        console.log(attachment);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    let attachementResponse =  personalInformation.attachmentList;
+    console.log(attachementResponse)
 
     const handleChange = (panel) => (event, newExpanded) => {
       setExpanded(newExpanded ? panel : false);
@@ -474,29 +452,34 @@ export default function ViewAppointment(props) {
                   ))}
                 </fieldset>
               ) : null}
-              <fieldset>
-                <ul class="list-group mb-3">
-                  <li class="list-group-item ePassprt-color">
-                    <h5>Attachment Information</h5>
-                  </li>
-                  {attachment.length ? (
-                    attachment.map((attachmentitem) => (
-                      <li class="list-group-item d-flex justify-content-between">
-                        <span>{attachmentitem.attachmentType} </span>
-                        <strong>
-                          <a href={attachmentitem.attachmentPath}>View File</a>
-                        </strong>
+       <fieldset>
+                    <ul class="list-group mb-3">
+                      <li class="list-group-item ePassprt-color">
+                        <h5>Attachment Information</h5>
                       </li>
-                    ))
-                  ) : (
-                    <h6 class="my-3">
-                      <div class="alert alert-danger" role="alert">
-                        You Don't Have Attachment Information
-                      </div>
-                    </h6>
-                  )}
-                </ul>
-              </fieldset>
+                      {
+                      attachementResponse? 
+                      attachementResponse.length &&  (
+                        attachementResponse.map((attachmentitem) => (
+                          <li class="list-group-item d-flex justify-content-between">
+                            <span>{attachmentitem.attachmentType} </span>
+                            <strong>
+                              <a href={attachmentitem.attachmentPath}>
+                                View File
+                              </a>
+                            </strong>
+                          </li>
+                        ))
+                     
+                        ) : (
+                          <h6 class="my-3">
+                          <div class="alert alert-danger" role="alert">
+                          You Don't Have Attachment Information
+                          </div>
+                        </h6>
+                      )}
+                    </ul>
+                  </fieldset>
             </div>
           </div>
           <MDBRow>
