@@ -51,8 +51,9 @@ const SiteSelection = forwardRef((props, ref) => {
   };
 
   const handleRegionChange = (event) => {
+    setCityList([]);
     const id=event.target.value;
-    const selectedRegion = regionList.filter(item => item.id == event.target.value);
+    // const selectedRegion = regionList.filter(item => item.id == event.target.value);
     setOfficeInfo((prevState) => ({
       ...prevState,
       reagionId: id,
@@ -61,31 +62,45 @@ const SiteSelection = forwardRef((props, ref) => {
       ...prevState,
       reagionId: false,
     }));
-    setCityList(selectedRegion.length > 0 ? selectedRegion[0].cities : []);
+    API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/CountryRegion/GetCityListByRegion?regionId='+id, config)
+        .then((todo) => {
+          setCityList(todo.data.cities);
+        })
+        .catch((err) => {
+          console.log('AXIOS ERROR: ', err.response);
+        });
+    //setCityList(selectedRegion.length > 0 ? selectedRegion[0].cities : []);
   };
   function handeleCityChange(event) {
+    setOfficeList([])
+    debugger;
     const id=event.target.value;
+    const notNumeric= isNaN(id);
+    let selectedCity=[];
+    if(notNumeric===false){
+     selectedCity = cityList.filter(city => city.id == Number.parseInt(id, 10))[0].offices;
+    }
     setNotCompleted((prevState) => ({
       ...prevState,
       cityId: false,
     }));
-      setOfficeInfo((prevState) => ({
+    setOfficeInfo((prevState) => ({
         ...prevState,
         cityId: id,
     }));
-    API.get(officeURL + event.target.value, config)
-      .then((todo) => {
-        setOfficeList(todo.data.offices);
-      })
-      .catch((err) => {
-        console.log('AXIOS ERROR: ', err);
-      });
+    setOfficeList(selectedCity)
   }
 
   function handelOfficeChange(event) {
+    setDeliverySiteList([]);
     setOfficeId(event.target.value)
     const id=event.target.value;
+    setOfficeInfo((prevState) => ({
+      ...prevState,
+      offceId: id,
+    }));
     const selectedOff = officeList.filter(office => office.id == event.target.value)
+    debugger
     if (selectedOff.length > 0) {
       setOfficeName(selectedOff[0].name);
       setOfficeAddress(selectedOff[0].address);
@@ -101,22 +116,13 @@ const SiteSelection = forwardRef((props, ref) => {
       setOfficeAddress("");
       setOfficeContact("");
     }
-    setOfficeInfo((prevState) => ({
-      ...prevState,
-      offceId: id,
-    }));
     setNotCompleted((prevState) => ({
       ...prevState,
       officeId: false,
     }));
  
-    API.get(deliverySiteURL + officeId, config)
-      .then((todo) => {
-        setDeliverySiteList(todo.data.deliverySites);
-      })
-      .catch((err) => {
-        console.log('AXIOS ERROR: ', err.response);
-      });
+    if(selectedOff.length>0)
+    setDeliverySiteList(selectedOff[0].deliverySites)
 
      }
 
