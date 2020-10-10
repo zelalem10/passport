@@ -62,6 +62,7 @@ const PersonalInfo = forwardRef((props, ref) => {
     birthCertificateId: personalInformation.passportRes.birthCertificateId,
     dataSaved: false,
   });
+
   const [notCompleted, setNotCompleted] = useState({
     firstName: personalInformation.firstName ? false : true,
     middleName: personalInformation.middleName ? false : true,
@@ -195,14 +196,15 @@ const PersonalInfo = forwardRef((props, ref) => {
       martialStatus: prevInfo ? prevInfo.martialStatus : '',
       phoneNumber: prevInfo ? prevInfo.phoneNumber : null,
       email: prevInfo ? prevInfo.email : null,
-      birthCertificateId: prevInfo ? prevInfo.birthCertificateId : null,
+      birthCertificateId: prevInfo
+        ? prevInfo.passportRes
+          ? prevInfo.passportRes.birthCertificateId
+          : null
+        : null,
     }));
   }, []);
   const [selectedDate, setSelectedDate] = React.useState(
     new Date(prevInfo ? prevInfo.dateOfBirth : new Date())
-  );
-  const [selectedEnrollmentDate, setSelectedEnrollmentDate] = React.useState(
-    new Date(prevInfo ? prevInfo.enrolmentDate : new Date())
   );
 
   const handleDateChange = (date) => {

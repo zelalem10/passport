@@ -6,9 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import addApplicationList from '../../redux/actions/addApplicationLIst';
 import Status from './Status';
 import ViewAppointment from './viewAppointment';
-import HorizontalLabelPositionBelowStepper from '../Application List/EditApplicationList/PersonslInfoStepper';
-import GroupRequestStepper from './EditApplicationList/Group/GroupNavigation';
-import RescheduleAppointment from '../Application List/Rescheduleappointment/appointmentDate';
+import HorizontalLabelPositionBelowStepper from './EditApplicationList/PersonslInfoStepper';
+import RescheduleAppointment from './Rescheduleappointment/appointmentDate';
 import GetContent from '../UrgentAppointment/Payment/PaymentSelection';
 
 const Errorstyle = {
@@ -91,13 +90,11 @@ const MainStatus = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
     setloading(true);
     const isValid = validate();
     if (isValid) {
       setApplicationNumber(ApplicationNumber);
       setConfirmationNumber(ConfirmationNumber);
-
       if (ApplicationNumber) {
         axios
           .get(
@@ -145,6 +142,13 @@ const MainStatus = () => {
       }
     }
   };
+  const backToList = () => {
+    debugger;
+    setGoToPayment('');
+    sethandleDisplayId('');
+    setDisplayRequestId('');
+    setIsEdit('');
+  };
 
   // clear Serch Items
   const clearSerchItems = () => {
@@ -157,10 +161,22 @@ const MainStatus = () => {
   if (goToPayment) {
     return <GetContent handlePaymentId={handlePaymentId} />;
   } else if (handleDisplayId) {
+    return <RescheduleAppointment handleDisplayId={handleDisplayId} />;
+  } else if (displayRequestId && isEdit) {
     return (
-      <RescheduleAppointment handleDisplayId={handleDisplayId} status={true} />
+      <HorizontalLabelPositionBelowStepper
+        displayRequestId={displayRequestId}
+        backToList={backToList}
+      />
     );
-  } else if (!displayRequestId && !isEdit) {
+  } else if (displayRequestId) {
+    return (
+      <ViewAppointment
+        displayRequestId={displayRequestId}
+        backToList={backToList}
+      />
+    );
+  } else {
     return (
       <Status
         ApplicationNumberData={ApplicationNumberData}
@@ -183,17 +199,9 @@ const MainStatus = () => {
         handleDisplay={handleDisplay}
         handleEdit={handleEdit}
         handleReschedule={handleReschedule}
+        handlePayment={handlePayment}
       />
     );
-  } else if (displayRequestId && isEdit) {
-    return (
-      <HorizontalLabelPositionBelowStepper
-        displayRequestId={displayRequestId}
-        status={true}
-      />
-    );
-  } else {
-    return <ViewAppointment displayRequestId={displayRequestId} />;
   }
 };
 

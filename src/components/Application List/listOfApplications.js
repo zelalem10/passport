@@ -110,6 +110,12 @@ export default function ListOfApplications(props) {
                                     </strong>{' '}
                                     {user.requestStatus}
                                   </div>{' '}
+                                  <div>
+                                    <strong className="d-inline">
+                                      Application Number :{' '}
+                                    </strong>{' '}
+                                    {user.personResponses.applicationNumber}
+                                  </div>{' '}
                                 </div>
                                 {user.requestStatus == 'UrgentApproved' ? (
                                   <a

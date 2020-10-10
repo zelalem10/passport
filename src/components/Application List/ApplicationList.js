@@ -124,7 +124,13 @@ function ApplicationList() {
     return <GetContent handlePaymentId={handlePaymentId} />;
   }
   if (handleDisplayId) {
-    return <RescheduleAppointment handleDisplayId={handleDisplayId} />;
+    return (
+      <RescheduleAppointment
+        handleDisplayId={handleDisplayId}
+        status={false}
+        handleReschedule={handleReschedule}
+      />
+    );
   } else if (!displayRequestId && !isEdit) {
     return (
       <ListOfApplications

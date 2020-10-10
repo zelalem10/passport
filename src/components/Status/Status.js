@@ -38,7 +38,7 @@ function Status(props) {
               <MDBRow>
                 <MDBCol md="3"></MDBCol>
                 <MDBCol md="6">
-                  <form onSubmit={handleSubmit}>
+                  <form onSubmit={(e) => handleSubmit(e)}>
                     <div className="header pt-3 textBackground my-5">
                       <MDBRow className="d-flex justify-content-center">
                         <h4 className="white-text mb-3 pt-3 font-weight-bold">
@@ -150,47 +150,45 @@ function Status(props) {
                                     {ApplicationNumberData.requestStatus}
                                   </div>
                                 </div>
-                                {/* {ApplicationNumberData.requestStatus ==
+                                {ApplicationNumberData.requestStatus ==
                                   'UrgentRequested' &&
                                 ApplicationNumberData.requestStatus ==
-                                  'UrgentRequested' ? ( */}
-                                <a
-                                  className="hoverWhite"
-                                  onClick={() =>
-                                    handlePayment(
-                                      ApplicationNumberData.requestId
-                                    )
-                                  }
-                                >
-                                  {' '}
-                                  <div class="float-right mr-4">
-                                    <i class="fas fa-credit-card fa-lg"></i>
-                                  </div>
-                                </a>
-                                {/* ) : null} */}
-                                {/* {ApplicationNumberData.requestStatus ==
+                                  'UrgentRequested' ? (
+                                  <a
+                                    className="hoverWhite"
+                                    onClick={() =>
+                                      handlePayment(
+                                        ApplicationNumberData.requestId
+                                      )
+                                    }
+                                  >
+                                    {' '}
+                                    <div class="float-right mr-4">
+                                      <i class="fas fa-credit-card fa-lg"></i>
+                                    </div>
+                                  </a>
+                                ) : null}
+                                {ApplicationNumberData.requestStatus ==
                                   'SendforCorrection' &&
                                 ApplicationNumberData.requestStatus ==
-                                  'Initial' ? ( */}
-                                <a
-                                  href="#"
-                                  onClick={() =>
-                                    handleEdit(
-                                      ApplicationNumberData.requestId,
+                                  'Initial' ? (
+                                  <a
+                                    onClick={() =>
+                                      handleEdit(
+                                        ApplicationNumberData.requestId,
 
-                                      ApplicationNumberData.personResponses
-                                        .length
-                                    )
-                                  }
-                                >
-                                  {' '}
-                                  <div class="float-right mr-4">
-                                    <i class="fas fa-edit fa-lg"></i>
-                                  </div>
-                                </a>
-                                {/* ) : null} */}
+                                        ApplicationNumberData.personResponses
+                                          .length
+                                      )
+                                    }
+                                  >
+                                    {' '}
+                                    <div class="float-right mr-4">
+                                      <i class="fas fa-edit fa-lg"></i>
+                                    </div>
+                                  </a>
+                                ) : null}
                                 <a
-                                  href="#"
                                   onClick={() =>
                                     handleDisplay(
                                       ApplicationNumberData.requestId
@@ -202,26 +200,25 @@ function Status(props) {
                                     <i class="fas fa-eye fa-lg"></i>
                                   </div>
                                 </a>
-                                {/* {ApplicationNumberData.requestStatus ==
+                                {ApplicationNumberData.requestStatus ==
                                   'PaymentCompleted' &&
                                 addDays(ApplicationNumberData.currentDate) <
                                   new Date(
                                     ApplicationNumberData.appointmentResponse.date
-                                  ) ? ( */}
-                                <a
-                                  href="#"
-                                  onClick={() =>
-                                    handleReschedule(
-                                      ApplicationNumberData.requestId
-                                    )
-                                  }
-                                >
-                                  {' '}
-                                  <div class="float-right mr-4">
-                                    <i class="fas fa-calendar fa-lg"></i>
-                                  </div>
-                                </a>
-                                {/* ) : null} */}
+                                  ) ? (
+                                  <a
+                                    onClick={() =>
+                                      handleReschedule(
+                                        ApplicationNumberData.requestId
+                                      )
+                                    }
+                                  >
+                                    {' '}
+                                    <div class="float-right mr-4">
+                                      <i class="fas fa-calendar fa-lg"></i>
+                                    </div>
+                                  </a>
+                                ) : null}
                               </div>
                             </a>
                           </div>
@@ -237,7 +234,7 @@ function Status(props) {
                           <MDBBtn
                             type="submit"
                             className="btn btn-info float-left ml-4"
-                            onClick={clearSerchItems}
+                            onClick={() => clearSerchItems()}
                           >
                             Back To Form
                           </MDBBtn>

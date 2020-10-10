@@ -12,6 +12,7 @@ import API from '../../Utils/API';
 
 const Address = forwardRef((props, ref) => {
   const [countryList, setCountryList] = useState([]);
+  const isRequired = 'is required!';
   const { addressInformation } = props;
   console.log(addressInformation);
   const [addressInfo, setAddressInfo] = useState({
@@ -21,10 +22,10 @@ const Address = forwardRef((props, ref) => {
     state: addressInformation.state,
     zone: addressInformation.zone,
     wereda: addressInformation.wereda,
+    kebele: addressInformation.kebele,
     street: addressInformation.street,
     houseNo: addressInformation.houseNo,
     poBox: addressInformation.poBox,
-    requestPlace: addressInformation.requestPlace,
     dataSaved: false,
   });
   const [notCompleted, setNotCompleted] = useState({
@@ -54,7 +55,6 @@ const Address = forwardRef((props, ref) => {
   };
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
-  const isRequired = 'is required!';
   if (counter.address.length === 0) {
     dispatch(addAddressInfo(addressInfo));
   }
@@ -91,17 +91,17 @@ const Address = forwardRef((props, ref) => {
       ...prevState,
       [name]: value,
     }));
+    if (value != '') {
+      setNotCompleted((prevState) => ({
+        ...prevState,
+        [name]: false,
+      }));
+    }
   };
   if (countryList.length === 0) {
     setCountryList(JSON.parse(localStorage.countryRegions));
   }
-  const getCountryRegion = (id) => {
-    // for (let index = 0; index < countryRegion.length; index++) {
-    //   if (countryRegion[index].id == id) {
-    //     return countryRegion[index].type;
-    //   }
-    // }
-  };
+
   var prevInfo = counter.address[counter.address.length - 1];
   useEffect(() => {
     setAddressInfo((prevState) => ({
@@ -116,7 +116,7 @@ const Address = forwardRef((props, ref) => {
       houseNo: prevInfo ? prevInfo.houseNo : null,
       poBox: prevInfo ? prevInfo.poBox : null,
 
-      requestPlace: prevInfo ? prevInfo.requestPlace : null,
+      kebele: prevInfo ? prevInfo.kebele : null,
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
     }));
   }, []);

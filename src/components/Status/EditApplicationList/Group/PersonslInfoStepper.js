@@ -14,6 +14,7 @@ import TravelPlan from './TravelPlan';
 import FamilyInformation from './family/familyInformation';
 import { useDispatch, useSelector } from 'react-redux';
 import API from '../../../Utils/API';
+import '../../viewAppointment.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {

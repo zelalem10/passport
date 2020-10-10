@@ -11,7 +11,7 @@ import {
 } from 'mdbreact';
 
 function AddMoreFamily(props) {
-  const { data, familyType } = props;
+  const { data, familyType, getFamilyType } = props;
   console.log(data);
   return (
     <MDBContainer className="passport-container pt-3" id="raa-form" fluid>
@@ -42,7 +42,12 @@ function AddMoreFamily(props) {
                     {item.firstName + ' ' + item.lastName}
                   </MDBCardTitle>
                   <h5 className="indigo-text">
-                    <strong> {item.familtyType}</strong>
+                    <strong>
+                      {' '}
+                      {item.familtyType
+                        ? item.familtyType
+                        : getFamilyType(item.familtyTypeId)}
+                    </strong>
                   </h5>
                 </MDBCardBody>
               </MDBCard>
@@ -53,14 +58,26 @@ function AddMoreFamily(props) {
                 <div className="accordion-item is-active" id="patient-raa-step">
                   <a className="accordion-title enabled">
                     <span className="accordion-title__text">
-                      1. Family Details
+                      Family Details
                     </span>
                   </a>
 
                   <form className="mb-2">
-                    <div className="row">
+                    <div className="row p-3">
                       <div className="small-12 medium-8 column">
                         <div className="grey-text">
+                          <select
+                            name="famType"
+                            onChange={props.handleInput}
+                            className="browser-default custom-select"
+                          >
+                            <option style={{ display: 'none' }}>
+                              Select family type
+                            </option>
+                            {familyType.map((item) => (
+                              <option value={item.id}>{item.type}</option>
+                            ))}
+                          </select>
                           <MDBInput
                             label="First Name"
                             group
@@ -79,18 +96,6 @@ function AddMoreFamily(props) {
                             validate
                             onChange={props.handleInput}
                           />
-                          <select
-                            name="famType"
-                            onChange={props.handleInput}
-                            className="browser-default custom-select"
-                          >
-                            <option style={{ display: 'none' }}>
-                              Choose your option
-                            </option>
-                            {familyType.map((item) => (
-                              <option value={item.id}>{item.type}</option>
-                            ))}
-                          </select>
                         </div>
                       </div>
                     </div>
@@ -99,10 +104,10 @@ function AddMoreFamily(props) {
                         class="button hollow gray vertical-margin-2 "
                         onClick={props.addAdditionalFamilyHandler}
                       >
-                        Add
+                        Save
                         <span class="show-for-medium">
                           {' '}
-                          Family <i class="fas fa-plus-circle"></i>
+                          <i class="fas fa-plus-circle"></i>
                         </span>
                       </a>
                     </div>

@@ -9,7 +9,7 @@ import addAppointmentDate from '../../../redux/actions/addAppointmetntDate';
 
 function RescheduleAppointment(props) {
   debugger;
-  const { handleDisplayId, status } = props;
+  const { handleDisplayId, status, handleReschedule } = props;
   const counter = useSelector((state) => state);
   const appList = counter.applicationList[counter.applicationList.length - 1];
   const [isUrgentAppointment, setIsUrgentAppointment] = useState(false);
@@ -17,6 +17,7 @@ function RescheduleAppointment(props) {
   let displayedApplication = {};
   if (status) {
     displayedApplication = appList;
+    handleReschedule(handleDisplayId);
   } else {
     for (let item in appList) {
       if (appList[item].requestId == handleDisplayId) {

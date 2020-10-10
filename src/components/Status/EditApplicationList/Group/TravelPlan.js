@@ -87,7 +87,7 @@ const TravelPlan = forwardRef((props, ref) => {
     }));
   }, []);
   const [selectedTravelDate, setSelectedTravelDate] = React.useState(
-    new Date(prevInfo ? prevInfo.travelDate : '2014-08-18T21:11:54')
+    new Date(prevInfo ? prevInfo.travelDate : new Date())
   );
 
   const handleTravelDateChange = (date) => {

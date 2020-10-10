@@ -42,7 +42,8 @@ const FamilyInformation = forwardRef((props, ref) => {
   } else if (
     familiesInfo.length === 0 &&
     isOnLoad === true &&
-    counter.editFamilyData.length > 1
+    counter.editFamilyData.length > 1 &&
+    counter.editFamilyData[0].hasOwnProperty('firstName')
   ) {
     setFamiliesInfo(counter.editFamilyData[counter.editFamilyData.length - 1]);
   }
@@ -86,9 +87,10 @@ const FamilyInformation = forwardRef((props, ref) => {
     }));
   };
   const getFamilyType = (id) => {
-    for (let index = 0; index < familyType.length; index++) {
-      if (familyType[index].id == id) {
-        return familyType[index].type;
+    let FamilyTypes = JSON.parse(localStorage.familyTypesResponse);
+    for (let index = 0; index < FamilyTypes.length; index++) {
+      if (FamilyTypes[index].id == id) {
+        return FamilyTypes[index].type;
       }
     }
   };
@@ -165,7 +167,6 @@ const FamilyInformation = forwardRef((props, ref) => {
         var array = [...familiesInfo];
         array.splice(index, 1);
         setFamiliesInfo(array);
-        console.log(familiesInfo);
       })
       .catch((error) => {
         console.log('error' + error);
@@ -233,6 +234,7 @@ const FamilyInformation = forwardRef((props, ref) => {
       saveEditedData={saveEdited}
       handleEditInput={handleUserEditInput}
       familyType={familyType}
+      getFamilyType={getFamilyType}
     />
   );
 });

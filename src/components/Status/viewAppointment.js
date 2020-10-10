@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBBadge } from 'mdbreact';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useSelector } from 'react-redux';
 import { fi } from 'date-fns/locale';
 import ViewGroupAppointment from './viewGroupAppointment';
@@ -56,19 +55,56 @@ export default function ViewAppointment(props) {
   const accesstoken = localStorage.systemToken;
   const [expanded, setExpanded] = React.useState('panel1');
   const data = useSelector((state) => state);
-  const appList = data.applicationList[data.applicationList.length - 1];
+  const appList = data.applicationList[0];
   let displayedApplication = {};
-  const { displayRequestId } = props;
+  const getOccupation = (id) => {
+    let occupations = JSON.parse(localStorage.occupations);
+    for (let index = 0; index < occupations.length; index++) {
+      if (occupations[index].id == id) {
+        return occupations[index].title;
+      }
+    }
+  };
+  // const getCountryRegion = (id) => {
+  //   let countryRegion = JSON.parse(localStorage.countryRegions);
+  //   for (let index = 0; index < countryRegion.length; index++) {
+  //     if (countryRegion[index].id == id) {
+  //       return countryRegion[index].type;
+  //     }
+  //   }
+  // };
+  const getFamilyType = (id) => {
+    let FamilyTypes = JSON.parse(localStorage.familyTypesResponse);
+    for (let index = 0; index < FamilyTypes.length; index++) {
+      if (FamilyTypes[index].id == id) {
+        return FamilyTypes[index].type;
+      }
+    }
+  };
+  const getNationalitys = (id) => {
+    let Nationalitys = JSON.parse(localStorage.nationalitys);
+    for (let index = 0; index < Nationalitys.length; index++) {
+      if (Nationalitys[index].id == id) {
+        return Nationalitys[index].name;
+      }
+    }
+  };
 
-  if (appList.requestId == displayRequestId) {
+  const { displayRequestId, backToList } = props;
+
+  if (appList ? appList.requestId == displayRequestId : false) {
     displayedApplication = appList;
   }
-  const personalInfo = displayedApplication.personResponses;
+  const personalInformation = displayedApplication
+    ? displayedApplication.personResponses
+    : false;
   let requestPersonId;
   let attachmentlength;
   const [attachment, setattachment] = useState([]);
   let atachmentsample = [];
-  if (personalInfo) {
+
+  if (personalInformation) {
+    // if (personalInfo.length === 1) {
     const personalInformation = displayedApplication.personResponses;
     const addressInformation = personalInformation.address;
     const familyInformation = personalInformation.familyResponses;
@@ -89,7 +125,6 @@ export default function ViewAppointment(props) {
           atachmentsample.push(Response.data.attachments[i]);
         }
         setattachment(atachmentsample);
-        console.log(attachment);
       })
       .catch((err) => {
         console.log(err);
@@ -98,41 +133,7 @@ export default function ViewAppointment(props) {
     const handleChange = (panel) => (event, newExpanded) => {
       setExpanded(newExpanded ? panel : false);
     };
-    const getOccupation = (id) => {
-      let occupations = JSON.parse(localStorage.occupations);
-      for (let index = 0; index < occupations.length; index++) {
-        if (occupations[index].id == id) {
-          return occupations[index].title;
-        }
-      }
-    };
-    // const getCountryRegion = (id) => {
-    //   let countryRegion = JSON.parse(localStorage.countryRegions);
-    //   for (let index = 0; index < countryRegion.length; index++) {
-    //     if (countryRegion[index].id == id) {
-    //       return countryRegion[index].type;
-    //     }
-    //   }
-    // };
-    const getFamilyType = (id) => {
-      let FamilyTypes = JSON.parse(localStorage.familyTypesResponse);
-      for (let index = 0; index < FamilyTypes.length; index++) {
-        if (FamilyTypes[index].id == id) {
-          return FamilyTypes[index].type;
-        }
-      }
-    };
-    const getNationalitys = (id) => {
-      let Nationalitys = JSON.parse(localStorage.nationalitys);
-      for (let index = 0; index < Nationalitys.length; index++) {
-        if (Nationalitys[index].id == id) {
-          return Nationalitys[index].name;
-        }
-      }
-    };
-    const backToList = () => {
-      window.location.href = '/Status';
-    };
+
     return (
       <MDBContainer className="passport-container pt-5" fluid>
         <div class="div-title text-center mywizardcss pt-3 pb-3">
@@ -179,7 +180,9 @@ export default function ViewAppointment(props) {
               &nbsp;&nbsp;&nbsp;&nbsp;
               <b>
                 <label class="font-weight-bold">
-                  {displayedApplication.appointmentResponse.date}
+                  {displayedApplication.appointmentResponse
+                    ? displayedApplication.appointmentResponse.date
+                    : null}
                 </label>
               </b>
             </div>
@@ -500,7 +503,7 @@ export default function ViewAppointment(props) {
                 <MDBBtn
                   type="submit"
                   className="btn btn-info float-left ml-4"
-                  onClick={backToList}
+                  onClick={() => backToList()}
                 >
                   Back To My Application List
                 </MDBBtn>

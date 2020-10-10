@@ -126,7 +126,6 @@ export default function ViewAppointment(props) {
           atachmentsample.push(Response.data.attachments[i]);
         }
         setattachment(atachmentsample);
-        console.log(attachment);
       })
       .catch((err) => {
         console.log(err);

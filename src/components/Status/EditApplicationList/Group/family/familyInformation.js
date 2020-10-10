@@ -86,7 +86,17 @@ const FamilyInformation = forwardRef((props, ref) => {
 
   const [familyType, setFamilyType] = useState([]);
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
-  const accesstoken = localStorage.systemToken;
+  const tokenValue = () => {
+    const UserToken = localStorage.userToken;
+
+    if (UserToken) {
+      return UserToken;
+    } else {
+      const SystemToken = localStorage.systemToken;
+      return SystemToken;
+    }
+  };
+  const accesstoken = tokenValue();
 
   useEffect(() => {
     axios({
