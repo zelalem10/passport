@@ -144,8 +144,6 @@ const Fileupload = forwardRef((props, ref) => {
         console.log('error' + error.message);
         setloading(false);
         //props.showBack();
-        props.showBack();
-        props.VerticalNext();
       }
     }
   };
