@@ -51,7 +51,7 @@ function getSteps() {
 }
 
 export default function HorizontalLabelPositionBelowStepper(props) {
-  debugger;
+   ;
   const classes = useStyles();
 
   const [activeStep, setActiveStep] = useState(0);

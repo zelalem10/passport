@@ -13,7 +13,7 @@ const config = {
     headers: { Authorization: "Bearer " + accesstoken }
 };
 
-const PricingDetail = () => {
+const PricingDetail = (props) => {
     const [isOppened, setIsOppened] = useState(false);
     const [totalPriceList, setTotalPriceList] = useState([]);
     const [individualPrice, setIndividualPrice] = useState([]);
@@ -24,27 +24,13 @@ const PricingDetail = () => {
     const toggleCollapse = () => {
         setIsOppened(!isOppened);
     }
+    const priceInfo = counter.priceInfo[counter.priceInfo.length - 1];
 
-    useEffect(() => {
-        const requestInfo = counter.request[counter.request.length - 1];
-        let requestId = requestInfo?requestInfo.requestId:0;
-        API.get("https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + requestId, config)
-            .then((todo) => {
-                setTotalPriceList(todo.data.priceTotalDetail);
-                setIndividualPrice(todo.data.individualPrice);
-                setTotalPrice(todo.data.totalPrice);
-                dispatch(addPriceInfo({totalAmount: todo.data.totalPrice}));
-            }
-            )
-            .catch((err) => {
-                console.log("AXIOS ERROR: ", err.response);
-            })
-    }, []);
     return (
         <MDBContainer>
             <MDBTable hover>
                 <MDBTableBody>
-                    {totalPriceList.map((totalPrice) =>
+                    {priceInfo?.priceTotalDetail.map((totalPrice) =>
                         <tr>
                             <td><h6 className="font-weight-bolder text-muted text-uppercase"> {totalPrice.lable}</h6></td>
                             <td><h6 className="font-weight-bolder text-muted text-uppercase"></h6></td>
@@ -53,12 +39,12 @@ const PricingDetail = () => {
                     )}
                     <tr>
                         <td><h6 className="font-weight-bold text-danger"> Total</h6> </td>
-                        <td><h6 className="font-weight-bold text-danger"> {totalPrice}</h6> </td>
+                        <td><h6 className="font-weight-bold text-danger"> {priceInfo?.totalPrice}</h6> </td>
                         <td><h6 className="font-weight-bold text-danger"> ETB</h6> </td>
                     </tr>
                 </MDBTableBody>
             </MDBTable>
-            {individualPrice.length > 0 ? (
+            {priceInfo?.individualPrice.length > 0 ? (
                 <MDBCard>
                     <MDBRow>
                         <MDBCol md="2"></MDBCol>
@@ -74,7 +60,7 @@ const PricingDetail = () => {
                         </MDBCol>
                     </MDBRow>
                     <MDBCollapse id="basicCollapse" isOpen={isOppened}>
-                        {individualPrice.map((prices) =>
+                        {priceInfo.individualPrice.map((prices) =>
                             <MDBListGroup>
                                 <MDBListGroupItem href="#" active>{prices.personFullName}</MDBListGroupItem>
                                 <MDBTable hover>

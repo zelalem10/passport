@@ -104,14 +104,14 @@ function SystemToken() {
       config
     )
       .then((todo) => {
-        debugger;
+         ;
         localStorage.setItem(
           'PassportPageQuantity',
           JSON.stringify(todo.data.pagePassports)
         );
       })
       .catch((error) => {
-        debugger;
+         ;
         console.log('error' + error);
       });
 

@@ -155,7 +155,7 @@ const FamilyInformation = forwardRef((props, ref) => {
       });
   };
   const removeFamilyMember = (ids, index) => {
-    debugger;
+     ;
     axios({
       headers: {
         Authorization: 'Bearer ' + accesstoken,

@@ -12,7 +12,7 @@ import {
 
 function AddMoreFamily(props) {
   const { data, familyType, getFamilyType } = props;
-  debugger;
+   ;
   console.log(data);
   return (
     <MDBContainer className="passport-container pt-3" id="raa-form" fluid>

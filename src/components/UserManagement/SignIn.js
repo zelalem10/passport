@@ -31,7 +31,7 @@ function SignIn() {
     const [state, setState] = useState({});
     //validate form
     const validate = () => {
-        debugger;
+         ;
 
 
         if (!Email) {
@@ -56,7 +56,7 @@ function SignIn() {
     }
 
     const personalDetail = () => {
-        debugger;
+         ;
         let userId = localStorage.userId;
         axios.get(`https://epassportservices.azurewebsites.net/Person/api/V1.0/Person/GetByUserId?userId=${userId}`, config)
             .then((response) => {
@@ -87,7 +87,7 @@ function SignIn() {
 
             })
                 .then((response) => {
-                    debugger;
+                     ;
                     setState(response.data)
                     console.log(response.data)
                     if (response.data.accessToken) {

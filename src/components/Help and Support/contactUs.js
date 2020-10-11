@@ -21,7 +21,7 @@ const ContactUs = () => {
     const [Message, setMessage] = useState(false);
 
     const validate = () => {
-        debugger;
+         ;
 
         if (!firstName) {
             firstNameError = 'First name is required.';
@@ -64,7 +64,7 @@ const ContactUs = () => {
         return true;
     }
     const LogInSubmit = (e) => {
-        debugger;
+         ;
         e.preventDefault();
         setfirstNameError('');
         setemailError('');

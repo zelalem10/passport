@@ -20,6 +20,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import addCommonData from '../../redux/actions/addCommonDataAction';
 import newRequest from '../../redux/actions/addNewRequestAction';
 import API from '../Utils/API';
+import addPriceInfo from '../../redux/actions/priceInfoAction';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -84,7 +86,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     setActiveStep(0);
   };
   const handleSubmit = () => {
-    debugger;
+     ;
     const travelPlan= childRef.current.saveData();
     const isVilid = childRef.current.Validate();
     if (isVilid != true) {
@@ -195,7 +197,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           },
         ],
       };
-      debugger;
+       ;
       API.post(
         'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest',
         requestBody,
@@ -212,9 +214,20 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           dispatch(addCommonData(commonData));
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
           dispatch(newRequest(todo.data.serviceResponseList[0]))
+          API.get("https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
+            .then((todo) => {
+              // setTotalPriceList(todo.data.priceTotalDetail);
+              // setIndividualPrice(todo.data.individualPrice);
+              // setTotalPrice(todo.data.totalPrice);
+              console.log(JSON.stringify(todo.data))
+              dispatch(addPriceInfo(todo.data));
+            })
+            .catch((err) => {
+              console.log("AXIOS ERROR: ", err.response);
+            })
         })
         .catch((err) => {
-          debugger;
+           ;
           console.log('Body: ', requestBody);
           console.log('AXIOS ERROR: ', err.response);
           if (err.response != null) setResponseMessage(err.response.data.title);

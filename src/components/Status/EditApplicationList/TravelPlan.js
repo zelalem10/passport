@@ -12,17 +12,17 @@ import { Card } from 'react-bootstrap';
 import axios from 'axios';
 
 const TravelPlan = forwardRef((props, ref) => {
-  debugger;
+   ;
   const [validated, setValidated] = useState(false);
   const [passportPages, setPassportPages] = useState([]);
   const { passportRes, displayedApplication, personalInformation } = props;
-  debugger;
+   ;
   const [travelPlan, setTravelPlan] = useState({
     filledBy: passportRes.filledBy,
     passportPageId: parseInt(passportRes.passportPageId),
     dataSaved: false,
   });
-  debugger;
+   ;
   const accesstoken = localStorage.systemToken;
 
   let requestPersonId = personalInformation.requestPersonId;
@@ -43,7 +43,7 @@ const TravelPlan = forwardRef((props, ref) => {
       params: { personRequestId: requestPersonId },
     })
       .then((Response) => {
-        debugger;
+         ;
         attachmentlength = Response.data.attachments.length;
         localStorage.setItem('attachmentlength', attachmentlength);
         for (let i = 0; i < attachmentlength; i++) {
