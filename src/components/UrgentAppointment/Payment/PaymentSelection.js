@@ -36,7 +36,7 @@ function requestTypeGetter(requetTypeId) {
   }
 }
 const PaymentSelection = forwardRef((props, ref) => {
-  const { handlePaymentId } = props;
+  const { handlePaymentId,status } = props;
   const [selectedOption, setSelectedOption] = useState();
   const [optionSelected, setOptionSelected] = useState('');
   const [paymentOptions, setPaymentOptions] = useState([]);
@@ -48,12 +48,17 @@ const PaymentSelection = forwardRef((props, ref) => {
   const data = useSelector((state) => state);
   const appList = data.applicationList[data.applicationList.length - 1];
   let displayedApplication = {};
-
+if(status){
+  if (appList.hasOwnProperty('requestId')?appList.requestId == handlePaymentId:false) {
+    displayedApplication = appList;
+  }
+}else{
   for (let item in appList) {
     if (appList[item].requestId == handlePaymentId) {
       displayedApplication = appList[item];
     }
   }
+}
   const personalInformation = displayedApplication.personResponses;
   const accesstoken = localStorage.systemToken;
   const requestType = displayedApplication.requestTypeId;
@@ -126,7 +131,7 @@ const PaymentSelection = forwardRef((props, ref) => {
   };
 
   if (formCompleted && optionSelected && procced) {
-    return <InstructionPage />;
+    return <InstructionPage passportPage={personalInformation.passportRes.passportPage} />;
   } else {
     return (
       <MDBContainer className="passport-container payment-container" fluid>

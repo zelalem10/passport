@@ -105,7 +105,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   };
 
   const handleFinish = () => {
-    childRef.current.saveData();
+    const travelPlan= childRef.current.saveData();
     const isVilid = childRef.current.Validate();
     if (isVilid != true) {
       //setResponseMessage("Ple")

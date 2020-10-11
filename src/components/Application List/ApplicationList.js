@@ -90,9 +90,11 @@ function ApplicationList() {
   }, [relodList]);
   //back to appointment list
   const backToList = () => {
+    debugger;
     setDisplayRequestId('');
     setIsEdit(false);
     setRelodList(!relodList);
+    sethandleDisplayId('');
   };
   //payment for urgent
   const handlePayment = (id) => {
@@ -121,14 +123,15 @@ function ApplicationList() {
       });
   }
   if (goToPayment) {
-    return <GetContent handlePaymentId={handlePaymentId} />;
+    return <GetContent handlePaymentId={handlePaymentId} status={false} />;
   }
   if (handleDisplayId) {
     return (
       <RescheduleAppointment
         handleDisplayId={handleDisplayId}
-        status={false}
+        
         handleReschedule={handleReschedule}
+        backToList={backToList}
       />
     );
   } else if (!displayRequestId && !isEdit) {

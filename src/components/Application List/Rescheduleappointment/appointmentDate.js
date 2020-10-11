@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { MDBContainer, MDBRow, MDBCol, MDBAlert } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, MDBAlert,MDBBtn } from 'mdbreact';
 import axios from 'axios';
 import AvailableTimeSlot from './appointmetTimeSlots';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,22 +9,19 @@ import addAppointmentDate from '../../../redux/actions/addAppointmetntDate';
 
 function RescheduleAppointment(props) {
   debugger;
-  const { handleDisplayId, status, handleReschedule } = props;
+  const { handleDisplayId, handleReschedule,backToList } = props;
   const counter = useSelector((state) => state);
   const appList = counter.applicationList[counter.applicationList.length - 1];
   const [isUrgentAppointment, setIsUrgentAppointment] = useState(false);
   const [availableDateAndQota, setavailableDateAndQota] = useState([]);
   let displayedApplication = {};
-  if (status) {
-    displayedApplication = appList;
-    handleReschedule(handleDisplayId);
-  } else {
+ 
     for (let item in appList) {
       if (appList[item].requestId == handleDisplayId) {
         displayedApplication = appList[item];
       }
     }
-  }
+  
 
   let appointmentDetails = displayedApplication.appointmentResponse;
 
@@ -543,9 +540,20 @@ function RescheduleAppointment(props) {
             </MDBCol>
           ) : null}
         </MDBRow>
-        {selectTime ? (
+        
           <MDBRow>
-            <MDBCol md="6"></MDBCol>
+          <MDBCol md="6" className="pt-3 save-appointment-btn">
+              <button
+                onClick={backToList}
+                type="button"
+                class="btn btn-default text-white btn-block"
+              >
+                Back To My Application List
+              </button>
+            </MDBCol>
+        {selectTime ? (
+          
+            
             <MDBCol md="6" className="pt-3 text-right save-appointment-btn">
               <button
                 onClick={saveNewAppointment}
@@ -555,8 +563,9 @@ function RescheduleAppointment(props) {
                 Save New Date Time
               </button>
             </MDBCol>
-          </MDBRow>
+          
         ) : null}
+        </MDBRow>
         {isUrgentAppointment && !isOnLoad ? (
           <MDBRow>
             <MDBCol md="6" className="pt-3 text-right save-appointment-btn">
@@ -570,6 +579,7 @@ function RescheduleAppointment(props) {
             </MDBCol>
           </MDBRow>
         ) : null}
+        
       </MDBContainer>
     </div>
   );

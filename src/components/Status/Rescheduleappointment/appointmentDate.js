@@ -18,7 +18,8 @@ function RescheduleAppointment(props) {
 
   displayedApplication = appList;
 
-  let appointmentDetails = displayedApplication.appointmentResponse;
+  let appointmentDetails = displayedApplication?displayedApplication.appointmentResponse:null
+  ;
 
   let officeId = displayedApplication ? displayedApplication.officeId : null;
   if (displayedApplication.requestMode == 1 && !isUrgentAppointment) {

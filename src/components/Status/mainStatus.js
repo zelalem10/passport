@@ -161,7 +161,7 @@ const MainStatus = () => {
     setShowForm(true);
   };
   if (goToPayment) {
-    return <GetContent handlePaymentId={handlePaymentId} />;
+    return <GetContent handlePaymentId={handlePaymentId} status={true} />;
   } else if (handleDisplayId) {
     return <RescheduleAppointment handleDisplayId={handleDisplayId} />;
   } else if (displayRequestId && isEdit) {

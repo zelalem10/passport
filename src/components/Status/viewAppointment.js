@@ -136,382 +136,419 @@ export default function ViewAppointment(props) {
 
     return (
       <MDBContainer className="passport-container pt-5" fluid>
-        <div class="div-title text-center mywizardcss pt-3 pb-3">
-          <div className="header-display">
-            <div class="form-group form-inline passport-display">
-              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                Request Type:
+      <div class="div-title text-center mywizardcss pt-3 pb-3">
+        <div className="header-display">
+          <div class="form-group form-inline passport-display">
+            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+              Request Type:
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>
+              <label class="font-weight-bold">
+                {displayedApplication.type}
               </label>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              <b>
-                <label class="font-weight-bold">
-                  {displayedApplication.type}
-                </label>
-              </b>
-            </div>
-            <div class="form-group form-inline passport-display">
-              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                Request Status:
+            </b>
+          </div>
+          <div class="form-group form-inline passport-display">
+            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+              Request Status:
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>
+              <label class="font-weight-bold">
+                {displayedApplication.requestStatus}
               </label>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              <b>
-                <label class="font-weight-bold">
-                  {displayedApplication.requestStatus}
-                </label>
-              </b>
-            </div>
-            <div class="form-group form-inline passport-display">
-              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                Request Date:{' '}
+            </b>
+          </div>
+          <div class="form-group form-inline passport-display">
+            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+              Request Date:{' '}
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>
+              <label class="font-weight-bold">
+                {new Date(displayedApplication.requestDate)
+                  .toISOString()
+                  .substr(0, 10)}
               </label>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              <b>
-                <label class="font-weight-bold">
-                  {new Date(displayedApplication.requestDate)
-                    .toISOString()
-                    .substr(0, 10)}
-                </label>
-              </b>
-            </div>
-            <div class="form-group form-inline passport-display">
-              <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                Appointement Date:{' '}
+            </b>
+          </div>
+          <div class="form-group form-inline passport-display">
+            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+              Appointement Date:{' '}
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>
+              <label class="font-weight-bold">
+                {displayedApplication.appointmentResponse
+                  ? displayedApplication.appointmentResponse.date
+                  : null}
               </label>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              <b>
-                <label class="font-weight-bold">
-                  {displayedApplication.appointmentResponse
-                    ? displayedApplication.appointmentResponse.date
-                    : null}
-                </label>
-              </b>
-            </div>
+            </b>
           </div>
         </div>
-        <div
-          class="wizard-display setup-content"
-          id="step-5"
-          style={{ display: 'block' }}
-        >
-          <div class="row pt-4">
-            <div class="col-md-6">
-              <fieldset>
-                <legend class="text-primary">Personal Information</legend>
-                <hr class="text-primary" />
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    First Name
+      </div>
+      <div
+        class="wizard-display setup-content"
+        id="step-5"
+        style={{ display: 'block' }}
+      >
+        <div class="row pt-4">
+          <div class="col-md-6">
+            <fieldset>
+              <legend class="text-primary">Personal Information</legend>
+              <hr class="text-primary" />
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  First Name
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {personalInformation.firstName}
                   </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {personalInformation.firstName}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Last Name
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {personalInformation.middleName}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Middle Name
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {personalInformation.lastName}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Date of Birth
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {new Date(personalInformation.dateOfBirth)
-                        .toISOString()
-                        .substr(0, 10)}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Gender
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {personalInformation.gender == 1 ? 'Male' : 'Female'}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Nationality
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {getNationalitys(personalInformation.nationalityId)}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Height
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {personalInformation.height}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Eye Color
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {personalInformation.eyeColor}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Hair Color
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {personalInformation.hairColor}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Occupation
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {getOccupation(personalInformation.occupationId)}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Half Cast
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {personalInformation.halfCast}
-                    </label>
-                  </b>
-                </div>
-
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Phone Number
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {personalInformation.phoneNumber}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Email
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {personalInformation.email}
-                    </label>
-                  </b>
-                </div>
-              </fieldset>
-              <fieldset>
-                <legend class="text-primary">Address Information</legend>
-                <hr class="text-primary" />
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Region
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {addressInformation.region}
-                    </label>
-                  </b>
-                </div>
-
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    City
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {addressInformation.city}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    State
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {addressInformation.state}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Zone
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {addressInformation.zone}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Wereda
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {addressInformation.wereda}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Street
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {addressInformation.street}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    HouseNo
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {addressInformation.houseNo}
-                    </label>
-                  </b>
-                </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    PoBox
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {addressInformation.poBox}
-                    </label>
-                  </b>
-                </div>
-
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Request Place
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {addressInformation.requestPlace}
-                    </label>
-                  </b>
-                </div>
-              </fieldset>
-            </div>
-
-            <div className="col-md-6">
-              {familyInformation.length !== 0 ? (
-                <fieldset>
-                  <legend class="text-primary">Family Information</legend>
-                  <hr class="text-primary" />
-                  {familyInformation.map((family) => (
-                    <div class="form-group form-inline">
-                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        {getFamilyType(family.familtyTypeId)}
-                      </label>
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                      <b>
-                        <label class="font-weight-bold" id="AccommodationTyppe">
-                          {family.firstName + ' ' + family.lastName}
-                        </label>
-                      </b>
-                    </div>
-                  ))}
-                </fieldset>
-              ) : null}
-              <fieldset>
-                <ul class="list-group mb-3">
-                  <li class="list-group-item ePassprt-color">
-                    <h5>Attachment Information</h5>
-                  </li>
-                  {attachment.length ? (
-                    attachment.map((attachmentitem) => (
-                      <li class="list-group-item d-flex justify-content-between">
-                        <span>{attachmentitem.attachmentType} </span>
-                        <strong>
-                          <a href={attachmentitem.attachmentPath}>View File</a>
-                        </strong>
-                      </li>
-                    ))
-                  ) : (
-                    <h6 class="my-3">
-                      <div class="alert alert-danger" role="alert">
-                        You Don't Have Attachment Information
-                      </div>
-                    </h6>
-                  )}
-                </ul>
-              </fieldset>
-            </div>
-          </div>
-          <MDBRow>
-            <MDBCol className="medium-12">
-              <div className="text-center mb-3 signUpbutton ">
-                <MDBBtn
-                  type="submit"
-                  className="btn btn-info float-left ml-4"
-                  onClick={() => backToList()}
-                >
-                  Back To My Application List
-                </MDBBtn>
+                </b>
               </div>
-            </MDBCol>
-          </MDBRow>
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Last Name
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {personalInformation.middleName}
+                  </label>
+                </b>
+              </div>
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Middle Name
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {personalInformation.lastName}
+                  </label>
+                </b>
+              </div>
+              <div class="form-group form-inline">
+                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Geez First Name
+                    </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>
+                      <label class="font-weight-bold">
+                        {personalInformation.geezFirstName}
+                      </label>
+                    </b>
+                  </div>
+
+                  <div class="form-group form-inline">
+                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Geez Middle Name
+                    </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>
+                      <label class="font-weight-bold">
+                        {personalInformation.geezMiddleName}
+                      </label>
+                    </b>
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Geez Last Name
+                    </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>
+                      <label class="font-weight-bold">
+                        {personalInformation.geezLastName}
+                      </label>
+                    </b>
+                  </div>
+                 
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Date of Birth
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {new Date(personalInformation.dateOfBirth)
+                      .toISOString()
+                      .substr(0, 10)}
+                  </label>
+                </b>
+              </div>
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Gender
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {personalInformation.gender == 1 ? 'Male' : 'Female'}
+                  </label>
+                </b>
+              </div>
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Nationality
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {getNationalitys(personalInformation.nationalityId)}
+                  </label>
+                </b>
+              </div>
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Height
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {personalInformation.height}
+                  </label>
+                </b>
+              </div>
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Eye Color
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {personalInformation.eyeColor}
+                  </label>
+                </b>
+              </div>
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Hair Color
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {personalInformation.hairColor}
+                  </label>
+                </b>
+              </div>
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Occupation
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {getOccupation(personalInformation.occupationId)}
+                  </label>
+                </b>
+              </div>
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Half Cast
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {personalInformation.halfCast}
+                  </label>
+                </b>
+              </div>
+
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Phone Number
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {personalInformation.phoneNumber}
+                  </label>
+                </b>
+              </div>
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Email
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {personalInformation.email}
+                  </label>
+                </b>
+              </div>
+            </fieldset>
+            {familyInformation.length !== 0 ? (
+              <fieldset>
+                <legend class="text-primary">Family Information</legend>
+                <hr class="text-primary" />
+                {familyInformation.map((family) => (
+                  <div class="form-group form-inline">
+                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      {getFamilyType(family.familtyTypeId)}
+                    </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>
+                      <label class="font-weight-bold" id="AccommodationTyppe">
+                        {family.firstName + ' ' + family.lastName}
+                      </label>
+                    </b>
+                  </div>
+                ))}
+              </fieldset>
+            ) : null}
+            
+          </div>
+
+          <div className="col-md-6">
+          <fieldset>
+              <legend class="text-primary">Address Information</legend>
+              <hr class="text-primary" />
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Region
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {addressInformation.region}
+                  </label>
+                </b>
+              </div>
+
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  City
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {addressInformation.city}
+                  </label>
+                </b>
+              </div>
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  State
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {addressInformation.state}
+                  </label>
+                </b>
+              </div>
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Zone
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {addressInformation.zone}
+                  </label>
+                </b>
+              </div>
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Wereda
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {addressInformation.wereda}
+                  </label>
+                </b>
+              </div>
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Street
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {addressInformation.street}
+                  </label>
+                </b>
+              </div>
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  HouseNo
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {addressInformation.houseNo}
+                  </label>
+                </b>
+              </div>
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  PoBox
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {addressInformation.poBox}
+                  </label>
+                </b>
+              </div>
+
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Request Place
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {addressInformation.requestPlace}
+                  </label>
+                </b>
+              </div>
+            </fieldset>
+            
+            <fieldset>
+              <ul class="list-group mb-3">
+                <li class="list-group-item ePassprt-color">
+                  <h5>Attachment Information</h5>
+                </li>
+                {attachment.length ? (
+                  attachment.map((attachmentitem) => (
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span>{attachmentitem.attachmentType} </span>
+                      <strong>
+                        <a href={attachmentitem.attachmentPath}>View File</a>
+                      </strong>
+                    </li>
+                  ))
+                ) : (
+                  <h6 class="my-3">
+                    <div class="alert alert-danger" role="alert">
+                      You Don't Have Attachment Information
+                    </div>
+                  </h6>
+                )}
+              </ul>
+            </fieldset>
+          </div>
         </div>
-      </MDBContainer>
+        <MDBRow>
+          <MDBCol className="medium-12">
+            <div className="text-center mb-3 signUpbutton ">
+              <MDBBtn
+                type="submit"
+                className="btn btn-info float-left ml-4"
+                onClick={backToList}
+              >
+                Back To My Application List
+              </MDBBtn>
+            </div>
+          </MDBCol>
+        </MDBRow>
+      </div>
+    </MDBContainer>
     );
   }
 }
