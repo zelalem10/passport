@@ -414,6 +414,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                   onBlur={handleChange}
                   type="text"
                   label="Phone Number"
+                  //icon="+251"
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
