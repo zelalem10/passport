@@ -73,6 +73,7 @@ const SiteSelection = forwardRef((props, ref) => {
   };
   function handeleCityChange(event) {
     setOfficeList([])
+    debugger;
     const id=event.target.value;
     const notNumeric= isNaN(id);
     let selectedCity=[];
@@ -94,6 +95,10 @@ const SiteSelection = forwardRef((props, ref) => {
     setDeliverySiteList([]);
     setOfficeId(event.target.value)
     const id=event.target.value;
+    setOfficeInfo((prevState) => ({
+      ...prevState,
+      offceId: id,
+    }));
     const selectedOff = officeList.filter(office => office.id == event.target.value)
     debugger
     if (selectedOff.length > 0) {
@@ -111,10 +116,6 @@ const SiteSelection = forwardRef((props, ref) => {
       setOfficeAddress("");
       setOfficeContact("");
     }
-    setOfficeInfo((prevState) => ({
-      ...prevState,
-      offceId: id,
-    }));
     setNotCompleted((prevState) => ({
       ...prevState,
       officeId: false,

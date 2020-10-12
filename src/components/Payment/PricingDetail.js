@@ -27,7 +27,7 @@ const PricingDetail = () => {
 
     useEffect(() => {
         const requestInfo = counter.request[counter.request.length - 1];
-        let requestId = 52;//requestInfo?requestInfo.requestId:0;
+        let requestId = requestInfo?requestInfo.requestId:0;
         API.get("https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + requestId, config)
             .then((todo) => {
                 setTotalPriceList(todo.data.priceTotalDetail);
