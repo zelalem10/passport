@@ -1,41 +1,50 @@
 import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import axios from 'axios';
 import Spinner from '../../common/Spinner';
-import { MDBBadge } from 'mdbreact';
-const Fileupload = forwardRef((props, ref) => {
-   ;
-  const { displayedApplication,personalInformation} = props;
-  let [successMessage, setsuccessMessage] = useState(false);
-  let [errorMessage, seterrorMessage] = useState(false);
-  const accesstoken = localStorage.systemToken;
-  const formData = new FormData();
+import { MDBCol, MDBRow, MDBBadge } from 'mdbreact';
+import { useSelector } from 'react-redux';
 
+const Fileupload = forwardRef((props, ref) => {
+  const { personalInformation } = props;
+  const accesstoken = localStorage.systemToken;
+  debugger;
+  const formData = new FormData();
+  let requestPersonId = personalInformation.requestPersonId;
   const [files, setfiles] = useState([]);
   const [fileType, setfileType] = useState([]);
   const inputs = [];
-  let requestPersonId = personalInformation.requestPersonId;
-  let attachmentlength = localStorage.getItem("attachmentlength");
-  let attachmentPath = JSON.parse(localStorage.getItem("attachmentPath"));
-  let attachmentType = JSON.parse(localStorage.getItem("attachmentType"));
-  let attachmentId = JSON.parse(localStorage.getItem("attachmentId"));
-
-  
+  let [successMessage, setsuccessMessage] = useState(false);
+  let [errorMessage, seterrorMessage] = useState(false);
+  let [validationMessage, setvalidationMessage] = useState(false);
+  let fileError = [];
   const [loading, setloading] = useState(false);
   const [filename, setfilename] = useState({
-    1:'',
-    2:'',
-    3:'',
-    4:'',
-    5:'',
-    6:'',
-    7:'',
-    8:'',
-    9:'',
-    10:'',
-    11:'',
-    12:''
-
+    1: '',
+    2: '',
+    3: '',
+    4: '',
+    5: '',
+    6: '',
+    7: '',
+    8: '',
+    9: '',
+    10: '',
+    11: '',
+    12: '',
   });
+  debugger;
+  let attachmentList = personalInformation.attachmentList;
+  console.log(attachmentList)
+  let requiredFile = attachmentList? attachmentList.length : 0;
+  let attachmentPath = [];
+  let attachmentNames = [];
+  let requiredFileType = [];
+
+  for (let i = 0; i < requiredFile; i++) {
+    attachmentPath.push(attachmentList[i].attachmentPath);
+    attachmentNames.push(attachmentList[i].attachmentType);
+    requiredFileType.push(attachmentList[i].attachmentId);
+  }
 
 
 
@@ -47,138 +56,128 @@ const Fileupload = forwardRef((props, ref) => {
       }));
     },
     Validate() {
-      return true
-    }
+      return true;
+    },
   }));
 
+  const validate = (files) => {
+    debugger;
+
+    if (files.length < requiredFile) {
+      fileError.push('You Should have to Choose all files');
+    }
+
+    setvalidationMessage(fileError);
+
+    if (fileError.length > 0) {
+      return false;
+    }
+
+    return true;
+  };
 
   const submit = async (e) => {
-     ;
+    //props.hideBack();
+    debugger;
     e.preventDefault();
-    setloading(true);
     setsuccessMessage(false);
     seterrorMessage(false);
-    console.log(files)
-    console.log(fileType)
-    // for (let i = 0; i < requiredAttachements; i++) {
-    //   files = e.target[i].files[0];
-    //   let fileType = e.target[i].id;
-    //   console.log(files)
-    //   console.log(fileType)
-    //   formData.append('personRequestId', requestPersonId);
-    //   formData.append(fileType, files);
+    fileError = [];
+    const isValid = validate(files);
+    if (isValid) {
+      setloading(true);
 
-    // }
-    for (let i = 0; i < files.length; i++) {
-       ;
-      formData.append('personRequestId', requestPersonId);
-      formData.append(fileType[i], files[i]);
-      console.log(files[i])
-      console.log(attachmentId[i])
+      for (let i = 0; i < files.length; i++) {
+        formData.append('personRequestId', requestPersonId);
+        formData.append(fileType[i], files[i]);
+        console.log(files[i]);
+        console.log(fileType[i]);
+      }
+
+      const url = 'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadChangeAttachment';
+
+      const config = {
+        headers: {
+          'content-type': 'multipart/form-data',
+          Authorization: 'Bearer ' + accesstoken,
+        },
+      };
+
+      //return post(url, formData, config);
+      try {
+        const response = await axios.post(url, formData, config);
+        console.log(response.data);
+        setloading(false);
+        setsuccessMessage(true);
+
+      } catch (error) {
+        console.log('error' + error.message);
+        setloading(false);
+        seterrorMessage(true);
+      }
     }
-      
-    const url = 'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadChangeAttachment';
-
-    const config = {
-      headers: {
-        'content-type': 'multipart/form-data',
-        'Authorization': 'Bearer ' + accesstoken
-      },
-    };
-
-    //return post(url, formData, config);
-    try {
-      const response = await axios.post(url, formData, config);
-      console.log(response.data);
-      setsuccessMessage(true);
-      setloading(false);
-    } catch (error) {
-      console.log("error" + error.message);
-      seterrorMessage(true);
-      setloading(false);
-    }
-
-  }
+  };
   const onChange = (e) => {
-     ;
     setfiles([...files, e.target.files[0]]);
     setfileType([...fileType, e.target.id]);
-      //files = e.target.files[0];
-      //fileType = e.target.id;
-      
-
+    //files = e.target.files[0];
+    //fileType = e.target.id;
 
     const { id, value } = e.target;
-  
-    setfilename((prevState) => ({
-      ...prevState,[id]:value.replace(/^.*[\\\/]/, '')}))
-    }
 
-  for (let i = 0; i < attachmentlength; i++) {
-     ;
-    if(attachmentlength > 0)
-    {
-      inputs.push(
-        <div class="row p-3" id='attachmentmargin'>
-           <div class="col-lg-4 passport-text-right">
-           <MDBBadge color="primary smallPadding "> {attachmentType[i]}</MDBBadge>
-           </div>
-   
-           
-      
-          <div class="col-lg-6 mb-2 pr-5">
+    setfilename((prevState) => ({
+      ...prevState,
+      [id]: value.replace(/^.*[\\\/]/, ''),
+    }));
+  };
+
+  for (let i = 0; i < requiredFile; i++) {
+    inputs.push(
+      <div class="row my-5" id="attachmentmargin">
+        <div class="col-lg-5 passport-text-right">
+          <MDBBadge color="primary smallPadding ">
+            {' '}
+            {attachmentNames[i]}{' '}
+          </MDBBadge>
+        </div>
+        <div class="col-lg-6 mb-2 pr-3">
           <div class="row">
-            <div class="col-lg-2">
+            <div class="col-lg-3">
             <a href={attachmentPath[i]} >View File</a>
             </div>
-            <div class="col-lg-10">
+            <div class="col-lg-9">
             <div className="input-group">
-              <div className="input-group-prepend">
-                <span className="input-group-text" id="inputGroupFileAddon01">
-                  Change
-                      </span>
-              </div>
-              <div className="custom-file">
-                <input
-                  name={`input-${i}`}
-                  type="file"
-                  id={attachmentId[i]}
-                  className="custom-file-input"
-                  aria-describedby="inputGroupFileAddon01"
-                  onChange={e => onChange(e)}
-                />
-  
-                <label className="custom-file-label" htmlFor="inputGroupFile01">
-                 {filename[attachmentId[i]] ? filename[attachmentId[i]]
-                 : <div>Choose File</div> 
-    }
-                </label>
-              </div>
+            <div className="input-group-prepend">
+              <span className="input-group-text" id="inputGroupFileAddon01">
+                Upload
+              </span>
             </div>
-  
+            <div className="custom-file">
+              <input
+                name={`input-${i}`}
+                type="file"
+                id={requiredFileType[i]}
+                className="custom-file-input"
+                aria-describedby="inputGroupFileAddon01"
+                accept="image/png,image/gif,image/jpeg,image/jpg,application/pdf"
+                onChange={(e) => onChange(e)}
+              />
+
+              <label className="custom-file-label" htmlFor="inputGroupFile01">
+                {filename[requiredFileType[i]] ? (
+                  filename[requiredFileType[i]]
+                ) : (
+                  <div class="smallFont">Choose file</div>
+                )}
+              </label>
             </div>
-  
           </div>
-  
-      
+       
+              </div>
           </div>
-        </div>
-      )
-  
-    }
-
-    else{
-      inputs.push(
-        <div class="row p-3" id='attachmentmargin'>
-           <div class="col-lg-4 passport-text-right">
-           <MDBBadge color="primary smallPadding "> No Attachment!</MDBBadge>
-           </div>
-   
-   </div>
-      )
-  
-    }
-
+ </div>
+      </div>
+    );
   }
 
   return (
@@ -186,30 +185,43 @@ const Fileupload = forwardRef((props, ref) => {
       {loading ? (
         <Spinner />
       ) : (
-
-  
-
-          <form onSubmit={e => submit(e)}>
-            {successMessage &&
+        <div class="container">
+          <form onSubmit={(e) => submit(e)}>
+          {successMessage &&
               <div class="alert alert-success" role="alert">
                 Operation sucessfully completed
-       </div>
+             </div>
             }
             {errorMessage &&
               <div class="alert alert-danger" role="alert">
                 Oops! Something went wrong.
-        </div>
+            </div>
             }
+            <div class="row ">
+              <div class="col-md-10 ">
+                {validationMessage.length
+                  ? validationMessage.map((error) => (
+                      <div class="alert alert-danger text-center" role="alert">
+                        {error}
+                      </div>
+                    ))
+                  : null}
+              </div>
+            </div>
+
             {inputs}
-            <button className="btn btn-primary float-right mr-3" type="submit">Upload</button>
-
+            <MDBRow>
+              <MDBCol md="9"></MDBCol>
+              <MDBCol>
+                <button className="btn btn-primary text-right" type="submit">
+                  Upload
+                </button>
+              </MDBCol>
+            </MDBRow>
           </form>
-
-
-
-        )}
+        </div>
+      )}
     </div>
-
-  )
+  );
 });
-export default Fileupload
+export default Fileupload;

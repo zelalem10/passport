@@ -16,12 +16,10 @@ function RescheduleAppointment(props) {
   let displayedApplication = {};
   const { displayRequestId } = props;
 
-  for (let item in appList) {
-    if (appList[item].requestId == handleDisplayId) {
-      displayedApplication = appList[item];
-    }
-  }
-  let appointmentDetails = displayedApplication.appointmentResponse;
+  displayedApplication = appList;
+
+  let appointmentDetails = displayedApplication?displayedApplication.appointmentResponse:null
+  ;
 
   let officeId = displayedApplication ? displayedApplication.officeId : null;
   if (displayedApplication.requestMode == 1 && !isUrgentAppointment) {
@@ -235,7 +233,6 @@ function RescheduleAppointment(props) {
             },
           })
             .then((responses) => {
-               ;
               for (
                 let i = 0;
                 i < responses.data.availableDateAndTimes.length;
@@ -298,7 +295,6 @@ function RescheduleAppointment(props) {
               }
             })
             .catch((error) => {
-               ;
               console.log('error' + error);
             });
         }

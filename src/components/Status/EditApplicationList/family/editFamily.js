@@ -2,7 +2,7 @@ import React from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdbreact';
 
 function EditFamily(props) {
-  const { familyType } = props;
+  const { familyType, getFamilyType } = props;
   return (
     <MDBContainer className="passport-container pt-3" id="raa-form" fluid>
       <MDBRow>
@@ -20,9 +20,22 @@ function EditFamily(props) {
                   </a>
 
                   <form className="mb-2">
-                    <div className="row">
+                    <div className="row p-3">
                       <div className="small-12 medium-8 column">
                         <div className="grey-text">
+                          <select
+                            name="familtyTypeId"
+                            onChange={props.handleEditInput}
+                            value={props.editFamilyData.familtyTypeId}
+                            className="browser-default custom-select"
+                          >
+                            <option style={{ display: 'none' }}>
+                              Choose your option
+                            </option>
+                            {familyType.map((item) => (
+                              <option value={item.id}>{item.type}</option>
+                            ))}
+                          </select>
                           <MDBInput
                             label="First Name"
                             group
@@ -43,19 +56,6 @@ function EditFamily(props) {
                             onChange={props.handleEditInput}
                             value={props.editFamilyData.lName}
                           />
-                          <select
-                            name="familtyTypeId"
-                            onChange={props.handleEditInput}
-                            value={props.editFamilyData.familtyTypeId}
-                            className="browser-default custom-select"
-                          >
-                            <option style={{ display: 'none' }}>
-                              Choose your option
-                            </option>
-                            {familyType.map((item) => (
-                              <option value={item.id}>{item.type}</option>
-                            ))}
-                          </select>
                         </div>
                       </div>
                     </div>

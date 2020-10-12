@@ -102,7 +102,7 @@ const NavbarPage = (props) => {
             <Link to="/">
               <img
                 src={require('../../images/default-source/shared/INVEA-logo.png')}
-                className="img-fluid logo-img w-100"
+                className="img-fluid logo-img w-100 p-2"
                 alt="Ethiopian ePassport logo"
               />
             </Link>

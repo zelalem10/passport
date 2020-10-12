@@ -8,6 +8,7 @@ import { MDBContainer, MDBCol, MDBRow } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addPaymentOptionId from '../../../redux/actions/addPaymentOptionIdAction';
 import InstructionPage from './InstructionPage';
+import { useHistory } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import BasicTable from './PricingDetail';
@@ -36,7 +37,7 @@ function requestTypeGetter(requetTypeId) {
   }
 }
 const PaymentSelection = forwardRef((props, ref) => {
-  const { handlePaymentId } = props;
+  const { handlePaymentId,status,backToList } = props;
   const [selectedOption, setSelectedOption] = useState();
   const [optionSelected, setOptionSelected] = useState('');
   const [paymentOptions, setPaymentOptions] = useState([]);
@@ -48,12 +49,18 @@ const PaymentSelection = forwardRef((props, ref) => {
   const data = useSelector((state) => state);
   const appList = data.applicationList[data.applicationList.length - 1];
   let displayedApplication = {};
-
+  let history = useHistory();
+if(status){
+  if (appList.hasOwnProperty('requestId')?appList.requestId == handlePaymentId:false) {
+    displayedApplication = appList;
+  }
+}else{
   for (let item in appList) {
     if (appList[item].requestId == handlePaymentId) {
       displayedApplication = appList[item];
     }
   }
+}
   const personalInformation = displayedApplication.personResponses;
   const accesstoken = localStorage.systemToken;
   const requestType = displayedApplication.requestTypeId;
@@ -64,7 +71,6 @@ const PaymentSelection = forwardRef((props, ref) => {
   const priceDetail = data.priceInfo[data.priceInfo.length - 1];
   const handleProcced = () => {
     if (formCompleted && optionSelected) {
-       ;
       const body = {
         firstName: personalInformation.firstName,
         lastName: personalInformation.middleName,
@@ -116,6 +122,7 @@ const PaymentSelection = forwardRef((props, ref) => {
         console.log('AXIOS ERROR: ', err);
       });
   }, []);
+
   const handelClick = (optionId) => {
     setSelectedOption(optionId);
     setOptionSelected(optionId);
@@ -127,7 +134,7 @@ const PaymentSelection = forwardRef((props, ref) => {
   };
 
   if (formCompleted && optionSelected && procced) {
-    return <InstructionPage />;
+    return <InstructionPage passportPage={personalInformation.passportRes.passportPage} />;
   } else {
     return (
       <MDBContainer className="passport-container payment-container" fluid>
@@ -203,7 +210,8 @@ const PaymentSelection = forwardRef((props, ref) => {
           </div>
 
           <div class="pt-3 multistep-form__step">
-            <a class="button hollow gray vertical-margin-2 ng-star-inserted">
+            <a class="button hollow gray vertical-margin-2 ng-star-inserted"
+            onClick={()=>backToList()}>
               <i class="fas fa-arrow-left"></i> Return to My Applications
             </a>
             <a

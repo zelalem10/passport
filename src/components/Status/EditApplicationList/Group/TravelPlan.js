@@ -21,7 +21,6 @@ const TravelPlan = forwardRef((props, ref) => {
   const counter = useSelector((state) => state);
   let travelInfo = [];
   if (counter.travelPlan.length === 0) {
-     ;
     for (let i = 0; i < applicants.length; i++) {
       travelInfo.push({
         applicantNumber: applicants[i].id,
@@ -55,7 +54,6 @@ const TravelPlan = forwardRef((props, ref) => {
   };
   let prevInfo;
   if (counter.travelPlan.length !== 0) {
-     ;
     const resultLength = counter.travelPlan.filter(
       (item) => item.applicantNumber == props.applicantNumber
     ).length;
@@ -89,7 +87,7 @@ const TravelPlan = forwardRef((props, ref) => {
     }));
   }, []);
   const [selectedTravelDate, setSelectedTravelDate] = React.useState(
-    new Date(prevInfo ? prevInfo.travelDate : '2014-08-18T21:11:54')
+    new Date(prevInfo ? prevInfo.travelDate : new Date())
   );
 
   const handleTravelDateChange = (date) => {

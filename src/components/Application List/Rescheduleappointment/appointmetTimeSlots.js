@@ -2,14 +2,13 @@ import React from 'react';
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdbreact';
 
 function AvailableTimeSlot(props) {
-   ;
   const { timeLists } = props;
   const { showAndHide } = props;
 
   if (showAndHide === true) {
     return (
       <div id="chooseAppointments">
-        <MDBTable id="apptTable" class="table-responsive">
+        <MDBTable id="apptTable" className="table-responsive">
           <MDBTableHead>
             <tr>
               <th>

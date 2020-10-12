@@ -18,7 +18,6 @@ function FamilyForm(props) {
     saveEditedData,
     handleEditInput,
   } = props;
-   ;
   if (!data && addAdditionalFamily === false) {
     return (
       <AddFamily

@@ -73,13 +73,7 @@ let requests=data.request[data.request.length - 1];
 if(requests && !displayedApplication){
   setDisplayedApplication(requests);
 }
- 
-
-  let requestPersonId;
-  let attachmentlength;
-  const [attachment, setattachment] = useState([]);
-
-  let atachmentsample = [];
+let attachementResponse =  data.attachement[data.attachement.length - 1];
 
   const confirmInformation = (e) => {
     setFormCompleted(e.target.checked);
@@ -96,7 +90,6 @@ if(requests && !displayedApplication){
     },
   }));
   const getOccupation = (id) => {
-     ;
     let occupations = JSON.parse(localStorage.occupations);
     for (let index = 0; index < occupations.length; index++) {
       if (occupations[index].id == id) {
@@ -132,27 +125,6 @@ if(requests && !displayedApplication){
         const personalInformation = displayedApplication.personResponses;
         const addressInformation = personalInformation.address;
         const familyInformation = personalInformation.familyResponses;
-        requestPersonId = personalInformation.requestPersonId;
-
-        axios({
-          headers: { Authorization: 'Bearer ' + accesstoken },
-          method: 'get',
-          url:
-            'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
-          params: { personRequestId: requestPersonId },
-        })
-          .then((Response) => {
-            attachmentlength = Response.data.attachments.length;
-
-            for (let i = 0; i < attachmentlength; i++) {
-              atachmentsample.push(Response.data.attachments[i]);
-            }
-            setattachment(atachmentsample);
-            // console.log(attachment);
-          })
-          .catch((err) => {
-            // console.log(err);
-          });
 
         const handleChange = (panel) => (event, newExpanded) => {
           setExpanded(newExpanded ? panel : false);
@@ -390,17 +362,7 @@ if(requests && !displayedApplication){
                         </label>
                       </b>
                     </div>
-                    <div class="form-group form-inline">
-                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        Half Cast
-                      </label>
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                      <b>
-                        <label class="font-weight-bold">
-                          {personalInformation.halfCast}
-                        </label>
-                      </b>
-                    </div>
+                    
 
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
@@ -421,6 +383,41 @@ if(requests && !displayedApplication){
                       <b>
                         <label class="font-weight-bold">
                           {personalInformation.email}
+                        </label>
+                      </b>
+                    </div>
+                    
+
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Is HalfCast
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.isHalfCast?'True':'False'}
+                        </label>
+                      </b>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Is Adoption
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.isAdoption?'True':'False'}
+                        </label>
+                      </b>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Is Under18
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.isUnder18?'True':'False'}
                         </label>
                       </b>
                     </div>
@@ -555,13 +552,16 @@ if(requests && !displayedApplication){
                       </b>
                     </div>
                   </fieldset>
+                  
                   <fieldset>
                     <ul class="list-group mb-3">
                       <li class="list-group-item ePassprt-color">
                         <h5>Attachment Information</h5>
                       </li>
-                      {attachment.length ? (
-                        attachment.map((attachmentitem) => (
+                      {
+                      attachementResponse? 
+                      attachementResponse.length ?  (
+                        attachementResponse.map((attachmentitem) => (
                           <li class="list-group-item d-flex justify-content-between">
                             <span>{attachmentitem.attachmentType} </span>
                             <strong>
@@ -571,9 +571,22 @@ if(requests && !displayedApplication){
                             </strong>
                           </li>
                         ))
-                      ) : (
-                        <h6>Please wait...</h6>
-                      )}
+                     
+                        ) : (
+                          <h6 class="my-3">
+                          <div class="alert alert-danger" role="alert">
+                          You Don't Have Attachment Information
+                          </div>
+                        </h6>
+                      )
+                      : (
+                        <h6 class="my-3">
+                        <div class="alert alert-danger" role="alert">
+                        You Don't Have Attachment Information
+                        </div>
+                      </h6>
+                      )
+                      }
                     </ul>
                   </fieldset>
                 </div>

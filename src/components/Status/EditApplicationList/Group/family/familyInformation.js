@@ -50,15 +50,12 @@ const FamilyInformation = forwardRef((props, ref) => {
     setFamiliesInfo(familiesInformation);
     setIsOnLoad(false);
   } else if (isOnLoad === true && counter.editFamilyData.length === 1) {
-     ;
     let thisFamilyInfo = counter.editFamilyData[0].filter(
       (family) => family.personId == props.applicantNumber
     );
     setFamiliesInfo(thisFamilyInfo);
     setIsOnLoad(false);
   } else if (isOnLoad === true && counter.editFamilyData.length > 1) {
-     ;
-
     const resultLength = counter.editFamilyData.filter(function (items) {
       for (let item in items) {
         if (items[item].personId == props.applicantNumber) {
@@ -89,7 +86,17 @@ const FamilyInformation = forwardRef((props, ref) => {
 
   const [familyType, setFamilyType] = useState([]);
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
-  const accesstoken = localStorage.systemToken;
+  const tokenValue = () => {
+    const UserToken = localStorage.userToken;
+
+    if (UserToken) {
+      return UserToken;
+    } else {
+      const SystemToken = localStorage.systemToken;
+      return SystemToken;
+    }
+  };
+  const accesstoken = tokenValue();
 
   useEffect(() => {
     axios({
@@ -200,7 +207,6 @@ const FamilyInformation = forwardRef((props, ref) => {
       params: { familyId: ids },
     })
       .then((response) => {
-         ;
         var array = [...familiesInfo];
         array.splice(index, 1);
         setFamiliesInfo(array);

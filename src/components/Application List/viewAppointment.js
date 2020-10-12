@@ -99,10 +99,7 @@ export default function ViewAppointment(props) {
     }
   }
   const personalInformation = displayedApplication.personResponses;
-  let requestPersonId;
-  let attachmentlength;
-  const [attachment, setattachment] = useState([]);
-  let atachmentsample = [];
+
 
   if (personalInformation) {
     // if (personalInfo.length === 1) {
@@ -110,27 +107,8 @@ export default function ViewAppointment(props) {
     const addressInformation = personalInformation.address;
     const familyInformation = personalInformation.familyResponses;
 
-    requestPersonId = personalInformation.requestPersonId;
-
-    axios({
-      headers: { Authorization: 'Bearer ' + accesstoken },
-      method: 'get',
-      url:
-        'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
-      params: { personRequestId: requestPersonId },
-    })
-      .then((Response) => {
-        attachmentlength = Response.data.attachments.length;
-
-        for (let i = 0; i < attachmentlength; i++) {
-          atachmentsample.push(Response.data.attachments[i]);
-        }
-        setattachment(atachmentsample);
-        console.log(attachment);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    let attachementResponse =  personalInformation.attachmentList;
+    console.log(attachementResponse)
 
     const handleChange = (panel) => (event, newExpanded) => {
       setExpanded(newExpanded ? panel : false);
@@ -234,6 +212,41 @@ export default function ViewAppointment(props) {
                   </b>
                 </div>
                 <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                        Geez First Name
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.geezFirstName}
+                        </label>
+                      </b>
+                    </div>
+
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                        Geez Middle Name
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.geezMiddleName}
+                        </label>
+                      </b>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                        Geez Last Name
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.geezLastName}
+                        </label>
+                      </b>
+                    </div>
+                   
+                <div class="form-group form-inline">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                     Date of Birth
                   </label>
@@ -312,17 +325,7 @@ export default function ViewAppointment(props) {
                     </label>
                   </b>
                 </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Half Cast
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {personalInformation.halfCast}
-                    </label>
-                  </b>
-                </div>
+               
 
                 <div class="form-group form-inline">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
@@ -346,8 +349,64 @@ export default function ViewAppointment(props) {
                     </label>
                   </b>
                 </div>
+                <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Is HalfCast
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.isHalfCast?'True':'False'}
+                        </label>
+                      </b>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Is Adoption
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.isAdoption?'True':'False'}
+                        </label>
+                      </b>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Is Under18
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.isUnder18?'True':'False'}
+                        </label>
+                      </b>
+                    </div>
               </fieldset>
-              <fieldset>
+              {familyInformation.length !== 0 ? (
+                <fieldset>
+                  <legend class="text-primary">Family Information</legend>
+                  <hr class="text-primary" />
+                  {familyInformation.map((family) => (
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                        {getFamilyType(family.familtyTypeId)}
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold" id="AccommodationTyppe">
+                          {family.firstName + ' ' + family.lastName}
+                        </label>
+                      </b>
+                    </div>
+                  ))}
+                </fieldset>
+              ) : null}
+              
+            </div>
+
+            <div className="col-md-6">
+            <fieldset>
                 <legend class="text-primary">Address Information</legend>
                 <hr class="text-primary" />
                 <div class="form-group form-inline">
@@ -455,48 +514,34 @@ export default function ViewAppointment(props) {
             </div>
 
             <div className="col-md-6">
-              {familyInformation.length !== 0 ? (
-                <fieldset>
-                  <legend class="text-primary">Family Information</legend>
-                  <hr class="text-primary" />
-                  {familyInformation.map((family) => (
-                    <div class="form-group form-inline">
-                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        {getFamilyType(family.familtyTypeId)}
-                      </label>
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                      <b>
-                        <label class="font-weight-bold" id="AccommodationTyppe">
-                          {family.firstName + ' ' + family.lastName}
-                        </label>
-                      </b>
-                    </div>
-                  ))}
-                </fieldset>
-              ) : null}
-              <fieldset>
-                <ul class="list-group mb-3">
-                  <li class="list-group-item ePassprt-color">
-                    <h5>Attachment Information</h5>
-                  </li>
-                  {attachment.length ? (
-                    attachment.map((attachmentitem) => (
-                      <li class="list-group-item d-flex justify-content-between">
-                        <span>{attachmentitem.attachmentType} </span>
-                        <strong>
-                          <a href={attachmentitem.attachmentPath}>View File</a>
-                        </strong>
+              
+       <fieldset>
+                    <ul class="list-group mb-3">
+                      <li class="list-group-item ePassprt-color">
+                        <h5>Attachment Information</h5>
                       </li>
-                    ))
-                  ) : (
-                    <h6 class="my-3">
-                      <div class="alert alert-danger" role="alert">
-                        You Don't Have Attachment Information
-                      </div>
-                    </h6>
-                  )}
-                </ul>
-              </fieldset>
+                      {
+                      attachementResponse.length ? (
+                        attachementResponse.map((attachmentitem) => (
+                          <li class="list-group-item d-flex justify-content-between">
+                            <span>{attachmentitem.attachmentType} </span>
+                            <strong>
+                              <a href={attachmentitem.attachmentPath}>
+                                View File
+                              </a>
+                            </strong>
+                          </li>
+                        ))
+                     
+                        ) : (
+                          <h6 class="my-3">
+                          <div class="alert alert-danger" role="alert">
+                          You Don't Have Attachment Information
+                          </div>
+                        </h6>
+                      )}
+                    </ul>
+                  </fieldset>
             </div>
           </div>
           <MDBRow>

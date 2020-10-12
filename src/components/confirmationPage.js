@@ -20,7 +20,7 @@ function ConfirmationPage() {
 
   return (
     <>
-      <MDBContainer className="passport-container confirmation-page pt-3" fluid>
+      <MDBContainer id="section-to-print" className="passport-container confirmation-page pt-3" fluid>
         <MDBCol>
           <MDBCard>
             <MDBRow className="confirmation-print-btn no-print">
@@ -29,7 +29,7 @@ function ConfirmationPage() {
                 <span class="print-icon"></span>
               </button>
             </MDBRow>
-            <MDBCardBody id="section-to-print">
+            <MDBCardBody >
               <MDBCardTitle className="confirmation-page-title1">
                 <MDBRow>
                   <i class="fas fa-check-circle fa-3x confirmation-page-icon"></i>
@@ -40,7 +40,7 @@ function ConfirmationPage() {
                   </h3>
                 </MDBRow>
                 <MDBRow>
-                  <h3>Appointment Id 5445568</h3>
+  <h3>Application Number {request.personResponses.applicationNumber}</h3>
                 </MDBRow>
                 <MDBRow>
                   <p class="font-italic confirmation-page-paragraph">
@@ -179,7 +179,6 @@ function ConfirmationPage() {
         </MDBCol>
       </MDBContainer>
       <iframe id="ifmcontentstoprint"></iframe>
-      <style>{`@media print {.no-print{display: none;}}`}</style>
     </>
   );
 }

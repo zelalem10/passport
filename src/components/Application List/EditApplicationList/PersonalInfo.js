@@ -108,29 +108,7 @@ const PersonalInfo = forwardRef((props, ref) => {
       dispatch(addPersonalInfo(personalInfo));
     },
     Validate() {
-      setNotCompleted({
-        firstName: personalInfo.firstName === '' ? true : false,
-        middleName: personalInfo.middleName === '' ? true : false,
-        lastName: personalInfo.lastName === '' ? true : false,
-        geezFirstName: personalInfo.geezFirstName === '' ? true : false,
-        geezMiddleName: personalInfo.geezMiddleName === '' ? true : false,
-        geezLastName: personalInfo.geezLastName === '' ? true : false,
-        birthPlace: personalInfo.birthPlace === '' ? true : false,
-        birthCertificatNo: personalInfo.birthCertificatNo === '' ? true : false,
-        birthDate: personalInfo.birthDate === '' ? true : false,
-        gender: personalInfo.gender === '' ? true : false,
-        height: personalInfo.height === '' ? true : false,
-        eyeColor: personalInfo.eyeColor === '' ? true : false,
-        hairColor: personalInfo.hairColor === '' ? true : false,
-        occupationId: personalInfo.occupationId === 0 ? true : false,
-        isHalfCast: personalInfo.isHalfCast,
-        isUnder18: personalInfo.isUnder18,
-        isAdoption: personalInfo.isAdoption,
-        nationalityId: personalInfo.nationalityId === 0 ? true : false,
-        martialStatus: personalInfo.martialStatus === '' ? true : false,
-        phoneNumber: personalInfo.phoneNumber === '' ? true : false,
-        email: personalInfo.email === '' ? true : false,
-      });
+      
       if (
         notCompleted.firstName == true ||
         notCompleted.lastName ||
@@ -160,7 +138,6 @@ const PersonalInfo = forwardRef((props, ref) => {
   };
 
   const handleChange = (event) => {
-     ;
     const { name, value } = event.target;
     setPersonalInfo((prevState) => ({
       ...prevState,
@@ -203,6 +180,29 @@ const PersonalInfo = forwardRef((props, ref) => {
           : null
         : null,
     }));
+    setNotCompleted({
+      firstName: personalInfo.firstName === '' ? true : false,
+      middleName: personalInfo.middleName === '' ? true : false,
+      lastName: personalInfo.lastName === '' ? true : false,
+      geezFirstName: personalInfo.geezFirstName === '' ? true : false,
+      geezMiddleName: personalInfo.geezMiddleName === '' ? true : false,
+      geezLastName: personalInfo.geezLastName === '' ? true : false,
+      birthPlace: personalInfo.birthPlace === '' ? true : false,
+      birthCertificatNo: personalInfo.birthCertificatNo === '' ? true : false,
+      birthDate: personalInfo.birthDate === '' ? true : false,
+      gender: personalInfo.gender === '' ? true : false,
+      height: personalInfo.height === '' ? true : false,
+      eyeColor: personalInfo.eyeColor === '' ? true : false,
+      hairColor: personalInfo.hairColor === '' ? true : false,
+      occupationId: personalInfo.occupationId === 0 ? true : false,
+      isHalfCast: personalInfo.isHalfCast,
+      isUnder18: personalInfo.isUnder18,
+      isAdoption: personalInfo.isAdoption,
+      nationalityId: personalInfo.nationalityId === 0 ? true : false,
+      martialStatus: personalInfo.martialStatus === '' ? true : false,
+      phoneNumber: personalInfo.phoneNumber === '' ? true : false,
+      email: personalInfo.email === '' ? true : false,
+    });
   }, []);
   const [selectedDate, setSelectedDate] = React.useState(
     new Date(prevInfo ? prevInfo.dateOfBirth : new Date())

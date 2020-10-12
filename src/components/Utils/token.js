@@ -1,6 +1,5 @@
 let tokenValue = '';
 const token = () => {
-   ;
   const UserToken = localStorage.userToken;
 
   if (UserToken) {

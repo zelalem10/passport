@@ -110,6 +110,12 @@ export default function ListOfApplications(props) {
                                     </strong>{' '}
                                     {user.requestStatus}
                                   </div>{' '}
+                                  <div>
+                                    <strong className="d-inline">
+                                      Application Number :{' '}
+                                    </strong>{' '}
+                                    {user.personResponses.applicationNumber}
+                                  </div>{' '}
                                 </div>
                                 {user.requestStatus == 'UrgentApproved' ? (
                                   <a
@@ -123,7 +129,7 @@ export default function ListOfApplications(props) {
                                       <i class="fas fa-credit-card fa-lg"></i>
                                     </div>
                                   </a>
-                                ) : null}
+                                 ) : null} 
                                 {user.requestStatus == 'SendforCorrection' &&
                                 user.requestStatus == 'Initial' ? (
                                   <a
@@ -135,7 +141,7 @@ export default function ListOfApplications(props) {
                                       <i class="fas fa-edit fa-lg"></i>
                                     </div>
                                   </a>
-                                ) : null}
+                                ) : null} 
 
                                 <a
                                   className="hoverWhite"
@@ -182,43 +188,7 @@ export default function ListOfApplications(props) {
                                       </span>
                                     </MDBTooltip>
                                   </a>
-                                ) : null}
-
-                                <Dialog
-                                  open={open}
-                                  onClose={handleClose}
-                                  aria-labelledby="alert-dialog-title"
-                                  aria-describedby="alert-dialog-description"
-                                >
-                                  <DialogTitle>
-                                    {
-                                      'Are you sure you want to cancel this Schedule?'
-                                    }
-                                  </DialogTitle>
-
-                                  <DialogContent>
-                                    <DialogContentText></DialogContentText>
-                                  </DialogContent>
-
-                                  <DialogActions>
-                                    <Button
-                                      onClick={() =>
-                                        cancelSchedule(cancelRequestId)
-                                      }
-                                      color="secondary"
-                                      autoFocus
-                                    >
-                                      Yes
-                                    </Button>
-
-                                    <Button
-                                      onClick={handleClose}
-                                      color="primary"
-                                    >
-                                      Cancel
-                                    </Button>
-                                  </DialogActions>
-                                </Dialog>
+                                 ) : null} 
                               </div>
                             </a>
                           </div>

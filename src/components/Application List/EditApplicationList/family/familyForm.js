@@ -19,8 +19,6 @@ function FamilyForm(props) {
     handleEditInput,
     getFamilyType,
   } = props;
-   ;
-
   if (!data && addAdditionalFamily === false) {
     return (
       <AddFamily

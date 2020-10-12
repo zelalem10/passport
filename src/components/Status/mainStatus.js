@@ -7,7 +7,6 @@ import addApplicationList from '../../redux/actions/addApplicationLIst';
 import Status from './Status';
 import ViewAppointment from './viewAppointment';
 import HorizontalLabelPositionBelowStepper from './EditApplicationList/PersonslInfoStepper';
-import GroupRequestStepper from './EditApplicationList/Group/GroupNavigation';
 import RescheduleAppointment from './Rescheduleappointment/appointmentDate';
 import GetContent from '../UrgentAppointment/Payment/PaymentSelection';
 
@@ -55,11 +54,9 @@ const MainStatus = () => {
   const [goToPayment, setGoToPayment] = useState(false);
 
   const handleDisplay = (id) => {
-     ;
     setDisplayRequestId(id);
   };
   const handleEdit = (id, numberOfApplicants) => {
-     ;
     if (numberOfApplicants === 1) {
       setIsGroup(false);
     } else {
@@ -74,8 +71,6 @@ const MainStatus = () => {
   };
   //validate form
   const validate = () => {
-     ;
-
     if (!ApplicationNumber && !ConfirmationNumber) {
       AllError = 'Please fill at least one field.';
     } else {
@@ -95,14 +90,11 @@ const MainStatus = () => {
   };
 
   const handleSubmit = (e) => {
-     ;
-    e.preventDefault();
     setloading(true);
     const isValid = validate();
     if (isValid) {
       setApplicationNumber(ApplicationNumber);
       setConfirmationNumber(ConfirmationNumber);
-
       if (ApplicationNumber) {
         debugger;
         axios
@@ -111,7 +103,6 @@ const MainStatus = () => {
             config
           )
           .then((response) => {
-             ;
             setApplicationNumberData(response.data.serviceRequest);
             setAllError('');
             if (response.data.status !== 0) {
@@ -135,7 +126,6 @@ const MainStatus = () => {
             config
           )
           .then((response) => {
-             ;
             setConfirmationNumberData(response.data.serviceResponseList);
             setAllError('');
             if (response.data.status !== 0) {
@@ -149,11 +139,16 @@ const MainStatus = () => {
             console.log(response.data);
           })
           .catch((error) => {
-             ;
             console.log('error' + error);
           });
       }
     }
+  };
+  const backToList = () => {
+    setGoToPayment(false);
+    sethandleDisplayId('');
+    setDisplayRequestId('');
+    setIsEdit('');
   };
 
   // clear Serch Items
@@ -165,10 +160,24 @@ const MainStatus = () => {
     setShowForm(true);
   };
   if (goToPayment) {
-    return <GetContent handlePaymentId={handlePaymentId} />;
+    return <GetContent handlePaymentId={handlePaymentId} status={true} backToList={backToList} />;
   } else if (handleDisplayId) {
     return <RescheduleAppointment handleDisplayId={handleDisplayId} />;
-  } else if (!displayRequestId && !isEdit) {
+  } else if (displayRequestId && isEdit) {
+    return (
+      <HorizontalLabelPositionBelowStepper
+        displayRequestId={displayRequestId}
+        backToList={backToList}
+      />
+    );
+  } else if (displayRequestId) {
+    return (
+      <ViewAppointment
+        displayRequestId={displayRequestId}
+        backToList={backToList}
+      />
+    );
+  } else {
     return (
       <Status
         ApplicationNumberData={ApplicationNumberData}
@@ -191,16 +200,9 @@ const MainStatus = () => {
         handleDisplay={handleDisplay}
         handleEdit={handleEdit}
         handleReschedule={handleReschedule}
+        handlePayment={handlePayment}
       />
     );
-  } else if (displayRequestId && isEdit) {
-    return (
-      <HorizontalLabelPositionBelowStepper
-        displayRequestId={displayRequestId}
-      />
-    );
-  } else {
-    return <ViewAppointment displayRequestId={displayRequestId} />;
   }
 };
 

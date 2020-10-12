@@ -99,7 +99,6 @@ function HorizontalLinearStepper() {
     setState({
       step: step + 2,
     });
-     ;
     dispatch(
       serviceActions.selectService({
         ...data,
@@ -134,7 +133,6 @@ function HorizontalLinearStepper() {
     );
   };
   const replacmentReason = (value) => {
-     ;
     setState({
       step: step + 1,
     });
