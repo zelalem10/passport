@@ -91,16 +91,16 @@ const Address = forwardRef((props, ref) => {
         }))
 
         setNotCompleted({
-            region: prevInfo.region === '' ? true : false,
-            city: prevInfo.city === '' ? true : false,
-            state: prevInfo.state === '' ? true : false,
-            zone: prevInfo.zone === '' ? true : false,
-            woreda: prevInfo.woreda === '' ? true : false,
-            kebele: prevInfo.kebele === '' ? true : false,
-            street: prevInfo.street === '' ? true : false,
-            houseNo: prevInfo.houseNo === '' ? true : false,
-            poBox: prevInfo.poBox === '' ? true : false,
-            requestPlace: prevInfo.requestPlace === '' ? true : false,
+            region: prevInfo!==null && prevInfo.region === '' ? true : false,
+            city: prevInfo!==null && prevInfo.city === '' ? true : false,
+            state:prevInfo!==null &&  prevInfo.state === '' ? true : false,
+            zone: prevInfo!==null && prevInfo.zone === '' ? true : false,
+            woreda: prevInfo!==null && prevInfo.woreda === '' ? true : false,
+            kebele: prevInfo!==null && prevInfo.kebele === '' ? true : false,
+            street: prevInfo!==null && prevInfo.street === '' ? true : false,
+            houseNo: prevInfo!==null && prevInfo.houseNo === '' ? true : false,
+            poBox: prevInfo!==null && prevInfo.poBox === '' ? true : false,
+            requestPlace: prevInfo!==null && prevInfo.requestPlace === '' ? true : false,
           });
           setRegionList(JSON.parse(localStorage.countryRegions))
           if (regionList.length === 0) {

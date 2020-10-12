@@ -7,7 +7,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import saveSiteInformation from '../../redux/actions/siteInformationAction';
 import { Link } from 'react-router-dom';
 
-const accesstoken = localStorage.systemToken;
+function requestTypeGetter(requetTypeId) {
+  switch (requetTypeId) {
+    case 2:
+      return 'New';
+    case 3:
+      return 'Renew/Replacement';
+    case 4:
+      return 'Lost';
+    case 8:
+      return 'Correction';
+    default:
+      return 'Unkown';
+  }
+}
 const SiteSelection = forwardRef((props, ref) => {
   const [cityList, setCityList] = useState([]);
   const [regionList, setRegionList] = useState([]);
@@ -39,9 +52,14 @@ const SiteSelection = forwardRef((props, ref) => {
     reagionId: true,
     deliverySiteId: true,
   });
-
   const accesstoken = localStorage.systemToken;
   const dispatch = useDispatch();
+  const counter = useSelector((state) => state);
+  const serviceSelcetion = counter.service[counter.service.length - 1];
+  const requestType = serviceSelcetion.appointemntType;
+  const requestTypeStr = requestTypeGetter(requestType);
+
+
   const deliverySiteURL = "https://epassportservices.azurewebsites.net/Master/api/V1.0/DeliverySite/GetAll?OfficeId="
   const officeURL = 'https://epassportservices.azurewebsites.net/Master/api/V1.0/Office/GetByCityId?id=';
   const config = {
@@ -69,7 +87,7 @@ const SiteSelection = forwardRef((props, ref) => {
         .catch((err) => {
           console.log('AXIOS ERROR: ', err.response);
         });
-    //setCityList(selectedRegion.length > 0 ? selectedRegion[0].cities : []);
+        setFormCompleted(false)
   };
   function handeleCityChange(event) {
     setOfficeList([])
@@ -89,22 +107,28 @@ const SiteSelection = forwardRef((props, ref) => {
         cityId: id,
     }));
     setOfficeList(selectedCity)
+    setFormCompleted(false)
   }
 
   function handelOfficeChange(event) {
     setDeliverySiteList([]);
     setOfficeId(event.target.value)
-    const id=event.target.value;
+    const id = event.target.value;
     setOfficeInfo((prevState) => ({
       ...prevState,
       offceId: id,
     }));
     const selectedOff = officeList.filter(office => office.id == event.target.value)
-     
+
     if (selectedOff.length > 0) {
       setOfficeName(selectedOff[0].name);
       setOfficeAddress(selectedOff[0].address);
       setOfficeContact(selectedOff[0].fax);
+      if(requestTypeStr !=="New"){
+        setDeliveryOfficeName(selectedOff[0].name);
+      setdeliveryOfficeAddress(selectedOff[0].address);
+      setdeliveryOfficeContact(selectedOff[0].fax);
+      }
       setDuration(selectedOff[0].noOfDaysForProcess)
       setOfficeInfo((prevState) => ({
         ...prevState,
@@ -120,11 +144,13 @@ const SiteSelection = forwardRef((props, ref) => {
       ...prevState,
       officeId: false,
     }));
- 
-    if(selectedOff.length>0)
-    setDeliverySiteList(selectedOff[0].deliverySites)
 
-     }
+    if (selectedOff.length > 0)
+      setDeliverySiteList(selectedOff[0].deliverySites)
+
+    if (requestTypeStr !== "New")
+      setFormCompleted(true)
+  }
 
   function handelDeliveryChange(event) {
     const id=event.target.value;
@@ -174,6 +200,8 @@ const SiteSelection = forwardRef((props, ref) => {
         });
     }
   }, []);
+  
+  
   return (
     <MDBCard style={{ marginBottom: "1rem" }}>
       <MDBCardBody>
@@ -236,8 +264,7 @@ const SiteSelection = forwardRef((props, ref) => {
                   <span style={{ color: "red" }}> {(notCompleted.officeId == true && dataSaved == true) ? "Please select office" : null}</span>
                 </MDBCol>
               </MDBRow>
-
-              <MDBRow>
+              {requestTypeStr==="New"?( <MDBRow>
                 <MDBCol className='mb-3'>
                   <label>
                     Delivery Site<i style={{ color: 'red' }}>*</i>
@@ -255,7 +282,8 @@ const SiteSelection = forwardRef((props, ref) => {
                   <span style={{ color: "red" }}> {(notCompleted.deliverySiteId == true && dataSaved == true) ? "Please select delivery site" : null}</span>
                 </MDBCol>
               </MDBRow >
-            </div>
+           ):(null)}
+              </div>
             <div class="col-md-8">
               <app-right-content
                 class="small-12 medium-4 large-offset-1 large-4 column sticky-container"
@@ -313,32 +341,32 @@ const SiteSelection = forwardRef((props, ref) => {
                       </ul>
                     </fieldset>
                       </MDBCol>
-                      <MDBCol  md="6">
-                      <fieldset>
-                      <legend>Delivery site</legend>
-                      <ul class="list--no-indent list--no-bullets ng-star-inserted">
-                        <li>
-                          <strong>
-                                                              Office name:&nbsp;&nbsp;<Link to="#">{deliveryOfficeName}{' '}</Link>
-                          </strong>
-                        </li>
-                        <hr />
-                        <li>
-                          <strong>
-                                                              Address:&nbsp;&nbsp;<Link to="#">{deliveryOfficeAddress}{' '}</Link>
-                          </strong>
-                        </li>
-                        <hr />
-                        <li>
-                          <strong>
-                            Contact :&nbsp;&nbsp;<i
-                              aria-hidden="true"
-                              class="fas fa-phone fa-rotate-180"
-                            ></i>{' '}<a href="tel:deliveryOfficeContact">{deliveryOfficeContact}{' '}</a>
-                          </strong>
-                        </li>
-                      </ul>
-                    </fieldset>
+                      <MDBCol md="6">
+                        <fieldset>
+                          <legend>Delivery site</legend>
+                          <ul class="list--no-indent list--no-bullets ng-star-inserted">
+                            <li>
+                              <strong>
+                                Office name:&nbsp;&nbsp;<Link to="#">{deliveryOfficeName}{' '}</Link>
+                              </strong>
+                            </li>
+                            <hr />
+                            <li>
+                              <strong>
+                                Address:&nbsp;&nbsp;<Link to="#">{deliveryOfficeAddress}{' '}</Link>
+                              </strong>
+                            </li>
+                            <hr />
+                            <li>
+                              <strong>
+                                Contact :&nbsp;&nbsp;<i
+                                  aria-hidden="true"
+                                  class="fas fa-phone fa-rotate-180"
+                                ></i>{' '}<a href="tel:deliveryOfficeContact">{deliveryOfficeContact}{' '}</a>
+                              </strong>
+                            </li>
+                          </ul>
+                        </fieldset>
                       </MDBCol>
                     </MDBRow>
                      </div>
