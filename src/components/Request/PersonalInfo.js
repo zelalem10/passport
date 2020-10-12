@@ -24,9 +24,9 @@ import API from '../Utils/API';
 import isEmail from 'validator/es/lib/isEmail';
 
 const PersonalInfo = forwardRef((props, ref) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [nationalityList, setNationalityList] = useState([]);
   const [occupationList, setOccupationList] = useState([]);
-
   const [personalInfo, setPersonalInfo] = useState({
     firstName: prevInfo ? prevInfo.firstName : '',
     middleName: prevInfo ? prevInfo.middleName : '',
@@ -78,9 +78,6 @@ const PersonalInfo = forwardRef((props, ref) => {
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const isRequired = 'is required!';
-  if (counter.personalInfoReducer.length === 0) {
-    dispatch(addPersonalInfo(personalInfo));
-  }
   const accesstoken = localStorage.systemToken;
   const usertoken = localStorage.userToken;
   const config = {
@@ -144,7 +141,13 @@ const PersonalInfo = forwardRef((props, ref) => {
         [name]: false,
       }));
     }
-    dispatch(addPersonalInfo(personalInfo));
+    else{
+      setNotCompleted((prevState) => ({
+        ...prevState,
+        [name]: true,
+      }));
+    }
+    // dispatch(addPersonalInfo(personalInfo));
   };
   const handleCheck = (name, checked) => {
     setPersonalInfo((prevState) => ({
@@ -152,87 +155,102 @@ const PersonalInfo = forwardRef((props, ref) => {
       [name]: checked,
     }));
   };
-  var prevInfo =
-    counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
-  useEffect(() => {
-    setPersonalInfo((prevState) => ({
-      ...prevState,
-      firstName: prevInfo ? prevInfo.firstName : '',
-      middleName: prevInfo ? prevInfo.middleName : '',
-      lastName: prevInfo ? prevInfo.lastName : '',
-      geezFirstName: prevInfo ? prevInfo.geezFirstName : '',
-      geezMiddleName: prevInfo ? prevInfo.geezMiddleName : '',
-      geezLastName: prevInfo ? prevInfo.geezLastName : '',
-      birthPlace: prevInfo ? prevInfo.birthPlace : '',
-      birthDate: prevInfo ? prevInfo.birthDate : '',
-      birthCertificatNo: prevInfo ? prevInfo.birthCertificatNo : '',
-      height: prevInfo ? prevInfo.height : '',
-      gender: prevInfo ? prevInfo.gender : '',
-      eyeColor: prevInfo ? prevInfo.eyeColor : '',
-      hairColor: prevInfo ? prevInfo.hairColor : 'Black',
-      occupationId: prevInfo ? prevInfo.occupationId : 0,
-      isHalfCast: prevInfo ? prevInfo.isHalfCast : false,
-      isAdoption: prevInfo ? prevInfo.isAdoption : false,
-      isUnder18: prevInfo ? prevInfo.isUnder18 : false,
-      nationalityId: prevInfo ? prevInfo.nationalityId : 0,
-      phoneNumber: prevInfo ? prevInfo.phoneNumber : '',
-      email: prevInfo ? prevInfo.email : '',
-      martialStatus: prevInfo ? prevInfo.martialStatus : '',
-    }));
-    setNotCompleted({
-      firstName: prevInfo !==null && prevInfo.firstName === '' ? true : false,
-      middleName: prevInfo !==null && prevInfo.middleName === '' ? true : false,
-      lastName: prevInfo !==null && prevInfo.lastName === '' ? true : false,
-      geezFirstName: prevInfo !==null && prevInfo.geezFirstName === '' ? true : false,
-      geezMiddleName: prevInfo !==null && prevInfo.geezMiddleName === '' ? true : false,
-      geezLastName: prevInfo !==null && prevInfo.geezLastName === '' ? true : false,
-      birthPlace: prevInfo !==null && prevInfo.birthPlace === '' ? true : false,
-      birthCertificatNo: prevInfo !==null && prevInfo.birthCertificatNo === '' ? true : false,
-      birthDate: prevInfo !==null && prevInfo.birthDate === '' ? true : false,
-      gender: prevInfo !==null && prevInfo.gender === '' ? true : false,
-      height: prevInfo !==null && prevInfo.height === '' ? true : false,
-      eyeColor: prevInfo !==null && prevInfo.eyeColor === '' ? true : false,
-      hairColor: prevInfo !==null && prevInfo.hairColor === '' ? true : false,
-      occupationId: prevInfo !==null && prevInfo.occupationId === 0 ? true : false,
-      isHalfCast: prevInfo !==null && prevInfo.isHalfCast,
-      isUnder18: prevInfo !==null && prevInfo.isUnder18,
-      isAdoption: prevInfo !==null && prevInfo.isAdoption,
-      nationalityId: prevInfo !==null && prevInfo.nationalityId === 0 ? true : false,
-      martialStatus: prevInfo !==null && prevInfo.martialStatus === '' ? true : false,
-      phoneNumber: prevInfo !==null && prevInfo.phoneNumber === '' ? true : false,
-      email: prevInfo !==null && prevInfo.email === '' ? true : false,
-    });
+  var prevInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
+  if (prevInfo !== null && typeof prevInfo !== 'undefined') {
+    if (personalInfo.formCompleted === false) {
+      setPersonalInfo((prevState) => ({
+        ...prevState,
+        firstName: prevInfo.firstName,
+        middleName: prevInfo.middleName,
+        lastName: prevInfo.lastName,
+        geezFirstName: prevInfo.geezFirstName,
+        geezMiddleName: prevInfo.geezMiddleName,
+        geezLastName: prevInfo.geezLastName,
+        birthPlace: prevInfo.birthPlace,
+        birthDate: prevInfo.birthDate,
+        birthCertificatNo: prevInfo.birthCertificatNo,
+        height: prevInfo.height,
+        gender: prevInfo.gender,
+        eyeColor: prevInfo.eyeColor,
+        hairColor: prevInfo.hairColor,
+        occupationId: prevInfo.occupationId,
+        isHalfCast: prevInfo.isHalfCast,
+        isAdoption: prevInfo.isAdoption,
+        isUnder18: prevInfo.isUnder18,
+        nationalityId: prevInfo.nationalityId,
+        phoneNumber: prevInfo.phoneNumber,
+        email: prevInfo.email,
+        martialStatus: prevInfo.martialStatus,
+        formCompleted: true,
+      }));
+    }
+  }
 
-    setNationalityList(JSON.parse(localStorage.nationalitys));
-    if (nationalityList.length === 0) {
+  if(isLoading){
+    debugger
+    if (localStorage.getItem("nationalitys") !== null) {
+      let localNatio=JSON.parse(localStorage.nationalitys);
+      setNationalityList(JSON.parse(localStorage.nationalitys));
+      let defaultNationality=localNatio.filter((nationality) => nationality.code === 'ET');
+              setPersonalInfo((prevState) => ({
+                ...prevState,
+                nationalityId: defaultNationality[0].id,
+              }));
+              setNotCompleted((prevState) => ({
+                ...prevState,
+                nationalityId: false,
+              }));
+    }
+    if (personalInfo.nationalityId=== 0) {
       API.get(
         'https://epassportservices.azurewebsites.net/Master/api/V1.0/Nationality/GetAll',
         config
       )
         .then((todo) => {
           setNationalityList(todo.data.nationalitys);
-          if (prevInfo && Number.parseInt(prevInfo.nationalityId, 10) === 0) {
-            setPersonalInfo((prevState) => ({
-              ...prevState,
-              nationalityId: todo.data.nationalitys.filter(
-                (nationality) => nationality.code == 'ET'
-              )[0]
-                ? todo.data.nationalitys.filter(
-                    (nationality) => nationality.code == 'ET'
-                  )[0].id
-                : 0,
-            }));
-            setNotCompleted((prevState) => ({
-              ...prevState,
-              nationalityId: false,
-            }));
-          }
+          let defaultNationality=todo.data.nationalitys.filter((nationality) => nationality.code === 'ET');
+      setPersonalInfo((prevState) => ({
+        ...prevState,
+        nationalityId: defaultNationality[0].id,
+      }));
+      setNotCompleted((prevState) => ({
+        ...prevState,
+        nationalityId: false,
+      }));
         })
         .catch((err) => {
           console.log('AXIOS ERROR: ', err.response);
         });
+      
     }
+setIsLoading(false)  
+  }
+  
 
+  useEffect(() => {
+    setNotCompleted({
+      firstName: personalInfo.firstName === '' ? true : false,
+      middleName: personalInfo.middleName === '' ? true : false,
+      lastName: personalInfo.lastName === '' ? true : false,
+      geezFirstName: personalInfo.geezFirstName === '' ? true : false,
+      geezMiddleName: personalInfo.geezMiddleName === '' ? true : false,
+      geezLastName: personalInfo.geezLastName === '' ? true : false,
+      birthPlace: personalInfo.birthPlace === '' ? true : false,
+      birthCertificatNo: personalInfo.birthCertificatNo === '' ? true : false,
+      birthDate: personalInfo.birthDate === '' ? true : false,
+      gender: personalInfo.gender === '' ? true : false,
+      height: personalInfo.height === '' ? true : false,
+      eyeColor: personalInfo.eyeColor === '' ? true : false,
+      hairColor: personalInfo.hairColor === '' ? true : false,
+      occupationId: personalInfo.occupationId === 0 ? true : false,
+      isHalfCast: personalInfo.isHalfCast,
+      isUnder18: personalInfo.isUnder18,
+      isAdoption: personalInfo.isAdoption,
+      nationalityId: personalInfo.nationalityId === 0 ? true : false,
+      martialStatus: personalInfo.martialStatus === '' ? true : false,
+      phoneNumber: personalInfo.phoneNumber === '' ? true : false,
+      email: personalInfo.email === '' ? true : false,
+    });
     setOccupationList(JSON.parse(localStorage.occupations));
     if (occupationList.length === 0) {
       API.get(
@@ -265,7 +283,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.firstName == true &&
-                  personalInfo.dataSaved == true
+                    personalInfo.dataSaved == true
                     ? 'First name ' + isRequired
                     : null}
                 </span>
@@ -281,7 +299,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.middleName == true &&
-                  personalInfo.dataSaved == true
+                    personalInfo.dataSaved == true
                     ? 'Middle name ' + isRequired
                     : null}
                 </span>
@@ -297,7 +315,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.lastName == true &&
-                  personalInfo.dataSaved == true
+                    personalInfo.dataSaved == true
                     ? 'Last name ' + isRequired
                     : null}
                 </span>
@@ -319,7 +337,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.birthDate == true &&
-                  personalInfo.dataSaved == true
+                    personalInfo.dataSaved == true
                     ? 'Birth date ' + isRequired
                     : null}
                 </span>
@@ -338,7 +356,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.geezFirstName == true &&
-                  personalInfo.dataSaved == true
+                    personalInfo.dataSaved == true
                     ? 'የአመልካቹ ስም አስፈላጊ ነው'
                     : null}
                 </span>
@@ -354,7 +372,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.geezMiddleName == true &&
-                  personalInfo.dataSaved == true
+                    personalInfo.dataSaved == true
                     ? 'የአባት ስም አስፈላጊ ነው'
                     : null}
                 </span>
@@ -370,7 +388,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.geezLastName == true &&
-                  personalInfo.dataSaved == true
+                    personalInfo.dataSaved == true
                     ? 'የአያት ስም አስፈላጊ ነው'
                     : null}
                 </span>
@@ -391,7 +409,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                         value={nationality.id}
                         selected={
                           prevInfo &&
-                          Number.parseInt(prevInfo.nationalityId, 10) ===
+                            Number.parseInt(prevInfo.nationalityId, 10) ===
                             nationality.id
                             ? true
                             : nationality.code === 'ET'
@@ -405,7 +423,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.nationalityId == true &&
-                  personalInfo.dataSaved == true
+                    personalInfo.dataSaved == true
                     ? 'Nationality ' + isRequired
                     : null}
                 </span>
@@ -421,12 +439,12 @@ const PersonalInfo = forwardRef((props, ref) => {
                   onBlur={handleChange}
                   type="text"
                   label="Phone Number"
-                  //icon="+251"
+                //icon="+251"
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.phoneNumber == true &&
-                  personalInfo.dataSaved == true
+                    personalInfo.dataSaved == true
                     ? 'Phone Number ' + isRequired
                     : null}
                 </span>
@@ -443,15 +461,15 @@ const PersonalInfo = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.email === true &&
-                  personalInfo.dataSaved === true
+                    personalInfo.dataSaved === true
                     ? 'Email ' + isRequired
                     : null}
                 </span>
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.email === false &&
-                  isEmail(personalInfo.email) === false &&
-                  personalInfo.dataSaved == true
+                    isEmail(personalInfo.email) === false &&
+                    personalInfo.dataSaved == true
                     ? 'Please insert the correct email formatt'
                     : null}
                 </span>
@@ -505,7 +523,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                   <span style={{ color: 'red' }}>
                     {' '}
                     {notCompleted.occupationId == true &&
-                    personalInfo.dataSaved == true
+                      personalInfo.dataSaved == true
                       ? 'Occupation ' + isRequired
                       : null}
                   </span>
@@ -585,7 +603,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                   <span style={{ color: 'red' }}>
                     {' '}
                     {notCompleted.gender == true &&
-                    personalInfo.dataSaved == true
+                      personalInfo.dataSaved == true
                       ? 'Gender ' + isRequired
                       : null}
                   </span>
@@ -629,7 +647,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                   <span style={{ color: 'red' }}>
                     {' '}
                     {notCompleted.martialStatus == true &&
-                    personalInfo.dataSaved == true
+                      personalInfo.dataSaved == true
                       ? 'Martial status ' + isRequired
                       : null}
                   </span>

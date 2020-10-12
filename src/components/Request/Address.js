@@ -22,6 +22,7 @@ const Address = forwardRef((props, ref) => {
     poBox: '',
     requestPlace: '',
     dataSaved: false,
+    formCompleted: false,
   });
   const [notCompleted, setNotCompleted] = useState({
     region: true,
@@ -43,9 +44,6 @@ const Address = forwardRef((props, ref) => {
   const config = {
     headers: { Authorization: 'Bearer ' + accesstoken },
   };
-  if (counter.address.length === 0) {
-    dispatch(addAddressInfo(addressInfo));
-  }
   useImperativeHandle(ref, () => ({
     saveData() {
       setAddressInfo((prevState) => ({
@@ -72,35 +70,45 @@ const Address = forwardRef((props, ref) => {
         [name]: false,
       }));
     }
-    dispatch(addAddressInfo(addressInfo));
+    else{
+      setNotCompleted((prevState) => ({
+        ...prevState,
+        [name]: true,
+      }));
+    }
+    // dispatch(addAddressInfo(addressInfo));
   };
   var prevInfo = counter.address[counter.address.length - 1];
   const isRequired = 'is required!';
+  if (prevInfo !== null && typeof prevInfo !== 'undefined') {
+    if (addressInfo.formCompleted === false) {
+      setAddressInfo((prevState) => ({
+        ...prevState,
+        region: prevInfo.region,
+        city: prevInfo.city,
+        state: prevInfo.state,
+        zone: prevInfo.zone,
+        woreda: prevInfo.woreda,
+        street: prevInfo.street,
+        houseNo: prevInfo.houseNo,
+        poBox: prevInfo.poBox,
+        requestPlace: prevInfo.requestPlace,
+        formCompleted: true,
+      }));
+    }
+  }
   useEffect(() => {
-    setAddressInfo((prevState) => ({
-      ...prevState,
-      region: prevInfo ? prevInfo.region : '',
-      city: prevInfo ? prevInfo.city : '',
-      state: prevInfo ? prevInfo.state : '',
-      zone: prevInfo ? prevInfo.zone : '',
-      woreda: prevInfo ? prevInfo.woreda : '',
-      street: prevInfo ? prevInfo.street : '',
-      houseNo: prevInfo ? prevInfo.houseNo : '',
-      poBox: prevInfo ? prevInfo.poBox : '',
-      requestPlace: prevInfo ? prevInfo.requestPlace : '',
-    }));
-
     setNotCompleted({
-      region: prevInfo!==null && prevInfo.region === '' ? true : false,
-      city: prevInfo!==null && prevInfo.city === '' ? true : false,
-      state: prevInfo!==null && prevInfo.state === '' ? true : false,
-      zone: prevInfo!==null && prevInfo.zone === '' ? true : false,
-      woreda: prevInfo!==null && prevInfo.woreda === '' ? true : false,
-      kebele: prevInfo!==null && prevInfo.kebele === '' ? true : false,
-      street: prevInfo!==null && prevInfo.street === '' ? true : false,
-      houseNo: prevInfo!==null && prevInfo.houseNo === '' ? true : false,
-      poBox: prevInfo!==null && prevInfo.poBox === '' ? true : false,
-      requestPlace: prevInfo!==null && prevInfo.requestPlace === '' ? true : false,
+      region: addressInfo.region === '' ? true : false,
+      city: addressInfo.city === '' ? true : false,
+      state:addressInfo.state === '' ? true : false,
+      zone: addressInfo.zone === '' ? true : false,
+      woreda: addressInfo.woreda === '' ? true : false,
+      kebele: addressInfo.kebele === '' ? true : false,
+      street: addressInfo.street === '' ? true : false,
+      houseNo: addressInfo.houseNo === '' ? true : false,
+      poBox: addressInfo.poBox === '' ? true : false,
+      requestPlace: addressInfo.requestPlace === '' ? true : false,
     });
     setRegionList(JSON.parse(localStorage.countryRegions))
     if (regionList.length === 0) {
