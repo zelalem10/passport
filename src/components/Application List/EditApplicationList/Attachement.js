@@ -60,21 +60,21 @@ const Fileupload = forwardRef((props, ref) => {
     },
   }));
 
-  const validate = (files) => {
-    debugger;
+  // const validate = (files) => {
+  //   debugger;
 
-    if (files.length < requiredFile) {
-      fileError.push('You Should have to Choose all files');
-    }
+  //   if (files.length < requiredFile) {
+  //     fileError.push('You Should have to Choose all files');
+  //   }
 
-    setvalidationMessage(fileError);
+  //   setvalidationMessage(fileError);
 
-    if (fileError.length > 0) {
-      return false;
-    }
+  //   if (fileError.length > 0) {
+  //     return false;
+  //   }
 
-    return true;
-  };
+  //   return true;
+  // };
 
   const submit = async (e) => {
     //props.hideBack();
@@ -83,8 +83,8 @@ const Fileupload = forwardRef((props, ref) => {
     setsuccessMessage(false);
     seterrorMessage(false);
     fileError = [];
-    const isValid = validate(files);
-    if (isValid) {
+    // const isValid = validate(files);
+    // if (isValid) {
       setloading(true);
 
       for (let i = 0; i < files.length; i++) {
@@ -115,7 +115,7 @@ const Fileupload = forwardRef((props, ref) => {
         setloading(false);
         seterrorMessage(true);
       }
-    }
+   // }
   };
   const onChange = (e) => {
     setfiles([...files, e.target.files[0]]);
