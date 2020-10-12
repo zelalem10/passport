@@ -109,26 +109,8 @@ export default function ViewAppointment(props) {
     const addressInformation = personalInformation.address;
     const familyInformation = personalInformation.familyResponses;
 
-    requestPersonId = personalInformation.requestPersonId;
-
-    axios({
-      headers: { Authorization: 'Bearer ' + accesstoken },
-      method: 'get',
-      url:
-        'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/GetAttachment',
-      params: { personRequestId: requestPersonId },
-    })
-      .then((Response) => {
-        attachmentlength = Response.data.attachments.length;
-
-        for (let i = 0; i < attachmentlength; i++) {
-          atachmentsample.push(Response.data.attachments[i]);
-        }
-        setattachment(atachmentsample);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    
+    let attachementResponse =  personalInformation.attachmentList;
 
     const handleChange = (panel) => (event, newExpanded) => {
       setExpanded(newExpanded ? panel : false);

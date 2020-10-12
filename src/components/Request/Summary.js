@@ -386,6 +386,8 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                         </label>
                       </b>
                     </div>
+                    
+
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                       Is HalfCast
@@ -558,7 +560,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                       </li>
                       {
                       attachementResponse? 
-                      attachementResponse.length &&  (
+                      attachementResponse.length ?  (
                         attachementResponse.map((attachmentitem) => (
                           <li class="list-group-item d-flex justify-content-between">
                             <span>{attachmentitem.attachmentType} </span>
@@ -576,7 +578,15 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                           You Don't Have Attachment Information
                           </div>
                         </h6>
-                      )}
+                      )
+                      : (
+                        <h6 class="my-3">
+                        <div class="alert alert-danger" role="alert">
+                        You Don't Have Attachment Information
+                        </div>
+                      </h6>
+                      )
+                      }
                     </ul>
                   </fieldset>
                 </div>
