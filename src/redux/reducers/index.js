@@ -4,8 +4,6 @@ import appointmentDate from './appointmentDateReducer';
 import replacment from './replacmentReducers';
 import familyReducer from './familyReducer';
 import userData from './authentication';
-import attachmentData from './attachimentReducer';
-
 import personalInfoReducer from './personalInfoReducer';
 import address from './addressReducer';
 import travelPlan from './travelPlanReducer';
@@ -19,6 +17,8 @@ import appointmentTypes from './appointmentTypeReducer';
 import siteInformation from './saveSiteInformationRedux';
 import familyType from './familyTypeReducer';
 import priceInfo from './priceInfoReducer';
+import attachement from './attachementReducer'
+
 const rootReducer = combineReducers({
   service,
   familyReducer,
@@ -30,7 +30,6 @@ const rootReducer = combineReducers({
   address,
   travelPlan,
   groupPersonalInfo,
-  attachmentData,
   editFamilyData,
   commonData,
   request,
@@ -39,5 +38,6 @@ const rootReducer = combineReducers({
   siteInformation,
   familyType,
   priceInfo,
+  attachement,
 });
 export default rootReducer;

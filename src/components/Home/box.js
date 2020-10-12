@@ -9,8 +9,8 @@ const BoxPage = () => {
         <div class="row my-5">
           <div class="col-md-6">
             <img
-              src={require('../../images/default-source/shared/ET Passport.png')}
-              class="img-fluid"
+              src={require('../../images/default-source/shared/How to apply.jpg')}
+              class="img-fluid my-3"
               alt=""
             ></img>
           </div>
@@ -66,7 +66,7 @@ const BoxPage = () => {
               <div class="p-2 align-self-end">
               Please be warned that dealing with fixers (illegal arrangements) is at your own risk and expense;              </div>
             </div>
-            <div class="d-flex mb-5" >
+            <div class="d-flex" >
               <div class="p-2 align-self-start">
                 <i class="fas fa-check fa-1x"></i>
               </div>

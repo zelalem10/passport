@@ -129,7 +129,7 @@ export default function ListOfApplications(props) {
                                       <i class="fas fa-credit-card fa-lg"></i>
                                     </div>
                                   </a>
-                                 ) : null} 
+                                ) : null}
                                 {/* {user.requestStatus == 'SendforCorrection' &&
                                 user.requestStatus == 'Initial' ? ( */}
                                   <a

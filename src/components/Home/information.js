@@ -40,7 +40,7 @@ const MultiCarouselPage = () => {
                                     <MDBCard className='mb-2'>
                                         <MDBCardImage
                                             className='img-fluid'
-                                            src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(18).jpg'
+                                            src={require('../../images/Information/new.jpg')}
                                         />
                                         <MDBCardBody>
                                             <MDBCardTitle>New Passport</MDBCardTitle>
@@ -57,7 +57,7 @@ const MultiCarouselPage = () => {
                                     <MDBCard className='mb-2'>
                                         <MDBCardImage
                                             className='img-fluid'
-                                            src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(35).jpg'
+                                            src={require('../../images/Information/expired passport.jpg')}
                                         />
                                         <MDBCardBody>
                                             <MDBCardTitle>Expired Passport</MDBCardTitle>
@@ -73,7 +73,7 @@ const MultiCarouselPage = () => {
                                     <MDBCard className='mb-2'>
                                         <MDBCardImage
                                             className='img-fluid'
-                                            src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(35).jpg'
+                                            src={require('../../images/Information/Passport Page Runout.jpg')}
                                         />
                                         <MDBCardBody>
                                             <MDBCardTitle>Passport Page Runout</MDBCardTitle>
@@ -109,7 +109,7 @@ const MultiCarouselPage = () => {
                                     <MDBCard className='mb-2'>
                                         <MDBCardImage
                                             className='img-fluid'
-                                            src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(47).jpg'
+                                            src={require('../../images/Information/lost.jpg')}
                                         />
                                         <MDBCardBody>
                                             <MDBCardTitle>Lost/Stolen passport</MDBCardTitle>
@@ -205,7 +205,7 @@ const MultiCarouselPage = () => {
                                     <MDBCard className='mb-2'>
                                         <MDBCardImage
                                             className='img-fluid'
-                                            src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(18).jpg'
+                                            src={require('../../images/Information/new.jpg')}
                                         />
                                         <MDBCardBody>
                                             <MDBCardTitle>New Passport</MDBCardTitle>
@@ -222,7 +222,7 @@ const MultiCarouselPage = () => {
                                     <MDBCard className='mb-2'>
                                         <MDBCardImage
                                             className='img-fluid'
-                                            src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(35).jpg'
+                                            src={require('../../images/Information/expired passport.jpg')}
                                         />
                                         <MDBCardBody>
                                             <MDBCardTitle>Expired Passport</MDBCardTitle>
@@ -234,7 +234,7 @@ const MultiCarouselPage = () => {
                                         </MDBCardBody>
                                     </MDBCard>
                                 </MDBCol>
-
+                               
                             </MDBRow>
                         </MDBCarouselItem>
                     </MDBRow>

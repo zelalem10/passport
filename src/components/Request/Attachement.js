@@ -8,8 +8,10 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from '../common/Spinner';
 import { MDBCol, MDBRow, MDBBadge } from 'mdbreact';
+import addAttachement from '../../redux/actions/AddAttachementAction';
 
 const Fileupload = forwardRef((props, ref) => {
+  const dispatch = useDispatch();
   const accesstoken = localStorage.systemToken;
    ;
   const formData = new FormData();
@@ -131,14 +133,13 @@ const Fileupload = forwardRef((props, ref) => {
         const response = await axios.post(url, formData, config);
         console.log(response.data);
         setloading(false);
+        dispatch(addAttachement(response.data.attachments));
         props.showBack();
         props.VerticalNext();
       } catch (error) {
         console.log('error' + error.message);
         setloading(false);
         //props.showBack();
-        props.showBack();
-        props.VerticalNext();
       }
     }
   };
