@@ -222,6 +222,12 @@ const PersonalInfo = forwardRef((props, ref) => {
                 )[0].id
                 : 0,
             }));
+            setNotCompleted((prevState) => ({
+              ...prevState,
+              nationalityId: false,
+            }));
+
+
           }
         })
         .catch((err) => {
@@ -300,7 +306,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                   <KeyboardDatePicker
                     margin="normal"
                     id="date-picker-dialog"
-                    label="Date of birth"
+                    label="Date of birth(GC)"
                     format="MM/dd/yyyy"
                     value={selectedDate}
                     onChange={handleDateChange}
@@ -397,8 +403,8 @@ const PersonalInfo = forwardRef((props, ref) => {
                 </div>
                 <span style={{ color: 'red' }}>
                   {' '}
-                  {notCompleted.nationalityId == true &&
-                    personalInfo.dataSaved == true
+                  {notCompleted.nationalityId === true &&
+                    personalInfo.dataSaved === true
                     ? 'Nationality ' + isRequired
                     : null}
                 </span>
@@ -482,7 +488,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                     name="occupationId"
                     onChange={handleChange}
                   >
-                    <option>select Occupation</option>
+                    <option>Select occupation</option>
                     {occupationList.map((occupation) => (
                       <option
                         value={occupation.id}
