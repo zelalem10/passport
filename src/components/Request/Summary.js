@@ -420,7 +420,7 @@ if(requests && !displayedApplication){
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {personalInformation.isHalfCast}
+                          {personalInformation.isHalfCast?'True':'False'}
                         </label>
                       </b>
                     </div>
@@ -431,7 +431,7 @@ if(requests && !displayedApplication){
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {personalInformation.isAdoption}
+                          {personalInformation.isAdoption?'True':'False'}
                         </label>
                       </b>
                     </div>
@@ -442,7 +442,7 @@ if(requests && !displayedApplication){
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {personalInformation.isUnder18}
+                          {personalInformation.isUnder18?'True':'False'}
                         </label>
                       </b>
                     </div>

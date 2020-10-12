@@ -90,11 +90,11 @@ function ApplicationList() {
   }, [relodList]);
   //back to appointment list
   const backToList = () => {
-    debugger;
     setDisplayRequestId('');
     setIsEdit(false);
     setRelodList(!relodList);
     sethandleDisplayId('');
+    setGoToPayment(false);
   };
   //payment for urgent
   const handlePayment = (id) => {
@@ -123,7 +123,7 @@ function ApplicationList() {
       });
   }
   if (goToPayment) {
-    return <GetContent handlePaymentId={handlePaymentId} status={false} />;
+    return <GetContent handlePaymentId={handlePaymentId} status={false} backToList={backToList} />;
   }
   if (handleDisplayId) {
     return (

@@ -149,11 +149,14 @@ function Status(props) {
                                     </strong>{' '}
                                     {ApplicationNumberData.requestStatus}
                                   </div>
+                                  <div>
+                                    <strong className="d-inline">
+                                      Application Number :{' '}
+                                    </strong>{' '}
+                                    {ApplicationNumberData.personResponses.applicationNumber}
+                                  </div>{' '}
                                 </div>
-                                {ApplicationNumberData.requestStatus ==
-                                  'UrgentRequested' &&
-                                ApplicationNumberData.requestStatus ==
-                                  'UrgentRequested' ? (
+                                {ApplicationNumberData.requestStatus == 'UrgentApproved' ? (
                                   <a
                                     className="hoverWhite"
                                     onClick={() =>
