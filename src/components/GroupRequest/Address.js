@@ -77,44 +77,45 @@ const Address = forwardRef((props, ref) => {
     var prevInfo = counter.address[counter.address.length - 1]
     const isRequired = "is required!"
     useEffect(() => {
-        setAddressInfo((prevState) => ({
-            ...prevState,
-            region: prevInfo ? prevInfo.region : "",
-            city: prevInfo ? prevInfo.city : "",
-            state: prevInfo ? prevInfo.state : "",
-            zone: prevInfo ? prevInfo.zone : "",
-            woreda: prevInfo ? prevInfo.woreda : "",
-            street: prevInfo ? prevInfo.street : "",
-            houseNo: prevInfo ? prevInfo.houseNo : "",
-            poBox: prevInfo ? prevInfo.poBox : "",
-            requestPlace: prevInfo ? prevInfo.requestPlace : "",
-        }))
-
-        if(prevInfo !== null && prevInfo !== undefined)
-    {
-        setNotCompleted({
-            region: prevInfo.region === '' ? true : false,
-            city: prevInfo.city === '' ? true : false,
-            state: prevInfo.state === '' ? true : false,
-            zone: prevInfo.zone === '' ? true : false,
-            woreda: prevInfo.woreda === '' ? true : false,
-            kebele: prevInfo.kebele === '' ? true : false,
-            street: prevInfo.street === '' ? true : false,
-            houseNo: prevInfo.houseNo === '' ? true : false,
-            poBox:  prevInfo.poBox === '' ? true : false,
-            requestPlace: prevInfo!==null && prevInfo.requestPlace === '' ? true : false,
-          });
+        if (prevInfo !== null && prevInfo !== undefined) {
+            setAddressInfo((prevState) => ({
+                ...prevState,
+                region: prevInfo ? prevInfo.region : "",
+                city: prevInfo ? prevInfo.city : "",
+                state: prevInfo ? prevInfo.state : "",
+                zone: prevInfo ? prevInfo.zone : "",
+                woreda: prevInfo ? prevInfo.woreda : "",
+                street: prevInfo ? prevInfo.street : "",
+                houseNo: prevInfo ? prevInfo.houseNo : "",
+                poBox: prevInfo ? prevInfo.poBox : "",
+                requestPlace: prevInfo ? prevInfo.requestPlace : "",
+            }))
         }
-          setRegionList(JSON.parse(localStorage.countryRegions))
-          if (regionList.length === 0) {
+
+        if (prevInfo !== null && prevInfo !== undefined) {
+            setNotCompleted({
+                region: prevInfo.region === '' ? true : false,
+                city: prevInfo.city === '' ? true : false,
+                state: prevInfo.state === '' ? true : false,
+                zone: prevInfo.zone === '' ? true : false,
+                woreda: prevInfo.woreda === '' ? true : false,
+                kebele: prevInfo.kebele === '' ? true : false,
+                street: prevInfo.street === '' ? true : false,
+                houseNo: prevInfo.houseNo === '' ? true : false,
+                poBox: prevInfo.poBox === '' ? true : false,
+                requestPlace: prevInfo !== null && prevInfo.requestPlace === '' ? true : false,
+            });
+        }
+        setRegionList(JSON.parse(localStorage.countryRegions))
+        if (regionList.length === 0) {
             API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
-              .then((todo) => {
-                setRegionList(todo.data.countryRegions);
-              })
-              .catch((err) => {
-                console.log('AXIOS ERROR: ', err.response);
-              });
-          }
+                .then((todo) => {
+                    setRegionList(todo.data.countryRegions);
+                })
+                .catch((err) => {
+                    console.log('AXIOS ERROR: ', err.response);
+                });
+        }
     }, []);
     return (
         <MDBCard>
@@ -141,7 +142,7 @@ const Address = forwardRef((props, ref) => {
                                 <select className="browser-default custom-select" name="region" onChange={handleChange}>
                                     <option>Select region</option>
                                     {regionList.map((region) => (
-                                        <option value={region.name} selected={prevInfo !=null && (region.name===prevInfo.region)}>{region.name}</option>
+                                        <option value={region.name} selected={prevInfo != null && (region.name === prevInfo.region)}>{region.name}</option>
                                     ))}
                                 </select>
                             </div>

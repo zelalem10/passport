@@ -77,6 +77,8 @@ const Address = forwardRef((props, ref) => {
   var prevInfo = counter.address[counter.address.length - 1];
   const isRequired = 'is required!';
   useEffect(() => {
+    if(prevInfo !== null && prevInfo !== undefined)
+    {
     setAddressInfo((prevState) => ({
       ...prevState,
       region: prevInfo ? prevInfo.region : '',
@@ -89,7 +91,7 @@ const Address = forwardRef((props, ref) => {
       poBox: prevInfo ? prevInfo.poBox : '',
       requestPlace: prevInfo ? prevInfo.requestPlace : '',
     }));
-
+  }
     if(prevInfo !== null && prevInfo !== undefined)
     {
     setNotCompleted({

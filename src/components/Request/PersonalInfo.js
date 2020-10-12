@@ -155,6 +155,8 @@ const PersonalInfo = forwardRef((props, ref) => {
   var prevInfo =
     counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
   useEffect(() => {
+    if(prevInfo !== null && prevInfo !== undefined)
+    {
     setPersonalInfo((prevState) => ({
       ...prevState,
       firstName: prevInfo ? prevInfo.firstName : '',
@@ -179,6 +181,7 @@ const PersonalInfo = forwardRef((props, ref) => {
       email: prevInfo ? prevInfo.email : '',
       martialStatus: prevInfo ? prevInfo.martialStatus : '',
     }));
+  }
     if(prevInfo !==null && prevInfo !== undefined)
     {
     setNotCompleted({
