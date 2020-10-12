@@ -400,7 +400,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                             : nationality.code === 'ET'
                         }
                       >
-                        {nationality.code}
+                        {nationality.name}
                       </option>
                     ))}
                   </select>

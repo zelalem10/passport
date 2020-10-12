@@ -138,7 +138,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             : 0,
           requestTypeId: 2,
           appointmentIds: appointment ? [appointment[0].id] : [],
-          userName: '',
+          userName: localStorage.logedInUsedData?localStorage.logedInUsedData.username:'',
           status: 0,
           confirmationNumber: '',
           applicants: [

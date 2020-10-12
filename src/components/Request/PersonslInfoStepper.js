@@ -104,6 +104,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
       let serviceInfo = counter.service[counter.service.length - 1];
       let replacementReason = counter.replacment[counter.replacment.length - 1];
       const requestInfo = counter.request[counter.request.length - 1];
+      debugger;
       const requestBody = {
         requestId: requestInfo ? Number.parseInt(requestInfo.requestId) : 0,
         requestMode: serviceInfo && serviceInfo.isUrgent === true ? 1 : 0,
@@ -115,7 +116,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           ? Number.parseInt(serviceInfo.appointemntType, 10)
           : 0,
         appointmentIds: appointment ? [appointment[0].id] : [],
-        userName: '',
+        userName: localStorage.logedInUsedData?localStorage.logedInUsedData.username:'',
         status: 0,
         confirmationNumber: '',
         applicants: [
