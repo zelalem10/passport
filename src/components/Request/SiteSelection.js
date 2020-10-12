@@ -73,7 +73,7 @@ const SiteSelection = forwardRef((props, ref) => {
   };
   function handeleCityChange(event) {
     setOfficeList([])
-    debugger;
+     ;
     const id=event.target.value;
     const notNumeric= isNaN(id);
     let selectedCity=[];
@@ -100,7 +100,7 @@ const SiteSelection = forwardRef((props, ref) => {
       offceId: id,
     }));
     const selectedOff = officeList.filter(office => office.id == event.target.value)
-    debugger
+     
     if (selectedOff.length > 0) {
       setOfficeName(selectedOff[0].name);
       setOfficeAddress(selectedOff[0].address);

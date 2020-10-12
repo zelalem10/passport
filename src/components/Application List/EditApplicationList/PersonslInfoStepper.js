@@ -233,7 +233,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
         ],
       };
       console.log(JSON.stringify(requestBody));
-      debugger;
+       ;
       API.put(
         'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/UpdateRequest',
         requestBody,

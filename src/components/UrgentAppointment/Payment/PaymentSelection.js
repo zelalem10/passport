@@ -64,7 +64,7 @@ const PaymentSelection = forwardRef((props, ref) => {
   const priceDetail = data.priceInfo[data.priceInfo.length - 1];
   const handleProcced = () => {
     if (formCompleted && optionSelected) {
-      debugger;
+       ;
       const body = {
         firstName: personalInformation.firstName,
         lastName: personalInformation.middleName,

@@ -11,7 +11,7 @@ import { MDBCol, MDBRow, MDBBadge } from 'mdbreact';
 
 const Fileupload = forwardRef((props, ref) => {
   const accesstoken = localStorage.systemToken;
-  debugger;
+   ;
   const formData = new FormData();
   let requestPersonId = useSelector(
     (state) => state.commonData[0].requestPersonId
@@ -41,7 +41,7 @@ const Fileupload = forwardRef((props, ref) => {
   });
 
   useEffect(() => {
-    debugger;
+     ;
     axios({
       headers: { Authorization: 'Bearer ' + accesstoken },
       method: 'get',
@@ -53,7 +53,7 @@ const Fileupload = forwardRef((props, ref) => {
     })
       .then((response) => {
         console.log(response)
-        debugger;
+         ;
         let requiredAttachements = response.data.requiredAttachements.length;
         setrequiredFile(requiredAttachements);
         let requiredAttachementType = [];
@@ -89,7 +89,7 @@ const Fileupload = forwardRef((props, ref) => {
   }));
 
   const validate = (files) => {
-    debugger;
+     ;
 
     if (files.length < requiredFile) {
       fileError.push('You Should have to Choose all files');
@@ -106,7 +106,7 @@ const Fileupload = forwardRef((props, ref) => {
 
   const submit = async (e) => {
     //props.hideBack();
-    debugger;
+     ;
     e.preventDefault();
     fileError = [];
     const isValid = validate(files);

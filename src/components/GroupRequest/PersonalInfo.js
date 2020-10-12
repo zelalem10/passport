@@ -125,7 +125,7 @@ const PersonalInfo = forwardRef((props, ref) => {
             ...prevState,
             [name]: value,
         }));
-        debugger
+         
         if (value != '') {
             setNotCompleted((prevState) => ({
                 ...prevState,

@@ -43,7 +43,7 @@ function AddMoreFamily(props) {
                   </MDBCardTitle>
                   <h5 className="indigo-text">
                     {familyType.map((val) => {
-                      debugger;
+                       ;
                       if (val.id == item.familtyTypeId) {
                         return <strong> {val.type}</strong>;
                       }

@@ -68,7 +68,7 @@ export default function ViewAppointment(props) {
   let attachmentlength;
   const [attachment, setattachment] = useState([]);
   let atachmentsample = [];
-  debugger;
+   ;
   if (personalInfo) {
     const personalInformation = displayedApplication.personResponses;
     const addressInformation = personalInformation.address;
@@ -100,7 +100,7 @@ export default function ViewAppointment(props) {
       setExpanded(newExpanded ? panel : false);
     };
     const getOccupation = (id) => {
-      debugger;
+       ;
       let occupations = JSON.parse(localStorage.occupations);
       for (let index = 0; index < occupations.length; index++) {
         if (occupations[index].id == id) {

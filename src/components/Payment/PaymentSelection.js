@@ -22,13 +22,12 @@ import {
 } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addPaymentOptionId from '../../redux/actions/addPaymentOptionIdAction';
-
 import { makeStyles } from '@material-ui/core/styles';
-
 import API from '../Utils/API';
 import token from '../common/accessToken';
 import Response from './Responses/Confirmation';
 import PricingInfo from './PricingDetail'
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -61,11 +60,14 @@ const PaymentSelection = forwardRef((props, ref) => {
   const [confirmed, setConfirmed] = useState(false);
   const [dataSaved, setDataSaved] = useState(false);
   const dispatch = useDispatch();
+  const history = useHistory();
   const counter = useSelector((state) => state);
   const accesstoken = localStorage.systemToken;
   const serviceSelcetion = counter.service[counter.service.length - 1];
   const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
   const requestType = serviceSelcetion.appointemntType;
+  const requestInfo = counter.request[counter.request.length - 1];
+  let requestId = requestInfo? requestInfo.requestId:0;
   const config = {
     headers: { Authorization: 'Bearer ' + accesstoken },
   };
@@ -118,7 +120,6 @@ const PaymentSelection = forwardRef((props, ref) => {
         );
     }
   }
-
   useEffect(() => {
     API.get(
       'https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/GetPaymentOptions',
@@ -139,42 +140,44 @@ const PaymentSelection = forwardRef((props, ref) => {
   };
   useImperativeHandle(ref, () => ({
     saveData() {
-  const requestInfo = counter.request[counter.request.length - 1];
-  const priceDetal= counter.priceInfo[counter.priceInfo.length - 1];
-  let requestId = 52;
-    const body = {
-      FirstName : "Zelalem",
-      LastName:"Zelalem",
-      Email:"Zelalem@gmail.com",
-      Phone:"+251944772496",
-      Amount:600,
-      Currency:"ETB",
-      City:"Addis Ababa",
-      Country:"ET",
-      Channel:"Mobile",
-      PaymentOptionsId:2,
-      username : "ETHIOUSER",
-      password : "123456",
-      requestId: 50
-    };
-    API.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
-      .then((resopnse) => {
-        console.log(resopnse.data)
-        dispatch(addPaymentOptionId(resopnse.data));
-      })
-      .catch((err) => {
-        console.log("AXIOS ERROR: ", err.response);
-      })
-
-      setDataSaved(true)
+    const priceInfo= counter.priceInfo[counter.priceInfo.length - 1];
+    setDataSaved(true)
+    if(confirmed===true){
+      if(selectedOption !== 0){
+        const body = {
+          FirstName : "Zelalem",
+          LastName:"Zelalem",
+          Email:"Zelalem@gmail.com",
+          Phone:"+251944772496",
+          Amount:priceInfo? priceInfo.totalPrice:0,
+          Currency:"ETB",
+          City:"Addis Ababa",
+          Country:"ET",
+          Channel:"Mobile",
+          PaymentOptionsId:selectedOption,
+          username : "ETHIOUSER",
+          password : "123456",
+          requestId: requestId,
+        };
+        API.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
+          .then((resopnse) => {
+            console.log(resopnse.data)
+            dispatch(addPaymentOptionId(resopnse.data));
+            history.push('/InstructionPage')
+          })
+          .catch((err) => {
+            console.log("AXIOS ERROR: ", err.response);
+          })
+      }
+    }
     },
     isCompleted() {
-      if(selectedOption>0 && confirmed===true){
-        return true;
-      }
-      else{
+      // if(formCompleted===true){
+      //   return true;
+      // }
+      // else{
         return false;
-      }
+      //}
     },
   }));
   return (
@@ -223,7 +226,7 @@ const PaymentSelection = forwardRef((props, ref) => {
               <strong>Pricing Information</strong>
             </span>
           </h4>
-          <PricingInfo />
+          <PricingInfo requestId={requestId} />
         </div>
         
         

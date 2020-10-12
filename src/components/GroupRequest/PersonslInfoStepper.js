@@ -257,7 +257,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
       };
       API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/AddPerson',requestBody, config)
         .then((todo) => {
-          debugger;
+           ;
           //console.log("body ", JSON.parse(requestBody))
           setResponseMessage(todo.data.message);
           setResponseAlert(true);
@@ -270,7 +270,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
         .catch((err) => {
-          debugger;
+           ;
           // console.log('Body: ', requestBody);
           console.log('AXIOS ERROR: ', err.response);
           if (err.response != null)

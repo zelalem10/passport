@@ -96,7 +96,7 @@ if(requests && !displayedApplication){
     },
   }));
   const getOccupation = (id) => {
-    debugger;
+     ;
     let occupations = JSON.parse(localStorage.occupations);
     for (let index = 0; index < occupations.length; index++) {
       if (occupations[index].id == id) {
@@ -148,10 +148,10 @@ if(requests && !displayedApplication){
               atachmentsample.push(Response.data.attachments[i]);
             }
             setattachment(atachmentsample);
-            console.log(attachment);
+            // console.log(attachment);
           })
           .catch((err) => {
-            console.log(err);
+            // console.log(err);
           });
 
         const handleChange = (panel) => (event, newExpanded) => {

@@ -3,7 +3,7 @@ import axios from 'axios';
 import Spinner from '../../common/Spinner';
 import { MDBBadge } from 'mdbreact';
 const Fileupload = forwardRef((props, ref) => {
-  debugger;
+   ;
   const { displayedApplication,personalInformation} = props;
   let [successMessage, setsuccessMessage] = useState(false);
   let [errorMessage, seterrorMessage] = useState(false);
@@ -53,7 +53,7 @@ const Fileupload = forwardRef((props, ref) => {
 
 
   const submit = async (e) => {
-    debugger;
+     ;
     e.preventDefault();
     setloading(true);
     setsuccessMessage(false);
@@ -100,7 +100,7 @@ const Fileupload = forwardRef((props, ref) => {
 
   }
   const onChange = (e) => {
-    debugger;
+     ;
     setfiles([...files, e.target.files[0]]);
     setfileType([...fileType, e.target.id]);
       //files = e.target.files[0];
@@ -115,7 +115,7 @@ const Fileupload = forwardRef((props, ref) => {
     }
 
   for (let i = 0; i < attachmentlength; i++) {
-    debugger;
+     ;
     inputs.push(
       <div class="row p-3" id='attachmentmargin'>
          <div class="col-lg-4 passport-text-right">

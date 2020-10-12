@@ -2,7 +2,7 @@ import React from 'react';
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdbreact';
 
 function AvailableTimeSlot(props) {
-  debugger;
+   ;
   const { timeLists } = props;
   const { showAndHide } = props;
 
