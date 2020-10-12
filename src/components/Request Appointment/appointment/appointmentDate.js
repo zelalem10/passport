@@ -71,7 +71,8 @@ const MyApp = forwardRef((props, ref) => {
   const handleIsUrgent = () => {
     setShowAvailableTimeSlots(false);
     setTimeSlots([]);
-    setState({ ...state, date: new Date() });
+    setState({ ...state, date: '' });
+    setErrorMessage('');
 
     setIsUrgentAppointment(!isUrgentAppointment);
     dispatch(
@@ -157,6 +158,7 @@ const MyApp = forwardRef((props, ref) => {
   const token = tokenValue();
   useImperativeHandle(ref, () => ({
     saveData() {
+      if(state.date){
       let urgentQuotaId = 0;
       let formatedYear = state.date.getFullYear();
       let formatedMonth = (1 + state.date.getMonth()).toString();
@@ -184,7 +186,7 @@ const MyApp = forwardRef((props, ref) => {
             }
           }
         }
-
+        if (state.date){
         axios({
           headers: {
             Authorization: 'Bearer ' + token,
@@ -200,7 +202,6 @@ const MyApp = forwardRef((props, ref) => {
           },
         })
           .then((response) => {
-            console.log(response.data);
             dispatch(
               addAppointmentDate(response.data.urgentAppointmentResponses)
             );
@@ -212,15 +213,16 @@ const MyApp = forwardRef((props, ref) => {
             }
           })
           .catch((error) => {
-            if (state.date && state.time) {
+            if (state.date) {
               setErrorMessage(error.message);
-            } else if (state.date && !state.time) {
-              setErrorMessage('Please Select Time Interval');
             } else {
-              setErrorMessage('Please Select Date and Time Interval');
+              setErrorMessage('Please Select Date ');
             }
-          });
+          });} else {
+            setErrorMessage('Please Select Date');
+          }
       } else {
+        if(state.date && selectTime){
         axios({
           headers: {
             Authorization: 'Bearer ' + token,
@@ -245,14 +247,23 @@ const MyApp = forwardRef((props, ref) => {
             }
           })
           .catch((error) => {
-            if (state.date && state.time) {
+            debugger;
+            if (state.date && selectTime) {
               setErrorMessage(error.message);
-            } else if (state.date && !state.time) {
+            } else if (state.date && !selectTime) {
               setErrorMessage('Please Select Time Interval');
             } else {
               setErrorMessage('Please Select Date and Time Interval');
             }
           });
+        }else if (state.date && !selectTime) {
+          setErrorMessage('Please Select Time Interval');
+        } else {
+          setErrorMessage('Please Select Date and Time Interval');
+        }
+      }
+    }else{
+setErrorMessage('Please Select Date.')
       }
     },
     isCompleted() {
@@ -268,9 +279,15 @@ const MyApp = forwardRef((props, ref) => {
   let availabletIMES = [];
 
   const handleTimeSelect = (e) => {
+    
     setState({ ...state, time: e.target.value });
     setSelectTime(e.target.id);
     toggleClass(e);
+    if(e.target.value){
+      setErrorMessage('');
+    }
+
+
   };
   useEffect(() => {
     if (officeInformation.hasOwnProperty('offceId')) {
@@ -487,13 +504,16 @@ const MyApp = forwardRef((props, ref) => {
   }, [isUrgentAppointment, officeInformation]);
   const onChange = (date) => {
     setState({ ...state, date: date });
+    setSelectTime('');
     showTimeSlots(date);
+    setErrorMessage('');
   };
   const showTimeSlots = (date) => {
     if (!isUrgentAppointment) {
+      let timeSlotsForSpecificDate = [];
       let formatedSelectedDate =
         date.getFullYear() + ',' + (date.getMonth() + 1) + ',' + date.getDate();
-      let timeSlotsForSpecificDate = [];
+      
       for (let i = 0; i < availableTimes.length; i++) {
         let dateAV = new Date(availableTimes[i].date);
         let formatedavDate =
