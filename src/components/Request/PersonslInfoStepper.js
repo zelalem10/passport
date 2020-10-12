@@ -116,7 +116,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           ? Number.parseInt(serviceInfo.appointemntType, 10)
           : 0,
         appointmentIds: appointment ? [appointment[0].id] : [],
-        userName: localStorage.logedInUsedData?localStorage.logedInUsedData.username:'',
+        userName: localStorage.logedInUsedData?JSON.parse(localStorage.logedInUsedData).username:'',
         status: 0,
         confirmationNumber: '',
         applicants: [
