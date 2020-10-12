@@ -120,37 +120,21 @@ const Fileupload = forwardRef((props, ref) => {
 
   }));
 
+  // const validate = (files) => {
+  //   debugger;
 
+  //   if (files.length < requiredFile) {
+  //     fileError.push('You Should have to Choose all files');
+  //   }
 
-  const validate = (files) => {
+  //   setvalidationMessage(fileError);
 
-    debugger;
+  //   if (fileError.length > 0) {
+  //     return false;
+  //   }
 
-
-
-    if (files.length < requiredFile) {
-
-      fileError.push('You Should have to Choose all files');
-
-    }
-
-
-
-    setvalidationMessage(fileError);
-
-
-
-    if (fileError.length > 0) {
-
-      return false;
-
-    }
-
-
-
-    return true;
-
-  };
+  //   return true;
+  // };
 
 
 
@@ -167,11 +151,8 @@ const Fileupload = forwardRef((props, ref) => {
     seterrorMessage(false);
 
     fileError = [];
-
-    const isValid = validate(files);
-
-    if (isValid) {
-
+    // const isValid = validate(files);
+    // if (isValid) {
       setloading(true);
 
 
@@ -231,9 +212,7 @@ const Fileupload = forwardRef((props, ref) => {
         seterrorMessage(true);
 
       }
-
-    }
-
+    //}
   };
 
   const onChange = (e) => {
@@ -359,8 +338,6 @@ const Fileupload = forwardRef((props, ref) => {
     );
 
   }
-
-
 
   return (
 
