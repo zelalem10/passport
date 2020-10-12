@@ -145,8 +145,7 @@ const MainStatus = () => {
     }
   };
   const backToList = () => {
-    debugger;
-    setGoToPayment('');
+    setGoToPayment(false);
     sethandleDisplayId('');
     setDisplayRequestId('');
     setIsEdit('');
@@ -161,7 +160,7 @@ const MainStatus = () => {
     setShowForm(true);
   };
   if (goToPayment) {
-    return <GetContent handlePaymentId={handlePaymentId} status={true} />;
+    return <GetContent handlePaymentId={handlePaymentId} status={true} backToList={backToList} />;
   } else if (handleDisplayId) {
     return <RescheduleAppointment handleDisplayId={handleDisplayId} />;
   } else if (displayRequestId && isEdit) {

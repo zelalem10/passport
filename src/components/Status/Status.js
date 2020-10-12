@@ -149,11 +149,14 @@ function Status(props) {
                                     </strong>{' '}
                                     {ApplicationNumberData.requestStatus}
                                   </div>
+                                  <div>
+                                    <strong className="d-inline">
+                                      Application Number :{' '}
+                                    </strong>{' '}
+                                    {ApplicationNumberData.personResponses.applicationNumber}
+                                  </div>{' '}
                                 </div>
-                                {ApplicationNumberData.requestStatus ==
-                                  'UrgentRequested' &&
-                                ApplicationNumberData.requestStatus ==
-                                  'UrgentRequested' ? (
+                                {ApplicationNumberData.requestStatus == 'UrgentApproved' ? (
                                   <a
                                     className="hoverWhite"
                                     onClick={() =>
@@ -168,10 +171,10 @@ function Status(props) {
                                     </div>
                                   </a>
                                 ) : null}
-                                {/* {ApplicationNumberData.requestStatus ==
+                                {ApplicationNumberData.requestStatus ==
                                   'SendforCorrection' &&
                                 ApplicationNumberData.requestStatus ==
-                                  'Initial' ? ( */}
+                                  'Initial' ? (
                                   <a
                                     onClick={() =>
                                       handleEdit(
@@ -187,7 +190,7 @@ function Status(props) {
                                       <i class="fas fa-edit fa-lg"></i>
                                     </div>
                                   </a>
-                                {/* ) : null} */}
+                                 ) : null} 
                                 <a
                                   onClick={() =>
                                     handleDisplay(

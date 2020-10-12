@@ -325,17 +325,7 @@ export default function ViewAppointment(props) {
                     </label>
                   </b>
                 </div>
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Half Cast
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {personalInformation.halfCast}
-                    </label>
-                  </b>
-                </div>
+               
 
                 <div class="form-group form-inline">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
@@ -359,6 +349,39 @@ export default function ViewAppointment(props) {
                     </label>
                   </b>
                 </div>
+                <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Is HalfCast
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.isHalfCast?'True':'False'}
+                        </label>
+                      </b>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Is Adoption
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.isAdoption?'True':'False'}
+                        </label>
+                      </b>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Is Under18
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.isUnder18?'True':'False'}
+                        </label>
+                      </b>
+                    </div>
               </fieldset>
               {familyInformation.length !== 0 ? (
                 <fieldset>
