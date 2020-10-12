@@ -179,29 +179,32 @@ const PersonalInfo = forwardRef((props, ref) => {
       email: prevInfo ? prevInfo.email : '',
       martialStatus: prevInfo ? prevInfo.martialStatus : '',
     }));
+    if(prevInfo !==null && prevInfo !== undefined)
+    {
     setNotCompleted({
-      firstName: prevInfo !==null && prevInfo.firstName === '' ? true : false,
-      middleName: prevInfo !==null && prevInfo.middleName === '' ? true : false,
-      lastName: prevInfo !==null && prevInfo.lastName === '' ? true : false,
-      geezFirstName: prevInfo !==null && prevInfo.geezFirstName === '' ? true : false,
-      geezMiddleName: prevInfo !==null && prevInfo.geezMiddleName === '' ? true : false,
-      geezLastName: prevInfo !==null && prevInfo.geezLastName === '' ? true : false,
-      birthPlace: prevInfo !==null && prevInfo.birthPlace === '' ? true : false,
-      birthCertificatNo: prevInfo !==null && prevInfo.birthCertificatNo === '' ? true : false,
-      birthDate: prevInfo !==null && prevInfo.birthDate === '' ? true : false,
-      gender: prevInfo !==null && prevInfo.gender === '' ? true : false,
-      height: prevInfo !==null && prevInfo.height === '' ? true : false,
-      eyeColor: prevInfo !==null && prevInfo.eyeColor === '' ? true : false,
-      hairColor: prevInfo !==null && prevInfo.hairColor === '' ? true : false,
-      occupationId: prevInfo !==null && prevInfo.occupationId === 0 ? true : false,
-      isHalfCast: prevInfo !==null && prevInfo.isHalfCast,
-      isUnder18: prevInfo !==null && prevInfo.isUnder18,
-      isAdoption: prevInfo !==null && prevInfo.isAdoption,
-      nationalityId: prevInfo !==null && prevInfo.nationalityId === 0 ? true : false,
-      martialStatus: prevInfo !==null && prevInfo.martialStatus === '' ? true : false,
-      phoneNumber: prevInfo !==null && prevInfo.phoneNumber === '' ? true : false,
-      email: prevInfo !==null && prevInfo.email === '' ? true : false,
+      firstName: prevInfo.firstName ? true : false,
+      middleName: prevInfo.middleName? true : false,
+      lastName: prevInfo.lastName? true : false,
+      geezFirstName:  prevInfo.geezFirstName? true : false,
+      geezMiddleName: prevInfo.geezMiddleName? true : false,
+      geezLastName: prevInfo.geezLastName? true : false,
+      birthPlace: prevInfo.birthPlace? true : false,
+      birthCertificatNo:  prevInfo.birthCertificatNo? true : false,
+      birthDate:  prevInfo.birthDate? true : false,
+      gender: prevInfo.gender? true : false,
+      height: prevInfo.height? true : false,
+      eyeColor:  prevInfo.eyeColor? true : false,
+      hairColor: prevInfo.hairColor? true : false,
+      occupationId: prevInfo.occupationId? true : false,
+      isHalfCast: prevInfo.isHalfCast,
+      isUnder18: prevInfo.isUnder18,
+      isAdoption:  prevInfo.isAdoption,
+      nationalityId: prevInfo.nationalityId === 0 ? true : false,
+      martialStatus: prevInfo.martialStatus ? true : false,
+      phoneNumber: prevInfo.phoneNumber? true : false,
+      email: prevInfo.email? true : false,
     });
+  }
 
     setNationalityList(JSON.parse(localStorage.nationalitys));
     if (nationalityList.length === 0) {

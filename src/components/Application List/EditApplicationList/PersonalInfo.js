@@ -180,6 +180,9 @@ const PersonalInfo = forwardRef((props, ref) => {
           : null
         : null,
     }));
+
+    if(personalInfo !== null && personalInfo !== undefined)
+    {
     setNotCompleted({
       firstName: personalInfo.firstName === '' ? true : false,
       middleName: personalInfo.middleName === '' ? true : false,
@@ -203,6 +206,7 @@ const PersonalInfo = forwardRef((props, ref) => {
       phoneNumber: personalInfo.phoneNumber === '' ? true : false,
       email: personalInfo.email === '' ? true : false,
     });
+  }
   }, []);
   const [selectedDate, setSelectedDate] = React.useState(
     new Date(prevInfo ? prevInfo.dateOfBirth : new Date())
