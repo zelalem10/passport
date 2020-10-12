@@ -521,8 +521,7 @@ export default function ViewAppointment(props) {
                         <h5>Attachment Information</h5>
                       </li>
                       {
-                      attachementResponse? 
-                      attachementResponse.length &&  (
+                      attachementResponse.length ? (
                         attachementResponse.map((attachmentitem) => (
                           <li class="list-group-item d-flex justify-content-between">
                             <span>{attachmentitem.attachmentType} </span>
