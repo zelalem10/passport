@@ -3,7 +3,6 @@ import { MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdbreact';
 
 function EditFamily(props) {
   const { familyType } = props;
-   ;
   return (
     <MDBContainer className="passport-container pt-3" id="raa-form" fluid>
       <MDBRow>

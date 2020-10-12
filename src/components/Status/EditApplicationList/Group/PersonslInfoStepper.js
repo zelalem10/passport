@@ -14,6 +14,7 @@ import TravelPlan from './TravelPlan';
 import FamilyInformation from './family/familyInformation';
 import { useDispatch, useSelector } from 'react-redux';
 import API from '../../../Utils/API';
+import '../../viewAppointment.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,7 +74,6 @@ export default function HorizontalLabelPositionBelowStepperGroup(props) {
     setActiveStep(0);
   };
   const handleSubmit = () => {
-     ;
     const personalInfoLength = counter.personalInfoReducer.filter(
       (item) => item.id == props.applicantNumber
     ).length;
@@ -205,12 +205,10 @@ export default function HorizontalLabelPositionBelowStepperGroup(props) {
     )
 
       .then((todo) => {
-         ;
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       })
 
       .catch((err) => {
-         ;
         console.log('AXIOS ERROR: ', err.response);
       });
   };

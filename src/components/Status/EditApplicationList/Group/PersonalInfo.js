@@ -19,7 +19,6 @@ const PersonalInfo = forwardRef((props, ref) => {
 
   let applicantInfo = [];
   const dispatch = useDispatch();
-  
   const counter = useSelector((state) => state);
   if (counter.personalInfoReducer.length === 0) {
     for (let i = 0; i < applicants.length; i++) {
@@ -168,10 +167,10 @@ const PersonalInfo = forwardRef((props, ref) => {
     }));
   }, []);
   const [selectedDate, setSelectedDate] = React.useState(
-    new Date(prevInfo ? prevInfo.birthDate : '2014-08-18T21:11:54')
+    new Date(prevInfo ? prevInfo.birthDate : new Date())
   );
   const [selectedEnrollmentDate, setSelectedEnrollmentDate] = React.useState(
-    new Date(prevInfo ? prevInfo.enrolmentDate : '2014-08-18T21:11:54')
+    new Date(prevInfo ? prevInfo.enrolmentDate : new Date())
   );
 
   const handleDateChange = (date) => {
@@ -218,13 +217,24 @@ const PersonalInfo = forwardRef((props, ref) => {
             </MDBCol>
             <MDBCol className="date-picker">
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
+                {/* <KeyboardDatePicker
                   disableToolbar
                   variant="inline"
                   format="MM/dd/yyyy"
                   margin="normal"
                   id="date-picker-inline"
                   label="Date of birth"
+                  value={selectedDate}
+                  onChange={handleDateChange}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change date',
+                  }}
+                /> */}
+                <KeyboardDatePicker
+                  margin="normal"
+                  id="date-picker-dialog"
+                  label="Date of birth"
+                  format="MM/dd/yyyy"
                   value={selectedDate}
                   onChange={handleDateChange}
                   KeyboardButtonProps={{
@@ -376,13 +386,24 @@ const PersonalInfo = forwardRef((props, ref) => {
             </MDBCol>
             <MDBCol className="date-picker">
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
+                {/* <KeyboardDatePicker
                   disableToolbar
                   variant="inline"
                   format="MM/dd/yyyy"
                   margin="normal"
                   id="date-picker-inline"
                   label="Enrollment Date"
+                  value={selectedEnrollmentDate}
+                  onChange={handleEnrollmentDateChange}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change date',
+                  }}
+                /> */}
+                <KeyboardDatePicker
+                  margin="normal"
+                  id="date-picker-dialog"
+                  label="Enrollment Date"
+                  format="MM/dd/yyyy"
                   value={selectedEnrollmentDate}
                   onChange={handleEnrollmentDateChange}
                   KeyboardButtonProps={{

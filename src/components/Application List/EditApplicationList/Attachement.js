@@ -3,7 +3,6 @@ import axios from 'axios';
 import Spinner from '../../common/Spinner';
 import { MDBBadge } from 'mdbreact';
 const Fileupload = forwardRef((props, ref) => {
-   ;
   const { displayedApplication,personalInformation} = props;
   let [successMessage, setsuccessMessage] = useState(false);
   let [errorMessage, seterrorMessage] = useState(false);
@@ -53,7 +52,6 @@ const Fileupload = forwardRef((props, ref) => {
 
 
   const submit = async (e) => {
-     ;
     e.preventDefault();
     setloading(true);
     setsuccessMessage(false);
@@ -70,7 +68,6 @@ const Fileupload = forwardRef((props, ref) => {
 
     // }
     for (let i = 0; i < files.length; i++) {
-       ;
       formData.append('personRequestId', requestPersonId);
       formData.append(fileType[i], files[i]);
       console.log(files[i])
@@ -100,7 +97,6 @@ const Fileupload = forwardRef((props, ref) => {
 
   }
   const onChange = (e) => {
-     ;
     setfiles([...files, e.target.files[0]]);
     setfileType([...fileType, e.target.id]);
       //files = e.target.files[0];
@@ -115,7 +111,6 @@ const Fileupload = forwardRef((props, ref) => {
     }
 
   for (let i = 0; i < attachmentlength; i++) {
-     ;
     if(attachmentlength > 0)
     {
       inputs.push(

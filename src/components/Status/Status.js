@@ -38,7 +38,7 @@ function Status(props) {
               <MDBRow>
                 <MDBCol md="3"></MDBCol>
                 <MDBCol md="6">
-                  <form onSubmit={handleSubmit}>
+                  <form onSubmit={(e) => handleSubmit(e)}>
                     <div className="header pt-3 textBackground my-5">
                       <MDBRow className="d-flex justify-content-center">
                         <h4 className="white-text mb-3 pt-3 font-weight-bold">
@@ -172,25 +172,23 @@ function Status(props) {
                                   'SendforCorrection' &&
                                 ApplicationNumberData.requestStatus ==
                                   'Initial' ? ( */}
-                                <a
-                                  href="#"
-                                  onClick={() =>
-                                    handleEdit(
-                                      ApplicationNumberData.requestId,
+                                  <a
+                                    onClick={() =>
+                                      handleEdit(
+                                        ApplicationNumberData.requestId,
 
-                                      ApplicationNumberData.personResponses
-                                        .length
-                                    )
-                                  }
-                                >
-                                  {' '}
-                                  <div class="float-right mr-4">
-                                    <i class="fas fa-edit fa-lg"></i>
-                                  </div>
-                                </a>
+                                        ApplicationNumberData.personResponses
+                                          .length
+                                      )
+                                    }
+                                  >
+                                    {' '}
+                                    <div class="float-right mr-4">
+                                      <i class="fas fa-edit fa-lg"></i>
+                                    </div>
+                                  </a>
                                 {/* ) : null} */}
                                 <a
-                                  href="#"
                                   onClick={() =>
                                     handleDisplay(
                                       ApplicationNumberData.requestId
@@ -209,7 +207,6 @@ function Status(props) {
                                     ApplicationNumberData.appointmentResponse.date
                                   ) ? (
                                   <a
-                                    href="#"
                                     onClick={() =>
                                       handleReschedule(
                                         ApplicationNumberData.requestId
@@ -237,7 +234,7 @@ function Status(props) {
                           <MDBBtn
                             type="submit"
                             className="btn btn-info float-left ml-4"
-                            onClick={clearSerchItems}
+                            onClick={() => clearSerchItems()}
                           >
                             Back To Form
                           </MDBBtn>

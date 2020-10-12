@@ -96,7 +96,6 @@ if(requests && !displayedApplication){
     },
   }));
   const getOccupation = (id) => {
-     ;
     let occupations = JSON.parse(localStorage.occupations);
     for (let index = 0; index < occupations.length; index++) {
       if (occupations[index].id == id) {
@@ -390,17 +389,7 @@ if(requests && !displayedApplication){
                         </label>
                       </b>
                     </div>
-                    <div class="form-group form-inline">
-                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        Half Cast
-                      </label>
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                      <b>
-                        <label class="font-weight-bold">
-                          {personalInformation.halfCast}
-                        </label>
-                      </b>
-                    </div>
+                    
 
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
@@ -421,6 +410,39 @@ if(requests && !displayedApplication){
                       <b>
                         <label class="font-weight-bold">
                           {personalInformation.email}
+                        </label>
+                      </b>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Is HalfCast
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.isHalfCast}
+                        </label>
+                      </b>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Is Adoption
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.isAdoption}
+                        </label>
+                      </b>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Is Under18
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.isUnder18}
                         </label>
                       </b>
                     </div>

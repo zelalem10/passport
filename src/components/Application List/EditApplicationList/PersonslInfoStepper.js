@@ -70,6 +70,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
       displayedApplication = appList[item];
     }
   }
+
   const personalInformation = displayedApplication
     ? displayedApplication.personResponses
     : null;
@@ -104,7 +105,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   };
 
   const handleFinish = () => {
-    childRef.current.saveData();
+    const travelPlan= childRef.current.saveData();
     const isVilid = childRef.current.Validate();
     if (isVilid != true) {
       //setResponseMessage("Ple")
@@ -233,7 +234,6 @@ export default function HorizontalLabelPositionBelowStepper(props) {
         ],
       };
       console.log(JSON.stringify(requestBody));
-       ;
       API.put(
         'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/UpdateRequest',
         requestBody,

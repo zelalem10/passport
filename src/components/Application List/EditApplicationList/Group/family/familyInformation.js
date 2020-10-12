@@ -50,15 +50,12 @@ const FamilyInformation = forwardRef((props, ref) => {
     setFamiliesInfo(familiesInformation);
     setIsOnLoad(false);
   } else if (isOnLoad === true && counter.editFamilyData.length === 1) {
-     ;
     let thisFamilyInfo = counter.editFamilyData[0].filter(
       (family) => family.personId == props.applicantNumber
     );
     setFamiliesInfo(thisFamilyInfo);
     setIsOnLoad(false);
   } else if (isOnLoad === true && counter.editFamilyData.length > 1) {
-     ;
-
     const resultLength = counter.editFamilyData.filter(function (items) {
       for (let item in items) {
         if (items[item].personId == props.applicantNumber) {
@@ -210,7 +207,6 @@ const FamilyInformation = forwardRef((props, ref) => {
       params: { familyId: ids },
     })
       .then((response) => {
-         ;
         var array = [...familiesInfo];
         array.splice(index, 1);
         setFamiliesInfo(array);

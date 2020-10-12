@@ -47,7 +47,6 @@ function ApplicationList() {
   let history = useHistory();
 
   const handleDisplay = (id) => {
-     ;
     setDisplayRequestId(id);
   };
   const handleEdit = (id) => {
@@ -91,9 +90,11 @@ function ApplicationList() {
   }, [relodList]);
   //back to appointment list
   const backToList = () => {
+    debugger;
     setDisplayRequestId('');
     setIsEdit(false);
     setRelodList(!relodList);
+    sethandleDisplayId('');
   };
   //payment for urgent
   const handlePayment = (id) => {
@@ -102,7 +103,6 @@ function ApplicationList() {
   };
   //cancel a single schedule
   function cancelSchedule(requestId) {
-     ;
     axios({
       headers: { Authorization: 'Bearer ' + accesstoken },
       method: 'post',
@@ -123,10 +123,17 @@ function ApplicationList() {
       });
   }
   if (goToPayment) {
-    return <GetContent handlePaymentId={handlePaymentId} />;
+    return <GetContent handlePaymentId={handlePaymentId} status={false} />;
   }
   if (handleDisplayId) {
-    return <RescheduleAppointment handleDisplayId={handleDisplayId} />;
+    return (
+      <RescheduleAppointment
+        handleDisplayId={handleDisplayId}
+        
+        handleReschedule={handleReschedule}
+        backToList={backToList}
+      />
+    );
   } else if (!displayRequestId && !isEdit) {
     return (
       <ListOfApplications
@@ -149,6 +156,7 @@ function ApplicationList() {
       <HorizontalLabelPositionBelowStepper
         displayRequestId={displayRequestId}
         backToList={backToList}
+        status={false}
       />
     );
   } else if (displayRequestId) {
@@ -156,6 +164,7 @@ function ApplicationList() {
       <ViewAppointment
         displayRequestId={displayRequestId}
         backToList={backToList}
+        status={false}
       />
     );
   }

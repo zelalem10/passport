@@ -12,7 +12,6 @@ import {
 
 function AddMoreFamily(props) {
   const { data, familyType } = props;
-   ;
   console.log(data);
   return (
     <MDBContainer className="passport-container pt-3" id="raa-form" fluid>
@@ -100,10 +99,9 @@ function AddMoreFamily(props) {
                         class="button hollow gray vertical-margin-2 "
                         onClick={props.addAdditionalFamilyHandler}
                       >
-                        Add
+                        Save
                         <span class="show-for-medium">
-                          {' '}
-                          Family <i class="fas fa-plus-circle"></i>
+                          <i class="fas fa-plus-circle"></i>
                         </span>
                       </a>
                     </div>

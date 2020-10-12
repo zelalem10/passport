@@ -15,15 +15,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from 'react-bootstrap';
 
 function InstructionPage(props) {
-  const [priceInfo, setprceInfo] = useState('');
-  const [requestSubmited, setRequestSubmited] = useState(false);
-  const [instructions, setInstructions] = useState([]);
-  const [message, setMessage] = useState('');
-  const [flowType, setFlowType] = useState(0);
-  const [status, setStatus] = useState(0);
-  const dispatch = useDispatch();
+const {passportPage}=props;
   const data = useSelector((state) => state);
-  const selectedId = { optionId: 0 };
 
   let paymentInformation = data.paymentOption[data.paymentOption.length - 1];
 
@@ -94,7 +87,7 @@ function InstructionPage(props) {
                   <div>
                     <h6 class="my-0">Page quantity</h6>
                   </div>
-                  <span class="text-muted">32</span>
+                  <span class="text-muted">{passportPage}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between">
                   <span>Amount</span>

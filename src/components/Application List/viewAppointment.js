@@ -126,7 +126,6 @@ export default function ViewAppointment(props) {
           atachmentsample.push(Response.data.attachments[i]);
         }
         setattachment(atachmentsample);
-        console.log(attachment);
       })
       .catch((err) => {
         console.log(err);
@@ -233,6 +232,41 @@ export default function ViewAppointment(props) {
                     </label>
                   </b>
                 </div>
+                <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                        Geez First Name
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.geezFirstName}
+                        </label>
+                      </b>
+                    </div>
+
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                        Geez Middle Name
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.geezMiddleName}
+                        </label>
+                      </b>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                        Geez Last Name
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.geezLastName}
+                        </label>
+                      </b>
+                    </div>
+                   
                 <div class="form-group form-inline">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                     Date of Birth
@@ -347,7 +381,30 @@ export default function ViewAppointment(props) {
                   </b>
                 </div>
               </fieldset>
-              <fieldset>
+              {familyInformation.length !== 0 ? (
+                <fieldset>
+                  <legend class="text-primary">Family Information</legend>
+                  <hr class="text-primary" />
+                  {familyInformation.map((family) => (
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                        {getFamilyType(family.familtyTypeId)}
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold" id="AccommodationTyppe">
+                          {family.firstName + ' ' + family.lastName}
+                        </label>
+                      </b>
+                    </div>
+                  ))}
+                </fieldset>
+              ) : null}
+              
+            </div>
+
+            <div className="col-md-6">
+            <fieldset>
                 <legend class="text-primary">Address Information</legend>
                 <hr class="text-primary" />
                 <div class="form-group form-inline">
@@ -452,28 +509,7 @@ export default function ViewAppointment(props) {
                   </b>
                 </div>
               </fieldset>
-            </div>
-
-            <div className="col-md-6">
-              {familyInformation.length !== 0 ? (
-                <fieldset>
-                  <legend class="text-primary">Family Information</legend>
-                  <hr class="text-primary" />
-                  {familyInformation.map((family) => (
-                    <div class="form-group form-inline">
-                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        {getFamilyType(family.familtyTypeId)}
-                      </label>
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                      <b>
-                        <label class="font-weight-bold" id="AccommodationTyppe">
-                          {family.firstName + ' ' + family.lastName}
-                        </label>
-                      </b>
-                    </div>
-                  ))}
-                </fieldset>
-              ) : null}
+              
               <fieldset>
                 <ul class="list-group mb-3">
                   <li class="list-group-item ePassprt-color">
