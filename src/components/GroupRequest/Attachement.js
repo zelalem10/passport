@@ -109,7 +109,7 @@ const Fileupload = forwardRef((props, ref) => {
       {
 
         for (var key in files) {
-          if (!files[key].name.match(/\.(jpg|jpeg|png|gif)$/)) {
+          if (!files[key].name.match(/\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/)) {
             fileError.push(`  
             ${files[key].name ? (
               files[key].name + " is Invalid format, Please upload correct file type!"

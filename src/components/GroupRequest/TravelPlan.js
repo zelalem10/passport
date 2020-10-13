@@ -109,7 +109,7 @@ import React, {
         expirationDate: date,
       }));
     };
-    var prevInfo = counter.travelPlan[counter.travelPlan.length - 1];
+    var prevInfo = counter.travelPlan.filter(item => item.applicantNumber == props.applicantNumber)[counter.travelPlan.length - 1]
     const serviceSelcetion = counter.service[counter.service.length - 1];
     const requestType = serviceSelcetion.appointemntType;
     const requestTypeStr = requestTypeGetter(requestType);

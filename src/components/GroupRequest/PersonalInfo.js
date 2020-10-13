@@ -159,7 +159,8 @@ const PersonalInfo = forwardRef((props, ref) => {
         [name]: checked,
       }));
     };
-    var prevInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
+    var prevInfo = counter.personalInfoReducer.filter(
+      (item) => item.applicantNumber == props.applicantNumber)[counter.personalInfoReducer.length - 1];
     if (prevInfo !== null && typeof prevInfo !== 'undefined') {
       if (personalInfo.formCompleted === false) {
         setPersonalInfo((prevState) => ({

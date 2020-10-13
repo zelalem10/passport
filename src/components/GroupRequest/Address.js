@@ -76,7 +76,9 @@ const Address = forwardRef((props, ref) => {
         }
         // dispatch(addAddressInfo(addressInfo));
       };
-      var prevInfo = counter.address[counter.address.length - 1];
+      var prevInfo =counter.address.filter(
+        (item) => item.applicantNumber == props.applicantNumber
+      )[counter.address.length - 1];
       const isRequired = 'is required!';
       if (prevInfo !== null && typeof prevInfo !== 'undefined') {
         if (addressInfo.formCompleted === false) {
