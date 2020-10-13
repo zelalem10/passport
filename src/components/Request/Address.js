@@ -248,7 +248,7 @@ const Address = forwardRef((props, ref) => {
                 className="form-control"
                 onBlur={handleChange}
                 type="text"
-                label="Request Place"
+                label="Sub City"
               />
             </MDBCol>
           </MDBRow>

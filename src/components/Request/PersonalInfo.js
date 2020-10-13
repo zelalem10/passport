@@ -104,9 +104,12 @@ const PersonalInfo = forwardRef((props, ref) => {
         notCompleted.gender === true ||
         notCompleted.occupationId === true ||
         notCompleted.phoneNumber === true ||
-        notCompleted.email === true ||
         notCompleted.gender === true ||
-        notCompleted.martialStatus === true
+        notCompleted.martialStatus === true ||
+        notCompleted.birthCertificatNo === true ||
+        notCompleted.birthPlace===true||
+      (personalInfo.email!=="" && isEmail(personalInfo.email))=== false 
+      // (/^[0-9]{1,16}$/.test(personalInfo.birthCertificatNo))===false
       )
         return false;
       else return true;
@@ -432,14 +435,19 @@ setIsLoading(false)
 
             <MDBRow>
               <MDBCol md="3" className="required-field">
-                <MDBInput
+                <MDBRow>
+                  {/* <MDBCol md="2">
+                  <label>+251</label>
+                  </MDBCol> */}
+                  <MDBCol md="10">
+                  <MDBInput
                   valueDefault={prevInfo ? prevInfo.phoneNumber : null}
                   name="phoneNumber"
                   className="form-control"
                   onBlur={handleChange}
                   type="text"
                   label="Phone Number"
-                //icon="+251"
+                //icon=""
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
@@ -448,8 +456,10 @@ setIsLoading(false)
                     ? 'Phone Number ' + isRequired
                     : null}
                 </span>
+                  </MDBCol>
+                </MDBRow>
               </MDBCol>
-              <MDBCol md="3" className="required-field">
+              <MDBCol md="3">
                 <MDBInput
                   valueDefault={prevInfo ? prevInfo.email : null}
                   name="email"
@@ -460,13 +470,6 @@ setIsLoading(false)
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
-                  {notCompleted.email === true &&
-                    personalInfo.dataSaved === true
-                    ? 'Email ' + isRequired
-                    : null}
-                </span>
-                <span style={{ color: 'red' }}>
-                  {' '}
                   {notCompleted.email === false &&
                     isEmail(personalInfo.email) === false &&
                     personalInfo.dataSaved == true
@@ -475,7 +478,7 @@ setIsLoading(false)
                 </span>
               </MDBCol>
 
-              <MDBCol md="3">
+              <MDBCol md="3" className="required-field">
                 <MDBInput
                   valueDefault={prevInfo ? prevInfo.birthPlace : null}
                   name="birthPlace"
@@ -484,16 +487,38 @@ setIsLoading(false)
                   type="text"
                   label="Birth Place"
                 />
+                <span style={{ color: 'red' }}>
+                    {' '}
+                    {notCompleted.birthPlace === true &&
+                      personalInfo.dataSaved === true
+                      ? 'Birth Place ' + isRequired
+                      : null}
+                  </span>
               </MDBCol>
-              <MDBCol md="3">
+              <MDBCol md="3" className="required-field">
                 <MDBInput
                   valueDefault={prevInfo ? prevInfo.birthCirtificateNo : null}
                   name="birthCertificatNo"
                   onChange={handleChange}
                   type="text"
-                  label="Birth Certificat No"
+                  label="Birth Registration Unique Id"
                 />
+                <span style={{ color: 'red' }}>
+                    {' '}
+                    {notCompleted.birthCertificatNo == true &&
+                      personalInfo.dataSaved == true
+                      ? 'Birth Reg. Unique Id ' + isRequired
+                      : null}
+                  </span>
+                  <span style={{ color: 'red' }}>
+                    {' '}
+                    {(/^[0-9]{1,16}$/.test(personalInfo.birthCertificatNo)===false &&
+                      personalInfo.dataSaved === true &&personalInfo.birthCertificatNo !=="")
+                      ? 'Birth Reg. Unique Id must be 16 digit numeric'
+                      : null}
+                  </span>
               </MDBCol>
+
             </MDBRow>
             <hr />
             <MDBRow>
@@ -612,7 +637,7 @@ setIsLoading(false)
               <MDBCol md="3">
                 <div>
                   <label>
-                    Martial status <i style={{ color: 'red' }}>*</i>{' '}
+                  Marital  status <i style={{ color: 'red' }}>*</i>{' '}
                   </label>
                   <select
                     className="browser-default custom-select"
@@ -637,18 +662,18 @@ setIsLoading(false)
                     >
                       Married
                     </option>
-                    <option
-                      value="2"
-                      selected={personalInfo.martialStatus === '2'}
-                    >
+                    <option value="2" selected={personalInfo.martialStatus === '2'}>
                       Divorced
+                    </option>
+                    <option value="3" selected={personalInfo.martialStatus === '3'}>
+                      Widowed
                     </option>
                   </select>
                   <span style={{ color: 'red' }}>
                     {' '}
                     {notCompleted.martialStatus == true &&
                       personalInfo.dataSaved == true
-                      ? 'Martial status ' + isRequired
+                      ? 'Marital status ' + isRequired
                       : null}
                   </span>
                 </div>

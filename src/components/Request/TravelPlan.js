@@ -38,9 +38,7 @@ function requestTypeGetter(requetTypeId) {
 }
 const TravelPlan = forwardRef((props, ref) => {
   const [travelPlan, setTravelPlan] = useState({
-    filledBy: '',
     pageQuantity: 0,
-    passportType: '',
     passportNumber: '',
     expirationDate: '',
     issueDate: '',
@@ -49,9 +47,7 @@ const TravelPlan = forwardRef((props, ref) => {
     dataSaved: false,
   });
   const [notCompleted, setNotCompleted] = useState({
-    filledBy: true,
     pageQuantity: false,
-    passportType: true,
     passportNumber: true,
     expirationDate: true,
     issueDate: true,
@@ -117,16 +113,13 @@ const TravelPlan = forwardRef((props, ref) => {
   const serviceSelcetion = counter.service[counter.service.length - 1];
   const requestType = serviceSelcetion.appointemntType;
   const requestTypeStr = requestTypeGetter(requestType);
-
   useEffect(() => {
     if (counter.travelPlan.length === 0) {
       dispatch(addTravelPlan(travelPlan));
     }
     setTravelPlan((prevState) => ({
       ...prevState,
-      filledBy: prevInfo ? prevInfo.filledBy : null,
       pageQuantity: prevInfo ? prevInfo.pageQuantity : 0,
-      passportType: prevInfo ? prevInfo.passportType : null,
       passportNumber: prevInfo ? prevInfo.passportNumber : null,
       expirationDate: prevInfo ? new Date(prevInfo.expirationDate) : null,
       issueDate: prevInfo ? new Date(prevInfo.issueDate) : null,
@@ -149,7 +142,6 @@ const TravelPlan = forwardRef((props, ref) => {
         });
     }
   }, []);
-
   useImperativeHandle(ref, () => ({
     saveData() {
       setTravelPlan((prevState) => ({
@@ -161,9 +153,7 @@ const TravelPlan = forwardRef((props, ref) => {
     },
     Validate() {
       setNotCompleted({
-        filledBy: travelPlan.filledBy === '' ? true : false,
         pageQuantity: travelPlan.pageQuantity === 0 ? true : false,
-        passportType: travelPlan.passportType === '' ? true : false,
         passportNumber: travelPlan.passportNumber === '' ? true : false,
         expirationDate: travelPlan.expirationDate === '' ? true : false,
         issueDate: travelPlan.issueDate === '' ? true : false,
@@ -190,7 +180,7 @@ const TravelPlan = forwardRef((props, ref) => {
               <MDBCol md="4"  className="required-field">
                 <div>
                   <label>
-                    Passport Page<i style={{ color: 'red' }}>*</i>{' '}
+                    Passport Page No.(Requested)<i style={{ color: 'red' }}>*</i>{' '}
                   </label>
                   <select
                     className="browser-default custom-select"
@@ -214,38 +204,10 @@ const TravelPlan = forwardRef((props, ref) => {
                 </span>{' '}
               </MDBCol>
 
-              <MDBCol md="4" >
-                <MDBInput
-                  valueDefault={prevInfo ? prevInfo.filledBy : null}
-                  name="filledBy"
-                  className="form-control"
-                  onBlur={handleChange}
-                  type="text"
-                  label="Application filled by"
-                />
-              </MDBCol>
-
             </MDBRow>
  
             {requestTypeStr != 'New' ? (
               <MDBRow>
-                <MDBCol md="3">
-                  <MDBInput
-                    valueDefault={prevInfo ? prevInfo.passportType : null}
-                    name="passportType"
-                    className="form-control"
-                    onBlur={handleChange}
-                    type="text"
-                    label="Passport Type"
-                  />
-                  <span style={{ color: 'red' }}>
-                    {' '}
-                    {notCompleted.passportType == true &&
-                    travelPlan.dataSaved == true
-                      ? 'Passport type' + isRequired
-                      : null}
-                  </span>
-                </MDBCol>
                 <MDBCol md="3">
                   <MDBInput
                     valueDefault={prevInfo ? prevInfo.passportNumber : null}
@@ -253,7 +215,7 @@ const TravelPlan = forwardRef((props, ref) => {
                     className="form-control"
                     onBlur={handleChange}
                     type="text"
-                    label="Passport Number"
+                    label="Old Passport Number"
                   />
                 </MDBCol>
                 <MDBCol md="3" className="date-picker">
@@ -261,10 +223,10 @@ const TravelPlan = forwardRef((props, ref) => {
                     <KeyboardDatePicker
                       margin="normal"
                       id="date-picker-dialog"
-                      label="Expiration Date"
+                      label="Old Issue Date"
                       format="MM/dd/yyyy"
-                      value={selectedexpirationDate}
-                      onChange={handleexpirationDateChange}
+                      value={selectedissueDate}
+                      onChange={handleissueDateChange}
                       KeyboardButtonProps={{
                         'aria-label': 'change date',
                       }}
@@ -276,10 +238,10 @@ const TravelPlan = forwardRef((props, ref) => {
                     <KeyboardDatePicker
                       margin="normal"
                       id="date-picker-dialog"
-                      label="Issue Date"
+                      label="Old Expiration Date"
                       format="MM/dd/yyyy"
-                      value={selectedissueDate}
-                      onChange={handleissueDateChange}
+                      value={selectedexpirationDate}
+                      onChange={handleexpirationDateChange}
                       KeyboardButtonProps={{
                         'aria-label': 'change date',
                       }}
