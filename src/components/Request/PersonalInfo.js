@@ -28,27 +28,27 @@ const PersonalInfo = forwardRef((props, ref) => {
   const [nationalityList, setNationalityList] = useState([]);
   const [occupationList, setOccupationList] = useState([]);
   const [personalInfo, setPersonalInfo] = useState({
-    firstName: prevInfo ? prevInfo.firstName : '',
-    middleName: prevInfo ? prevInfo.middleName : '',
-    lastName: prevInfo ? prevInfo.lastName : '',
-    geezFirstName: prevInfo ? prevInfo.geezFirstName : '',
-    geezMiddleName: prevInfo ? prevInfo.geezMiddleName : '',
-    geezLastName: prevInfo ? prevInfo.geezLastName : '',
-    birthPlace: prevInfo ? prevInfo.birthPlace : '',
-    birthDate: prevInfo ? prevInfo.birthDate : '',
-    birthCertificatNo: prevInfo ? prevInfo.birthCertificatNo : '',
-    height: prevInfo ? prevInfo.height : '',
-    gender: prevInfo ? prevInfo.gender : '',
-    eyeColor: prevInfo ? prevInfo.eyeColor : '',
-    hairColor: prevInfo ? prevInfo.hairColor : 'Black',
-    occupationId: prevInfo ? prevInfo.occupationId : 0,
-    isHalfCast: prevInfo ? prevInfo.isHalfCast : false,
-    isAdoption: prevInfo ? prevInfo.isAdoption : false,
-    isUnder18: prevInfo ? prevInfo.isUnder18 : false,
-    nationalityId: prevInfo ? prevInfo.nationalityId : 0,
-    phoneNumber: prevInfo ? prevInfo.phoneNumber : '',
-    email: prevInfo ? prevInfo.email : '',
-    martialStatus: prevInfo ? prevInfo.martialStatus : '',
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    geezFirstName: '',
+    geezMiddleName: '',
+    geezLastName: '',
+    birthPlace: '',
+    birthDate: '',
+    birthCertificatNo: '',
+    height: '',
+    gender: '',
+    eyeColor: '',
+    hairColor: 'Black',
+    occupationId: 0,
+    isHalfCast: false,
+    isAdoption: false,
+    isUnder18: false,
+    nationalityId: 0,
+    phoneNumber: '',
+    email: '',
+    martialStatus: '',
     dataSaved: false,
     formCompleted: false,
   });
@@ -107,8 +107,8 @@ const PersonalInfo = forwardRef((props, ref) => {
         notCompleted.gender === true ||
         notCompleted.martialStatus === true ||
         notCompleted.birthCertificatNo === true ||
-        notCompleted.birthPlace===true||
-      (personalInfo.email!=="" && isEmail(personalInfo.email))=== false 
+        notCompleted.birthPlace===true
+      //(personalInfo.email!=="" && isEmail(personalInfo.email))=== false 
       // (/^[0-9]{1,16}$/.test(personalInfo.birthCertificatNo))===false
       )
         return false;

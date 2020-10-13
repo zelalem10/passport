@@ -14,7 +14,6 @@ import {
 } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addTravelPlan from '../../redux/actions/addTravelPlanAction';
-import axios from 'axios';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
