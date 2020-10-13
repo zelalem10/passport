@@ -3,6 +3,7 @@ import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
 import Spinner from '../common/Spinner';
 
 function Status(props) {
+  debugger;
   const {
     ApplicationNumberData,
     ShowForm,
