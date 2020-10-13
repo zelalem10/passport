@@ -12,10 +12,11 @@ function App() {
   const location = useLocation();
   return (
     <>
+      <SystemToken />
       <NavbarPage location={location} />
       <PassportRoute /> 
       <FooterPage />
-      <SystemToken />
+    
     </>
   );
 }
