@@ -7,34 +7,26 @@ import React, {
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from '../common/Spinner';
-import { MDBCol, MDBRow } from 'mdbreact';
+import { MDBCol, MDBRow, MDBBadge } from 'mdbreact';
+import addAttachement from '../../redux/actions/AddAttachementAction';
 
 const Fileupload = forwardRef((props, ref) => {
-  let [successMessage, setsuccessMessage] = useState(false);
-  let [errorMessage, seterrorMessage] = useState(false);
-  const counter = useSelector((state) => state);
-  const numberOfApplicants = parseInt(counter.service[counter.service.length - 1].numberOfApplicants, 10);
+  const dispatch = useDispatch();
   const accesstoken = localStorage.systemToken;
+   ;
   const formData = new FormData();
-  let requestTypeId;
-  const [files, setfiles] = useState([]);
-  const [fileType, setfileType] = useState([]);
-  let requiredAttachementType = JSON.parse(
-    localStorage.getItem('requiredAttachementType')
-  );
-  let attachmentTypeName = JSON.parse(
-    localStorage.getItem('attachmentTypeName')
-  );
-  const inputs = [];
-  let requiredAttachements = localStorage.requiredAttachements;
-  let requestTypefromRedux = useSelector((state) => state.service);
-  requestTypeId =
-    requestTypefromRedux[requestTypefromRedux.length - 1].appointemntType;
   let requestPersonId = useSelector(
     (state) => state.commonData[0].requestPersonId
   );
-
-  const [loading, setloading] = useState(false);
+  const [files, setfiles] = useState({});
+  const [requiredFile, setrequiredFile] = useState('');
+  const [attachmentNames, setattachmentNames] = useState([]);
+  const [requiredFileType, setrequiredFileType] = useState([]);
+  const [invalidImage, setinvalidImage] = useState('')
+  const inputs = [];
+  const [errorMessage, seterrorMessage] = useState([]);
+  let fileError = [];
+  const [loading, setloading] = useState(true);
   const [filename, setfilename] = useState({
     1: '',
     2: '',
@@ -50,6 +42,41 @@ const Fileupload = forwardRef((props, ref) => {
     12: '',
   });
 
+  useEffect(() => {
+    axios({
+      headers: { Authorization: 'Bearer ' + accesstoken },
+      method: 'get',
+      url:
+        'https://epassportservices.azurewebsites.net/Master/api/V1.0/Attachement/GetRequiredAttachementsByPersonRequest',
+      params: {
+        requestPersonId: requestPersonId,
+      },
+    })
+      .then((response) => {
+        console.log(response)
+         ;
+        let requiredAttachements = response.data.requiredAttachements.length;
+        setrequiredFile(requiredAttachements);
+        let requiredAttachementType = [];
+        let attachmentTypeName = [];
+        for (let i = 0; i < response.data.requiredAttachements.length; i++) {
+          requiredAttachementType.push(
+            response.data.requiredAttachements[i].attachmentTypeId
+          );
+          attachmentTypeName.push(
+            response.data.requiredAttachements[i].attachmentType
+          );
+        }
+        setattachmentNames(attachmentTypeName);
+        setrequiredFileType(requiredAttachementType);
+        setloading(false);
+      })
+      .catch((error) => {
+        console.log('error' + error.message);
+        setloading(false);
+      });
+  }, []);
+
   useImperativeHandle(ref, () => ({
     saveData() {
       setfiles((prevState) => ({
@@ -62,78 +89,124 @@ const Fileupload = forwardRef((props, ref) => {
     },
   }));
 
-  const submit = async (e) => {
-    //props.hideBack();
+  const validate = (files) => {
+    debugger;
+    var fileCount = 0;
+    var i;
+    
+    for (i in files) {
+        if (files.hasOwnProperty(i)) {
+          fileCount++;
+        }
+    }
+      if (fileCount <  requiredFile) {
+        fileError.push(`You Should have to Choose All`);
+      }
+      
+      else
+      {
 
-    e.preventDefault();
-    setloading(true);
-    setsuccessMessage(false);
-    seterrorMessage(false);
-    // console.log(files);
-    // console.log(fileType);
-    // for (let i = 0; i < requiredAttachements; i++) {
-    //   files = e.target[i].files[0];
-    //   let fileType = e.target[i].id;
-    //   console.log(files)
-    //   console.log(fileType)
-    //   formData.append('personRequestId', requestPersonId);
-    //   formData.append(fileType, files);
+        for (var key in files) {
+          if (!files[key].name.match(/\.(jpg|jpeg|png|gif)$/)) {
+            fileError.push(`  
+            ${files[key].name ? (
+              files[key].name + " is Invalid format, Please upload correct file type!"
+            ) : (
+              <div class="smallFont">Invalid format, Please upload correct file type!</div>
+            )}`);
+      }
+  
+      if (files[key].size > 4000000) {
+        fileError.push(`  
+        ${files[key].name ? (
+          files[key].name + " is Invalid size, Please upload correct file size!"
+        ) : (
+          <div class="smallFont">Invalid size, Please upload correct file size!</div>
+        )}`);
 
-    // }
-    for (let i = 0; i < files.length; i++) {
-      formData.append('personRequestId', requestPersonId);
-      formData.append(fileType[i], files[i]);
-      // console.log(files[i]);
-      // console.log(fileType[i]);
+      }
+      }
+      
+
+      }
+ 
+ 
+
+    seterrorMessage(fileError);
+
+    if (fileError.length > 0) {
+      return false;
     }
 
-    const url =
-      'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadAttachment';
+    return true;
+  };
 
-    const config = {
-      headers: {
-        'content-type': 'multipart/form-data',
-        Authorization: 'Bearer ' + accesstoken,
-      },
-    };
+  const submit = async (e) => {
+    debugger
+    e.preventDefault();
+    fileError = [];
+ 
+   const isValid = validate(files);
+   if (isValid) {
+      setloading(true);
 
-    //return post(url, formData, config);
-    try {
-      const response = await axios.post(url, formData, config);
-      console.log(response.data);
-      setsuccessMessage(true);
-      setloading(false);
-      if (numberOfApplicants === props.applicantNumber)
+      for (var key in files) {
+        formData.append('personRequestId', requestPersonId);
+        formData.append(key, files[key]);
+        console.log(key);
+        console.log(files[key]);
+      }
+      const url =
+        'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadAttachment';
+
+      const config = {
+        headers: {
+          'content-type': 'multipart/form-data',
+          Authorization: 'Bearer ' + accesstoken,
+        },
+      };
+
+      //return post(url, formData, config);
+      try {
+        const response = await axios.post(url, formData, config);
+        console.log(response.data);
+        setloading(false);
+        dispatch(addAttachement(response.data.attachments));
+        props.showBack();
         props.VerticalNext();
-    } catch (error) {
-      console.log('error' + error.message);
-      seterrorMessage(true);
-      setloading(false);
+      } catch (error) {
+        console.log('error' + error.message);
+        setloading(false);
+        //props.showBack();
+      }
     }
   };
   const onChange = (e) => {
-    setfiles([...files, e.target.files[0]]);
-    setfileType([...fileType, e.target.id]);
-    //files = e.target.files[0];
-    //fileType = e.target.id;
-
+    debugger;
     const { id, value } = e.target;
 
     setfilename((prevState) => ({
       ...prevState,
       [id]: value.replace(/^.*[\\\/]/, ''),
     }));
+  const fileValue = e.target.files[0]
+    
+    setfiles((prevState) => ({
+      ...prevState,
+      [id]: fileValue,
+    }));
   };
 
-  for (let i = 0; i < requiredAttachements; i++) {
+  for (let i = 0; i < requiredFile; i++) {
     inputs.push(
-      <div class="row">
-        <div class="col-lg-4">
-          <label for="exampleInputEmail1" class="mr-1">
-            {attachmentTypeName[i]} :
-          </label>
+      <div class="row my-5" id="attachmentmargin">
+        <div class="col-lg-5 passport-text-right">
+          <MDBBadge color="primary smallPadding ">
+            {' '}
+            {attachmentNames[i]}{' '}
+          </MDBBadge>
         </div>
-        <div class="col-lg-8 my-3">
+        <div class="col-lg-5">
           <div className="input-group">
             <div className="input-group-prepend">
               <span className="input-group-text" id="inputGroupFileAddon01">
@@ -144,17 +217,18 @@ const Fileupload = forwardRef((props, ref) => {
               <input
                 name={`input-${i}`}
                 type="file"
-                id={requiredAttachementType[i]}
+                id={requiredFileType[i]}
                 className="custom-file-input"
                 aria-describedby="inputGroupFileAddon01"
+                accept="image/png,image/gif,image/jpeg,image/jpg"//application/pdf
                 onChange={(e) => onChange(e)}
               />
 
               <label className="custom-file-label" htmlFor="inputGroupFile01">
-                {filename[requiredAttachementType[i]] ? (
-                  filename[requiredAttachementType[i]]
+                {filename[requiredFileType[i]] ? (
+                  filename[requiredFileType[i]]
                 ) : (
-                  <div>Choose {attachmentTypeName[i]}</div>
+                  <div class="smallFont">Choose file</div>
                 )}
               </label>
             </div>
@@ -169,27 +243,34 @@ const Fileupload = forwardRef((props, ref) => {
       {loading ? (
         <Spinner />
       ) : (
-        <form onSubmit={(e) => submit(e)}>
-          {successMessage && (
-            <div class="alert alert-success" role="alert">
-              Operation sucessfully completed
+        <div class="container">
+          <form onSubmit={(e) => submit(e)}>
+            <div class="row ">
+              <div class="col-md-10 ">
+              <div class="alert alert-success text-center mb-2" role="alert">
+              Size of the image should be less than 4MB and in JPEG, JPG, PNG, GIF or BMP format
+                </div>
+                {errorMessage.length
+                  ? errorMessage.map((error) => (
+                      <div class="alert alert-danger text-center" role="alert">
+                        {error}
+                      </div>
+                    ))
+                  : null}
+              </div>
             </div>
-          )}
-          {errorMessage && (
-            <div class="alert alert-danger" role="alert">
-              Oops! Something went wrong.
-            </div>
-          )}
-          {inputs}
-          <MDBRow>
-            <MDBCol md="9"></MDBCol>
-            <MDBCol>
-              <button className="btn btn-primary ml-auto" type="submit">
-                Upload
-              </button>
-            </MDBCol>
-          </MDBRow>
-        </form>
+
+            {inputs}
+            <MDBRow>
+              <MDBCol md="9"></MDBCol>
+              <MDBCol>
+                <button className="btn btn-primary text-right" type="submit">
+                  Upload
+                </button>
+              </MDBCol>
+            </MDBRow>
+          </form>
+        </div>
       )}
     </div>
   );

@@ -74,11 +74,11 @@ function InstructionPage() {
                       <span class="text-muted"> {personalInformation? personalInformation.lastName : null}</span></li>
 
                     <li class="list-group-item d-flex justify-content-between">
-                      <span>Phone Number</span>
+                      <h6>Phone Number</h6>
                       <strong>{personalInformation? personalInformation.phoneNumber:null}</strong>
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
-                      <span>Application Number</span>
+                      <h6>Application Number</h6>
                       <strong>{personalInformation? personalInformation.applicationNumber:null}</strong>
                     </li>
                  
@@ -91,12 +91,17 @@ function InstructionPage() {
                   </div><span class="text-muted"> 
                   {/* CBE */}
                   </span></li>
-                <li class="list-group-item d-flex justify-content-between lh-condensed"><div><h6 class="my-0">Order code</h6>
+                  <li class="list-group-item d-flex justify-content-between lh-condensed"><div><h6 class="my-0">Account</h6>
+                </div>
+                  <span class="text-muted"></span></li>
+
+                <li class="list-group-item d-flex justify-content-between lh-condensed"><div>
+                  <h6 class="my-0">Order code</h6>
                 </div>
                   <span class="text-muted">{paymentInformation? paymentInformation.orderId:null}</span></li>
 
-                <li class="list-group-item d-flex justify-content-between">
-                  <span>Amount</span>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                  <h6>Amount</h6>
                   <strong>{paymentInformation? paymentInformation.amount:null}</strong>
                 </li>
               </ul>

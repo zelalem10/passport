@@ -438,7 +438,7 @@ code {
   cursor: pointer;
 }
 .info .btnBlu {
-  background-color: #093c73;
+  background-color: #3e51b4;
   color: #fff;
 }
 .info .btn:hover {
@@ -508,7 +508,7 @@ code {
   text-align: center;
 }
 .carousel-multi-item .controls-top .btn-floating {
-  background: #093c73 !important;
+  background: #29499b !important;
 }
 .btn-floating i {
   display: inline-block;
