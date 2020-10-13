@@ -18,11 +18,11 @@ const Fileupload = forwardRef((props, ref) => {
   let requestPersonId = useSelector(
     (state) => state.commonData[0].requestPersonId
   );
-  const [files, setfiles] = useState([]);
-  const [fileType, setfileType] = useState([]);
+  const [files, setfiles] = useState({});
   const [requiredFile, setrequiredFile] = useState('');
   const [attachmentNames, setattachmentNames] = useState([]);
   const [requiredFileType, setrequiredFileType] = useState([]);
+  const [invalidImage, setinvalidImage] = useState('')
   const inputs = [];
   const [errorMessage, seterrorMessage] = useState([]);
   let fileError = [];
@@ -90,9 +90,47 @@ const Fileupload = forwardRef((props, ref) => {
   }));
 
   const validate = (files) => {
-    if (files.length < requiredFile) {
-      fileError.push('You Should have to Choose all files');
+    debugger;
+    var fileCount = 0;
+    var i;
+    
+    for (i in files) {
+        if (files.hasOwnProperty(i)) {
+          fileCount++;
+        }
     }
+      if (fileCount <  requiredFile) {
+        fileError.push(`You Should have to Choose All`);
+      }
+      
+      else
+      {
+
+        for (var key in files) {
+          if (!files[key].name.match(/\.(jpg|jpeg|png|gif)$/)) {
+            fileError.push(`  
+            ${files[key].name ? (
+              files[key].name + " is Invalid format, Please upload correct file type!"
+            ) : (
+              <div class="smallFont">Invalid format, Please upload correct file type!</div>
+            )}`);
+      }
+  
+      if (files[key].size > 4000000) {
+        fileError.push(`  
+        ${files[key].name ? (
+          files[key].name + " is Invalid size, Please upload correct file size!"
+        ) : (
+          <div class="smallFont">Invalid size, Please upload correct file size!</div>
+        )}`);
+
+      }
+      }
+      
+
+      }
+ 
+ 
 
     seterrorMessage(fileError);
 
@@ -104,20 +142,20 @@ const Fileupload = forwardRef((props, ref) => {
   };
 
   const submit = async (e) => {
-    //props.hideBack();
+    debugger
     e.preventDefault();
     fileError = [];
-    const isValid = validate(files);
-    if (isValid) {
+ 
+   const isValid = validate(files);
+   if (isValid) {
       setloading(true);
 
-      for (let i = 0; i < files.length; i++) {
+      for (var key in files) {
         formData.append('personRequestId', requestPersonId);
-        formData.append(fileType[i], files[i]);
-        console.log(files[i]);
-        console.log(fileType[i]);
+        formData.append(key, files[key]);
+        console.log(key);
+        console.log(files[key]);
       }
-
       const url =
         'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadAttachment';
 
@@ -144,16 +182,18 @@ const Fileupload = forwardRef((props, ref) => {
     }
   };
   const onChange = (e) => {
-    setfiles([...files, e.target.files[0]]);
-    setfileType([...fileType, e.target.id]);
-    //files = e.target.files[0];
-    //fileType = e.target.id;
-
+    debugger;
     const { id, value } = e.target;
 
     setfilename((prevState) => ({
       ...prevState,
       [id]: value.replace(/^.*[\\\/]/, ''),
+    }));
+  const fileValue = e.target.files[0]
+    
+    setfiles((prevState) => ({
+      ...prevState,
+      [id]: fileValue,
     }));
   };
 
@@ -180,7 +220,7 @@ const Fileupload = forwardRef((props, ref) => {
                 id={requiredFileType[i]}
                 className="custom-file-input"
                 aria-describedby="inputGroupFileAddon01"
-                accept="image/png,image/gif,image/jpeg,image/jpg,application/pdf"
+                accept="image/png,image/gif,image/jpeg,image/jpg"//application/pdf
                 onChange={(e) => onChange(e)}
               />
 
@@ -207,6 +247,9 @@ const Fileupload = forwardRef((props, ref) => {
           <form onSubmit={(e) => submit(e)}>
             <div class="row ">
               <div class="col-md-10 ">
+              <div class="alert alert-success text-center mb-2" role="alert">
+              Size of the image should be less than 4MB and in JPEG, JPG, PNG, GIF or BMP format
+                </div>
                 {errorMessage.length
                   ? errorMessage.map((error) => (
                       <div class="alert alert-danger text-center" role="alert">
