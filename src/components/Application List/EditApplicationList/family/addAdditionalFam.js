@@ -45,7 +45,7 @@ function AddFamily(props) {
                             onChange={props.handleInputAdd}
                           />
                           <MDBInput
-                            label="Last Name"
+                            label="Father Name"
                             name="lname"
                             group
                             type="text"
