@@ -189,6 +189,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             isUnder18: personalInfo ? personalInfo.isUnder18 : false,
 
             isAdoption: personalInfo ? personalInfo.isAdoption : false,
+            maritalStatus:personalInfo?parseInt(personalInfo.maritalStatus):0,
             passportPageId: travelPlanInfo
               ? parseInt(travelPlanInfo.passportPageId)
               : null,
@@ -223,6 +224,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
               poBox: addressInfo ? addressInfo.poBox : null,
 
               requestPlace: addressInfo ? addressInfo.requestPlace : null,
+              kebele:addressInfo?addressInfo.kebele:null,
             },
 
             familyRequests: familyInfo,

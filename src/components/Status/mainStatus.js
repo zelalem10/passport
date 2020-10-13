@@ -16,9 +16,19 @@ const Errorstyle = {
 
 const MainStatus = () => {
   const dispatch = useDispatch();
-  const accesstoken = localStorage.systemToken;
+  const tokenValue = () => {
+    const UserToken = localStorage.userToken;
+
+    if (UserToken) {
+      return UserToken;
+    } else {
+      const SystemToken = localStorage.systemToken;
+      return SystemToken;
+    }
+  };
+  const token = tokenValue();
   const config = {
-    headers: { Authorization: `Bearer ` + accesstoken },
+    headers: { Authorization: `Bearer ` + token },
   };
   const [loading, setloading] = useState(false);
 
@@ -90,6 +100,7 @@ const MainStatus = () => {
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     setloading(true);
     const isValid = validate();
     if (isValid) {
@@ -103,6 +114,7 @@ const MainStatus = () => {
             config
           )
           .then((response) => {
+            debugger;
             setApplicationNumberData(response.data.serviceRequest);
             setAllError('');
             if (response.data.status !== 0) {
@@ -112,8 +124,6 @@ const MainStatus = () => {
               setloading(false);
               dispatch(addApplicationList(response.data.serviceRequest));
             }
-
-            console.log(response.data);
           })
           .catch((error) => {
             debugger;
@@ -135,8 +145,6 @@ const MainStatus = () => {
               setloading(false);
               dispatch(addApplicationList(Response.data.serviceResponseList));
             }
-
-            console.log(response.data);
           })
           .catch((error) => {
             console.log('error' + error);
@@ -159,6 +167,7 @@ const MainStatus = () => {
     setShowConfirmationNumberDataResults(false);
     setShowForm(true);
   };
+  debugger;
   if (goToPayment) {
     return <GetContent handlePaymentId={handlePaymentId} status={true} backToList={backToList} />;
   } else if (handleDisplayId) {

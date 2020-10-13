@@ -153,6 +153,7 @@ const Fileupload = forwardRef((props, ref) => {
     fileError = [];
     // const isValid = validate(files);
     // if (isValid) {
+
       setloading(true);
 
 
@@ -213,6 +214,7 @@ const Fileupload = forwardRef((props, ref) => {
 
       }
     //}
+
   };
 
   const onChange = (e) => {
@@ -337,7 +339,7 @@ const Fileupload = forwardRef((props, ref) => {
 
     );
 
-  }
+
 
   return (
 

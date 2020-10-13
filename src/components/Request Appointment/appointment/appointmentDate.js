@@ -405,6 +405,24 @@ setErrorMessage('Please Select Date.')
                 console.log('error' + error);
               });
           } else {
+            let sampleData={
+              startDate: new Date(
+                new Date().setTime(
+                  new Date().getTime() +
+                    advancedRestrictionData.minDays * 86400000
+                )
+              ),
+              endDate: new Date(
+                new Date().setTime(
+                  new Date().getTime() +
+                    advancedRestrictionData.maxDays * 86400000
+                )
+              ),
+              requestTypeId: data.appointemntType,
+              officeId: parseInt(siteInfo.offceId),
+              noOfApplicants: parseInt(data.numberOfApplicants),
+            };
+            console.log(sampleData);
             axios({
               headers: headers,
               method: 'post',
@@ -430,6 +448,7 @@ setErrorMessage('Please Select Date.')
               },
             })
               .then((responses) => {
+                debugger;
                 console.log(responses.data.availableDateAndTimes);
                 for (
                   let i = 0;
@@ -498,6 +517,7 @@ setErrorMessage('Please Select Date.')
           }
         })
         .catch((error) => {
+          debugger;
           console.log('error' + error);
         });
     }

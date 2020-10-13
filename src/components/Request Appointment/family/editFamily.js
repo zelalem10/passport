@@ -48,7 +48,7 @@ function EditFamily(props) {
                             value={props.editFamilyData.fName}
                           />
                           <MDBInput
-                            label="Last Name"
+                            label="Father Name"
                             name="lName"
                             group
                             type="text"
