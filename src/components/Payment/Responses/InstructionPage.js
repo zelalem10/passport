@@ -89,11 +89,9 @@ function InstructionPage() {
                   <div>
                     <h6 class="my-0">Selected Payment Option</h6>
                   </div><span class="text-muted"> 
-                  {/* CBE */}
+                  {paymentInformation? paymentInformation.paymentOptionName:null}
                   </span></li>
-                  <li class="list-group-item d-flex justify-content-between lh-condensed"><div><h6 class="my-0">Account</h6>
-                </div>
-                  <span class="text-muted"></span></li>
+            
 
                 <li class="list-group-item d-flex justify-content-between lh-condensed"><div>
                   <h6 class="my-0">Order code</h6>

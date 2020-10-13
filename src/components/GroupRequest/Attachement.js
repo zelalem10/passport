@@ -42,6 +42,8 @@ const Fileupload = forwardRef((props, ref) => {
     12: '',
   });
 
+  const counter = useSelector((state) => state);
+  const numberOfApplicants = parseInt(counter.service[counter.service.length - 1].numberOfApplicants, 10);
   useEffect(() => {
     axios({
       headers: { Authorization: 'Bearer ' + accesstoken },
@@ -173,6 +175,7 @@ const Fileupload = forwardRef((props, ref) => {
         setloading(false);
         dispatch(addAttachement(response.data.attachments));
         props.showBack();
+        if (numberOfApplicants === props.applicantNumber)
         props.VerticalNext();
       } catch (error) {
         console.log('error' + error.message);
