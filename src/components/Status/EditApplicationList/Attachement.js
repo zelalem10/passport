@@ -115,7 +115,7 @@ const Fileupload = forwardRef((props, ref) => {
         setloading(false);
         seterrorMessage(true);
       }
-    //}
+   // }
   };
   const onChange = (e) => {
     setfiles([...files, e.target.files[0]]);

@@ -25,9 +25,9 @@ function InstructionPage() {
             <div class="col-md-8">
               <div class="u-center-text u-margin-bottom-big"><h2 class="heading-secondary">Payment Instruction</h2></div>
               <div class="alert alert-success my-4 p-3" role="alert">
-                Thank you for making this request. Please visit the website to follow the status.
+              <h6 class="font-weight-bold u-center-text m3-5">Thank you for making this request. Please follow step below to process payment.</h6>
               </div>
-              <h5 class="font-weight-bold u-center-text m3-5">Please follow step below to process payment</h5>
+            
               {paymentInformation? paymentInformation.instractions.length
                 ? paymentInformation.instractions.map((instruction) => (
                   <div class="d-flex">
