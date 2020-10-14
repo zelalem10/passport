@@ -174,7 +174,6 @@ const Fileupload = forwardRef((props, ref) => {
         console.log(response.data);
         setloading(false);
         dispatch(addAttachement(response.data.attachments));
-        props.showBack();
         if (numberOfApplicants === props.applicantNumber)
         props.VerticalNext();
       } catch (error) {

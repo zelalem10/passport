@@ -202,9 +202,8 @@ const TravelPlan = forwardRef((props, ref) => {
                     : null}
                 </span>{' '}
               </MDBCol>
-
             </MDBRow>
- 
+            <hr />
             {requestTypeStr != 'New' ? (
               <MDBRow>
                 <MDBCol md="3">
