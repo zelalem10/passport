@@ -38,10 +38,10 @@ const SiteSelection = forwardRef((props, ref) => {
 
   const [duration, setDuration] = useState('');
   const [officeInfo, setOfficeInfo] = useState({
-    offceId: "",
-    cityId: "",
-    reagionId: "",
-    deliverySiteId: "",
+    offceId: 0,
+    cityId: 0,
+    reagionId: 0,
+    deliverySiteId: 0,
     durationDays: 0,
   });
   const [formCompleted, setFormCompleted] = useState(false);
