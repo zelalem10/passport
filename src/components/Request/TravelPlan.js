@@ -46,7 +46,7 @@ const TravelPlan = forwardRef((props, ref) => {
     dataSaved: false,
   });
   const [notCompleted, setNotCompleted] = useState({
-    pageQuantity: false,
+    pageQuantity: true,
     passportNumber: true,
     expirationDate: true,
     issueDate: true,
@@ -76,6 +76,18 @@ const TravelPlan = forwardRef((props, ref) => {
       ...prevState,
       [name]: value,
     }));
+    if (value != '') {
+      setNotCompleted((prevState) => ({
+        ...prevState,
+        [name]: false,
+      }));
+    }
+    else{
+      setNotCompleted((prevState) => ({
+        ...prevState,
+        [name]: true,
+      }));
+    }
     dispatch(addTravelPlan(travelPlan))
   };
   const handleCheck = (name, checked) => {
@@ -152,14 +164,15 @@ const TravelPlan = forwardRef((props, ref) => {
     },
     Validate() {
       setNotCompleted({
-        pageQuantity: travelPlan.pageQuantity === 0 ? true : false,
+        pageQuantity: Number.parseInt(travelPlan.pageQuantity, 10) === 0 ? true : false,
         passportNumber: travelPlan.passportNumber === '' ? true : false,
         expirationDate: travelPlan.expirationDate === '' ? true : false,
         issueDate: travelPlan.issueDate === '' ? true : false,
         correctionReason: travelPlan.correctionReason === '' ? true : false,
         passportNumber: travelPlan.passportNumber === '' ? true : false,
       });
-      if (notCompleted.pageQuantity === true) return false;
+      if (notCompleted.pageQuantity === true) 
+      return false;
       else return true;
     },
   }));
@@ -202,11 +215,8 @@ const TravelPlan = forwardRef((props, ref) => {
                     : null}
                 </span>{' '}
               </MDBCol>
-            </MDBRow>
-            <hr />
-            {requestTypeStr != 'New' ? (
-              <MDBRow>
-                <MDBCol md="3">
+              {requestTypeStr != 'New' ? (
+              <MDBCol md="4">
                   <MDBInput
                     valueDefault={prevInfo ? prevInfo.passportNumber : null}
                     name="passportNumber"
@@ -216,7 +226,13 @@ const TravelPlan = forwardRef((props, ref) => {
                     label="Old Passport Number"
                   />
                 </MDBCol>
-                <MDBCol md="3" className="date-picker">
+              ):(null)}
+            
+            </MDBRow>
+            <hr />
+            {requestTypeStr != 'New' ? (
+              <MDBRow>
+                <MDBCol md="4" className="date-picker">
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
                       margin="normal"
@@ -231,7 +247,7 @@ const TravelPlan = forwardRef((props, ref) => {
                     />
                   </MuiPickersUtilsProvider>
                 </MDBCol>
-                <MDBCol md="3" className="date-picker">
+                <MDBCol md="4" className="date-picker">
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
                       margin="normal"

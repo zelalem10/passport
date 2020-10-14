@@ -86,12 +86,9 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     setActiveStep(0);
   };
   const handleSubmit = () => {
-     ;
     const travelPlan= childRef.current.saveData();
     const isVilid = childRef.current.Validate();
-    if (isVilid != true) {
-      //setResponseMessage("Ple")
-    } else {
+    if (isVilid) {
       let personalInfo =
         counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
       let addressInfo = counter.address[counter.address.length - 1];
@@ -231,7 +228,10 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           else setResponseMessage('something goes wrong!');
           setResponseAlert(true);
         });
-    }
+    } 
+    else {
+
+      }
   };
   const handelUploading = () => {
     setIsUploading(true);
