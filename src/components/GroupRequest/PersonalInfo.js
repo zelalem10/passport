@@ -76,12 +76,17 @@ const PersonalInfo = forwardRef((props, ref) => {
     phoneNumber: true,
     email: true,
   });
-    const dispatch = useDispatch();
-    const counter = useSelector((state) => state);
-    const isRequired = "is required!"
-    const accesstoken = localStorage.systemToken;
-    const usertoken = localStorage.userToken;
-    const config = {
+  const [age, setAge] = useState(0);
+  const [invalidEmail, setInvalidEmail] = useState(false);
+  const [invalidPhone, setInvalidPhone] = useState(false);
+  const [invalidUniqueId, setInvalidUniqueId] = useState(false);  
+  const dispatch = useDispatch();
+  const counter = useSelector((state) => state);
+  const isRequired = "is required!"
+  const accesstoken = localStorage.systemToken;
+  const usertoken = localStorage.userToken;
+  const digitPattern = new RegExp(/^[0-9\b]+$/);
+  const config = {
         headers: { Authorization: 'Bearer ' + accesstoken },
     };
     useImperativeHandle(ref, () => ({
@@ -95,22 +100,23 @@ const PersonalInfo = forwardRef((props, ref) => {
       Validate() {
         if (
           notCompleted.firstName === true ||
-          notCompleted.lastName === true ||
-          notCompleted.middleName === true ||
-          notCompleted.birthDate === true ||
-          notCompleted.geezFirstName === true ||
-          notCompleted.geezLastName === true ||
-          notCompleted.geezLastName === true ||
-          personalInfo.nationalityId === 0 ||
-          notCompleted.gender === true ||
-          notCompleted.occupationId === true ||
-          notCompleted.phoneNumber === true ||
-          notCompleted.gender === true ||
-          notCompleted.martialStatus === true ||
-          notCompleted.birthCertificatNo === true ||
-          notCompleted.birthPlace===true
-        //(personalInfo.email!=="" && isEmail(personalInfo.email))=== false 
-        // (/^[0-9]{1,16}$/.test(personalInfo.birthCertificatNo))===false
+        notCompleted.lastName === true ||
+        notCompleted.middleName === true ||
+        notCompleted.birthDate === true ||
+        notCompleted.geezFirstName === true ||
+        notCompleted.geezLastName === true ||
+        notCompleted.geezLastName === true ||
+        personalInfo.nationalityId === 0 ||
+        notCompleted.gender === true ||
+        notCompleted.occupationId === true ||
+        notCompleted.phoneNumber === true ||
+        notCompleted.gender === true ||
+        notCompleted.martialStatus === true ||
+        notCompleted.birthCertificatNo === true ||
+        notCompleted.birthPlace===true ||
+        invalidUniqueId===true ||
+        invalidPhone ===true ||
+        (age<18 && personalInfo.isUnder18===false)
         )
           return false;
         else return true;
@@ -119,8 +125,22 @@ const PersonalInfo = forwardRef((props, ref) => {
     const [selectedDate, setSelectedDate] = React.useState(
       new Date(prevInfo ? prevInfo.dateOfBirth : new Date())
     );
+    function calculateAge(date1, date2) {
+      debugger
+      var diff = Math.floor(date1.getTime() - date2.getTime());
+      var day = 1000 * 60 * 60 * 24;
+    
+      var days = Math.floor(diff / day);
+      var months = Math.floor(days / 31);
+      var years = Math.floor(months / 12);
+      setAge(years)
+      return years
+    }
     const handleDateChange = (date) => {
       setSelectedDate(date);
+      debugger
+      const currentDate = new Date();
+      const diffYear=calculateAge(currentDate, new Date(date))
       setPersonalInfo((prevState) => ({
         ...prevState,
         birthDate: date,
@@ -152,6 +172,69 @@ const PersonalInfo = forwardRef((props, ref) => {
         }));
       }
       // dispatch(addPersonalInfo(personalInfo));
+    };
+    const handlePhoneChange = (event) => {
+      const { name, value } = event.target;
+      if (value.length != 9 && value.length !=10) {
+        setInvalidPhone(true);
+      }
+      else if (!digitPattern.test(value)) {
+        setInvalidPhone(true);
+      }
+      else if (value.length===9 &&value.charAt(0) !=='9') {
+        setInvalidPhone(true);
+      }
+      else if (value.length===10 &&value.substring(0,2) !=='09') {
+        setInvalidPhone(true);
+      }
+      else {
+        setInvalidPhone(false);
+        setPersonalInfo((prevState) => ({
+          ...prevState,
+          [name]: value,
+        }));
+        if (value != '') {
+          setNotCompleted((prevState) => ({
+            ...prevState,
+            [name]: false,
+          }));
+        }
+        else {
+          setNotCompleted((prevState) => ({
+            ...prevState,
+            [name]: true,
+          }));
+        }
+      }
+    };
+    const handleUniqueIdChange = (event) => {
+      const { name, value } = event.target;
+      if(value.length !=16){
+        setInvalidUniqueId(true);
+      }
+      else if(!digitPattern.test(value)){
+        setInvalidUniqueId(true);
+      }
+      else{
+        setInvalidUniqueId(false);
+        setPersonalInfo((prevState) => ({
+          ...prevState,
+          [name]: value,
+        }));
+    
+        if (value != '') {
+          setNotCompleted((prevState) => ({
+            ...prevState,
+            [name]: false,
+          }));
+        }
+        else{
+          setNotCompleted((prevState) => ({
+            ...prevState,
+            [name]: true,
+          }));
+        }
+      }
     };
     const handleCheck = (name, checked) => {
       setPersonalInfo((prevState) => ({
@@ -192,7 +275,6 @@ const PersonalInfo = forwardRef((props, ref) => {
     }
   
     if(isLoading){
-      debugger
       if (localStorage.getItem("nationalitys") !== null) {
         let localNatio=JSON.parse(localStorage.nationalitys);
         setNationalityList(JSON.parse(localStorage.nationalitys));
@@ -272,523 +354,532 @@ const PersonalInfo = forwardRef((props, ref) => {
     }, []);
   return (
     <MDBContainer>
-    <MDBCard style={{ marginBottom: '1rem' }}>
-      <MDBCardBody>
-        <form>
-          <MDBRow>
-            <MDBCol md="3" className="required-field">
-              <MDBInput
-                valueDefault={prevInfo ? prevInfo.firstName : null}
-                name="firstName"
-                className="form-control"
-                onBlur={handleChange}
-                type="text"
-                label="First name"
-              />
-              <span style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.firstName == true &&
-                  personalInfo.dataSaved == true
-                  ? 'First name ' + isRequired
-                  : null}
-              </span>
-            </MDBCol>
-            <MDBCol md="3" className="required-field">
-              <MDBInput
-                valueDefault={prevInfo ? prevInfo.middleName : null}
-                name="middleName"
-                onBlur={handleChange}
-                type="text"
-                label="Middle name"
-              />
-              <span style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.middleName == true &&
-                  personalInfo.dataSaved == true
-                  ? 'Middle name ' + isRequired
-                  : null}
-              </span>
-            </MDBCol>
-            <MDBCol md="3" className="required-field">
-              <MDBInput
-                valueDefault={prevInfo ? prevInfo.lastName : null}
-                name="lastName"
-                onBlur={handleChange}
-                type="text"
-                label="Last name"
-              />
-              <span style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.lastName == true &&
-                  personalInfo.dataSaved == true
-                  ? 'Last name ' + isRequired
-                  : null}
-              </span>
-            </MDBCol>
-            <MDBCol md="3" className="date-picker ">
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  margin="normal"
-                  id="date-picker-dialog"
-                  label="Date of birth(GC)"
-                  format="MM/dd/yyyy"
-                  value={selectedDate}
-                  onChange={handleDateChange}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                  }}
-                />
-              </MuiPickersUtilsProvider>
-              <span style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.birthDate == true &&
-                  personalInfo.dataSaved == true
-                  ? 'Birth date ' + isRequired
-                  : null}
-              </span>
-            </MDBCol>
-          </MDBRow>
-          <MDBRow>
-            <MDBCol md="3" className="required-field">
-              <MDBInput
-                valueDefault={prevInfo ? prevInfo.geezFirstName : null}
-                name="geezFirstName"
-                className="form-control"
-                onBlur={handleChange}
-                type="text"
-                label="ስም"
-              />
-              <span style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.geezFirstName == true &&
-                  personalInfo.dataSaved == true
-                  ? 'የአመልካቹ ስም አስፈላጊ ነው'
-                  : null}
-              </span>
-            </MDBCol>
-            <MDBCol md="3" className="required-field">
-              <MDBInput
-                valueDefault={prevInfo ? prevInfo.geezMiddleName : null}
-                name="geezMiddleName"
-                onBlur={handleChange}
-                type="text"
-                label="የአባት ስም"
-              />
-              <span style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.geezMiddleName == true &&
-                  personalInfo.dataSaved == true
-                  ? 'የአባት ስም አስፈላጊ ነው'
-                  : null}
-              </span>
-            </MDBCol>
-            <MDBCol md="3" className="required-field">
-              <MDBInput
-                valueDefault={prevInfo ? prevInfo.geezLastName : null}
-                name="geezLastName"
-                onBlur={handleChange}
-                type="text"
-                label="የአያት ስም"
-              />
-              <span style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.geezLastName == true &&
-                  personalInfo.dataSaved == true
-                  ? 'የአያት ስም አስፈላጊ ነው'
-                  : null}
-              </span>
-            </MDBCol>
-            <MDBCol md="3" className="required-field">
-              <div>
-                <label>
-                  Nationality<i style={{ color: 'red' }}>*</i>{' '}
-                </label>
-                <select
-                  className="browser-default custom-select"
-                  name="nationalityId"
-                  onChange={handleChange}
-                >
-                  <option>select Nationality</option>
-                  {nationalityList.map((nationality) => (
-                    <option
-                      value={nationality.id}
-                      selected={
-                        prevInfo &&
-                          Number.parseInt(prevInfo.nationalityId, 10) ===
-                          nationality.id
-                          ? true
-                          : nationality.code === 'ET'
-                      }
-                    >
-                      {nationality.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <span style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.nationalityId == true &&
-                  personalInfo.dataSaved == true
-                  ? 'Nationality ' + isRequired
-                  : null}
-              </span>
-            </MDBCol>
-          </MDBRow>
-
-          <MDBRow>
-            <MDBCol md="3" className="required-field">
-              <MDBRow>
-                {/* <MDBCol md="2">
-                <label>+251</label>
-                </MDBCol> */}
-                <MDBCol md="10">
+      <MDBCard style={{ marginBottom: '1rem' }}>
+        <MDBCardBody>
+          <form>
+            <MDBRow>
+              <MDBCol md="3" className="required-field">
                 <MDBInput
-                valueDefault={prevInfo ? prevInfo.phoneNumber : null}
-                name="phoneNumber"
-                className="form-control"
-                onBlur={handleChange}
-                type="text"
-                label="Phone Number"
-              //icon=""
-              />
-              <span style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.phoneNumber == true &&
-                  personalInfo.dataSaved == true
-                  ? 'Phone Number ' + isRequired
-                  : null}
-              </span>
-                </MDBCol>
-              </MDBRow>
-            </MDBCol>
-            <MDBCol md="3">
-              <MDBInput
-                valueDefault={prevInfo ? prevInfo.email : null}
-                name="email"
-                className="form-control"
-                onBlur={handleChange}
-                type="email"
-                label="Email"
-              />
-              <span style={{ color: 'red' }}>
-                {' '}
-                {notCompleted.email === false &&
-                  isEmail(personalInfo.email) === false &&
-                  personalInfo.dataSaved == true
-                  ? 'Please insert the correct email formatt'
-                  : null}
-              </span>
-            </MDBCol>
+                  valueDefault={prevInfo ? prevInfo.firstName : null}
+                  name="firstName"
+                  className="form-control"
+                  onBlur={handleChange}
+                  type="text"
+                  label="First name"
+                />
+                <span style={{ color: 'red' }}>
+                  {' '}
+                  {notCompleted.firstName == true &&
+                    personalInfo.dataSaved == true
+                    ? 'First name ' + isRequired
+                    : null}
+                </span>
+              </MDBCol>
+              <MDBCol md="3" className="required-field">
+                <MDBInput
+                  valueDefault={prevInfo ? prevInfo.middleName : null}
+                  name="middleName"
+                  onBlur={handleChange}
+                  type="text"
+                  label="Middle name"
+                />
+                <span style={{ color: 'red' }}>
+                  {' '}
+                  {notCompleted.middleName == true &&
+                    personalInfo.dataSaved == true
+                    ? 'Middle name ' + isRequired
+                    : null}
+                </span>
+              </MDBCol>
+              <MDBCol md="3" className="required-field">
+                <MDBInput
+                  valueDefault={prevInfo ? prevInfo.lastName : null}
+                  name="lastName"
+                  onBlur={handleChange}
+                  type="text"
+                  label="Last name"
+                />
+                <span style={{ color: 'red' }}>
+                  {' '}
+                  {notCompleted.lastName == true &&
+                    personalInfo.dataSaved == true
+                    ? 'Last name ' + isRequired
+                    : null}
+                </span>
+              </MDBCol>
+              <MDBCol md="3" className="date-picker ">
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="Date of birth(GC)"
+                    format="MM/dd/yyyy"
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+                <span style={{ color: 'red' }}>
+                  {' '}
+                  {notCompleted.birthDate == true &&
+                    personalInfo.dataSaved == true
+                    ? 'Birth date ' + isRequired
+                    : null}
+                </span>
+              </MDBCol>
+            </MDBRow>
+            <MDBRow>
+              <MDBCol md="3" className="required-field">
+                <MDBInput
+                  valueDefault={prevInfo ? prevInfo.geezFirstName : null}
+                  name="geezFirstName"
+                  className="form-control"
+                  onBlur={handleChange}
+                  type="text"
+                  label="ስም"
+                />
+                <span style={{ color: 'red' }}>
+                  {' '}
+                  {notCompleted.geezFirstName == true &&
+                    personalInfo.dataSaved == true
+                    ? 'የአመልካቹ ስም አስፈላጊ ነው'
+                    : null}
+                </span>
+              </MDBCol>
+              <MDBCol md="3" className="required-field">
+                <MDBInput
+                  valueDefault={prevInfo ? prevInfo.geezMiddleName : null}
+                  name="geezMiddleName"
+                  onBlur={handleChange}
+                  type="text"
+                  label="የአባት ስም"
+                />
+                <span style={{ color: 'red' }}>
+                  {' '}
+                  {notCompleted.geezMiddleName == true &&
+                    personalInfo.dataSaved == true
+                    ? 'የአባት ስም አስፈላጊ ነው'
+                    : null}
+                </span>
+              </MDBCol>
+              <MDBCol md="3" className="required-field">
+                <MDBInput
+                  valueDefault={prevInfo ? prevInfo.geezLastName : null}
+                  name="geezLastName"
+                  onBlur={handleChange}
+                  type="text"
+                  label="የአያት ስም"
+                />
+                <span style={{ color: 'red' }}>
+                  {' '}
+                  {notCompleted.geezLastName == true &&
+                    personalInfo.dataSaved == true
+                    ? 'የአያት ስም አስፈላጊ ነው'
+                    : null}
+                </span>
+              </MDBCol>
+              <MDBCol md="3" className="required-field">
+                <div>
+                  <label>
+                    Nationality<i style={{ color: 'red' }}>*</i>{' '}
+                  </label>
+                  <select
+                    className="browser-default custom-select"
+                    name="nationalityId"
+                    onChange={handleChange}
+                  >
+                    <option>select Nationality</option>
+                    {nationalityList.map((nationality) => (
+                      <option
+                        value={nationality.id}
+                        selected={
+                          prevInfo &&
+                            Number.parseInt(prevInfo.nationalityId, 10) ===
+                            nationality.id
+                            ? true
+                            : nationality.code === 'ET'
+                        }
+                      >
+                        {nationality.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <span style={{ color: 'red' }}>
+                  {' '}
+                  {notCompleted.nationalityId == true &&
+                    personalInfo.dataSaved == true
+                    ? 'Nationality ' + isRequired
+                    : null}
+                </span>
+              </MDBCol>
+            </MDBRow>
 
-            <MDBCol md="3" className="required-field">
-              <MDBInput
-                valueDefault={prevInfo ? prevInfo.birthPlace : null}
-                name="birthPlace"
-                className="form-control"
-                onChange={handleChange}
-                type="text"
-                label="Birth Place"
-              />
-              <span style={{ color: 'red' }}>
+            <MDBRow>
+              <MDBCol md="3" className="required-field">
+                <MDBRow>
+                  {/* <MDBCol md="2">
+                  <label>+251</label>
+                  </MDBCol> */}
+                  <MDBCol md="10">
+                  <MDBInput
+                  valueDefault={prevInfo ? prevInfo.phoneNumber : null}
+                  name="phoneNumber"
+                  className="form-control"
+                  onBlur={handlePhoneChange}
+                  type="text"
+                  label="Phone Number"
+                />
+                <span style={{ color: 'red' }}>
                   {' '}
-                  {notCompleted.birthPlace === true &&
-                    personalInfo.dataSaved === true
-                    ? 'Birth Place ' + isRequired
-                    : null}
-                </span>
-            </MDBCol>
-            <MDBCol md="3" className="required-field">
-              <MDBInput
-                valueDefault={prevInfo ? prevInfo.birthCirtificateNo : null}
-                name="birthCertificatNo"
-                onChange={handleChange}
-                type="text"
-                label="Birth Registration Unique Id"
-              />
-              <span style={{ color: 'red' }}>
-                  {' '}
-                  {notCompleted.birthCertificatNo == true &&
+                  {notCompleted.phoneNumber == true &&
                     personalInfo.dataSaved == true
-                    ? 'Birth Reg. Unique Id ' + isRequired
+                    ? 'Phone Number ' + isRequired
                     : null}
                 </span>
                 <span style={{ color: 'red' }}>
+                    {' '}
+                    {(invalidPhone === true)
+                      ? 'Please insert the correct phone number format'
+                      : null}
+                  </span>
+                  </MDBCol>
+                </MDBRow>
+              </MDBCol>
+              <MDBCol md="3">
+                <MDBInput
+                  valueDefault={prevInfo ? prevInfo.email : null}
+                  name="email"
+                  className="form-control"
+                  onBlur={handleChange}
+                  type="email"
+                  label="Email"
+                />
+                <span style={{ color: 'red' }}>
                   {' '}
-                  {(/^[0-9]{1,16}$/.test(personalInfo.birthCertificatNo)===false &&
-                    personalInfo.dataSaved === true &&personalInfo.birthCertificatNo !=="")
-                    ? 'Birth Reg. Unique Id must be 16 digit numeric'
+                  {notCompleted.email === false &&
+                    isEmail(personalInfo.email) === false &&
+                    personalInfo.dataSaved == true
+                    ? 'Please insert the correct email formatt'
                     : null}
                 </span>
-            </MDBCol>
+              </MDBCol>
 
-          </MDBRow>
-          <hr />
-          <MDBRow>
-            <MDBCol md="3">
-              <div>
-                <label>
-                  Occupation<i style={{ color: 'red' }}>*</i>{' '}
-                </label>
-                <select
-                  className="browser-default custom-select"
-                  name="occupationId"
+              <MDBCol md="3" className="required-field">
+                <MDBInput
+                  valueDefault={prevInfo ? prevInfo.birthPlace : null}
+                  name="birthPlace"
+                  className="form-control"
                   onChange={handleChange}
-                >
-                  <option>Select occupation</option>
-                  {occupationList.map((occupation) => (
-                    <option
-                      value={occupation.id}
-                      selected={
-                        occupation.id ===
-                        Number.parseInt(personalInfo.occupationId, 10)
-                      }
-                    >
-                      {occupation.title}
-                    </option>
-                  ))}
-                </select>
+                  type="text"
+                  label="Birth Place"
+                />
                 <span style={{ color: 'red' }}>
-                  {' '}
-                  {notCompleted.occupationId == true &&
-                    personalInfo.dataSaved == true
-                    ? 'Occupation ' + isRequired
-                    : null}
-                </span>
-              </div>
-            </MDBCol>
-            <MDBCol md="3">
-              <label>Hair Color</label>
-              <select
-                className="browser-default custom-select"
-                name="hairColor"
-                onChange={handleChange}
-              >
-                <option
-                  value="Black"
-                  selected={personalInfo.hairColor === 'Black'}
-                >
-                  Black
-                </option>
-                <option
-                  value="Brown"
-                  selected={personalInfo.hairColor === 'Brown'}
-                >
-                  Brown
-                </option>
-                <option
-                  value="Blond"
-                  selected={personalInfo.hairColor === 'Blond'}
-                >
-                  Blond
-                </option>
-                <option
-                  value="Auburn"
-                  selected={personalInfo.hairColor === 'Auburn'}
-                >
-                  Auburn
-                </option>
-                <option
-                  value="Red"
-                  selected={personalInfo.hairColor === 'Red'}
-                >
-                  Red
-                </option>
-                <option
-                  value="Grey"
-                  selected={personalInfo.hairColor === 'Grey'}
-                >
-                  Grey
-                </option>
-                <option
-                  value="White"
-                  selected={personalInfo.hairColor === 'White'}
-                >
-                  White
-                </option>
-              </select>
-            </MDBCol>
-            <MDBCol md="3">
-              <div>
-                <label>
-                  Gender <i style={{ color: 'red' }}>*</i>{' '}
-                </label>
-                <select
-                  className="browser-default custom-select"
-                  name="gender"
-                  onChange={handleChange}
-                >
-                  <option value="" selected={personalInfo.gender === ''}>
-                    Select gender
-                  </option>
-                  <option value="1" selected={personalInfo.gender === '1'}>
-                    Male
-                  </option>
-                  <option value="0" selected={personalInfo.gender === '0'}>
-                    Female
-                  </option>
-                </select>
+                    {' '}
+                    {notCompleted.birthPlace === true &&
+                      personalInfo.dataSaved === true
+                      ? 'Birth Place ' + isRequired
+                      : null}
+                  </span>
+              </MDBCol>
+              <MDBCol md="3" className="required-field">
+                <MDBInput
+                  valueDefault={prevInfo ? prevInfo.birthCirtificateNo : null}
+                  name="birthCertificatNo"
+                  onBlur={handleUniqueIdChange}
+                  type="text"
+                  label="Birth Registration Unique Id"
+                />
                 <span style={{ color: 'red' }}>
-                  {' '}
-                  {notCompleted.gender == true &&
-                    personalInfo.dataSaved == true
-                    ? 'Gender ' + isRequired
-                    : null}
-                </span>
-              </div>
-            </MDBCol>
-            <MDBCol md="3">
-              <div>
-                <label>
-                Marital  status <i style={{ color: 'red' }}>*</i>{' '}
-                </label>
+                    {' '}
+                    {notCompleted.birthCertificatNo == true &&
+                      personalInfo.dataSaved == true
+                      ? 'Birth Reg. Unique Id ' + isRequired
+                      : null}
+                  </span>
+                  <span style={{ color: 'red' }}>
+                    {' '}
+                    {(invalidUniqueId === true)
+                      ? 'Birth registration unique id length must 16 digit'
+                      : null}
+                  </span>
+              </MDBCol>
+
+            </MDBRow>
+            <hr />
+            <MDBRow>
+              <MDBCol md="3">
+                <div>
+                  <label>
+                    Occupation<i style={{ color: 'red' }}>*</i>{' '}
+                  </label>
+                  <select
+                    className="browser-default custom-select"
+                    name="occupationId"
+                    onChange={handleChange}
+                  >
+                    <option>Select occupation</option>
+                    {occupationList.map((occupation) => (
+                      <option
+                        value={occupation.id}
+                        selected={
+                          occupation.id ===
+                          Number.parseInt(personalInfo.occupationId, 10)
+                        }
+                      >
+                        {occupation.title}
+                      </option>
+                    ))}
+                  </select>
+                  <span style={{ color: 'red' }}>
+                    {' '}
+                    {notCompleted.occupationId == true &&
+                      personalInfo.dataSaved == true
+                      ? 'Occupation ' + isRequired
+                      : null}
+                  </span>
+                </div>
+              </MDBCol>
+              <MDBCol md="3">
+                <label>Hair Color</label>
                 <select
                   className="browser-default custom-select"
-                  name="martialStatus"
+                  name="hairColor"
                   onChange={handleChange}
                 >
-                  <option
-                    value=""
-                    selected={personalInfo.martialStatus === ''}
-                  >
-                    Select status
-                  </option>
-                  <option
-                    value="0"
-                    selected={personalInfo.martialStatus === '0'}
-                  >
-                    Single
-                  </option>
-                  <option
-                    value="1"
-                    selected={personalInfo.martialStatus === '1'}
-                  >
-                    Married
-                  </option>
-                  <option value="2" selected={personalInfo.martialStatus === '2'}>
-                    Divorced
-                  </option>
-                  <option value="3" selected={personalInfo.martialStatus === '3'}>
-                    Widowed
-                  </option>
-                </select>
-                <span style={{ color: 'red' }}>
-                  {' '}
-                  {notCompleted.martialStatus == true &&
-                    personalInfo.dataSaved == true
-                    ? 'Marital status ' + isRequired
-                    : null}
-                </span>
-              </div>
-            </MDBCol>
-          </MDBRow>
-          <hr />
-          <MDBRow>
-            <MDBCol md="3">
-              <MDBInput
-                valueDefault={prevInfo ? prevInfo.height : null}
-                name="height"
-                onChange={handleChange}
-                type="text"
-                label="Height(cm)"
-              />
-            </MDBCol>
-            <MDBCol md="3">
-              <div>
-                <label>Eye Color</label>
-                <select
-                  className="browser-default custom-select"
-                  name="eyeColor"
-                  onChange={handleChange}
-                >
-                  <option value=""> Select eye color </option>
                   <option
                     value="Black"
-                    selected={personalInfo.eyeColor === 'Black'}
+                    selected={personalInfo.hairColor === 'Black'}
                   >
-                    {' '}
-                    Black{' '}
+                    Black
                   </option>
                   <option
                     value="Brown"
-                    selected={personalInfo.eyeColor === 'Brown'}
+                    selected={personalInfo.hairColor === 'Brown'}
                   >
-                    {' '}
-                    Brown{' '}
+                    Brown
                   </option>
                   <option
-                    value="Blue"
-                    selected={personalInfo.eyeColor === 'Blue'}
+                    value="Blond"
+                    selected={personalInfo.hairColor === 'Blond'}
                   >
-                    {' '}
-                    Blue{' '}
+                    Blond
                   </option>
                   <option
-                    value="Other"
-                    selected={personalInfo.eyeColor === 'Other'}
+                    value="Auburn"
+                    selected={personalInfo.hairColor === 'Auburn'}
                   >
-                    {' '}
-                    Other{' '}
+                    Auburn
+                  </option>
+                  <option
+                    value="Red"
+                    selected={personalInfo.hairColor === 'Red'}
+                  >
+                    Red
+                  </option>
+                  <option
+                    value="Grey"
+                    selected={personalInfo.hairColor === 'Grey'}
+                  >
+                    Grey
+                  </option>
+                  <option
+                    value="White"
+                    selected={personalInfo.hairColor === 'White'}
+                  >
+                    White
                   </option>
                 </select>
-              </div>
-            </MDBCol>
-            <MDBCol md="3">
-              <label></label>
-              <div class="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  defaultValue={prevInfo ? prevInfo.isHalfCast : false}
-                  name="isHalfCast"
-                  id="isHalfCast"
-                  onChange={(e) =>
-                    handleCheck('isHalfCast', e.target.checked)
-                  }
+              </MDBCol>
+              <MDBCol md="3">
+                <div>
+                  <label>
+                    Gender <i style={{ color: 'red' }}>*</i>{' '}
+                  </label>
+                  <select
+                    className="browser-default custom-select"
+                    name="gender"
+                    onChange={handleChange}
+                  >
+                    <option value="" selected={personalInfo.gender === ''}>
+                      Select gender
+                    </option>
+                    <option value="1" selected={personalInfo.gender === '1'}>
+                      Male
+                    </option>
+                    <option value="0" selected={personalInfo.gender === '0'}>
+                      Female
+                    </option>
+                  </select>
+                  <span style={{ color: 'red' }}>
+                    {' '}
+                    {notCompleted.gender == true &&
+                      personalInfo.dataSaved == true
+                      ? 'Gender ' + isRequired
+                      : null}
+                  </span>
+                </div>
+              </MDBCol>
+              <MDBCol md="3">
+                <div>
+                  <label>
+                  Marital  status <i style={{ color: 'red' }}>*</i>{' '}
+                  </label>
+                  <select
+                    className="browser-default custom-select"
+                    name="martialStatus"
+                    onChange={handleChange}
+                  >
+                    <option
+                      value=""
+                      selected={personalInfo.martialStatus === ''}
+                    >
+                      Select status
+                    </option>
+                    <option
+                      value="0"
+                      selected={personalInfo.martialStatus === '0'}
+                    >
+                      Single
+                    </option>
+                    <option
+                      value="1"
+                      selected={personalInfo.martialStatus === '1'}
+                    >
+                      Married
+                    </option>
+                    <option value="2" selected={personalInfo.martialStatus === '2'}>
+                      Divorced
+                    </option>
+                    <option value="3" selected={personalInfo.martialStatus === '3'}>
+                      Widowed
+                    </option>
+                  </select>
+                  <span style={{ color: 'red' }}>
+                    {' '}
+                    {notCompleted.martialStatus == true &&
+                      personalInfo.dataSaved == true
+                      ? 'Marital status ' + isRequired
+                      : null}
+                  </span>
+                </div>
+              </MDBCol>
+            </MDBRow>
+            <hr />
+            <MDBRow>
+              <MDBCol md="3">
+                <MDBInput
+                  valueDefault={prevInfo ? prevInfo.height : null}
+                  name="height"
+                  onChange={handleChange}
+                  type="text"
+                  label="Height(cm)"
                 />
-                <label class="custom-control-label" for="isHalfCast">
-                  Is Halfcast
-                </label>
-              </div>
-            </MDBCol>
-            <MDBCol md="3">
-              <label></label>
-              <div class="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  name="isUnder18"
-                  id="isUnder18"
-                  onChange={(e) => handleCheck('isUnder18', e.target.checked)}
-                />
-                <label class="custom-control-label" for="isUnder18">
-                  Is Under 18
-                </label>
-              </div>
-            </MDBCol>
-          </MDBRow>
-          <MDBRow>
-            <MDBCol>
-              <label></label>
-              <div class="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  name="isAdoption"
-                  id="isAdoption"
-                  onChange={(e) =>
-                    handleCheck('isAdoption', e.target.checked)
-                  }
-                />
-                <label class="custom-control-label" for="isAdoption">
-                  Is Adoption
-                </label>
-              </div>
-            </MDBCol>
-          </MDBRow>
-        </form>
-      </MDBCardBody>
-    </MDBCard>
-  </MDBContainer>
-);
+              </MDBCol>
+              <MDBCol md="3">
+                <div>
+                  <label>Eye Color</label>
+                  <select
+                    className="browser-default custom-select"
+                    name="eyeColor"
+                    onChange={handleChange}
+                  >
+                    <option value=""> Select eye color </option>
+                    <option
+                      value="Black"
+                      selected={personalInfo.eyeColor === 'Black'}
+                    >
+                      {' '}
+                      Black{' '}
+                    </option>
+                    <option
+                      value="Brown"
+                      selected={personalInfo.eyeColor === 'Brown'}
+                    >
+                      {' '}
+                      Brown{' '}
+                    </option>
+                    <option
+                      value="Blue"
+                      selected={personalInfo.eyeColor === 'Blue'}
+                    >
+                      {' '}
+                      Blue{' '}
+                    </option>
+                    <option
+                      value="Other"
+                      selected={personalInfo.eyeColor === 'Other'}
+                    >
+                      {' '}
+                      Other{' '}
+                    </option>
+                  </select>
+                </div>
+              </MDBCol>
+              <MDBCol md="3">
+                <label></label>
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    defaultValue={prevInfo ? prevInfo.isHalfCast : false}
+                    name="isHalfCast"
+                    id="isHalfCast"
+                    onChange={(e) =>
+                      handleCheck('isHalfCast', e.target.checked)
+                    }
+                  />
+                  <label class="custom-control-label" for="isHalfCast">
+                    Is Halfcast
+                  </label>
+                </div>
+              </MDBCol>
+              <MDBCol md="3">
+                <label></label>
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    name="isUnder18"
+                    id="isUnder18"
+                    onChange={(e) => handleCheck('isUnder18', e.target.checked)}
+                  />
+                  <label class="custom-control-label" for="isUnder18">
+                    Is Under 18
+                  </label>
+                </div>
+                <span style={{ color: 'red' }}>
+                    {' '}
+                    {(age<18 && personalInfo.isUnder18===false && personalInfo.dataSaved===true)? 'Please check if age is under 18 '
+                      : null}
+                  </span>
+              </MDBCol>
+            </MDBRow>
+            <MDBRow>
+              <MDBCol>
+                <label></label>
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    name="isAdoption"
+                    id="isAdoption"
+                    onChange={(e) =>
+                      handleCheck('isAdoption', e.target.checked)
+                    }
+                  />
+                  <label class="custom-control-label" for="isAdoption">
+                    Is Adoption
+                  </label>
+                </div>
+              </MDBCol>
+            </MDBRow>
+          </form>
+        </MDBCardBody>
+      </MDBCard>
+    </MDBContainer>
+  );
 });
 export default PersonalInfo;
