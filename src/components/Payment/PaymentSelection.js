@@ -107,9 +107,11 @@ const PaymentSelection = forwardRef((props, ref) => {
         setStatus(todo.data.status);
         setInstruction(todo.data.instruction);
         setMessage(todo.data.message);
+        setloading(false);
       })
       .catch((err) => {
         console.log('AXIOS ERROR: ', err.response);
+        setloading(false);
       });
   }
   function getContent(paymentFlowType) {
@@ -131,9 +133,12 @@ const PaymentSelection = forwardRef((props, ref) => {
       'https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/GetPaymentOptions',
       config
     )
-      .then((todo) => setPaymentOptions(todo.data.paymentOptions))
+      .then((todo) =>{ 
+        setPaymentOptions(todo.data.paymentOptions)
+        setloading(false);})
       .catch((err) => {
         console.log('AXIOS ERROR: ', err);
+        setloading(false);
       });
   }, []);
   const handelClick = (optionId,selectedCode) => {
@@ -166,17 +171,19 @@ const PaymentSelection = forwardRef((props, ref) => {
           password : "123456",
           requestId: requestId,
         };
+        setloading(true);
         console.log('%c Oh my heavens! ', 'background: #222; color: #bada55');
         API.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
           .then((resopnse) => {
-            debugger;
             dispatch(addPaymentOptionId(resopnse.data));
             history.push('/InstructionPage')
+            setloading(false);
           })
           .catch((err) => {
             console.log("AXIOS ERROR: ", err.response);
             setMessage(err.response.statusText);
             setShowError(true);
+            setloading(false);
           })
       }
     }
