@@ -23,6 +23,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import API from '../Utils/API';
 import isEmail from 'validator/es/lib/isEmail';
 
+
 const PersonalInfo = forwardRef((props, ref) => {
   const [isLoading, setIsLoading] = useState(true);
   const [nationalityList, setNationalityList] = useState([]);
@@ -74,7 +75,8 @@ const PersonalInfo = forwardRef((props, ref) => {
     nationalityId: true,
     phoneNumber: true,
     email: true,
-  });
+  });  
+  const [age, setAge] = useState(0);
   const [invalidEmail, setInvalidEmail] = useState(false);
   const [invalidPhone, setInvalidPhone] = useState(false);
   const [invalidUniqueId, setInvalidUniqueId] = useState(false);
@@ -114,8 +116,8 @@ const PersonalInfo = forwardRef((props, ref) => {
         notCompleted.birthCertificatNo === true ||
         notCompleted.birthPlace===true ||
         invalidUniqueId===true ||
-        invalidPhone ===true
-      // (/^[0-9]{1,16}$/.test(personalInfo.birthCertificatNo))===false
+        invalidPhone ===true ||
+        (age<18 && personalInfo.isUnder18===false)
       )
         return false;
       else return true;
@@ -124,8 +126,22 @@ const PersonalInfo = forwardRef((props, ref) => {
   const [selectedDate, setSelectedDate] = React.useState(
     new Date(prevInfo ? prevInfo.dateOfBirth : new Date())
   );
+  function calculateAge(date1, date2) {
+    debugger
+    var diff = Math.floor(date1.getTime() - date2.getTime());
+    var day = 1000 * 60 * 60 * 24;
+  
+    var days = Math.floor(diff / day);
+    var months = Math.floor(days / 31);
+    var years = Math.floor(months / 12);
+    setAge(years)
+    return years
+  }
   const handleDateChange = (date) => {
     setSelectedDate(date);
+    debugger
+    const currentDate = new Date();
+    const diffYear=calculateAge(currentDate, new Date(date))
     setPersonalInfo((prevState) => ({
       ...prevState,
       birthDate: date,
@@ -160,10 +176,16 @@ const PersonalInfo = forwardRef((props, ref) => {
   };
   const handlePhoneChange = (event) => {
     const { name, value } = event.target;
-    if (value.length != 10) {
+    if (value.length != 9 && value.length !=10) {
       setInvalidPhone(true);
     }
     else if (!digitPattern.test(value)) {
+      setInvalidPhone(true);
+    }
+    else if (value.length===9 &&value.charAt(0) !=='9') {
+      setInvalidPhone(true);
+    }
+    else if (value.length===10 &&value.substring(0,2) !=='09') {
       setInvalidPhone(true);
     }
     else {
@@ -829,6 +851,11 @@ setIsLoading(false)
                     Is Under 18
                   </label>
                 </div>
+                <span style={{ color: 'red' }}>
+                    {' '}
+                    {(age<18 && personalInfo.isUnder18===false && personalInfo.dataSaved===true)? 'Please check if age is under 18 '
+                      : null}
+                  </span>
               </MDBCol>
             </MDBRow>
             <MDBRow>
