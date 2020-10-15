@@ -59,20 +59,21 @@ const AccordionDetails = withStyles((theme) => ({
 }))(MuiAccordionDetails);
 
 const ViewAppointment = forwardRef((props, ref) => {
+  debugger;
   const accesstoken = localStorage.systemToken;
   const history = useHistory();
   const [expanded, setExpanded] = React.useState('panel1');
   const [formCompleted, setFormCompleted] = useState(false);
   const [dataSaved, setDataSaved] = useState(false);
   const data = useSelector((state) => state);
-  const [displayedApplication,setDisplayedApplication]=useState();
 
   const serviceData = data.service[data.service.length - 1];
   const requestMode = serviceData.isUrgent;
-let requests=data.request[data.request.length - 1];
-if(requests && !displayedApplication){
-  setDisplayedApplication(requests);
-}
+let requests=data.request;
+
+
+
+
 let attachementResponse =  data.attachement[data.attachement.length - 1];
 
   const confirmInformation = (e) => {
@@ -113,16 +114,14 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
       }
     }
   };
-  
-  if (displayedApplication) {
-    
-    if(displayedApplication.hasOwnProperty('personResponses')) {
-      const personalInfo = displayedApplication
-        ? displayedApplication.personResponses
+    if(requests){
+    if(!data.service[data.service.length-1].isGroup) {
+      const personalInfo = requests[0]
+        ? requests[0].personResponses
         : null;
       if (personalInfo) {
-        const appointmentResponse = displayedApplication.appointmentResponse;
-        const personalInformation = displayedApplication.personResponses;
+        const appointmentResponse = requests[0].appointmentResponse;
+        const personalInformation = requests[0].personResponses;
         const addressInformation = personalInformation.address;
         const familyInformation = personalInformation.familyResponses;
 
@@ -141,7 +140,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {displayedApplication.type}
+                      {requests[0].type}
                     </label>
                   </b>
                 </div>
@@ -152,7 +151,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {displayedApplication.requestStatus}
+                      {requests[0].requestStatus}
                     </label>
                   </b>
                 </div>
@@ -163,7 +162,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {new Date(displayedApplication.requestDate)
+                      {new Date(requests[0].requestDate)
                         .toISOString()
                         .substr(0, 10)}
                     </label>
@@ -627,7 +626,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
     } else {
       return <ViewGroupAppointment />;
     }
-  } else {
+  }else {
     return <div>Before request made</div>;
   }
 });

@@ -4,7 +4,7 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from 'react';
-import { MDBRow, MDBCol, MDBInput, MDBCardBody, MDBCard } from 'mdbreact';
+import { MDBRow, MDBCol, MDBInput, MDBCardBody, MDBCard,MDBAlert } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addTravelPlan from '../../../redux/actions/addTravelPlanAction';
 import { Card } from 'react-bootstrap';
@@ -13,13 +13,14 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import API from '../../Utils/API';
 
 import axios from 'axios';
 
 const TravelPlan = forwardRef((props, ref) => {
-  const [validated, setValidated] = useState(false);
   const [passportPages, setPassportPages] = useState([]);
   const { passportRes, displayedApplication, personalInformation } = props;
+  const [passportTypeList,setPassportTypeList]=useState([]);
   const [travelPlan, setTravelPlan] = useState({
     filledBy: passportRes.filledBy,
     passportPageId: parseInt(passportRes.passportPageId),
@@ -33,7 +34,7 @@ const TravelPlan = forwardRef((props, ref) => {
   });
   const [notCompleted, setNotCompleted] = useState({
     filledBy: true,
-    pageQuantity: false,
+    passportPageId: false,
     passportType: true,
     passportNumber: true,
     expireDate: true,
@@ -41,10 +42,20 @@ const TravelPlan = forwardRef((props, ref) => {
     correctionReason: true,
     isDatacorrected: true,
   });
-  const accesstoken = localStorage.systemToken;
+  const tokenValue = () => {
+    const UserToken = localStorage.userToken;
 
-  let requestPersonId = personalInformation.requestPersonId;
-  let requestTypeId = displayedApplication.requestTypeId;
+    if (UserToken) {
+      return UserToken;
+    } else {
+      const SystemToken = localStorage.systemToken;
+      return SystemToken;
+    }
+  };
+  const token = tokenValue();
+  const config = {
+    headers: { Authorization: 'Bearer ' + token },
+  };
 
 const dispatch = useDispatch();
   const counter = useSelector((state) => state);
@@ -54,32 +65,7 @@ const dispatch = useDispatch();
   if (counter.travelPlan.length === 0) {
     dispatch(addTravelPlan(travelPlan));
   }
-  useImperativeHandle(ref, () => ({
-    saveData() {
-      setTravelPlan((prevState) => ({
-        ...prevState,
-        dataSaved: true,
-      }));
-      dispatch(addTravelPlan(travelPlan));
-    },
-    Validate() {
-      setNotCompleted({
-        filledBy: travelPlan.filledBy === '' ? true : false,
-        pageQuantity: travelPlan.pageQuantity === 0 ? true : false,
-        passportType: travelPlan.passportType === '' ? true : false,
-        passportNumber: travelPlan.passportNumber === '' ? true : false,
-        expireDate: travelPlan.expireDate === '' ? true : false,
-        issueDate: travelPlan.issueDate === '' ? true : false,
-        correctionReason: travelPlan.correctionReason === '' ? true : false,
-        passportNumber: travelPlan.passportNumber === '' ? true : false,
-      });
-      if (notCompleted.pageQuantity === true) return false;
-      else return true;
-    },
-  }));
-  if (passportPages.length === 0) {
-    setPassportPages(JSON.parse(localStorage.PassportPageQuantity));
-  }
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setTravelPlan((prevState) => ({
@@ -89,19 +75,34 @@ const dispatch = useDispatch();
   };
   var prevInfo = counter.travelPlan[counter.travelPlan.length - 1];
   useEffect(() => {
+    if (counter.travelPlan.length === 0) {
+      dispatch(addTravelPlan(travelPlan));
+    }
     setTravelPlan((prevState) => ({
       ...prevState,
-      filledBy: prevInfo ? prevInfo.filledBy : null,
-      passportPageId: prevInfo ? prevInfo.passportPageId : '0',
-      passportType: prevInfo ? prevInfo.passportType : null,
+      passportPageId: prevInfo ? prevInfo.passportPageId : 0,
       passportNumber: prevInfo ? prevInfo.passportNumber : null,
-      expireDate: prevInfo ? prevInfo.expireDate : null,
-      issueDate: prevInfo ? prevInfo.issueDate : null,
+      expirationDate: prevInfo ? new Date(prevInfo.expirationDate) : null,
+      issueDate: prevInfo ? new Date(prevInfo.issueDate) : null,
       correctionReason: prevInfo ? prevInfo.correctionReason : null,
-      isDatacorrected: prevInfo ? prevInfo.isDatacorrected : null,
+      isDatacorrected: prevInfo ? prevInfo.isDatacorrected : false,
+      dataSaved: prevInfo ? prevInfo.dataSaved : null,
     }));
-  }, []);
 
+    setPassportTypeList(JSON.parse(localStorage.PassportPageQuantity))
+    if(passportTypeList.length===0){
+      API.get(
+        'https://epassportservices.azurewebsites.net/Master/api/V1.0/PassportPage/GetAll',
+        config
+      )
+        .then((todo) => {
+          setPassportTypeList(todo.data.pagePassports);
+        })
+        .catch((err) => {
+          console.log('AXIOS ERROR: ', err.response);
+        });
+    }
+  }, []);
   const [selectedissueDate, setSelectedissueDate] = React.useState(
     new Date(prevInfo ? prevInfo.issueDate : new Date())
   );
@@ -129,82 +130,80 @@ const dispatch = useDispatch();
       [name]: checked,
     }));
   };
+  useImperativeHandle(ref, () => ({
+    saveData() {
+      setTravelPlan((prevState) => ({
+        ...prevState,
+        dataSaved: true,
+      }));
+      dispatch(addTravelPlan(travelPlan));
+      return travelPlan;
+    },
+    Validate() {
+      setNotCompleted({
+        passportPageId:travelPlan.passportPageId&& travelPlan.passportPageId !== 0 ? false : true,
+        passportNumber: travelPlan.passportNumber ? false : true,
+        expirationDate: travelPlan.expirationDate ? false : true,
+        issueDate: travelPlan.issueDate ? false : true,
+        correctionReason: travelPlan.correctionReason ? false : true,
+        passportNumber: travelPlan.passportNumber ? false : true,
+      });
+      if (notCompleted.passportPageId === true) return false;
+      else return true;
+    },
+  }));
   return (
-    <Card.Body>
-      <blockquote className=" mb-0">
+    <MDBCard>
+      <MDBCardBody>
+        {props.respnseGet === true ? (
+          props.isSucces === true ? (
+            null
+          ) : (
+            <MDBAlert color="danger">{props.resMessage}</MDBAlert>
+          )
+        ) : null}
         <form>
           <div className="grey-text">
             <MDBRow>
-              <MDBCol md="3">
-                <MDBCol>
-                  <div
-                    className="md-form form-group passport-select"
-                    style={{ 'margin-bottom': '2.5rem' }}
-                  >
-                    <label class="passport-selectList-label">
-                      Passport Page
-                      <i
-                        class="required-for-select-list"
-                        style={{ color: 'red' }}
-                      >
-                        *
-                      </i>{' '}
-                    </label>
-                    <select
-                      name="passportPageId"
-                      onChange={handleChange}
-                      className="browser-default custom-select"
-                      defaultValue={prevInfo ? prevInfo.passportPageId : 0}
+            <MDBCol md="4">
+                <div
+                  className="md-form form-group passport-select"
+                  style={{ 'margin-bottom': '2.5rem' }}
+                >
+                  <label class="passport-selectList-label">
+                  Passport Page No.(Requested)
+                    <i
+                      class="required-for-select-list"
+                      style={{ color: 'red' }}
                     >
-                      <option disabled>select Nationality</option>
-                      {passportPages.map((passPage) => (
-                        <option value={passPage.id}>
-                          {passPage.passportPage}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <span style={{ color: 'red' }}>
-                    {' '}
-                    {notCompleted.pageQuantity == true &&
-                    travelPlan.dataSaved == true
-                      ? 'Page quantity ' + isRequired
-                      : null}
-                  </span>{' '}
-                </MDBCol>
+                      *
+                    </i>{' '}
+                  </label>
+                  <select
+                    name="passportPageId"
+                    onChange={handleChange}
+                    className="browser-default custom-select"
+                    defaultValue={prevInfo ? prevInfo.passportPageId : 0}
+                  >
+                    <option disabled>Select Passport Page</option>
+                    {passportTypeList.map((passportType) => (
+                      <option value={passportType.id}>{passportType.passportPage}</option>
+                    ))}
+                  </select>
+                </div>
+                <span style={{ color: 'red' }}>
+                  {' '}
+                  {notCompleted.passportPageId === true &&
+                  travelPlan.dataSaved == true
+                    ? 'Passport page ' + isRequired
+                    : null}
+                </span>{' '}
               </MDBCol>
-
-              <MDBCol md="3">
-                <MDBInput
-                  valueDefault={prevInfo ? prevInfo.filledBy : null}
-                  name="filledBy"
-                  className="form-control"
-                  onBlur={handleChange}
-                  type="text"
-                  label="Application filled by"
-                />
-              </MDBCol>
-              <MDBCol md="3"></MDBCol>
+            
             </MDBRow>
+            <hr />
             {requestTypeStr != 'New' ? (
               <MDBRow>
-                <MDBCol md="3">
-                  <MDBInput
-                    valueDefault={prevInfo ? prevInfo.passportType : null}
-                    name="passportType"
-                    className="form-control"
-                    onBlur={handleChange}
-                    type="text"
-                    label="Passport Type"
-                  />
-                  <span style={{ color: 'red' }}>
-                    {' '}
-                    {notCompleted.passportType == true &&
-                    travelPlan.dataSaved == true
-                      ? 'Passport type' + isRequired
-                      : null}
-                  </span>
-                </MDBCol>
                 <MDBCol md="3">
                   <MDBInput
                     valueDefault={prevInfo ? prevInfo.passportNumber : null}
@@ -212,7 +211,7 @@ const dispatch = useDispatch();
                     className="form-control"
                     onBlur={handleChange}
                     type="text"
-                    label="Passport Number"
+                    label="Old Passport Number"
                   />
                 </MDBCol>
                 <MDBCol md="3" className="date-picker">
@@ -220,10 +219,10 @@ const dispatch = useDispatch();
                     <KeyboardDatePicker
                       margin="normal"
                       id="date-picker-dialog"
-                      label="Expiration Date"
+                      label="Old Issue Date"
                       format="MM/dd/yyyy"
-                      value={selectedexpirationDate}
-                      onChange={handleexpirationDateChange}
+                      value={selectedissueDate}
+                      onChange={handleissueDateChange}
                       KeyboardButtonProps={{
                         'aria-label': 'change date',
                       }}
@@ -235,10 +234,10 @@ const dispatch = useDispatch();
                     <KeyboardDatePicker
                       margin="normal"
                       id="date-picker-dialog"
-                      label="Issue Date"
+                      label="Old Expiration Date"
                       format="MM/dd/yyyy"
-                      value={selectedissueDate}
-                      onChange={handleissueDateChange}
+                      value={selectedexpirationDate}
+                      onChange={handleexpirationDateChange}
                       KeyboardButtonProps={{
                         'aria-label': 'change date',
                       }}
@@ -296,8 +295,8 @@ const dispatch = useDispatch();
             </MDBRow>
           </div>
         </form>
-      </blockquote>
-    </Card.Body>
+      </MDBCardBody>
+    </MDBCard>
   );
 });
 
