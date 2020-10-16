@@ -105,7 +105,7 @@ const PersonalInfo = forwardRef((props, ref) => {
         notCompleted.middleName === true ||
         notCompleted.birthDate === true ||
         notCompleted.geezFirstName === true ||
-        notCompleted.geezLastName === true ||
+        notCompleted.geezMiddleName === true ||
         notCompleted.geezLastName === true ||
         personalInfo.nationalityId === 0 ||
         notCompleted.gender === true ||

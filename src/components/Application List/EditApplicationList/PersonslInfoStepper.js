@@ -85,6 +85,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   const childRef = useRef();
 
   const handleNext = () => {
+    debugger;
     childRef.current.saveData();
     if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
       const isValid = childRef.current.Validate();
@@ -105,9 +106,10 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   };
 
   const handleFinish = () => {
+    debugger;
     const travelPlan= childRef.current.saveData();
-    const isVilid = childRef.current.Validate();
-    if (isVilid != true) {
+    const isValid = childRef.current.Validate();
+    if (isValid != true) {
       //setResponseMessage("Ple")
     } else {
       var personalInfo =
@@ -116,7 +118,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
       var addressInfo = counter.address[counter.address.length - 1];
       var familyInfo =
         counter.editFamilyData[counter.editFamilyData.length - 1];
-      var travelPlanInfo = counter.travelPlan[counter.travelPlan.length - 1];
+      //var travelPlanInfo = counter.travelPlan[counter.travelPlan.length - 1];
       const accesstoken = localStorage.systemToken;
 
       const config = {
@@ -179,9 +181,6 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             birthCertificateId: personalInfo
               ? personalInfo.birthCertificateId
               : null,
-
-            flightDate: travelPlanInfo.travelDate,
-            flightNumber: travelPlanInfo.ticketNumber,
             photoPath: '',
 
             employeeID: '',
@@ -193,18 +192,18 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             isUnder18: personalInfo ? personalInfo.isUnder18 : false,
 
             isAdoption: personalInfo ? personalInfo.isAdoption : false,
-            maritalStatus:personalInfo?parseInt(personalInfo.maritalStatus):0,
-            passportPageId: travelPlanInfo
-              ? parseInt(travelPlanInfo.passportPageId)
+            maritalStatus:personalInfo?parseInt(personalInfo.maritalStatusEnum):0,
+            passportPageId: travelPlan
+              ? parseInt(travelPlan.passportPageId)
               : null,
-            passportNumber: travelPlanInfo
-              ? travelPlanInfo.passportNumber
+            passportNumber: travelPlan
+              ? travelPlan.passportNumber
               : null,
-            issueDate: travelPlanInfo ? travelPlanInfo.issueDate : null,
-            expireDate: travelPlanInfo ? travelPlanInfo.expireDate : null,
-            passportType: travelPlanInfo ? travelPlanInfo.passportType : null,
-            isDatacorrected: travelPlanInfo
-              ? travelPlanInfo.isDatacorrected
+            issueDate: travelPlan ? travelPlan.issueDate : null,
+            expireDate: travelPlan ? travelPlan.expireDate : null,
+            passportType: travelPlan ? travelPlan.passportType : null,
+            isDatacorrected: travelPlan
+              ? travelPlan.isDatacorrected
               : false,
             address: {
               personId: personalInformation.id,

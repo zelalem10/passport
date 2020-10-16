@@ -55,17 +55,16 @@ export default function ViewGroupAppointment(props) {
   const [expanded, setExpanded] = React.useState('panel1');
   const data = useSelector((state) => state);
 
-  let displayedApplication = data.request[data.request.length - 1];
+  let displayedApplication = data.request;
 
-  const personalInformation = displayedApplication
-    ? displayedApplication.personResponses
-    : null;
+
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
 
-  return (
+  return (<div>
+    {displayedApplication.map((displayedApp)=>(
     <MDBContainer
       className="passport-container view-appointment-group pt-5"
       fluid
@@ -79,7 +78,7 @@ export default function ViewGroupAppointment(props) {
             &nbsp;&nbsp;&nbsp;&nbsp;
             <b>
               <label class="font-weight-bold">
-                {displayedApplication ? displayedApplication.type : null}
+                {displayedApp ? displayedApp.type : null}
               </label>
             </b>
           </div>
@@ -90,8 +89,8 @@ export default function ViewGroupAppointment(props) {
             &nbsp;&nbsp;&nbsp;&nbsp;
             <b>
               <label class="font-weight-bold">
-                {displayedApplication
-                  ? displayedApplication.requestStatus
+                {displayedApp
+                  ? displayedApp.requestStatus
                   : null}
               </label>
             </b>
@@ -103,8 +102,8 @@ export default function ViewGroupAppointment(props) {
             &nbsp;&nbsp;&nbsp;&nbsp;
             <b>
               <label class="font-weight-bold">
-                {displayedApplication
-                  ? new Date(displayedApplication.requestDate)
+                {displayedApp
+                  ? new Date(displayedApp.requestDate)
                       .toISOString()
                       .substr(0, 10)
                   : null}
@@ -118,9 +117,9 @@ export default function ViewGroupAppointment(props) {
             &nbsp;&nbsp;&nbsp;&nbsp;
             <b>
               <label class="font-weight-bold">
-                {displayedApplication
-                  ? displayedApplication.appointmentResponse
-                    ? displayedApplication.appointmentResponse.date
+                {displayedApp
+                  ? displayedApp.appointmentResponse
+                    ? displayedApp.appointmentResponse.date
                     : null
                   : null}
               </label>
@@ -128,8 +127,7 @@ export default function ViewGroupAppointment(props) {
           </div>
         </div>
       </div>
-      {personalInformation ? (
-        personalInformation.map((person) => (
+      {displayedApp.personResponses ? (
           <Accordion className="accordion-item">
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
@@ -137,7 +135,7 @@ export default function ViewGroupAppointment(props) {
               id="panel1a-header"
             >
               <Typography className="accordion-title">
-                {person.firstName + ' ' + person.middleName}
+                {displayedApp.personResponses.firstName + ' ' + displayedApp.personResponses.middleName}
               </Typography>
             </AccordionSummary>
             <div
@@ -157,7 +155,7 @@ export default function ViewGroupAppointment(props) {
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {person.firstName}
+                          {displayedApp.personResponses.firstName}
                         </label>
                       </b>
                     </div>
@@ -168,7 +166,7 @@ export default function ViewGroupAppointment(props) {
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {person.middleName}
+                          {displayedApp.personResponses.middleName}
                         </label>
                       </b>
                     </div>
@@ -179,7 +177,7 @@ export default function ViewGroupAppointment(props) {
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {person.lastName}
+                          {displayedApp.personResponses.lastName}
                         </label>
                       </b>
                     </div>
@@ -190,7 +188,7 @@ export default function ViewGroupAppointment(props) {
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {new Date(person.dateOfBirth)
+                          {new Date(displayedApp.personResponses.dateOfBirth)
                             .toISOString()
                             .substr(0, 10)}
                         </label>
@@ -203,7 +201,7 @@ export default function ViewGroupAppointment(props) {
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {person.gender == 1 ? 'Male' : 'Female'}
+                          {displayedApp.personResponses.gender == 1 ? 'Male' : 'Female'}
                         </label>
                       </b>
                     </div>
@@ -214,7 +212,7 @@ export default function ViewGroupAppointment(props) {
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {person.nationality}
+                          {displayedApp.personResponses.nationality}
                         </label>
                       </b>
                     </div>
@@ -224,7 +222,7 @@ export default function ViewGroupAppointment(props) {
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
-                        <label class="font-weight-bold">{person.height}</label>
+                        <label class="font-weight-bold">{displayedApp.personResponses.height}</label>
                       </b>
                     </div>
                     <div class="form-group form-inline">
@@ -234,7 +232,7 @@ export default function ViewGroupAppointment(props) {
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {person.eyeColor}
+                          {displayedApp.personResponses.eyeColor}
                         </label>
                       </b>
                     </div>
@@ -245,7 +243,7 @@ export default function ViewGroupAppointment(props) {
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {person.hairColor}
+                          {displayedApp.personResponses.hairColor}
                         </label>
                       </b>
                     </div>
@@ -256,7 +254,7 @@ export default function ViewGroupAppointment(props) {
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {person.occupation}
+                          {displayedApp.personResponses.occupation}
                         </label>
                       </b>
                     </div>
@@ -267,7 +265,7 @@ export default function ViewGroupAppointment(props) {
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {person.halfCast}
+                          {displayedApp.personResponses.halfCast}
                         </label>
                       </b>
                     </div>
@@ -279,7 +277,7 @@ export default function ViewGroupAppointment(props) {
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {person.birthCountry}
+                          {displayedApp.personResponses.birthCountry}
                         </label>
                       </b>
                     </div>
@@ -290,12 +288,12 @@ export default function ViewGroupAppointment(props) {
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {person.birthCity}
+                          {displayedApp.personResponses.birthCity}
                         </label>
                       </b>
                     </div>
                   </fieldset>
-                  {person.address ? (
+                  {displayedApp.personResponses.address ? (
                     <fieldset>
                       <legend class="text-primary">Address Information</legend>
                       <hr class="text-primary" />
@@ -306,7 +304,7 @@ export default function ViewGroupAppointment(props) {
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <b>
                           <label class="font-weight-bold">
-                            {person.address ? person.address.country : null}
+                            {displayedApp.personResponses.address ? displayedApp.personResponses.address.country : null}
                           </label>
                         </b>
                       </div>
@@ -318,7 +316,7 @@ export default function ViewGroupAppointment(props) {
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <b>
                           <label class="font-weight-bold">
-                            {person.address ? person.address.city : null}
+                            {displayedApp.personResponses.address ? displayedApp.personResponses.address.city : null}
                           </label>
                         </b>
                       </div>
@@ -329,7 +327,7 @@ export default function ViewGroupAppointment(props) {
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <b>
                           <label class="font-weight-bold">
-                            {person.address ? person.address.state : null}
+                            {displayedApp.personResponses.address ? displayedApp.personResponses.address.state : null}
                           </label>
                         </b>
                       </div>
@@ -340,7 +338,7 @@ export default function ViewGroupAppointment(props) {
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <b>
                           <label class="font-weight-bold">
-                            {person.address ? person.address.zone : null}
+                            {displayedApp.personResponses.address ? displayedApp.personResponses.address.zone : null}
                           </label>
                         </b>
                       </div>
@@ -351,7 +349,7 @@ export default function ViewGroupAppointment(props) {
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <b>
                           <label class="font-weight-bold">
-                            {person.address ? person.address.wereda : null}
+                            {displayedApp.personResponses.address ? displayedApp.personResponses.address.wereda : null}
                           </label>
                         </b>
                       </div>
@@ -362,7 +360,7 @@ export default function ViewGroupAppointment(props) {
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <b>
                           <label class="font-weight-bold">
-                            {person.address ? person.address.street : null}
+                            {displayedApp.personResponses.address ? displayedApp.personResponses.address.street : null}
                           </label>
                         </b>
                       </div>
@@ -373,7 +371,7 @@ export default function ViewGroupAppointment(props) {
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <b>
                           <label class="font-weight-bold">
-                            {person.address ? person.address.houseNo : null}
+                            {displayedApp.personResponses.address ? displayedApp.personResponses.address.houseNo : null}
                           </label>
                         </b>
                       </div>
@@ -384,7 +382,7 @@ export default function ViewGroupAppointment(props) {
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <b>
                           <label class="font-weight-bold">
-                            {person.address ? person.address.poBox : null}
+                            {displayedApp.personResponses.address ? displayedApp.personResponses.address.poBox : null}
                           </label>
                         </b>
                       </div>
@@ -395,7 +393,7 @@ export default function ViewGroupAppointment(props) {
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <b>
                           <label class="font-weight-bold">
-                            {person.address ? person.address.phoneNumber : null}
+                            {displayedApp.personResponses.address ? displayedApp.personResponses.address.phoneNumber : null}
                           </label>
                         </b>
                       </div>
@@ -406,7 +404,7 @@ export default function ViewGroupAppointment(props) {
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <b>
                           <label class="font-weight-bold">
-                            {person.address ? person.address.email : null}
+                            {displayedApp.personResponses.address ? displayedApp.personResponses.address.email : null}
                           </label>
                         </b>
                       </div>
@@ -417,8 +415,8 @@ export default function ViewGroupAppointment(props) {
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <b>
                           <label class="font-weight-bold">
-                            {person.address
-                              ? person.address.requestPlace
+                            {displayedApp.personResponses.address
+                              ? displayedApp.personResponses.address.requestPlace
                               : null}
                           </label>
                         </b>
@@ -428,12 +426,12 @@ export default function ViewGroupAppointment(props) {
                 </div>
 
                 <div className="col-md-6">
-                  {person.familyResponses &&
-                  person.familyResponses.length !== 0 ? (
+                  {displayedApp.personResponses.familyResponses &&
+                  displayedApp.personResponses.familyResponses.length !== 0 ? (
                     <fieldset>
                       <legend class="text-primary">Family Information</legend>
                       <hr class="text-primary" />
-                      {person.familyResponses.map((family) => (
+                      {displayedApp.personResponses.familyResponses.map((family) => (
                         <div class="form-group form-inline">
                           <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                             {family.familtyType}
@@ -554,12 +552,12 @@ export default function ViewGroupAppointment(props) {
               </div>
             </div>
           </Accordion>
-        ))
+        
       ) : (
         <div>
           <h4>The information has problem</h4>
         </div>
       )}
     </MDBContainer>
-  );
+  ))}</div>);
 }

@@ -29,6 +29,7 @@ import token from '../common/accessToken';
 import Response from './Responses/Confirmation';
 import PricingInfo from './PricingDetail'
 import { useHistory } from 'react-router-dom';
+import Spinner from '../common/Spinner';
 
 const useStyles = makeStyles({
   root: {
@@ -75,6 +76,7 @@ const PaymentSelection = forwardRef((props, ref) => {
   };
   const classes = useStyles();
   function getSelectedOption(id) {
+    
     const config = {
       headers: { Authorization: token },
     };
@@ -105,12 +107,15 @@ const PaymentSelection = forwardRef((props, ref) => {
         setStatus(todo.data.status);
         setInstruction(todo.data.instruction);
         setMessage(todo.data.message);
+        setloading(false);
       })
       .catch((err) => {
         console.log('AXIOS ERROR: ', err.response);
+        setloading(false);
       });
   }
   function getContent(paymentFlowType) {
+    
     switch (paymentFlowType) {
       case 1:
         return (
@@ -122,14 +127,18 @@ const PaymentSelection = forwardRef((props, ref) => {
         );
     }
   }
+  const [loading, setloading] = useState(true);
   useEffect(() => {
     API.get(
       'https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/GetPaymentOptions',
       config
     )
-      .then((todo) => setPaymentOptions(todo.data.paymentOptions))
+      .then((todo) =>{ 
+        setPaymentOptions(todo.data.paymentOptions)
+        setloading(false);})
       .catch((err) => {
         console.log('AXIOS ERROR: ', err);
+        setloading(false);
       });
   }, []);
   const handelClick = (optionId,selectedCode) => {
@@ -141,13 +150,14 @@ const PaymentSelection = forwardRef((props, ref) => {
     
   };
   useImperativeHandle(ref, () => ({
+    
     saveData() {
     const priceInfo= counter.priceInfo[counter.priceInfo.length - 1];
     setDataSaved(true)
     if(confirmed===true){
       if(selectedOption !== 0){
         const body = {
-          FirstName : "Zelalem",
+          FirstName : "test",
           LastName:"Zelalem",
           Email:"Zelalem@gmail.com",
           Phone:"+251944772496",
@@ -161,16 +171,19 @@ const PaymentSelection = forwardRef((props, ref) => {
           password : "123456",
           requestId: requestId,
         };
+        setloading(true);
+        console.log('%c Oh my heavens! ', 'background: #222; color: #bada55');
         API.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
           .then((resopnse) => {
-            console.log(resopnse.data)
             dispatch(addPaymentOptionId(resopnse.data));
             history.push('/InstructionPage')
+            setloading(false);
           })
           .catch((err) => {
             console.log("AXIOS ERROR: ", err.response);
             setMessage(err.response.statusText);
             setShowError(true);
+            setloading(false);
           })
       }
     }
@@ -185,6 +198,10 @@ const PaymentSelection = forwardRef((props, ref) => {
     },
   }));
   return (
+    <div>
+    {loading ? (
+      <Spinner />
+    ):(
     <MDBContainer className="payment-container" fluid>
       <MDBRow>
         <MDBCol md="7">
@@ -256,6 +273,8 @@ const PaymentSelection = forwardRef((props, ref) => {
         
       </div>
     </MDBContainer>
+  )}
+  </div>
   );
 });
 export default PaymentSelection;
