@@ -20,9 +20,17 @@ function InstructionPage() {
   return (
     <>
       <div id="share-section" class="bg-light text-muted py-5">
-        <div class="container">
+        <div class="container" id="section-to-print">
+        <MDBRow className="confirmation-print-btn no-print">
+              <button class="print-button " onClick={() => window.print()}>
+                <span class="pr-2">Print</span>
+                <span class="print-icon"></span>
+              </button>
+            </MDBRow>
           <div class="row">
+          
             <div class="col-md-8">
+            
               <div class="u-center-text u-margin-bottom-big"><h2 class="heading-secondary">Payment Instruction</h2></div>
               <div class="alert alert-success my-4 p-3" role="alert">
               <h6 class="font-weight-bold u-center-text m3-5">Thank you for making this request. Please follow step below to process payment.</h6>
@@ -104,6 +112,9 @@ function InstructionPage() {
                 </li>
               </ul>
             </div>
+         
+           
+            
           </div>
         </div>
       </div>

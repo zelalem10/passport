@@ -20,6 +20,7 @@ import about from "../../Help and Support/about";
 import confirmationPage from "../../confirmationPage";
 import InstructionPage from "../../Payment/Responses/InstructionPage";
 import GetContent from "../../UrgentAppointment/Payment/PaymentSelection";
+import ResetPassword from '../../UserManagement/ResetPassword';
 
 function PassportRoute() {
   //   childUrl = window.open('/preview', '_blank')
@@ -48,6 +49,7 @@ function PassportRoute() {
       <Route path="/contactUs" component={contactUs} />
       <Route path="/about" component={about} />
       <Route path="/urgentAppointmentPayment" component={GetContent} />
+      <Route path="/resetForgotedPassword/:username" component={ResetPassword} />
     </>
   );
 }
