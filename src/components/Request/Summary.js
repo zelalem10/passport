@@ -591,40 +591,14 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                 </div>
               </div>
             </div>
-            <MDBTypography blockquote bqColor="primary">
-              <MDBBox tag="p" mb={0} className="bq-title">
-                Please review your application details.
-              </MDBBox>
-              <p>
-                Please make sure these details exactly match the identity
-                document.
-              </p>
-              <div class="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="defaultUnchecked"
-                  onClick={(e) => confirmInformation(e)}
-                />
-                <label class="custom-control-label" for="defaultUnchecked">
-                  Confirm Applicant Details
-                </label>
-              </div>
-              {formCompleted === false && dataSaved === true ? (
-                <div className="text-monospace">
-                  <p className="check-agree">
-                    Please check this box if you want to proceed
-                  </p>
-                </div>
-              ) : null}
-            </MDBTypography>
+           
           </MDBContainer>
         );
       } else {
         return <div>Before request made</div>;
       }
     } else {
-      return <ViewGroupAppointment />;
+      return( <ViewGroupAppointment confirmInformation={confirmInformation} formCompleted={formCompleted} dataSaved={dataSaved} getOccupation={getOccupation} getNationalitys={getNationalitys} getFamilyType={getFamilyType} />);
     }
   }else {
     return <div>Before request made</div>;

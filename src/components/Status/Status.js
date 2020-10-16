@@ -172,10 +172,10 @@ function Status(props) {
                                     </div>
                                   </a>
                                 ) : null}
-                                {ApplicationNumberData.requestStatus ==
+                                {/* {ApplicationNumberData.requestStatus ==
                                   'SendforCorrection' &&
                                 ApplicationNumberData.requestStatus ==
-                                  'Initial' ? (
+                                  'Initial' ? ( */}
                                   <a
                                     onClick={() =>
                                       handleEdit(
@@ -191,7 +191,7 @@ function Status(props) {
                                       <i class="fas fa-edit fa-lg"></i>
                                     </div>
                                   </a>
-                                 ) : null} 
+                                 {/* ) : null}  */}
                                 <a
                                   onClick={() =>
                                     handleDisplay(
