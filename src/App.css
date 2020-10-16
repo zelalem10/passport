@@ -6,7 +6,10 @@
   height: 40vmin;
   pointer-events: none;
 }
-
+.list--no-bullets.list--single-line.list--border {
+  padding-left: 0% !important;
+  font-size: 1rem !important;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
