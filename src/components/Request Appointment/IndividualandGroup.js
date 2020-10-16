@@ -138,30 +138,25 @@ function IndividualandGroup(props) {
                                 <h4>
                                 <Trans>requestAppointment.cardTiltle</Trans>  
                                     </h4>
-                                <ul class="vertical-margin-0">
-                                    <li>
                                         <ul class="list--no-bullets list--single-line list--border">
                                             <li>
-                                                <Link to="tel:8008817385">
-                                                    <span class="show-for-sr">Call us at:</span>
+                                                <a href="tel:8133">
                                                     <i class="fas fa-phone fa-rotate-180"></i>{' '}
-                          800-881-7385{' '}
-                                                </Link>
+                                                    8133 FREE CALL
+                                                </a>
                                             </li>
                                             <li>
-                                                <Link to="tel:6147226200">
-                                                    <span class="show-for-sr">Call us at:</span>
-                                                    <i class="fas fa-phone fa-rotate-180"></i>{' '}
-                          614-722-6200{' '}
-                                                </Link>
+                                                <a href="mailto:support@ethiopianpassportservices.gov.et">
+                                                    <i class="fas fa-envelope"></i>{' '}
+                                                    support@ethiopianpassportservices.gov.et
+                                                </a>
                                             </li>
                                             <li>
                                                 {' '}
                                                 <Trans>requestAppointment.time</Trans>  
                                             </li>
                                         </ul>
-                                    </li>
-                                </ul>
+                                   
                             </div>
                         </aside>
                     </app-right-content>

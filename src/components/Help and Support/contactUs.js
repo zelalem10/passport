@@ -123,15 +123,14 @@ const ContactUs = (props) => {
                 <div class="card-body">
                   <h4>Get In Touch</h4>
                   <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Pariatur, odio!
+                  Ethiopian Passport Online Passport Service
                   </p>
                   <h4>Address</h4>
-                  <p>test street</p>
+                  <p>Main Office Address</p>
                   <h4>Email</h4>
-                  <p>test@test.com</p>
+                  <a href="mailto:support@ethiopianpassportservices.gov.et">support@ethiopianpassportservices.gov.et </a>
                   <h4>Phone</h4>
-                  <p>8133 FREE CALL</p>
+                  <a href="tel:8133">8133 FREE CALL</a>
                   <h4>Social Media Link</h4>
                   <div class="d-inline">
                     <Link to="#!" className="fb-ic ePassprt-text-color">
