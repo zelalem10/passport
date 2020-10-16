@@ -191,7 +191,7 @@ const NavbarPage = (props) => {
           </MDBNav>
         </MDBContainer>
       </MDBNavbar>
-      <MDBNavbar className={`headerTwo ${addClass?'sticky':''}`} dark expand="md">
+      <MDBNavbar className={`headerTwo ${addClass?'navfixed':''}`} dark expand="md">
         <MDBNavbarToggler onClick={() => toggleOpen(!navOpen)} />
         <MDBCollapse id="navbarCollapse3" isOpen={navOpen} navbar>
           <MDBContainer className="passport-container" fluid>
