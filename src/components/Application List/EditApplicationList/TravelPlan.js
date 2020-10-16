@@ -155,13 +155,10 @@ const dispatch = useDispatch();
   return (
     <MDBCard>
       <MDBCardBody>
-        {props.respnseGet === true ? (
-          props.isSucces === true ? (
-            null
-          ) : (
+      {props.resMessage?
             <MDBAlert color="danger">{props.resMessage}</MDBAlert>
-          )
-        ) : null}
+          
+         : null}
         <form>
           <div className="grey-text">
             <MDBRow>

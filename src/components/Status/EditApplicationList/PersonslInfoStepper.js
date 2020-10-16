@@ -55,6 +55,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
   const [activeStep, setActiveStep] = useState(0);
   const [displayAlert, setDisplayAlert] = useState('');
+  const [responseMessage, setResponseMessage] = useState('');
 
   const steps = getSteps();
 
@@ -236,13 +237,12 @@ export default function HorizontalLabelPositionBelowStepper(props) {
       )
 
         .then((todo) => {
-          debugger;
           handleNext();
+          setResponseMessage('');
         })
 
         .catch((err) => {
-          debugger;
-          console.log('AXIOS ERROR: ', err);
+          setResponseMessage(err.response.data.title);
         });
     }
   };
@@ -277,6 +277,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             passportRes={personalInformation.passportRes}
             personalInformation={personalInformation}
             displayedApplication={displayedApplication}
+            resMessage={responseMessage}
           />
         );
 

@@ -4,11 +4,9 @@ import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
-import { MDBContainer } from 'mdbreact';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useSelector } from 'react-redux';
-import { fi } from 'date-fns/locale';
-import { faPeace } from '@fortawesome/free-solid-svg-icons';
+import { MDBContainer, MDBTypography, MDBBox } from 'mdbreact';
 
 const Accordion = withStyles({
   root: {
@@ -54,6 +52,7 @@ const AccordionDetails = withStyles((theme) => ({
 export default function ViewGroupAppointment(props) {
   const [expanded, setExpanded] = React.useState('panel1');
   const data = useSelector((state) => state);
+  const {confirmInformation,formCompleted,dataSaved,getOccupation,getNationalitys,getFamilyType}=props;
 
   let displayedApplication = data.request;
 
@@ -66,10 +65,22 @@ export default function ViewGroupAppointment(props) {
   return (<div>
     {displayedApplication.map((displayedApp)=>(
     <MDBContainer
-      className="passport-container view-appointment-group pt-5"
+      className="view-appointment-group"
       fluid
     >
-      <div class="div-title text-center mywizardcss pt-3 pb-3">
+      
+      {displayedApp.personResponses ? (
+          <Accordion className="accordion-item">
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography className="accordion-title">
+                {displayedApp.personResponses.firstName + ' ' + displayedApp.personResponses.middleName}
+              </Typography>
+            </AccordionSummary>
+            <div class="div-title text-center mywizardcss pt-3 pb-3">
         <div className="header-display">
           <div class="form-group form-inline passport-display">
             <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
@@ -111,33 +122,42 @@ export default function ViewGroupAppointment(props) {
             </b>
           </div>
           <div class="form-group form-inline passport-display">
-            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-              Appointement Date:{' '}
-            </label>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <b>
-              <label class="font-weight-bold">
-                {displayedApp
-                  ? displayedApp.appointmentResponse
-                    ? displayedApp.appointmentResponse.date
-                    : null
-                  : null}
-              </label>
-            </b>
-          </div>
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Appointement Date:{' '}
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {displayedApp ? displayedApp.date : null}
+                    </label>
+                  </b>
+                </div>
+          {displayedApp.duration ? (
+                  <div class="form-group form-inline passport-display">
+                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Appointement Time:{' '}
+                    </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>
+                      <label class="font-weight-bold">
+                        {displayedApp
+                          ? displayedApp.duration.startTime
+                          : null}
+                        {'-'}
+                        {displayedApp
+                          ? displayedApp.duration.endTime
+                          : null}
+                        {displayedApp
+                          ? displayedApp.duration.isMorning
+                            ? 'AM'
+                            : 'PM'
+                          : null}
+                      </label>
+                    </b>
+                  </div>
+                ) : null}
         </div>
       </div>
-      {displayedApp.personResponses ? (
-          <Accordion className="accordion-item">
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography className="accordion-title">
-                {displayedApp.personResponses.firstName + ' ' + displayedApp.personResponses.middleName}
-              </Typography>
-            </AccordionSummary>
             <div
               class="wizard-display setup-content"
               id="step-5"
@@ -183,6 +203,40 @@ export default function ViewGroupAppointment(props) {
                     </div>
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                        Geez First Name
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {displayedApp.personResponses.geezFirstName}
+                        </label>
+                      </b>
+                    </div>
+
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                        Geez Middle Name
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {displayedApp.personResponses.geezMiddleName}
+                        </label>
+                      </b>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                        Geez Last Name
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {displayedApp.personResponses.geezLastName}
+                        </label>
+                      </b>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                         Date of Birth
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
@@ -212,7 +266,7 @@ export default function ViewGroupAppointment(props) {
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {displayedApp.personResponses.nationality}
+                          {getNationalitys(displayedApp.personResponses.nationalityId)}
                         </label>
                       </b>
                     </div>
@@ -222,7 +276,9 @@ export default function ViewGroupAppointment(props) {
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
-                        <label class="font-weight-bold">{displayedApp.personResponses.height}</label>
+                        <label class="font-weight-bold">
+                          {displayedApp.personResponses.height}
+                        </label>
                       </b>
                     </div>
                     <div class="form-group form-inline">
@@ -254,18 +310,31 @@ export default function ViewGroupAppointment(props) {
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {displayedApp.personResponses.occupation}
+                          {getOccupation(displayedApp.personResponses.occupationId)}
+                        </label>
+                      </b>
+                    </div>
+                    
+
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                        Phone Number
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {displayedApp.personResponses.phoneNumber}
                         </label>
                       </b>
                     </div>
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        Half Cast
+                        Email
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {displayedApp.personResponses.halfCast}
+                          {displayedApp.personResponses.email}
                         </label>
                       </b>
                     </div>
@@ -289,6 +358,39 @@ export default function ViewGroupAppointment(props) {
                       <b>
                         <label class="font-weight-bold">
                           {displayedApp.personResponses.birthCity}
+                        </label>
+                      </b>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Is HalfCast
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {displayedApp.personResponses.isHalfCast?'True':'False'}
+                        </label>
+                      </b>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Is Adoption
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {displayedApp.personResponses.isAdoption?'True':'False'}
+                        </label>
+                      </b>
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                      Is Under18
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {displayedApp.personResponses.isUnder18?'True':'False'}
                         </label>
                       </b>
                     </div>
@@ -434,7 +536,7 @@ export default function ViewGroupAppointment(props) {
                       {displayedApp.personResponses.familyResponses.map((family) => (
                         <div class="form-group form-inline">
                           <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                            {family.familtyType}
+                            {getFamilyType(family.familtyTypeId)}
                           </label>
                           &nbsp;&nbsp;&nbsp;&nbsp;
                           <b>
@@ -552,6 +654,7 @@ export default function ViewGroupAppointment(props) {
               </div>
             </div>
           </Accordion>
+                     
         
       ) : (
         <div>
@@ -559,5 +662,35 @@ export default function ViewGroupAppointment(props) {
         </div>
       )}
     </MDBContainer>
-  ))}</div>);
+  ))}
+  <MDBContainer className="container-fluid view-appointment-group">
+  <MDBTypography blockquote bqColor="primary">
+              <MDBBox tag="p" mb={0} className="bq-title">
+                Please review your application details.
+              </MDBBox>
+              <p>
+                Please make sure these details exactly match the identity
+                document.
+              </p>
+              <div class="custom-control custom-checkbox">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="defaultUnchecked"
+                  onClick={(e) => confirmInformation(e)}
+                />
+                <label class="custom-control-label" for="defaultUnchecked">
+                  Confirm Applicant Details
+                </label>
+              </div>
+              {formCompleted === false && dataSaved === true ? (
+                <div className="text-monospace">
+                  <p className="check-agree">
+                    Please check this box if you want to proceed
+                  </p>
+                </div>
+              ) : null}
+            </MDBTypography>
+  </MDBContainer>
+  </div>);
 }
