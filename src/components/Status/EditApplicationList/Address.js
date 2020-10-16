@@ -11,10 +11,9 @@ import addAddressInfo from '../../../redux/actions/addAddressInfoAction';
 import API from '../../Utils/API';
 
 const Address = forwardRef((props, ref) => {
-  const [countryList, setCountryList] = useState([]);
+  const [regionList, setRegionList] = useState([]);
   const isRequired = 'is required!';
   const { addressInformation } = props;
-  console.log(addressInformation);
   const [addressInfo, setAddressInfo] = useState({
     id: addressInformation.id,
     region: addressInformation.region,
@@ -67,18 +66,6 @@ const Address = forwardRef((props, ref) => {
       dispatch(addAddressInfo(addressInfo));
     },
     Validate() {
-      setNotCompleted({
-        region: addressInfo.region === '' ? true : false,
-        city: addressInfo.city === '' ? true : false,
-        state: addressInfo.state === '' ? true : false,
-        zone: addressInfo.zone === '' ? true : false,
-        woreda: addressInfo.woreda === '' ? true : false,
-        kebele: addressInfo.kebele === '' ? true : false,
-        street: addressInfo.street === '' ? true : false,
-        houseNo: addressInfo.houseNo === '' ? true : false,
-        poBox: addressInfo.poBox === '' ? true : false,
-        requestPlace: addressInfo.requestPlace === '' ? true : false,
-      });
       if (notCompleted.region == true || notCompleted.city == true)
         return false;
       else return true;
@@ -97,28 +84,99 @@ const Address = forwardRef((props, ref) => {
         [name]: false,
       }));
     }
+    else{
+      setNotCompleted((prevState) => ({
+        ...prevState,
+        [name]: true,
+      }));
+    }
   };
-  if (countryList.length === 0) {
-    setCountryList(JSON.parse(localStorage.countryRegions));
-  }
+ 
+
 
   var prevInfo = counter.address[counter.address.length - 1];
-  useEffect(() => {
-    setAddressInfo((prevState) => ({
-      ...prevState,
-      id: prevInfo ? prevInfo.id : null,
-      region: prevInfo ? prevInfo.region : null,
-      city: prevInfo ? prevInfo.city : null,
-      state: prevInfo ? prevInfo.state : null,
-      zone: prevInfo ? prevInfo.zone : null,
-      wereda: prevInfo ? prevInfo.wereda : null,
-      street: prevInfo ? prevInfo.street : null,
-      houseNo: prevInfo ? prevInfo.houseNo : null,
-      poBox: prevInfo ? prevInfo.poBox : null,
 
-      kebele: prevInfo ? prevInfo.kebele : null,
-      dataSaved: prevInfo ? prevInfo.dataSaved : null,
-    }));
+  if (prevInfo !== null && typeof prevInfo !== 'undefined') {
+
+    if (addressInfo.formCompleted === false) {
+
+      setAddressInfo((prevState) => ({
+
+        ...prevState,
+
+        region: prevInfo.region,
+
+        city: prevInfo.city,
+
+        state: prevInfo.state,
+
+        zone: prevInfo.zone,
+
+        woreda: prevInfo.woreda,
+
+        street: prevInfo.street,
+
+        houseNo: prevInfo.houseNo,
+
+        poBox: prevInfo.poBox,
+
+        requestPlace: prevInfo.requestPlace,
+
+        formCompleted: true,
+
+      }));
+
+    }
+
+  }
+  useEffect(() => {
+
+    setNotCompleted({
+
+      region: addressInfo.region === '' ? true : false,
+
+      city: addressInfo.city === '' ? true : false,
+
+      state:addressInfo.state === '' ? true : false,
+
+      zone: addressInfo.zone === '' ? true : false,
+
+      woreda: addressInfo.woreda === '' ? true : false,
+
+      kebele: addressInfo.kebele === '' ? true : false,
+
+      street: addressInfo.street === '' ? true : false,
+
+      houseNo: addressInfo.houseNo === '' ? true : false,
+
+      poBox: addressInfo.poBox === '' ? true : false,
+
+      requestPlace: addressInfo.requestPlace === '' ? true : false,
+
+    });
+
+    setRegionList(JSON.parse(localStorage.countryRegions))
+
+    if (regionList.length === 0) {
+
+      API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
+
+        .then((todo) => {
+
+          setRegionList(todo.data.countryRegions);
+
+        })
+
+        .catch((err) => {
+
+          console.log('AXIOS ERROR: ', err.response);
+
+        });
+
+    }
+
+    
+
   }, []);
   return (
     <Card.Body>
@@ -147,7 +205,7 @@ const Address = forwardRef((props, ref) => {
                     // defaultValue={prevInfo ? prevInfo.nationalityId : 0}
                   >
                     <option disabled>select Region</option>
-                    {countryList.map((region) => (
+                    {regionList.map((region) => (
                       <option
                         value={region.name}
                         selected={region.name === prevInfo.region}

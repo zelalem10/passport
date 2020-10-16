@@ -14,7 +14,6 @@ const Address = forwardRef((props, ref) => {
   const [regionList, setRegionList] = useState([]);
   const isRequired = 'is required!';
   const { addressInformation } = props;
-  console.log(addressInformation);
   const [addressInfo, setAddressInfo] = useState({
     id: addressInformation.id,
     region: addressInformation.region,

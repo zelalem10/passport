@@ -106,7 +106,6 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   };
 
   const handleFinish = () => {
-    debugger;
     const travelPlan= childRef.current.saveData();
     const isValid = childRef.current.Validate();
     if (isValid != true) {
