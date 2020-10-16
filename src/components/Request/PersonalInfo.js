@@ -24,6 +24,7 @@ import API from '../Utils/API';
 import isEmail from 'validator/es/lib/isEmail';
 import { useTranslation, Trans } from 'react-i18next';
 
+
 const PersonalInfo = forwardRef((props, ref) => {
   const { t, i18n } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
@@ -76,12 +77,18 @@ const PersonalInfo = forwardRef((props, ref) => {
     nationalityId: true,
     phoneNumber: true,
     email: true,
-  });
+  });  
+  const [age, setAge] = useState(0);
+  const [invalidEmail, setInvalidEmail] = useState(false);
+  const [invalidPhone, setInvalidPhone] = useState(false);
+  const [invalidUniqueId, setInvalidUniqueId] = useState(false);
+
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const isRequired = 'is required!';
   const accesstoken = localStorage.systemToken;
   const usertoken = localStorage.userToken;
+  const digitPattern = new RegExp(/^[0-9\b]+$/);
   const config = {
     headers: { Authorization: 'Bearer ' + accesstoken },
   };
@@ -100,7 +107,7 @@ const PersonalInfo = forwardRef((props, ref) => {
         notCompleted.middleName === true ||
         notCompleted.birthDate === true ||
         notCompleted.geezFirstName === true ||
-        notCompleted.geezLastName === true ||
+        notCompleted.geezMiddleName === true ||
         notCompleted.geezLastName === true ||
         personalInfo.nationalityId === 0 ||
         notCompleted.gender === true ||
@@ -109,9 +116,10 @@ const PersonalInfo = forwardRef((props, ref) => {
         notCompleted.gender === true ||
         notCompleted.martialStatus === true ||
         notCompleted.birthCertificatNo === true ||
-        notCompleted.birthPlace===true
-      //(personalInfo.email!=="" && isEmail(personalInfo.email))=== false 
-      // (/^[0-9]{1,16}$/.test(personalInfo.birthCertificatNo))===false
+        notCompleted.birthPlace===true ||
+        invalidUniqueId===true ||
+        invalidPhone ===true ||
+        (age<18 && personalInfo.isUnder18===false)
       )
         return false;
       else return true;
@@ -120,8 +128,22 @@ const PersonalInfo = forwardRef((props, ref) => {
   const [selectedDate, setSelectedDate] = React.useState(
     new Date(prevInfo ? prevInfo.dateOfBirth : new Date())
   );
+  function calculateAge(date1, date2) {
+    debugger
+    var diff = Math.floor(date1.getTime() - date2.getTime());
+    var day = 1000 * 60 * 60 * 24;
+  
+    var days = Math.floor(diff / day);
+    var months = Math.floor(days / 31);
+    var years = Math.floor(months / 12);
+    setAge(years)
+    return years
+  }
   const handleDateChange = (date) => {
     setSelectedDate(date);
+    debugger
+    const currentDate = new Date();
+    const diffYear=calculateAge(currentDate, new Date(date))
     setPersonalInfo((prevState) => ({
       ...prevState,
       birthDate: date,
@@ -153,6 +175,69 @@ const PersonalInfo = forwardRef((props, ref) => {
       }));
     }
     // dispatch(addPersonalInfo(personalInfo));
+  };
+  const handlePhoneChange = (event) => {
+    const { name, value } = event.target;
+    if (value.length != 9 && value.length !=10) {
+      setInvalidPhone(true);
+    }
+    else if (!digitPattern.test(value)) {
+      setInvalidPhone(true);
+    }
+    else if (value.length===9 &&value.charAt(0) !=='9') {
+      setInvalidPhone(true);
+    }
+    else if (value.length===10 &&value.substring(0,2) !=='09') {
+      setInvalidPhone(true);
+    }
+    else {
+      setInvalidPhone(false);
+      setPersonalInfo((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+      if (value != '') {
+        setNotCompleted((prevState) => ({
+          ...prevState,
+          [name]: false,
+        }));
+      }
+      else {
+        setNotCompleted((prevState) => ({
+          ...prevState,
+          [name]: true,
+        }));
+      }
+    }
+  };
+  const handleUniqueIdChange = (event) => {
+    const { name, value } = event.target;
+    if(value.length !=16){
+      setInvalidUniqueId(true);
+    }
+    else if(!digitPattern.test(value)){
+      setInvalidUniqueId(true);
+    }
+    else{
+      setInvalidUniqueId(false);
+      setPersonalInfo((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+  
+      if (value != '') {
+        setNotCompleted((prevState) => ({
+          ...prevState,
+          [name]: false,
+        }));
+      }
+      else{
+        setNotCompleted((prevState) => ({
+          ...prevState,
+          [name]: true,
+        }));
+      }
+    }
   };
   const handleCheck = (name, checked) => {
     setPersonalInfo((prevState) => ({
@@ -446,7 +531,7 @@ setIsLoading(false)
                   valueDefault={prevInfo ? prevInfo.phoneNumber : null}
                   name="phoneNumber"
                   className="form-control"
-                  onBlur={handleChange}
+                  onBlur={handlePhoneChange}
                   type="text"
                   label={t('requestForm.phoneNumber')}
                 //icon=""
@@ -458,6 +543,12 @@ setIsLoading(false)
                     ? 'Phone Number ' + isRequired
                     : null}
                 </span>
+                <span style={{ color: 'red' }}>
+                    {' '}
+                    {(invalidPhone === true)
+                      ? 'Please insert the correct phone number format'
+                      : null}
+                  </span>
                   </MDBCol>
                 </MDBRow>
               </MDBCol>
@@ -501,7 +592,7 @@ setIsLoading(false)
                 <MDBInput
                   valueDefault={prevInfo ? prevInfo.birthCirtificateNo : null}
                   name="birthCertificatNo"
-                  onChange={handleChange}
+                  onBlur={handleUniqueIdChange}
                   type="text"
                   label={t('requestForm.birthCertificatNo')}
                 />
@@ -514,9 +605,8 @@ setIsLoading(false)
                   </span>
                   <span style={{ color: 'red' }}>
                     {' '}
-                    {(/^[0-9]{1,16}$/.test(personalInfo.birthCertificatNo)===false &&
-                      personalInfo.dataSaved === true &&personalInfo.birthCertificatNo !=="")
-                      ? 'Birth Reg. Unique Id must be 16 digit numeric'
+                    {(invalidUniqueId === true)
+                      ? 'Birth registration unique id length must 16 digit'
                       : null}
                   </span>
               </MDBCol>
@@ -764,6 +854,11 @@ setIsLoading(false)
                   {t('requestForm.isUnder18')}  
                   </label>
                 </div>
+                <span style={{ color: 'red' }}>
+                    {' '}
+                    {(age<18 && personalInfo.isUnder18===false && personalInfo.dataSaved===true)? 'Please check if age is under 18 '
+                      : null}
+                  </span>
               </MDBCol>
             </MDBRow>
             <MDBRow>

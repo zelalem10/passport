@@ -48,12 +48,12 @@ import React, {
       dataSaved: false,
     });
     const [notCompleted, setNotCompleted] = useState({
-      pageQuantity: false,
-    passportNumber: true,
-    expirationDate: true,
-    issueDate: true,
-    correctionReason: true,
-    isDatacorrected: true,
+      pageQuantity: true,
+      passportNumber: true,
+      expirationDate: true,
+      issueDate: true,
+      correctionReason: true,
+      isDatacorrected: true,
     });
     const [passportTypeList, setPassportTypeList] = useState([]);
     const dispatch = useDispatch();
@@ -77,6 +77,18 @@ import React, {
         ...prevState,
         [name]: value,
       }));
+      if (value != '') {
+        setNotCompleted((prevState) => ({
+          ...prevState,
+          [name]: false,
+        }));
+      }
+      else{
+        setNotCompleted((prevState) => ({
+          ...prevState,
+          [name]: true,
+        }));
+      }
       dispatch(addTravelPlan(travelPlan))
     };
     const handleCheck = (name, checked) => {
@@ -204,12 +216,8 @@ import React, {
                     : null}
                 </span>{' '}
               </MDBCol>
-
-            </MDBRow>
- 
-            {requestTypeStr != 'New' ? (
-              <MDBRow>
-                <MDBCol md="3">
+              {requestTypeStr != 'New' ? (
+              <MDBCol md="4">
                   <MDBInput
                     valueDefault={prevInfo ? prevInfo.passportNumber : null}
                     name="passportNumber"
@@ -219,7 +227,13 @@ import React, {
                     label="Old Passport Number"
                   />
                 </MDBCol>
-                <MDBCol md="3" className="date-picker">
+              ):(null)}
+            
+            </MDBRow>
+            <hr />
+            {requestTypeStr != 'New' ? (
+              <MDBRow>
+                <MDBCol md="4" className="date-picker">
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
                       margin="normal"
@@ -234,7 +248,7 @@ import React, {
                     />
                   </MuiPickersUtilsProvider>
                 </MDBCol>
-                <MDBCol md="3" className="date-picker">
+                <MDBCol md="4" className="date-picker">
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
                       margin="normal"

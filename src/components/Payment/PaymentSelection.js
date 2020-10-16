@@ -29,6 +29,7 @@ import token from '../common/accessToken';
 import Response from './Responses/Confirmation';
 import PricingInfo from './PricingDetail'
 import { useHistory } from 'react-router-dom';
+import Spinner from '../common/Spinner';
 
 const useStyles = makeStyles({
   root: {
@@ -69,67 +70,24 @@ const PaymentSelection = forwardRef((props, ref) => {
   const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
   const requestType = serviceSelcetion.appointemntType;
   const requestInfo = counter.request[counter.request.length - 1];
+  const personalInformation = requestInfo? requestInfo.personResponses: null;
   let requestId = requestInfo? requestInfo.requestId:0;
   const config = {
     headers: { Authorization: 'Bearer ' + accesstoken },
   };
-  const classes = useStyles();
-  function getSelectedOption(id) {
-    const config = {
-      headers: { Authorization: token },
-    };
-    const body = {
-      firstName: 'Atalay',
-      lastName: 'Tilahun',
-      email: 'atehun@gmail.com',
-      phone: '0932876051',
-      amount: 10,
-      currency: 'ETB',
-      city: 'Addis Ababa',
-      country: 'Ethiopia',
-      channel: 'Amole',
-      paymentOptionsId: id,
-      traceNumbers: '',
-      Status: 4,
-      OrderId: '',
-      otp: '',
-      requestId: 3,
-    };
-    API.post(
-      'https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest',
-      body,
-      config
-    )
-      .then((todo) => {
-        console.log(todo.data);
-        setStatus(todo.data.status);
-        setInstruction(todo.data.instruction);
-        setMessage(todo.data.message);
-      })
-      .catch((err) => {
-        console.log('AXIOS ERROR: ', err.response);
-      });
-  }
-  function getContent(paymentFlowType) {
-    switch (paymentFlowType) {
-      case 1:
-        return (
-          <Response
-            instruction={instruction}
-            message={message}
-            status={status}
-          />
-        );
-    }
-  }
+
+  const [loading, setloading] = useState(true);
   useEffect(() => {
     API.get(
       'https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/GetPaymentOptions',
       config
     )
-      .then((todo) => setPaymentOptions(todo.data.paymentOptions))
+      .then((todo) =>{ 
+        setPaymentOptions(todo.data.paymentOptions)
+        setloading(false);})
       .catch((err) => {
         console.log('AXIOS ERROR: ', err);
+        setloading(false);
       });
   }, []);
   const handelClick = (optionId,selectedCode) => {
@@ -141,16 +99,17 @@ const PaymentSelection = forwardRef((props, ref) => {
     
   };
   useImperativeHandle(ref, () => ({
+    
     saveData() {
     const priceInfo= counter.priceInfo[counter.priceInfo.length - 1];
     setDataSaved(true)
     if(confirmed===true){
       if(selectedOption !== 0){
         const body = {
-          FirstName : "Zelalem",
-          LastName:"Zelalem",
-          Email:"Zelalem@gmail.com",
-          Phone:"+251944772496",
+          FirstName : personalInformation? personalInformation.firstName : null,
+          LastName: personalInformation? personalInformation.lastName : null,
+          Email:personalInformation? personalInformation.email:null,
+          Phone: personalInformation? personalInformation.phoneNumber:null,
           Amount:priceInfo? priceInfo.totalPrice:0,
           Currency:"ETB",
           City:"Addis Ababa",
@@ -161,16 +120,18 @@ const PaymentSelection = forwardRef((props, ref) => {
           password : "123456",
           requestId: requestId,
         };
+        setloading(true);
         API.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
           .then((resopnse) => {
-            console.log(resopnse.data)
             dispatch(addPaymentOptionId(resopnse.data));
             history.push('/InstructionPage')
+            setloading(false);
           })
           .catch((err) => {
             console.log("AXIOS ERROR: ", err.response);
             setMessage(err.response.statusText);
             setShowError(true);
+            setloading(false);
           })
       }
     }
@@ -185,77 +146,82 @@ const PaymentSelection = forwardRef((props, ref) => {
     },
   }));
   return (
-    <MDBContainer className="payment-container" fluid>
-      <MDBRow>
-        <MDBCol md="7">
-          {showError===true?(<MDBAlert color="danger">{message}</MDBAlert>):(null)}
-          <MDBRow>
-            <article class="card">
-              <div class="card-title">
-                <h3 class="heading-secondary">Payment</h3>
-              </div>
-              <div class="card-body">
-                <div class="payment-type">
-                  <h4>Choose payment method below</h4>
-                  {paymentOptions.map((paymentOption) => (
-                    <div
-                      class="types flex col-sm-12 justify-space-between"
-                      onClick={() => handelClick(paymentOption.id, paymentOption.code)}
-                    >
-                      <div
-                        class={`type ${
-                          paymentOption.id == selectedOption ? 'selected' : ''
-                        }`}
-                      >
-                        <div class="logo">
-                          {/* <i class="far fa-credit-card"></i> */}
-                          <img
-                            class="payment-card-logo"
-                            src={paymentOption.imageUrl}
-                          ></img>
-                        </div>
-                        <div class="text">
-                          <p>Pay with {paymentOption.name}</p>
-                        </div>
+    <div>
+      {loading ? (
+        <Spinner />
+      ) : (
+          <MDBContainer className="payment-container" fluid>
+            <MDBRow>
+              <MDBCol md="7">
+                {showError === true ? (<MDBAlert color="danger">{message}</MDBAlert>) : (null)}
+                <MDBRow>
+                  <article class="card">
+                    <div class="card-title">
+                      <h3 class="heading-secondary">Payment</h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="payment-type">
+                        <h4>Choose payment method below</h4>
+                        {paymentOptions.map((paymentOption) => (
+                          <div
+                            class="types flex col-sm-12 justify-space-between"
+                            onClick={() => handelClick(paymentOption.id, paymentOption.code)}
+                          >
+                            <div
+                              class={`type ${paymentOption.id == selectedOption ? 'selected' : ''
+                                }`}
+                            >
+                              <div class="logo">
+                                {/* <i class="far fa-credit-card"></i> */}
+                                <img
+                                  class="payment-card-logo"
+                                  src={paymentOption.imageUrl}
+                                ></img>
+                              </div>
+                              <div class="text">
+                                <p>Pay with {paymentOption.name}</p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
-                  ))}
-                </div>
+                  </article>
+                </MDBRow>
+              </MDBCol>
+              <div class="col-md-4 order-md-2 mb-4 mt-5">
+                <h4 class="d-flex justify-content-between align-items-center mb-4-5">
+                  <span class="text-muted">
+                    <strong>Pricing Information</strong>
+                  </span>
+                </h4>
+                <PricingInfo requestId={requestId} />
               </div>
-            </article>
-          </MDBRow>
-        </MDBCol>
-        <div class="col-md-4 order-md-2 mb-4 mt-5">
-          <h4 class="d-flex justify-content-between align-items-center mb-4-5">
-            <span class="text-muted">
-              <strong>Pricing Information</strong>
-            </span>
-          </h4>
-          <PricingInfo requestId={requestId} />
-        </div>
-        
-        
-        
-      </MDBRow>
-      <MDBRow>
-      <span style={{ color: "red" }}> {(selectedOption === 0 && dataSaved=== true) ? "Please select a payment option" : null}</span>
-      </MDBRow>
-      <hr />
-      <div class="custom-control custom-checkbox">
-        <input
-          type="checkbox"
-          class="custom-control-input"
-          id="defaultUncheckedDisabled2"
-          onChange={handelConfirm}
-          indeterminate
-        />
-        <label class="custom-control-label" for="defaultUncheckedDisabled2">
-          Agree to terms and conditions
+
+
+
+            </MDBRow>
+            <MDBRow>
+              <span style={{ color: "red" }}> {(selectedOption === 0 && dataSaved === true) ? "Please select a payment option" : null}</span>
+            </MDBRow>
+            <hr />
+            <div class="custom-control custom-checkbox">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="defaultUncheckedDisabled2"
+                onChange={handelConfirm}
+                indeterminate
+              />
+              <label class="custom-control-label" for="defaultUncheckedDisabled2">
+                Agree to terms and conditions
         </label><br />
-        <span style={{ color: "red" }}> {(confirmed === false && selectedOption>0 && dataSaved=== true) ? "Please confirm to agree to terms and conditions" : null}</span>
-        
-      </div>
-    </MDBContainer>
+              <span style={{ color: "red" }}> {(confirmed === false && selectedOption > 0 && dataSaved === true) ? "Please confirm to agree to terms and conditions" : null}</span>
+
+            </div>
+          </MDBContainer>
+        )}
+  </div>
   );
 });
 export default PaymentSelection;

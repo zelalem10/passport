@@ -59,20 +59,21 @@ const AccordionDetails = withStyles((theme) => ({
 }))(MuiAccordionDetails);
 
 const ViewAppointment = forwardRef((props, ref) => {
+  debugger;
   const accesstoken = localStorage.systemToken;
   const history = useHistory();
   const [expanded, setExpanded] = React.useState('panel1');
   const [formCompleted, setFormCompleted] = useState(false);
   const [dataSaved, setDataSaved] = useState(false);
   const data = useSelector((state) => state);
-  const [displayedApplication,setDisplayedApplication]=useState();
 
   const serviceData = data.service[data.service.length - 1];
   const requestMode = serviceData.isUrgent;
-let requests=data.request[data.request.length - 1];
-if(requests && !displayedApplication){
-  setDisplayedApplication(requests);
-}
+let requests=data.request;
+
+
+
+
 let attachementResponse =  data.attachement[data.attachement.length - 1];
 
   const confirmInformation = (e) => {
@@ -113,16 +114,14 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
       }
     }
   };
-  
-  if (displayedApplication) {
-    
-    if(displayedApplication.hasOwnProperty('personResponses')) {
-      const personalInfo = displayedApplication
-        ? displayedApplication.personResponses
+    if(requests){
+    if(!data.service[data.service.length-1].isGroup) {
+      const personalInfo = requests[0]
+        ? requests[0].personResponses
         : null;
       if (personalInfo) {
-        const appointmentResponse = displayedApplication.appointmentResponse;
-        const personalInformation = displayedApplication.personResponses;
+        const appointmentResponse = requests[0].appointmentResponse;
+        const personalInformation = requests[0].personResponses;
         const addressInformation = personalInformation.address;
         const familyInformation = personalInformation.familyResponses;
 
@@ -141,7 +140,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {displayedApplication.type}
+                      {requests[0].type}
                     </label>
                   </b>
                 </div>
@@ -152,7 +151,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {displayedApplication.requestStatus}
+                      {requests[0].requestStatus}
                     </label>
                   </b>
                 </div>
@@ -163,7 +162,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {new Date(displayedApplication.requestDate)
+                      {new Date(requests[0].requestDate)
                         .toISOString()
                         .substr(0, 10)}
                     </label>
@@ -592,42 +591,16 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                 </div>
               </div>
             </div>
-            <MDBTypography blockquote bqColor="primary">
-              <MDBBox tag="p" mb={0} className="bq-title">
-                Please review your application details.
-              </MDBBox>
-              <p>
-                Please make sure these details exactly match the identity
-                document.
-              </p>
-              <div class="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="defaultUnchecked"
-                  onClick={(e) => confirmInformation(e)}
-                />
-                <label class="custom-control-label" for="defaultUnchecked">
-                  Confirm Applicant Details
-                </label>
-              </div>
-              {formCompleted === false && dataSaved === true ? (
-                <div className="text-monospace">
-                  <p className="check-agree">
-                    Please check this box if you want to proceed
-                  </p>
-                </div>
-              ) : null}
-            </MDBTypography>
+           
           </MDBContainer>
         );
       } else {
         return <div>Before request made</div>;
       }
     } else {
-      return <ViewGroupAppointment />;
+      return( <ViewGroupAppointment confirmInformation={confirmInformation} formCompleted={formCompleted} dataSaved={dataSaved} getOccupation={getOccupation} getNationalitys={getNationalitys} getFamilyType={getFamilyType} />);
     }
-  } else {
+  }else {
     return <div>Before request made</div>;
   }
 });

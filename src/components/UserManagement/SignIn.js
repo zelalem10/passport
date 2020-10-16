@@ -34,6 +34,7 @@ function SignIn() {
   let [PasswordError, setPasswordError] = useState('');
   const [loading, setloading] = useState(false);
   const [Message, setMessage] = useState(false);
+  const [isForgotPassword,setIsForgotPassword]=useState(false);
 
   let history = useHistory();
   const dispatch = useDispatch();
@@ -76,6 +77,30 @@ function SignIn() {
         console.log(error);
       });
   };
+  const ForgotPasswordSubmit=(e)=>{
+    e.preventDefault();
+ 
+      setloading(true);
+      axios({
+        method: 'post',
+        url:
+          'https://epassportservices.azurewebsites.net/User/api/V1.0/Account/ForgotPassword',
+        data: {
+          username: Email,
+          callBackUrl:`${window.origin}#/resetForgotedPassword/${Email}`
+        },
+      })
+        .then((response) => {
+          
+          setloading(false);
+        
+        })
+        .catch((error) => {
+          console.log('error' + error);
+          setloading(false);
+        });
+    
+  }
 
   const LogInSubmit = (e) => {
     e.preventDefault();
@@ -123,6 +148,17 @@ function SignIn() {
         });
     }
   };
+  const handleClick=(e)=>{
+    e.preventDefault();
+    setIsForgotPassword(!isForgotPassword);
+    setEmail('');
+    setPassword('');
+    setMessage(false);
+  
+
+
+
+  }
 
   return (
     <div>
@@ -135,11 +171,11 @@ function SignIn() {
             <MDBCol md="6">
               <MDBCard>
                 <MDBCardBody className="mx-4">
-                  <form onSubmit={LogInSubmit}>
+                  <form onSubmit={isForgotPassword?ForgotPasswordSubmit:LogInSubmit}>
                     <div className="header pt-3 textBackground mb-5">
                       <MDBRow className="d-flex justify-content-center">
-                        <h4 className="white-text my-3 py-3 font-weight-bold">
-                          <MDBIcon icon="lock" className="mr-1" /> Log In
+                        <h4 className="white-text my-3 py-3 font-weight-bold">{isForgotPassword?'Recover My Password'
+                          :<MDBIcon icon="lock" className="mr-1"> Log In </MDBIcon>}
                         </h4>
                       </MDBRow>
                     </div>
@@ -167,6 +203,8 @@ function SignIn() {
                           {EmailError}
                         </div>
                       )}
+                      {isForgotPassword?null:
+                      <>
                       <MDBInput
                         label="Password"
                         icon="lock"
@@ -183,24 +221,31 @@ function SignIn() {
                           {PasswordError}
                         </div>
                       )}
+                      </>
+      }
                     </div>
                     <div className="text-center my-3 signUpbutton">
-                      <MDBBtn
+                    {isForgotPassword?
+                     <MDBBtn
+                     type="submit"
+                     rounded
+                     className="btn-block z-depth-1a btn-info"
+                   >
+                     Recover My Password <i class="fas fa-sign-in-alt ml-1"></i>
+                   </MDBBtn> :<MDBBtn
                         type="submit"
                         rounded
                         className="btn-block z-depth-1a btn-info"
                       >
                         Sign in <i class="fas fa-sign-in-alt ml-1"></i>
                       </MDBBtn>
+}
                     </div>
                   </form>
+                  <a className="font-small blue-text d-flex justify-content-end pb-3" id="forgotPwd" onClick={handleClick}>{isForgotPassword?<span>Oh I remembered!</span>:<span>Forgot password ?</span>
 
-                  <p className="font-small blue-text d-flex justify-content-end pb-3">
-                    Forgot
-                    <Link to="#!" className="blue-text ml-1">
-                      Password?
-                    </Link>
-                  </p>
+                  }</a>
+                  
                 </MDBCardBody>
                 <MDBModalFooter className="mx-5 pt-3 mb-1">
                   <p className="font-medium grey-text d-flex justify-content-end">

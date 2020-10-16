@@ -329,6 +329,13 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           dispatch(newRequest(todo.data.serviceResponseList[0]));
           dispatch(addCommonData(commonData));
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
+          API.get("https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + Number.parseInt(requestInfo.requestId), config)
+            .then((todo) => {
+              dispatch(addPriceInfo(todo.data));
+            })
+            .catch((err) => {
+              console.log("AXIOS ERROR: ", err.response);
+            })
         })
         .catch((err) => {
            ;
