@@ -3,8 +3,10 @@ import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import { validate } from '@material-ui/pickers';
 import { red } from '@material-ui/core/colors';
 import { Link } from 'react-router-dom';
+import { useTranslation, Trans } from 'react-i18next';
 
 function IndividualandGroup(props) {
+    const { t, i18n } = useTranslation();
     const [isAgreed, setIsAgreed] = useState(false);
     const [needValidation, setneedValidation] = useState(false);
     const continueTo = (e) => {
@@ -33,15 +35,13 @@ function IndividualandGroup(props) {
 
 
                         <div className="multistep-form__step">
-                            <h2 className="heading-secondary">Request an Appointment</h2>
+                            <h2 className="heading-secondary">
+                              <Trans>requestAppointment.requestAppointmentLargeTitle</Trans>  
+                            </h2>
 
                             <div className="rtf">
                                 <p>
-                                    By proceeding with this application, I understand that I am signifying my consent to the disclosure, collection,
-                                    and use of my personal information and the data required under the Ethiopian Passport Act as amended and its Implementing
-                                    Rules and Regulations. My consent effectively constitutes a waiver of any and all privacy rights pertaining to the disclosure,
-                                    collection, and use of my personal information and data under the specific terms and condition of Ethiopian Online Passport
-                                    Appointment System.
+                                <Trans>requestAppointment.requestAppointmentDetail</Trans>  
                   <br></br>
 
                                 </p>
@@ -55,12 +55,13 @@ function IndividualandGroup(props) {
                                             onChange={() => handleAgrement()}
                                         />
                                         <label class="custom-control-label" for="defaultChecked2">
-                                            I agree to the terms and conditions
+                                        <Trans>requestAppointment.agree</Trans>  
                     </label>
                                         {needValidation ? (
                                             <div className="text-monospace">
                                                 <p className="check-agree">
-                                                    Please check this box if you want to proceed
+                                                <Trans>requestAppointment.validation</Trans>  
+                  
                         </p>
                                             </div>
                                         ) : null}
@@ -84,7 +85,7 @@ function IndividualandGroup(props) {
                                                     <i class="fas fa-user fa-7x"></i>
                                                     <p class="vertical-margin-1">
                                                         <span class="text-link--more-big text-link--light text-center">
-                                                            Start Individual Appointment
+                                                        <Trans>requestAppointment.startIndividualAppointment</Trans>  
                             </span>
                                                         <i class="fas fa-arrow-circle-right fa-2x arrow-icon-group"></i>
                                                     </p>
@@ -104,7 +105,7 @@ function IndividualandGroup(props) {
                                                     <i class="fas fa-users fa-7x"></i>
                                                     <p class="vertical-margin-1">
                                                         <span class="text-link--more-big text-link--light text-center">
-                                                            Start Group Appointment
+                                                        <Trans>requestAppointment.startGroupAppointment</Trans>  
                             </span>
                                                         <i class="fas fa-arrow-circle-right fa-2x arrow-icon-group"></i>
                                                     </p>
@@ -134,7 +135,9 @@ function IndividualandGroup(props) {
                             data-events="mutate"
                         >
                             <div class="sidebar__box sidebar__box--border ng-star-inserted">
-                                <h4>Talk to an Appointment Scheduler</h4>
+                                <h4>
+                                <Trans>requestAppointment.cardTiltle</Trans>  
+                                    </h4>
                                 <ul class="vertical-margin-0">
                                     <li>
                                         <ul class="list--no-bullets list--single-line list--border">
@@ -154,7 +157,7 @@ function IndividualandGroup(props) {
                                             </li>
                                             <li>
                                                 {' '}
-                        7:30am – 5:30pm; Monday – Friday Eastern Time (ET).{' '}
+                                                <Trans>requestAppointment.time</Trans>  
                                             </li>
                                         </ul>
                                     </li>

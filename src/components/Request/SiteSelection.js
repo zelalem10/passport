@@ -6,9 +6,11 @@ import API from '../Utils/API';
 import { useDispatch, useSelector } from 'react-redux';
 import saveSiteInformation from '../../redux/actions/siteInformationAction';
 import { Link } from 'react-router-dom';
+import { useTranslation, Trans } from 'react-i18next';
 
 const accesstoken = localStorage.systemToken;
 const SiteSelection = forwardRef((props, ref) => {
+  const { t, i18n } = useTranslation();
   const [cityList, setCityList] = useState([]);
   const [regionList, setRegionList] = useState([]);
   const [officeList, setOfficeList] = useState([]);
@@ -183,7 +185,7 @@ const SiteSelection = forwardRef((props, ref) => {
               <MDBRow>
                 <MDBCol className='mb-3'>
                   <label>
-                    Site Location<i style={{ color: 'red' }}>*</i>{' '}
+                  <Trans>requestForm.siteSelection</Trans><i style={{ color: 'red' }}>*</i>{' '}
                   </label>
                   <ReactBootstrap.Form.Control
                     option={regionList}
@@ -201,7 +203,7 @@ const SiteSelection = forwardRef((props, ref) => {
               <MDBRow>
                 <MDBCol className='mb-3'>
                   <label>
-                    City<i style={{ color: 'red' }}>*</i>
+                  <Trans>requestForm.city</Trans><i style={{ color: 'red' }}>*</i>
                   </label>
                   <ReactBootstrap.Form.Control
                     option={cityList}
@@ -221,7 +223,7 @@ const SiteSelection = forwardRef((props, ref) => {
               <MDBRow>
                 <MDBCol className='mb-3'>
                   <label>
-                    Office<i style={{ color: 'red' }}>*</i>
+                  <Trans>requestForm.office</Trans><i style={{ color: 'red' }}>*</i>
                   </label>
                   <ReactBootstrap.Form.Control
                     placeholder="Select office"
@@ -240,7 +242,7 @@ const SiteSelection = forwardRef((props, ref) => {
               <MDBRow>
                 <MDBCol className='mb-3'>
                   <label>
-                    Delivery Site<i style={{ color: 'red' }}>*</i>
+                  <Trans>requestForm.deliverySite</Trans><i style={{ color: 'red' }}>*</i>
                   </label>
                   <ReactBootstrap.Form.Control
                     placeholder="Select delivery site"
@@ -282,23 +284,23 @@ const SiteSelection = forwardRef((props, ref) => {
                     <MDBRow>
                       <MDBCol md="6">
                       <fieldset>
-                      <legend>Application site</legend>
+                      <legend> <Trans>requestForm.applicationSite</Trans></legend>
                       <ul class="list--no-indent list--no-bullets ng-star-inserted">
                         <li>
                           <strong>
-                                                              Office name:&nbsp;&nbsp;<Link to="#">{officeName}{' '}</Link>
+                          <Trans>requestForm.office</Trans>&nbsp;&nbsp;<Link to="#">{officeName}{' '}</Link>
                           </strong>
                         </li>
                         <hr />
                         <li>
                           <strong>
-                                                              Address:&nbsp;&nbsp;<Link to="#">{officeAddress}{' '}</Link>
+                          <Trans>requestForm.address</Trans>&nbsp;&nbsp;<Link to="#">{officeAddress}{' '}</Link>
                           </strong>
                         </li>
                         <hr />
                         <li>
                           <strong>
-                            Contact :&nbsp;&nbsp;<i
+                          <Trans>requestForm.contact</Trans>&nbsp;&nbsp;<i
                               aria-hidden="true"
                               class="fas fa-phone fa-rotate-180"
                                                               ></i>{' '}<Link to="tel:officeContact">{officeContact}{' '}</Link>
@@ -315,23 +317,23 @@ const SiteSelection = forwardRef((props, ref) => {
                       </MDBCol>
                       <MDBCol  md="6">
                       <fieldset>
-                      <legend>Delivery site</legend>
+                      <legend><Trans>requestForm.deliverySite</Trans></legend>
                       <ul class="list--no-indent list--no-bullets ng-star-inserted">
                         <li>
                           <strong>
-                                                              Office name:&nbsp;&nbsp;<Link to="#">{deliveryOfficeName}{' '}</Link>
+                          <Trans>requestForm.office</Trans>&nbsp;&nbsp;<Link to="#">{deliveryOfficeName}{' '}</Link>
                           </strong>
                         </li>
                         <hr />
                         <li>
                           <strong>
-                                                              Address:&nbsp;&nbsp;<Link to="#">{deliveryOfficeAddress}{' '}</Link>
+                          <Trans>requestForm.address</Trans>&nbsp;&nbsp;<Link to="#">{deliveryOfficeAddress}{' '}</Link>
                           </strong>
                         </li>
                         <hr />
                         <li>
                           <strong>
-                            Contact :&nbsp;&nbsp;<i
+                             <Trans>requestForm.contact</Trans>&nbsp;&nbsp;<i
                               aria-hidden="true"
                               class="fas fa-phone fa-rotate-180"
                             ></i>{' '}<a href="tel:deliveryOfficeContact">{deliveryOfficeContact}{' '}</a>

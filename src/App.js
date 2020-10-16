@@ -7,9 +7,9 @@ import PassportRoute from './components/common/route/route';
 import SystemToken from './components/common/route/systemToken';
 import pss from './components/Payment/PaymentSelection'
 
-
 function App() {
   const location = useLocation();
+
   return (
     <>
       <NavbarPage location={location} />
