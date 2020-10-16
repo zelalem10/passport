@@ -11,9 +11,12 @@ import {
 import { Link } from 'react-router-dom';
 import Spinner from '../common/Spinner';
 import axios from 'axios';
+import { useTranslation, Trans } from 'react-i18next';
 
-const ContactUs = () => {
+const ContactUs = (props) => {
+  const { t, i18n } = useTranslation();
   const accesstoken = localStorage.systemToken;
+
   let [firstName, setfirstName] = useState('');
   let [firstNameError, setfirstNameError] = useState('');
   let [lastName, setlastName] = useState('');
@@ -64,7 +67,7 @@ const ContactUs = () => {
 
     return true;
   };
-  const LogInSubmit = (e) => {
+  const contactUsSubmit = (e) => {
     e.preventDefault();
     setfirstNameError('');
     setemailError('');
@@ -103,6 +106,7 @@ const ContactUs = () => {
         });
     }
   };
+
   return (
     <div>
       {loading ? (
@@ -112,6 +116,7 @@ const ContactUs = () => {
           className="passport-card-deck passport-container my-3"
           fluid
         >
+    
           <div class="row">
             <div class="col-lg-3 my-5">
               <div class="card p-2">
@@ -149,7 +154,7 @@ const ContactUs = () => {
               </div>
             </div>
             <div class="col-lg-6 my-5">
-              <form onSubmit={LogInSubmit}>
+              <form onSubmit={contactUsSubmit}>
                 <div class="card p-4">
                   {Message && (
                     <div class="alert alert-success text-center" role="alert">

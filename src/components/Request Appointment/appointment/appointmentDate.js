@@ -23,8 +23,10 @@ import Switch from '@material-ui/core/Switch';
 import { withStyles } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { faBrush } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation, Trans } from 'react-i18next';
 
 const MyApp = forwardRef((props, ref) => {
+  const { t, i18n } = useTranslation();
   const [state, setState] = useState({ date: new Date(), time: '' });
   const [respone, setResponse] = useState({});
   const [disabledDate, setDisabledDate] = useState([]);
@@ -570,7 +572,7 @@ setErrorMessage('Please Select Date.')
   return (
     <div>
       <MDBContainer className=" pt-3" fluid>
-        <h3 className="heading-secondary">Appointment - Date and Time</h3>
+        <h3 className="heading-secondary">AppointmentDateAndTime</h3>
         {data.isGroup ? null : (
           <div>
             <FormControlLabel

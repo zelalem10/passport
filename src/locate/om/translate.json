@@ -1,0 +1,26 @@
+{
+  "translations": {
+    "Paragraph": "Beellama qabadhu",
+    "header": {
+      "scheduleanappointment": "Beellama qabadhu",
+      "requirements": "Ulaagaa barbaachisan",
+      "status": "Haala irra jiru",
+      "about": "waaʼee weebsaayitii  kanaa ",
+      "contactUs": "Nu Qunnamaa"
+    },
+    "description": {
+      "value": "By proceeding with this application, I understand that I am signifying my consent to the disclosure, collection, and use of my personal information and the data required under the Ethiopian Passport Act as amended and its Implementing Rules and Regulations. My consent effectively constitutes a waiver of any and all privacy rights pertaining to the disclosure, collection, and use of my personal information and data under the specific terms and condition of Ethiopian Online Passport Appointment System."
+    },
+    "formTitle": "maalo nu qunnamuuf Guca kana guuta",
+    "firstName": "Maqaa",
+    "lastName": "Maqaa Abbaa",
+    "phoneNumber": "Lakkoofsa Bilbilaa",
+    "email": "imeelii",
+    "remark": "Ergaa kee asirratti barreesi",
+    "submit": "Galchi",
+    "English": "Ingiliffa",
+    "Amharic": "Amaariffa",
+    "AfanOromo": "Afaan Oromoo",
+    "Tigrigna": "Tigriffa"
+  }
+}
