@@ -222,7 +222,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           })
         .catch((err) => {
            ;
-          console.log('Body: ', requestBody);
+          console.log('Body: ', JSON.stringify(requestBody));
           console.log('AXIOS ERROR: ', err.response);
           if (err.response != null) setResponseMessage(err.response.data.title);
           else setResponseMessage('something goes wrong!');

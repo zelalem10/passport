@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src\\components"
+    "\\src",
+    "\\src\\components",
+    "\\src\\components\\Request"
   ],
-  "SelectedNode": "\\src",
+  "SelectedNode": "\\src\\components\\Request\\PersonslInfoStepper.js",
   "PreviewInSolutionExplorer": false
 }

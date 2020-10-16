@@ -15,8 +15,6 @@ function InstructionPage() {
   const personalInformation = personRequestdata
   ? personRequestdata.personResponses
   : null;
-
-  console.log(personalInformation)
   return (
     <>
       <div id="share-section" class="bg-light text-muted py-5">
