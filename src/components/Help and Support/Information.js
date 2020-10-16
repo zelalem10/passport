@@ -25,7 +25,7 @@ export default function Information() {
     return (
         <MDBContainer className="passport-container"  fluid>
             <div class="row passportaccordion" >
-                <div class="col-lg-8 mr-5">
+                <div class="col-lg-12 mr-5">
                 <div class="u-center-text u-margin-bottom-big mt-5">
                     <h2 class="heading-secondary">How to Apply</h2>
                 </div>
@@ -719,7 +719,7 @@ If your passport is With 2 or {'<'} 2 years of valid date, you should have to pu
 
                     </div>
                 </div>
-                <div class="col-lg-3">
+                {/* <div class="col-lg-3">
                     <div class="evisalist mt-5">
                         <ul class="list-group">
                             <li class="list-group-item ePassprt-color">RELATED LINKS</li>
@@ -732,7 +732,7 @@ If your passport is With 2 or {'<'} 2 years of valid date, you should have to pu
 
                         </ul>
                     </div>
-                </div>
+                </div> */}
             </div>
 
 
