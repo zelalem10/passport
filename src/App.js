@@ -12,10 +12,11 @@ function App() {
 
   return (
     <>
+      <SystemToken />
       <NavbarPage location={location} />
       <PassportRoute /> 
       <FooterPage />
-      <SystemToken />
+    
     </>
   );
 }

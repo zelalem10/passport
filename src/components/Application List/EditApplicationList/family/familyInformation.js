@@ -31,7 +31,7 @@ const FamilyInformation = forwardRef((props, ref) => {
     familtyTypeId: '',
     personId: '',
   });
-
+debugger;
   if (
     familiesInfo.length === 0 &&
     isOnLoad === true &&
@@ -43,7 +43,7 @@ const FamilyInformation = forwardRef((props, ref) => {
     familiesInfo.length === 0 &&
     isOnLoad === true &&
     counter.editFamilyData.length > 1 &&
-    counter.editFamilyData[0].hasOwnProperty('firstName')
+    counter.editFamilyData[0][0].hasOwnProperty('firstName')
   ) {
     setFamiliesInfo(counter.editFamilyData[counter.editFamilyData.length - 1]);
   }
@@ -121,6 +121,7 @@ const FamilyInformation = forwardRef((props, ref) => {
     addFamilyInformationToArray();
   };
   const addFamilyInformationToArray = () => {
+    debugger;
     axios({
       headers: {
         Authorization: 'Bearer ' + accesstoken,
@@ -138,6 +139,7 @@ const FamilyInformation = forwardRef((props, ref) => {
       ],
     })
       .then((response) => {
+        debugger;
         console.log(response.data.message);
         setFamiliesInfo([
           ...familiesInfo,
@@ -147,10 +149,12 @@ const FamilyInformation = forwardRef((props, ref) => {
             firstName: state.fname,
             lastName: state.lname,
             familtyType: getFamilyType(state.famType),
+            familtyTypeId:parseInt(state.famType),
           },
         ]);
       })
       .catch((error) => {
+        debugger;
         console.log('error' + error);
       });
   };

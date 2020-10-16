@@ -511,11 +511,7 @@ export default function ViewAppointment(props) {
                   </b>
                 </div>
               </fieldset>
-            </div>
-
-            <div className="col-md-6">
-              
-       <fieldset>
+              <fieldset>
                     <ul class="list-group mb-3">
                       <li class="list-group-item ePassprt-color">
                         <h5>Attachment Information</h5>
@@ -543,6 +539,7 @@ export default function ViewAppointment(props) {
                     </ul>
                   </fieldset>
             </div>
+
           </div>
           <MDBRow>
             <MDBCol className="medium-12">

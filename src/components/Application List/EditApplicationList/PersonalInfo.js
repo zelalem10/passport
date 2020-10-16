@@ -54,7 +54,7 @@ const PersonalInfo = forwardRef((props, ref) => {
     occupationId: personalInformation.occupationId,
     isHalfCast: personalInformation.isHalfCast,
     nationalityId: personalInformation.nationalityId,
-    martialStatus: personalInformation.martialStatus,
+    maritalStatus: personalInformation.passportRes.maritalStatus,
     isUnder18: personalInformation.isUnder18,
     isAdoption: personalInformation.isAdoption,
     phoneNumber: personalInformation.phoneNumber,
@@ -72,7 +72,7 @@ const PersonalInfo = forwardRef((props, ref) => {
     geezLastName: personalInformation.geezLastName ? false : true,
     birthPlace: personalInformation.birthPlace ? false : true,
     birthCertificatNo: personalInformation.birthCertificatNo ? false : true,
-    martialStatus: personalInformation.martialStatus ? false : true,
+    maritalStatus: personalInformation.passportRes.maritalStatus ? false : true,
     birthDate: personalInformation.dateOfBirth ? false : true,
     gender: personalInformation.gender ? false : true,
     height: personalInformation.height ? false : true,
@@ -123,7 +123,7 @@ const PersonalInfo = forwardRef((props, ref) => {
         notCompleted.phoneNumber == true ||
         notCompleted.email == true ||
         notCompleted.gender == true ||
-        notCompleted.martialStatus == true
+        notCompleted.maritalStatus == true
       )
         return false;
       else return true;
@@ -144,6 +144,7 @@ const PersonalInfo = forwardRef((props, ref) => {
       [name]: value,
     }));
   };
+  debugger;
 
   var prevInfo =
     counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
@@ -171,7 +172,7 @@ const PersonalInfo = forwardRef((props, ref) => {
       isAdoption: prevInfo ? prevInfo.isAdoption : false,
       isUnder18: prevInfo ? prevInfo.isUnder18 : false,
       nationalityId: prevInfo ? parseInt(prevInfo.nationalityId) : 0,
-      martialStatus: prevInfo ? prevInfo.martialStatus : '',
+      maritalStatus: prevInfo ? prevInfo.maritalStatus : '',
       phoneNumber: prevInfo ? prevInfo.phoneNumber : null,
       email: prevInfo ? prevInfo.email : null,
       birthCertificateId: prevInfo
@@ -180,6 +181,9 @@ const PersonalInfo = forwardRef((props, ref) => {
           : null
         : null,
     }));
+
+    if(personalInfo !== null && personalInfo !== undefined)
+    {
     setNotCompleted({
       firstName: personalInfo.firstName === '' ? true : false,
       middleName: personalInfo.middleName === '' ? true : false,
@@ -199,10 +203,11 @@ const PersonalInfo = forwardRef((props, ref) => {
       isUnder18: personalInfo.isUnder18,
       isAdoption: personalInfo.isAdoption,
       nationalityId: personalInfo.nationalityId === 0 ? true : false,
-      martialStatus: personalInfo.martialStatus === '' ? true : false,
+      maritalStatus: personalInfo.maritalStatus === '' ? true : false,
       phoneNumber: personalInfo.phoneNumber === '' ? true : false,
       email: personalInfo.email === '' ? true : false,
     });
+  }
   }, []);
   const [selectedDate, setSelectedDate] = React.useState(
     new Date(prevInfo ? prevInfo.dateOfBirth : new Date())
@@ -490,15 +495,14 @@ const PersonalInfo = forwardRef((props, ref) => {
                     </i>{' '}
                   </label>
                   <select
-                    name="martialStatus"
+                    name="maritalStatus"
                     onChange={handleChange}
                     className="browser-default custom-select"
-                    defaultValue={prevInfo ? prevInfo.martialStatus : null}
                   >
                     <option disabled>Marital Status</option>
-                    <option value="0">Single</option>
-                    <option value="1">Married</option>
-                    <option value="2">Divorced</option>
+                    <option value="0" selected={personalInfo.maritalStatus === 'Single'}>Single</option>
+                    <option value="1" selected={personalInfo.maritalStatus === 'Married'}>Married</option>
+                    <option value="2" selected={personalInfo.maritalStatus === 'Divorced'}>Divorced</option>
                   </select>
                 </div>
                 <span style={{ color: 'red' }}>
@@ -564,20 +568,49 @@ const PersonalInfo = forwardRef((props, ref) => {
               </MDBCol>
             </MDBCol>
             <MDBCol md="3">
-              <MDBCol>
-                <MDBInput
-                  label="Eye Color"
-                  group
-                  type="text"
-                  name="eyeColor"
-                  validate
-                  error="wrong"
-                  success="right"
-                  valueDefault={prevInfo ? prevInfo.eyeColor : null}
-                  onChange={handleChange}
-                />
+                
+                    <div
+                  className="md-form form-group passport-select"
+                  style={{ 'margin-bottom': '2.5rem' }}
+                >
+                  <label class="passport-selectList-label">Eye Color</label>
+                  <select
+                    name="eyeColor"
+                    onChange={handleChange}
+                    className="browser-default custom-select"
+                  >
+                    <option disabled value=""> Select eye color </option>
+                    <option
+                      value="Black"
+                      selected={personalInfo.eyeColor === 'Black'}
+                    >
+                      {' '}
+                      Black{' '}
+                    </option>
+                    <option
+                      value="Brown"
+                      selected={personalInfo.eyeColor === 'Brown'}
+                    >
+                      {' '}
+                      Brown{' '}
+                    </option>
+                    <option
+                      value="Blue"
+                      selected={personalInfo.eyeColor === 'Blue'}
+                    >
+                      {' '}
+                      Blue{' '}
+                    </option>
+                    <option
+                      value="Other"
+                      selected={personalInfo.eyeColor === 'Other'}
+                    >
+                      {' '}
+                      Other{' '}
+                    </option>
+                  </select>
+                </div>
               </MDBCol>
-            </MDBCol>
             <MDBCol md="3">
               <MDBCol>
                 <div

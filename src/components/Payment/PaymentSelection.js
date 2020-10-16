@@ -19,6 +19,7 @@ import {
   MDBCardText,
   MDBCol,
   MDBRow,
+  MDBAlert,
 } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addPaymentOptionId from '../../redux/actions/addPaymentOptionIdAction';
@@ -59,6 +60,7 @@ const PaymentSelection = forwardRef((props, ref) => {
   const [status, setStatus] = useState(0);
   const [confirmed, setConfirmed] = useState(false);
   const [dataSaved, setDataSaved] = useState(false);
+  const [showError, setShowError] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   const counter = useSelector((state) => state);
@@ -167,6 +169,8 @@ const PaymentSelection = forwardRef((props, ref) => {
           })
           .catch((err) => {
             console.log("AXIOS ERROR: ", err.response);
+            setMessage(err.response.statusText);
+            setShowError(true);
           })
       }
     }
@@ -184,6 +188,7 @@ const PaymentSelection = forwardRef((props, ref) => {
     <MDBContainer className="payment-container" fluid>
       <MDBRow>
         <MDBCol md="7">
+          {showError===true?(<MDBAlert color="danger">{message}</MDBAlert>):(null)}
           <MDBRow>
             <article class="card">
               <div class="card-title">

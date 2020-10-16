@@ -43,7 +43,7 @@ const FamilyInformation = forwardRef((props, ref) => {
     familiesInfo.length === 0 &&
     isOnLoad === true &&
     counter.editFamilyData.length > 1 &&
-    counter.editFamilyData[0].hasOwnProperty('firstName')
+    counter.editFamilyData[0][0].hasOwnProperty('firstName')
   ) {
     setFamiliesInfo(counter.editFamilyData[counter.editFamilyData.length - 1]);
   }
@@ -147,6 +147,7 @@ const FamilyInformation = forwardRef((props, ref) => {
             firstName: state.fname,
             lastName: state.lname,
             familtyType: getFamilyType(state.famType),
+            familtyTypeId:parseInt(state.famType),
           },
         ]);
       })

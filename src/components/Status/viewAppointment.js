@@ -52,10 +52,11 @@ const AccordionDetails = withStyles((theme) => ({
 }))(MuiAccordionDetails);
 
 export default function ViewAppointment(props) {
+  debugger;
   const accesstoken = localStorage.systemToken;
   const [expanded, setExpanded] = React.useState('panel1');
   const data = useSelector((state) => state);
-  const appList = data.applicationList[0];
+  const appList = data.applicationList[data.applicationList.length-1];
   let displayedApplication = {};
   const getOccupation = (id) => {
     let occupations = JSON.parse(localStorage.occupations);

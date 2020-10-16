@@ -104,6 +104,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
       let serviceInfo = counter.service[counter.service.length - 1];
       let replacementReason = counter.replacment[counter.replacment.length - 1];
       const requestInfo = counter.request[counter.request.length - 1];
+      debugger;
       const requestBody = {
         requestId: requestInfo ? Number.parseInt(requestInfo.requestId) : 0,
         requestMode: serviceInfo && serviceInfo.isUrgent === true ? 1 : 0,
@@ -115,7 +116,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           ? Number.parseInt(serviceInfo.appointemntType, 10)
           : 0,
         appointmentIds: appointment ? [appointment[0].id] : [],
-        userName: '',
+        userName: localStorage.logedInUsedData?JSON.parse(localStorage.logedInUsedData).username:'',
         status: 0,
         confirmationNumber: '',
         applicants: [
@@ -215,16 +216,13 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           dispatch(newRequest(todo.data.serviceResponseList[0]))
           API.get("https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
             .then((todo) => {
-              // setTotalPriceList(todo.data.priceTotalDetail);
-              // setIndividualPrice(todo.data.individualPrice);
-              // setTotalPrice(todo.data.totalPrice);
-              console.log(JSON.stringify(todo.data))
               dispatch(addPriceInfo(todo.data));
             })
             .catch((err) => {
               console.log("AXIOS ERROR: ", err.response);
             })
-        })
+        
+          })
         .catch((err) => {
            ;
           console.log('Body: ', requestBody);

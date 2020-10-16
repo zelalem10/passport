@@ -21,6 +21,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import newRequest from '../../redux/actions/addNewRequestAction';
 import API from '../Utils/API';
 import addCommonData from '../../redux/actions/addCommonDataAction';
+import addPriceInfo from '../../redux/actions/priceInfoAction';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -138,7 +140,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             : 0,
           requestTypeId: 2,
           appointmentIds: appointment ? [appointment[0].id] : [],
-          userName: '',
+          userName: localStorage.logedInUsedData?JSON.parse(localStorage.logedInUsedData).username:'',
           status: 0,
           confirmationNumber: '',
           applicants: [
@@ -234,6 +236,15 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           dispatch(newRequest(todo.data.serviceResponseList[0]));
           dispatch(addCommonData(commonData));
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
+          API.get("https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
+            .then((todo) => {
+              dispatch(addPriceInfo(todo.data));
+            })
+            .catch((err) => {
+              console.log("AXIOS ERROR: ", err.response);
+            })
+        
         })
         .catch((err) => {
           console.log('body=: ', requestBody);

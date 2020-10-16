@@ -66,6 +66,7 @@ function ApplicationList() {
     setOpen(false);
   }
   useEffect(() => {
+    debugger;
     axios({
       headers: { Authorization: 'Bearer ' + accesstoken },
       method: 'get',
@@ -73,6 +74,7 @@ function ApplicationList() {
         'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/GetMyApplications',
     })
       .then((Response) => {
+        debugger;
         console.log(Response.data);
         setloading(false);
         setusers(Response.data.serviceResponseList);
@@ -85,6 +87,7 @@ function ApplicationList() {
         }
       })
       .catch((err) => {
+        debugger;
         setloading(false);
       });
   }, [relodList]);

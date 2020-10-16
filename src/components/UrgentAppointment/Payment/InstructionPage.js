@@ -75,7 +75,7 @@ const {passportPage}=props;
                   <div>
                     <h6 class="my-0">Selected Payment Option</h6>
                   </div>
-                  <span class="text-muted">CBE</span>
+                  <span class="text-muted">{paymentInformation? paymentInformation.paymentOptionName:null}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                   <div>
