@@ -157,7 +157,7 @@ function Status(props) {
                                     {ApplicationNumberData.personResponses.applicationNumber}
                                   </div>{' '}
                                 </div>
-                                {ApplicationNumberData.requestStatus == 'UrgentApproved' ? (
+                                {ApplicationNumberData.personResponses.personStatus == 'UrgentApproved' ? (
                                   <a
                                     className="hoverWhite"
                                     onClick={() =>
@@ -172,9 +172,9 @@ function Status(props) {
                                     </div>
                                   </a>
                                 ) : null}
-                                {ApplicationNumberData.requestStatus ==
-                                  'SendforCorrection' &&
-                                ApplicationNumberData.requestStatus ==
+                                {ApplicationNumberData.personResponses.personStatus ==
+                                  'SendforCorrection' ||
+                                ApplicationNumberData.personResponses.personStatus ==
                                   'Initial' ? (
                                   <a
                                     onClick={() =>
@@ -204,7 +204,7 @@ function Status(props) {
                                     <i class="fas fa-eye fa-lg"></i>
                                   </div>
                                 </a>
-                                {ApplicationNumberData.requestStatus ==
+                                {ApplicationNumberData.personResponses.personStatus ==
                                   'PaymentCompleted' &&
                                 addDays(ApplicationNumberData.currentDate) <
                                   new Date(
