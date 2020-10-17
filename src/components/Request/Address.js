@@ -17,11 +17,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import addAddressInfo from '../../redux/actions/addAddressInfoAction';
 
 import API from '../Utils/API';
-
+import { useTranslation, Trans } from 'react-i18next';
 
 
 const Address = forwardRef((props, ref) => {
-
+  const { t, i18n } = useTranslation();
   const [addressInfo, setAddressInfo] = useState({
 
     region: '',
@@ -262,7 +262,7 @@ const Address = forwardRef((props, ref) => {
 
                 <label>
 
-                  Region<i style={{ color: 'red' }}>*</i>{' '}
+                {t('requestForm.region')}<i style={{ color: 'red' }}>*</i>{' '}
 
                 </label>
 
@@ -318,7 +318,7 @@ const Address = forwardRef((props, ref) => {
 
                 type="text"
 
-                label="City"
+                label= {t('requestForm.city')}
 
               />
 
@@ -350,7 +350,7 @@ const Address = forwardRef((props, ref) => {
 
                 type="text"
 
-                label="State"
+                label={t('requestForm.State')}
 
               />
 
@@ -370,7 +370,7 @@ const Address = forwardRef((props, ref) => {
 
                 type="text"
 
-                label="Zone"
+                label={t('requestForm.zone')}
 
               />
 
@@ -394,7 +394,7 @@ const Address = forwardRef((props, ref) => {
 
                 type="text"
 
-                label="Woreda"
+                label={t('requestForm.zone')}
 
               />
 
@@ -414,7 +414,7 @@ const Address = forwardRef((props, ref) => {
 
                 type="text"
 
-                label="Kebele"
+                label={t('requestForm.kebele')}
 
               />
 
@@ -434,7 +434,7 @@ const Address = forwardRef((props, ref) => {
 
                 type="text"
 
-                label="Street"
+                label={t('requestForm.street')}
 
               />
 
@@ -454,7 +454,7 @@ const Address = forwardRef((props, ref) => {
 
                 type="text"
 
-                label="House No."
+                label={t('requestForm.houseNo')}
 
               />
 
@@ -478,7 +478,7 @@ const Address = forwardRef((props, ref) => {
 
                 type="text"
 
-                label="Po. Box"
+                label={t('requestForm.poBox')}
 
               />
 
@@ -498,7 +498,7 @@ const Address = forwardRef((props, ref) => {
 
                 type="text"
 
-                label="Sub City"
+                label={t('requestForm.poBox')}
 
               />
 

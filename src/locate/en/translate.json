@@ -92,7 +92,7 @@
       
     },
 
-    "requestForms": {
+    "requestForm": {
       "siteSelection": "Site Selection",
       "dateAndTime": "Date and time",
       "personalInformation": "Personal Information",
@@ -110,8 +110,10 @@
       "next": "Next",
       "AppointmentDateAndTime": "APPOINTMENT - DATE AND TIME",
       "urgent": "Does the request urgent?",
-      "notification10": "Notification: 10",
-      "estimatedDelivery": "Estimated Delivery date is within 10 days",
+      "urgentNote": "Request for urgent may be considered if the purpose of travel is for medical or legal emergency purposes, death in the family,etc",
+      "notification": "Notification",
+      "days": "days",
+      "estimatedDelivery": "Estimated Delivery date is within",
       "date": "Date",
       "time": "Time",
       "SelectDate": "Please select a date",
@@ -130,13 +132,13 @@
       "email": "Email",
       "birthPlace": "Birth Place",
       "birthCertificatNo": "Birth Certificat No",
-      "cccupation": "Occupation",
+      "occupation": "Occupation",
       "hairColor": "Hair Color",
       "gender": "Gender",
       "martialStatus": "Martial status",
       "height": "Height(cm)",
       "eyeColor": "Eye Color",
-      "isHalfcast": "Is Halfcast",
+      "isHalfCast": "Is Halfcast",
       "isUnder18": "Is Under 18",
       "isAdoption": "Is Adoption",
       "region": "Region",
@@ -150,7 +152,9 @@
       "poBox": "Po. Box",
       "requestPlace": "Request Place",
       "familyDetails": "Family Details",
+      "selectFamilyType": "Select family type",
       "noFamily": "No family added yet.",
+      "addFamily": "Add Family",
       "pageQuantity": "Page Quantity",
       "applicationFilled": "Application filled by",
       "numberOfApplicants": "Group Appointment - Number of Applicants",
@@ -160,8 +164,10 @@
       "selectSitelocation": "Select site location",
       "selectCity": "Select city",
       "selectOffice": "Select office",
-      "selectDeliverySite": "Select delivery site"
-    
+      "selectDeliverySite": "Select delivery site",
+      "required": "is required!",
+      "passportPageNo": "Passport Page No.(Requested)",
+      "selectPassportPage": "Select Passport Page"
     },
     
     "informationPage": {
