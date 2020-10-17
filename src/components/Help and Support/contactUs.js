@@ -133,12 +133,12 @@ const ContactUs = (props) => {
                   <a href="tel:8133">8133 FREE CALL</a>
                   <h4>Social Media Link</h4>
                   <div class="d-inline">
-                    <Link to="#!" className="fb-ic ePassprt-text-color">
+                    <a href="https://www.facebook.com/pages/category/Government-Official/FDRE-Immigration-Nationality-And-Vital-Events-Agency-2178330725741394/" className="fb-ic ePassprt-text-color">
                       <MDBIcon fab icon="facebook-f" className="mr-2" />
                       <p class="d-inline ePassprt-text-color">
                         FDRE Immigration Nationality and Vital Events Agency
                       </p>
-                    </Link>
+                    </a>
                   </div>
                   <br></br>
                   <div class="d-inline">

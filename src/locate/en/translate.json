@@ -92,7 +92,7 @@
       
     },
 
-    "requestForms": {
+    "requestForm": {
       "siteSelection": "Site Selection",
       "dateAndTime": "Date and time",
       "personalInformation": "Personal Information",
