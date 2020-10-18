@@ -383,20 +383,13 @@ class SignUp extends Component {
                 </div>
                 <h4>Members get more</h4>
                 <p>
-                  Members save up to 10% more when booking directly on our
-                  website or mobile app.
+                View your application<br />
+Check status of pending payment <br />
+Edit application and reschedule for reappointment<br />
+Every time you are not required to fill application and information reusability<br />
                 </p>
-                <h4>Points for hotel stays</h4>
-                <p>
-                  Earn points per US dollar spent on eligible stays and food and
-                  beverage purchases charged to your room during an eligible
-                  stay.
-                </p>
-                <h4>Free award nights</h4>
-                <p>
-                  Redeem for Free Award Nights starting at 9,000 points with no
-                  blackout dates on Standard Rooms.
-                </p>
+                
+                
                 <h4>Phone</h4>
                 <p>8133 FREE CALL</p>
               </div>

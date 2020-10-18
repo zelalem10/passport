@@ -27,7 +27,7 @@ const CardExample = () => {
             src={require('../../images/icons/new-passport-.png')}
           ></img>
             <MDBCardTitle tag="h5">
-            <Link class="card-title text-white" to="/request-appointment"><Trans>homeCard.startNewApplication</Trans> </Link> 
+            <Link class="card-title text-Dark" to="/request-appointment"><Trans>homeCard.startNewApplication</Trans> </Link> 
               </MDBCardTitle>
             <MDBCardText>
           <Trans>homeCard.startNewApplicationDescription</Trans>  
@@ -42,7 +42,7 @@ const CardExample = () => {
             src={require('../../images/icons/Passport-renewal.png')}
           ></img>
             <MDBCardTitle tag="h5">
-            <Link class="card-title text-white" to="/SignUp"><Trans>homeCard.register</Trans></Link> 
+            <Link class="card-title text-Dark" to="/SignUp"><Trans>homeCard.register</Trans></Link> 
           
               </MDBCardTitle>
             <MDBCardText>
@@ -58,7 +58,7 @@ const CardExample = () => {
             src={require('../../images/icons/check status copy.png')}
           ></img>
             <MDBCardTitle tag="h5">
-            <Link class="card-title text-white" to="/Status"><Trans>homeCard.checkStatus</Trans></Link> 
+            <Link class="card-title text-Dark" to="/Status"><Trans>homeCard.checkStatus</Trans></Link> 
             
               </MDBCardTitle>
             <MDBCardText>

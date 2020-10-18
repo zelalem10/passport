@@ -18,18 +18,18 @@ const About = () => {
 
                     </div>
                     <div class="col-md-6">
-                        <img src="https://source.unsplash.com/random/700x700/?technology" alt="" class="img-fluid rounded-circle about-img w-75">
+                        <img src={require('../../images/Information/aboutEnvea.jpg')} alt="" class="img-fluid rounded-circle about-img w-75">
                         </img>
                     </div>
                 </div>
                 <div class="row my-5">
-                    <div class="col-md-6">
+                    {/* <div class="col-md-6">
                     <img src="https://source.unsplash.com/random/701x700/?technology" alt="" class="img-fluid rounded-circle about-img w-75">
                         </img>
-                    </div>
-                    <div class="col-md-6">
-                                           <p>Based on 1951 law notification number 150/43 to assign the place for cemetery, controlling cemetery and it is counted as one of activities issued to the municipality by the civil code law drafted on 1960 to implement vital events registration many articles included on this law number 3361 /1/ for implementing those articles concerning with civil status till unique regulation drafted the aim of vital events the process and implementation when it is compared with the modern and proper registration work manner even though it is tried to include some points reserving the gaps concerning vital events registration and collecting information works conducted in different governmental organizations (i.e Municipality, city administration offices, central statistics agency and health center. On this hand, the processes of registration of vital events were conducted in religious organizations.   </p>
-                   <p>So, in 1943 marriage, in 1954 birth, in 1968 death registration started. This registration done for legal and administrational affairs and by the persons who are willing to register the events certificate is issued.
+                    </div> */}
+                    <div class="col-md-12">
+                                           <p class="text-justify">Based on 1951 law notification number 150/43 to assign the place for cemetery, controlling cemetery and it is counted as one of activities issued to the municipality by the civil code law drafted on 1960 to implement vital events registration many articles included on this law number 3361 /1/ for implementing those articles concerning with civil status till unique regulation drafted the aim of vital events the process and implementation when it is compared with the modern and proper registration work manner even though it is tried to include some points reserving the gaps concerning vital events registration and collecting information works conducted in different governmental organizations (i.e Municipality, city administration offices, central statistics agency and health center. On this hand, the processes of registration of vital events were conducted in religious organizations.  
+                   So, in 1943 marriage, in 1954 birth, in 1968 death registration started. This registration done for legal and administrational affairs and by the persons who are willing to register the events certificate is issued.
 Participants of vital events registration 
 </p>
                     </div>
