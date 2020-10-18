@@ -181,6 +181,116 @@
       "startGroupAppointment": "Start Group Appointment"
     },
 
+    "requirments" : {
+      "common": {
+        "passportType": "Passport type",
+        "price": "price",
+        "forUrgent": " For Urgent : Additional 50% Payment of the requested document",
+        "32page": "32 page passport",
+        "64page": "64 page passport",
+        "passportStatus": "Passport status",
+        "passportDescription": "Passport description",
+        "itemOne": "Prepare all the required documents for this service.",
+        "itemTwoL1": "Medical letter",
+        "itemTwoL2": "Scholarship and DV",
+        "itemTwoL3": "Letter from authorized organization",
+        "itemTwoL4": "Foreign residence permit",
+        "itemTwoL5": "invitation paper",
+        "itemTwoL6": "Urgent travel for Work",
+        "itemTwoL7": "Travel for compassionate reason",        
+        "itemTwo": "If you are applying for Urgent Services, you must have: ",
+        "itemThree": "Check the service fee for new Passport",
+        "itemThreeParagraph": "If your passport has more than 6 month’s validity, the payment will have additional 50% of the requested passport.",
+        "itemFour": "Scan all the required documents and resize them according to the guidelines.",
+        "itemFive": "Payment will be through online and banks using the payment code generated after the application form submitted.",
+        "itemSix": "After you apply for the service, you must print the last page which has your appointment and delivery date and time. Take the paper with you to your appointment.",
+        "itemSeven": "When you come to the office on the appointment date, you need to make sure that:",
+        "itemSeven1": "You have the appointment paper with you",
+        "itemSeven2": "You have all the original required documents with you. These should be the same documents that you uploaded with the Online Application.",
+        "itemSeven3": "If you are applying as an applicant, you should come yourself. Proxy Applications are not allowed and acceptable. If you are applying as a guardian or parent, you have to accompany the child/toddler.",
+        "applynow": "Apply Now"
+       
+      },
+      "new" : {
+        "title": "New Passport applicants must fulfil the following requirements.",
+        "itemOneL1": "Valid Kebele Identity card and authenticated Birth certificate.",
+        "itemTwo": "If you are applying for Urgent Services, you must At least have one of the following"
+       },
+
+       "expiredPassport" : {
+        "title": "Expired Passport applicants must fulfil the following requirements.",
+        "itemOneL1": "Copy  of the expired Passport’s information page.",
+        "itemTwo": "If you are applying for Urgent Services, you must have: "
+       },
+
+       "passportRunout" : {
+        "title": "For applicants of passport page run out must fulfil the following requirements.If your passport is With 3 or < 3 pages left", 
+        "itemOneL1": "Copy of the Passport’s information page ",
+        "itemTwo": "If you are applying for Urgent Services, you must have: ",
+        "64pageRunout": "64 page passport page run out",
+        "32pageRunout": "32 page passport page run out"
+      },
+
+      "damagedPassport" : {
+        "title": " For applicants of damaged passport must fulfil the following requirements. If your passport is damaged through different reasons", 
+        "itemOneL1": "Copy  of the  Passport’s information page or any page of the passport which have the passport number and valid Kebele Identity card",
+        "itemTwo": "If you are applying for Urgent Services, you must have: ",
+     
+        "expired": "If the damaged passport is Expired",
+        "notExpired": "If the damaged passport is not Expired"
+      },
+
+      "lostPassport" : {
+        "title": "For applicants of Lost/Stolen passport must fulfil the following requirements.", 
+        "itemOneL1": "Valid Kebele identity card",
+        "itemOneL2": "Police evidence letter",
+        "itemOneL3": "Copy of passport or information about the passport if you have.",
+        "itemTwo": "If you are applying for Urgent Services, you must have: ",
+        
+        "lostpassport": "Lost passport",
+        "replacementOfLostPassport": "Replacement of lost passport for both valid and expired passport"
+
+        
+      },
+
+      "changeofPassportData" : {
+        "title": "  Applicants for change of passport data must fulfil the following requirements.If you need to change the passport information like name change, birth place and birth date", 
+        "itemOneL1": "Copy of passport information page ",
+        "itemOneL2": "Court evidence letter",
+        "itemTwo": "If you are applying for Urgent Services, you must have: ",
+        
+        "correction": "Correction",
+        "requestsForCorrection": "requests for correction for expired passports",
+        "replacementForCorrection": "Replacement of passport for correction for valid passport"
+
+      },
+
+      "validPassport" : {
+        "title": "Applicants for change of passport data must fulfil the following requirements. If your passport is With 2 or {'<'} 2 years of valid date, you should have to put the reason like DV, scholarship, foreign residence permit, and embassy appointment.", 
+        "itemOneL1": "Copy of passport information page",
+        "itemTwo": "If you are applying for Urgent Services, you must have: ",
+        "validPassport": "not expired/ valid passport"
+      },
+
+      "applicantUnder18" : {
+        "title": " If the applicant is under 18, parents or guardians are required to attach the following document", 
+        "itemOneL1": "If Parent, Valid Kebele ID of his/her mother/father or copy of passport information page",
+        "itemOneL2": "If Guardian , legal document from court ",
+        "itemOneL3": "Authenticated Birth Certificate of the Applicant."
+      },
+
+      "urgentService" : {
+        "title": " If you are applying for Urgent Services, you must have reason or evidence like:", 
+        "itemTwo": "If you are applying for Urgent Services, you must have: "
+    
+      },
+
+      "emergency" : {
+        "title": "  Emergency requests are handled in INVEA main office or branch offices in person."
+    
+      }
+    },
+
     "status": {
       "title": "Check Passport status",
       "lableOne": "Application Number",
@@ -264,5 +374,6 @@
       "notMemeber": "Not a member?",
       "signUp" : "Sign Up"
     }
+
   }
 }

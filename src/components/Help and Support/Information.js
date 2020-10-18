@@ -8,6 +8,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { MDBContainer } from 'mdbreact';
 import '../Help and Support/Faq.css'
 import { Link } from 'react-router-dom';
+import { useTranslation, Trans } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,14 +21,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Information() {
+    const { t, i18n } = useTranslation();
     const classes = useStyles();
 
     return (
-        <MDBContainer className="passport-container"  fluid>
+        <MDBContainer className="container" >
             <div class="row passportaccordion" >
                 <div class="col-lg-12 mr-5">
                 <div class="u-center-text u-margin-bottom-big mt-5">
-                    <h2 class="heading-secondary">How to Apply</h2>
+                    <h2 class="heading-secondary">  <Trans>howToApply.howtoApply</Trans></h2>
                 </div>
 
                     <div className={classes.root} class='faq-accordion'>
@@ -38,7 +40,7 @@ export default function Information() {
                                 id="panel1a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    New Passport
+                                <Trans>howToApply.newPassport</Trans>
                             </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -112,7 +114,7 @@ export default function Information() {
                                 id="panel2a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    Expired Passport
+                                <Trans>howToApply.expiredPassport</Trans>
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -189,7 +191,7 @@ export default function Information() {
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    Passport Page RunOut
+                                <Trans>howToApply.passportRunout</Trans>
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -268,7 +270,7 @@ export default function Information() {
                                 id="panel4a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    Damaged Passport
+                                <Trans>howToApply.damagedPassport</Trans>
           </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -361,7 +363,7 @@ export default function Information() {
                                 id="panel2a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    Lost/Stolen Passport
+                                <Trans>howToApply.lostPassport</Trans>
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -446,7 +448,7 @@ export default function Information() {
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    Change of Passport Data
+                                <Trans>howToApply.changeofPassportData</Trans>
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -542,7 +544,7 @@ export default function Information() {
                                 id="panel3a-header"
                             >
                                 <Typography className='accordion-title'>
-                                    Not Expired Passport
+                              <Trans>howToApply.validPassport</Trans>
       </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
