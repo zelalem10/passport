@@ -11,7 +11,7 @@ import { Alert } from 'react-bootstrap';
 function InstructionPage() {
   let paymentInformation = useSelector((state) => state.paymentOption[1]);
   let personRequestdata = useSelector((state) => state.request[state.request.length - 1]);
-
+console.log(paymentInformation);
   const personalInformation = personRequestdata
   ? personRequestdata.personResponses
   : null;

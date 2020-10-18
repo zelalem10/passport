@@ -246,10 +246,11 @@ const Fileupload = forwardRef((props, ref) => {
         <div class="container">
           <form onSubmit={(e) => submit(e)}>
             <div class="row ">
-              <div class="col-md-10 ">
-              <div class="alert alert-success text-center mb-2" role="alert">
-              Size of the image should be less than 4MB and in JPEG, JPG, PNG, GIF or BMP format
-                </div>
+              <div class="col-md-10 " id="attachmentmargin">
+              <MDBBadge color="primary smallPadding ">
+                Size of the image should be less than 4MB and in JPEG, JPG, PNG, GIF format
+                </MDBBadge>
+
                 {errorMessage.length
                   ? errorMessage.map((error) => (
                       <div class="alert alert-danger text-center" role="alert">

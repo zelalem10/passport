@@ -368,7 +368,7 @@ setIsLoading(false)
                   className="form-control"
                   onBlur={handleChange}
                   type="text"
-                  label= {t('requestForm.firstname')}
+                  label= 'First name'
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
@@ -384,7 +384,7 @@ setIsLoading(false)
                   name="middleName"
                   onBlur={handleChange}
                   type="text"
-                  label={t('requestForm.middleName')}
+                  label="Middle Name"
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
@@ -400,7 +400,7 @@ setIsLoading(false)
                   name="lastName"
                   onBlur={handleChange}
                   type="text"
-                  label={t('requestForm.lastName')}
+                  label="lastName"
                 />
                 <span style={{ color: 'red' }}>
                   {' '}

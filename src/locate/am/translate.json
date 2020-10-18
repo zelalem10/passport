@@ -1,6 +1,5 @@
 {
   "translations": {
-    "Paragraph": "ቀጠሮ ይጠይቁ",
     "header": {
       "evisa": "ቪዛ",
       "ethiopianAirlines": "ኢትዮጵያ አየር መንገድ",
@@ -16,9 +15,56 @@
       "register" : "ተመዝገቡ",
       "logIn" : "ይግቡ"
     },
-    "description": {
-      "value": "ይህንን ማመልከቻ በመቀጠል ፣ የግል መረጃዬን ለመልቀቅ ፣ ለመሰብሰብ እና ለመጠቀም እንዲሁም በተሻሻለው እና በአፈፃፀም ህጎቹ እና ደንቦቹ መሠረት በኢትዮጵያ ፓስፖርት ህግ መሠረት የሚፈለገውን መረጃ ለመግለጽ ፈቃደኛ መሆኔን ተረድቻለሁ ፡፡ የእኔ ፈቃድ የእኔን የግል መረጃ እና መረጃን በመለየት ፣ በመሰብሰብ እና በመጠቀሜ ሁኔታ ላይ በመመርኮዝ በኢትዮጵያ የመስመር ላይ ፓስፖርት ቀጠሮ ስርዓት ስርዓት እና ሁኔታ መሠረት ማንኛውንም እና ሁሉንም የግላዊነት መብቶች መተው ነው ፡፡"
+
+    "footer": {
+      "aboutPassportService": "About Passport Service",
+      "requirements": "Requirements",
+      "status": "Status",
+      "contactUs": "Contact Us",
+      "scheduleanappointment": "Schedule an Appointment",
+      "AddisAbabaEthiopia": "Addis Ababa, Ethiopia",
+      "phone": "+251(11)1553899",
+      "email" : "support@ethiopianpassportservices.gov.et",
+      "helpAndSupport" : "Help and Support",
+      "fAQ" : "FAQ",
+      "copyRight" : "2020 Copyright: Immigration Nationality and Vital Events Agency Ethiopia"
     },
+
+    "carouselCaption" : "ወደ ኢትዮጵያ ፓስፖርት አገልግሎት እንኳን በደህና መጡ",
+
+    "homeCard": {
+      "startNewApplication": "አዲስ ማመልከቻ ይጀምሩ ",
+      "startNewApplicationDescription": "የኢትዮጵያ ፓስፖርት አሁን ማግኘት ይፈልጋሉ? ሁሉንም የሚየቁትን መረጃ ያቅርቡና ያመልክቱ",
+      "register": "ተመዝገቡ",
+      "registerDescription": "ፈጣን የፓስፖርት ተጠቃሚ መሆን ይፈልጋሉ? ይመዝገቡ እና በየጊዜው የማመልከቻ ቅጾችን እንደ አዲስ እንዳይሞሉ ይህን ያስታውሱን፡፡ ይህ በአማራጭነት የቀረበ ነው",
+      "checkStatus": "ማመልከቻዎ የሚገኝበትን ደረጃ ያረጋግጡ ",
+      "checkStatusDescription": "የኢትዮጵያ ፓስፖርት ለማግኘት ያቀረቡት ጥያቄ ምን ደረጃ ላይ ይገኛል? ሁሉንም የሚጠየቋቸውን የመፈለጊያ መረጃዎች ያቅርቡና አሁኑኑ ያረጋግጡ፡፡"
+    },
+
+    "howToApply": {
+      "howtoApply": "እንዴት ማመልከት እንዳለብዎ",
+      "seeMore": "ተጨማሪ ይመልከቱ ",
+      "newPassport": "አዲስ ፓስፖርት",
+      "newPassportDescription": "የአዲስ ፓስፖርት አመልካቾች የሚከተሉትን መስፈርቶች ማሟላት አለባቸው፡፡",
+      "expiredPassport": "የአገልግሎት ዘመኑ ላበቃ ፓስፖርት",
+      "expiredPassportDescription": "የአገልግሎት ዘመኑ ያበቃ ፓስፖርት አመልካቾች የሚከተሉትን መስፈርቶች ማሟላት አለባቸው፡፡",
+      "passportRunout": "ገጹ ለሞላ ፓስፖርት",
+      "passportRunoutDescription": "ገጹ የሞላ ፓስፖርት አመልካቾች የሚከተሉትን መስፈርቶች ማሟላት አለባቸው፡፡",
+      "damagedPassport": "ለተበላሸ ፓስፖርት",
+      "damagedPassportDescription": "የተበላሸ ፓስፖርት አመልካቾች የሚከተሉትን መስፈርቶች ማሟላት አለባቸው፡፡",
+      "lostPassport": "ለተሰረቀ/የጠፋ ፓስፖርት ",
+      "lostPassportDescription": "የተሰረቀ/የጠፋ ፓስፖርት አመልካቾች የሚከተሉትን መስፈርቶች ማሟላት አአለባቸው፡፡",
+      "changeofPassportData": "የፓስፖርት ዳታ /መረጃ/ ለመቀየር ",
+      "changeofPassportDataDescription": "የፓስፖርት ዳታ /መረጃ/ ለመቀየር የሚያመለክቱ አመልካቾች የሚከተሉትን መስፈርቶች ማሟላት አአለባቸው፡፡",
+
+      "applicantUnder18": "ዕድሜው ከ18 አመት በታች ለሆነ አመልካች",
+      "applicantUnder18Description": "አመልካቹ አድሜው ከ18 አመት በታች ከሆነ ወላጆች ወይም አሳዳጊዎች የሚከተሉትን ሰነዶች ማያያዝ ይጠበቅባቸዋል፡፡ ",
+      "urgentService": "ለአስቸኳይ አገልግሎት",
+      "urgentServiceDescription": "ለአስቸኳይ አገልግሎት የሚከተሉትን መስፈርቶች ማሟላት አአለባቸው፡፡",
+      "emergency": "Emergency",
+      "emergencyDescription": "Emergency requests are handled in INVEA main office or branch offices in person."
+    },
+
     "requestAppointment": {
       "requestAppointmentLargeTitle": "ቀጠሮ መጠየቅ",
       "requestAppointmentDetail": "በዚህ ማመልከቻ በመቀጠል በኢትዮጵያ የፓስፖርት ህግ እንደተሻሻለው እና በማስፈጸሚያ ህጎቹ እና ደንቦቹ ስር በሚጠየቀው መሰረት በግል መረጃዬ እና ዳታዬ መገለጽ፣ መሰብሰብ እና ጥቅም ላይ መዋል መስማማቴን የማረጋግጥ መሆኑን እረዳለሁ፡፡ የሰጠሁት ፍቃድ በኢትዮጵያ የኦንላይን የፓስፖርት ቀጠሮ ስርአት ልዩ ሁኔታዎችና ድንጋጌዎች ስር ከግል መረጃዬ እና ዳታዬ መገለጽ፣ መሰብሰብ እና ጥቅም ላይ መዋል ጋር በተያያዘ ማንኛውንም እና ሁሉንም የግላዊነት መብቶች መተውን ያጠቃልላል፡፡  ",

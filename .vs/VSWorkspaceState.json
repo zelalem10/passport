@@ -3,8 +3,13 @@
     "",
     "\\src",
     "\\src\\components",
-    "\\src\\components\\Request"
+    "\\src\\components\\Application List",
+    "\\src\\components\\Application List\\EditApplicationList",
+    "\\src\\components\\common",
+    "\\src\\components\\Request",
+    "\\src\\components\\Status",
+    "\\src\\components\\Status\\EditApplicationList"
   ],
-  "SelectedNode": "\\src\\components\\Request\\PersonslInfoStepper.js",
+  "SelectedNode": "\\src\\components\\Status\\viewAppointment.js",
   "PreviewInSolutionExplorer": false
 }
