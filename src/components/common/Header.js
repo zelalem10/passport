@@ -32,6 +32,16 @@ const NavbarPage = (props) => {
   const navPath = props.location.pathname;
   const [navOpen, toggleOpen] = useState(false);
   const [value, setvalue] = useState("en");
+  const [addClass,setAddClass]=useState(false);
+  const handleScroll=()=>{
+    if(window.scrollY > 100){
+      setAddClass(true);
+  } else{
+      setAddClass(false);
+  }
+  };
+  window.addEventListener('scroll',handleScroll);
+
 
   const closeNav = () => {
     toggleOpen(false);
@@ -135,7 +145,7 @@ const NavbarPage = (props) => {
     <Fragment>
       <MDBNavbar className="headerOne">
         <MDBContainer className="passport-container" fluid>
-          <MDBNavbarNav left>
+          <MDBNavbarNav left >
             <Link to="/">
               <img
                 src={require('../../images/default-source/shared/INVEA-logo.png')}
@@ -181,11 +191,11 @@ const NavbarPage = (props) => {
           </MDBNav>
         </MDBContainer>
       </MDBNavbar>
-      <MDBNavbar className="headerTwo" dark expand="md">
+      <MDBNavbar className={`headerTwo ${addClass?'navfixed':''}`} dark expand="md">
         <MDBNavbarToggler onClick={() => toggleOpen(!navOpen)} />
         <MDBCollapse id="navbarCollapse3" isOpen={navOpen} navbar>
           <MDBContainer className="passport-container" fluid>
-            <MDBNavbarNav className="d-flex" left>
+            <MDBNavbarNav className="d-flex " left>
               {/* <MDBNavItem className={navPath == '/' ? 'active' : ''}>
                 <MDBNavLink to="/" activeClassName="active">
                   Home

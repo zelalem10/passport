@@ -9,6 +9,7 @@ import {
   MDBBtn,
   MDBIcon,
   MDBModalFooter,
+  MDBAlert
 } from 'mdbreact';
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
@@ -35,6 +36,7 @@ function SignIn() {
   const [loading, setloading] = useState(false);
   const [Message, setMessage] = useState(false);
   const [isForgotPassword,setIsForgotPassword]=useState(false);
+  const [showSuccessMessage,setShowSuccessMessage]=useState(false);
 
   let history = useHistory();
   const dispatch = useDispatch();
@@ -91,6 +93,9 @@ function SignIn() {
         },
       })
         .then((response) => {
+          if(response.data.status==1){
+            setShowSuccessMessage(true);
+          }
           
           setloading(false);
         
@@ -165,11 +170,17 @@ function SignIn() {
       {loading ? (
         <Spinner />
       ) : (
-        <MDBContainer className="my-5">
+        <MDBContainer className="my-5 ">
           <MDBRow>
             <MDBCol md="3"></MDBCol>
             <MDBCol md="6">
-              <MDBCard>
+              {showSuccessMessage?
+              <MDBAlert color="secondary" >
+              <h4>Ethiopan Passport Service Forget Password Confirmation</h4>
+  
+  
+  <p>Please check your email to reset your password...</p>
+        </MDBAlert>:<MDBCard>
                 <MDBCardBody className="mx-4">
                   <form onSubmit={isForgotPassword?ForgotPasswordSubmit:LogInSubmit}>
                     <div className="header pt-3 textBackground mb-5">
@@ -185,6 +196,7 @@ function SignIn() {
                       </div>
                     )}
                     <div className="grey-text">
+                      
                       <MDBInput
                         label="Email"
                         icon="envelope"
@@ -256,7 +268,8 @@ function SignIn() {
                   </p>
                 </MDBModalFooter>
               </MDBCard>
-            </MDBCol>
+           
+                }</MDBCol>
           </MDBRow>
         </MDBContainer>
       )}

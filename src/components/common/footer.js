@@ -43,16 +43,16 @@ const FooterPage = () => {
 
               </li>
               <li className="list-unstyled">
-                <Link to="/contactUs">
+                <a href="tel:8133">
                   <FontAwesomeIcon className="fa-rotate-90" icon={faPhone} />
-                  +251(11)1553899
-                </Link>
+                  8133 FREE CALL
+                </a>
               </li>
               <li className="list-unstyled">
-                <Link to="/contactUs">
+                <a href="mailto:support@ethiopianpassportservices.gov.et">
                   <FontAwesomeIcon icon={faEnvelope} />
-                  epassport@et.gov
-                </Link>
+                  support@ethiopianpassportservices.gov.et
+                </a>
               </li>
             </ul>
           </MDBCol>

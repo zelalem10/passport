@@ -28,7 +28,7 @@ const MultiCarouselPage = () => {
 
             <MDBCarousel
                 activeItem={1}
-                length={3}
+                length={2}
                 slide={true}
                 showControls={true}
                 showIndicators={true}
@@ -144,7 +144,7 @@ const MultiCarouselPage = () => {
                                         </MDBCardBody>
                                     </MDBCard>
                                 </MDBCol>
-                                <MDBCol md='3' className='equalcard'>
+                                {/* <MDBCol md='3' className='equalcard'>
                                     <MDBCard className='mb-2'>
                                         <MDBCardImage
                                             className='img-fluid'
@@ -158,8 +158,8 @@ const MultiCarouselPage = () => {
                                             <Link to="/Information" class="btn btnBlu"><Trans>howToApply.seeMore</Trans></Link>
                                         </MDBCardBody>
                                     </MDBCard>
-                                </MDBCol>
-                                <MDBCol md='3' className='equalcard'>
+                                </MDBCol> */}
+                                {/* <MDBCol md='3' className='equalcard'>
                                     <MDBCard className='mb-2'>
                                         <MDBCardImage
                                             className='img-fluid'
@@ -173,13 +173,8 @@ const MultiCarouselPage = () => {
                                             <Link to="/Information" class="btn btnBlu"><Trans>howToApply.seeMore</Trans></Link>
                                         </MDBCardBody>
                                     </MDBCard>
-                                </MDBCol>
-
-                            </MDBRow>
-                        </MDBCarouselItem>
-                        <MDBCarouselItem itemId='3'>
-                            <MDBRow className='info equalcard'>
-                                <MDBCol md='3' className='equalcard'>
+                                </MDBCol> */}
+                                   <MDBCol md='3' className='equalcard'>
                                     <MDBCard className='mb-2'>
                                         <MDBCardImage
                                             className='img-fluid'
@@ -209,48 +204,10 @@ const MultiCarouselPage = () => {
                                         </MDBCardBody>
                                     </MDBCard>
                                 </MDBCol>
-                                <MDBCol md='3' className='equalcard'>
-                                    <MDBCard className='mb-2'>
-                                        <MDBCardImage
-                                            className='img-fluid'
-                                            src={require('../../images/Information/new.jpg')}
-                                        />
-                                        <MDBCardBody>
-                                            <MDBCardTitle>
-                                                <Trans>howToApply.newPassport</Trans>
-                                                </MDBCardTitle>
-                                            <MDBCardText>
-                                            <Trans>howToApply.newPassportDescription</Trans>
-                                      
-                    </MDBCardText>
 
-                                            <Link to="/Information" class="btn btnBlu"><Trans>howToApply.seeMore</Trans></Link>
-
-                                        </MDBCardBody>
-                                    </MDBCard>
-                                </MDBCol>
-                                <MDBCol md='3' className='equalcard'>
-                                    <MDBCard className='mb-2'>
-                                        <MDBCardImage
-                                            className='img-fluid'
-                                            src={require('../../images/Information/expired passport.jpg')}
-                                        />
-                                        <MDBCardBody>
-                                            <MDBCardTitle>
-                                            <Trans>howToApply.expiredPassport</Trans>
-                                          
-                                                </MDBCardTitle>
-                                            <MDBCardText>
-                                            <Trans>howToApply.expiredPassportDescription</Trans>
-                    </MDBCardText>
-                                            <Link to="/Information" class="btn btnBlu"><Trans>howToApply.seeMore</Trans></Link>
-
-                                        </MDBCardBody>
-                                    </MDBCard>
-                                </MDBCol>
-                               
                             </MDBRow>
                         </MDBCarouselItem>
+                        
                     </MDBRow>
                 </MDBCarouselInner>
             </MDBCarousel>

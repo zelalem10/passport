@@ -100,51 +100,42 @@ function AppointmetType(props) {
                     _nghost-kxs-c3=""
                 >
                     <aside
-                        class="sidebar small sticky is-anchored is-at-top"
-                        data-btm-anchor="request-an-appointment:bottom"
-                        data-margin-top="2"
-                        data-sticky="s2eunn-sticky"
-                        data-sticky-on="medium"
-                        data-top-anchor="180"
-                        id="raa-sidebar"
-                        data-resize="raa-sidebar"
-                        data-mutate="raa-sidebar"
-                        data-events="mutate"
-                    >
-                        <div class="sidebar__box sidebar__box--border ng-star-inserted">
-                            <h4> <Trans>requestAppointment.cardTiltle</Trans>  </h4>
-                            <ul class="vertical-margin-0">
-                                <li>
-                                    <ul class="list--no-bullets list--single-line list--border">
-                                        <li>
-                                            <Link to="tel:8008817385">
-                                                <span class="show-for-sr">Call us at:</span>
-                                                <i
-                                                    aria-hidden="true"
-                                                    class="fas fa-phone fa-rotate-180"
-                                                ></i>{' '}
-                        800-881-7385{' '}
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link to="tel:6147226200">
-                                                <span class="show-for-sr">Call us at:</span>
-                                                <i
-                                                    aria-hidden="true"
-                                                    class="fas fa-phone fa-rotate-180"
-                                                ></i>{' '}
-                        614-722-6200{' '}
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            {' '}
-                                            <Trans>requestAppointment.time</Trans>  
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </aside>
+                            class="sidebar small sticky is-anchored is-at-top"
+                            data-btm-anchor="request-an-appointment:bottom"
+                            data-margin-top="2"
+                            data-sticky="s2eunn-sticky"
+                            data-sticky-on="medium"
+                            data-top-anchor="180"
+                            id="raa-sidebar"
+                            data-resize="raa-sidebar"
+                            data-mutate="raa-sidebar"
+                            data-events="mutate"
+                        >
+                            <div class="sidebar__box sidebar__box--border ng-star-inserted">
+                                <h4>
+                                <Trans>requestAppointment.cardTiltle</Trans>  
+                                    </h4>
+                                        <ul class="list--no-bullets list--single-line list--border">
+                                            <li>
+                                                <a href="tel:8133">
+                                                    <i class="fas fa-phone fa-rotate-180"></i>{' '}
+                                                    8133 FREE CALL
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="mailto:support@ethiopianpassportservices.gov.et">
+                                                    <i class="fas fa-envelope"></i>{' '}
+                                                    support@ethiopianpassportservices.gov.et
+                                                </a>
+                                            </li>
+                                            <li>
+                                                {' '}
+                                                <Trans>requestAppointment.time</Trans>  
+                                            </li>
+                                        </ul>
+                                   
+                            </div>
+                        </aside>
                     <div class="multistep-form__details sidebar__box sidebar__box--border sidebar__box--teal ng-star-inserted">
                         <h4>
                             <span class="ng-star-inserted"><Trans>requestAppointment.appointmentRequest</Trans></span>

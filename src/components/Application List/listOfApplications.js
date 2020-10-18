@@ -117,7 +117,7 @@ export default function ListOfApplications(props) {
                                     {user.personResponses.applicationNumber}
                                   </div>{' '}
                                 </div>
-                                {user.requestStatus == 'UrgentApproved' ? (
+                                {user.personResponses.personStatus == 'UrgentApproved' ? (
                                   <a
                                     className="hoverWhite"
                                     onClick={() =>
@@ -130,8 +130,8 @@ export default function ListOfApplications(props) {
                                     </div>
                                   </a>
                                  ) : null} 
-                                 {/* {user.requestStatus == 'SendforCorrection' &&
-                                user.requestStatus == 'Initial' ? ( */}
+                                 {user.personResponses.personStatus == 'SendforCorrection' ||
+                                user.personResponses.personStatus == 'Initial' ? (
                                   <a
                                     className="hoverWhite"
                                     onClick={() => handleEdit(user.requestId)}
@@ -141,7 +141,7 @@ export default function ListOfApplications(props) {
                                       <i class="fas fa-edit fa-lg"></i>
                                     </div>
                                   </a>
-                                 {/* ) : null}   */}
+                                 ) : null}   
 
                                 <a
                                   className="hoverWhite"
@@ -162,7 +162,7 @@ export default function ListOfApplications(props) {
                                     </span>
                                   </MDBTooltip>
                                 </a>
-                                {user.requestStatus == 'PaymentCompleted' &&
+                                {user.personResponses.personStatus == 'PaymentCompleted' &&
                                 addDays(user.currentDate) <
                                   (user.appointmentResponse
                                     ? new Date(user.appointmentResponse.date)
