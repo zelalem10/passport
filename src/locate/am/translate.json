@@ -57,6 +57,8 @@
       "changeofPassportData": "የፓስፖርት ዳታ /መረጃ/ ለመቀየር ",
       "changeofPassportDataDescription": "የፓስፖርት ዳታ /መረጃ/ ለመቀየር የሚያመለክቱ አመልካቾች የሚከተሉትን መስፈርቶች ማሟላት አአለባቸው፡፡",
 
+      "validPassport": "የአገልግሎት ጊዜው ያላበቃ ፓስፖርት ",
+      "validPassportDescription": "የፓስፖርት ዳታ /መረጃ/ ለመቀየር የሚያመለክቱ አመልካቾች ከዚህ በታች የተመለከቱትን መስፈርቶች ማሟላት አለባቸው፡፡ ",
       "applicantUnder18": "ዕድሜው ከ18 አመት በታች ለሆነ አመልካች",
       "applicantUnder18Description": "አመልካቹ አድሜው ከ18 አመት በታች ከሆነ ወላጆች ወይም አሳዳጊዎች የሚከተሉትን ሰነዶች ማያያዝ ይጠበቅባቸዋል፡፡ ",
       "urgentService": "ለአስቸኳይ አገልግሎት",

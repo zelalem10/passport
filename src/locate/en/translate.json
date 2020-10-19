@@ -58,7 +58,7 @@
 
       "validPassport": "Valid Passport",
       "validPassportDescription": "Applicants for change of passport data must fulfill the following requirements.",
-      "applicantUnder18": "Damaged Passport",
+      "applicantUnder18": "applicant Under 18",
       "applicantUnder18Description": "If the applicant is under 18, parents or guardians are required to attach the following document",
       "urgentService": "Urgent Service",
       "urgentServiceDescription": "For applicants of Lost/Stolen passport must fulfill the following requirements.",
@@ -219,14 +219,12 @@
 
        "expiredPassport" : {
         "title": "Expired Passport applicants must fulfil the following requirements.",
-        "itemOneL1": "Copy  of the expired Passport’s information page.",
-        "itemTwo": "If you are applying for Urgent Services, you must have: "
+        "itemOneL1": "Copy  of the expired Passport’s information page."
        },
 
        "passportRunout" : {
         "title": "For applicants of passport page run out must fulfil the following requirements.If your passport is With 3 or < 3 pages left", 
         "itemOneL1": "Copy of the Passport’s information page ",
-        "itemTwo": "If you are applying for Urgent Services, you must have: ",
         "64pageRunout": "64 page passport page run out",
         "32pageRunout": "32 page passport page run out"
       },
@@ -234,7 +232,7 @@
       "damagedPassport" : {
         "title": " For applicants of damaged passport must fulfil the following requirements. If your passport is damaged through different reasons", 
         "itemOneL1": "Copy  of the  Passport’s information page or any page of the passport which have the passport number and valid Kebele Identity card",
-        "itemTwo": "If you are applying for Urgent Services, you must have: ",
+
      
         "expired": "If the damaged passport is Expired",
         "notExpired": "If the damaged passport is not Expired"
@@ -245,7 +243,6 @@
         "itemOneL1": "Valid Kebele identity card",
         "itemOneL2": "Police evidence letter",
         "itemOneL3": "Copy of passport or information about the passport if you have.",
-        "itemTwo": "If you are applying for Urgent Services, you must have: ",
         
         "lostpassport": "Lost passport",
         "replacementOfLostPassport": "Replacement of lost passport for both valid and expired passport"
@@ -257,7 +254,6 @@
         "title": "  Applicants for change of passport data must fulfil the following requirements.If you need to change the passport information like name change, birth place and birth date", 
         "itemOneL1": "Copy of passport information page ",
         "itemOneL2": "Court evidence letter",
-        "itemTwo": "If you are applying for Urgent Services, you must have: ",
         
         "correction": "Correction",
         "requestsForCorrection": "requests for correction for expired passports",
@@ -268,7 +264,6 @@
       "validPassport" : {
         "title": "Applicants for change of passport data must fulfil the following requirements. If your passport is With 2 or {'<'} 2 years of valid date, you should have to put the reason like DV, scholarship, foreign residence permit, and embassy appointment.", 
         "itemOneL1": "Copy of passport information page",
-        "itemTwo": "If you are applying for Urgent Services, you must have: ",
         "validPassport": "not expired/ valid passport"
       },
 
@@ -280,8 +275,7 @@
       },
 
       "urgentService" : {
-        "title": " If you are applying for Urgent Services, you must have reason or evidence like:", 
-        "itemTwo": "If you are applying for Urgent Services, you must have: "
+        "title": " If you are applying for Urgent Services, you must have reason or evidence like:"
     
       },
 
