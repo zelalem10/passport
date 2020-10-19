@@ -55,9 +55,44 @@ const AccordionDetails = withStyles((theme) => ({
 export default function ViewAppointment(props) {
   const accesstoken = localStorage.systemToken;
   const [expanded, setExpanded] = React.useState('panel1');
+  const [barcodeData,setBarcodeData]=useState({});
   const data = useSelector((state) => state);
   const appList = data.applicationList[data.applicationList.length - 1];
   let displayedApplication = {};
+
+  const tokenValue = () => {
+    const UserToken = localStorage.userToken;
+
+    if (UserToken) {
+      return UserToken;
+    } else {
+      const SystemToken = localStorage.systemToken;
+      return SystemToken;
+    }
+  };
+  const token = tokenValue();
+  const BaseUri="https://epassportservices.azurewebsites.net";
+  const config = {
+    headers: { Authorization: `Bearer ` + token },
+  };
+  
+    const getBarcode=(requestId)=>{
+    debugger;
+      axios
+            .get(
+              BaseUri+`/Request/api/V1.0/Request/GetBarCode?requestId=${requestId}`,
+              config
+            )
+            .then((response)=>{
+              if(response.data.status===1){
+                setBarcodeData(response.data);
+              }
+  
+            })
+            .catch((error)=>{
+              console.log(error);
+            })
+    }
   const getOccupation = (id) => {
     let occupations = JSON.parse(localStorage.occupations);
     for (let index = 0; index < occupations.length; index++) {
@@ -98,6 +133,10 @@ export default function ViewAppointment(props) {
       displayedApplication = appList[item];
     }
   }
+  if(displayedApplication.requestStatus==="PaymentCompleted" && !barcodeData.hasOwnProperty('barCode')){
+      
+    getBarcode(displayedApplication.requestId);
+  }
   const personalInformation = displayedApplication.personResponses;
 
 
@@ -115,7 +154,13 @@ export default function ViewAppointment(props) {
     };
 
     return (
-      <MDBContainer className="passport-container pt-5" fluid>
+              <MDBContainer className="passport-container" id="section-to-print" fluid>
+        <MDBRow className="confirmation-print-btn no-print">
+              <button class="print-button " onClick={() => window.print()}>
+                <span class="pr-2">Print</span>
+                <span class="print-icon"></span>
+              </button>
+            </MDBRow>
         <div class="div-title text-center mywizardcss pt-3 pb-3">
           <div className="header-display">
             <div class="form-group form-inline passport-display">
@@ -549,10 +594,15 @@ export default function ViewAppointment(props) {
                       )}
                     </ul>
                   </fieldset>
+                  {barcodeData.hasOwnProperty('barCode')?
+          (<fieldset>
+<img src={`data:image/jpeg;base64,${barcodeData.barCode}`} />
+          <p class="pl-5">{barcodeData.data}</p>
+          </fieldset>):null}
             </div>
 
           </div>
-          <MDBRow>
+          <MDBRow className="no-print">
             <MDBCol className="medium-12">
               <div className="text-center mb-3 signUpbutton ">
                 <MDBBtn
