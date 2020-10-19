@@ -80,7 +80,7 @@ function SignIn() {
     let userId = localStorage.userId;
     axios
       .get(
-        `https://epassportservices.azurewebsites.net/Person/api/V1.0/Person/GetByUserId?userId=${userId}`,
+        `https://epassportservicesaddt.azurewebsites.net/Person/api/V1.0/Person/GetByUserId?userId=${userId}`,
         config
       )
       .then((response) => {
@@ -102,7 +102,7 @@ function SignIn() {
       axios({
         method: 'post',
         url:
-          'https://epassportservices.azurewebsites.net/User/api/V1.0/Account/ForgotPassword',
+          'https://epassportservicesaddt.azurewebsites.net/User/api/V1.0/Account/ForgotPassword',
         data: {
           username: Email,
           callBackUrl:`${window.origin}#/resetForgotedPassword/${Email}`
@@ -133,7 +133,7 @@ function SignIn() {
       axios({
         method: 'post',
         url:
-          'https://epassportservices.azurewebsites.net/User/api/V1.0/Account/SignIn',
+          'https://epassportservicesaddt.azurewebsites.net/User/api/V1.0/Account/SignIn',
         data: {
           username: Email,
           password: Password,

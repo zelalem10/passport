@@ -68,7 +68,7 @@ const submitNewPassword=(e)=>{
     axios({
         method: 'post',
         url:
-          'https://epassportservices.azurewebsites.net/User/api/V1.0/Account/ResetForgotedPassword',
+          'https://epassportservicesaddt.azurewebsites.net/User/api/V1.0/Account/ResetForgotedPassword',
           config,
         data: {
             username: (window.location.hash).substr(24),
