@@ -108,25 +108,24 @@ export default function ViewAppointment(props) {
     headers: { Authorization: `Bearer ` + token },
   };
   
-    const getBarcode=()=>{
+    const getBarcode=(requestId)=>{
     debugger;
       axios
             .get(
-              BaseUri+'/Request/api/V1.0/Request/GetBarCode',
+              BaseUri+`/Request/api/V1.0/Request/GetBarCode?requestId=${requestId}`,
               config
             )
             .then((response)=>{
+              if(response.data.status===1){
+                setBarcodeData(response.data);
+              }
   
             })
             .catch((error)=>{
               console.log(error);
             })
     }
-    debugger;
-    if(displayedApplication.requestStatus==="PaymentCompleted"){
-      debugger;
-      getBarcode();
-    }
+    
  
 
   const { displayRequestId, backToList } = props;
@@ -134,6 +133,11 @@ export default function ViewAppointment(props) {
   if (appList ? appList.requestId == displayRequestId : false) {
     displayedApplication = appList;
   }
+  
+    if(displayedApplication.requestStatus==="PaymentCompleted" && !barcodeData.hasOwnProperty('barCode')){
+      
+      getBarcode(displayedApplication.requestId);
+    }
   const personalInformation = displayedApplication
     ? displayedApplication.personResponses
     : false;
@@ -152,8 +156,14 @@ export default function ViewAppointment(props) {
     };
 
     return (
-      <MDBContainer className="passport-container pt-5" fluid>
-      <div class="div-title text-center mywizardcss pt-3 pb-3">
+      <MDBContainer className="passport-container" id="section-to-print" fluid>
+        <MDBRow className="confirmation-print-btn no-print">
+              <button class="print-button " onClick={() => window.print()}>
+                <span class="pr-2">Print</span>
+                <span class="print-icon"></span>
+              </button>
+            </MDBRow>
+      <div class="div-title text-center mywizardcss pt-3 pb-3" >
         <div className="header-display">
           <div class="form-group form-inline passport-display">
             <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
@@ -223,6 +233,7 @@ export default function ViewAppointment(props) {
         style={{ display: 'block' }}
       >
         <div class="row pt-4">
+          
           <div class="col-md-6">
             
             <fieldset>
@@ -589,10 +600,15 @@ export default function ViewAppointment(props) {
                       )}
                     </ul>
                   </fieldset>
+                  {barcodeData.hasOwnProperty('barCode')?
+          (<fieldset>
+<img src={`data:image/jpeg;base64,${barcodeData.barCode}`} />
+          <p class="pl-5">{barcodeData.data}</p>
+          </fieldset>):null}
          
    </div>
         </div>
-        <MDBRow>
+        <MDBRow className="no-print">
           <MDBCol className="medium-12">
             <div className="text-center mb-3 signUpbutton ">
               <MDBBtn
