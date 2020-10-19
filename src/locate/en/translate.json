@@ -13,7 +13,9 @@
       "contactUs": "Contact Us",
       "manageApllication": "Manage Application",
       "register" : "Register",
-      "logIn" : "Log In"
+      "logIn" : "Log In",
+      "welcome" : "Welcome ,",
+      "logOut" : "Log Out"
     },
 
     "footer": {
@@ -27,7 +29,7 @@
       "email" : "support@ethiopianpassportservices.gov.et",
       "helpAndSupport" : "Help and Support",
       "fAQ" : "FAQ",
-      "copyRight" : "2020 Copyright: Immigration Nationality and Vital Events Agency Ethiopia"
+      "copyRight" : "Copyright: Immigration Nationality and Vital Events Agency Ethiopia"
     },
 
     "carouselCaption" : "Welcome to Ethiopian Passport Services",
@@ -74,7 +76,8 @@
       "itemFour": "Applicants are reminded to be on site not earlier than 30 minutes on their selected date and time of appointment at their chosen consular office.",
       "itemFive": "Personal appearance is required for all applicants.",
       "itemSix": "Please be warned that dealing with fixers (illegal arrangements) is at your own risk and expense.",
-      "itemSeven": "Prepare all the originals and photocopies of the documentary requirements for passport application."
+      "itemSeven": "Prepare all the originals and photocopies of the documentary requirements for passport application.",
+      "readMore": "Read More"
     },
 
     "requestAppointment": {

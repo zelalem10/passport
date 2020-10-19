@@ -3,8 +3,9 @@ import { MDBCol, MDBContainer, MDBRow, MDBFooter } from 'mdbreact';
 import { faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
-
+import { useTranslation, Trans } from 'react-i18next';
 const FooterPage = () => {
+  const { t, i18n } = useTranslation();
   return (
     <MDBFooter
       style={{ backgroundColor: '#093c73' }}
@@ -18,28 +19,28 @@ const FooterPage = () => {
         <MDBRow>
           <MDBCol md="4" style={{ 'padding-left': 0 }}>
             <h5 className="title" style={{ fontWeight: 400 }}>
-              About Passport Service
+              <Trans>footer.aboutPassportService</Trans>
             </h5>
             <ul style={{ 'padding-left': 0 }}>
               <li className="list-unstyled">
-                <Link to="/Information">Requirements</Link>
+                <Link to="/Information">   <Trans>footer.requirements</Trans></Link>
               </li>
               <li className="list-unstyled">
-                <Link to="/request-appointment">Schedule an Appointment</Link>
+                <Link to="/request-appointment"><Trans>footer.scheduleanappointment</Trans></Link>
               </li>
               <li className="list-unstyled">
-                <Link to="/status">Status</Link>
+                <Link to="/status"><Trans>footer.status</Trans></Link>
               </li>
             </ul>
           </MDBCol>
           <MDBCol md="4" style={{ 'padding-left': 0 }}>
             <h5 className="title" style={{ fontWeight: 400 }}>
-              Contact
+              <Trans>footer.contactUs</Trans>
             </h5>
             <ul style={{ 'padding-left': 0 }}>
             <li className="list-unstyled">
             <span class="fa  fa-map-marker"></span>
-            <Link to="/contactUs"><strong class="text-white evisa-footer">&nbsp;Addis Ababa, Ethiopia</strong></Link>
+            <Link to="/contactUs"><strong class="text-white evisa-footer">&nbsp;<Trans>footer.AddisAbabaEthiopia</Trans></strong></Link>
 
               </li>
               <li className="list-unstyled">
@@ -58,11 +59,12 @@ const FooterPage = () => {
           </MDBCol>
           <MDBCol md="4" style={{ 'padding-left': 0 }}>
             <h5 className="title" style={{ fontWeight: 400 }}>
-              Help and Support
+              <Trans>footer.helpAndSupport</Trans>
             </h5>
             <ul style={{ 'padding-left': 0 }}>
               <li className="list-unstyled">
-                <Link to="/Faq">FAQ</Link>
+                <Link to="/Faq">     
+                <Trans>footer.fAQ</Trans></Link>
               </li>
             </ul>
           </MDBCol>
@@ -102,8 +104,7 @@ const FooterPage = () => {
       </MDBContainer>
       <div className="footer-copyright text-center py-3">
         <MDBContainer fluid>
-          &copy; {new Date().getFullYear()} Copyright: Immigration Nationality
-          and Vital Events Agency Ethiopia
+          &copy; {new Date().getFullYear()} <Trans>footer.copyRight</Trans>
         </MDBContainer>
       </div>
     </MDBFooter>

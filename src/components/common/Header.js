@@ -80,13 +80,13 @@ const NavbarPage = (props) => {
       <ul className="navbar-nav ml-auto">
         <li className="nav-item ml-auto">
           <a className="nav-link" href="#">
-            <strong class='mr-md-3'> Welcome,   {firstName} {lastName}</strong>
+            <strong class='mr-md-3'>  <Trans>header.welcome</Trans>   {firstName} {lastName}</strong>
           </a>
 
         </li>
         <li className="nav-item ml-auto">
           <a className="nav-link" href="#" onClick={logout}>
-            <i class="fas fa-sign-out-alt"></i> <strong>Log out</strong>
+            <i class="fas fa-sign-out-alt"></i> <strong><Trans>header.logOut</Trans> </strong>
           </a>
         </li>
       </ul>

@@ -13,21 +13,23 @@
       "contactUs": "አግኙን",
       "manageApllication": "መለያዎን ያስተዳድሩ",
       "register" : "ተመዝገቡ",
-      "logIn" : "ይግቡ"
+      "logIn" : "ይግቡ",
+      "welcome" : "እንኳን በደህና መጡ ,",
+      "logOut" : "ውጣ"
     },
 
     "footer": {
-      "aboutPassportService": "About Passport Service",
-      "requirements": "Requirements",
-      "status": "Status",
-      "contactUs": "Contact Us",
-      "scheduleanappointment": "Schedule an Appointment",
-      "AddisAbabaEthiopia": "Addis Ababa, Ethiopia",
+      "aboutPassportService": "ስለ ፓስፖርት አገልግሎት በተመለከተ ",
+      "requirements": "መስፈርቶች",
+      "status": "የማምልከቻ ደረጃ",
+      "contactUs": "ግንኙነት ",
+      "scheduleanappointment": "የቀጠሮ የጊዜ ሰሌዳ ያስይዙ ",
+      "AddisAbabaEthiopia": "አዲስ አበባ, ኢትዮጵያ",
       "phone": "+251(11)1553899",
       "email" : "support@ethiopianpassportservices.gov.et",
-      "helpAndSupport" : "Help and Support",
-      "fAQ" : "FAQ",
-      "copyRight" : "2020 Copyright: Immigration Nationality and Vital Events Agency Ethiopia"
+      "helpAndSupport" : "እገዛና ድጋፍ ",
+      "fAQ" : "በተደጋጋሚ የሚጠየቁ ጥያቄዎች",
+      "copyRight" : "የቅጂ መብት: የኢትዮጵያ የኢሚግሬሽን፣ ዜግነት እና ወሳኝ ኩነቶች ኤጀንሲ "
     },
 
     "carouselCaption" : "ወደ ኢትዮጵያ ፓስፖርት አገልግሎት እንኳን በደህና መጡ",
@@ -64,7 +66,18 @@
       "urgentService": "ለአስቸኳይ አገልግሎት",
       "urgentServiceDescription": "ለአስቸኳይ አገልግሎት የሚከተሉትን መስፈርቶች ማሟላት አአለባቸው፡፡",
       "emergency": "ድንገተኛ",
-      "emergencyDescription": "Emergency requests are handled in INVEA main office or branch offices in person."
+      "emergencyDescription": "የድንገተኛ ጥያቄዎችና አገልግሎት የሚከተሉትን መስፈርቶች ማሟላት አአለባቸው፡፡"
+    },
+    "beforYouApplyList": {
+      "title":"ከማመልከትዎ በፊት",
+      "itemOne": "ሁሉም አመልካቾች የፓስፖርት ማመልከቻ በሚያቀርቡበት ወቅት የኦንላይን ቀጠሮ ማስያዝ አለባቸው፡፡ ",
+      "itemTwo": "አመልካቾች የበረራቸውን የጊዜ ሰሌዳ ከማስያዛቸው በፊት ፓስፖርት ማግኘታቸውን ቢያረጋግጡ ይመከራል፡፡ የበረራ የጊዜ ሰሌዳዎች መያዝ ያለባቸው ፓስፖርቶች ቢያንስ የስድስት (6) ወራት ቀሪ የአገልግሎት እድሜ ካላቸው ብቻ ነው፡፡ ",
+      "itemThree": "ለክብር እንግዳነት መስመር DFA (የውጭ ጉዳይ መምሪያ) ብቁ ከሆኑ አመልካቾች በስተቀር ለሁሉም አመልካቾች የተረጋገጠ ቀጠሮ ማስያዝ የግድ ነው፡፡ ",
+      "itemFour": "ለአመልካቾች በመረጡት የቆንስላ ጽ/ቤት ለቀጠሮ በመረጡት ቀን እና ሰዐት በቀጠሮ ቦታቸው ላይ 30 ደቂቃዎች ቀድመው እንዲገኙ ማሳሰቢያ ይሰጣቸዋል፡፡  ",
+      "itemFive": "ሁሉም አመልካቾች በአካል መገኘት ይጠበቅባቸዋል፡፡",
+      "itemSix": "እባክዎ ከቀጠሮ አስያዦች ጋር ለመደራደር (ህገወጥ ማመቻቸት) ስጋቱና ወጪውን በራስዎ ኃላፊነት ይወስዳሉ፡፡",
+      "itemSeven": "ሁሉንም ለፓስፖርት ማመልከቻ የሚጠየቁ አስፈላጊ ሰነዶች ዋና እና ፎቶኮፒዎችን ያዘጋጁ፡፡",
+      "readMore": "ተጨማሪ ያንብቡ "
     },
 
     "requestAppointment": {
