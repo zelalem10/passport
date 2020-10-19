@@ -51,19 +51,20 @@ const {passportPage}=props;
                   : null
                 : null}
 
-              <p class="">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi
-                distinctio iusto, perspiciatis mollitia natus harum? Lorem ipsum
-                dolor sit amet consectetur adipisicing elit. Animi distinctio
-                iusto, perspiciatis mollitia natus harum?
-              </p>
+<p class="">
+                N.B : Please ensure that you make the extract payment within 2 hours after making the request. 
+                
 
-              <p class="">
-                N.B : Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Animi distinctio iusto, perspiciatis mollitia natus harum? Lorem
-                ipsum dolor sit amet consectetur adipisicing elit. Animi
-                distinctio iusto, perspiciatis mollitia natus harum?
-              </p>
+          </p>
+          <p class="">
+          If you do not get any SMS or email confirmation in 2 hours after marking the payment,  
+          Please contact us by this email address: 
+          <a href="mailto:support@ethiopianpassportservices.gov.et" class='ml-1'>
+            <strong>
+             support@ethiopianpassportservices.gov.et
+             </strong>
+             </a>
+          </p>
             </div>
 
             <div class="col-md-4 order-md-2 mb-4 mt-5">

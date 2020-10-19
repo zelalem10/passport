@@ -56,6 +56,7 @@ export default function ViewAppointment(props) {
   const accesstoken = localStorage.systemToken;
   const [expanded, setExpanded] = React.useState('panel1');
   const data = useSelector((state) => state);
+  const [barcodeData,setBarcodeData]=useState({});
   const appList = data.applicationList[data.applicationList.length-1];
   let displayedApplication = {};
   const getOccupation = (id) => {
@@ -90,6 +91,43 @@ export default function ViewAppointment(props) {
       }
     }
   };
+
+  const tokenValue = () => {
+    const UserToken = localStorage.userToken;
+
+    if (UserToken) {
+      return UserToken;
+    } else {
+      const SystemToken = localStorage.systemToken;
+      return SystemToken;
+    }
+  };
+  const token = tokenValue();
+  const BaseUri="https://epassportservices.azurewebsites.net";
+  const config = {
+    headers: { Authorization: `Bearer ` + token },
+  };
+  
+    const getBarcode=()=>{
+    debugger;
+      axios
+            .get(
+              BaseUri+'/Request/api/V1.0/Request/GetBarCode',
+              config
+            )
+            .then((response)=>{
+  
+            })
+            .catch((error)=>{
+              console.log(error);
+            })
+    }
+    debugger;
+    if(displayedApplication.requestStatus==="PaymentCompleted"){
+      debugger;
+      getBarcode();
+    }
+ 
 
   const { displayRequestId, backToList } = props;
 
@@ -186,6 +224,7 @@ export default function ViewAppointment(props) {
       >
         <div class="row pt-4">
           <div class="col-md-6">
+            
             <fieldset>
               <legend class="text-primary">Personal Information</legend>
               <hr class="text-primary" />
