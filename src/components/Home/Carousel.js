@@ -116,7 +116,7 @@ const CarouselPage = () => {
             <MDBView>
               <img
                 className="d-block w-100"
-                src={require('../../images/default-source/carousel/ertale.jpg')}
+                src={require('../../images/default-source/carousel/banner passport .jpg')}
                 alt="Third slide"
               />
               {/* <MDBMask overlay="black-slight" /> */}

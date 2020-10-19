@@ -155,30 +155,30 @@ const NavbarPage = (props) => {
             </Link>
           </MDBNavbarNav>
           <MDBNav right>
-            <MDBNavItem className="d-none d-md-block">
+            <MDBNavItem className="d-none d-md-block header-top-links">
               <a
                 style={style}
                 href="https://www.evisa.gov.et"
-                className="text-dark mr-4"
+                className=" mr-4"
               >
                 <Trans>header.evisa</Trans>
               </a>
             </MDBNavItem>
-            <MDBNavItem className="d-none d-md-block">
+            <MDBNavItem className="d-none d-md-block header-top-links">
               <a
                 style={style}
                 href="https://www.ethiopianairlines.com"
-                className="text-dark mr-4"
+                className=" mr-4"
               >
               <Trans>header.ethiopianAirlines</Trans>
              
               </a>
             </MDBNavItem>
-            <MDBNavItem className="d-none d-md-block">
+            <MDBNavItem className="d-none d-md-block header-top-links">
               <a
                 style={style}
                 href="https://www.ethiopianskylighthotel.com"
-                className="text-dark mr-4"
+                className=" mr-4"
               >
              <Trans>header.ethiopianSkylightHotel</Trans>
               

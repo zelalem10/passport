@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 const FooterPage = () => {
   return (
     <MDBFooter
-      style={{ backgroundColor: '#093c73' }}
+      style={{ backgroundColor: '#333333' }}
       className="font-small pt-4 mt-4"
     >
       <MDBContainer
@@ -70,24 +70,24 @@ const FooterPage = () => {
         </MDBRow>
         <MDBRow>
           <img
-            className="pr-3 pt-3 "
-            src={require('../../images/default-source/footer_img/CbeBank.jpg')}
+            className="pr-2 pt-3 footer-payment-icons"
+            src={require('../../images/default-source/footer_img/svgPayment/CBE.svg')}
           ></img>
           <img
-            className="pr-3 pt-3"
-            src={require('../../images/default-source/footer_img/CbeBirr.jpg')}
+            className="pr-2 pt-3 footer-payment-icons"
+            src={require('../../images/default-source/footer_img/svgPayment/CBE birr-01.svg')}
           ></img>
           <img
-            className="pr-3 pt-3"
-            src={require('../../images/default-source/footer_img/amole.jpg')}
+            className="pr-2 pt-3 footer-payment-icons"
+            src={require('../../images/default-source/footer_img/svgPayment/AMOLE-01.svg')}
           ></img>
           <img
-            className="pr-3 pt-3"
-            src={require('../../images/default-source/footer_img/pss.jpg')}
+            className="pr-2 pt-3 footer-payment-icons"
+            src={require('../../images/default-source/footer_img/svgPayment/pss-01.svg')}
           ></img>
           <img
-            className="pr-3 pt-3"
-            src={require('../../images/default-source/footer_img/Abisiniya.jpg')}
+            className="pr-2 pt-3 footer-payment-icons"
+            src={require('../../images/default-source/footer_img/svgPayment/BOA-01.svg')}
           ></img>
         </MDBRow>
         <MDBRow>
