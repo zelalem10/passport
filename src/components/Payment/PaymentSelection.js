@@ -162,7 +162,7 @@ const PaymentSelection = forwardRef((props, ref) => {
                     <div class="card-body">
                       <div class="payment-type">
                         <h4>Choose payment method below</h4>
-                        {paymentOptions.map((paymentOption) => (
+                        {paymentOptions && typeof(paymentOptions) !=="undefined" ?(paymentOptions.map((paymentOption) => (
                           <div
                             class="types flex col-sm-12 justify-space-between"
                             onClick={() => handelClick(paymentOption.id, paymentOption.code)}
@@ -183,7 +183,7 @@ const PaymentSelection = forwardRef((props, ref) => {
                               </div>
                             </div>
                           </div>
-                        ))}
+                        ))):null}
                       </div>
                     </div>
                   </article>
