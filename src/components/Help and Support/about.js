@@ -1,7 +1,8 @@
 import React from 'react';
 import { MDBIcon, MDBContainer, MDBBtn, MDBInput } from 'mdbreact';
-
+import { useTranslation, Trans } from 'react-i18next';
 const About = () => {
+    const { t, i18n } = useTranslation();
     return (
 
         <MDBContainer className="container my-5" fluid>
@@ -9,12 +10,9 @@ const About = () => {
 
                 <div class="row my-5">
                     <div class="col-md-6">
-                        <h1>What We Do</h1>
-                        <p>This is institution established again by coordinating the prosperity reform works in Ethiopia. It is called FDRE Immigration, Nationality and vital events agency. </p>
-                        <p>What history says?
-                        On vital events registration from Emperor Minilik to foreign citizens birth and death documents were given and this is clearly stated on historical documents. It starts working by following legal outlines on 1942. Based on by state government declaration seventy fourth city officials were assigned to register residence of the city and the title was stated at letter “D” writing on civil status means/birth, marriage and death/.
-</p>
-                        <p>The other thing concerning the ministry authority on order number 1/1935 and number 36 letter “D” by the power of ministry of state for counting public authority for marriage and birth registration on civil status given to it by law by giving power of attorney to the municipality of the city for implementation of better work necessary internal laws and regulations given to it. </p>
+                        <h1><Trans>about.title</Trans></h1>
+                        <p><Trans>about.paragraphOne</Trans></p>
+                        <p><Trans>about.paragraphTwo</Trans></p>
 
                     </div>
                     <div class="col-md-6">
@@ -28,9 +26,7 @@ const About = () => {
                         </img>
                     </div> */}
                     <div class="col-md-12">
-                                           <p class="text-justify">Based on 1951 law notification number 150/43 to assign the place for cemetery, controlling cemetery and it is counted as one of activities issued to the municipality by the civil code law drafted on 1960 to implement vital events registration many articles included on this law number 3361 /1/ for implementing those articles concerning with civil status till unique regulation drafted the aim of vital events the process and implementation when it is compared with the modern and proper registration work manner even though it is tried to include some points reserving the gaps concerning vital events registration and collecting information works conducted in different governmental organizations (i.e Municipality, city administration offices, central statistics agency and health center. On this hand, the processes of registration of vital events were conducted in religious organizations.  
-                   So, in 1943 marriage, in 1954 birth, in 1968 death registration started. This registration done for legal and administrational affairs and by the persons who are willing to register the events certificate is issued.
-Participants of vital events registration 
+                     <p class="text-justify"> <p><Trans>about.paragraphThree</Trans></p>
 </p>
                     </div>
                 </div>
@@ -38,14 +34,14 @@ Participants of vital events registration
 
 
 
-                <div class="row my-5 equalcard">
+                <div class="row mt-5 equalcard">
                     <div class="col-md-4 equalcard">
                         <div class="card">
                             {/* <img src="https://source.unsplash.com/random/300x200" alt="" class="img-fluid card-img-top"></img> */}
                             <div class="card-body">
-                                <h4 class="card-title">Vision</h4>
+                                <h4 class="card-title"><Trans>about.vision</Trans></h4>
                                            <hr></hr>
-                                <p class="card-text">Our vision being one of the 10 best agencies in Africa in 2022 through supporting the information and service provision with technology, making the quality fits with international standards and ensuring its security. 
+                                <p class="card-text"><Trans>about.visionDetail</Trans> 
                 </p>
                             </div>
                         </div>
@@ -55,14 +51,14 @@ Participants of vital events registration
                         <div class="card ">
                             {/* <img src="https://source.unsplash.com/random/300x200" alt="" class="img-fluid card-img-top"></img> */}
                             <div class="card-body">
-                                <h4 class="card-title">Mission</h4>
+                                <h4 class="card-title"><Trans>about.mission</Trans> </h4>
      
                                 <hr></hr>
                                 <p class="card-text">
                                     <ul>
-                                    <li>Ensuring the legal movement of people and granting foreign national with citizenship by ensuring reliable, quality and secured documents accessible to users.  </li>
-                                    <li>Compiling, organizing and making accessible secured complete and quality information and documents to users through utilizing a system supported by research and study, and equipped with technology.  </li>
-                                    <li>Ensuring the provision of swift and effective service through creating awareness to the public and stakeholders about the importance of the agency service.  </li>
+                                    <li><Trans>about.missionFirstList</Trans> </li>
+                                    <li><Trans>about.missionSecondList</Trans> </li>
+                                    <li><Trans>about.missionThirdList</Trans></li>
                                 </ul>
                 </p>
                             </div>
@@ -73,18 +69,18 @@ Participants of vital events registration
                         <div class="card ">
                             {/* <img src="https://source.unsplash.com/random/300x200" alt="" class="img-fluid card-img-top"></img> */}
                             <div class="card-body">
-                                <h4 class="card-title">Values </h4>
+                                <h4 class="card-title"><Trans>about.values</Trans> </h4>
                       
                                 <hr></hr>
                                 <p class="card-text">
                                     <ul>
-                                    <li>Nationalism </li>
-                                    <li>Complete personality/ Autonomy</li>
-                                    <li>Accountability </li>
-                                    <li>Team work </li>
-                                    <li>Trusted provider </li>
-                                    <li>Confidentiality </li>
-                                    <li>Fairness </li>
+                                    <li><Trans>about.valuesListOne</Trans> </li>
+                                    <li><Trans>about.valuesListTwo</Trans></li>
+                                    <li><Trans>about.valuesListThree</Trans> </li>
+                                    <li><Trans>about.valuesListFour</Trans></li>
+                                    <li><Trans>about.valuesListFive</Trans></li>
+                                    <li><Trans>about.valuesListSix</Trans> </li>
+                                    <li><Trans>about.valuesListSeven</Trans> </li>
                                 </ul>
                 </p>
                             </div>
@@ -94,7 +90,7 @@ Participants of vital events registration
                 </div>
 
 
-                <div id="icon-boxes">
+                {/* <div id="icon-boxes">
 
                     <div class="row mb-4 equalcard">
                         <div class="col-md-3 equalcard">
@@ -178,7 +174,7 @@ Participants of vital events registration
 
 
 
-                </div>
+                </div> */}
             </div>
 
         </MDBContainer>

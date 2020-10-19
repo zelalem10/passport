@@ -119,24 +119,24 @@ const ContactUs = (props) => {
     
           <div class="row">
             <div class="col-lg-3 my-5">
-              <div class="card p-2">
+              <div class="card">
                 <div class="card-body">
-                  <h4>Get In Touch</h4>
+                  <h4><Trans>contactUs.getInTouch</Trans></h4>
                   <p>
-                  Ethiopian Passport Online Passport Service
+                  <Trans>contactUs.getInTouchDescription</Trans>
                   </p>
-                  <h4>Address</h4>
-                  <p>Main Office Address</p>
-                  <h4>Email</h4>
-                  <a href="mailto:support@ethiopianpassportservices.gov.et">support@ethiopianpassportservices.gov.et </a>
-                  <h4>Phone</h4>
-                  <a href="tel:8133">8133 FREE CALL</a>
-                  <h4>Social Media Link</h4>
+                  <h4> <Trans>contactUs.addressTitle</Trans></h4>
+                  <p> <Trans>contactUs.address</Trans></p>
+                  <h4><Trans>contactUs.EmailTitle</Trans></h4>
+                  <a href="mailto:support@ethiopianpassportservices.gov.et"><Trans>contactUs.Email</Trans></a>
+                  <h4><Trans>contactUs.phoneTitle</Trans></h4>
+                  <a href="tel:8133"><Trans>contactUs.freePhone</Trans></a>
+                  <h4><Trans>contactUs.socialMediaLink</Trans></h4>
                   <div class="d-inline">
                     <a href="https://www.facebook.com/pages/category/Government-Official/FDRE-Immigration-Nationality-And-Vital-Events-Agency-2178330725741394/" className="fb-ic ePassprt-text-color">
                       <MDBIcon fab icon="facebook-f" className="mr-2" />
                       <p class="d-inline ePassprt-text-color">
-                        FDRE Immigration Nationality and Vital Events Agency
+                      <Trans>contactUs.facebook</Trans>
                       </p>
                     </a>
                   </div>
@@ -145,7 +145,7 @@ const ContactUs = (props) => {
                     <Link to="#!" className="tw-ic ePassprt-text-color">
                       <MDBIcon fab icon="twitter" className="mr-2" />
                       <p class="d-inline ePassprt-text-color">
-                        Immigration Nationality and Vital Event Agency
+                      <Trans>contactUs.tiwtter</Trans>
                       </p>
                     </Link>
                   </div>
@@ -157,11 +157,11 @@ const ContactUs = (props) => {
                 <div class="card p-4">
                   {Message && (
                     <div class="alert alert-success text-center" role="alert">
-                      Thank You For Your Feedback!
+                           <Trans>contactUs.message</Trans>
                     </div>
                   )}
                   <h3 class="text-center my-4">
-                    Please fill out this form to contact us
+                  <Trans>contactUs.formTitle</Trans>
                   </h3>
                   <div class="row">
                     <div class="col-md-6">
@@ -171,7 +171,7 @@ const ContactUs = (props) => {
                       <div className="form-group">
                         <MDBInput
                           type="text"
-                          label="Firs Name"
+                          label={t("contactUs.firstName")}
                           type="text"
                           outline
                           onChange={(e) => setfirstName(e.target.value)}
@@ -186,7 +186,7 @@ const ContactUs = (props) => {
                         <MDBInput
                           type="text"
                           type="text"
-                          label="Last Name"
+                          label={t("contactUs.lastName")}
                           outline
                           onChange={(e) => setlastName(e.target.value)}
                         />
@@ -202,7 +202,7 @@ const ContactUs = (props) => {
                         <MDBInput
                           type="text"
                           type="number"
-                          label="Phone Number"
+                          label={t("contactUs.phoneNumber")}
                           outline
                           onChange={(e) => setphoneNumber(e.target.value)}
                         />
@@ -215,7 +215,7 @@ const ContactUs = (props) => {
                       <div className="form-group">
                         <MDBInput
                           type="text"
-                          label="Your e-mail"
+                          label={t("contactUs.email")}
                           type="email"
                           outline
                           onChange={(e) => setemail(e.target.value)}
@@ -231,7 +231,7 @@ const ContactUs = (props) => {
                       <div className="form-group">
                         <MDBInput
                           type="textarea"
-                          label="Please Write Your Message Here"
+                          label={t("contactUs.remark")}
                           outline
                           onChange={(e) => setnote(e.target.value)}
                         />
@@ -239,7 +239,7 @@ const ContactUs = (props) => {
                     </div>
                     <div class="col-12 medium text-center">
                       <MDBBtn type="submit" class="btn btnBlu">
-                        Submit
+                      <Trans>contactUs.submit</Trans> 
                       </MDBBtn>
                     </div>
                   </div>
@@ -250,54 +250,54 @@ const ContactUs = (props) => {
               <MDBTable>
                 <thead class="thead-lightt">
                   <tr>
-                    <th>Brach Office name</th>
-                    <th>Phone number </th>
-                    <th>FAX Number</th>
+                    <th> <Trans>contactUs.brach</Trans> </th>
+                    <th> <Trans>contactUs.phoneNumber</Trans>  </th>
+                    <th> <Trans>contactUs.faxNumber</Trans></th>
                   </tr>
                 </thead>
                 <MDBTableBody>
                   <tr>
-                    <td>Bahrdar</td>
+                    <td> <Trans>contactUs.bahrdar</Trans></td>
                     <td>0582263730</td>
                     <td>0582264022</td>
                   </tr>
                   <tr>
-                    <td>Mekelle </td>
+                    <td>  <Trans>contactUs.mekelle</Trans></td>
                     <td>0344416772</td>
                     <td>0344409291</td>
                   </tr>
                   <tr>
-                    <td>Dessie</td>
+                    <td> <Trans>contactUs.dessie</Trans></td>
                     <td>0331122581</td>
                     <td>0331123837</td>
                   </tr>
                   <tr>
-                    <td>Semera</td>
+                    <td> <Trans>contactUs.semera</Trans></td>
                     <td>0333662077</td>
                     <td>0336660282</td>
                   </tr>
                   <tr>
-                    <td>Diredawa</td>
+                    <td><Trans>contactUs.diredawa</Trans></td>
                     <td>0251112497</td>
                     <td>0251117880</td>
                   </tr>
                   <tr>
-                    <td>Adama</td>
+                    <td><Trans>contactUs.adama</Trans></td>
                     <td>0222126637</td>
                     <td>0222128463</td>
                   </tr>
                   <tr>
-                    <td>Jigjiga</td>
+                    <td><Trans>contactUs.jigjiga</Trans></td>
                     <td>----------</td>
                     <td>0252782038</td>
                   </tr>
                   <tr>
-                    <td>Hawasa</td>
+                    <td><Trans>contactUs.hawasa</Trans></td>
                     <td>0462214223</td>
                     <td>0462213143</td>
                   </tr>
                   <tr>
-                    <td>Jimma</td>
+                    <td><Trans>contactUs.jimma</Trans></td>
                     <td>0471116745</td>
                     <td>0471121228</td>
                   </tr>

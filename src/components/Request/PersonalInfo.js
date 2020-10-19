@@ -368,7 +368,7 @@ setIsLoading(false)
                   className="form-control"
                   onBlur={handleChange}
                   type="text"
-                  label= 'First name'
+                  label= {t('requestForm.firstname')}
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
@@ -384,7 +384,7 @@ setIsLoading(false)
                   name="middleName"
                   onBlur={handleChange}
                   type="text"
-                  label="Middle Name"
+                  label={t('requestForm.middleName')}
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
@@ -400,7 +400,7 @@ setIsLoading(false)
                   name="lastName"
                   onBlur={handleChange}
                   type="text"
-                  label="lastName"
+                  label={t('requestForm.lastName')}
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
@@ -441,7 +441,7 @@ setIsLoading(false)
                   className="form-control"
                   onBlur={handleChange}
                   type="text"
-                  label="ስም"
+                  label={t('requestForm.amharicFirstname')}
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
@@ -457,7 +457,7 @@ setIsLoading(false)
                   name="geezMiddleName"
                   onBlur={handleChange}
                   type="text"
-                  label="የአባት ስም"
+                  label={t('requestForm.amharicMiddleName')}
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
@@ -473,7 +473,7 @@ setIsLoading(false)
                   name="geezLastName"
                   onBlur={handleChange}
                   type="text"
-                  label="የአያት ስም"
+                  label={t('requestForm.amharicLastName')}
                 />
                 <span style={{ color: 'red' }}>
                   {' '}

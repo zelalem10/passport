@@ -143,7 +143,7 @@ function AppointmetType(props) {
                         <ul class="list--no-indent list--no-bullets ng-star-inserted">
                             <li>
                                 <strong>
-                                    Requestor:{isItGroup ? ' Group / ' + values : ' Individual'}
+                                <Trans>requestAppointment.requestor</Trans>{isItGroup ? ' Group / ' + values : ' Individual'}
                                 </strong>
                             </li>
                         </ul>

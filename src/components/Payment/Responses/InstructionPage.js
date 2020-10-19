@@ -40,7 +40,7 @@ function InstructionPage() {
               <h6 class="font-weight-bold u-center-text m3-5">Thank you for making this request. Please follow step below to process payment.</h6>
               </div>
             
-              {paymentInformation? paymentInformation.instractions.length
+              {paymentInformation? paymentInformation.instractions?.length
                 ? paymentInformation.instractions.map((instruction) => (
                   <div class="d-flex">
 
