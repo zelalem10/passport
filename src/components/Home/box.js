@@ -84,7 +84,10 @@ const BoxPage = () => {
   
 
 
-                      {/* <div class="col-12 medium text-center my-3"><Link to="/Information" class="btn btnBlu">Read More</Link></div> */}
+                      {/* <div class="col-12 medium text-center my-3">
+                        <Link to="/Information" class="btn btnBlu">   
+                      <Trans>beforYouApplyList.readMore</Trans>   
+                       </Link></div> */}
           </div>
         </div>
       </MDBContainer>

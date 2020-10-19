@@ -9,12 +9,18 @@ import { Alert } from 'react-bootstrap';
 
 
 function InstructionPage() {
+  debugger;
   let paymentInformation = useSelector((state) => state.paymentOption[1]);
   let personRequestdata = useSelector((state) => state.request[state.request.length - 1]);
-console.log(paymentInformation);
+
   const personalInformation = personRequestdata
   ? personRequestdata.personResponses
   : null;
+
+  const appointmentInformation = personRequestdata
+  ? personRequestdata.appointmentResponse
+  : null;
+
   return (
     <>
       <div id="share-section" class="bg-light text-muted py-5">
@@ -87,7 +93,16 @@ console.log(paymentInformation);
                       <h6>Application Number</h6>
                       <strong>{personalInformation? personalInformation.applicationNumber:null}</strong>
                     </li>
+
+                    <li class="list-group-item d-flex justify-content-between">
+                      <h6>Appointment Date</h6>
+                      <strong>{appointmentInformation? appointmentInformation.date:null}</strong>
+                    </li>
                  
+                    <li class="list-group-item d-flex justify-content-between">
+                      <h6>Appointment Time</h6>
+                      <strong>{appointmentInformation? appointmentInformation.duration.startTime + '-' + appointmentInformation.duration.endTime:null}</strong>
+                    </li>
                   </ul>
               <ul class="list-group mb-3">
                 <li class="list-group-item ePassprt-color"><h5>Pricing Information</h5></li>
