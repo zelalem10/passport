@@ -72,7 +72,7 @@ function IndividualandGroup(props) {
                             <div className="row align-center vertical-margin-2">
                                 <div className="small-11 column">
                                     <div class="request-card card card--small-gutters card--shadow text-center row">
-                                        <div class="small-12 medium-6 column">
+                                        <div class="small-12 column">
                                             <a
                                                 class="card card--link card--teal card--tile"
                                                 onClick={
@@ -92,7 +92,7 @@ function IndividualandGroup(props) {
                                                 </div>
                                             </a>
                                         </div>
-                                        <div class="small-12 medium-6 column vertical-margin-1-small vertical-margin-0-medium">
+                                        {/* <div class="small-12 medium-6 column vertical-margin-1-small vertical-margin-0-medium">
                                             <a
                                                 class="card card--link card--teal card--tile"
                                                 onClick={
@@ -111,7 +111,7 @@ function IndividualandGroup(props) {
                                                     </p>
                                                 </div>
                                             </a>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>
