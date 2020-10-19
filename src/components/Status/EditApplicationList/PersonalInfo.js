@@ -218,7 +218,7 @@ const PersonalInfo = forwardRef((props, ref) => {
       setOccupationList(JSON.parse(localStorage.occupations));
       if (occupationList.length === 0) {
         API.get(
-          'https://epassportservices.azurewebsites.net/Master/api/V1.0/Occupation/GetAll',
+          'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Occupation/GetAll',
           config
         )
           .then((todo) => {

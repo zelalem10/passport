@@ -226,7 +226,7 @@ const Address = forwardRef((props, ref) => {
 
     if (regionList.length === 0) {
 
-      API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
+      API.get('https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
 
         .then((todo) => {
 

@@ -11,7 +11,7 @@ function AppointmetType(props) {
     const dispatch = useDispatch();
     const counter = useSelector((state) => state);
     const [requestTypes, setRequestTypes] = useState([]);
-    const baseUrl = 'https://epassportservices.azurewebsites.net/';
+    const baseUrl = 'https://epassportservicesaddt.azurewebsites.net/';
     const tokenValue = () => {
         const UserToken = localStorage.userToken;
 

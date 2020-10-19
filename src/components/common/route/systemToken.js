@@ -14,7 +14,7 @@ function SystemToken() {
     axios({
       method: 'post',
       url:
-        'https://epassportservices.azurewebsites.net/User/api/V1.0/Account/SignIn',
+        'https://epassportservicesaddt.azurewebsites.net/User/api/V1.0/Account/SignIn',
       data: {
         username: 'Admin@gmail.com',
         password: 'Abcd@1234',
@@ -26,7 +26,7 @@ function SystemToken() {
         headers: { Authorization: 'Bearer ' + accesstoken },
         method: 'get',
         url:
-          'https://epassportservices.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll',
+          'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll',
       })
         .then((response) => {
           localStorage.setItem(
@@ -40,7 +40,7 @@ function SystemToken() {
           console.log(error);
         });
       API.get(
-        'https://epassportservices.azurewebsites.net/Master/api/V1.0/Nationality/GetAll',
+        'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Nationality/GetAll',
         config
       )
         .then((todo) => {
@@ -53,7 +53,7 @@ function SystemToken() {
           console.log('AXIOS ERROR: ', err.response);
         });
       API.get(
-        'https://epassportservices.azurewebsites.net/Master/api/V1.0/Occupation/GetAll',
+        'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Occupation/GetAll',
         config
       )
         .then((todo) => {
@@ -82,7 +82,7 @@ function SystemToken() {
           console.log('error' + error);
         });
       API.get(
-        'https://epassportservices.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll',
+        'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll',
         config
       )
         .then((todo) => {
@@ -96,7 +96,7 @@ function SystemToken() {
         });
   
       API.get(
-        'https://epassportservices.azurewebsites.net/Master/api/V1.0/PassportPage/GetAll',
+        'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/PassportPage/GetAll',
         config
       )
         .then((todo) => {
@@ -113,7 +113,7 @@ function SystemToken() {
           headers: { Authorization: 'Bearer ' + accesstoken },
           method: 'get',
           url:
-            'https://epassportservices.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAllMasterData',
+            'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAllMasterData',
         })
           .then((response) => {
             console.log(response.data)

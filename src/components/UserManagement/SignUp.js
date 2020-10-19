@@ -12,6 +12,7 @@ import {
   MDBCardBody,
   MDBIcon,
 } from 'mdbreact';
+import { Link } from 'react-router-dom';
 
 const Errorstyle = {
   marginTop: '-2rem',
@@ -149,7 +150,7 @@ class SignUp extends Component {
         headers: { Authorization: `Bearer ` + accesstoken },
         method: 'post',
         url:
-          'https://epassportservices.azurewebsites.net/api/Register/V1.0/UserRegistration/RegisterUser',
+          'https://epassportservicesaddt.azurewebsites.net/api/Register/V1.0/UserRegistration/RegisterUser',
         data: this.state,
       })
         .then((Response) => {
@@ -359,13 +360,13 @@ class SignUp extends Component {
                     </MDBCol>
                     <MDBCol md="6">
                       <p className="font-medium grey-text d-flex justify-content-end">
-                        <a
-                          href="/signIn"
+                        <Link
+                          to="/signIn"
                           color="cyan"
                           className="blue-text mr-1"
                         >
                           Log In
-                        </a>
+                        </Link>
                         If already registered?
                       </p>
                     </MDBCol>

@@ -21,7 +21,7 @@ const MultiCarouselPage = () => {
     return (
         <MDBContainer className="passport-card-deck passport-container my-5" fluid>
             <div class="u-center-text u-margin-bottom-big">
-                <h2 class="heading-secondary">
+                <h2 class="heading-secondary text-dark">
                    <Trans>howToApply.howtoApply</Trans>
                     </h2>
             </div>
@@ -42,7 +42,8 @@ const MultiCarouselPage = () => {
                                     <MDBCard className='mb-2'>
                                         <MDBCardImage
                                             className='img-fluid'
-                                            src={require('../../images/Information/new.jpg')}
+                                            // src={require('../../images/Information/new.jpg')}
+                                            src={require('../../images/default-source/shared/How to apply.jpg')}
                                         />
                                         <MDBCardBody>
                                             <MDBCardTitle>

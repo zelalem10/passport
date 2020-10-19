@@ -55,7 +55,7 @@ code {
 }
 .passport-CarouselCaption {
   padding-bottom: 0 !important;
-  bottom: 10% !important;
+  bottom: 17% !important;
   top: auto !important;
   background: rgba(0, 0, 0, 0.35);
   width: 50%;
@@ -83,12 +83,21 @@ code {
   text-align: center;
 }
 .passport-card .card:hover {
-  background-color: #3f51b5;
+  background-color: #123aae;
   color: #ffffff !important;
 }
-
+.passport-card .default-active {
+  background-color: #123aae !important;
+  color: #ffffff !important;
+}
+.default-active .card-body .card-title .text-Dark {
+  color: #ffffff !important;
+}
+.passport-card .default-active .card-body .card-text {
+  color: #ffffff !important;
+}
 .passport-card .card .card-body .card-text {
-  color: #000000 !important;
+  color: #000000;
 }
 .passport-card .card:hover .card-body .card-text {
   color: #ffffff !important;
@@ -118,12 +127,14 @@ code {
 }
 
 .Passport-Carousel .carousel .carousel-indicators li {
-  border: 2px solid #5e5e5e;
-  background: #5e5e5e;
+  border: 2px solid #e0e0e0;
+  background: #e0e0e0;
   border-radius: 8px !important;
   margin: 0;
   opacity: 1;
   margin-left: 2px;
+  width: 0.525rem !important;
+  height: 0.525rem !important;
 }
 .Passport-Carousel .carousel .carousel-indicators {
   position: absolute;
@@ -526,6 +537,7 @@ code {
   text-align: center;
 }
 .carousel-multi-item .controls-top .btn-floating {
+  display: none;
   background: #29499b !important;
 }
 .btn-floating i {
