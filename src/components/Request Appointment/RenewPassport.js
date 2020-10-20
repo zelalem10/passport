@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
 
 function RenewPassport(props) {
+  const { t, i18n } = useTranslation();
   const backTo = (e) => {
     props.prevStep(e);
   };
@@ -23,25 +24,21 @@ function RenewPassport(props) {
         <MDBCol sm="12" lg="7">
           <app-doctor-type-step class="ng-trigger ng-trigger-stepTransitions ng-tns-c1-0 ng-star-inserted">
             <div class="multistep-form__step renew-passport-multistep">
-              <h2 className="h1">Which type of Service you need?</h2>
+              <h2 className="h1"><Trans>renewPassport.title</Trans></h2>
               <div class="card card--small-gutters card--shadow vertical-margin-2">
                 <a
                   class="small-12 column row card--link"
                   onClick={() => props.handleReplacmentReason(1)}
                 >
                   <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
-                    <strong>Expired Passport</strong>
+                    <strong><Trans>renewPassport.expiredPassport</Trans></strong>
                     <div class="text-center vertical-margin-half">
                       <i class="fas fa-arrow-circle-right fa-lg"></i>
                     </div>
                   </div>
                   <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
                     <p class="text-justify">
-                      Expired passport, applicants are requested to schedule for
-                      appointment. You receive confirmation via email or SMS.
-                      Print the last page which has your appointment date and
-                      time. Take the paper with you to your appointment
-                      consular.
+                    <Trans>renewPassport.expiredPassportDetial</Trans>
                     </p>
                   </div>
                 </a>
@@ -51,18 +48,14 @@ function RenewPassport(props) {
                   onClick={() => props.handleReplacmentReason(2)}
                 >
                   <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
-                    <strong>Replacment of Valid Page Runout</strong>
+                    <strong><Trans>renewPassport.replacmentofValidPageRunout</Trans></strong>
                     <div class="text-center vertical-margin-half">
                       <i class="fas fa-arrow-circle-right fa-lg"></i>
                     </div>
                   </div>
                   <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
                     <p class="text-justify">
-                      Page runout (not expired) passport, applicants are
-                      requested to schedule for appointment. You receive
-                      confirmation via email or SMS. Print the last page which
-                      has your appointment date and time. Take the paper with
-                      you to your appointment consular.
+                    <Trans>renewPassport.replacmentofValidPageRunoutDetail</Trans>
                     </p>
                   </div>
                 </a>
@@ -72,25 +65,21 @@ function RenewPassport(props) {
                   onClick={() => props.handleReplacmentReason(3)}
                 >
                   <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
-                    <strong>Damaged Passport</strong>
+                    <strong>               <Trans>renewPassport.damagedPassport</Trans></strong>
                     <div class="text-center vertical-margin-half">
                       <i class="fas fa-arrow-circle-right fa-lg"></i>
                     </div>
                   </div>
                   <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
                     <p>
-                      Damaged passport, applicants are requested to schedule for
-                      appointment. You receive confirmation via email or SMS.
-                      Print the last page which has your appointment date and
-                      time. Take the paper with you to your appointment
-                      consular.
+                    <Trans>renewPassport.damagedPassportDetail</Trans>
                     </p>
                   </div>
                 </a>
               </div>
               <div class="clear clearfix vertical-margin-2">
                 <a class="button hollow gray ng-star-inserted" onClick={backTo}>
-                  <i class="fas fa-arrow-left"></i> Previous
+                  <i class="fas fa-arrow-left"></i>  <Trans>requestForm.previous</Trans>
                 </a>
               </div>
             </div>
@@ -140,12 +129,12 @@ function RenewPassport(props) {
                         </aside>
           <div class="multistep-form__details sidebar__box sidebar__box--border sidebar__box--teal ng-star-inserted">
             <h4>
-              <span class="ng-star-inserted">Appointment Request</span>
+              <span class="ng-star-inserted"><Trans>requestAppointment.appointmentRequest</Trans></span>
             </h4>
             <ul class="list--no-indent list--no-bullets ng-star-inserted">
               <li>
                 <strong>
-                  Requestor:{isItGroup ? ' Group / ' + values : ' Individual'}
+                <Trans>requestAppointment.requestor</Trans>{isItGroup ? ' Group / ' + values : ' Individual'}
                 </strong>
               </li>
             </ul>

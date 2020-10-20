@@ -22,9 +22,11 @@ import '../Application List/viewAppointment.css';
 import DateFnsUtils from '@date-io/date-fns';
 import API from '../Utils/API';
 import isEmail from 'validator/es/lib/isEmail';
+import { useTranslation, Trans } from 'react-i18next';
 
 
 const PersonalInfo = forwardRef((props, ref) => {
+  const { t, i18n } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
   const [nationalityList, setNationalityList] = useState([]);
   const [occupationList, setOccupationList] = useState([]);
@@ -366,7 +368,7 @@ setIsLoading(false)
                   className="form-control"
                   onBlur={handleChange}
                   type="text"
-                  label="First name"
+                  label= {t('requestForm.firstname')}
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
@@ -382,7 +384,7 @@ setIsLoading(false)
                   name="middleName"
                   onBlur={handleChange}
                   type="text"
-                  label="Middle name"
+                  label={t('requestForm.middleName')}
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
@@ -398,7 +400,7 @@ setIsLoading(false)
                   name="lastName"
                   onBlur={handleChange}
                   type="text"
-                  label="Last name"
+                  label={t('requestForm.lastName')}
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
@@ -439,7 +441,7 @@ setIsLoading(false)
                   className="form-control"
                   onBlur={handleChange}
                   type="text"
-                  label="ስም"
+                  label={t('requestForm.amharicFirstname')}
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
@@ -455,7 +457,7 @@ setIsLoading(false)
                   name="geezMiddleName"
                   onBlur={handleChange}
                   type="text"
-                  label="የአባት ስም"
+                  label={t('requestForm.amharicMiddleName')}
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
@@ -471,7 +473,7 @@ setIsLoading(false)
                   name="geezLastName"
                   onBlur={handleChange}
                   type="text"
-                  label="የአያት ስም"
+                  label={t('requestForm.amharicLastName')}
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
@@ -484,7 +486,7 @@ setIsLoading(false)
               <MDBCol md="3" className="required-field">
                 <div>
                   <label>
-                    Nationality<i style={{ color: 'red' }}>*</i>{' '}
+                  {t('requestForm.nationality')}<i style={{ color: 'red' }}>*</i>{' '}
                   </label>
                   <select
                     className="browser-default custom-select"
@@ -531,7 +533,8 @@ setIsLoading(false)
                   className="form-control"
                   onBlur={handlePhoneChange}
                   type="text"
-                  label="Phone Number"
+                  label={t('requestForm.phoneNumber')}
+                //icon=""
                 />
                 
                 <span style={{ color: 'red' }}>
@@ -557,7 +560,7 @@ setIsLoading(false)
                   className="form-control"
                   onBlur={handleChange}
                   type="email"
-                  label="Email"
+                  label={t('requestForm.email')}
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
@@ -576,7 +579,7 @@ setIsLoading(false)
                   className="form-control"
                   onChange={handleChange}
                   type="text"
-                  label="Birth Place"
+                  label={t('requestForm.birthPlace')}
                 />
                 <span style={{ color: 'red' }}>
                     {' '}
@@ -592,7 +595,7 @@ setIsLoading(false)
                   name="birthCertificatNo"
                   onBlur={handleUniqueIdChange}
                   type="text"
-                  label="Birth Registration Unique Id"
+                  label={t('requestForm.birthCertificatNo')}
                 />
                 <span style={{ color: 'red' }}>
                     {' '}
@@ -615,7 +618,7 @@ setIsLoading(false)
               <MDBCol md="3">
                 <div>
                   <label>
-                    Occupation<i style={{ color: 'red' }}>*</i>{' '}
+                  {t('requestForm.occupation')}<i style={{ color: 'red' }}>*</i>{' '}
                   </label>
                   <select
                     className="browser-default custom-select"
@@ -645,7 +648,7 @@ setIsLoading(false)
                 </div>
               </MDBCol>
               <MDBCol md="3">
-                <label>Hair Color</label>
+                <label>{t('requestForm.hairColor')}</label>
                 <select
                   className="browser-default custom-select"
                   name="hairColor"
@@ -698,7 +701,7 @@ setIsLoading(false)
               <MDBCol md="3">
                 <div>
                   <label>
-                    Gender <i style={{ color: 'red' }}>*</i>{' '}
+                  {t('requestForm.gender')} <i style={{ color: 'red' }}>*</i>{' '}
                   </label>
                   <select
                     className="browser-default custom-select"
@@ -727,7 +730,7 @@ setIsLoading(false)
               <MDBCol md="3">
                 <div>
                   <label>
-                  Marital  status <i style={{ color: 'red' }}>*</i>{' '}
+                  {t('requestForm.martialStatus')} <i style={{ color: 'red' }}>*</i>{' '}
                   </label>
                   <select
                     className="browser-default custom-select"
@@ -777,12 +780,12 @@ setIsLoading(false)
                   name="height"
                   onChange={handleChange}
                   type="text"
-                  label="Height(cm)"
+                  label={t('requestForm.height')}
                 />
               </MDBCol>
               <MDBCol md="3">
                 <div>
-                  <label>Eye Color</label>
+                  <label>{t('requestForm.eyeColor')}</label>
                   <select
                     className="browser-default custom-select"
                     name="eyeColor"
@@ -834,7 +837,7 @@ setIsLoading(false)
                     }
                   />
                   <label class="custom-control-label" for="isHalfCast">
-                    Is Halfcast
+                  {t('requestForm.isHalfCast')}
                   </label>
                 </div>
               </MDBCol>
@@ -849,7 +852,7 @@ setIsLoading(false)
                     onChange={(e) => handleCheck('isUnder18', e.target.checked)}
                   />
                   <label class="custom-control-label" for="isUnder18">
-                    Is Under 18
+                  {t('requestForm.isUnder18')}  
                   </label>
                 </div>
                 <span style={{ color: 'red' }}>
@@ -873,7 +876,7 @@ setIsLoading(false)
                     }
                   />
                   <label class="custom-control-label" for="isAdoption">
-                    Is Adoption
+                  {t('requestForm.isAdoption')} 
                   </label>
                 </div>
               </MDBCol>

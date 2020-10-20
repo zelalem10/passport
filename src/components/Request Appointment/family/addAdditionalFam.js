@@ -1,20 +1,21 @@
 import React from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdbreact';
-
+import { useTranslation, Trans } from 'react-i18next';
 function AddFamily(props) {
+  const { t, i18n } = useTranslation();
   const { familyType } = props;
   return (
     <MDBContainer className="passport-container pt-3" id="raa-form" fluid>
       <MDBRow>
         <MDBCol sm="12">
           <div className="multistep-form__step">
-            <h2 className="h1">Family Details</h2>
+            <h2 className="h1"><h2 className="h1"><Trans>requestForm.familyDetails</Trans></h2></h2>
             <div className="accordion accordion--form">
               <form step="0" title="1. Family Details">
                 <div className="accordion-item is-active" id="patient-raa-step">
                   <a className="accordion-title enabled">
                     <span className="accordion-title__text">
-                      1. Family Details
+                      1. <Trans>requestForm.familyDetails</Trans>
                     </span>
                   </a>
 
@@ -28,14 +29,14 @@ function AddFamily(props) {
                             className="browser-default custom-select"
                           >
                             <option style={{ display: 'none' }}>
-                              Select family type
+                            {t('requestForm.selectFamilyType')}
                             </option>
                             {familyType.map((item) => (
                               <option value={item.id}>{item.type}</option>
                             ))}
                           </select>
                           <MDBInput
-                            label="First Name"
+                            label={t('requestForm.firstname')}
                             group
                             name="fname"
                             type="text"
@@ -45,7 +46,7 @@ function AddFamily(props) {
                             onChange={props.handleInputAdd}
                           />
                           <MDBInput
-                            label="Father Name"
+                          label={t('requestForm.middleName')}
                             name="lname"
                             group
                             type="text"
@@ -60,10 +61,10 @@ function AddFamily(props) {
                         class="button hollow gray vertical-margin-2 "
                         onClick={props.addAdditionalFamilyHandlerAdd}
                       >
-                        Add
+                       
                         <span class="show-for-medium">
                           {' '}
-                          Family <i class="fas fa-plus-circle"></i>
+                          {t('requestForm.addFamily')} <i class="fas fa-plus-circle"></i>
                         </span>
                       </a>
                     </div>

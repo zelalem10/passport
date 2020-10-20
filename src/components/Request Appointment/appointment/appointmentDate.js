@@ -596,14 +596,13 @@ setErrorMessage('Please Select Date.')
                   name="checkedB"
                 />
               }
-              label="Does the request urgent?"
+        
+              label= "Does the request urgent?"
             />
 
             {isUrgentAppointment ? (
               <MDBTypography note noteColor="danger" noteTitle="Notice: ">
-                Request for urgent may be considered if the purpose of travel is
-                for medical or legal emergency purposes, death in the family,
-                etc
+                <Trans>requestForm.urgentNote</Trans>
               </MDBTypography>
             ) : (
               <MDBTypography
@@ -611,7 +610,7 @@ setErrorMessage('Please Select Date.')
                 noteColor="info"
                 noteTitle={`Notification: ${durationLength} `}
               >
-                Estimated Delivery date is within {durationLength} days{' '}
+                <Trans>requestForm.estimatedDelivery</Trans> {durationLength} <Trans>requestForm.days</Trans> {' '}
                 {timeSlots.length > 0 ? (
                   <b>{`${selectDays.getFullYear()} 
                   -
@@ -639,7 +638,7 @@ setErrorMessage('Please Select Date.')
               </MDBTypography>
         <MDBRow key={key}>
           <MDBCol md="6">
-            <h3>Date</h3>
+            <h3><Trans>requestForm.date</Trans></h3>
             <div id="chooseAppointments">
               <Calendar
                 allowPartialRange
@@ -673,7 +672,7 @@ setErrorMessage('Please Select Date.')
           </MDBCol>
           {!isUrgentAppointment ? (
             <MDBCol md="6">
-              <h3>Time</h3>
+              <h3><Trans>requestForm.time</Trans></h3>
               <AvailableTimeSlot
                 selectedDate={dateValue}
                 timeLists={timeSlots}

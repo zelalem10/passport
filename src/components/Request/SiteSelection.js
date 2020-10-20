@@ -220,7 +220,7 @@ const SiteSelection = forwardRef((props, ref) => {
                     onChange={(e)=> handleRegionChange(e)}
                     as="select"
                   >
-                    <option>Select site location</option>
+                    <option>{t('requestForm.selectSitelocation')}</option>
                     {regionList.map((region) => (
                       <option value={region.id}>{region.name}</option>
                     ))}
@@ -238,7 +238,7 @@ const SiteSelection = forwardRef((props, ref) => {
                     onChange={handeleCityChange}
                     as="select"
                   >
-                    <option>Select city</option>
+                    <option>{t('requestForm.selectCity')}</option>
                     {cityList
                       .map((city) => (
                         <option value={city.id}>{city.name}</option>
@@ -258,7 +258,7 @@ const SiteSelection = forwardRef((props, ref) => {
                     onChange={handelOfficeChange}
                     as="select"
                   >
-                    <option>Select office</option>
+                    <option>{t('requestForm.selectOffice')}</option>
                     {officeList.map((office) => (
                       <option value={office.id} name={office.name} key={office.address}>{office.name}</option>
                     ))}
@@ -276,7 +276,7 @@ const SiteSelection = forwardRef((props, ref) => {
                     onChange={handelDeliveryChange}
                     as="select"
                   >
-                    <option>Select delivery site</option>
+                    <option>{t('requestForm.selectDeliverySite')}</option>
                     {deliverySiteList.map((site) => (
                       <option value={site.id} name={site.name}>{site.siteName}</option>
                     ))}

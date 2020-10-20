@@ -12,6 +12,7 @@ import {
   MDBCardBody,
   MDBIcon,
 } from 'mdbreact';
+import { Translation, useTranslation, Trans, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 const Errorstyle = {
@@ -210,7 +211,13 @@ function SignUp() {
     }
   };
 
+<<<<<<< HEAD
     const { personRequest } =  state;
+=======
+  render() {
+    const { personRequest } = this.state;
+
+>>>>>>> ef0899293ccd0f60c4b1d4eb791246057832a2c0
     return (
       <MDBContainer
         className="passport-card-deck passport-container my-3 p-5"
@@ -230,7 +237,12 @@ function SignUp() {
                   <div className="header pt-3 mb-5 textBackground">
                     <MDBRow className="d-flex justify-content-center white-text">
                       <h4 className="white-text my-3 py-3 font-weight-bold">
-                        <span class="fa fa-user-plus mr-2"></span> Register
+                        <span class="fa fa-user-plus mr-2"></span>
+                        <Translation>
+                          {
+                            (t, { i18n }) => <span>{t('register.title')}</span>
+                          }
+                        </Translation>
                       </h4>
                     </MDBRow>
                   </div>
@@ -238,8 +250,15 @@ function SignUp() {
                   <div className="grey-text">
                     <div class="row">
                       <div class="col-md-6">
+
                         <MDBInput
-                          label="First Name"
+                          label={
+                            <Translation>
+                              {
+                                (t, { i18n }) => <p>{t('requestForm.firstname')}</p>
+                              }
+                            </Translation>
+                          }
                           name="firstName"
                           value={ state.firstName}
                           icon="user"
@@ -258,7 +277,13 @@ function SignUp() {
                       </div>
                       <div class="col-md-6">
                         <MDBInput
-                          label="Middle Name"
+                          label={
+                            <Translation>
+                              {
+                                (t, { i18n }) => <p>{t('requestForm.middleName')}</p>
+                              }
+                            </Translation>
+                          }
                           name="middleName"
                           value={ error.middleName}
                           icon="user"
@@ -279,7 +304,13 @@ function SignUp() {
                     <div class="row">
                       <div class="col-md-6">
                         <MDBInput
-                          label="Last Name"
+                          label={
+                            <Translation>
+                              {
+                                (t, { i18n }) => <p>{t('requestForm.lastName')}</p>
+                              }
+                            </Translation>
+                          }
                           name="lastName"
                           value={ state.lastName}
                           icon="user"
@@ -298,7 +329,12 @@ function SignUp() {
                       </div>
                       <div class="col-md-6">
                         <MDBInput
-                          label="Phone Number"
+                          label={
+                            <Translation>
+                              {
+                                (t, { i18n }) => <span>{t('requestForm.phoneNumber')}</span>
+                              }
+                            </Translation>}
                           name="phoneNumber"
                           value={ state.phoneNumber}
                           icon="phone"
@@ -319,7 +355,12 @@ function SignUp() {
                     <div class="row">
                       <div class="col-md-6">
                         <MDBInput
-                          label="Email"
+                          label={
+                            <Translation>
+                              {
+                                (t, { i18n }) => <span>{t('requestForm.email')}</span>
+                              }
+                            </Translation>}
                           icon="envelope"
                           name="email"
                           value={ state.email}
@@ -338,7 +379,12 @@ function SignUp() {
                       </div>
                       <div class="col-md-6">
                         <MDBInput
-                          label="Password"
+                          label={
+                            <Translation>
+                              {
+                                (t, { i18n }) => <span>{t('register.password')}</span>
+                              }
+                            </Translation>}
                           icon="lock"
                           password={ state.password}
                           name="password"
@@ -358,7 +404,12 @@ function SignUp() {
                     <div class="row">
                       <div class="col-md-6">
                         <MDBInput
-                          label="Comfirm Password"
+                          label={
+                            <Translation>
+                              {
+                                (t, { i18n }) => <span>{t('register.comfirmPassword')}</span>
+                              }
+                            </Translation>}
                           icon="lock"
                           password={ state.passwordTwo}
                           name="passwordTwo"
@@ -398,7 +449,11 @@ function SignUp() {
                         rounded
                         block
                       >
-                        Sign Up <i class="fas fa-sign-in-alt pl-1"></i>
+                        <Translation>
+                          {
+                            (t, { i18n }) => <span>{t('register.signUp')}</span>
+                          }
+                        </Translation> <i class="fas fa-sign-in-alt pl-1"></i>
                       </MDBBtn>
                     </MDBCol>
                     <MDBCol md="6">
@@ -408,9 +463,18 @@ function SignUp() {
                           color="cyan"
                           className="blue-text mr-1"
                         >
-                          Log In
+                          <Translation>
+                            {
+                              (t, { i18n }) => <span>{t('register.logIn')}</span>
+                            }
+                          </Translation>
                         </Link>
-                        If already registered?
+
+                        <Translation>
+                          {
+                            (t, { i18n }) => <span>{t('register.alreadyRegistered')}</span>
+                          }
+                        </Translation>
                       </p>
                     </MDBCol>
                   </MDBRow>
@@ -423,19 +487,65 @@ function SignUp() {
             <div class="card p-2">
               <div class="card-body">
                 <div class="u-center-text u-margin-bottom-big">
-                  <h2 class="heading-secondary">Member Benefits</h2>
+                  <h1 class="heading-secondary">
+                  <Translation>
+                          {
+                            (t, { i18n }) => <span>{t('register.memberBenefit')}</span>
+                          }
+                  </Translation>
+                 </h1>
                 </div>
-                <h4>Members get more</h4>
-                <p>
-                View your application<br />
-Check status of pending payment <br />
-Edit application and reschedule for reappointment<br />
-Every time you are not required to fill application and information reusability<br />
-                </p>
-                
-                
-                <h4>Phone</h4>
-                <p>8133 FREE CALL</p>
+                <h4>
+                <Translation>
+                          {
+                            (t, { i18n }) => <span>{t('register.membersGetMore')}</span>
+                          }
+                  </Translation>
+                  
+                  </h4>
+
+                <div class="d-flex"><div class="p-2 align-self-start"><i class="fas fa-check fa-1x"></i>
+                </div><div class="p-2 align-self-end">
+                <Translation>
+                          {
+                            (t, { i18n }) => <span>{t('register.list1')}</span>
+                          }
+                  </Translation>
+                    
+                  </div>
+                </div>
+
+                <div class="d-flex"><div class="p-2 align-self-start"><i class="fas fa-check fa-1x"></i>
+                </div><div class="p-2 align-self-end">
+                <Translation>
+                          {
+                            (t, { i18n }) => <span>{t('register.list2')}</span>
+                          }
+                  </Translation>
+                  </div>
+                </div>
+
+                <div class="d-flex"><div class="p-2 align-self-start"><i class="fas fa-check fa-1x"></i>
+                </div><div class="p-2 align-self-end">
+                <Translation>
+                          {
+                            (t, { i18n }) => <span>{t('register.list3')}</span>
+                          }
+                  </Translation>
+                  </div>
+                </div>
+
+                <div class="d-flex"><div class="p-2 align-self-start"><i class="fas fa-check fa-1x"></i>
+                </div><div class="p-2 align-self-end">
+                <Translation>
+                          {
+                            (t, { i18n }) => <span>{t('register.list4')}</span>
+                          }
+                  </Translation>
+                  </div>
+                </div>
+
+
               </div>
             </div>
           </MDBCol>
@@ -443,5 +553,9 @@ Every time you are not required to fill application and information reusability<
       </MDBContainer>
     );
   }
+<<<<<<< HEAD
+=======
+}
+export default withTranslation()(SignUp);
+>>>>>>> ef0899293ccd0f60c4b1d4eb791246057832a2c0
 
-export default SignUp;

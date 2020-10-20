@@ -1,21 +1,22 @@
 import React from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdbreact';
-
+import { useTranslation, Trans } from 'react-i18next';
 function EditFamily(props) {
   const { familyType } = props;
+  const { t, i18n } = useTranslation();
   return (
     <MDBContainer className="passport-container pt-3" id="raa-form" fluid>
       <MDBRow>
         <MDBCol sm="12">
           <div className="multistep-form__step">
-            <h2 className="h1">Family Details</h2>
+            <h2 className="h1"><Trans>requestForm.familyDetails</Trans></h2>
 
             <div className="accordion accordion--form">
               <form step="0" title="Family Details">
                 <div className="accordion-item is-active" id="patient-raa-step">
                   <a className="accordion-title enabled">
                     <span className="accordion-title__text">
-                      1. Family Details
+                      1. <Trans>requestForm.familyDetails</Trans>
                     </span>
                   </a>
 
@@ -30,14 +31,14 @@ function EditFamily(props) {
                             className="browser-default custom-select"
                           >
                             <option style={{ display: 'none' }}>
-                              Select family type
+                            {t('requestForm.selectFamilyType')}
                             </option>
                             {familyType.map((item) => (
                               <option value={item.id}>{item.type}</option>
                             ))}
                           </select>
                           <MDBInput
-                            label="First Name"
+                            label={t('requestForm.firstName')}
                             group
                             name="fName"
                             type="text"
@@ -48,7 +49,7 @@ function EditFamily(props) {
                             value={props.editFamilyData.fName}
                           />
                           <MDBInput
-                            label="Father Name"
+                            label={t('requestForm.fiddleName')}
                             name="lName"
                             group
                             type="text"

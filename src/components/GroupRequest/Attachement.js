@@ -13,7 +13,7 @@ import addAttachement from '../../redux/actions/AddAttachementAction';
 const Fileupload = forwardRef((props, ref) => {
   const dispatch = useDispatch();
   const accesstoken = localStorage.systemToken;
-   ;
+  ;
   const formData = new FormData();
   let requestPersonId = useSelector(
     (state) => state.commonData[0].requestPersonId
@@ -25,8 +25,10 @@ const Fileupload = forwardRef((props, ref) => {
   const [invalidImage, setinvalidImage] = useState('')
   const inputs = [];
   const [errorMessage, seterrorMessage] = useState([]);
+  const [successMessage, setsuccessMessage] = useState('');
   let fileError = [];
   const [loading, setloading] = useState(true);
+  const [hideButton, sethideButton] = useState(false);
   const [filename, setfilename] = useState({
     1: '',
     2: '',
@@ -56,7 +58,7 @@ const Fileupload = forwardRef((props, ref) => {
     })
       .then((response) => {
         console.log(response)
-         ;
+          ;
         let requiredAttachements = response.data.requiredAttachements.length;
         setrequiredFile(requiredAttachements);
         let requiredAttachementType = [];
@@ -95,44 +97,43 @@ const Fileupload = forwardRef((props, ref) => {
     debugger;
     var fileCount = 0;
     var i;
-    
-    for (i in files) {
-        if (files.hasOwnProperty(i)) {
-          fileCount++;
-        }
-    }
-      if (fileCount <  requiredFile) {
-        fileError.push(`You Should have to Choose All`);
-      }
-      
-      else
-      {
 
-        for (var key in files) {
-          if (!files[key].name.match(/\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/)) {
-            fileError.push(`  
+    for (i in files) {
+      if (files.hasOwnProperty(i)) {
+        fileCount++;
+      }
+    }
+    if (fileCount < requiredFile) {
+      fileError.push(`You Should have to Choose All`);
+    }
+
+    else {
+
+      for (var key in files) {
+        if (!files[key].name.match(/\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/)) {
+          fileError.push(`  
             ${files[key].name ? (
               files[key].name + " is Invalid format, Please upload correct file type!"
             ) : (
-              <div class="smallFont">Invalid format, Please upload correct file type!</div>
-            )}`);
-      }
-  
-      if (files[key].size > 4000000) {
-        fileError.push(`  
+                <div class="smallFont">Invalid format, Please upload correct file type!</div>
+              )}`);
+        }
+
+        if (files[key].size > 4000000) {
+          fileError.push(`  
         ${files[key].name ? (
-          files[key].name + " is Invalid size, Please upload correct file size!"
-        ) : (
-          <div class="smallFont">Invalid size, Please upload correct file size!</div>
-        )}`);
+              files[key].name + " is Invalid size, Please upload correct file size!"
+            ) : (
+                <div class="smallFont">Invalid size, Please upload correct file size!</div>
+              )}`);
 
+        }
       }
-      }
-      
 
-      }
- 
- 
+
+    }
+
+
 
     seterrorMessage(fileError);
 
@@ -147,9 +148,9 @@ const Fileupload = forwardRef((props, ref) => {
     debugger
     e.preventDefault();
     fileError = [];
- 
-   const isValid = validate(files);
-   if (isValid) {
+
+    const isValid = validate(files);
+    if (isValid) {
       setloading(true);
 
       for (var key in files) {
@@ -173,9 +174,11 @@ const Fileupload = forwardRef((props, ref) => {
         const response = await axios.post(url, formData, config);
         console.log(response.data);
         setloading(false);
+        setsuccessMessage(response.data.message)
+        sethideButton(true)
         dispatch(addAttachement(response.data.attachments));
         if (numberOfApplicants === props.applicantNumber)
-        props.VerticalNext();
+          props.VerticalNext();
       } catch (error) {
         console.log('error' + error.message);
         setloading(false);
@@ -191,8 +194,8 @@ const Fileupload = forwardRef((props, ref) => {
       ...prevState,
       [id]: value.replace(/^.*[\\\/]/, ''),
     }));
-  const fileValue = e.target.files[0]
-    
+    const fileValue = e.target.files[0]
+
     setfiles((prevState) => ({
       ...prevState,
       [id]: fileValue,
@@ -230,8 +233,8 @@ const Fileupload = forwardRef((props, ref) => {
                 {filename[requiredFileType[i]] ? (
                   filename[requiredFileType[i]]
                 ) : (
-                  <div class="smallFont">Choose file</div>
-                )}
+                    <div class="smallFont">Choose file</div>
+                  )}
               </label>
             </div>
           </div>
@@ -245,35 +248,47 @@ const Fileupload = forwardRef((props, ref) => {
       {loading ? (
         <Spinner />
       ) : (
-        <div class="container">
-          <form onSubmit={(e) => submit(e)}>
-            <div class="row ">
-              <div class="col-md-10 ">
-              <div class="alert alert-success text-center mb-2" role="alert">
-              Size of the image should be less than 4MB and in JPEG, JPG, PNG, GIF or BMP format
-                </div>
-                {errorMessage.length
-                  ? errorMessage.map((error) => (
+          <div class="container">
+            <form onSubmit={(e) => submit(e)}>
+              <div class="row ">
+                <div class="col-md-10 " id="attachmentmargin">
+                <MDBBadge color="primary smallPadding ">
+                Size of the image should be less than 4MB and in JPEG, JPG, PNG, GIF format
+                </MDBBadge>
+
+                  {
+                    successMessage ? 
+                    <div class="alert alert-success text-center mb-2" role="alert">
+                      {successMessage}
+                  </div> : null
+                  }
+
+                  {errorMessage.length
+                    ? errorMessage.map((error) => (
                       <div class="alert alert-danger text-center" role="alert">
                         {error}
                       </div>
                     ))
-                  : null}
+                    : null}
+                </div>
               </div>
-            </div>
 
-            {inputs}
-            <MDBRow>
-              <MDBCol md="9"></MDBCol>
-              <MDBCol>
-                <button className="btn btn-primary text-right" type="submit">
-                  Upload
+              {inputs}
+              <MDBRow>
+                <MDBCol md="9"></MDBCol>
+                {
+                  hideButton?
+                  <MDBCol>
+                  <button className="btn btn-primary text-right" type="submit">
+                    Upload
                 </button>
-              </MDBCol>
-            </MDBRow>
-          </form>
-        </div>
-      )}
+                </MDBCol> : null
+                }
+
+              </MDBRow>
+            </form>
+          </div>
+        )}
     </div>
   );
 });
