@@ -149,7 +149,7 @@
       "phoneNumber": "Phone Number",
       "email": "Email",
       "birthPlace": "Birth Place",
-      "birthCertificatNo": "Birth Certificat No",
+      "birthCertificatNo": "Birth Certificat Unique Id",
       "occupation": "Occupation",
       "hairColor": "Hair Color",
       "gender": "Gender",

@@ -14,6 +14,8 @@ import {
 } from 'mdbreact';
 import { Translation, useTranslation, Trans, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+
+import { withRouter } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 const Errorstyle = {
   marginTop: '-2rem',
@@ -41,29 +43,22 @@ const intialState = {
   },
   human: false,
   phoneNumberError: '',
+  internalErrorMessage: ''
 };
 
-function SignUp() {
-  const [state,setState]=useState({
-      firstName: '',
-      middleName: '',
-      lastName: '',
-      firstNameError: '',
-      MiddleNameError: '',
-      lastNameError: '',
-      email: '',
-      password: '',
-      passwordTwo: '',
-      emailError: '',
-      passwordError: '',
-      passwordTwoError: '',
-      phoneNumber: '',
-      ReCAPTCHAError: '',
-    human: false,
-    phoneNumberError: '',
-  });
-  const [error,setError]=useState({});
-  let history = useHistory();
+class SignUp extends Component {
+  state = intialState;
+
+
+  redirectToLogIn = () => {
+    const { history } = this.props;
+    if(history) history.push('/signIn');
+   }
+
+   redirectToSignUp = () => {
+    const { history } = this.props;
+    if(history) history.push('/signUp');
+   }
   // ReCAPTCHA Client Side
 
   // ReCAPTCHA verify
@@ -186,10 +181,15 @@ function SignUp() {
         data:sampleData ,
       })
         .then((Response) => {
-         history.push('./signIn');
+          console.log(Response);
+        
+          this.redirectToLogIn();
         })
         .catch((err) => {
-          console.log('error'+err);
+          debugger;
+          console.log(err);
+           this.state.internalErrorMessage = err.response.data.message;
+           this.redirectToSignUp()
         });
 
       // clear form
@@ -216,8 +216,7 @@ function SignUp() {
 =======
   render() {
     const { personRequest } = this.state;
-
->>>>>>> ef0899293ccd0f60c4b1d4eb791246057832a2c0
+    const { history } = this.props;
     return (
       <MDBContainer
         className="passport-card-deck passport-container my-3 p-5"
@@ -245,9 +244,11 @@ function SignUp() {
                         </Translation>
                       </h4>
                     </MDBRow>
+                    
                   </div>
 
                   <div className="grey-text">
+                 { this.state.internalErrorMessage? <h5 class="text-danger text-center">{this.state.internalErrorMessage}</h5> : null}
                     <div class="row">
                       <div class="col-md-6">
 
