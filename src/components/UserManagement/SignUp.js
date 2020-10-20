@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import ReCAPTCHA from 'react-google-recaptcha';
 
@@ -13,10 +13,7 @@ import {
   MDBIcon,
 } from 'mdbreact';
 import { Translation, useTranslation, Trans, withTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-
 import { withRouter } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
 const Errorstyle = {
   marginTop: '-2rem',
   marginLeft: '2.5rem',
@@ -62,23 +59,20 @@ class SignUp extends Component {
   // ReCAPTCHA Client Side
 
   // ReCAPTCHA verify
-  const verifyCaptcha = (res) => {
+  verifyCaptcha = (res) => {
     console.log('Captcha loaded.');
     if (res) {
-       setState((prevState) => ({
-        ...prevState, human: true, humanKey: res }));
+      this.setState({ human: true, humanKey: res });
     }
   };
 
   // ReCAPTCHA Expired
-  const expireCaptcha = () => {
-     setState((prevState) => ({
-      ...prevState, human: false, humanKey: null }));
+  expireCaptcha = () => {
+    this.setState({ human: false, humanKey: null });
   };
 
   //validate form
-  const validate = () => {
-    debugger;
+  validate = () => {
     let firstNameError = '';
     let MiddleNameError = '';
     let lastNameError = '';
@@ -88,37 +82,37 @@ class SignUp extends Component {
     let phoneNumberError = '';
     let ReCAPTCHAError = '';
 
-    if ( state.human == false) {
+    if (this.state.human == false) {
       ReCAPTCHAError = 'please verify you are human.';
     }
 
-    if (!state.firstName) {
+    if (!this.state.personRequest.firstName) {
       firstNameError = 'First name is required.';
     }
-    if (!state.middleName) {
+    if (!this.state.personRequest.middleName) {
       MiddleNameError = 'Middle Name is required.';
     }
 
-    if (!state.lastName) {
+    if (!this.state.personRequest.lastName) {
       lastNameError = 'Last Name is required.';
     }
-    if (!state.phoneNumber) {
+    if (!this.state.personRequest.phoneNumber) {
       phoneNumberError = 'Phone Number is required.';
     }
-    if (!state.email) {
+    if (!this.state.personRequest.email) {
       emailError = 'Email Address is required.';
     }
-    if (!state.password) {
+    if (!this.state.personRequest.password) {
       passwordError = 'Password is required.';
-    } else if (  state.password.length < 6) {
+    } else if (this.state.personRequest.password.length < 6) {
       passwordError = 'At Least 6 Charachter is required.';
     }
-    if (!state.passwordTwo) {
+    if (!this.state.personRequest.passwordTwo) {
       passwordTwoError = 'Password is required.';
-    } else if (  state.passwordTwo.length < 6) {
+    } else if (this.state.personRequest.passwordTwo.length < 6) {
       passwordTwoError = 'At least 6 charachter is required.';
     } else if (
-       state.password !==  state.passwordTwo
+      this.state.personRequest.password !== this.state.personRequest.passwordTwo
     ) {
       passwordTwoError = 'Passwords Do Not Match.';
     }
@@ -132,7 +126,7 @@ class SignUp extends Component {
       phoneNumberError ||
       ReCAPTCHAError
     ) {
-      setError({
+      this.setState({
         firstNameError,
         MiddleNameError,
         lastNameError,
@@ -149,36 +143,26 @@ class SignUp extends Component {
     return true;
   };
 
- const changeHandler = (e) => {
+  changeHandler = (e) => {
+    const { personRequest } = { ...this.state };
+    const personRequestState = personRequest;
     const { name, value } = e.target;
+    personRequestState[name] = value;
 
-     setState((prevState) => ({
-      ...prevState,[name]:value}));
+    this.setState({ personRequest: personRequestState });
   };
 
-  const submitHandler = (e) => {
-    debugger;
+  submitHandler = (e) => {
     e.preventDefault();
-    const isValid =  validate();
+    console.log(this.state);
+    const isValid = this.validate();
     if (isValid) {
-      let sampleData={
-        "personRequest": {
-          "firstName": state.firstName,
-          "middleName": state.middleName,
-          "lastName": state.lastName,
-          "userId": 0,
-          "email": state.email,
-          "phoneNumber": state.phoneNumber,
-          "password": state.password,
-        }
-      };
-      console.log(sampleData);
       axios({
         headers: { Authorization: `Bearer ` + accesstoken },
         method: 'post',
         url:
-          'http://epassportservices.ethiopianairlines.com/api/Register/V1.0/UserRegistration/RegisterUser',
-        data:sampleData ,
+          'https://epassportservices.azurewebsites.net/api/Register/V1.0/UserRegistration/RegisterUser',
+        data: this.state,
       })
         .then((Response) => {
           console.log(Response);
@@ -193,27 +177,10 @@ class SignUp extends Component {
         });
 
       // clear form
-      setState((prevState) => ({
-        ...prevState,firstName: '',
-        middleName: '',
-        lastName: '',
-        firstNameError: '',
-        MiddleNameError: '',
-        lastNameError: '',
-        email: '',
-        password: '',
-        passwordTwo: '',
-        emailError: '',
-        passwordError: '',
-        passwordTwoError: '',
-        phoneNumber: '',
-        ReCAPTCHAError: '',}));
+      this.setState(intialState.personRequest);
     }
   };
 
-<<<<<<< HEAD
-    const { personRequest } =  state;
-=======
   render() {
     const { personRequest } = this.state;
     const { history } = this.props;
@@ -232,7 +199,7 @@ class SignUp extends Component {
           <MDBCol lg="7" className="mr-3">
             <MDBCard>
               <MDBCardBody>
-                <form className="SignUp" onSubmit={ submitHandler}>
+                <form className="SignUp" onSubmit={this.submitHandler}>
                   <div className="header pt-3 mb-5 textBackground">
                     <MDBRow className="d-flex justify-content-center white-text">
                       <h4 className="white-text my-3 py-3 font-weight-bold">
@@ -261,18 +228,18 @@ class SignUp extends Component {
                             </Translation>
                           }
                           name="firstName"
-                          value={ state.firstName}
+                          value={personRequest.firstName}
                           icon="user"
                           group
                           type="text"
                           validate
                           error="wrong"
                           success="right"
-                          onChange={ changeHandler}
+                          onChange={this.changeHandler}
                         />
-                        {  error.firstNameError ? (
+                        {this.state.firstNameError ? (
                           <div className="red-text" style={Errorstyle}>
-                            {  error.firstNameError}
+                            {this.state.firstNameError}
                           </div>
                         ) : null}
                       </div>
@@ -286,18 +253,18 @@ class SignUp extends Component {
                             </Translation>
                           }
                           name="middleName"
-                          value={ error.middleName}
+                          value={personRequest.middleName}
                           icon="user"
                           group
                           type="text"
                           validate
                           error="wrong"
                           success="right"
-                          onChange={ changeHandler}
+                          onChange={this.changeHandler}
                         />
-                        {  error.MiddleNameError ? (
+                        {this.state.MiddleNameError ? (
                           <div className="red-text" style={Errorstyle}>
-                            {  error.MiddleNameError}
+                            {this.state.MiddleNameError}
                           </div>
                         ) : null}
                       </div>
@@ -313,18 +280,18 @@ class SignUp extends Component {
                             </Translation>
                           }
                           name="lastName"
-                          value={ state.lastName}
+                          value={personRequest.lastName}
                           icon="user"
                           group
                           type="text"
                           validate
                           error="wrong"
                           success="right"
-                          onChange={ changeHandler}
+                          onChange={this.changeHandler}
                         />
-                        {  error.lastNameError ? (
+                        {this.state.lastNameError ? (
                           <div className="red-text" style={Errorstyle}>
-                            {  error.lastNameError}
+                            {this.state.lastNameError}
                           </div>
                         ) : null}
                       </div>
@@ -337,18 +304,18 @@ class SignUp extends Component {
                               }
                             </Translation>}
                           name="phoneNumber"
-                          value={ state.phoneNumber}
+                          value={personRequest.phoneNumber}
                           icon="phone"
                           group
                           type="number"
                           validate
                           error="wrong"
                           success="right"
-                          onChange={ changeHandler}
+                          onChange={this.changeHandler}
                         />
-                        {  error.phoneNumberError ? (
+                        {this.state.phoneNumberError ? (
                           <div className="red-text" style={Errorstyle}>
-                            {  error.phoneNumberError}
+                            {this.state.phoneNumberError}
                           </div>
                         ) : null}
                       </div>
@@ -364,17 +331,17 @@ class SignUp extends Component {
                             </Translation>}
                           icon="envelope"
                           name="email"
-                          value={ state.email}
+                          value={personRequest.email}
                           group
                           type="email"
                           validate
                           error="wrong"
                           success="right"
-                          onChange={ changeHandler}
+                          onChange={this.changeHandler}
                         />
-                        { error.emailError ? (
+                        {this.state.emailError ? (
                           <div className="red-text" style={Errorstyle}>
-                            { error.emailError}
+                            {this.state.emailError}
                           </div>
                         ) : null}
                       </div>
@@ -387,16 +354,16 @@ class SignUp extends Component {
                               }
                             </Translation>}
                           icon="lock"
-                          password={ state.password}
+                          password={personRequest.password}
                           name="password"
                           group
                           type="password"
                           validate
-                          onChange={ changeHandler}
+                          onChange={this.changeHandler}
                         />
-                        {  error.passwordError ? (
+                        {this.state.passwordError ? (
                           <div className="red-text" style={Errorstyle}>
-                            {  error.passwordError}
+                            {this.state.passwordError}
                           </div>
                         ) : null}
                       </div>
@@ -412,30 +379,29 @@ class SignUp extends Component {
                               }
                             </Translation>}
                           icon="lock"
-                          password={ state.passwordTwo}
+                          password={personRequest.passwordTwo}
                           name="passwordTwo"
                           group
                           type="password"
                           validate
-                          onChange={ changeHandler}
+                          onChange={this.changeHandler}
                         />
-                        { error.passwordTwoError ? (
+                        {this.state.passwordTwoError ? (
                           <div className="red-text" style={Errorstyle}>
-                            { error.passwordTwoError}
+                            {this.state.passwordTwoError}
                           </div>
                         ) : null}
                       </div>
                       <div class="col-md-6">
                         <ReCAPTCHA
                           class="my-2"
-                          //sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
                           sitekey="6Ld1odEZAAAAAC_M4JbsRXzapA5aSZXUd5ukXuBV"
-                          onChange={ verifyCaptcha}
-                          onExpired={ expireCaptcha}
+                          onChange={this.verifyCaptcha}
+                          onExpired={this.expireCaptcha}
                         />
-                        { error.ReCAPTCHAError ? (
+                        {this.state.ReCAPTCHAError ? (
                           <div className="red-text ml-5">
-                            { error.ReCAPTCHAError}
+                            {this.state.ReCAPTCHAError}
                           </div>
                         ) : null}
                       </div>
@@ -554,9 +520,6 @@ class SignUp extends Component {
       </MDBContainer>
     );
   }
-<<<<<<< HEAD
-=======
 }
 export default withTranslation()(SignUp);
->>>>>>> ef0899293ccd0f60c4b1d4eb791246057832a2c0
 
