@@ -40,7 +40,7 @@ function InstructionPage() {
               <h6 class="font-weight-bold u-center-text m3-5">Thank you for making this request. Please follow step below to process payment.</h6>
               </div>
             
-              {paymentInformation? paymentInformation.instractions.length
+              {paymentInformation? paymentInformation.instractions?.length
                 ? paymentInformation.instractions.map((instruction) => (
                   <div class="d-flex">
 
@@ -55,18 +55,24 @@ function InstructionPage() {
                 : null  :null}
 
               <p class="">
-                N.B : Please ensure that you make the extract payment within 2 hours after making the request. 
+          
                 
 
           </p>
-          <p class="">
-          If you do not get any SMS or email confirmation in 2 hours after marking the payment,  
-          Please contact us by this email address: 
-          <a href="mailto:support@ethiopianpassportservices.gov.et" class='ml-1'>
+          <div class="alert alert-danger my-4 p-3" role="alert">
+              <h6 class=" m3-5">     
+               N.B : Please ensure that you make the extract payment After 3 (Three) days after making passport request order. 
+               If you do not get your request order in 2 days after marking payment, please contact by using this email address.
+               <a href="mailto:support@ethiopianpassportservices.gov.et" class='ml-1'>
             <strong>
              support@ethiopianpassportservices.gov.et
              </strong>
              </a>
+                </h6>
+              </div>
+          <p>
+        
+       
           </p>
 
             </div>

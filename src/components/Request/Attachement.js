@@ -25,6 +25,7 @@ const Fileupload = forwardRef((props, ref) => {
   const [invalidImage, setinvalidImage] = useState('')
   const inputs = [];
   const [errorMessage, seterrorMessage] = useState([]);
+  const [serverErrorMessage, setserverErrorMessage] = useState('');
   let fileError = [];
   const [loading, setloading] = useState(true);
   const [filename, setfilename] = useState({
@@ -176,6 +177,7 @@ const Fileupload = forwardRef((props, ref) => {
         props.VerticalNext();
       } catch (error) {
         console.log('error' + error.message);
+        setserverErrorMessage(error.data.message)
         setloading(false);
         //props.showBack();
       }
@@ -247,7 +249,7 @@ const Fileupload = forwardRef((props, ref) => {
           <form onSubmit={(e) => submit(e)}>
             <div class="row ">
               <div class="col-md-10 " id="attachmentmargin">
-              <MDBBadge color="primary smallPadding ">
+              <MDBBadge color="primary smallPadding " className='mb-2'>
                 Size of the image should be less than 4MB and in JPEG, JPG, PNG, GIF format
                 </MDBBadge>
 
@@ -258,6 +260,11 @@ const Fileupload = forwardRef((props, ref) => {
                       </div>
                     ))
                   : null}
+
+                  {
+                  serverErrorMessage?
+                  serverErrorMessage : null
+                  }
               </div>
             </div>
 

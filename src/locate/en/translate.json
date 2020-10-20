@@ -91,7 +91,19 @@
       "validation": "Please check this box if you want to proceed.",
 
       "scheduleForAppointment": "Schedule for Appointment",
-      "appointmentRequest": "Appointment Request"
+      "appointmentRequest": "Appointment Request",
+      "requestor": "Requestor : "
+      
+    },
+
+    "renewPassport": {
+      "title": "Which type of Service you need?",
+      "expiredPassport": "Expired Passport",
+      "expiredPassportDetial": " Expired passport, applicants are requested to schedule forappointment. You receive confirmation via email or SMS.Print the last page which has your appointment date andtime. Take the paper with you to your appointment consular.",
+      "replacmentofValidPageRunout": "Replacment of Valid Page Runout",
+      "replacmentofValidPageRunoutDetail": "Page runout (not expired) passport, applicants are requested to schedule for appointment. You receive confirmation via email or SMS. Print the last page which has your appointment date and time. Take the paper with you to your appointment consular.",
+      "damagedPassport": "Damaged Passport",
+      "damagedPassportDetail": "Damaged passport, applicants are requested to schedule for appointment. You receive confirmation via email or SMS. Print the last page which has your appointment date and time. Take the paper with you to your appointment consular."
       
     },
 
@@ -129,6 +141,9 @@
       "firstname": "First Name",
       "middleName": "Middle Name",
       "lastName": "Last Name",
+      "amharicFirstname": "ስም (In Amharic)",
+      "amharicMiddleName": "የአባት ስም (In Amharic)",
+      "amharicLastName": "የአያት ስም (In Amharic)",
       "dateOfBirth": "Date of birth",
       "nationality": "Nationality",
       "phoneNumber": "Phone Number",
@@ -297,8 +312,9 @@
 
     "about": {
       "title": "What We Do",
-      "paragraphOne": "This is institution established again by coordinating the prosperity reform works in Ethiopia. It is called FDRE Immigration, Nationality and vital events agency.What history says? On vital events registration from Emperor Minilik to foreign citizens birth and death documents were given and this is clearly stated on historical documents. It starts working by following legal outlines on 1942. Based on by state government declaration seventy fourth city officials were assigned to register residence of the city and the title was stated at letter “D” writing on civil status means/birth, marriage and death/.The other thing concerning the ministry authority on order number 1/1935 and number 36 letter “D” by the power of ministry of state for counting public authority for marriage and birth registration on civil status given to it by law by giving power of attorney to the municipality of the city for implementation of better work necessary internal laws and regulations given to it.",
-      "paragraphTwo": "Based on 1951 law notification number 150/43 to assign the place for cemetery, controlling cemetery and it is counted as one of activities issued to the municipality by the civil code law drafted on 1960 to implement vital events registration many articles included on this law number 3361 /1/ for implementing those articles concerning with civil status till unique regulation drafted the aim of vital events the process and implementation when it is compared with the modern and proper registration work manner even though it is tried to include some points reserving the gaps concerning vital events registration and collecting information works conducted in different governmental organizations (i.e Municipality, city administration offices, central statistics agency and health center. On this hand, the processes of registration of vital events were conducted in religious organizations. So, in 1943 marriage, in 1954 birth, in 1968 death registration started. This registration done for legal and administrational affairs and by the persons who are willing to register the events certificate is issued. Participants of vital events registration",
+      "paragraphOne": "This is institution established again by coordinating the prosperity reform works in Ethiopia. It is called FDRE Immigration, Nationality and vital events agency.What history says? On vital events registration from Emperor Minilik to foreign citizens birth and death documents were given and this is clearly stated on historical documents. ",
+      "paragraphTwo": "It starts working by following legal outlines on 1942. Based on by state government declaration seventy fourth city officials were assigned to register residence of the city and the title was stated at letter “D” writing on civil status means/birth, marriage and death/.The other thing concerning the ministry authority on order number 1/1935 and number 36 letter “D” by the power of ministry of state for counting public authority for marriage and birth registration on civil status given to it by law by giving power of attorney to the municipality of the city for implementation of better work necessary internal laws and regulations given to it.",
+      "paragraphThree": "Based on 1951 law notification number 150/43 to assign the place for cemetery, controlling cemetery and it is counted as one of activities issued to the municipality by the civil code law drafted on 1960 to implement vital events registration many articles included on this law number 3361 /1/ for implementing those articles concerning with civil status till unique regulation drafted the aim of vital events the process and implementation when it is compared with the modern and proper registration work manner even though it is tried to include some points reserving the gaps concerning vital events registration and collecting information works conducted in different governmental organizations (i.e Municipality, city administration offices, central statistics agency and health center. On this hand, the processes of registration of vital events were conducted in religious organizations. So, in 1943 marriage, in 1954 birth, in 1968 death registration started. This registration done for legal and administrational affairs and by the persons who are willing to register the events certificate is issued. Participants of vital events registration",
       "vision": " Vision",
       "visionDetail": "Our vision being one of the 10 best agencies in Africa in 2022 through supporting the information and service provision with technology, making the quality fits with international standards and ensuring its security.",
       "mission": "Mission",
@@ -311,18 +327,25 @@
       "valuesListThree": "Team work",
       "valuesListFour": "Trusted provider",
       "valuesListFive": "Confidentiality",
-      "valuesListSix": "Fairness"
+      "valuesListSix": "Fairness",
+      "valuesListSeven": "Accountability"
     },
     
 
     "contactUs": {
       "getInTouch": "Get In Touch",
-      "address": "test street",
-      "Email": "test@test.com",
-      "FreePhone": "8133 FREE CALL",
+      "getInTouchDescription": "Ethiopian Passport Online Passport Service",
+      "addressTitle": "Address",
+      "address": "Main Office Address",
+      "EmailTitle": "Email",
+      "Email": "support@ethiopianpassportservices.gov.et",
+      "phoneTitle": "Phone",
+      "freePhone": "8133 FREE CALL",
       "socialMediaLink": "Social Media Link",
       "facebook": "FDRE Immigration Nationality and Vital Events Agency",
       "tiwtter": "Immigration Nationality and Vital Event Agency",
+
+      "message":"Thank You For Your Feedback!",
 
       "formTitle": "Please fill out this form to contact us",
       "firstName": "First Name",
@@ -333,8 +356,7 @@
       "submit": "Submit",
 
       "brach": "Brach Office name",
-      "Phone": "Phone number",
-      "faxNumbe": "FAX Numbe",
+      "faxNumber": "FAX Numbe",
 
       "bahrdar": "Bahrdar",
       "mekelle": "Mekelle",
@@ -349,28 +371,25 @@
 
     "register": {
       "title": "Register",
-      "firstName": "First Name",
-      "middleName": "Middle Name",
-      "lastName": "Last Name",
-      "phoneNumber": "Phone Number",
-      "email": "Your e-mail",
       "password": "Password",
       "comfirmPassword": "Comfirm Passwor",
       "signUp": "Sign Up",
       "logIn": "Log In ",
       "alreadyRegistered": "If already registered?",
-      "memberBenefit" : "MEMBER BENEFITS"
-    },
+      "memberBenefit" : "MEMBER BENEFITS",
+      "membersGetMore": "Members get more",
+      "list1": "View your application",
+      "list2": "Check status of pending payment",
+      "list3": "Edit application and reschedule for reappointment",
+      "list4": "Every time you are not required to fill application and information reusability",
 
-    "logIn": {
-      "title": "Log In",
-      "email": "Your e-mail",
-      "password": "Password",
-      "signIn": "Sign In",
-      "forget": "Forgot Password?",
+      
       "notMemeber": "Not a member?",
-      "signUp" : "Sign Up"
+      "forget": "Forgot Password?",
+      "remembered" : "Oh I remembered!",
+      "recover" : "Recover My Password"
     }
+
 
   }
 }
