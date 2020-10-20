@@ -384,26 +384,6 @@ const Address = forwardRef((props, ref) => {
 
               <MDBInput
 
-                valueDefault={prevInfo ? prevInfo.woreda : null}
-
-                name="woreda"
-
-                className="form-control"
-
-                onBlur={handleChange}
-
-                type="text"
-
-                label={t('requestForm.zone')}
-
-              />
-
-            </MDBCol>
-
-            <MDBCol md="3">
-
-              <MDBInput
-
                 valueDefault={prevInfo ? prevInfo.kebele : null}
 
                 name="kebele"
@@ -484,25 +464,6 @@ const Address = forwardRef((props, ref) => {
 
             </MDBCol>
 
-            <MDBCol md="3">
-
-              <MDBInput
-
-                valueDefault={prevInfo ? prevInfo.requestPlace : null}
-
-                name="requestPlace"
-
-                className="form-control"
-
-                onBlur={handleChange}
-
-                type="text"
-
-                label={t('requestForm.poBox')}
-
-              />
-
-            </MDBCol>
 
           </MDBRow>
 
