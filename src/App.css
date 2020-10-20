@@ -40,18 +40,18 @@
   }
 }
 .textBackground {
-  background-color: #004d99;
+  background-color: #123aae;
   border-radius: 3px !important;
 }
 
 .signUpbutton .btn-info {
   color: #fff;
-  background-color: #17a2b8 !important;
-  border-color: #17a2b8 !important;
+  background-color: #184de8 !important;
+  border-color: #184de8 !important;
 }
 .signUpbutton .btn-default {
   color: #fff;
-  background-color: #17a2b8 !important;
+  background-color: #184de8 !important;
 }
 .headerOne {
   background-color: #ffffff !important;
