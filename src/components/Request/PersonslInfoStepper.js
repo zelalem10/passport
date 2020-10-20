@@ -196,7 +196,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
         ],
       };
       API.post(
-        'https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest',
+        'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest',
         requestBody,
         config
       )
@@ -211,7 +211,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           dispatch(addCommonData(commonData));
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
           dispatch(newRequest(todo.data.serviceResponseList[0]))
-          API.get("https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
+          API.get("https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
             .then((todo) => {
               dispatch(addPriceInfo(todo.data));
             })

@@ -82,7 +82,7 @@ const ContactUs = (props) => {
         headers: { Authorization: `Bearer ` + accesstoken },
         method: 'post',
         url:
-          'https://epassportservicesaddt.azurewebsites.net/Transactional/api/V1.0/Feedback/Create',
+          'https://epassportservices.azurewebsites.net/Transactional/api/V1.0/Feedback/Create',
         data: {
           firstName: firstName,
           lastName: lastName,

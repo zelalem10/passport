@@ -49,7 +49,7 @@ const Fileupload = forwardRef((props, ref) => {
       headers: { Authorization: 'Bearer ' + accesstoken },
       method: 'get',
       url:
-        'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Attachement/GetRequiredAttachementsByPersonRequest',
+        'https://epassportservices.azurewebsites.net/Master/api/V1.0/Attachement/GetRequiredAttachementsByPersonRequest',
       params: {
         requestPersonId: requestPersonId,
       },
@@ -159,7 +159,7 @@ const Fileupload = forwardRef((props, ref) => {
         console.log(files[key]);
       }
       const url =
-        'https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadAttachment';
+        'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadAttachment';
 
       const config = {
         headers: {

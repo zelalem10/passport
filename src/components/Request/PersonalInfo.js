@@ -291,7 +291,7 @@ const PersonalInfo = forwardRef((props, ref) => {
     }
     if (personalInfo.nationalityId=== 0) {
       API.get(
-        'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Nationality/GetAll',
+        'https://epassportservices.azurewebsites.net/Master/api/V1.0/Nationality/GetAll',
         config
       )
         .then((todo) => {
@@ -342,7 +342,7 @@ setIsLoading(false)
     setOccupationList(JSON.parse(localStorage.occupations));
     if (occupationList.length === 0) {
       API.get(
-        'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Occupation/GetAll',
+        'https://epassportservices.azurewebsites.net/Master/api/V1.0/Occupation/GetAll',
         config
       )
         .then((todo) => {

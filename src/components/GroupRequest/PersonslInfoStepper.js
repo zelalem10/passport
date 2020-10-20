@@ -225,7 +225,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             },
           ],
         };
-      API.post('https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest', requestBody, config)
+      API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest', requestBody, config)
         .then((todo) => {
           setResponseMessage(todo.data.message);
           setResponseAlert(true);
@@ -237,7 +237,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           dispatch(addCommonData(commonData));
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
-          API.get("https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
+          API.get("https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
             .then((todo) => {
               dispatch(addPriceInfo(todo.data));
             })
@@ -316,7 +316,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           },
         ],
       };
-      API.post('https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/AddPerson',requestBody, config)
+      API.post('https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/AddPerson',requestBody, config)
         .then((todo) => {
            ;
           //console.log("body ", JSON.parse(requestBody))
@@ -329,7 +329,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           dispatch(newRequest(todo.data.serviceResponseList[0]));
           dispatch(addCommonData(commonData));
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
-          API.get("https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + Number.parseInt(requestInfo.requestId), config)
+          API.get("https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + Number.parseInt(requestInfo.requestId), config)
             .then((todo) => {
               dispatch(addPriceInfo(todo.data));
             })

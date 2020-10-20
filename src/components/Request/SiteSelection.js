@@ -62,8 +62,8 @@ const SiteSelection = forwardRef((props, ref) => {
   const requestTypeStr = requestTypeGetter(requestType);
 
 
-  const deliverySiteURL = "https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/DeliverySite/GetAll?OfficeId="
-  const officeURL = 'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Office/GetByCityId?id=';
+  const deliverySiteURL = "https://epassportservices.azurewebsites.net/Master/api/V1.0/DeliverySite/GetAll?OfficeId="
+  const officeURL = 'https://epassportservices.azurewebsites.net/Master/api/V1.0/Office/GetByCityId?id=';
   const config = {
     headers: {
       Authorization: `Bearer ` + accesstoken,
@@ -82,7 +82,7 @@ const SiteSelection = forwardRef((props, ref) => {
       ...prevState,
       reagionId: false,
     }));
-    API.get('https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/CountryRegion/GetCityListByRegion?regionId='+id, config)
+    API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/CountryRegion/GetCityListByRegion?regionId='+id, config)
         .then((todo) => {
           setCityList(todo.data.cities);
         })
@@ -193,7 +193,7 @@ const SiteSelection = forwardRef((props, ref) => {
   useEffect(() => {
     setRegionList(JSON.parse(localStorage.countryRegions))
     if (regionList.length === 0) {
-      API.get('https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
+      API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
         .then((todo) => {
           setRegionList(todo.data.countryRegions);
         })

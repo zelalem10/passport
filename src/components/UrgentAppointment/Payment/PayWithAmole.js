@@ -60,7 +60,7 @@ const CardExample = () => {
             requestId: 3,
         };
         setIsLoading(true)
-        API.post("https://epassportservicesaddt.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
+        API.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
             .then((todo) => 
             {
                 setIsLoading(false)
