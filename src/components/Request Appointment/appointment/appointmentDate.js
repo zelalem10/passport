@@ -585,7 +585,7 @@ setErrorMessage('Please Select Date.')
         <Spinner />
       ) : (
       <MDBContainer className=" pt-3" fluid>
-        <h3 className="heading-secondary">AppointmentDateAndTime</h3>
+        <h3 className="heading-secondary">Appointment Date And Time</h3>
         {/* {data.isGroup ? null : (
           <div>
             <FormControlLabel
@@ -623,6 +623,20 @@ setErrorMessage('Please Select Date.')
             )}
           </div>
         )} */}
+        <MDBTypography
+                note
+                noteColor="info"
+                noteTitle={`Notification: ${durationLength} `}
+              >
+                Estimated Delivery date is within {durationLength} days{' '}
+                {timeSlots.length > 0 ? (
+                  <b>{`${selectDays.getFullYear()} 
+                  -
+                  ${selectDays.getMonth() + 1}
+                  -
+                  ${selectDays.getDate()}`}</b>
+                ) : null}
+              </MDBTypography>
         <MDBRow key={key}>
           <MDBCol md="6">
             <h3>Date</h3>

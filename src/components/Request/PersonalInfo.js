@@ -533,6 +533,7 @@ setIsLoading(false)
                   type="text"
                   label="Phone Number"
                 />
+                
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.phoneNumber == true &&
