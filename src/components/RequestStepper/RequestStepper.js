@@ -19,7 +19,6 @@ import {
   BsFillInfoCircleFill,
 } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
-import addPaymentOptionId from '../../redux/actions/addPaymentOptionIdAction';
 
 export default function RequestStepper() {
   const [indexValue, setIndexValue] = useState(0);
@@ -93,12 +92,6 @@ export default function RequestStepper() {
   function handelConfirmation() {
     setIndexValue(5);
   }
-  useEffect(() => {
-    if (counter.commonData.length === 0) {
-      const selectedId = { optionId: 0 };
-      dispatch(addPaymentOptionId(selectedId));
-    }
-  }, []);
   return (
     <Tab.Container defaultActiveKey="first" activeKey={activeKey[indexValue]}>
       <div style={{ margin: '2rem' }}>

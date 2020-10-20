@@ -490,7 +490,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                     name="nationalityId"
                     onChange={handleChange}
                   >
-                    <option>select Nationality</option>
+                    <option>Select nationality</option>
                     {nationalityList.map((nationality) => (
                       <option
                         value={nationality.id}

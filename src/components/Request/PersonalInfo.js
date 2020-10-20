@@ -157,7 +157,7 @@ const PersonalInfo = forwardRef((props, ref) => {
     const { name, value } = event.target;
     setPersonalInfo((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: value//.replace(/[^0-9]/g, ""),
     }));
 
     if (value != '') {
@@ -491,7 +491,7 @@ setIsLoading(false)
                     name="nationalityId"
                     onChange={handleChange}
                   >
-                    <option>select Nationality</option>
+                    <option>Select nationality</option>
                     {nationalityList.map((nationality) => (
                       <option
                         value={nationality.id}

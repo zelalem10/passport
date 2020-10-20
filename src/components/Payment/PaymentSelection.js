@@ -31,13 +31,6 @@ import PricingInfo from './PricingDetail'
 import { useHistory } from 'react-router-dom';
 import Spinner from '../common/Spinner';
 
-const useStyles = makeStyles({
-  root: {
-    //   minWidth: 275,
-    border: `5px solid green`,
-    //background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-  },
-});
 function requestTypeGetter(requetTypeId) {
   switch (requetTypeId) {
     case 2:
@@ -55,10 +48,8 @@ function requestTypeGetter(requetTypeId) {
 const PaymentSelection = forwardRef((props, ref) => {
   const [selectedOption, setSelectedOption] = useState(0);
   const [paymentOptions, setPaymentOptions] = useState([]);
-  const [instruction, setInstruction] = useState('');
   const [message, setMessage] = useState('');
   const [code, setCode] = useState('');
-  const [status, setStatus] = useState(0);
   const [confirmed, setConfirmed] = useState(false);
   const [dataSaved, setDataSaved] = useState(false);
   const [showError, setShowError] = useState(false);
