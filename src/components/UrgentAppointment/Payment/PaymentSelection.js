@@ -89,7 +89,7 @@ if(status){
         requestId: displayedApplication.requestId,
       };
       API.post(
-        'https://epassportservicesaddt.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest',
+        'https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest',
         body,
         config
       )
@@ -114,7 +114,7 @@ if(status){
 
   useEffect(() => {
     API.get(
-      'https://epassportservicesaddt.azurewebsites.net/Payment/api/V1.0/Payment/GetPaymentOptions',
+      'https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/GetPaymentOptions',
       config
     )
       .then((todo) => setPaymentOptions(todo.data.paymentOptions))

@@ -34,7 +34,7 @@ const FamilyInformation = forwardRef((props, ref) => {
     personId: 0,
   });
   const [familyType, setFamilyType] = useState([]);
-  const baseUrl = 'https://epassportservicesaddt.azurewebsites.net/';
+  const baseUrl = 'https://epassportservices.azurewebsites.net/';
   const accesstoken = localStorage.systemToken;
   useEffect(() => {
     axios({

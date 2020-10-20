@@ -11,7 +11,7 @@ function AppointmetType(props) {
     const dispatch = useDispatch();
     const counter = useSelector((state) => state);
     const [requestTypes, setRequestTypes] = useState([]);
-    const baseUrl = 'https://epassportservicesaddt.azurewebsites.net/';
+    const baseUrl = 'https://epassportservices.azurewebsites.net/';
     const tokenValue = () => {
         const UserToken = localStorage.userToken;
 
@@ -32,10 +32,12 @@ function AppointmetType(props) {
             url: baseUrl + '/Master/api/V1.0/OfficeRequestType/GetAllRequestTypes',
         })
             .then(async (response) => {
+                debugger;
                 dispatch(addAppointmentType(response.data.requestTypes));
                 setRequestTypes(response.data.requestTypes);
             })
             .catch((error) => {
+                debugger;
                 console.log('error' + error.response);
             });
     }, []);

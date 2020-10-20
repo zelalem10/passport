@@ -92,7 +92,7 @@ const dispatch = useDispatch();
     setPassportTypeList(JSON.parse(localStorage.PassportPageQuantity))
     if(passportTypeList.length===0){
       API.get(
-        'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/PassportPage/GetAll',
+        'https://epassportservices.azurewebsites.net/Master/api/V1.0/PassportPage/GetAll',
         config
       )
         .then((todo) => {

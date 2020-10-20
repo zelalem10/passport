@@ -94,7 +94,7 @@ const Fileupload = forwardRef((props, ref) => {
         console.log(fileType[i]);
       }
 
-      const url = 'https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadChangeAttachment';
+      const url = 'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadChangeAttachment';
 
       const config = {
         headers: {

@@ -120,12 +120,12 @@ const NavbarPage = (props) => {
       <div>
 
   <div class="sl-nav text-dark">
-  <Trans>header.languageTitel</Trans> 
+  <i class="fas fa-globe"></i> 
     <ul>
       <li ><b>  <Trans>header.language</Trans> </b> <i class="fa fa-angle-down" aria-hidden="true"></i>
         <div class="triangle"></div>
         <ul>
-          <li onClick={onLanguageHandle.bind(this)} data-id="en"><i class="sl-flag flag-usa"><div id="germany"></div></i> <span class="active">EN</span></li>
+          <li onClick={onLanguageHandle.bind(this)} data-id="en"><i class="sl-flag flag-usa"><div id="germany"></div></i> <span class="active">English</span></li>
           <li onClick={onLanguageHandle.bind(this)} data-id="am"><i class="sl-flag flag-amhara"><div id="germany"></div></i> <span class="active">Amharic</span></li>
           <li onClick={onLanguageHandle.bind(this)} data-id="om"><i class="sl-flag flag-usa"><div id="germany"></div></i> <span class="active">AfanOromo</span></li>
           <li onClick={onLanguageHandle.bind(this)} data-id="ti"><i class="sl-flag flag-de"><div id="germany"></div></i> <span class="active">Tigrigna</span></li>
