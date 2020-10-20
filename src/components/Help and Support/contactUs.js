@@ -142,12 +142,12 @@ const ContactUs = (props) => {
                   </div>
                   <br></br>
                   <div class="d-inline">
-                    <Link to="#!" className="tw-ic ePassprt-text-color">
+                    <a href="https://twitter.com/FdreINVEA" className="tw-ic ePassprt-text-color">
                       <MDBIcon fab icon="twitter" className="mr-2" />
                       <p class="d-inline ePassprt-text-color">
                         Immigration Nationality and Vital Event Agency
                       </p>
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </div>
