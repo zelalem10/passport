@@ -371,28 +371,25 @@
 
     "register": {
       "title": "Register",
-      "firstName": "First Name",
-      "middleName": "Middle Name",
-      "lastName": "Last Name",
-      "phoneNumber": "Phone Number",
-      "email": "Your e-mail",
       "password": "Password",
       "comfirmPassword": "Comfirm Passwor",
       "signUp": "Sign Up",
       "logIn": "Log In ",
       "alreadyRegistered": "If already registered?",
-      "memberBenefit" : "MEMBER BENEFITS"
-    },
+      "memberBenefit" : "MEMBER BENEFITS",
+      "membersGetMore": "Members get more",
+      "list1": "View your application",
+      "list2": "Check status of pending payment",
+      "list3": "Edit application and reschedule for reappointment",
+      "list4": "Every time you are not required to fill application and information reusability",
 
-    "logIn": {
-      "title": "Log In",
-      "email": "Your e-mail",
-      "password": "Password",
-      "signIn": "Sign In",
-      "forget": "Forgot Password?",
+      
       "notMemeber": "Not a member?",
-      "signUp" : "Sign Up"
+      "forget": "Forgot Password?",
+      "remembered" : "Oh I remembered!",
+      "recover" : "Recover My Password"
     }
+
 
   }
 }
