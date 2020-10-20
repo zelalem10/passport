@@ -384,8 +384,12 @@ setErrorMessage('Please Select Date.')
                   )
                 );
                 while (currentDate <= stopDate) {
+                  let formatedCurrentDateString = currentDate.toString();
+                  if(availableDates.length===0){
+                    disabledDates.push(new Date(currentDate));
+                  }
                   for (let i = 0; i < availableDates.length; i++) {
-                    let formatedCurrentDateString = currentDate.toString();
+                   
                     if (
                       availableDates.indexOf(
                         new Date(formatedCurrentDateString).toString()

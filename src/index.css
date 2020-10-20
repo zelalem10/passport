@@ -467,11 +467,11 @@ code {
   cursor: pointer;
 }
 .info .btnBlu {
-  background-color: #3e51b4;
+  background-color: #184de8;
   color: #fff;
 }
 .info .btn:hover {
-  background-color: #093c73;
+  background-color: #123aae;
   color: #fff;
 }
 
