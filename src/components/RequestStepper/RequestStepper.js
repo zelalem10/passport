@@ -30,7 +30,7 @@ export default function RequestStepper() {
     false,
     false,
   ]);
-  const activeKey = ['first', 'second', 'third', 'fourth', 'Fivth', 'Sixth'];
+  const activeKey = ['first', 'second', 'third', 'fourth', 'Fivth'];
   const counter = useSelector((state) => state);
   const isGroup = counter.service[counter.service.length - 1].isGroup;
   const personalRef = useRef();
@@ -152,17 +152,7 @@ export default function RequestStepper() {
                     <BsWallet /> Payment{formCompleted[4] ? <BsCheck /> : null}
                   </Nav.Link>
                 </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link
-                    eventKey={activeKey[5]}
-                    onClick={handelConfirmation}
-                    disabled={formCompleted[5] === true ? false : true}
-                  >
-                    <BsFillInfoCircleFill /> Confirmation
-                    {formCompleted[5] ? <BsCheck /> : null}
-                  </Nav.Link>
-                </Nav.Item>
-              </Nav>
+                </Nav>
             </Card>
           </Col>
           <Col lg={9}>
@@ -185,9 +175,6 @@ export default function RequestStepper() {
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[4]}>
                 <PaymentSelection ref={paymentRef} />
-              </Tab.Pane>
-              <Tab.Pane eventKey={activeKey[5]}>
-                <Confirmation />
               </Tab.Pane>
             </Tab.Content>
           </Col>
