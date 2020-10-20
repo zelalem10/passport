@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import ReCAPTCHA from 'react-google-recaptcha';
+import { Link } from 'react-router-dom';
 
 import {
   MDBContainer,
@@ -395,7 +396,7 @@ class SignUp extends Component {
                       <div class="col-md-6">
                         <ReCAPTCHA
                           class="my-2"
-                          sitekey="6Ld1odEZAAAAAC_M4JbsRXzapA5aSZXUd5ukXuBV"
+                          sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
                           onChange={this.verifyCaptcha}
                           onExpired={this.expireCaptcha}
                         />
