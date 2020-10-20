@@ -203,6 +203,17 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                     </b>
                   </div>
                 ) : null}
+                <div class="form-group form-inline passport-display">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Application Number
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {personalInformation.applicationNumber}
+                    </label>
+                  </b>
+                </div>
               </div>
             </div>
             <div
