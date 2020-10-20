@@ -420,7 +420,7 @@ class SignUp extends Component {
                               (t, { i18n }) => <span>{t('register.logIn')}</span>
                             }
                           </Translation>
-                        </a>
+                        </Link>
 
                         <Translation>
                           {
