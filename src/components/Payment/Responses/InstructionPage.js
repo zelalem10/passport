@@ -62,8 +62,9 @@ function InstructionPage() {
           <div class="alert alert-danger my-4 p-3" role="alert">
               <h6 class=" m3-5">     
                N.B : Please ensure that you make the extract payment After 3 (Three) days after making passport request order. 
-               If you do not get your request order in 2 days after marking payment, please contact by using this email address.
-               <a href="mailto:support@ethiopianpassportservices.gov.et" class='ml-1'>
+               {/* If you do not get your request order in 2 days after marking payment, please contact by using this email address. */}
+               please contact us by using this email address.
+             <a href="mailto:support@ethiopianpassportservices.gov.et">
             <strong>
              support@ethiopianpassportservices.gov.et
              </strong>

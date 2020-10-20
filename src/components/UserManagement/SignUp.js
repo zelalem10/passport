@@ -15,6 +15,7 @@ import {
 import { Translation, useTranslation, Trans, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
+import { withRouter } from 'react-router-dom';
 const Errorstyle = {
   marginTop: '-2rem',
   marginLeft: '2.5rem',
@@ -46,6 +47,11 @@ const intialState = {
 class SignUp extends Component {
   state = intialState;
 
+
+  redirectToHome = () => {
+    const { history } = this.props;
+    if(history) history.push('/signIn');
+   }
   // ReCAPTCHA Client Side
 
   // ReCAPTCHA verify
@@ -156,8 +162,8 @@ class SignUp extends Component {
       })
         .then((Response) => {
           console.log(Response);
-
-          window.location.href = './signIn';
+        
+          this.redirectToHome();
         })
         .catch((err) => {
           console.log(err);
@@ -170,7 +176,7 @@ class SignUp extends Component {
 
   render() {
     const { personRequest } = this.state;
-
+    const { history } = this.props;
     return (
       <MDBContainer
         className="passport-card-deck passport-container my-3 p-5"
