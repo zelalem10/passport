@@ -10,6 +10,8 @@ import "mdbreact/dist/css/mdb.css";
 import configureStore from "./redux/configureStore";
 import { Provider as ReduxProvider } from "react-redux";
 import { HashRouter } from "react-router-dom";
+import { I18nextProvider } from "react-i18next";
+import i18n from "./i18n";
 
 const store = configureStore();
 ReactDOM.render(
@@ -18,11 +20,16 @@ ReactDOM.render(
       {/* <Router>
         <App />
       </Router> */}
+
       <HashRouter>
-        <App />
+        <I18nextProvider i18n={i18n}>
+          <App />
+        </I18nextProvider>,
       </HashRouter>
+
     </React.StrictMode>
   </ReduxProvider>,
+
   document.getElementById("root")
 );
 

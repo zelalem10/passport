@@ -10,8 +10,10 @@ import {
   MDBCardTitle,
 } from 'mdbreact';
 import { Link, useHistory } from 'react-router-dom';
+import { useTranslation, Trans } from 'react-i18next';
 
 const CarouselPage = () => {
+  const { t, i18n } = useTranslation();
   return (
     <MDBContainer
       className="Passport-Carousel"
@@ -33,15 +35,14 @@ const CarouselPage = () => {
             <MDBView>
               <img
                 className="d-block w-100"
-                src={require('../../images/default-source/carousel/lalibela.jpg')}
+                src={require('../../images/default-source/carousel/banner passport .jpg')}
                 alt="First slide"
               />
               {/* <MDBMask overlay="black-light" /> */}
             </MDBView>
             <MDBCarouselCaption className="passport-CarouselCaption">
               <h3 className="h3-responsive">
-                Welcome to Ethiopian <br></br>
-                Passport Services
+               <Trans>carouselCaption</Trans> 
               </h3>
    
             </MDBCarouselCaption>
@@ -57,9 +58,8 @@ const CarouselPage = () => {
               {/* <MDBMask overlay="black-light" /> */}
             </MDBView>
             <MDBCarouselCaption className="passport-CarouselCaption">
-              <h3 className="h3-responsive">
-                Welcome to Ethiopian <br></br>
-                Passport Services
+            <h3 className="h3-responsive">
+            <Trans>carouselCaption</Trans> 
               </h3>
        
             </MDBCarouselCaption>
@@ -75,8 +75,7 @@ const CarouselPage = () => {
             </MDBView>
             <MDBCarouselCaption className="passport-CarouselCaption">
               <h3 className="h3-responsive">
-                Welcome to Ethiopian <br></br>
-                Passport Services
+              <Trans>carouselCaption</Trans> 
               </h3>
           
             </MDBCarouselCaption>
@@ -92,8 +91,7 @@ const CarouselPage = () => {
             </MDBView>
             <MDBCarouselCaption className="passport-CarouselCaption">
               <h3 className="h3-responsive">
-                Welcome to Ethiopian <br></br>
-                Passport Services
+              <Trans>carouselCaption</Trans> 
               </h3>
          
             </MDBCarouselCaption>
@@ -109,8 +107,7 @@ const CarouselPage = () => {
             </MDBView>
             <MDBCarouselCaption className="passport-CarouselCaption">
               <h3 className="h3-responsive">
-                Welcome to Ethiopian <br></br>
-                Passport Services
+              <Trans>carouselCaption</Trans> 
               </h3>
           
             </MDBCarouselCaption>
@@ -119,15 +116,14 @@ const CarouselPage = () => {
             <MDBView>
               <img
                 className="d-block w-100"
-                src={require('../../images/default-source/carousel/ertale.jpg')}
+                src={require('../../images/default-source/carousel/lalibela.jpg')}
                 alt="Third slide"
               />
               {/* <MDBMask overlay="black-slight" /> */}
             </MDBView>
             <MDBCarouselCaption className="passport-CarouselCaption">
               <h3 className="h3-responsive">
-                Welcome to Ethiopian <br></br>
-                Passport Services
+              <Trans>carouselCaption</Trans> 
               </h3>
           
             </MDBCarouselCaption>

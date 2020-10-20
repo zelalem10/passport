@@ -1,9 +1,9 @@
 import React from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
 import Spinner from '../common/Spinner';
-
+import { useTranslation, Trans } from 'react-i18next';
 function Status(props) {
-  debugger;
+  const { t, i18n } = useTranslation();
   const {
     ApplicationNumberData,
     ShowForm,
@@ -43,7 +43,7 @@ function Status(props) {
                     <div className="header pt-3 textBackground my-5">
                       <MDBRow className="d-flex justify-content-center">
                         <h4 className="white-text mb-3 pt-3 font-weight-bold">
-                          Check Passport status
+                         <Trans>status.title</Trans>
                         </h4>
                       </MDBRow>
                     </div>
@@ -51,7 +51,7 @@ function Status(props) {
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Application Number"
+                      placeholder=  {t('status.lableOne')}
                       value={ApplicationNumber}
                       onChange={(e) => setApplicationNumber(e.target.value)}
                     />
@@ -59,7 +59,7 @@ function Status(props) {
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Confirmation Number"
+                      placeholder= {t('status.lableTwo')}
                       value={ConfirmationNumber}
                       onChange={(e) => setConfirmationNumber(e.target.value)}
                     />
@@ -71,7 +71,7 @@ function Status(props) {
                     <div className="text-center py-4 mt-1">
                       <div className="text-center mb-3 signUpbutton">
                         <MDBBtn type="submit" className="btn-block btn-info">
-                          Search
+                        <Trans>status.search</Trans>
                         </MDBBtn>
                       </div>
                     </div>
@@ -172,9 +172,9 @@ function Status(props) {
                                     </div>
                                   </a>
                                 ) : null}
-                                {ApplicationNumberData.requestStatus ==
-                                  'SendforCorrection' &&
-                                ApplicationNumberData.requestStatus ==
+                                {ApplicationNumberData.personResponses.personStatus ==
+                                  'SendforCorrection' ||
+                                ApplicationNumberData.personResponses.personStatus ==
                                   'Initial' ? (
                                   <a
                                     onClick={() =>
@@ -191,7 +191,7 @@ function Status(props) {
                                       <i class="fas fa-edit fa-lg"></i>
                                     </div>
                                   </a>
-                                 ) : null} 
+                                 ) : null}  
                                 <a
                                   onClick={() =>
                                     handleDisplay(
@@ -205,11 +205,11 @@ function Status(props) {
                                   </div>
                                 </a>
                                 {ApplicationNumberData.requestStatus ==
-                                  'PaymentCompleted' &&
-                                addDays(ApplicationNumberData.currentDate) <
+                                  'PaymentCompleted' &&ApplicationNumberData.appointmentResponse?
+                                (addDays(ApplicationNumberData.currentDate) <
                                   new Date(
                                     ApplicationNumberData.appointmentResponse.date
-                                  ) ? (
+                                  )):false ? (
                                   <a
                                     onClick={() =>
                                       handleReschedule(

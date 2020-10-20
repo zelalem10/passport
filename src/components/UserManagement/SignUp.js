@@ -12,6 +12,8 @@ import {
   MDBCardBody,
   MDBIcon,
 } from 'mdbreact';
+import { Translation, useTranslation, Trans, withTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 const Errorstyle = {
   marginTop: '-2rem',
@@ -168,6 +170,7 @@ class SignUp extends Component {
 
   render() {
     const { personRequest } = this.state;
+
     return (
       <MDBContainer
         className="passport-card-deck passport-container my-3 p-5"
@@ -187,7 +190,12 @@ class SignUp extends Component {
                   <div className="header pt-3 mb-5 textBackground">
                     <MDBRow className="d-flex justify-content-center white-text">
                       <h4 className="white-text my-3 py-3 font-weight-bold">
-                        <span class="fa fa-user-plus mr-2"></span> Register
+                        <span class="fa fa-user-plus mr-2"></span>
+                        <Translation>
+                          {
+                            (t, { i18n }) => <span>{t('register.title')}</span>
+                          }
+                        </Translation>
                       </h4>
                     </MDBRow>
                   </div>
@@ -195,8 +203,15 @@ class SignUp extends Component {
                   <div className="grey-text">
                     <div class="row">
                       <div class="col-md-6">
+
                         <MDBInput
-                          label="First Name"
+                          label={
+                            <Translation>
+                              {
+                                (t, { i18n }) => <p>{t('requestForm.firstname')}</p>
+                              }
+                            </Translation>
+                          }
                           name="firstName"
                           value={personRequest.firstName}
                           icon="user"
@@ -215,7 +230,13 @@ class SignUp extends Component {
                       </div>
                       <div class="col-md-6">
                         <MDBInput
-                          label="Middle Name"
+                          label={
+                            <Translation>
+                              {
+                                (t, { i18n }) => <p>{t('requestForm.middleName')}</p>
+                              }
+                            </Translation>
+                          }
                           name="middleName"
                           value={personRequest.middleName}
                           icon="user"
@@ -236,7 +257,13 @@ class SignUp extends Component {
                     <div class="row">
                       <div class="col-md-6">
                         <MDBInput
-                          label="Last Name"
+                          label={
+                            <Translation>
+                              {
+                                (t, { i18n }) => <p>{t('requestForm.lastName')}</p>
+                              }
+                            </Translation>
+                          }
                           name="lastName"
                           value={personRequest.lastName}
                           icon="user"
@@ -255,7 +282,12 @@ class SignUp extends Component {
                       </div>
                       <div class="col-md-6">
                         <MDBInput
-                          label="Phone Number"
+                          label={
+                            <Translation>
+                              {
+                                (t, { i18n }) => <span>{t('requestForm.phoneNumber')}</span>
+                              }
+                            </Translation>}
                           name="phoneNumber"
                           value={personRequest.phoneNumber}
                           icon="phone"
@@ -276,7 +308,12 @@ class SignUp extends Component {
                     <div class="row">
                       <div class="col-md-6">
                         <MDBInput
-                          label="Email"
+                          label={
+                            <Translation>
+                              {
+                                (t, { i18n }) => <span>{t('requestForm.email')}</span>
+                              }
+                            </Translation>}
                           icon="envelope"
                           name="email"
                           value={personRequest.email}
@@ -295,7 +332,12 @@ class SignUp extends Component {
                       </div>
                       <div class="col-md-6">
                         <MDBInput
-                          label="Password"
+                          label={
+                            <Translation>
+                              {
+                                (t, { i18n }) => <span>{t('register.password')}</span>
+                              }
+                            </Translation>}
                           icon="lock"
                           password={personRequest.password}
                           name="password"
@@ -315,7 +357,12 @@ class SignUp extends Component {
                     <div class="row">
                       <div class="col-md-6">
                         <MDBInput
-                          label="Comfirm Password"
+                          label={
+                            <Translation>
+                              {
+                                (t, { i18n }) => <span>{t('register.comfirmPassword')}</span>
+                              }
+                            </Translation>}
                           icon="lock"
                           password={personRequest.passwordTwo}
                           name="passwordTwo"
@@ -333,7 +380,7 @@ class SignUp extends Component {
                       <div class="col-md-6">
                         <ReCAPTCHA
                           class="my-2"
-                          sitekey="6Ld1odEZAAAAAC_M4JbsRXzapA5aSZXUd5ukXuBV"
+                          sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
                           onChange={this.verifyCaptcha}
                           onExpired={this.expireCaptcha}
                         />
@@ -354,19 +401,32 @@ class SignUp extends Component {
                         rounded
                         block
                       >
-                        Sign Up <i class="fas fa-sign-in-alt pl-1"></i>
+                        <Translation>
+                          {
+                            (t, { i18n }) => <span>{t('register.signUp')}</span>
+                          }
+                        </Translation> <i class="fas fa-sign-in-alt pl-1"></i>
                       </MDBBtn>
                     </MDBCol>
                     <MDBCol md="6">
                       <p className="font-medium grey-text d-flex justify-content-end">
-                        <a
-                          href="/signIn"
+                        <Link
+                          to="/signIn"
                           color="cyan"
                           className="blue-text mr-1"
                         >
-                          Log In
-                        </a>
-                        If already registered?
+                          <Translation>
+                            {
+                              (t, { i18n }) => <span>{t('register.logIn')}</span>
+                            }
+                          </Translation>
+                        </Link>
+
+                        <Translation>
+                          {
+                            (t, { i18n }) => <span>{t('register.alreadyRegistered')}</span>
+                          }
+                        </Translation>
                       </p>
                     </MDBCol>
                   </MDBRow>
@@ -379,26 +439,65 @@ class SignUp extends Component {
             <div class="card p-2">
               <div class="card-body">
                 <div class="u-center-text u-margin-bottom-big">
-                  <h2 class="heading-secondary">Member Benefits</h2>
+                  <h1 class="heading-secondary">
+                  <Translation>
+                          {
+                            (t, { i18n }) => <span>{t('register.memberBenefit')}</span>
+                          }
+                  </Translation>
+                 </h1>
                 </div>
-                <h4>Members get more</h4>
-                <p>
-                  Members save up to 10% more when booking directly on our
-                  website or mobile app.
-                </p>
-                <h4>Points for hotel stays</h4>
-                <p>
-                  Earn points per US dollar spent on eligible stays and food and
-                  beverage purchases charged to your room during an eligible
-                  stay.
-                </p>
-                <h4>Free award nights</h4>
-                <p>
-                  Redeem for Free Award Nights starting at 9,000 points with no
-                  blackout dates on Standard Rooms.
-                </p>
-                <h4>Phone</h4>
-                <p>8133 FREE CALL</p>
+                <h4>
+                <Translation>
+                          {
+                            (t, { i18n }) => <span>{t('register.membersGetMore')}</span>
+                          }
+                  </Translation>
+                  
+                  </h4>
+
+                <div class="d-flex"><div class="p-2 align-self-start"><i class="fas fa-check fa-1x"></i>
+                </div><div class="p-2 align-self-end">
+                <Translation>
+                          {
+                            (t, { i18n }) => <span>{t('register.list1')}</span>
+                          }
+                  </Translation>
+                    
+                  </div>
+                </div>
+
+                <div class="d-flex"><div class="p-2 align-self-start"><i class="fas fa-check fa-1x"></i>
+                </div><div class="p-2 align-self-end">
+                <Translation>
+                          {
+                            (t, { i18n }) => <span>{t('register.list2')}</span>
+                          }
+                  </Translation>
+                  </div>
+                </div>
+
+                <div class="d-flex"><div class="p-2 align-self-start"><i class="fas fa-check fa-1x"></i>
+                </div><div class="p-2 align-self-end">
+                <Translation>
+                          {
+                            (t, { i18n }) => <span>{t('register.list3')}</span>
+                          }
+                  </Translation>
+                  </div>
+                </div>
+
+                <div class="d-flex"><div class="p-2 align-self-start"><i class="fas fa-check fa-1x"></i>
+                </div><div class="p-2 align-self-end">
+                <Translation>
+                          {
+                            (t, { i18n }) => <span>{t('register.list4')}</span>
+                          }
+                  </Translation>
+                  </div>
+                </div>
+
+
               </div>
             </div>
           </MDBCol>
@@ -407,5 +506,5 @@ class SignUp extends Component {
     );
   }
 }
+export default withTranslation()(SignUp);
 
-export default SignUp;

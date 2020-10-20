@@ -4,8 +4,10 @@ import axios from 'axios';
 import addAppointmentType from '../../redux/actions/appointmentType';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useTranslation, Trans } from 'react-i18next';
 
 function AppointmetType(props) {
+    const { t, i18n } = useTranslation();
     const dispatch = useDispatch();
     const counter = useSelector((state) => state);
     const [requestTypes, setRequestTypes] = useState([]);
@@ -30,10 +32,12 @@ function AppointmetType(props) {
             url: baseUrl + '/Master/api/V1.0/OfficeRequestType/GetAllRequestTypes',
         })
             .then(async (response) => {
+                debugger;
                 dispatch(addAppointmentType(response.data.requestTypes));
                 setRequestTypes(response.data.requestTypes);
             })
             .catch((error) => {
+                debugger;
                 console.log('error' + error.response);
             });
     }, []);
@@ -57,7 +61,7 @@ function AppointmetType(props) {
             <MDBRow>
                 <MDBCol className="medium-8" sm="12" lg="7">
                     <div className="multistep-form__step">
-                        <h2 className="h1">Schedule for Appointment</h2>
+                        <h2 className="h1"><Trans>requestAppointment.scheduleForAppointment</Trans></h2>
 
                         <div className="rtf"></div>
                         <div className="row align-center vertical-margin-2">
@@ -87,7 +91,8 @@ function AppointmetType(props) {
                             </div>
                         </div>
                         <a class="button hollow gray vertical-margin-2 " onClick={backTo}>
-                            <i class="fas fa-arrow-left"></i> Previous
+                            <i class="fas fa-arrow-left"></i> 
+                            <Trans>requestForm.previous</Trans>
             </a>
                     </div>
                 </MDBCol>
@@ -97,59 +102,50 @@ function AppointmetType(props) {
                     _nghost-kxs-c3=""
                 >
                     <aside
-                        class="sidebar small sticky is-anchored is-at-top"
-                        data-btm-anchor="request-an-appointment:bottom"
-                        data-margin-top="2"
-                        data-sticky="s2eunn-sticky"
-                        data-sticky-on="medium"
-                        data-top-anchor="180"
-                        id="raa-sidebar"
-                        data-resize="raa-sidebar"
-                        data-mutate="raa-sidebar"
-                        data-events="mutate"
-                    >
-                        <div class="sidebar__box sidebar__box--border ng-star-inserted">
-                            <h4>Talk to an Appointment Scheduler</h4>
-                            <ul class="vertical-margin-0">
-                                <li>
-                                    <ul class="list--no-bullets list--single-line list--border">
-                                        <li>
-                                            <Link to="tel:8008817385">
-                                                <span class="show-for-sr">Call us at:</span>
-                                                <i
-                                                    aria-hidden="true"
-                                                    class="fas fa-phone fa-rotate-180"
-                                                ></i>{' '}
-                        800-881-7385{' '}
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link to="tel:6147226200">
-                                                <span class="show-for-sr">Call us at:</span>
-                                                <i
-                                                    aria-hidden="true"
-                                                    class="fas fa-phone fa-rotate-180"
-                                                ></i>{' '}
-                        614-722-6200{' '}
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            {' '}
-                      7:30am – 5:30pm; Monday – Friday Eastern Time (ET).{' '}
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </aside>
+                            class="sidebar small sticky is-anchored is-at-top"
+                            data-btm-anchor="request-an-appointment:bottom"
+                            data-margin-top="2"
+                            data-sticky="s2eunn-sticky"
+                            data-sticky-on="medium"
+                            data-top-anchor="180"
+                            id="raa-sidebar"
+                            data-resize="raa-sidebar"
+                            data-mutate="raa-sidebar"
+                            data-events="mutate"
+                        >
+                            <div class="sidebar__box sidebar__box--border ng-star-inserted">
+                                <h4>
+                                <Trans>requestAppointment.cardTiltle</Trans>  
+                                    </h4>
+                                        <ul class="list--no-bullets list--single-line list--border">
+                                            <li>
+                                                <a href="tel:8133">
+                                                    <i class="fas fa-phone fa-rotate-180"></i>{' '}
+                                                    8133 FREE CALL
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="mailto:support@ethiopianpassportservices.gov.et">
+                                                    <i class="fas fa-envelope"></i>{' '}
+                                                    support@ethiopianpassportservices.gov.et
+                                                </a>
+                                            </li>
+                                            <li>
+                                                {' '}
+                                                <Trans>requestAppointment.time</Trans>  
+                                            </li>
+                                        </ul>
+                                   
+                            </div>
+                        </aside>
                     <div class="multistep-form__details sidebar__box sidebar__box--border sidebar__box--teal ng-star-inserted">
                         <h4>
-                            <span class="ng-star-inserted">Appointment Request</span>
+                            <span class="ng-star-inserted"><Trans>requestAppointment.appointmentRequest</Trans></span>
                         </h4>
                         <ul class="list--no-indent list--no-bullets ng-star-inserted">
                             <li>
                                 <strong>
-                                    Requestor:{isItGroup ? ' Group / ' + values : ' Individual'}
+                                <Trans>requestAppointment.requestor</Trans>{isItGroup ? ' Group / ' + values : ' Individual'}
                                 </strong>
                             </li>
                         </ul>

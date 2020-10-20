@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   MDBCard,
   MDBCardTitle,
@@ -9,59 +9,97 @@ import {
   MDBCardBody,
   MDBContainer,
 } from 'mdbreact';
+import newApplication from '../../images/icons/Start new application.png';
+import alreadyHavePassport from '../../images/icons/already have a passport 2.png';
+import checkStatusImage from '../../images/icons/Check Status 2.png';
+import alreadyHavePassportWhite from '../../images/icons/already have a passport.png';
+import checkStatusImageWhite from '../../images/icons/Check Status .png';
 import { Link } from 'react-router-dom';
 import { faPassport } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTranslation, Trans } from 'react-i18next';
 
 const CardExample = () => {
+  const { t, i18n } = useTranslation();
+  const [images,setImages]=useState ({
+    img1:newApplication,
+    img2:alreadyHavePassport,
+    img3:checkStatusImage,
+  });
+const hoverHandler=(e)=>{
+  let {id}=e.currentTarget;
+if(id=='new'){
+  setImages({...images,img1:newApplication})
+ 
+}else if(id=='already'){
+ setImages({...images,img2:alreadyHavePassportWhite})
+}else if(id=='status'){
+  setImages({...images,img3:checkStatusImageWhite})
+}
+
+}
+const mouseLeaveHandler=(e)=>{
+  let {id}=e.currentTarget;
+  if(id=='new'){
+    setImages({...images,img1:newApplication})
+   
+  }else if(id=='already'){
+   setImages({...images,img2:alreadyHavePassport})
+  }else if(id=='status'){
+    setImages({...images,img3:checkStatusImage})
+  }
+
+}
   return (
     <MDBContainer className="passport-card-deck passport-container"  fluid>
       <MDBCardGroup className="passport-card">
-        <MDBCard className="mr-4">
+        <MDBCard className="mr-4 default-active " id="new" onMouseEnter={(e)=>hoverHandler(e)} onMouseLeave={(e)=>mouseLeaveHandler(e)}>
           <MDBCardBody>
             {/* <FontAwesomeIcon icon={faPassport} size="lg" /> */}
             <img
             className="w-10 mb-2"
-            src={require('../../images/icons/new-passport-.png')}
+            src={images.img1}
           ></img>
             <MDBCardTitle tag="h5">
-            <Link class="card-title text-white" to="/request-appointment">Start New Application</Link> 
+            <Link class="card-title text-Dark" to="/request-appointment"><Trans>homeCard.startNewApplication</Trans> </Link>
               </MDBCardTitle>
             <MDBCardText>
-            Do you want to secure Ethiopian Passport now? Provide all requested information and apply.
+          <Trans>homeCard.startNewApplicationDescription</Trans>
             </MDBCardText>
           </MDBCardBody>
         </MDBCard>
 
-        <MDBCard className="mr-4">
-          <MDBCardBody>
+        <MDBCard className="mr-4 already-have-passport " id="already" onMouseEnter={(e)=>hoverHandler(e)} onMouseLeave={(e)=>mouseLeaveHandler(e)}>
+          <MDBCardBody >
           <img
             className="w-10 mb-2"
-            src={require('../../images/icons/Passport-renewal.png')}
+            src={images.img2}
+
           ></img>
             <MDBCardTitle tag="h5">
-            <Link class="card-title text-white" to="/SignUp">REGISTER</Link> 
-          
+            <Link class="card-title text-Dark" to="/SignUp"><Trans>homeCard.register</Trans></Link>
+
               </MDBCardTitle>
             <MDBCardText>
-            Are you planning to be a frequent Passport user? 
-            Register and let us remember you so that you won’t have to fill application forms from scratch every time. This is optional.
+            <Trans>homeCard.registerDescription</Trans>
             </MDBCardText>
           </MDBCardBody>
         </MDBCard>
 
-        <MDBCard className="mr-4">
-          <MDBCardBody>
+        <MDBCard className="mr-4 " id="status" onMouseEnter={(e)=>hoverHandler(e)} onMouseLeave={(e)=>mouseLeaveHandler(e)}>
+          <MDBCardBody >
           <img
             className="w-10 mb-2"
-            src={require('../../images/icons/check status copy.png')}
+            src={images.img3}
+
           ></img>
             <MDBCardTitle tag="h5">
-            <Link class="card-title text-white" to="/Status"> Check Status</Link> 
-            
+            <Link class="card-title text-Dark" to="/Status"><Trans>homeCard.checkStatus</Trans></Link>
+
               </MDBCardTitle>
             <MDBCardText>
-            What is the status of my Ethiopian Passport request? Provide all requested tracking information and check now.
+            <Trans>homeCard.checkStatusDescription</Trans>
+
             </MDBCardText>
           </MDBCardBody>
         </MDBCard>

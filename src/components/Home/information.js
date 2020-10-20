@@ -14,19 +14,21 @@ import {
     MDBBtn
 } from 'mdbreact';
 import { Link } from 'react-router-dom';
+import { useTranslation, Trans } from 'react-i18next';
 
 const MultiCarouselPage = () => {
+    const { t, i18n } = useTranslation();
     return (
         <MDBContainer className="passport-card-deck passport-container my-5" fluid>
             <div class="u-center-text u-margin-bottom-big">
-                <h2 class="heading-secondary">
-                    How to Apply
+                <h2 class="heading-secondary text-dark">
+                   <Trans>howToApply.howtoApply</Trans>
                     </h2>
             </div>
 
             <MDBCarousel
                 activeItem={1}
-                length={3}
+                length={2}
                 slide={true}
                 showControls={true}
                 showIndicators={true}
@@ -40,15 +42,19 @@ const MultiCarouselPage = () => {
                                     <MDBCard className='mb-2'>
                                         <MDBCardImage
                                             className='img-fluid'
-                                            src={require('../../images/Information/new.jpg')}
+                                            // src={require('../../images/Information/new.jpg')}
+                                            src={require('../../images/default-source/shared/How to apply.jpg')}
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>New Passport</MDBCardTitle>
+                                            <MDBCardTitle>
+                                                <Trans>howToApply.newPassport</Trans>
+                                                </MDBCardTitle>
                                             <MDBCardText>
-                                                New Passport applicants must fulfill the following requirements.
+                                            <Trans>howToApply.newPassportDescription</Trans>
+                                      
                     </MDBCardText>
 
-                                            <Link to="/Information" class="btn btnBlu">See More</Link>
+                                            <Link to="/Information" class="btn btnBlu"><Trans>howToApply.seeMore</Trans></Link>
 
                                         </MDBCardBody>
                                     </MDBCard>
@@ -60,11 +66,14 @@ const MultiCarouselPage = () => {
                                             src={require('../../images/Information/expired passport.jpg')}
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>Expired Passport</MDBCardTitle>
+                                            <MDBCardTitle>
+                                            <Trans>howToApply.expiredPassport</Trans>
+                                          
+                                                </MDBCardTitle>
                                             <MDBCardText>
-                                                Expired Passport applicants must fulfill the following requirements.
+                                            <Trans>howToApply.expiredPassportDescription</Trans>
                     </MDBCardText>
-                                            <Link to="/Information" class="btn btnBlu">See More</Link>
+                                            <Link to="/Information" class="btn btnBlu"><Trans>howToApply.seeMore</Trans></Link>
 
                                         </MDBCardBody>
                                     </MDBCard>
@@ -76,11 +85,11 @@ const MultiCarouselPage = () => {
                                             src={require('../../images/Information/Passport Page Runout.jpg')}
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>Passport Page Runout</MDBCardTitle>
+                                            <MDBCardTitle><Trans>howToApply.passportRunout</Trans></MDBCardTitle>
                                             <MDBCardText>
-                                                For applicants of passport pagerun out must fulfill the following requirements.
+                                            <Trans>howToApply.passportRunoutDescription</Trans>
                     </MDBCardText>
-                                            <Link to="/Information" class="btn btnBlu">See More</Link>
+                                            <Link to="/Information" class="btn btnBlu"><Trans>howToApply.seeMore</Trans></Link>
                                         </MDBCardBody>
                                     </MDBCard>
                                 </MDBCol>
@@ -88,15 +97,15 @@ const MultiCarouselPage = () => {
                                     <MDBCard className='mb-2'>
                                         <MDBCardImage
                                             className='img-fluid'
-                                            src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(35).jpg'
+                                            src={require('../../images/Information/Damaged.jpg')}
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>Damaged Passport</MDBCardTitle>
+                                            <MDBCardTitle><Trans>howToApply.damagedPassport</Trans></MDBCardTitle>
                                             <MDBCardText>
-                                                For applicants of damaged passport must fulfill the following requirements.
+                                            <Trans>howToApply.damagedPassportDescription</Trans>
 
                     </MDBCardText>
-                                            <Link to="/Information" class="btn btnBlu">See More</Link>
+                                            <Link to="/Information" class="btn btnBlu"><Trans>howToApply.seeMore</Trans></Link>
                                         </MDBCardBody>
                                     </MDBCard>
                                 </MDBCol>
@@ -112,11 +121,11 @@ const MultiCarouselPage = () => {
                                             src={require('../../images/Information/lost.jpg')}
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>Lost/Stolen passport</MDBCardTitle>
+                                            <MDBCardTitle><Trans>howToApply.lostPassport</Trans></MDBCardTitle>
                                             <MDBCardText>
-                                                For applicants of Lost/Stolen passport must fulfill the following requirements.
-                    </MDBCardText>
-                                            <Link to="/Information" class="btn btnBlu">See More</Link>
+                                            <Trans>howToApply.lostPassportDescription</Trans>
+                                        </MDBCardText>
+                                            <Link to="/Information" class="btn btnBlu"><Trans>howToApply.seeMore</Trans></Link>
                                         </MDBCardBody>
                                     </MDBCard>
                                 </MDBCol>
@@ -124,97 +133,60 @@ const MultiCarouselPage = () => {
                                     <MDBCard className='mb-2'>
                                         <MDBCardImage
                                             className='img-fluid'
-                                            src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(48).jpg'
+                                            src={require('../../images/Information/DATA CORRECTION.jpg')}
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>Change of Passport Data</MDBCardTitle>
+                                            <MDBCardTitle><Trans>howToApply.changeofPassportData</Trans></MDBCardTitle>
                                             <MDBCardText>
-                                                Applicants for change of passport data must fulfill the following requirements.
+                                            <Trans>howToApply.changeofPassportDataDescription</Trans>
 
                     </MDBCardText>
-                                            <Link to="/Information" class="btn btnBlu">See More</Link>
+                                            <Link to="/Information" class="btn btnBlu"><Trans>howToApply.seeMore</Trans></Link>
                                         </MDBCardBody>
                                     </MDBCard>
                                 </MDBCol>
-                                <MDBCol md='3' className='equalcard'>
-                                    <MDBCard className='mb-2'>
-                                        <MDBCardImage
-                                            className='img-fluid'
-                                            src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(47).jpg'
-                                        />
-                                        <MDBCardBody>
-                                            <MDBCardTitle>Valid Passport </MDBCardTitle>
-                                            <MDBCardText>
-                                                Applicants for change of passport data must fulfill the following requirements.
-                    </MDBCardText>
-                                            <Link to="/Information" class="btn btnBlu">See More</Link>
-                                        </MDBCardBody>
-                                    </MDBCard>
-                                </MDBCol>
-                                <MDBCol md='3' className='equalcard'>
-                                    <MDBCard className='mb-2'>
-                                        <MDBCardImage
-                                            className='img-fluid'
-                                            src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(47).jpg'
-                                        />
-                                        <MDBCardBody>
-                                            <MDBCardTitle>Applicant Under 18</MDBCardTitle>
-                                            <MDBCardText>
-                                                If the applicant is under 18, parents or guardians are required to attach the following document
-                    </MDBCardText>
-                                            <Link to="/Information" class="btn btnBlu">See More</Link>
-                                        </MDBCardBody>
-                                    </MDBCard>
-                                </MDBCol>
-
-                            </MDBRow>
-                        </MDBCarouselItem>
-                        <MDBCarouselItem itemId='3'>
-                            <MDBRow className='info equalcard'>
-                                <MDBCol md='3' className='equalcard'>
-                                    <MDBCard className='mb-2'>
-                                        <MDBCardImage
-                                            className='img-fluid'
-                                            src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(45).jpg'
-                                        />
-                                        <MDBCardBody>
-                                            <MDBCardTitle>Urgent Service </MDBCardTitle>
-                                            <MDBCardText>
-                                                If you are applying for Urgent Services, you must have reason or evidence like
-                    </MDBCardText>
-                                            <Link to="/Information" class="btn btnBlu">See More</Link>
-                                        </MDBCardBody>
-                                    </MDBCard>
-                                </MDBCol>
-                                <MDBCol md='3' className='equalcard'>
-                                    <MDBCard className='mb-2'>
-                                        <MDBCardImage
-                                            className='img-fluid'
-                                            src='https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(41).jpg'
-                                        />
-                                        <MDBCardBody>
-                                            <MDBCardTitle>Emergency</MDBCardTitle>
-                                            <MDBCardText>
-                                                Emergency requests are handled in INVEA main office or branch offices in person.
-                    </MDBCardText>
-                                            <Link to="/Information" class="btn btnBlu">See More</Link>
-                                        </MDBCardBody>
-                                    </MDBCard>
-                                </MDBCol>
-                                <MDBCol md='3' className='equalcard'>
+                                {/* <MDBCol md='3' className='equalcard'>
                                     <MDBCard className='mb-2'>
                                         <MDBCardImage
                                             className='img-fluid'
                                             src={require('../../images/Information/new.jpg')}
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>New Passport</MDBCardTitle>
+                                            <MDBCardTitle><Trans>howToApply.validPassport</Trans></MDBCardTitle>
                                             <MDBCardText>
-                                                New Passport applicants must fulfill the following requirements.
+                                            <Trans>howToApply.validPassportDescription</Trans>
                     </MDBCardText>
-
-                                            <Link to="/Information" class="btn btnBlu">See More</Link>
-
+                                            <Link to="/Information" class="btn btnBlu"><Trans>howToApply.seeMore</Trans></Link>
+                                        </MDBCardBody>
+                                    </MDBCard>
+                                </MDBCol> */}
+                                {/* <MDBCol md='3' className='equalcard'>
+                                    <MDBCard className='mb-2'>
+                                        <MDBCardImage
+                                            className='img-fluid'
+                                            src={require('../../images/Information/under 18.jpg')}
+                                        />
+                                        <MDBCardBody>
+                                            <MDBCardTitle><Trans>howToApply.applicantUnder18</Trans></MDBCardTitle>
+                                            <MDBCardText>
+                                            <Trans>howToApply.applicantUnder18Description</Trans>
+                    </MDBCardText>
+                                            <Link to="/Information" class="btn btnBlu"><Trans>howToApply.seeMore</Trans></Link>
+                                        </MDBCardBody>
+                                    </MDBCard>
+                                </MDBCol> */}
+                                   <MDBCol md='3' className='equalcard'>
+                                    <MDBCard className='mb-2'>
+                                        <MDBCardImage
+                                            className='img-fluid'
+                                            src={require('../../images/Information/Urgent passport.jpg')}
+                                        />
+                                        <MDBCardBody>
+                                            <MDBCardTitle><Trans>howToApply.urgentService</Trans> </MDBCardTitle>
+                                            <MDBCardText>
+                                            <Trans>howToApply.urgentServiceDescription</Trans>
+                    </MDBCardText>
+                                            <Link to="/Information" class="btn btnBlu"><Trans>howToApply.seeMore</Trans></Link>
                                         </MDBCardBody>
                                     </MDBCard>
                                 </MDBCol>
@@ -222,21 +194,21 @@ const MultiCarouselPage = () => {
                                     <MDBCard className='mb-2'>
                                         <MDBCardImage
                                             className='img-fluid'
-                                            src={require('../../images/Information/expired passport.jpg')}
+                                            src={require('../../images/Information/EMERGENCY.jpg')}
                                         />
                                         <MDBCardBody>
-                                            <MDBCardTitle>Expired Passport</MDBCardTitle>
+                                            <MDBCardTitle><Trans>howToApply.emergency</Trans></MDBCardTitle>
                                             <MDBCardText>
-                                                Expired Passport applicants must fulfill the following requirements.
+                                            <Trans>howToApply.emergencyDescription</Trans>
                     </MDBCardText>
-                                            <Link to="/Information" class="btn btnBlu">See More</Link>
-
+                                            <Link to="/Information" class="btn btnBlu"><Trans>howToApply.seeMore</Trans></Link>
                                         </MDBCardBody>
                                     </MDBCard>
                                 </MDBCol>
-                               
+
                             </MDBRow>
                         </MDBCarouselItem>
+                        
                     </MDBRow>
                 </MDBCarouselInner>
             </MDBCarousel>

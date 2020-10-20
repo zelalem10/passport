@@ -9,6 +9,7 @@ import {
   MDBBtn,
   MDBIcon,
   MDBModalFooter,
+  MDBAlert
 } from 'mdbreact';
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
@@ -17,6 +18,8 @@ import * as authenticationAction from '../../redux/actions/authenticationAction'
 import { useHistory } from 'react-router-dom';
 //import PropTypes from 'prop-types';
 import Spinner from '../common/Spinner';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { useTranslation, Trans } from 'react-i18next';
 
 const Errorstyle = {
   marginTop: '-1rem',
@@ -28,6 +31,7 @@ const config = {
 };
 
 function SignIn() {
+  const { t, i18n } = useTranslation();
   let [Email, setEmail] = useState('');
   let [Password, setPassword] = useState('');
   let [EmailError, setEmailError] = useState('');
@@ -35,11 +39,27 @@ function SignIn() {
   const [loading, setloading] = useState(false);
   const [Message, setMessage] = useState(false);
   const [isForgotPassword,setIsForgotPassword]=useState(false);
+  const [showSuccessMessage,setShowSuccessMessage]=useState(false);
 
   let history = useHistory();
   const dispatch = useDispatch();
 
   const [state, setState] = useState({});
+  const [data,setData]=useState({
+    human:false,
+    humanKey:'',
+    ReCAPTCHAError:'',
+  })
+ const verifyCaptcha = (res) => {
+    if (res) {
+      setData({ human: true, humanKey: res });
+    }
+  };
+
+  // ReCAPTCHA Expired
+ const expireCaptcha = () => {
+    setData({ human: false, humanKey: null });
+  };
   //validate form
   const validate = () => {
     if (!Email) {
@@ -91,6 +111,9 @@ function SignIn() {
         },
       })
         .then((response) => {
+          if(response.data.status==1){
+            setShowSuccessMessage(true);
+          }
           
           setloading(false);
         
@@ -165,17 +188,23 @@ function SignIn() {
       {loading ? (
         <Spinner />
       ) : (
-        <MDBContainer className="my-5">
+        <MDBContainer className="my-5 ">
           <MDBRow>
             <MDBCol md="3"></MDBCol>
             <MDBCol md="6">
-              <MDBCard>
+              {showSuccessMessage?
+              <MDBAlert color="secondary" >
+              <h4>Ethiopan Passport Service Forget Password Confirmation</h4>
+  
+  
+  <p>Please check your email to reset your password...</p>
+        </MDBAlert>:<MDBCard>
                 <MDBCardBody className="mx-4">
                   <form onSubmit={isForgotPassword?ForgotPasswordSubmit:LogInSubmit}>
                     <div className="header pt-3 textBackground mb-5">
                       <MDBRow className="d-flex justify-content-center">
-                        <h4 className="white-text my-3 py-3 font-weight-bold">{isForgotPassword?'Recover My Password'
-                          :<MDBIcon icon="lock" className="mr-1"> Log In </MDBIcon>}
+                        <h4 className="white-text my-3 py-3 font-weight-bold">{isForgotPassword? t('register.recover')
+                          :<MDBIcon icon="lock" className="mr-1">  <Trans>register.logIn</Trans> </MDBIcon>}
                         </h4>
                       </MDBRow>
                     </div>
@@ -185,8 +214,9 @@ function SignIn() {
                       </div>
                     )}
                     <div className="grey-text">
+                      
                       <MDBInput
-                        label="Email"
+                        label={t('requestForm.email')}
                         icon="envelope"
                         Email={Email}
                         name="Email"
@@ -206,7 +236,7 @@ function SignIn() {
                       {isForgotPassword?null:
                       <>
                       <MDBInput
-                        label="Password"
+                        label={t('register.password')}
                         icon="lock"
                         password={Password}
                         name="Password"
@@ -221,6 +251,17 @@ function SignIn() {
                           {PasswordError}
                         </div>
                       )}
+                        <ReCAPTCHA
+                          class="my-2"
+                          sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
+                          onChange={verifyCaptcha}
+                          onExpired={expireCaptcha}
+                        />
+                        {data.ReCAPTCHAError ? (
+                          <div className="red-text ml-5">
+                            {data.ReCAPTCHAError}
+                          </div>
+                        ) : null}
                       </>
       }
                     </div>
@@ -231,32 +272,42 @@ function SignIn() {
                      rounded
                      className="btn-block z-depth-1a btn-info"
                    >
-                     Recover My Password <i class="fas fa-sign-in-alt ml-1"></i>
+                     <Trans>register.recover</Trans> <i class="fas fa-sign-in-alt ml-1"></i>
                    </MDBBtn> :<MDBBtn
                         type="submit"
                         rounded
                         className="btn-block z-depth-1a btn-info"
                       >
-                        Sign in <i class="fas fa-sign-in-alt ml-1"></i>
+                        <Trans>register.logIn</Trans> <i class="fas fa-sign-in-alt ml-1"></i>
                       </MDBBtn>
 }
                     </div>
                   </form>
-                  <a className="font-small blue-text d-flex justify-content-end pb-3" id="forgotPwd" onClick={handleClick}>{isForgotPassword?<span>Oh I remembered!</span>:<span>Forgot password ?</span>
+                  <a className="font-small blue-text d-flex justify-content-end pb-3" 
+                  id="forgotPwd" onClick={handleClick}>
+                    {isForgotPassword?<span>
+                      <Trans>
+                      register.remembered
+                    </Trans>
+                      </span>:<span>
+                    <Trans>
+                      register.forget
+                    </Trans></span>
 
                   }</a>
                   
                 </MDBCardBody>
                 <MDBModalFooter className="mx-5 pt-3 mb-1">
                   <p className="font-medium grey-text d-flex justify-content-end">
-                    Not a member?
+                  <Trans>register.notMemeber</Trans>
                     <a href="/SignUp" color="cyan" className="blue-text mx-2">
-                      Sign Up
+                    <Trans>register.signUp</Trans>
                     </a>
                   </p>
                 </MDBModalFooter>
               </MDBCard>
-            </MDBCol>
+           
+                }</MDBCol>
           </MDBRow>
         </MDBContainer>
       )}

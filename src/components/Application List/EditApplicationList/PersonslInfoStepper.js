@@ -54,7 +54,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   const classes = useStyles();
 
   const [activeStep, setActiveStep] = useState(0);
-  const [displayAlert, setDisplayAlert] = useState('');
+  const [responseMessage, setResponseMessage] = useState('');
 
   const steps = getSteps();
 
@@ -106,7 +106,6 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   };
 
   const handleFinish = () => {
-    debugger;
     const travelPlan= childRef.current.saveData();
     const isValid = childRef.current.Validate();
     if (isValid != true) {
@@ -193,7 +192,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
             isAdoption: personalInfo ? personalInfo.isAdoption : false,
             maritalStatus:personalInfo?parseInt(personalInfo.maritalStatusEnum):0,
-            passportPageId: travelPlan
+            passportPageId:travelPlan
               ? parseInt(travelPlan.passportPageId)
               : null,
             passportNumber: travelPlan
@@ -242,11 +241,13 @@ export default function HorizontalLabelPositionBelowStepper(props) {
       )
 
         .then((todo) => {
+        
           handleNext();
+          setResponseMessage('');
         })
 
         .catch((err) => {
-          console.log('AXIOS ERROR: ', err);
+          setResponseMessage(err.response.data.title);
         });
     }
   };
@@ -281,6 +282,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             passportRes={personalInformation.passportRes}
             personalInformation={personalInformation}
             displayedApplication={displayedApplication}
+            resMessage={responseMessage}
           />
         );
 
@@ -350,12 +352,20 @@ export default function HorizontalLabelPositionBelowStepper(props) {
               </label>
             </b>
           </div>
+          <div class="form-group form-inline passport-display">
+            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+            Application Number :{' '}
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>
+              <label class="font-weight-bold">
+              {displayedApplication.personResponses.applicationNumber}
+              </label>
+            </b>
+          </div>
         </div>
       </div>
       <MDBCard style={{ marginBottom: '1rem',marginTop:'2%' }}>
-        {displayAlert ? (
-          <MDBAlert color="success">{displayAlert}</MDBAlert>
-        ) : null}
         <div className={classes.root} style={{ marginBottom: '5rem' }}>
           <Stepper activeStep={activeStep} alternativeLabel>
             {steps.map((label) => (

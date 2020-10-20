@@ -20,7 +20,7 @@ import {
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import API from '../Utils/API';
-
+import { useTranslation, Trans } from 'react-i18next';
 function requestTypeGetter(requetTypeId) {
   switch (requetTypeId) {
     case 2:
@@ -36,6 +36,7 @@ function requestTypeGetter(requetTypeId) {
   }
 }
 const TravelPlan = forwardRef((props, ref) => {
+  const { t, i18n } = useTranslation();
   const [travelPlan, setTravelPlan] = useState({
     pageQuantity: 0,
     passportNumber: '',
@@ -192,14 +193,14 @@ const TravelPlan = forwardRef((props, ref) => {
               <MDBCol md="4"  className="required-field">
                 <div>
                   <label>
-                    Passport Page No.(Requested)<i style={{ color: 'red' }}>*</i>{' '}
+                  {t('requestForm.passportPageNo')}<i style={{ color: 'red' }}>*</i>{' '}
                   </label>
                   <select
                     className="browser-default custom-select"
                     name="pageQuantity"
                     onChange={handleChange}
                   >
-                    <option>Select passport page</option>
+                    <option>  {t('requestForm.selectPassportPage')}</option>
                     {passportTypeList.map((passportType) => (
                       <option value={passportType.id} selected={passportType.id ===Number.parseInt(travelPlan.pageQuantity, 10)}>
                         {passportType.passportPage}
