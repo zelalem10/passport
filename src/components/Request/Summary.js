@@ -170,7 +170,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                 </div>
                 <div class="form-group form-inline passport-display">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Appointement Date:{' '}
+                  {requests[0].type==='New'?'Appointment':'Delivery'} Date:{' '}
                   </label>
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
@@ -182,7 +182,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                 {appointmentResponse.duration ? (
                   <div class="form-group form-inline passport-display">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Appointement Time:{' '}
+                    {requests[0].type==='New'?'Appointment':'Delivery'} Time:{' '}
                     </label>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
@@ -211,6 +211,28 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                   <b>
                     <label class="font-weight-bold">
                       {personalInformation.applicationNumber}
+                    </label>
+                  </b>
+                </div>
+                <div class="form-group form-inline passport-display">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Office
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {requests[0].office}
+                    </label>
+                  </b>
+                </div>
+                <div class="form-group form-inline passport-display">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Delivery Site
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {requests[0].deliverySite}
                     </label>
                   </b>
                 </div>
@@ -261,7 +283,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                     </div>
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        Geez First Name
+                      የአመልካቹ ስም
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
@@ -273,7 +295,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
 
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        Geez Middle Name
+                      የአባት ስም
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
@@ -284,7 +306,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                     </div>
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        Geez Last Name
+                      የአያት ስም
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>

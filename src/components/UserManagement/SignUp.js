@@ -211,13 +211,7 @@ function SignUp() {
     }
   };
 
-<<<<<<< HEAD
     const { personRequest } =  state;
-=======
-  render() {
-    const { personRequest } = this.state;
-
->>>>>>> ef0899293ccd0f60c4b1d4eb791246057832a2c0
     return (
       <MDBContainer
         className="passport-card-deck passport-container my-3 p-5"
@@ -553,9 +547,5 @@ function SignUp() {
       </MDBContainer>
     );
   }
-<<<<<<< HEAD
-=======
-}
-export default withTranslation()(SignUp);
->>>>>>> ef0899293ccd0f60c4b1d4eb791246057832a2c0
 
+export default SignUp;
