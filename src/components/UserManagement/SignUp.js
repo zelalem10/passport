@@ -13,6 +13,8 @@ import {
   MDBIcon,
 } from 'mdbreact';
 import { Translation, useTranslation, Trans, withTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+
 import { withRouter } from 'react-router-dom';
 const Errorstyle = {
   marginTop: '-2rem',
@@ -395,7 +397,7 @@ class SignUp extends Component {
                       <div class="col-md-6">
                         <ReCAPTCHA
                           class="my-2"
-                          sitekey="6Ld1odEZAAAAAC_M4JbsRXzapA5aSZXUd5ukXuBV"
+                          sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
                           onChange={this.verifyCaptcha}
                           onExpired={this.expireCaptcha}
                         />
@@ -425,8 +427,8 @@ class SignUp extends Component {
                     </MDBCol>
                     <MDBCol md="6">
                       <p className="font-medium grey-text d-flex justify-content-end">
-                        <a
-                          href="/signIn"
+                        <Link
+                          to="/signIn"
                           color="cyan"
                           className="blue-text mr-1"
                         >
@@ -435,7 +437,7 @@ class SignUp extends Component {
                               (t, { i18n }) => <span>{t('register.logIn')}</span>
                             }
                           </Translation>
-                        </a>
+                        </Link>
 
                         <Translation>
                           {

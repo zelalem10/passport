@@ -35,7 +35,7 @@ const CarouselPage = () => {
             <MDBView>
               <img
                 className="d-block w-100"
-                src={require('../../images/default-source/carousel/lalibela.jpg')}
+                src={require('../../images/default-source/carousel/banner passport .jpg')}
                 alt="First slide"
               />
               {/* <MDBMask overlay="black-light" /> */}
@@ -116,7 +116,7 @@ const CarouselPage = () => {
             <MDBView>
               <img
                 className="d-block w-100"
-                src={require('../../images/default-source/carousel/ertale.jpg')}
+                src={require('../../images/default-source/carousel/lalibela.jpg')}
                 alt="Third slide"
               />
               {/* <MDBMask overlay="black-slight" /> */}

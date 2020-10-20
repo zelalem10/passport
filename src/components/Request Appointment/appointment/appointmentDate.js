@@ -24,6 +24,7 @@ import { withStyles } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { faBrush } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation, Trans } from 'react-i18next';
+import Spinner from '../../common/Spinner';
 
 const MyApp = forwardRef((props, ref) => {
   const { t, i18n } = useTranslation();
@@ -33,6 +34,7 @@ const MyApp = forwardRef((props, ref) => {
   const [availableDatess, setAvailableDates] = useState([]);
   const [key, setKey] = useState();
   const [availableTimes, setAvailableTimes] = useState([]);
+  const [loading, setloading] = useState(true);
 
   const [timeSlots, setTimeSlots] = useState([]);
   const [showAvailableTimeSlots, setShowAvailableTimeSlots] = useState(false);
@@ -225,6 +227,7 @@ const MyApp = forwardRef((props, ref) => {
           }
       } else {
         if(state.date && selectTime){
+          setloading(true);
         axios({
           headers: {
             Authorization: 'Bearer ' + token,
@@ -247,9 +250,10 @@ const MyApp = forwardRef((props, ref) => {
             } else {
               setErrorMessage(response.data.message);
             }
+            setloading(false);
           })
           .catch((error) => {
-            debugger;
+            setloading(false);
             if (state.date && selectTime) {
               setErrorMessage(error.message);
             } else if (state.date && !selectTime) {
@@ -384,8 +388,12 @@ setErrorMessage('Please Select Date.')
                   )
                 );
                 while (currentDate <= stopDate) {
+                  let formatedCurrentDateString = currentDate.toString();
+                  if(availableDates.length===0){
+                    disabledDates.push(new Date(currentDate));
+                  }
                   for (let i = 0; i < availableDates.length; i++) {
-                    let formatedCurrentDateString = currentDate.toString();
+                   
                     if (
                       availableDates.indexOf(
                         new Date(formatedCurrentDateString).toString()
@@ -450,7 +458,7 @@ setErrorMessage('Please Select Date.')
               },
             })
               .then((responses) => {
-                debugger;
+                
                 console.log(responses.data.availableDateAndTimes);
                 for (
                   let i = 0;
@@ -512,8 +520,10 @@ setErrorMessage('Please Select Date.')
                 if (responses.data.availableDateAndTimes.length > 0) {
                   setKey(Math.random());
                 }
+                setloading(false);
               })
               .catch((error) => {
+                setloading(false);
                 console.log('error' + error);
               });
           }
@@ -571,9 +581,12 @@ setErrorMessage('Please Select Date.')
   const dateValue = state.date.toString();
   return (
     <div>
+      {loading ? (
+        <Spinner />
+      ) : (
       <MDBContainer className=" pt-3" fluid>
-        <h3 className="heading-secondary"><Trans>requestForm.AppointmentDateAndTime</Trans></h3>
-        {data.isGroup ? null : (
+        <h3 className="heading-secondary">AppointmentDateAndTime</h3>
+        {/* {data.isGroup ? null : (
           <div>
             <FormControlLabel
               control={
@@ -608,7 +621,7 @@ setErrorMessage('Please Select Date.')
               </MDBTypography>
             )}
           </div>
-        )}
+        )} */}
         <MDBRow key={key}>
           <MDBCol md="6">
             <h3><Trans>requestForm.date</Trans></h3>
@@ -666,6 +679,7 @@ setErrorMessage('Please Select Date.')
           </MDBRow>
         ) : null}
       </MDBContainer>
+      )}
     </div>
   );
 });

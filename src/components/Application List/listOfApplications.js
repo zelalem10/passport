@@ -117,7 +117,7 @@ export default function ListOfApplications(props) {
                                     {user.personResponses.applicationNumber}
                                   </div>{' '}
                                 </div>
-                                {user.personResponses.personStatus == 'UrgentApproved' ? (
+                                {user.requestStatus == 'UrgentApproved' ? (
                                   <a
                                     className="hoverWhite"
                                     onClick={() =>

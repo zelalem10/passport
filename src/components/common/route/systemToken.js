@@ -5,7 +5,7 @@ import API from '../../Utils/API';
 function SystemToken() {
   const accesstoken = localStorage.systemToken;
   const usertoken = localStorage.userToken;
-  const baseUrl = 'https://epassportservices.azurewebsites.net';
+  const baseUrl = 'https://epassportservices.azurewebsites.net/';
   const config = {
     headers: { Authorization: 'Bearer ' + accesstoken },
   };
@@ -16,8 +16,8 @@ function SystemToken() {
       url:
         'https://epassportservices.azurewebsites.net/User/api/V1.0/Account/SignIn',
       data: {
-        username: 'Admin@gmail.com',
-        password: 'Abcd@1234',
+        username: 'Anonymous@ethiopianairlines.com',
+        password: 'PassCode#AnoPass%43',
       },
     })
       .then(async (response) => {

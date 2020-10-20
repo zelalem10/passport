@@ -18,6 +18,7 @@ import * as authenticationAction from '../../redux/actions/authenticationAction'
 import { useHistory } from 'react-router-dom';
 //import PropTypes from 'prop-types';
 import Spinner from '../common/Spinner';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { useTranslation, Trans } from 'react-i18next';
 
 const Errorstyle = {
@@ -44,6 +45,21 @@ function SignIn() {
   const dispatch = useDispatch();
 
   const [state, setState] = useState({});
+  const [data,setData]=useState({
+    human:false,
+    humanKey:'',
+    ReCAPTCHAError:'',
+  })
+ const verifyCaptcha = (res) => {
+    if (res) {
+      setData({ human: true, humanKey: res });
+    }
+  };
+
+  // ReCAPTCHA Expired
+ const expireCaptcha = () => {
+    setData({ human: false, humanKey: null });
+  };
   //validate form
   const validate = () => {
     if (!Email) {
@@ -235,6 +251,17 @@ function SignIn() {
                           {PasswordError}
                         </div>
                       )}
+                        <ReCAPTCHA
+                          class="my-2"
+                          sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
+                          onChange={verifyCaptcha}
+                          onExpired={expireCaptcha}
+                        />
+                        {data.ReCAPTCHAError ? (
+                          <div className="red-text ml-5">
+                            {data.ReCAPTCHAError}
+                          </div>
+                        ) : null}
                       </>
       }
                     </div>

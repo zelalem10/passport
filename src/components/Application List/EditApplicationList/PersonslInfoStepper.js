@@ -352,6 +352,17 @@ export default function HorizontalLabelPositionBelowStepper(props) {
               </label>
             </b>
           </div>
+          <div class="form-group form-inline passport-display">
+            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+            Application Number :{' '}
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>
+              <label class="font-weight-bold">
+              {displayedApplication.personResponses.applicationNumber}
+              </label>
+            </b>
+          </div>
         </div>
       </div>
       <MDBCard style={{ marginBottom: '1rem',marginTop:'2%' }}>

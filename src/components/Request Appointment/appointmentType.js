@@ -32,10 +32,12 @@ function AppointmetType(props) {
             url: baseUrl + '/Master/api/V1.0/OfficeRequestType/GetAllRequestTypes',
         })
             .then(async (response) => {
+                debugger;
                 dispatch(addAppointmentType(response.data.requestTypes));
                 setRequestTypes(response.data.requestTypes);
             })
             .catch((error) => {
+                debugger;
                 console.log('error' + error.response);
             });
     }, []);
