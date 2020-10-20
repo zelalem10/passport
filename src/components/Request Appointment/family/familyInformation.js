@@ -108,8 +108,8 @@ const FamilyInformation = forwardRef((props, ref) => {
       ...familiesInfo,
       {
         id: familiesInfo.length,
-        firstName: state.fname,
-        lastName: state.lname,
+        firstName: state.fname.toUpperCase(),
+        lastName: state.lname.toUpperCase(),
         familtyTypeId: parseInt(state.famType),
         personId: 0,
       },
@@ -137,8 +137,8 @@ const FamilyInformation = forwardRef((props, ref) => {
     setEditdata((prevState) => ({
       ...prevState,
       id: editableFamilyInfo.id,
-      fName: editableFamilyInfo.firstName,
-      lName: editableFamilyInfo.lastName,
+      fName: editableFamilyInfo.firstName.toUpperCase(),
+      lName: editableFamilyInfo.lastName.toUpperCase(),
       idCardNum: editableFamilyInfo.id,
       famType: parseInt(editableFamilyInfo.familtyTypeId),
       personId: editableFamilyInfo.personId,
@@ -154,8 +154,8 @@ const FamilyInformation = forwardRef((props, ref) => {
       ...familiesInfo,
       {
         id: editdata.id,
-        firstName: editdata.fName,
-        lastName: editdata.lName,
+        firstName: editdata.fName.toUpperCase(),
+        lastName: editdata.lName.toUpperCase(),
         familtyTypeId: parseInt(editdata.famType),
         personId: editdata.personId,
       },
