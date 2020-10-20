@@ -55,13 +55,12 @@ function InstructionPage() {
                 : null  :null}
 
               <p class="">
-                N.B : Please ensure that you make the extract payment within 2 hours after making the request. 
+                N.B : Please ensure that you make the extract payment After 3 (Three) days after making passport request order. 
                 
 
           </p>
           <p class="">
-          If you do not get any SMS or email confirmation in 2 hours after marking the payment,  
-          Please contact us by this email address: 
+         If you do not get your request order in 2 days after marking payment, please contact by using this email address. 
           <a href="mailto:support@ethiopianpassportservices.gov.et" class='ml-1'>
             <strong>
              support@ethiopianpassportservices.gov.et
