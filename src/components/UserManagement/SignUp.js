@@ -40,15 +40,21 @@ const intialState = {
   },
   human: false,
   phoneNumberError: '',
+  internalErrorMessage: ''
 };
 
 class SignUp extends Component {
   state = intialState;
 
 
-  redirectToHome = () => {
+  redirectToLogIn = () => {
     const { history } = this.props;
     if(history) history.push('/signIn');
+   }
+
+   redirectToSignUp = () => {
+    const { history } = this.props;
+    if(history) history.push('/signUp');
    }
   // ReCAPTCHA Client Side
 
@@ -161,10 +167,13 @@ class SignUp extends Component {
         .then((Response) => {
           console.log(Response);
         
-          this.redirectToHome();
+          this.redirectToLogIn();
         })
         .catch((err) => {
+          debugger;
           console.log(err);
+           this.state.internalErrorMessage = err.response.data.message;
+           this.redirectToSignUp()
         });
 
       // clear form
@@ -202,9 +211,11 @@ class SignUp extends Component {
                         </Translation>
                       </h4>
                     </MDBRow>
+                    
                   </div>
 
                   <div className="grey-text">
+                 { this.state.internalErrorMessage? <h5 class="text-danger text-center">{this.state.internalErrorMessage}</h5> : null}
                     <div class="row">
                       <div class="col-md-6">
 
