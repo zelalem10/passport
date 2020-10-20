@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import ReCAPTCHA from 'react-google-recaptcha';
+import { Link } from 'react-router-dom';
 
 import {
   MDBContainer,
@@ -13,8 +14,7 @@ import {
   MDBIcon,
 } from 'mdbreact';
 import { Translation, useTranslation, Trans, withTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-
+import { withRouter } from 'react-router-dom';
 const Errorstyle = {
   marginTop: '-2rem',
   marginLeft: '2.5rem',
@@ -41,11 +41,22 @@ const intialState = {
   },
   human: false,
   phoneNumberError: '',
+  internalErrorMessage: ''
 };
 
 class SignUp extends Component {
   state = intialState;
 
+
+  redirectToLogIn = () => {
+    const { history } = this.props;
+    if(history) history.push('/signIn');
+   }
+
+   redirectToSignUp = () => {
+    const { history } = this.props;
+    if(history) history.push('/signUp');
+   }
   // ReCAPTCHA Client Side
 
   // ReCAPTCHA verify
@@ -156,11 +167,14 @@ class SignUp extends Component {
       })
         .then((Response) => {
           console.log(Response);
-
-          window.location.href = './signIn';
+        
+          this.redirectToLogIn();
         })
         .catch((err) => {
+          debugger;
           console.log(err);
+           this.state.internalErrorMessage = err.response.data.message;
+           this.redirectToSignUp()
         });
 
       // clear form
@@ -170,7 +184,7 @@ class SignUp extends Component {
 
   render() {
     const { personRequest } = this.state;
-
+    const { history } = this.props;
     return (
       <MDBContainer
         className="passport-card-deck passport-container my-3 p-5"
@@ -198,9 +212,11 @@ class SignUp extends Component {
                         </Translation>
                       </h4>
                     </MDBRow>
+                    
                   </div>
 
                   <div className="grey-text">
+                 { this.state.internalErrorMessage? <h5 class="text-danger text-center">{this.state.internalErrorMessage}</h5> : null}
                     <div class="row">
                       <div class="col-md-6">
 
