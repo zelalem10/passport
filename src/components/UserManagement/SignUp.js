@@ -14,6 +14,7 @@ import {
 } from 'mdbreact';
 import { Translation, useTranslation, Trans, withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 const Errorstyle = {
   marginTop: '-2rem',
   marginLeft: '2.5rem',
