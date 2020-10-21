@@ -82,7 +82,10 @@
 
     "requestAppointment": {
       "requestAppointmentLargeTitle": "REQUEST AN APPOINTMENT",
-      "requestAppointmentDetail": "By proceeding with this application, I understand that I am signifying my consent to the disclosure, collection, and use of my personal information and the data required under the Ethiopian Passport Act as amended and its Implementing Rules and Regulations. My consent effectively constitutes a waiver of any and all privacy rights pertaining to the disclosure, collection, and use of my personal information and data under the specific terms and condition of Ethiopian Online Passport Appointment System.",
+      "requestAppointmentList1": "This Passport application form is applied only by Ethiopian National.",
+      "requestAppointmentList2": "To use more than one passport  is strictly prohibited ",
+      "requestAppointmentList3": "Ordinary passport Applicant who have already passport should not be apply for new passport ",
+      "requestAppointmentDetail": "Users accept the responsibility for supplying, checking, and verifying the accuracy and correctness of the information they provide. Incorrect or inaccurate information may result in forfeiture of passport application.All fees are non-refundable. Fees shall be forfeited for applicants who fail to show up on their confirmed appointment, applicants who cancel their appointment, and applicants whose application was rejected due to incorrect information.",
       "cardTiltle": "Talk to an Appointment Scheduler",
       "time": "8:00am – 5:00pm Monday – Friday Eastern Time (ET).",
       "startIndividualAppointment": "Start Individual Appointment",
