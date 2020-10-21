@@ -195,6 +195,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           },
         ],
       };
+      console.log(JSON.stringify(requestBody));
       API.post(
         'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest',
         requestBody,

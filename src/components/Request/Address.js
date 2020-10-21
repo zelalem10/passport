@@ -374,7 +374,10 @@ const Address = forwardRef((props, ref) => {
               />
 
             </MDBCol>
-            <MDBCol md="3">
+          </MDBRow>
+
+          <MDBRow>
+          <MDBCol md="3">
                 <MDBInput
                   valueDefault={prevInfo ? prevInfo.woreda : null}
                   name="woreda"
@@ -384,10 +387,6 @@ const Address = forwardRef((props, ref) => {
                   label="Woreda"
                 />
               </MDBCol>
-          </MDBRow>
-
-          <MDBRow>
-
             <MDBCol md="3">
 
               <MDBInput
