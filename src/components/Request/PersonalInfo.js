@@ -44,7 +44,7 @@ const PersonalInfo = forwardRef((props, ref) => {
         gender: '',
         eyeColor: '',
         hairColor: 'Black',
-        occupationId: 0,
+        occupationId: null,
         isHalfCast: false,
         isAdoption: false,
         isUnder18: false,

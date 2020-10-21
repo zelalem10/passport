@@ -53,6 +53,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
   const [isUploading, setIsUploading] = useState(false);
   const [responseMessage, setResponseMessage] = useState('');
   const [response, setResponse] = useState({});
+  const [personId, setPersonId] = useState(0);
 
   const steps = getSteps();
   const dispatch = useDispatch();
@@ -103,7 +104,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
       const requestInfo = counter.request[counter.request.length - 1];
       debugger;
       const requestBody = {
-        requestId: requestInfo ? Number.parseInt(requestInfo.requestId) : 0,
+        requestId: requestInfo ? Number.parseInt(requestInfo.requestId, 10) : 0,
         requestMode: serviceInfo && serviceInfo.isUrgent === true ? 1 : 0,
         officeId: siteInfo ? Number.parseInt(siteInfo.offceId, 10) : 0,
         deliverySiteId: siteInfo
@@ -118,7 +119,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
         confirmationNumber: '',
         applicants: [
           {
-            personId: 0,
+            personId: requestInfo ? Number.parseInt(requestInfo.personResponses.id, 10) : 0,
             firstName: personalInfo
               ? personalInfo.firstName.toUpperCase()
               : null,
@@ -202,6 +203,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
         config
       )
         .then((todo) => {
+          debugger
           setResponseMessage(todo.data.message);
           setResponseAlert(true);
           setIsSuccess(true);
@@ -209,6 +211,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             requestPersonId:
               todo.data.serviceResponseList[0].personResponses.requestPersonId,
           };
+          setPersonId(todo.data.serviceResponseList[0].personResponses.id)
           dispatch(addCommonData(commonData));
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
           dispatch(newRequest(todo.data.serviceResponseList[0]))
@@ -225,7 +228,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
            debugger
           console.log('Body: ', JSON.stringify(requestBody));
           console.log('AXIOS ERROR: ', err.response);
-          if (err.response != null) setResponseMessage(err.response.data.message);
+          if (err.response != null &&err.response != "undefined") setResponseMessage(err.response.data.Message);
           else setResponseMessage('something goes wrong!');
           setResponseAlert(true);
         });
