@@ -171,7 +171,7 @@ const MyApp = forwardRef((props, ref) => {
       formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
       let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
     dispatch(
-      addAppointmentDate({date:stringDateValue})
+      addAppointmentDate({date:stringDateValue,id:0})
     )
     }
   }

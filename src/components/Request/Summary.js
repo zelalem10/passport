@@ -175,11 +175,11 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {appointmentResponse ? appointmentResponse.date : null}
+                      {appointmentResponse ? appointmentResponse.date : requests[0].deliveryAppointment}
                     </label>
                   </b>
                 </div>
-                {appointmentResponse.duration ? (
+                {appointmentResponse ?appointmentResponse.duration ? (
                   <div class="form-group form-inline passport-display">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                     {requests[0].type==='New'?'Appointment':'Delivery'} Time:{' '}
@@ -202,7 +202,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                       </label>
                     </b>
                   </div>
-                ) : null}
+                ) : null:null}
                 <div class="form-group form-inline passport-display">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                   Application Number
