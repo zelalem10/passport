@@ -374,7 +374,16 @@ const Address = forwardRef((props, ref) => {
               />
 
             </MDBCol>
-
+            <MDBCol md="3">
+                <MDBInput
+                  valueDefault={prevInfo ? prevInfo.woreda : null}
+                  name="woreda"
+                  className="form-control"
+                  onBlur={handleChange}
+                  type="text"
+                  label="Woreda"
+                />
+              </MDBCol>
           </MDBRow>
 
           <MDBRow>
