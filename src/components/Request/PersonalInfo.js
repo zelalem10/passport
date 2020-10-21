@@ -23,6 +23,8 @@ import DateFnsUtils from '@date-io/date-fns';
 import API from '../Utils/API';
 import isEmail from 'validator/es/lib/isEmail';
 import { useTranslation, Trans } from 'react-i18next';
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
 
 
 const PersonalInfo = forwardRef((props, ref) => {
@@ -176,6 +178,7 @@ const PersonalInfo = forwardRef((props, ref) => {
     }
     // dispatch(addPersonalInfo(personalInfo));
   };
+ 
   const handlePhoneChange = (event) => {
     const { name, value } = event.target;
     if (value.length != 9 && value.length !=10) {
@@ -524,9 +527,12 @@ setIsLoading(false)
               <MDBCol md="3" className="required-field">
                 <MDBRow>
                   {/* <MDBCol md="2">
-                  <label>+251</label>
+                    <div class="md-form">
+                  <p>+251</p>
+                  </div>
                   </MDBCol> */}
                   <MDBCol md="10">
+                  
                   <MDBInput
                   valueDefault={prevInfo ? prevInfo.phoneNumber : null}
                   name="phoneNumber"
