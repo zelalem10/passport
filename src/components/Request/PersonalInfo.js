@@ -83,6 +83,10 @@ const PersonalInfo = forwardRef((props, ref) => {
   const [invalidPhone, setInvalidPhone] = useState(false);
   const [invalidUniqueId, setInvalidUniqueId] = useState(false);
 
+  const [name, setName] = useState("");
+  const [fatherName, setFatherName] = useState("");
+  const [grandFatherName, setGrandFatherName] = useState("");
+
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const isRequired = 'is required!';
@@ -367,6 +371,8 @@ setIsLoading(false)
                   name="firstName"
                   className="form-control"
                   onBlur={handleChange}
+                  value={name}
+                  onChange={e => setName(e.target.value.replace(/^[0-9\b]+$/, ""))}
                   type="text"
                   label= {t('requestForm.firstname')}
                 />
@@ -383,6 +389,8 @@ setIsLoading(false)
                   valueDefault={prevInfo ? prevInfo.middleName : null}
                   name="middleName"
                   onBlur={handleChange}
+                  value={fatherName}
+                  onChange={e => setFatherName(e.target.value.replace(/^[0-9\b]+$/, ""))}
                   type="text"
                   label={t('requestForm.middleName')}
                 />
@@ -399,6 +407,8 @@ setIsLoading(false)
                   valueDefault={prevInfo ? prevInfo.lastName : null}
                   name="lastName"
                   onBlur={handleChange}
+                  value={grandFatherName}
+                  onChange={e => setGrandFatherName(e.target.value.replace(/^[0-9\b]+$/, ""))}
                   type="text"
                   label={t('requestForm.lastName')}
                 />
