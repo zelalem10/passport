@@ -44,6 +44,7 @@ const MyApp = forwardRef((props, ref) => {
     key: '',
     active: false,
   });
+  const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState('');
 
   const [officeInformation, setOfficeInformation] = useState({});
@@ -161,6 +162,18 @@ const MyApp = forwardRef((props, ref) => {
   };
   if((data.appointemntType===3 || data.appointemntType===4 ||data.appointemntType===8) && formCompleted===false){
     setFormCompleted(true);
+    if(selectDays){
+      let formatedYear = selectDays.getFullYear();
+      let formatedMonth = (1 + selectDays.getMonth()).toString();
+      formatedMonth =
+        formatedMonth.length > 1 ? formatedMonth : '0' + formatedMonth;
+      let formatedDay = selectDays.getDate().toString();
+      formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
+      let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
+    dispatch(
+      addAppointmentDate({date:stringDateValue})
+    )
+    }
   }
   const token = tokenValue();
   useImperativeHandle(ref, () => ({
@@ -280,6 +293,7 @@ const MyApp = forwardRef((props, ref) => {
 setErrorMessage('Please Select Date.')
       }}else if(data.appointemntType===3 || data.appointemntType===4 ||data.appointemntType===8){
         setFormCompleted(true);
+       
       }
     },
     isCompleted() {
@@ -288,7 +302,7 @@ setErrorMessage('Please Select Date.')
     },
   }));
 
-  const dispatch = useDispatch();
+  
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
   const availableDates = [];
   let advancedRestrictionData = {};
