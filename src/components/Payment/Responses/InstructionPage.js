@@ -69,6 +69,8 @@ function InstructionPage() {
              support@ethiopianpassportservices.gov.et
              </strong>
              </a>
+             <br></br>
+             Phone Number : 8133
                 </h6>
               </div>
           <p>

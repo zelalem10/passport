@@ -34,15 +34,40 @@ function IndividualandGroup(props) {
 
 
 
-                        <div className="multistep-form__step">
+                        <div className="multistep-form__step ">
                             <h2 className="heading-secondary">
-                              <Trans>requestAppointment.requestAppointmentLargeTitle</Trans>  
+                                <Trans>requestAppointment.requestAppointmentLargeTitle</Trans>
                             </h2>
 
-                            <div className="rtf">
+                            <div className="rtf request my-3">
+                                <div class="d-flex"><div class="pr-2 pl-2 pb-2  align-self-start">
+                                    <i class="fas fa-check fa-1x"></i>
+                                </div>
+                                    <div class="pr-2 pl-2 pb-2  align-self-end">
+                                        <Trans>requestAppointment.requestAppointmentList1</Trans>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex"><div class="pr-2 pl-2 pb-2  align-self-start">
+                                    <i class="fas fa-check fa-1x"></i>
+                                </div>
+                                    <div class="pr-2 pl-2 pb-2  align-self-end">
+                                        <Trans>requestAppointment.requestAppointmentList2</Trans>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex mb-3"><div class="pr-2 pl-2 pb-2  align-self-start">
+                                    <i class="fas fa-check fa-1x"></i>
+                                </div>
+                                    <div class="pr-2 pl-2 pb-2  align-self-end">
+                                        <Trans>requestAppointment.requestAppointmentList3</Trans>
+                                    </div>
+                                </div>
+
                                 <p>
-                                <Trans>requestAppointment.requestAppointmentDetail</Trans>  
-                  <br></br>
+
+                                    <Trans>requestAppointment.requestAppointmentDetail</Trans>
+                                    <br></br>
 
                                 </p>
                                 <div>
@@ -55,14 +80,14 @@ function IndividualandGroup(props) {
                                             onChange={() => handleAgrement()}
                                         />
                                         <label class="custom-control-label" for="defaultChecked2">
-                                        <Trans>requestAppointment.agree</Trans>  
-                    </label>
+                                            <Trans>requestAppointment.agree</Trans>
+                                        </label>
                                         {needValidation ? (
                                             <div className="text-monospace">
                                                 <p className="check-agree">
-                                                <Trans>requestAppointment.validation</Trans>  
-                  
-                        </p>
+                                                    <Trans>requestAppointment.validation</Trans>
+
+                                                </p>
                                             </div>
                                         ) : null}
                                     </div>
@@ -85,8 +110,8 @@ function IndividualandGroup(props) {
                                                     <i class="fas fa-user fa-7x"></i>
                                                     <p class="vertical-margin-1">
                                                         <span class="text-link--more-big text-link--light text-center">
-                                                        <Trans>requestAppointment.startIndividualAppointment</Trans>  
-                            </span>
+                                                            <Trans>requestAppointment.startIndividualAppointment</Trans>
+                                                        </span>
                                                         <i class="fas fa-arrow-circle-right fa-2x arrow-icon-group"></i>
                                                     </p>
                                                 </div>
@@ -136,27 +161,27 @@ function IndividualandGroup(props) {
                         >
                             <div class="sidebar__box sidebar__box--border ng-star-inserted">
                                 <h4>
-                                <Trans>requestAppointment.cardTiltle</Trans>  
-                                    </h4>
-                                        <ul class="list--no-bullets list--single-line list--border">
-                                            <li>
-                                                <a href="tel:8133">
-                                                    <i class="fas fa-phone fa-rotate-180"></i>{' '}
+                                    <Trans>requestAppointment.cardTiltle</Trans>
+                                </h4>
+                                <ul class="list--no-bullets list--single-line list--border">
+                                    <li>
+                                        <a href="tel:8133">
+                                            <i class="fas fa-phone fa-rotate-180"></i>{' '}
                                                     8133 FREE CALL
                                                 </a>
-                                            </li>
-                                            <li>
-                                                <a href="mailto:support@ethiopianpassportservices.gov.et">
-                                                    <i class="fas fa-envelope"></i>{' '}
+                                    </li>
+                                    <li>
+                                        <a href="mailto:support@ethiopianpassportservices.gov.et">
+                                            <i class="fas fa-envelope"></i>{' '}
                                                     support@ethiopianpassportservices.gov.et
                                                 </a>
-                                            </li>
-                                            <li>
-                                                {' '}
-                                                <Trans>requestAppointment.time</Trans>  
-                                            </li>
-                                        </ul>
-                                   
+                                    </li>
+                                    <li>
+                                        {' '}
+                                        <Trans>requestAppointment.time</Trans>
+                                    </li>
+                                </ul>
+
                             </div>
                         </aside>
                     </app-right-content>
