@@ -860,10 +860,8 @@ setIsLoading(false)
                     {(age<18 && personalInfo.isUnder18===false && personalInfo.dataSaved===true)? 'Please check if age is under 18 '
                       : null}
                   </span>
-              </MDBCol>
-            </MDBRow>
-            <MDBRow>
-              <MDBCol>
+              </MDBCol >
+              <MDBCol md="3">
                 <label></label>
                 <div class="custom-control custom-checkbox">
                   <input
@@ -880,7 +878,9 @@ setIsLoading(false)
                   </label>
                 </div>
               </MDBCol>
+           
             </MDBRow>
+
           </form>
         </MDBCardBody>
       </MDBCard>
