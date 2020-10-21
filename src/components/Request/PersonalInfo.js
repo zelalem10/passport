@@ -45,7 +45,6 @@ const PersonalInfo = forwardRef((props, ref) => {
     eyeColor: '',
     hairColor: 'Black',
     occupationId: 0,
-    isHalfCast: false,
     isAdoption: false,
     isUnder18: false,
     nationalityId: 0,
@@ -71,7 +70,6 @@ const PersonalInfo = forwardRef((props, ref) => {
     eyeColor: true,
     hairColor: true,
     occupationId: true,
-    isHalfCast: true,
     isUnder18: true,
     isAdoption: true,
     nationalityId: true,
@@ -268,7 +266,6 @@ const PersonalInfo = forwardRef((props, ref) => {
         eyeColor: prevInfo.eyeColor,
         hairColor: prevInfo.hairColor,
         occupationId: prevInfo.occupationId,
-        isHalfCast: prevInfo.isHalfCast,
         isAdoption: prevInfo.isAdoption,
         isUnder18: prevInfo.isUnder18,
         nationalityId: prevInfo.nationalityId,
@@ -337,7 +334,6 @@ setIsLoading(false)
       eyeColor: personalInfo.eyeColor === '' ? true : false,
       hairColor: personalInfo.hairColor === '' ? true : false,
       occupationId: personalInfo.occupationId === 0 ? true : false,
-      isHalfCast: personalInfo.isHalfCast,
       isUnder18: personalInfo.isUnder18,
       isAdoption: personalInfo.isAdoption,
       nationalityId: personalInfo.nationalityId === 0 ? true : false,
@@ -839,24 +835,6 @@ setIsLoading(false)
                   <input
                     type="checkbox"
                     class="custom-control-input"
-                    defaultValue={prevInfo ? prevInfo.isHalfCast : false}
-                    name="isHalfCast"
-                    id="isHalfCast"
-                    onChange={(e) =>
-                      handleCheck('isHalfCast', e.target.checked)
-                    }
-                  />
-                  <label class="custom-control-label" for="isHalfCast">
-                  {t('requestForm.isHalfCast')}
-                  </label>
-                </div>
-              </MDBCol>
-              <MDBCol md="3">
-                <label></label>
-                <div class="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
                     name="isUnder18"
                     id="isUnder18"
                     onChange={(e) => handleCheck('isUnder18', e.target.checked)}
@@ -871,9 +849,7 @@ setIsLoading(false)
                       : null}
                   </span>
               </MDBCol>
-            </MDBRow>
-            <MDBRow>
-              <MDBCol>
+              <MDBCol md="3">
                 <label></label>
                 <div class="custom-control custom-checkbox">
                   <input
