@@ -113,7 +113,7 @@ const PersonalInfo = forwardRef((props, ref) => {
         notCompleted.geezLastName === true ||
         personalInfo.nationalityId === 0 ||
         notCompleted.gender === true ||
-        notCompleted.occupationId === true ||
+        // notCompleted.occupationId === true ||
         notCompleted.phoneNumber === true ||
         notCompleted.gender === true ||
         notCompleted.martialStatus === true ||
@@ -624,7 +624,8 @@ setIsLoading(false)
               <MDBCol md="3">
                 <div>
                   <label>
-                  {t('requestForm.occupation')}<i style={{ color: 'red' }}>*</i>{' '}
+                  {t('requestForm.occupation')}
+                  {/* <i style={{ color: 'red' }}>*</i>{' '} */}
                   </label>
                   <select
                     className="browser-default custom-select"
@@ -644,13 +645,13 @@ setIsLoading(false)
                       </option>
                     ))}
                   </select>
-                  <span style={{ color: 'red' }}>
+                  {/* <span style={{ color: 'red' }}>
                     {' '}
                     {notCompleted.occupationId == true &&
                       personalInfo.dataSaved == true
                       ? 'Occupation ' + isRequired
                       : null}
-                  </span>
+                  </span> */}
                 </div>
               </MDBCol>
               <MDBCol md="3">
@@ -829,7 +830,7 @@ setIsLoading(false)
                   </select>
                 </div>
               </MDBCol>
-              <MDBCol md="3">
+              {/* <MDBCol md="3">
                 <label></label>
                 <div class="custom-control custom-checkbox">
                   <input
