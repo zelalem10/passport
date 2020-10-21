@@ -18,7 +18,6 @@ import siteInformation from './saveSiteInformationRedux';
 import familyType from './familyTypeReducer';
 import priceInfo from './priceInfoReducer';
 import attachement from './attachementReducer'
-import removePersonalInfoReducer from './personalInfoReducer';
 
 const rootReducer = combineReducers({
   service,
@@ -40,6 +39,5 @@ const rootReducer = combineReducers({
   familyType,
   priceInfo,
   attachement,
-  removePersonalInfoReducer,
 });
 export default rootReducer;

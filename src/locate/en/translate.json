@@ -71,12 +71,12 @@
     "beforYouApplyList": {
       "title":"Before you apply",
       "itemOne": "All applicants should secure an online appointment when applying for a passport",
-      "itemTwo": "The applicant is advised to secure their passports prior to booking their flights. Flight bookings should ONLY be made if passports are still valid for at least six (6) months.",
-      "itemThree": "Confirmed appointment is required for all applicants except for those who would qualify for the courtesy lane DFA (Department of Foreign Affairs)",
-      "itemFour": "Applicants are reminded to be on site not earlier than 30 minutes on their selected date and time of appointment at their chosen consular office.",
-      "itemFive": "Personal appearance is required for all applicants.",
-      "itemSix": "Please be warned that dealing with fixers (illegal arrangements) is at your own risk and expense.",
-      "itemSeven": "Prepare all the originals and photocopies of the documentary requirements for passport application.",
+      "itemTwo": "Confirmed appointment is required",
+      "itemThree": "Applicants are reminded to be on site not earlier than 30 minutes on their selected date and time of appointment at their chosen consular office.",
+      "itemFour": " Personal appearance is required for new applicants.",
+      "itemFive": "Please be warned that dealing with fixers (illegal arrangements) is at your own risk and expense.",
+      "itemSix": "Prepare all the originals and photocopies of the documentary requirements for passport application.",
+      "itemSeven": "Prepare all the originals and photo copies of the documentary requirements for passport application.",
       "readMore": "Read More"
     },
 

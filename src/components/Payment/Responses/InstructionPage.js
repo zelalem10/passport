@@ -5,12 +5,11 @@ import {
 } from "mdbreact";
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from 'react-bootstrap';
-import personalInfoReducer from '../../../redux/actions/addPersonalInfoAction';
+
 
 
 function InstructionPage() {
   debugger;
-  const dispatch = useDispatch();
   let paymentInformation = useSelector((state) => state.paymentOption[1]);
   let personRequestdata = useSelector((state) => state.request[state.request.length - 1]);
 
@@ -22,7 +21,6 @@ function InstructionPage() {
   ? personRequestdata.appointmentResponse
   : null;
 
-  dispatch(personalInfoReducer());
   return (
     <>
       <div id="share-section" class="bg-light text-muted py-5">
@@ -66,7 +64,7 @@ function InstructionPage() {
                N.B : Please ensure that you make the extract payment After 3 (Three) days after making passport request order. 
                {/* If you do not get your request order in 2 days after marking payment, please contact by using this email address. */}
                please contact us by using this email address.
-             <a href="mailto:support@ethiopianpassportservices.gov.et">
+               <a href="mailto:support@ethiopianpassportservices.gov.et">
             <strong>
              support@ethiopianpassportservices.gov.et
              </strong>
