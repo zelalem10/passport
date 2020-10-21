@@ -590,7 +590,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                             </MDBCol>
                             <MDBCol md="3" className="required-field">
                                 <MDBInput
-                                    valueDefault={prevInfo ? prevInfo.birthCirtificateNo : null}
+                                    valueDefault={personalInfo.birthCertificatNo}
                                     name="birthCertificatNo"
                                     onBlur={handleUniqueIdChange}
                                     type="text"
