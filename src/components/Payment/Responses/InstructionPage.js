@@ -5,11 +5,12 @@ import {
 } from "mdbreact";
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from 'react-bootstrap';
-
+import personalInfoReducer from '../../../redux/actions/addPersonalInfoAction';
 
 
 function InstructionPage() {
   debugger;
+  const dispatch = useDispatch();
   let paymentInformation = useSelector((state) => state.paymentOption[1]);
   let personRequestdata = useSelector((state) => state.request[state.request.length - 1]);
 
@@ -21,6 +22,7 @@ function InstructionPage() {
   ? personRequestdata.appointmentResponse
   : null;
 
+  dispatch(personalInfoReducer());
   return (
     <>
       <div id="share-section" class="bg-light text-muted py-5">
