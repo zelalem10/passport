@@ -861,9 +861,8 @@ const PersonalInfo = forwardRef((props, ref) => {
                                         : null}
                                 </span>
                             </MDBCol>
-                        </MDBRow>
-                        <MDBRow>
-                            <MDBCol>
+
+                            <MDBCol md='3'>
                                 <label></label>
                                 <div class="custom-control custom-checkbox">
                                     <input
