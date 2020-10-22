@@ -116,7 +116,6 @@ const PersonalInfo = forwardRef((props, ref) => {
                 notCompleted.gender === true ||
                 notCompleted.martialStatus === true ||
                 notCompleted.birthPlace === true ||
-                invalidUniqueId === true ||
                 invalidPhone === true ||
                 nameErrorMessage.firstName||
                 nameErrorMessage.lastName||
@@ -646,13 +645,13 @@ const PersonalInfo = forwardRef((props, ref) => {
                                         personalInfo.dataSaved == true
                                         ? 'Birth Reg. Unique Id ' + isRequired
                                         : null}
-                                </span> */}
+                                </span> 
                                 <span style={{ color: 'red' }}>
                                     {' '}
                                     {(invalidUniqueId === true)
                                         ? 'Birth registration unique id length must 16 digit'
                                         : null}
-                                </span>
+                                </span>*/}
                             </MDBCol>
 
                         </MDBRow>

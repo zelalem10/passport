@@ -71,14 +71,14 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
   };
   const handleNext = () => {
     childRef.current.saveData();
-    if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
-      const isVilid = childRef.current.Validate();
-      if (isVilid == true) {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      }
-    } else {
+    // if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
+    //   const isVilid = childRef.current.Validate();
+    //   if (isVilid == true) {
+    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    //   }
+    // } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    }
+    //}
   };
 
   const handleBack = () => {
@@ -215,7 +215,6 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             };
             setPersonId(todo.data.serviceResponseList[0].personResponses.id)
             dispatch(addCommonData(commonData));
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
             dispatch(newRequest(todo.data.serviceResponseList[0]))
             API.get("https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
               .then((todo) => {
@@ -224,7 +223,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
               .catch((err) => {
                 console.log("AXIOS ERROR: ", err.response);
               })
-              setloading(false);
+              setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
           })
           .catch((err) => {
@@ -351,7 +350,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             };
             setPersonId(todo.data.serviceResponseList[0].personResponses.id)
             dispatch(addCommonData(commonData));
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+            setActiveStep(4);
             dispatch(newRequest(todo.data.serviceResponseList[0]))
             API.get("https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
               .then((todo) => {
