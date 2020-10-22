@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { Link } from 'react-router-dom';
+import Spinner from '../common/Spinner';
 
 import {
   MDBContainer,
@@ -20,7 +21,7 @@ const Errorstyle = {
   marginLeft: '2.5rem',
 };
 const accesstoken = localStorage.systemToken;
-
+let loading = false;
 // intial state
 const intialState = {
   personRequest: {
@@ -139,6 +140,7 @@ class SignUp extends Component {
       });
 
       return false;
+      
     }
 
     return true;
@@ -154,10 +156,12 @@ class SignUp extends Component {
   };
 
   submitHandler = (e) => {
+    debugger;
     e.preventDefault();
     console.log(this.state);
     const isValid = this.validate();
     if (isValid) {
+      loading = true;
       axios({
         headers: { Authorization: `Bearer ` + accesstoken },
         method: 'post',
@@ -167,13 +171,14 @@ class SignUp extends Component {
       })
         .then((Response) => {
           console.log(Response);
-        
+          loading = false;
           this.redirectToLogIn();
         })
         .catch((err) => {
           debugger;
           console.log(err);
            this.state.internalErrorMessage = err.response.data.message;
+           loading = false;
            this.redirectToSignUp()
         });
 
@@ -186,6 +191,10 @@ class SignUp extends Component {
     const { personRequest } = this.state;
     const { history } = this.props;
     return (
+      <div>
+      {loading ? (
+      <Spinner />
+      ) : (
       <MDBContainer
         className="passport-card-deck passport-container my-3 p-5"
         fluid
@@ -396,7 +405,11 @@ class SignUp extends Component {
                       <div class="col-md-6">
                         <ReCAPTCHA
                           class="my-2"
-                          sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
+                           //prod
+                          // sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
+
+                          //local
+                          sitekey="6Ld1odEZAAAAAC_M4JbsRXzapA5aSZXUd5ukXuBV"
                           onChange={this.verifyCaptcha}
                           onExpired={this.expireCaptcha}
                         />
@@ -519,7 +532,9 @@ class SignUp extends Component {
           </MDBCol>
         </MDBRow>
       </MDBContainer>
-    );
+     )}
+      </div>
+ );
   }
 }
 export default withTranslation()(SignUp);

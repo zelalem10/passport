@@ -62,6 +62,11 @@ function SignIn() {
   };
   //validate form
   const validate = () => {
+    debugger;
+    if (data.human == false) {
+      data.ReCAPTCHAError = 'please verify you are human.';
+    }
+
     if (!Email) {
       EmailError = 'Please Enter Your Email Address.';
     } else EmailError = '';
@@ -69,7 +74,7 @@ function SignIn() {
       PasswordError = 'Please Enter Your Password.';
     } else PasswordError = '';
 
-    if (EmailError || PasswordError) {
+    if (EmailError || PasswordError || data.ReCAPTCHAError) {
       setEmailError(EmailError);
       setPasswordError(PasswordError);
       return false;
@@ -253,7 +258,11 @@ function SignIn() {
                       )}
                         <ReCAPTCHA
                           class="my-2"
-                          sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
+                          //prod
+                          // sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
+
+                          //local
+                          sitekey="6Ld1odEZAAAAAC_M4JbsRXzapA5aSZXUd5ukXuBV"
                           onChange={verifyCaptcha}
                           onExpired={expireCaptcha}
                         />
