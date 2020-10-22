@@ -40,7 +40,7 @@ const TravelPlan = forwardRef((props, ref) => {
   const { t, i18n } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
   const [travelPlan, setTravelPlan] = useState({
-    pageQuantity: 0,
+    pageQuantity: '',
     passportNumber: '',
     expirationDate: '',
     issueDate: '',
@@ -69,18 +69,16 @@ const TravelPlan = forwardRef((props, ref) => {
   let requestTypefromRedux = useSelector((state) => state.service);
   let personalInfoReducer = useSelector((state) => state.personalInfoReducer);
 
-  if (counter.travelPlan.length === 0) {
-    dispatch(addTravelPlan(travelPlan));
-  }
-  
-
+  // if (counter.travelPlan.length === 0) {
+  //   dispatch(addTravelPlan(travelPlan));
+  // }
   const handleChange = (event) => {
     const { name, value } = event.target;
     setTravelPlan((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-    if (value != '') {
+    if (value !== '') {
       setNotCompleted((prevState) => ({
         ...prevState,
         [name]: false,
@@ -94,8 +92,6 @@ const TravelPlan = forwardRef((props, ref) => {
     }
     dispatch(addTravelPlan(travelPlan))
   };
-
-
   const handleCheck = (name, checked) => {
     setTravelPlan((prevState) => ({
       ...prevState,
@@ -168,9 +164,17 @@ const compareDates=(changedDate,isIssue)=>{
   const requestType = serviceSelcetion.appointemntType;
   const requestTypeStr = requestTypeGetter(requestType);
   useEffect(() => {
-    if (counter.travelPlan.length === 0) {
-      dispatch(addTravelPlan(travelPlan));
-    }
+    // if (counter.travelPlan.length === 0) {
+    //   dispatch(addTravelPlan(travelPlan));
+    // }
+    setNotCompleted({
+      pageQuantity: Number.parseInt(travelPlan.pageQuantity, 10) === 0 ? true : false,
+      passportNumber: travelPlan.passportNumber === '' ? true : false,
+      expirationDate: travelPlan.expirationDate === '' ? true : false,
+      issueDate: travelPlan.issueDate === '' ? true : false,
+      correctionReason: travelPlan.correctionReason === '' ? true : false,
+      passportNumber: travelPlan.passportNumber === '' ? true : false,
+    });
     setPassportTypeList(JSON.parse(localStorage.PassportPageQuantity))
     if(passportTypeList.length===0){
       API.get(
@@ -204,8 +208,15 @@ const compareDates=(changedDate,isIssue)=>{
         passportNumber: travelPlan.passportNumber === '' ? true : false,
       });
       if (notCompleted.pageQuantity === true) 
-      return false;
-      else return true;
+      {
+        return false;
+      }
+      else if(requestTypeStr != 'New' && notCompleted.passportNumber===true)
+      {
+        return false;
+      }
+      else 
+      return true;
     },
   }));
   return (
@@ -242,7 +253,7 @@ const compareDates=(changedDate,isIssue)=>{
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.pageQuantity === true &&
-                  travelPlan.dataSaved == true
+                  travelPlan.dataSaved === true
                     ? 'Passport page ' + isRequired
                     : null}
                 </span>{' '}
@@ -257,6 +268,13 @@ const compareDates=(changedDate,isIssue)=>{
                     type="text"
                     label="Old Passport Number"
                   />
+                  <span style={{ color: 'red' }}>
+                  {' '}
+                  {notCompleted.passportNumber === true &&
+                  travelPlan.dataSaved === true
+                    ? 'Old Passport Number ' + isRequired
+                    : null}
+                </span>{' '}
                 </MDBCol>
               ):(null)}
             
