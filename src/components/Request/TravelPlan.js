@@ -36,8 +36,8 @@ function requestTypeGetter(requetTypeId) {
   }
 }
 const TravelPlan = forwardRef((props, ref) => {
-  debugger;
   const { t, i18n } = useTranslation();
+  const [isLoading, setIsLoading] = useState(true);
   const [travelPlan, setTravelPlan] = useState({
     pageQuantity: 0,
     passportNumber: '',
@@ -46,6 +46,7 @@ const TravelPlan = forwardRef((props, ref) => {
     correctionReason: '',
     isDatacorrected: false,
     dataSaved: false,
+    formCompleted: false,
   });
   const [notCompleted, setNotCompleted] = useState({
     pageQuantity: true,
@@ -123,6 +124,23 @@ const TravelPlan = forwardRef((props, ref) => {
     }));
   };
   var prevInfo = counter.travelPlan[counter.travelPlan.length - 1];
+  if (prevInfo !== null && typeof prevInfo !== 'undefined')
+  {
+    if (travelPlan.formCompleted === false) {
+      setTravelPlan((prevState) => ({
+        ...prevState,
+        pageQuantity: prevInfo ? prevInfo.pageQuantity : 0,
+        passportNumber: prevInfo ? prevInfo.passportNumber : null,
+        expirationDate: prevInfo ? prevInfo.expirationDate.toString() : null,
+        issueDate: prevInfo ? prevInfo.issueDate.toString() : null,
+        correctionReason: prevInfo ? prevInfo.correctionReason : null,
+        isDatacorrected: prevInfo ? prevInfo.isDatacorrected : false,
+        dataSaved: prevInfo ? prevInfo.dataSaved : null,
+        formCompleted: true,
+      }));
+    
+    }
+    }
   const serviceSelcetion = counter.service[counter.service.length - 1];
   const requestType = serviceSelcetion.appointemntType;
   const requestTypeStr = requestTypeGetter(requestType);
@@ -130,17 +148,6 @@ const TravelPlan = forwardRef((props, ref) => {
     if (counter.travelPlan.length === 0) {
       dispatch(addTravelPlan(travelPlan));
     }
-    setTravelPlan((prevState) => ({
-      ...prevState,
-      pageQuantity: prevInfo ? prevInfo.pageQuantity : 0,
-      passportNumber: prevInfo ? prevInfo.passportNumber : null,
-      expirationDate: prevInfo ? new Date(prevInfo.expirationDate) : null,
-      issueDate: prevInfo ? new Date(prevInfo.issueDate) : null,
-      correctionReason: prevInfo ? prevInfo.correctionReason : null,
-      isDatacorrected: prevInfo ? prevInfo.isDatacorrected : false,
-      dataSaved: prevInfo ? prevInfo.dataSaved : null,
-    }));
-
     setPassportTypeList(JSON.parse(localStorage.PassportPageQuantity))
     if(passportTypeList.length===0){
       API.get(
