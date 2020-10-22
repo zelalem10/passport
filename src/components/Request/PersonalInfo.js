@@ -119,15 +119,21 @@ const PersonalInfo = forwardRef((props, ref) => {
                 notCompleted.birthPlace === true ||
                 invalidUniqueId === true ||
                 invalidPhone === true ||
+                nameErrorMessage.firstName||
+                nameErrorMessage.lastName||
+                nameErrorMessage.middleName||
                 (age < 18 && personalInfo.isUnder18 === false)
             )
                 return false;
             else return true;
         },
     }));
-    const [selectedDate, setSelectedDate] = React.useState(
-        new Date(prevInfo ? prevInfo.dateOfBirth : new Date())
-    );
+    const [nameErrorMessage,setNameErrorMessage]=useState({
+        firstName: '',
+        middleName: '',
+        lastName: '',
+    });
+    
     function calculateAge(date1, date2) {
         debugger
         var diff = Math.floor(date1.getTime() - date2.getTime());
@@ -157,10 +163,12 @@ const PersonalInfo = forwardRef((props, ref) => {
     };
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setPersonalInfo((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
+        
+            setPersonalInfo((prevState) => ({
+                ...prevState,
+                [name]: value,
+            }));
+       
 
         if (value != '') {
             setNotCompleted((prevState) => ({
@@ -275,9 +283,11 @@ const PersonalInfo = forwardRef((props, ref) => {
             }));
         }
     }
-
+    const [selectedDate, setSelectedDate] = React.useState(
+        prevInfo ? prevInfo.dateOfBirth : new Date()
+    );
+    console.log(selectedDate);
     if (isLoading) {
-        debugger
         if (localStorage.getItem("nationalitys") !== null) {
             let localNatio = JSON.parse(localStorage.nationalitys);
             setNationalityList(JSON.parse(localStorage.nationalitys));
@@ -315,7 +325,30 @@ const PersonalInfo = forwardRef((props, ref) => {
         }
         setIsLoading(false)
     }
+    const validateName=(name)=>{
+        var isValidName = true;
+        if(/[!@#$%^&*(),.?":{}|<>]/g.test(name) ||  /\d+/g.test(name)) {
+          isValidName = false;
+        }
+        return isValidName;
+      }
 
+      const handleNameChange=(e)=>{
+        const { name, value } = e.target;
+        let isNameValid=validateName(value);
+        if(isNameValid){
+            setNameErrorMessage((prevState) => ({
+                ...prevState,
+                [name]: '',
+            }))
+        }else{
+            setNameErrorMessage((prevState) => ({
+                ...prevState,
+                [name]: 'Please enter characters A-Z only',
+            }))
+        }
+               
+      }
 
     useEffect(() => {
         setNotCompleted({
@@ -367,6 +400,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                                     name="firstName"
                                     className="form-control"
                                     onBlur={handleChange}
+                                    onChange={handleNameChange}
                                     type="text"
                                     label={t('requestForm.firstname')}
                                 />
@@ -376,6 +410,9 @@ const PersonalInfo = forwardRef((props, ref) => {
                                         personalInfo.dataSaved == true
                                         ? 'First name ' + isRequired
                                         : null}
+                                        {
+                                            nameErrorMessage.firstName?nameErrorMessage.firstName:null
+                                        }
                                 </span>
                             </MDBCol>
                             <MDBCol md="3" className="required-field">
@@ -383,6 +420,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                                     valueDefault={prevInfo ? prevInfo.middleName : null}
                                     name="middleName"
                                     onBlur={handleChange}
+                                    onChange={handleNameChange}
                                     type="text"
                                     label={t('requestForm.middleName')}
                                 />
@@ -392,6 +430,9 @@ const PersonalInfo = forwardRef((props, ref) => {
                                         personalInfo.dataSaved == true
                                         ? 'Middle name ' + isRequired
                                         : null}
+                                        {
+                                            nameErrorMessage.middleName?nameErrorMessage.middleName:null
+                                        }
                                 </span>
                             </MDBCol>
                             <MDBCol md="3" className="required-field">
@@ -399,6 +440,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                                     valueDefault={prevInfo ? prevInfo.lastName : null}
                                     name="lastName"
                                     onBlur={handleChange}
+                                    onChange={handleNameChange}
                                     type="text"
                                     label={t('requestForm.lastName')}
                                 />
@@ -408,6 +450,9 @@ const PersonalInfo = forwardRef((props, ref) => {
                                         personalInfo.dataSaved == true
                                         ? 'Last name ' + isRequired
                                         : null}
+                                        {
+                                            nameErrorMessage.lastName?nameErrorMessage.lastName:null
+                                        }
                                 </span>
                             </MDBCol>
                             <MDBCol md="3" className="date-picker ">

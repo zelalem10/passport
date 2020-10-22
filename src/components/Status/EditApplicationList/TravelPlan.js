@@ -182,7 +182,7 @@ const dispatch = useDispatch();
                     className="browser-default custom-select"
                     defaultValue={prevInfo ? prevInfo.passportPageId : 0}
                   >
-                    <option disabled>Select Passport Page</option>
+                    <option >Select Passport Page</option>
                     {passportTypeList.map((passportType) => (
                       <option value={passportType.id}>{passportType.passportPage}</option>
                     ))}

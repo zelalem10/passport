@@ -202,14 +202,13 @@ export default function ViewAppointment(props) {
           </div>
           <div class="form-group form-inline passport-display">
             <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-              Appointement Date:{' '}
+            {displayedApplication.type==='New'?'Appointment':'Delivery'} Date:{' '}
             </label>
             &nbsp;&nbsp;&nbsp;&nbsp;
             <b>
               <label class="font-weight-bold">
-                {displayedApplication.appointmentResponse
-                  ? displayedApplication.appointmentResponse.date
-                  : null}
+              {displayedApplication.appointmentResponse ? displayedApplication.appointmentResponse.date :personalInformation?personalInformation.deliveryAppointment:null}
+                
               </label>
             </b>
           </div>
@@ -224,6 +223,28 @@ export default function ViewAppointment(props) {
               </label>
             </b>
           </div>
+          <div class="form-group form-inline passport-display">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Office
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {displayedApplication.office}
+                    </label>
+                  </b>
+                </div>
+                <div class="form-group form-inline passport-display">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Delivery Site
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {displayedApplication.deliverySite}
+                    </label>
+                  </b>
+                </div>
       
         </div>
       </div>
@@ -410,17 +431,7 @@ export default function ViewAppointment(props) {
                   </label>
                 </b>
               </div>
-              <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Is HalfCast
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.isHalfCast?'True':'False'}
-                      </label>
-                    </b>
-                  </div>
+              
                   <div class="form-group form-inline">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                     Is Adoption
