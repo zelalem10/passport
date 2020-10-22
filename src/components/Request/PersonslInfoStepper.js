@@ -71,14 +71,14 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
   };
   const handleNext = () => {
     childRef.current.saveData();
-    // if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
-    //   const isVilid = childRef.current.Validate();
-    //   if (isVilid == true) {
-    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //   }
-    // } else {
+    if (activeStep == 0 || activeStep == 1 || activeStep == 3) {
+      const isVilid = childRef.current.Validate();
+      if (isVilid == true) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }
+    } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //}
+    }
   };
 
   const handleBack = () => {

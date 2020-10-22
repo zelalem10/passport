@@ -92,40 +92,6 @@ const PersonalInfo = forwardRef((props, ref) => {
     const config = {
         headers: { Authorization: 'Bearer ' + accesstoken },
     };
-    useImperativeHandle(ref, () => ({
-        saveData() {
-            setPersonalInfo((prevState) => ({
-                ...prevState,
-                dataSaved: true,
-            }));
-            dispatch(addPersonalInfo(personalInfo));
-        },
-        Validate() {
-            if (
-                notCompleted.firstName === true ||
-                notCompleted.lastName === true ||
-                notCompleted.middleName === true ||
-                notCompleted.birthDate === true ||
-                notCompleted.geezFirstName === true ||
-                notCompleted.geezMiddleName === true ||
-                notCompleted.geezLastName === true ||
-                personalInfo.nationalityId === 0 ||
-                notCompleted.gender === true ||
-                // notCompleted.occupationId === true ||
-                notCompleted.phoneNumber === true ||
-                notCompleted.gender === true ||
-                notCompleted.martialStatus === true ||
-                notCompleted.birthPlace === true ||
-                invalidPhone === true ||
-                nameErrorMessage.firstName||
-                nameErrorMessage.lastName||
-                nameErrorMessage.middleName||
-                (age < 18 && personalInfo.isUnder18 === false)
-            )
-                return false;
-            else return true;
-        },
-    }));
     const [nameErrorMessage,setNameErrorMessage]=useState({
         firstName: '',
         middleName: '',
@@ -321,6 +287,8 @@ const PersonalInfo = forwardRef((props, ref) => {
                 });
 
         }
+
+        
         setIsLoading(false)
     }
     const validateName=(name)=>{
@@ -349,6 +317,9 @@ const PersonalInfo = forwardRef((props, ref) => {
       }
 
     useEffect(() => {
+        const currentDate = new Date();
+        const diffYear = calculateAge(currentDate, new Date(personalInfo.birthDate))
+
         setNotCompleted({
             firstName: personalInfo.firstName === '' ? true : false,
             middleName: personalInfo.middleName === '' ? true : false,
@@ -386,6 +357,41 @@ const PersonalInfo = forwardRef((props, ref) => {
                 });
         }
     }, []);
+    useImperativeHandle(ref, () => ({
+        saveData() {
+            setPersonalInfo((prevState) => ({
+                ...prevState,
+                dataSaved: true,
+            }));
+            dispatch(addPersonalInfo(personalInfo));
+        },
+        Validate() {
+            if (
+                notCompleted.firstName === true ||
+                notCompleted.lastName === true ||
+                notCompleted.middleName === true ||
+                notCompleted.birthDate === true ||
+                notCompleted.geezFirstName === true ||
+                notCompleted.geezMiddleName === true ||
+                notCompleted.geezLastName === true ||
+                personalInfo.nationalityId === 0 ||
+                notCompleted.gender === true ||
+                // notCompleted.occupationId === true ||
+                notCompleted.phoneNumber === true ||
+                notCompleted.gender === true ||
+                notCompleted.martialStatus === true ||
+                notCompleted.birthPlace === true ||
+                invalidPhone === true ||
+                nameErrorMessage.firstName||
+                nameErrorMessage.lastName||
+                nameErrorMessage.middleName||
+                (age < 18 && personalInfo.isUnder18 === false)
+            )
+                return false;
+            else return true;
+        },
+    }));
+    
     return (
         <MDBContainer>
             <MDBCard style={{ marginBottom: '1rem' }}>
