@@ -92,11 +92,11 @@ class SignUp extends Component {
       firstNameError = 'First name is required.';
     }
     if (!this.state.personRequest.middleName) {
-      MiddleNameError = 'Middle Name is required.';
+      MiddleNameError = 'Father Name is required.';
     }
 
     if (!this.state.personRequest.lastName) {
-      lastNameError = 'Last Name is required.';
+      lastNameError = 'Grand Father Name is required.';
     }
     if (!this.state.personRequest.phoneNumber) {
       phoneNumberError = 'Phone Number is required.';

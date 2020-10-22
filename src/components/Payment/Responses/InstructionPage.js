@@ -90,7 +90,13 @@ function InstructionPage() {
                       </div><span class="text-muted"> 
                       {personalInformation? personalInformation.firstName : null}
                       </span></li>
-                    <li class="list-group-item d-flex justify-content-between lh-condensed"><div><h6 class="my-0">Last Name</h6>
+                      <li class="list-group-item d-flex justify-content-between lh-condensed">
+                      <div>
+                        <h6 class="my-0">Father Name</h6>
+                      </div><span class="text-muted"> 
+                      {personalInformation? personalInformation.middleName : null}
+                      </span></li>
+                    <li class="list-group-item d-flex justify-content-between lh-condensed"><div><h6 class="my-0">Grand Father Name</h6>
                     </div>
                       <span class="text-muted"> {personalInformation? personalInformation.lastName : null}</span></li>
 

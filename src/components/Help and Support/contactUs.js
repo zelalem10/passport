@@ -36,7 +36,7 @@ const ContactUs = (props) => {
     } else firstNameError = '';
 
     if (!lastName) {
-      lastNameError = 'Last Name is required.';
+      lastNameError = 'Grand Father Name is required.';
     } else lastNameError = '';
 
     if (!phoneNumber) {

@@ -273,7 +273,7 @@ export default function ViewAppointment(props) {
               </div>
               <div class="form-group form-inline">
                 <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                  Last Name
+                  Grand Father Name
                 </label>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <b>
@@ -284,7 +284,7 @@ export default function ViewAppointment(props) {
               </div>
               <div class="form-group form-inline">
                 <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                  Middle Name
+                  Father Name
                 </label>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <b>
@@ -307,7 +307,7 @@ export default function ViewAppointment(props) {
 
                   <div class="form-group form-inline">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Geez Middle Name
+                      Geez Father Name
                     </label>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
@@ -318,7 +318,7 @@ export default function ViewAppointment(props) {
                   </div>
                   <div class="form-group form-inline">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Geez Last Name
+                      Geez Grand Father Name
                     </label>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
@@ -439,7 +439,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {personalInformation.isAdoption?'True':'False'}
+                        {personalInformation.isAdoption?'YES':'NO'}
                       </label>
                     </b>
                   </div>
@@ -450,7 +450,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {personalInformation.isUnder18?'True':'False'}
+                        {personalInformation.isUnder18?'YES':'NO'}
                       </label>
                     </b>
                   </div>

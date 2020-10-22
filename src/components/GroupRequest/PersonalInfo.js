@@ -381,13 +381,13 @@ const PersonalInfo = forwardRef((props, ref) => {
                   name="middleName"
                   onBlur={handleChange}
                   type="text"
-                  label="Middle name"
+                  label="Father Name"
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.middleName == true &&
                     personalInfo.dataSaved == true
-                    ? 'Middle name ' + isRequired
+                    ? 'Father Name ' + isRequired
                     : null}
                 </span>
               </MDBCol>
@@ -397,13 +397,13 @@ const PersonalInfo = forwardRef((props, ref) => {
                   name="lastName"
                   onBlur={handleChange}
                   type="text"
-                  label="Last name"
+                  label="Grand Father Name"
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.lastName == true &&
                     personalInfo.dataSaved == true
-                    ? 'Last name ' + isRequired
+                    ? 'Grand Father Name ' + isRequired
                     : null}
                 </span>
               </MDBCol>

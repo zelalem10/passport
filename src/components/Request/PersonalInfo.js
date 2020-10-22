@@ -115,7 +115,6 @@ const PersonalInfo = forwardRef((props, ref) => {
                 notCompleted.phoneNumber === true ||
                 notCompleted.gender === true ||
                 notCompleted.martialStatus === true ||
-                notCompleted.birthCertificatNo === true ||
                 notCompleted.birthPlace === true ||
                 invalidUniqueId === true ||
                 invalidPhone === true ||
@@ -428,7 +427,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                                     {' '}
                                     {notCompleted.middleName == true &&
                                         personalInfo.dataSaved == true
-                                        ? 'Middle name ' + isRequired
+                                        ? 'Father Name ' + isRequired
                                         : null}
                                         {
                                             nameErrorMessage.middleName?nameErrorMessage.middleName:null
@@ -448,7 +447,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                                     {' '}
                                     {notCompleted.lastName == true &&
                                         personalInfo.dataSaved == true
-                                        ? 'Last name ' + isRequired
+                                        ? 'Grand Father Name ' + isRequired
                                         : null}
                                         {
                                             nameErrorMessage.lastName?nameErrorMessage.lastName:null
@@ -633,7 +632,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                                         : null}
                                 </span>
                             </MDBCol>
-                            <MDBCol md="3" className="required-field">
+                            <MDBCol md="3">
                                 <MDBInput
                                     valueDefault={personalInfo.birthCertificatNo}
                                     name="birthCertificatNo"
@@ -641,13 +640,13 @@ const PersonalInfo = forwardRef((props, ref) => {
                                     type="text"
                                     label={t('requestForm.birthCertificatNo')}
                                 />
-                                <span style={{ color: 'red' }}>
+                                {/* <span style={{ color: 'red' }}>
                                     {' '}
                                     {notCompleted.birthCertificatNo == true &&
                                         personalInfo.dataSaved == true
                                         ? 'Birth Reg. Unique Id ' + isRequired
                                         : null}
-                                </span>
+                                </span> */}
                                 <span style={{ color: 'red' }}>
                                     {' '}
                                     {(invalidUniqueId === true)

@@ -261,7 +261,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                     </div>
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        Last Name
+                        Grand Father Name
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
@@ -272,7 +272,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                     </div>
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        Middle Name
+                        Father Name
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
@@ -428,7 +428,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {personalInformation.isAdoption?'True':'False'}
+                          {personalInformation.isAdoption?'YES':'NO'}
                         </label>
                       </b>
                     </div>
@@ -439,7 +439,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {personalInformation.isUnder18?'True':'False'}
+                          {personalInformation.isUnder18?'YES':'NO'}
                         </label>
                       </b>
                     </div>

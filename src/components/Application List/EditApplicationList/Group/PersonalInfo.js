@@ -286,7 +286,7 @@ const PersonalInfo = forwardRef((props, ref) => {
           <MDBCol md="4">
             <MDBCol>
               <MDBInput
-                label="Middle Name"
+                label="Father Name"
                 group
                 type="text"
                 name="middleName"
@@ -319,7 +319,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 onChange={handleChange}
               />
             </MDBCol>
-            <MDBCol>
+            {/* <MDBCol>
               <MDBInput
                 label="Half Cast"
                 group
@@ -331,7 +331,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 valueDefault={prevInfo ? prevInfo.halfCast : null}
                 onChange={handleChange}
               />
-            </MDBCol>
+            </MDBCol> */}
             <MDBCol>
               <MDBInput
                 label="Nationality"
@@ -348,7 +348,7 @@ const PersonalInfo = forwardRef((props, ref) => {
           </MDBCol>
           <MDBCol md="4">
             <MDBInput
-              label="Last Name"
+              label="Grand Father Name"
               group
               type="text"
               name="lastName"

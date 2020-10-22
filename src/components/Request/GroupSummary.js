@@ -181,7 +181,7 @@ export default function ViewGroupAppointment(props) {
                     </div>
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        Last Name
+                        Father Name
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
@@ -192,7 +192,7 @@ export default function ViewGroupAppointment(props) {
                     </div>
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        Middle Name
+                        Grand Father Name
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
@@ -201,6 +201,7 @@ export default function ViewGroupAppointment(props) {
                         </label>
                       </b>
                     </div>
+                    
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                         Geez First Name
@@ -215,7 +216,7 @@ export default function ViewGroupAppointment(props) {
 
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        Geez Middle Name
+                        Geez Father Name
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
@@ -226,7 +227,7 @@ export default function ViewGroupAppointment(props) {
                     </div>
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        Geez Last Name
+                        Geez Grand Father Name
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
@@ -361,17 +362,7 @@ export default function ViewGroupAppointment(props) {
                         </label>
                       </b>
                     </div>
-                    <div class="form-group form-inline">
-                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Is HalfCast
-                      </label>
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                      <b>
-                        <label class="font-weight-bold">
-                          {displayedApp.personResponses.isHalfCast?'True':'False'}
-                        </label>
-                      </b>
-                    </div>
+                    
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                       Is Adoption
@@ -379,7 +370,7 @@ export default function ViewGroupAppointment(props) {
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {displayedApp.personResponses.isAdoption?'True':'False'}
+                          {displayedApp.personResponses.isAdoption?'YES':'NO'}
                         </label>
                       </b>
                     </div>
@@ -390,7 +381,7 @@ export default function ViewGroupAppointment(props) {
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {displayedApp.personResponses.isUnder18?'True':'False'}
+                          {displayedApp.personResponses.isUnder18?'YES':'NO'}
                         </label>
                       </b>
                     </div>
