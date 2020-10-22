@@ -104,14 +104,14 @@ function InstructionPage() {
                     </li>
 
                     <li class="list-group-item d-flex justify-content-between">
-                      <h6>Appointment Date</h6>
-                      <strong>{appointmentInformation? appointmentInformation.date:null}</strong>
+                      <h6>{personRequestdata.type==='New'? 'Appointment':'Delivery'} Date</h6>
+                      <strong>{personRequestdata?(personRequestdata.type==='New'?(appointmentInformation?(appointmentInformation.date):null):personalInformation?personalInformation.deliveryAppointment:null):null}</strong>
                     </li>
                  
-                    <li class="list-group-item d-flex justify-content-between">
+                   {personRequestdata.type==='New'? <li class="list-group-item d-flex justify-content-between">
                       <h6>Appointment Time</h6>
                       <strong>{appointmentInformation? appointmentInformation.duration.startTime + '-' + appointmentInformation.duration.endTime:null}</strong>
-                    </li>
+                    </li>:null}
                   </ul>
               <ul class="list-group mb-3">
                 <li class="list-group-item ePassprt-color"><h5>Pricing Information</h5></li>

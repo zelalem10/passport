@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { Link } from 'react-router-dom';
 
 import {
   MDBContainer,

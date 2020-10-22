@@ -62,7 +62,10 @@ const MyApp = forwardRef((props, ref) => {
       setOfficeInformation(siteInfo);
     }
   }
-  const durationLength = siteInfo ? siteInfo.durationDays : null;
+  const [durationLength,setDurationLength]=useState(0);
+  if(siteInfo && durationLength===0){
+    setDurationLength(siteInfo.durationDays)
+  }
   if (
     counter.service.length !== 0 &&
     Object.keys(data).length === 0 &&
@@ -72,6 +75,10 @@ const MyApp = forwardRef((props, ref) => {
   }
   let selectDays = siteInfo?new Date(siteInfo.currentDate):new Date();
   let estimatedDays = selectDays.setDate(selectDays.getDate() + durationLength);
+  let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(selectDays);
+let mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(selectDays);
+let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(selectDays);
+let estimatedDate=`${mo} ${da}, ${ye}`;
 
   const handleIsUrgent = () => {
     setShowAvailableTimeSlots(false);
@@ -162,18 +169,7 @@ const MyApp = forwardRef((props, ref) => {
   };
   if((data.appointemntType===3 || data.appointemntType===4 ||data.appointemntType===8) && formCompleted===false){
     setFormCompleted(true);
-    if(selectDays){
-      let formatedYear = selectDays.getFullYear();
-      let formatedMonth = (1 + selectDays.getMonth()).toString();
-      formatedMonth =
-        formatedMonth.length > 1 ? formatedMonth : '0' + formatedMonth;
-      let formatedDay = selectDays.getDate().toString();
-      formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
-      let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
-    dispatch(
-      addAppointmentDate({date:stringDateValue,id:0})
-    )
-    }
+
   }
   const token = tokenValue();
   useImperativeHandle(ref, () => ({
@@ -293,11 +289,26 @@ const MyApp = forwardRef((props, ref) => {
 setErrorMessage('Please Select Date.')
       }}else if(data.appointemntType===3 || data.appointemntType===4 ||data.appointemntType===8){
         setFormCompleted(true);
-       
+        
       }
     },
     isCompleted() {
       debugger;
+      if((data.appointemntType===3 || data.appointemntType===4 ||data.appointemntType===8)){
+        setFormCompleted(true);
+        if(selectDays &&  durationLength!==0){
+          let formatedYear = selectDays.getFullYear();
+          let formatedMonth = (1 + selectDays.getMonth()).toString();
+          formatedMonth =
+            formatedMonth.length > 1 ? formatedMonth : '0' + formatedMonth;
+          let formatedDay = selectDays.getDate().toString();
+          formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
+          let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
+        dispatch(
+          addAppointmentDate({date:stringDateValue,id:0})
+        )
+        }
+      }
       return formCompleted;
     },
   }));
@@ -655,12 +666,14 @@ setErrorMessage('Please Select Date.')
                 noteColor="info"
                 noteTitle={`Notification:`}
               >
+                
                 Estimated Delivery date is after {durationLength} days{' '}
-                  <b>({`${selectDays.getFullYear()} 
+                  {/* <b>({`${selectDays.getFullYear()} 
                   -
                   ${selectDays.getMonth() + 1}
                   -
-                  ${selectDays.getDate()}`})</b>
+                  ${selectDays.getDate()}`})</b> */}
+                  <b>{estimatedDate}</b>
               </MDBTypography>
 :null}
               {data.appointemntType===2?(<>

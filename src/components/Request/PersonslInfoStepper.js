@@ -360,7 +360,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             debugger
             console.log('Body: ', JSON.stringify(requestBody));
             console.log('AXIOS ERROR: ', err.response);
-            if (err.response != null && err.response != "undefined") setResponseMessage(err.response.data.Message);
+            if (err.response != null && err.response != "undefined") setResponseMessage(err.response.data.message);
             else setResponseMessage('something goes wrong!');
             setResponseAlert(true);
           });

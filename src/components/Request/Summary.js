@@ -175,7 +175,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {appointmentResponse ? appointmentResponse.date : requests[0].deliveryAppointment}
+                      {appointmentResponse ? appointmentResponse.date :personalInformation?personalInformation.deliveryAppointment:null}
                     </label>
                   </b>
                 </div>
