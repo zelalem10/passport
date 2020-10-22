@@ -103,6 +103,7 @@ const MainStatus = () => {
   };
 
   const handleSubmit = (e) => {
+    debugger;
     e.preventDefault();
     setloading(true);
     const isValid = validate();
@@ -134,6 +135,7 @@ const MainStatus = () => {
             console.log('error' + error);
             const errorMessage = error.response.data.message;
             setinternalServerError(errorMessage);
+            setloading(false);
           });
       } else if (ConfirmationNumber) {
         axios
@@ -156,6 +158,7 @@ const MainStatus = () => {
             console.log('error' + error);
             const errorMessage = error.response.data.message;
             setinternalServerError(errorMessage);
+            setloading(false);
           });
       }
     }
