@@ -69,9 +69,9 @@ const TravelPlan = forwardRef((props, ref) => {
   let requestTypefromRedux = useSelector((state) => state.service);
   let personalInfoReducer = useSelector((state) => state.personalInfoReducer);
 
-  if (counter.travelPlan.length === 0) {
-    dispatch(addTravelPlan(travelPlan));
-  }
+  // if (counter.travelPlan.length === 0) {
+  //   dispatch(addTravelPlan(travelPlan));
+  // }
   
 
   const handleChange = (event) => {
@@ -103,15 +103,7 @@ const TravelPlan = forwardRef((props, ref) => {
     }));
     dispatch(addTravelPlan(travelPlan))
   };
-  const [selectedtravelDate, setSelectedtravelDate] = React.useState(
-    new Date(prevInfo ? prevInfo.travelDate : new Date())
-  );
-  const [selectedissueDate, setSelectedissueDate] = React.useState(
-    new Date(prevInfo ? prevInfo.issueDate : new Date())
-  );
-  const [selectedexpirationDate, setSelectedexpirationDate] = React.useState(
-    new Date(prevInfo ? prevInfo.expirationDate : new Date())
-  );
+
   const [notifyUser,setNotifyUser]=useState('');
   const handleissueDateChange = (date) => {
     compareDates(date,true);
@@ -167,10 +159,17 @@ const compareDates=(changedDate,isIssue)=>{
   const serviceSelcetion = counter.service[counter.service.length - 1];
   const requestType = serviceSelcetion.appointemntType;
   const requestTypeStr = requestTypeGetter(requestType);
+ 
+  const [selectedissueDate, setSelectedissueDate] = React.useState(
+    prevInfo ? prevInfo.issueDate : new Date()
+  );
+  const [selectedexpirationDate, setSelectedexpirationDate] = React.useState(
+    prevInfo ? prevInfo.expirationDate : new Date()
+  );
   useEffect(() => {
-    if (counter.travelPlan.length === 0) {
-      dispatch(addTravelPlan(travelPlan));
-    }
+    // if (counter.travelPlan.length === 0) {
+    //   dispatch(addTravelPlan(travelPlan));
+    // }
     setPassportTypeList(JSON.parse(localStorage.PassportPageQuantity))
     if(passportTypeList.length===0){
       API.get(

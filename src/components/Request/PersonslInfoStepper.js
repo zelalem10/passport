@@ -340,7 +340,6 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           config
         )
           .then((todo) => {
-            debugger
             setResponseMessage(todo.data.message);
             setResponseAlert(true);
             setIsSuccess(true);
@@ -363,7 +362,6 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
 
           })
           .catch((err) => {
-            debugger
             console.log('Body: ', JSON.stringify(requestBody));
             console.log('AXIOS ERROR: ', err.response);
             if (err.response != null && err.response != "undefined") setResponseMessage(err.response.data.message);
