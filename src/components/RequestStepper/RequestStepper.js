@@ -47,10 +47,12 @@ export default function RequestStepper() {
         formCompleted[indexValue] = true;
       }
     } else if (indexValue === 1) {
+      
       if (appointmentRef.current.isCompleted() === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
         formCompleted[indexValue] = true;
-      } else {
+      }
+      else{
         appointmentRef.current.saveData();
       }
     } else if (indexValue === 2) {

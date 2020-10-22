@@ -10,7 +10,7 @@ import { Alert } from 'react-bootstrap';
 
 function InstructionPage() {
   debugger;
-  let paymentInformation = useSelector((state) => state.paymentOption[1]);
+  let paymentInformation = useSelector((state) => state.paymentOption[0]);
   let personRequestdata = useSelector((state) => state.request[state.request.length - 1]);
 
   const personalInformation = personRequestdata
@@ -64,11 +64,13 @@ function InstructionPage() {
                N.B : Please ensure that you make the extract payment After 3 (Three) days after making passport request order. 
                {/* If you do not get your request order in 2 days after marking payment, please contact by using this email address. */}
                please contact us by using this email address.
-             <a href="mailto:support@ethiopianpassportservices.gov.et">
+               <a href="mailto:support@ethiopianpassportservices.gov.et">
             <strong>
              support@ethiopianpassportservices.gov.et
              </strong>
              </a>
+             <br></br>
+             Phone Number : 8133
                 </h6>
               </div>
           <p>

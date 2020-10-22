@@ -45,6 +45,7 @@ const SiteSelection = forwardRef((props, ref) => {
     reagionId: 0,
     deliverySiteId: 0,
     durationDays: 0,
+    currentDate:'',
   });
   const [formCompleted, setFormCompleted] = useState(false);
   const [dataSaved, setDataSaved] = useState(false);
@@ -135,6 +136,7 @@ const SiteSelection = forwardRef((props, ref) => {
       setOfficeInfo((prevState) => ({
         ...prevState,
         durationDays: selectedOff[0].noOfDaysForProcess,
+        currentDate:selectedOff[0].today,
       }));
     }
     else {

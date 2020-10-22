@@ -796,3 +796,9 @@ body {
 .red{
   color:red !important;
 }
+.request .fas {
+  color: #f8f9fa;
+  background: #093c73;
+  padding: 5px;
+  border-radius: 5px;
+}
