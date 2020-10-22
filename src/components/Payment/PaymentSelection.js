@@ -70,7 +70,7 @@ const PaymentSelection = forwardRef((props, ref) => {
   const [loading, setloading] = useState(true);
   useEffect(() => {
     API.get(
-      'https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/GetPaymentOptions',
+      'https://epassportservicesaddt.azurewebsites.net/Payment/api/V1.0/Payment/GetPaymentOptions',
       config
     )
       .then((todo) =>{ 
