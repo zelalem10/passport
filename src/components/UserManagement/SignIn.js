@@ -62,11 +62,9 @@ function SignIn() {
   };
   //validate form
   const validate = () => {
-    debugger;
-    if (data.human == false) {
-      data.ReCAPTCHAError = 'please verify you are human.';
-    }
-
+    if (!data.human) {
+      data.ReCAPTCHAError = 'Please verify you are human.';
+    } else EmailError = '';
     if (!Email) {
       EmailError = 'Please Enter Your Email Address.';
     } else EmailError = '';
@@ -74,7 +72,7 @@ function SignIn() {
       PasswordError = 'Please Enter Your Password.';
     } else PasswordError = '';
 
-    if (EmailError || PasswordError || data.ReCAPTCHAError) {
+    if (EmailError || PasswordError) {
       setEmailError(EmailError);
       setPasswordError(PasswordError);
       return false;
@@ -259,10 +257,10 @@ function SignIn() {
                         <ReCAPTCHA
                           class="my-2"
                           //prod
-                          // sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
+                          sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
 
                           //local
-                          sitekey="6Ld1odEZAAAAAC_M4JbsRXzapA5aSZXUd5ukXuBV"
+                          // sitekey="6Ld1odEZAAAAAC_M4JbsRXzapA5aSZXUd5ukXuBV"
                           onChange={verifyCaptcha}
                           onExpired={expireCaptcha}
                         />
@@ -309,9 +307,9 @@ function SignIn() {
                 <MDBModalFooter className="mx-5 pt-3 mb-1">
                   <p className="font-medium grey-text d-flex justify-content-end">
                   <Trans>register.notMemeber</Trans>
-                    <Link to="/SignUp" color="cyan" className="blue-text mx-2">
+                    <a href="/SignUp" color="cyan" className="blue-text mx-2">
                     <Trans>register.signUp</Trans>
-                    </Link>
+                    </a>
                   </p>
                 </MDBModalFooter>
               </MDBCard>
