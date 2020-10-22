@@ -282,7 +282,7 @@ const PersonalInfo = forwardRef((props, ref) => {
         }
     }
     const [selectedDate, setSelectedDate] = React.useState(
-        prevInfo ? prevInfo.dateOfBirth : new Date()
+        prevInfo ? prevInfo.birthDate : new Date()
     );
     console.log(selectedDate);
     if (isLoading) {
