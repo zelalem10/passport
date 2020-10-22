@@ -680,7 +680,7 @@ setloading(false);
         <MDBTypography
                 note
                 noteColor="info"
-                noteTitle={`Notification:`}
+                noteTitle={`Notification: `}
               >
                 
                 Estimated Delivery date is {' '}

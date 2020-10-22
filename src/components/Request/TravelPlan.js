@@ -11,6 +11,7 @@ import {
   MDBCard,
   MDBCardBody,
   MDBAlert,
+  MDBTypography
 } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addTravelPlan from '../../redux/actions/addTravelPlanAction';
@@ -93,6 +94,8 @@ const TravelPlan = forwardRef((props, ref) => {
     }
     dispatch(addTravelPlan(travelPlan))
   };
+
+
   const handleCheck = (name, checked) => {
     setTravelPlan((prevState) => ({
       ...prevState,
@@ -109,7 +112,9 @@ const TravelPlan = forwardRef((props, ref) => {
   const [selectedexpirationDate, setSelectedexpirationDate] = React.useState(
     new Date(prevInfo ? prevInfo.expirationDate : new Date())
   );
+  const [notifyUser,setNotifyUser]=useState('');
   const handleissueDateChange = (date) => {
+    compareDates(date,true);
     setSelectedissueDate(date);
     setTravelPlan((prevState) => ({
       ...prevState,
@@ -117,12 +122,30 @@ const TravelPlan = forwardRef((props, ref) => {
     }));
   };
   const handleexpirationDateChange = (date) => {
+    compareDates(date,false);
     setSelectedexpirationDate(date);
     setTravelPlan((prevState) => ({
       ...prevState,
       expirationDate: date,
     }));
   };
+  // check date difference between two dates
+const compareDates=(changedDate,isIssue)=>{
+  debugger;
+    // To calculate the time difference of two dates 
+    let Difference_In_Time='';
+    if(isIssue){
+     Difference_In_Time  = (changedDate.getTime()+ 157784760000)-selectedexpirationDate.getTime() ;
+    }else{
+      Difference_In_Time  =  (selectedissueDate.getTime() + 157784760000)-changedDate.getTime();
+    }
+ 
+ let Difference_In_Days = Difference_In_Time  / (1000 * 3600 * 24); 
+ if(Difference_In_Days>182.5){
+   setNotifyUser('Your Passport is not expired you may required to pay an extra payment!');
+ }else{setNotifyUser('');}
+ 
+ }
   var prevInfo = counter.travelPlan[counter.travelPlan.length - 1];
   if (prevInfo !== null && typeof prevInfo !== 'undefined')
   {
@@ -196,7 +219,7 @@ const TravelPlan = forwardRef((props, ref) => {
           )
         ) : null}
         <form>
-          <div className="grey-text">
+          <div>
             <MDBRow>
               <MDBCol md="4"  className="required-field">
                 <div>
@@ -246,7 +269,7 @@ const TravelPlan = forwardRef((props, ref) => {
                     <KeyboardDatePicker
                       margin="normal"
                       id="date-picker-dialog"
-                      label="Old Issue Date"
+                      label="Old Passport Issue Date"
                       format="MM/dd/yyyy"
                       value={selectedissueDate}
                       onChange={handleissueDateChange}
@@ -261,7 +284,7 @@ const TravelPlan = forwardRef((props, ref) => {
                     <KeyboardDatePicker
                       margin="normal"
                       id="date-picker-dialog"
-                      label="Old Expiration Date"
+                      label="Old Passport Expiration Date"
                       format="MM/dd/yyyy"
                       value={selectedexpirationDate}
                       onChange={handleexpirationDateChange}
@@ -320,6 +343,17 @@ const TravelPlan = forwardRef((props, ref) => {
                 </MDBCol>
               ) : null}
             </MDBRow>
+            {
+              notifyUser?<MDBTypography
+              note
+              noteColor='danger'
+              noteTitle={`Notification: `}
+            >
+              
+              {notifyUser}
+               
+            </MDBTypography>:null
+            }
           </div>
         </form>
       </MDBCardBody>

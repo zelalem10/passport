@@ -272,27 +272,27 @@ export default function ViewAppointment(props) {
                 </b>
               </div>
               <div class="form-group form-inline">
-                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                  Grand Father Name
-                </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <b>
-                  <label class="font-weight-bold">
-                    {personalInformation.middleName}
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                        Father Name
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.middleName}
+                        </label>
+                      </b>
+                    </div>
+                    <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Grand Father Name
                   </label>
-                </b>
-              </div>
-              <div class="form-group form-inline">
-                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                  Father Name
-                </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <b>
-                  <label class="font-weight-bold">
-                    {personalInformation.lastName}
-                  </label>
-                </b>
-              </div>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {personalInformation.lastName}
+                    </label>
+                  </b>
+                </div>
               <div class="form-group form-inline">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                       Geez First Name

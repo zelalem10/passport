@@ -261,7 +261,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                     </div>
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        Grand Father Name
+                      Father Name
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
@@ -272,7 +272,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                     </div>
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        Father Name
+                      Grand Father Name
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>

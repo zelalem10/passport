@@ -21,6 +21,7 @@ import addCommonData from '../../redux/actions/addCommonDataAction';
 import newRequest from '../../redux/actions/addNewRequestAction';
 import API from '../Utils/API';
 import addPriceInfo from '../../redux/actions/priceInfoAction';
+import Spinner from '../common/Spinner';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -54,6 +55,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
   const [responseMessage, setResponseMessage] = useState('');
   const [response, setResponse] = useState({});
   const [personId, setPersonId] = useState(0);
+  const [loading, setloading] = useState(false);
 
   const steps = getSteps();
   const dispatch = useDispatch();
@@ -87,7 +89,9 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     setActiveStep(0);
   };
   const handleSubmit = () => {
+    setloading(true);
     const travelPlan= childRef.current.saveData();
+    
     const isVilid = childRef.current.Validate();
     if (isVilid) {
       let personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
@@ -229,6 +233,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             if (err.response != null && err.response != "undefined") setResponseMessage(err.response.data.Message);
             else setResponseMessage('something goes wrong!');
             setResponseAlert(true);
+            setloading(false);
           });
 
       }
@@ -367,7 +372,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
       }
       } 
     else {
-
+      setloading(false);
       }
   };
   const handelUploading = () => {
@@ -377,6 +382,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     setIsUploading(false);
   };
   function getStepContent(stepIndex) {
+    
     switch (stepIndex) {
       case 0:
         return <PersonalInfo ref={childRef} />;
@@ -386,12 +392,16 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
         return <FamilyInformation ref={childRef} />;
       case 3:
         return (
+          <div>
+            {loading?<Spinner />:
           <TravelPlan
             ref={childRef}
             resMessage={responseMessage}
             isSucces={isSuccess}
             respnseGet={responseAlert}
           />
+            }
+            </div>
         );
       case 4:
         return (
