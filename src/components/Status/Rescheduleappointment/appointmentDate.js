@@ -73,7 +73,7 @@ function RescheduleAppointment(props) {
     }
   };
   const accesstoken = tokenValue();
-  const baseUrl = 'https://epassportservices.azurewebsites.net/';
+  const baseUrl = 'https://epassportservicesaddt.azurewebsites.net/';
   const availableDates = [];
   let advancedRestrictionData = {};
   let disabledDates = [];

@@ -94,7 +94,7 @@ const SuccessResponse = (props) => {
     requestId: 3,
   };
   API.post(
-    'https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest',
+    'https://epassportservicesaddt.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest',
     body,
     config
   )

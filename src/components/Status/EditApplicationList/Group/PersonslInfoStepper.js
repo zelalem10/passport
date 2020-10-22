@@ -199,7 +199,7 @@ export default function HorizontalLabelPositionBelowStepperGroup(props) {
     console.log(requestBody);
 
     API.put(
-      'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/UpdateRequest',
+      'https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/UpdateRequest',
       requestBody,
       config
     )

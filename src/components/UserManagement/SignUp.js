@@ -85,7 +85,7 @@ class SignUp extends Component {
     let ReCAPTCHAError = '';
 
     if (this.state.human == false) {
-      ReCAPTCHAError = 'please verify you are human.';
+      ReCAPTCHAError = 'Please verify you are human.';
     }
 
     if (!this.state.personRequest.firstName) {
@@ -163,7 +163,7 @@ class SignUp extends Component {
         headers: { Authorization: `Bearer ` + accesstoken },
         method: 'post',
         url:
-          'https://epassportservices.azurewebsites.net/api/Register/V1.0/UserRegistration/RegisterUser',
+          'https://epassportservicesaddt.azurewebsites.net/api/Register/V1.0/UserRegistration/RegisterUser',
         data: this.state,
       })
         .then((Response) => {
@@ -398,10 +398,10 @@ class SignUp extends Component {
                         <ReCAPTCHA
                           class="my-2"
                           //prod
-                          // sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
+                          sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
 
                           //local
-                          sitekey="6Ld1odEZAAAAAC_M4JbsRXzapA5aSZXUd5ukXuBV"
+                          // sitekey="6Ld1odEZAAAAAC_M4JbsRXzapA5aSZXUd5ukXuBV"
                           onChange={this.verifyCaptcha}
                           onExpired={this.expireCaptcha}
                         />

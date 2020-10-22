@@ -42,7 +42,7 @@ const PayWithPSS = () => {
     },
   };
   const prodURL =
-    'https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest';
+    'https://epassportservicesaddt.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest';
 
   const html = `<h1>Transform Example</h1>
 
