@@ -202,7 +202,7 @@ const Fileupload = forwardRef((props, ref) => {
   for (let i = 0; i < requiredFile; i++) {
     inputs.push(
       <div class="row my-5" id="attachmentmargin">
-        <div class="col-lg-5 passport-text-right">
+        <div class="col-lg-6 passport-text-right">
           <MDBBadge color="primary smallPadding ">
             {' '}
             {attachmentNames[i]}{' '}
