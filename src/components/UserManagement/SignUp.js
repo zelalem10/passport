@@ -397,7 +397,11 @@ class SignUp extends Component {
                       <div class="col-md-6">
                         <ReCAPTCHA
                           class="my-2"
-                          sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
+                          //prod
+                          // sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
+
+                          //local
+                          sitekey="6Ld1odEZAAAAAC_M4JbsRXzapA5aSZXUd5ukXuBV"
                           onChange={this.verifyCaptcha}
                           onExpired={this.expireCaptcha}
                         />
