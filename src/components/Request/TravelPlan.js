@@ -11,6 +11,7 @@ import {
   MDBCard,
   MDBCardBody,
   MDBAlert,
+  MDBTypography
 } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addTravelPlan from '../../redux/actions/addTravelPlanAction';
@@ -36,16 +37,17 @@ function requestTypeGetter(requetTypeId) {
   }
 }
 const TravelPlan = forwardRef((props, ref) => {
-  debugger;
   const { t, i18n } = useTranslation();
+  const [isLoading, setIsLoading] = useState(true);
   const [travelPlan, setTravelPlan] = useState({
-    pageQuantity: 0,
+    pageQuantity: '',
     passportNumber: '',
     expirationDate: '',
     issueDate: '',
     correctionReason: '',
     isDatacorrected: false,
     dataSaved: false,
+    formCompleted: false,
   });
   const [notCompleted, setNotCompleted] = useState({
     pageQuantity: true,
@@ -67,9 +69,9 @@ const TravelPlan = forwardRef((props, ref) => {
   let requestTypefromRedux = useSelector((state) => state.service);
   let personalInfoReducer = useSelector((state) => state.personalInfoReducer);
 
-  if (counter.travelPlan.length === 0) {
-    dispatch(addTravelPlan(travelPlan));
-  }
+  // if (counter.travelPlan.length === 0) {
+  //   dispatch(addTravelPlan(travelPlan));
+  // }
   
 
   const handleChange = (event) => {
@@ -78,7 +80,7 @@ const TravelPlan = forwardRef((props, ref) => {
       ...prevState,
       [name]: value,
     }));
-    if (value != '') {
+    if (value !== '') {
       setNotCompleted((prevState) => ({
         ...prevState,
         [name]: false,
@@ -99,16 +101,10 @@ const TravelPlan = forwardRef((props, ref) => {
     }));
     dispatch(addTravelPlan(travelPlan))
   };
-  const [selectedtravelDate, setSelectedtravelDate] = React.useState(
-    new Date(prevInfo ? prevInfo.travelDate : new Date())
-  );
-  const [selectedissueDate, setSelectedissueDate] = React.useState(
-    new Date(prevInfo ? prevInfo.issueDate : new Date())
-  );
-  const [selectedexpirationDate, setSelectedexpirationDate] = React.useState(
-    new Date(prevInfo ? prevInfo.expirationDate : new Date())
-  );
+
+  const [notifyUser,setNotifyUser]=useState('');
   const handleissueDateChange = (date) => {
+    compareDates(date,true);
     setSelectedissueDate(date);
     setTravelPlan((prevState) => ({
       ...prevState,
@@ -116,31 +112,62 @@ const TravelPlan = forwardRef((props, ref) => {
     }));
   };
   const handleexpirationDateChange = (date) => {
+    compareDates(date,false);
     setSelectedexpirationDate(date);
     setTravelPlan((prevState) => ({
       ...prevState,
       expirationDate: date,
     }));
   };
+  // check date difference between two dates
+const compareDates=(changedDate,isIssue)=>{
+  debugger;
+    // To calculate the time difference of two dates 
+    let Difference_In_Time='';
+    if(isIssue){
+     Difference_In_Time  = (changedDate.getTime()+ 157784760000)-selectedexpirationDate.getTime() ;
+    }else{
+      Difference_In_Time  =  (selectedissueDate.getTime() + 157784760000)-changedDate.getTime();
+    }
+ 
+ let Difference_In_Days = Difference_In_Time  / (1000 * 3600 * 24); 
+ if(Difference_In_Days>182.5){
+   setNotifyUser('Your Passport is not expired you may required to pay an extra payment!');
+ }else{setNotifyUser('');}
+ 
+ }
   var prevInfo = counter.travelPlan[counter.travelPlan.length - 1];
+  if (prevInfo !== null && typeof prevInfo !== 'undefined')
+  {
+    if (travelPlan.formCompleted === false) {
+      setTravelPlan((prevState) => ({
+        ...prevState,
+        pageQuantity: prevInfo ? prevInfo.pageQuantity : 0,
+        passportNumber: prevInfo ? prevInfo.passportNumber : null,
+        expirationDate: prevInfo ? prevInfo.expirationDate.toString() : null,
+        issueDate: prevInfo ? prevInfo.issueDate.toString() : null,
+        correctionReason: prevInfo ? prevInfo.correctionReason : null,
+        isDatacorrected: prevInfo ? prevInfo.isDatacorrected : false,
+        dataSaved: prevInfo ? prevInfo.dataSaved : null,
+        formCompleted: true,
+      }));
+    
+    }
+    }
   const serviceSelcetion = counter.service[counter.service.length - 1];
   const requestType = serviceSelcetion.appointemntType;
   const requestTypeStr = requestTypeGetter(requestType);
+ 
+  const [selectedissueDate, setSelectedissueDate] = React.useState(
+    prevInfo ? prevInfo.issueDate : new Date()
+  );
+  const [selectedexpirationDate, setSelectedexpirationDate] = React.useState(
+    prevInfo ? prevInfo.expirationDate : new Date()
+  );
   useEffect(() => {
     if (counter.travelPlan.length === 0) {
       dispatch(addTravelPlan(travelPlan));
     }
-    setTravelPlan((prevState) => ({
-      ...prevState,
-      pageQuantity: prevInfo ? prevInfo.pageQuantity : 0,
-      passportNumber: prevInfo ? prevInfo.passportNumber : null,
-      expirationDate: prevInfo ? new Date(prevInfo.expirationDate) : null,
-      issueDate: prevInfo ? new Date(prevInfo.issueDate) : null,
-      correctionReason: prevInfo ? prevInfo.correctionReason : null,
-      isDatacorrected: prevInfo ? prevInfo.isDatacorrected : false,
-      dataSaved: prevInfo ? prevInfo.dataSaved : null,
-    }));
-
     setPassportTypeList(JSON.parse(localStorage.PassportPageQuantity))
     if(passportTypeList.length===0){
       API.get(
@@ -174,8 +201,15 @@ const TravelPlan = forwardRef((props, ref) => {
         passportNumber: travelPlan.passportNumber === '' ? true : false,
       });
       if (notCompleted.pageQuantity === true) 
-      return false;
-      else return true;
+      {
+        return false;
+      }
+      else if(requestTypeStr != 'New' && notCompleted.passportNumber===true)
+      {
+        return false;
+      }
+      else 
+      return true;
     },
   }));
   return (
@@ -189,7 +223,7 @@ const TravelPlan = forwardRef((props, ref) => {
           )
         ) : null}
         <form>
-          <div className="grey-text">
+          <div>
             <MDBRow>
               <MDBCol md="4"  className="required-field">
                 <div>
@@ -212,7 +246,7 @@ const TravelPlan = forwardRef((props, ref) => {
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.pageQuantity === true &&
-                  travelPlan.dataSaved == true
+                  travelPlan.dataSaved === true
                     ? 'Passport page ' + isRequired
                     : null}
                 </span>{' '}
@@ -227,6 +261,13 @@ const TravelPlan = forwardRef((props, ref) => {
                     type="text"
                     label="Old Passport Number"
                   />
+                  <span style={{ color: 'red' }}>
+                  {' '}
+                  {notCompleted.passportNumber === true &&
+                  travelPlan.dataSaved === true
+                    ? 'Old Passport Number ' + isRequired
+                    : null}
+                </span>{' '}
                 </MDBCol>
               ):(null)}
             
@@ -239,7 +280,7 @@ const TravelPlan = forwardRef((props, ref) => {
                     <KeyboardDatePicker
                       margin="normal"
                       id="date-picker-dialog"
-                      label="Old Issue Date"
+                      label="Old Passport Issue Date"
                       format="MM/dd/yyyy"
                       value={selectedissueDate}
                       onChange={handleissueDateChange}
@@ -254,7 +295,7 @@ const TravelPlan = forwardRef((props, ref) => {
                     <KeyboardDatePicker
                       margin="normal"
                       id="date-picker-dialog"
-                      label="Old Expiration Date"
+                      label="Old Passport Expiration Date"
                       format="MM/dd/yyyy"
                       value={selectedexpirationDate}
                       onChange={handleexpirationDateChange}
@@ -313,6 +354,17 @@ const TravelPlan = forwardRef((props, ref) => {
                 </MDBCol>
               ) : null}
             </MDBRow>
+            {
+              notifyUser?<MDBTypography
+              note
+              noteColor='danger'
+              noteTitle={`Notification: `}
+            >
+              
+              {notifyUser}
+               
+            </MDBTypography>:null
+            }
           </div>
         </form>
       </MDBCardBody>

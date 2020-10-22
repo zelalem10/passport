@@ -185,7 +185,10 @@ const SiteSelection = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     saveData() {
       setDataSaved(true);
-      dispatch(saveSiteInformation(officeInfo));
+      if (notCompleted.officeId === false)
+      {
+        dispatch(saveSiteInformation(officeInfo));
+      }
     },
     isCompleted() {
       return formCompleted;

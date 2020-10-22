@@ -42,7 +42,8 @@ export default function RequestStepper() {
   function handelNext() {
     if (indexValue === 0) {
       siteRef.current.saveData();
-      if (siteRef.current.isCompleted() === true) {
+      let isValid= siteRef.current.isCompleted();
+      if (isValid === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
         formCompleted[indexValue] = true;
       }

@@ -21,6 +21,7 @@ import addCommonData from '../../redux/actions/addCommonDataAction';
 import newRequest from '../../redux/actions/addNewRequestAction';
 import API from '../Utils/API';
 import addPriceInfo from '../../redux/actions/priceInfoAction';
+import Spinner from '../common/Spinner';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -54,6 +55,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
   const [responseMessage, setResponseMessage] = useState('');
   const [response, setResponse] = useState({});
   const [personId, setPersonId] = useState(0);
+  const [loading, setloading] = useState(false);
 
   const steps = getSteps();
   const dispatch = useDispatch();
@@ -87,7 +89,9 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     setActiveStep(0);
   };
   const handleSubmit = () => {
+    setloading(true);
     const travelPlan= childRef.current.saveData();
+    
     const isVilid = childRef.current.Validate();
     if (isVilid) {
       let personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
@@ -211,7 +215,6 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             };
             setPersonId(todo.data.serviceResponseList[0].personResponses.id)
             dispatch(addCommonData(commonData));
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
             dispatch(newRequest(todo.data.serviceResponseList[0]))
             API.get("https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
               .then((todo) => {
@@ -220,6 +223,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
               .catch((err) => {
                 console.log("AXIOS ERROR: ", err.response);
               })
+              setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
           })
           .catch((err) => {
@@ -229,6 +233,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             if (err.response != null && err.response != "undefined") setResponseMessage(err.response.data.Message);
             else setResponseMessage('something goes wrong!');
             setResponseAlert(true);
+            setloading(false);
           });
 
       }
@@ -335,17 +340,17 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
           config
         )
           .then((todo) => {
-            debugger
             setResponseMessage(todo.data.message);
             setResponseAlert(true);
             setIsSuccess(true);
+            setloading(false);
             const commonData = {
               requestPersonId:
                 todo.data.serviceResponseList[0].personResponses.requestPersonId,
             };
             setPersonId(todo.data.serviceResponseList[0].personResponses.id)
             dispatch(addCommonData(commonData));
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+            setActiveStep(4);
             dispatch(newRequest(todo.data.serviceResponseList[0]))
             API.get("https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
               .then((todo) => {
@@ -357,17 +362,17 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
 
           })
           .catch((err) => {
-            debugger
             console.log('Body: ', JSON.stringify(requestBody));
             console.log('AXIOS ERROR: ', err.response);
             if (err.response != null && err.response != "undefined") setResponseMessage(err.response.data.message);
             else setResponseMessage('something goes wrong!');
             setResponseAlert(true);
+            setloading(false);
           });
       }
       } 
     else {
-
+      setloading(false);
       }
   };
   const handelUploading = () => {
@@ -377,6 +382,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     setIsUploading(false);
   };
   function getStepContent(stepIndex) {
+    
     switch (stepIndex) {
       case 0:
         return <PersonalInfo ref={childRef} />;
@@ -386,12 +392,14 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
         return <FamilyInformation ref={childRef} />;
       case 3:
         return (
+          
           <TravelPlan
             ref={childRef}
             resMessage={responseMessage}
             isSucces={isSuccess}
             respnseGet={responseAlert}
           />
+            
         );
       case 4:
         return (
@@ -415,6 +423,8 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     },
   }));
   return (
+    <div>
+            {loading?<Spinner />:
     <div className={classes.root} style={{ marginBottom: '5rem' }}>
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
@@ -474,6 +484,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
         ) : null}
       </div>
     </div>
-  );
+ }
+ </div> );
 });
 export default PersonalInfoStepper;
