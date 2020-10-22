@@ -3,12 +3,10 @@ import axios from 'axios';
 import API from '../../Utils/API';
 
 function SystemToken() {
-  const accesstoken = localStorage.systemToken;
-  const usertoken = localStorage.userToken;
+  
+  
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
-  const config = {
-    headers: { Authorization: 'Bearer ' + accesstoken },
-  };
+  
 
   useEffect(() => {
     axios({
@@ -22,6 +20,10 @@ function SystemToken() {
     })
       .then(async (response) => {
        await localStorage.setItem('systemToken', response.data.accessToken);
+       const accesstoken = localStorage.systemToken;
+       const config = {
+        headers: { Authorization: 'Bearer ' + accesstoken },
+      };
        axios({
         headers: { Authorization: 'Bearer ' + accesstoken },
         method: 'get',

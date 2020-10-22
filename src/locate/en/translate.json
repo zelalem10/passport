@@ -71,18 +71,21 @@
     "beforYouApplyList": {
       "title":"Before you apply",
       "itemOne": "All applicants should secure an online appointment when applying for a passport",
-      "itemTwo": "The applicant is advised to secure their passports prior to booking their flights. Flight bookings should ONLY be made if passports are still valid for at least six (6) months.",
-      "itemThree": "Confirmed appointment is required for all applicants except for those who would qualify for the courtesy lane DFA (Department of Foreign Affairs)",
-      "itemFour": "Applicants are reminded to be on site not earlier than 30 minutes on their selected date and time of appointment at their chosen consular office.",
-      "itemFive": "Personal appearance is required for all applicants.",
-      "itemSix": "Please be warned that dealing with fixers (illegal arrangements) is at your own risk and expense.",
-      "itemSeven": "Prepare all the originals and photocopies of the documentary requirements for passport application.",
+      "itemTwo": "Confirmed appointment is required",
+      "itemThree": "Applicants are reminded to be on site not earlier than 30 minutes on their selected date and time of appointment at their chosen consular office.",
+      "itemFour": " Personal appearance is required for new applicants.",
+      "itemFive": "Please be warned that dealing with fixers (illegal arrangements) is at your own risk and expense.",
+      "itemSix": "Prepare all the originals and photocopies of the documentary requirements for passport application.",
+      "itemSeven": "Prepare all the originals and photo copies of the documentary requirements for passport application.",
       "readMore": "Read More"
     },
 
     "requestAppointment": {
       "requestAppointmentLargeTitle": "REQUEST AN APPOINTMENT",
-      "requestAppointmentDetail": "By proceeding with this application, I understand that I am signifying my consent to the disclosure, collection, and use of my personal information and the data required under the Ethiopian Passport Act as amended and its Implementing Rules and Regulations. My consent effectively constitutes a waiver of any and all privacy rights pertaining to the disclosure, collection, and use of my personal information and data under the specific terms and condition of Ethiopian Online Passport Appointment System.",
+      "requestAppointmentList1": "This Passport application form is applied only by Ethiopian National.",
+      "requestAppointmentList2": "To use more than one passport  is strictly prohibited ",
+      "requestAppointmentList3": "Ordinary passport Applicant who have already passport should not be apply for new passport ",
+      "requestAppointmentDetail": "Users accept the responsibility for supplying, checking, and verifying the accuracy and correctness of the information they provide. Incorrect or inaccurate information may result in forfeiture of passport application.All fees are non-refundable. Fees shall be forfeited for applicants who fail to show up on their confirmed appointment, applicants who cancel their appointment, and applicants whose application was rejected due to incorrect information.",
       "cardTiltle": "Talk to an Appointment Scheduler",
       "time": "8:00am – 5:00pm Monday – Friday Eastern Time (ET).",
       "startIndividualAppointment": "Start Individual Appointment",
@@ -372,7 +375,7 @@
     "register": {
       "title": "Register",
       "password": "Password",
-      "comfirmPassword": "Comfirm Passwor",
+      "comfirmPassword": "Comfirm Password",
       "signUp": "Sign Up",
       "logIn": "Log In ",
       "alreadyRegistered": "If already registered?",

@@ -44,7 +44,7 @@ const PersonalInfo = forwardRef((props, ref) => {
         gender: '',
         eyeColor: '',
         hairColor: 'Black',
-        occupationId: 0,
+        occupationId: null,
         isHalfCast: false,
         isAdoption: false,
         isUnder18: false,
@@ -590,7 +590,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                             </MDBCol>
                             <MDBCol md="3" className="required-field">
                                 <MDBInput
-                                    valueDefault={prevInfo ? prevInfo.birthCirtificateNo : null}
+                                    valueDefault={personalInfo.birthCertificatNo}
                                     name="birthCertificatNo"
                                     onBlur={handleUniqueIdChange}
                                     type="text"

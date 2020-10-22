@@ -125,8 +125,8 @@ const ContactUs = (props) => {
                   <p>
                   <Trans>contactUs.getInTouchDescription</Trans>
                   </p>
-                  <h4> <Trans>contactUs.addressTitle</Trans></h4>
-                  <p> <Trans>contactUs.address</Trans></p>
+                  {/* <h4> <Trans>contactUs.addressTitle</Trans></h4>
+                  <p> <Trans>contactUs.address</Trans></p> */}
                   <h4><Trans>contactUs.EmailTitle</Trans></h4>
                   <a href="mailto:support@ethiopianpassportservices.gov.et"><Trans>contactUs.Email</Trans></a>
                   <h4><Trans>contactUs.phoneTitle</Trans></h4>

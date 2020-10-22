@@ -44,6 +44,7 @@ const MyApp = forwardRef((props, ref) => {
     key: '',
     active: false,
   });
+  const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState('');
 
   const [officeInformation, setOfficeInformation] = useState({});
@@ -61,7 +62,10 @@ const MyApp = forwardRef((props, ref) => {
       setOfficeInformation(siteInfo);
     }
   }
-  const durationLength = siteInfo ? siteInfo.durationDays : null;
+  const [durationLength,setDurationLength]=useState(0);
+  if(siteInfo && durationLength===0){
+    setDurationLength(siteInfo.durationDays)
+  }
   if (
     counter.service.length !== 0 &&
     Object.keys(data).length === 0 &&
@@ -69,8 +73,12 @@ const MyApp = forwardRef((props, ref) => {
   ) {
     setData(counter.service[counter.service.length - 1]);
   }
-  let selectDays = new Date(state.date);
+  let selectDays = siteInfo?new Date(siteInfo.currentDate):new Date();
   let estimatedDays = selectDays.setDate(selectDays.getDate() + durationLength);
+  let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(selectDays);
+let mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(selectDays);
+let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(selectDays);
+let estimatedDate=`${mo} ${da}, ${ye}`;
 
   const handleIsUrgent = () => {
     setShowAvailableTimeSlots(false);
@@ -159,9 +167,18 @@ const MyApp = forwardRef((props, ref) => {
       return SystemToken;
     }
   };
+  if((data.appointemntType===3 || data.appointemntType===4 ||data.appointemntType===8) && formCompleted===false){
+    setFormCompleted(true);
+
+  }
   const token = tokenValue();
   useImperativeHandle(ref, () => ({
+   
+
+    
     saveData() {
+      debugger;
+      if(data.appointemntType===2){
       if(state.date){
       let urgentQuotaId = 0;
       let formatedYear = state.date.getFullYear();
@@ -270,14 +287,33 @@ const MyApp = forwardRef((props, ref) => {
       }
     }else{
 setErrorMessage('Please Select Date.')
+      }}else if(data.appointemntType===3 || data.appointemntType===4 ||data.appointemntType===8){
+        setFormCompleted(true);
+        
       }
     },
     isCompleted() {
+      debugger;
+      if((data.appointemntType===3 || data.appointemntType===4 ||data.appointemntType===8)){
+        setFormCompleted(true);
+        if(selectDays &&  durationLength!==0){
+          let formatedYear = selectDays.getFullYear();
+          let formatedMonth = (1 + selectDays.getMonth()).toString();
+          formatedMonth =
+            formatedMonth.length > 1 ? formatedMonth : '0' + formatedMonth;
+          let formatedDay = selectDays.getDate().toString();
+          formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
+          let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
+        dispatch(
+          addAppointmentDate({date:stringDateValue,id:0})
+        )
+        }
+      }
       return formCompleted;
     },
   }));
 
-  const dispatch = useDispatch();
+  
   const baseUrl = 'https://epassportservices.azurewebsites.net/';
   const availableDates = [];
   let advancedRestrictionData = {};
@@ -296,7 +332,7 @@ setErrorMessage('Please Select Date.')
 
   };
   useEffect(() => {
-    if (officeInformation.hasOwnProperty('offceId')) {
+    if (officeInformation.hasOwnProperty('offceId') && data.appointemntType===2) {
       axios({
         headers: {
           Authorization: 'Bearer ' + token,
@@ -532,6 +568,8 @@ setErrorMessage('Please Select Date.')
           debugger;
           console.log('error' + error);
         });
+    }else if(data.appointemntType===3 || data.appointemntType===4 ||data.appointemntType===8){
+      setloading(false);
     }
   }, [isUrgentAppointment, officeInformation]);
   const onChange = (date) => {
@@ -585,7 +623,7 @@ setErrorMessage('Please Select Date.')
         <Spinner />
       ) : (
       <MDBContainer className=" pt-3" fluid>
-        <h3 className="heading-secondary">Appointment Date And Time</h3>
+        <h3 className="heading-secondary">{data.appointemntType===2?'Appointment Date And Time':'Delivery Date'} </h3>
         {/* {data.isGroup ? null : (
           <div>
             <FormControlLabel
@@ -622,20 +660,23 @@ setErrorMessage('Please Select Date.')
             )}
           </div>
         )} */}
+        {data.appointemntType!==2?
         <MDBTypography
                 note
                 noteColor="info"
-                noteTitle={`Notification: ${durationLength} `}
+                noteTitle={`Notification:`}
               >
-                Estimated Delivery date is within {durationLength} days{' '}
-                {timeSlots.length > 0 ? (
-                  <b>{`${selectDays.getFullYear()} 
+                
+                Estimated Delivery date is after {durationLength} days{' '}
+                  {/* <b>({`${selectDays.getFullYear()} 
                   -
                   ${selectDays.getMonth() + 1}
                   -
-                  ${selectDays.getDate()}`}</b>
-                ) : null}
+                  ${selectDays.getDate()}`})</b> */}
+                  <b>{estimatedDate}</b>
               </MDBTypography>
+:null}
+              {data.appointemntType===2?(<>
         <MDBRow key={key}>
           <MDBCol md="6">
             <h3><Trans>requestForm.date</Trans></h3>
@@ -691,7 +732,8 @@ setErrorMessage('Please Select Date.')
               <MDBAlert color="danger">{errorMessage}</MDBAlert>
             </MDBCol>
           </MDBRow>
-        ) : null}
+        ) : null}</>):null}
+        
       </MDBContainer>
       )}
     </div>

@@ -9,11 +9,11 @@ import {
   MDBCardBody,
   MDBContainer,
 } from 'mdbreact';
-import newApplication from '../../images/icons/Start new application.png';
-import alreadyHavePassport from '../../images/icons/already have a passport 2.png';
-import checkStatusImage from '../../images/icons/Check Status 2.png';
-import alreadyHavePassportWhite from '../../images/icons/already have a passport.png';
-import checkStatusImageWhite from '../../images/icons/Check Status .png';
+import newApplication from '../../images/icons/new passport 1-01.svg';
+import alreadyHavePassport from '../../images/icons/register -01.svg';
+import checkStatusImage from '../../images/icons/passport status .svg';
+import alreadyHavePassportWhite from '../../images/icons/register 1 .svg';
+import checkStatusImageWhite from '../../images/icons/passport status 1-01.svg';
 import { Link } from 'react-router-dom';
 import { faPassport } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
