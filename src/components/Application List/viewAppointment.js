@@ -71,7 +71,7 @@ export default function ViewAppointment(props) {
     }
   };
   const token = tokenValue();
-  const BaseUri="https://epassportservices.azurewebsites.net";
+  const BaseUri="https://epassportservicesaddt.azurewebsites.net";
   const config = {
     headers: { Authorization: `Bearer ` + token },
   };

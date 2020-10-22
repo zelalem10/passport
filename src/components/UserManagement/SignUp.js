@@ -163,7 +163,7 @@ class SignUp extends Component {
         headers: { Authorization: `Bearer ` + accesstoken },
         method: 'post',
         url:
-          'https://epassportservices.azurewebsites.net/api/Register/V1.0/UserRegistration/RegisterUser',
+          'https://epassportservicesaddt.azurewebsites.net/api/Register/V1.0/UserRegistration/RegisterUser',
         data: this.state,
       })
         .then((Response) => {

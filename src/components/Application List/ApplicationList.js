@@ -71,7 +71,7 @@ function ApplicationList() {
       headers: { Authorization: 'Bearer ' + accesstoken },
       method: 'get',
       url:
-        'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/GetMyApplications',
+        'https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/GetMyApplications',
     })
       .then((Response) => {
         debugger;
@@ -110,7 +110,7 @@ function ApplicationList() {
       headers: { Authorization: 'Bearer ' + accesstoken },
       method: 'post',
       url:
-        'https://epassportservices.azurewebsites.net//Schedule/api/V1.0/Schedule/CancelAppointment',
+        'https://epassportservicesaddt.azurewebsites.net//Schedule/api/V1.0/Schedule/CancelAppointment',
       params: { requestId: requestId },
     })
       .then((Response) => {
