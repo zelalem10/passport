@@ -344,6 +344,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             setResponseMessage(todo.data.message);
             setResponseAlert(true);
             setIsSuccess(true);
+            setloading(false);
             const commonData = {
               requestPersonId:
                 todo.data.serviceResponseList[0].personResponses.requestPersonId,
@@ -368,6 +369,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             if (err.response != null && err.response != "undefined") setResponseMessage(err.response.data.message);
             else setResponseMessage('something goes wrong!');
             setResponseAlert(true);
+            setloading(false);
           });
       }
       } 
@@ -392,16 +394,14 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
         return <FamilyInformation ref={childRef} />;
       case 3:
         return (
-          <div>
-            {loading?<Spinner />:
+          
           <TravelPlan
             ref={childRef}
             resMessage={responseMessage}
             isSucces={isSuccess}
             respnseGet={responseAlert}
           />
-            }
-            </div>
+            
         );
       case 4:
         return (
@@ -425,6 +425,8 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     },
   }));
   return (
+    <div>
+            {loading?<Spinner />:
     <div className={classes.root} style={{ marginBottom: '5rem' }}>
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
@@ -484,6 +486,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
         ) : null}
       </div>
     </div>
-  );
+ }
+ </div> );
 });
 export default PersonalInfoStepper;

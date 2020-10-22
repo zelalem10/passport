@@ -27,6 +27,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import Spinner from '../../common/Spinner';
 
 const MyApp = forwardRef((props, ref) => {
+  debugger;
   const { t, i18n } = useTranslation();
   const [state, setState] = useState({ date: new Date(), time: '' });
   const [respone, setResponse] = useState({});
@@ -320,6 +321,7 @@ let da = '';
 
   useEffect(() => {
     if (officeInformation.hasOwnProperty('offceId') && data.appointemntType===2) {
+      debugger;
       axios({
         headers: {
           Authorization: 'Bearer ' + token,
@@ -556,6 +558,7 @@ let da = '';
           console.log('error' + error);
         });
     }else if(data.appointemntType===3 || data.appointemntType===4 ||data.appointemntType===8){
+      debugger;
       if(siteInfo){
 
       
