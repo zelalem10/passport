@@ -72,6 +72,8 @@ const TravelPlan = forwardRef((props, ref) => {
   // if (counter.travelPlan.length === 0) {
   //   dispatch(addTravelPlan(travelPlan));
   // }
+  
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setTravelPlan((prevState) => ({
@@ -99,15 +101,7 @@ const TravelPlan = forwardRef((props, ref) => {
     }));
     dispatch(addTravelPlan(travelPlan))
   };
-  const [selectedtravelDate, setSelectedtravelDate] = React.useState(
-    new Date(prevInfo ? prevInfo.travelDate : new Date())
-  );
-  const [selectedissueDate, setSelectedissueDate] = React.useState(
-    new Date(prevInfo ? prevInfo.issueDate : new Date())
-  );
-  const [selectedexpirationDate, setSelectedexpirationDate] = React.useState(
-    new Date(prevInfo ? prevInfo.expirationDate : new Date())
-  );
+
   const [notifyUser,setNotifyUser]=useState('');
   const handleissueDateChange = (date) => {
     compareDates(date,true);
@@ -163,18 +157,17 @@ const compareDates=(changedDate,isIssue)=>{
   const serviceSelcetion = counter.service[counter.service.length - 1];
   const requestType = serviceSelcetion.appointemntType;
   const requestTypeStr = requestTypeGetter(requestType);
+ 
+  const [selectedissueDate, setSelectedissueDate] = React.useState(
+    prevInfo ? prevInfo.issueDate : new Date()
+  );
+  const [selectedexpirationDate, setSelectedexpirationDate] = React.useState(
+    prevInfo ? prevInfo.expirationDate : new Date()
+  );
   useEffect(() => {
-    // if (counter.travelPlan.length === 0) {
-    //   dispatch(addTravelPlan(travelPlan));
-    // }
-    setNotCompleted({
-      pageQuantity: Number.parseInt(travelPlan.pageQuantity, 10) === 0 ? true : false,
-      passportNumber: travelPlan.passportNumber === '' ? true : false,
-      expirationDate: travelPlan.expirationDate === '' ? true : false,
-      issueDate: travelPlan.issueDate === '' ? true : false,
-      correctionReason: travelPlan.correctionReason === '' ? true : false,
-      passportNumber: travelPlan.passportNumber === '' ? true : false,
-    });
+    if (counter.travelPlan.length === 0) {
+      dispatch(addTravelPlan(travelPlan));
+    }
     setPassportTypeList(JSON.parse(localStorage.PassportPageQuantity))
     if(passportTypeList.length===0){
       API.get(
