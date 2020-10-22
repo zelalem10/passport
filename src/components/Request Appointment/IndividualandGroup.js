@@ -56,11 +56,18 @@ function IndividualandGroup(props) {
                                     </div>
                                 </div>
 
-                                <div class="d-flex mb-3"><div class="pr-2 pl-2 pb-2  align-self-start">
+                                <div class="d-flex "><div class="pr-2 pl-2 pb-2  align-self-start">
                                     <i class="fas fa-check fa-1x"></i>
                                 </div>
                                     <div class="pr-2 pl-2 pb-2  align-self-end">
                                         <Trans>requestAppointment.requestAppointmentList3</Trans>
+                                    </div>
+                                </div>
+                                <div class="d-flex mb-3"><div class="pr-2 pl-2 pb-2  align-self-start">
+                                    <i class="fas fa-check fa-1x"></i>
+                                </div>
+                                    <div class="pr-2 pl-2 pb-2  align-self-end">
+                                        <Trans>Bring your original documents including your passport during collection.</Trans>
                                     </div>
                                 </div>
 

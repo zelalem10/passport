@@ -196,7 +196,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
         };
         console.log(JSON.stringify(requestBody));
         API.post(
-          'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest',
+          'https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest',
           requestBody,
           config
         )
@@ -213,7 +213,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             dispatch(addCommonData(commonData));
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
             dispatch(newRequest(todo.data.serviceResponseList[0]))
-            API.get("https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
+            API.get("https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
               .then((todo) => {
                 dispatch(addPriceInfo(todo.data));
               })
@@ -330,7 +330,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
         };
         console.log(JSON.stringify(requestBody));
         API.post(
-          'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest',
+          'https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest',
           requestBody,
           config
         )
@@ -347,7 +347,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             dispatch(addCommonData(commonData));
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
             dispatch(newRequest(todo.data.serviceResponseList[0]))
-            API.get("https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
+            API.get("https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
               .then((todo) => {
                 dispatch(addPriceInfo(todo.data));
               })
@@ -360,7 +360,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             debugger
             console.log('Body: ', JSON.stringify(requestBody));
             console.log('AXIOS ERROR: ', err.response);
-            if (err.response != null && err.response != "undefined") setResponseMessage(err.response.data.Message);
+            if (err.response != null && err.response != "undefined") setResponseMessage(err.response.data.message);
             else setResponseMessage('something goes wrong!');
             setResponseAlert(true);
           });

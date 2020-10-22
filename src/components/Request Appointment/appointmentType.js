@@ -5,13 +5,15 @@ import addAppointmentType from '../../redux/actions/appointmentType';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
+import Spinner from '../common/Spinner';
 
 function AppointmetType(props) {
     const { t, i18n } = useTranslation();
     const dispatch = useDispatch();
     const counter = useSelector((state) => state);
     const [requestTypes, setRequestTypes] = useState([]);
-    const baseUrl = 'https://epassportservices.azurewebsites.net/';
+    const [loading, setloading] = useState(true);
+    const baseUrl = 'https://epassportservicesaddt.azurewebsites.net/';
     const tokenValue = () => {
         const UserToken = localStorage.userToken;
 
@@ -32,13 +34,13 @@ function AppointmetType(props) {
             url: baseUrl + '/Master/api/V1.0/OfficeRequestType/GetAllRequestTypes',
         })
             .then(async (response) => {
-                debugger;
                 dispatch(addAppointmentType(response.data.requestTypes));
                 setRequestTypes(response.data.requestTypes);
+                setloading(false);
             })
             .catch((error) => {
-                debugger;
                 console.log('error' + error.response);
+                setloading(false);
             });
     }, []);
     const continueTo = (e) => {
@@ -52,7 +54,9 @@ function AppointmetType(props) {
     const { handleAppointmentType, handleIsUrgent } = props;
     const { isItGroup } = props;
     const { values } = props;
-    return (
+    return (<div>{loading ? (
+        <Spinner />
+      ) : (
         <MDBContainer
             className="passport-container pt-3"
             id="request-an-appointment"
@@ -153,6 +157,6 @@ function AppointmetType(props) {
                 </app-right-content>
             </MDBRow>
         </MDBContainer>
-    );
+    )}</div> );
 }
 export default AppointmetType;

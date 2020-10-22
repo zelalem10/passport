@@ -112,7 +112,7 @@ const PaymentSelection = forwardRef((props, ref) => {
           requestId: requestId,
         };
         setloading(true);
-        API.post("https://epassportservices.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
+        API.post("https://epassportservicesaddt.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
           .then((resopnse) => {
             dispatch(addPaymentOptionId(resopnse.data));
             history.push('/InstructionPage')

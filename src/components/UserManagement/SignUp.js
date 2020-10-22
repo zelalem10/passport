@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { Link } from 'react-router-dom';
 
 import {
   MDBContainer,
@@ -14,6 +13,8 @@ import {
   MDBIcon,
 } from 'mdbreact';
 import { Translation, useTranslation, Trans, withTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+
 import { withRouter } from 'react-router-dom';
 const Errorstyle = {
   marginTop: '-2rem',
@@ -91,11 +92,11 @@ class SignUp extends Component {
       firstNameError = 'First name is required.';
     }
     if (!this.state.personRequest.middleName) {
-      MiddleNameError = 'Middle Name is required.';
+      MiddleNameError = 'Father Name is required.';
     }
 
     if (!this.state.personRequest.lastName) {
-      lastNameError = 'Last Name is required.';
+      lastNameError = 'Grand Father Name is required.';
     }
     if (!this.state.personRequest.phoneNumber) {
       phoneNumberError = 'Phone Number is required.';
@@ -162,7 +163,7 @@ class SignUp extends Component {
         headers: { Authorization: `Bearer ` + accesstoken },
         method: 'post',
         url:
-          'https://epassportservices.azurewebsites.net/api/Register/V1.0/UserRegistration/RegisterUser',
+          'https://epassportservicesaddt.azurewebsites.net/api/Register/V1.0/UserRegistration/RegisterUser',
         data: this.state,
       })
         .then((Response) => {
@@ -396,7 +397,11 @@ class SignUp extends Component {
                       <div class="col-md-6">
                         <ReCAPTCHA
                           class="my-2"
-                          sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
+                          //prod
+                          // sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
+
+                          //local
+                          sitekey="6Ld1odEZAAAAAC_M4JbsRXzapA5aSZXUd5ukXuBV"
                           onChange={this.verifyCaptcha}
                           onExpired={this.expireCaptcha}
                         />

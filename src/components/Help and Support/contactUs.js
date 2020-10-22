@@ -36,7 +36,7 @@ const ContactUs = (props) => {
     } else firstNameError = '';
 
     if (!lastName) {
-      lastNameError = 'Last Name is required.';
+      lastNameError = 'Grand Father Name is required.';
     } else lastNameError = '';
 
     if (!phoneNumber) {
@@ -82,7 +82,7 @@ const ContactUs = (props) => {
         headers: { Authorization: `Bearer ` + accesstoken },
         method: 'post',
         url:
-          'https://epassportservices.azurewebsites.net/Transactional/api/V1.0/Feedback/Create',
+          'https://epassportservicesaddt.azurewebsites.net/Transactional/api/V1.0/Feedback/Create',
         data: {
           firstName: firstName,
           lastName: lastName,
@@ -125,8 +125,8 @@ const ContactUs = (props) => {
                   <p>
                   <Trans>contactUs.getInTouchDescription</Trans>
                   </p>
-                  <h4> <Trans>contactUs.addressTitle</Trans></h4>
-                  <p> <Trans>contactUs.address</Trans></p>
+                  {/* <h4> <Trans>contactUs.addressTitle</Trans></h4>
+                  <p> <Trans>contactUs.address</Trans></p> */}
                   <h4><Trans>contactUs.EmailTitle</Trans></h4>
                   <a href="mailto:support@ethiopianpassportservices.gov.et"><Trans>contactUs.Email</Trans></a>
                   <h4><Trans>contactUs.phoneTitle</Trans></h4>

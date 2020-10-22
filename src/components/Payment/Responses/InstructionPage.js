@@ -61,9 +61,9 @@ function InstructionPage() {
           </p>
           <div class="alert alert-danger my-4 p-3" role="alert">
               <h6 class=" m3-5">     
-               N.B : Please ensure that you make the extract payment After 3 (Three) days after making passport request order. 
+               N.B : Please ensure that you make the extract payment within 2 hours after making the request order. 
                {/* If you do not get your request order in 2 days after marking payment, please contact by using this email address. */}
-               please contact us by using this email address.
+               If you do not get any SMS or email confirmation in 2 hours after marking the payment, please contact us by this email address: 
                <a href="mailto:support@ethiopianpassportservices.gov.et">
             <strong>
              support@ethiopianpassportservices.gov.et
@@ -90,7 +90,13 @@ function InstructionPage() {
                       </div><span class="text-muted"> 
                       {personalInformation? personalInformation.firstName : null}
                       </span></li>
-                    <li class="list-group-item d-flex justify-content-between lh-condensed"><div><h6 class="my-0">Last Name</h6>
+                      <li class="list-group-item d-flex justify-content-between lh-condensed">
+                      <div>
+                        <h6 class="my-0">Father Name</h6>
+                      </div><span class="text-muted"> 
+                      {personalInformation? personalInformation.middleName : null}
+                      </span></li>
+                    <li class="list-group-item d-flex justify-content-between lh-condensed"><div><h6 class="my-0">Grand Father Name</h6>
                     </div>
                       <span class="text-muted"> {personalInformation? personalInformation.lastName : null}</span></li>
 
@@ -104,14 +110,14 @@ function InstructionPage() {
                     </li>
 
                     <li class="list-group-item d-flex justify-content-between">
-                      <h6>Appointment Date</h6>
-                      <strong>{appointmentInformation? appointmentInformation.date:null}</strong>
+                      <h6>{personRequestdata.type==='New'? 'Appointment':'Delivery'} Date</h6>
+                      <strong>{personRequestdata?(personRequestdata.type==='New'?(appointmentInformation?(appointmentInformation.date):null):personalInformation?personalInformation.deliveryAppointment:null):null}</strong>
                     </li>
                  
-                    <li class="list-group-item d-flex justify-content-between">
+                   {personRequestdata.type==='New'? <li class="list-group-item d-flex justify-content-between">
                       <h6>Appointment Time</h6>
                       <strong>{appointmentInformation? appointmentInformation.duration.startTime + '-' + appointmentInformation.duration.endTime:null}</strong>
-                    </li>
+                    </li>:null}
                   </ul>
               <ul class="list-group mb-3">
                 <li class="list-group-item ePassprt-color"><h5>Pricing Information</h5></li>

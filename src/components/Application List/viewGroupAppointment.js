@@ -158,7 +158,7 @@ export default function ViewGroupAppointment(props) {
                   </div>
                   <div class="form-group form-inline">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Last Name
+                      Grand Father Name
                     </label>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
@@ -169,7 +169,7 @@ export default function ViewGroupAppointment(props) {
                   </div>
                   <div class="form-group form-inline">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Middle Name
+                      Father Name
                     </label>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
@@ -249,15 +249,7 @@ export default function ViewGroupAppointment(props) {
                       </label>
                     </b>
                   </div>
-                  <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Half Cast
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">{person.halfCast}</label>
-                    </b>
-                  </div>
+                  
                   <div class="form-group form-inline">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                       Enrollment Date

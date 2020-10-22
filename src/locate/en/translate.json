@@ -142,8 +142,8 @@
       "passportInfo": "Passport info",
       "attachment": "Attachment",
       "firstname": "First Name",
-      "middleName": "Middle Name",
-      "lastName": "Last Name",
+      "middleName": "Father Name",
+      "lastName": "Grand Father Name",
       "amharicFirstname": "ስም (In Amharic)",
       "amharicMiddleName": "የአባት ስም (In Amharic)",
       "amharicLastName": "የአያት ስም (In Amharic)",
@@ -352,7 +352,7 @@
 
       "formTitle": "Please fill out this form to contact us",
       "firstName": "First Name",
-      "lastName": "Last Name",
+      "lastName": "Grand Father Name",
       "phoneNumber": "Phone Number",
       "email": "Your e-mail",
       "remark": "Please write your message here",
@@ -375,7 +375,7 @@
     "register": {
       "title": "Register",
       "password": "Password",
-      "comfirmPassword": "Comfirm Passwor",
+      "comfirmPassword": "Comfirm Password",
       "signUp": "Sign Up",
       "logIn": "Log In ",
       "alreadyRegistered": "If already registered?",

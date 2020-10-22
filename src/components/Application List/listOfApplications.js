@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MDBRow, MDBContainer, MDBCol, MDBTooltip } from 'mdbreact';
+import { MDBRow, MDBContainer, MDBCol, MDBTooltip, MDBBadge } from 'mdbreact';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -198,7 +198,19 @@ export default function ListOfApplications(props) {
                   </MDBRow>
                 </MDBContainer>
               ))
-            : null}
+            : 
+            <div class='container'>
+             <div id="attachmentmargin">
+            <div class="col-12 text-center">
+            <span class="badge badge-primary p-3 text-center">             
+            <h6>No requested application found.</h6>
+            </span>
+
+            </div>
+            </div>
+            </div>
+           
+         }
         </div>
       )}
     </div>

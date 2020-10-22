@@ -290,7 +290,7 @@ const PersonalInfo = forwardRef((props, ref) => {
       }
       if (personalInfo.nationalityId=== 0) {
         API.get(
-          'https://epassportservices.azurewebsites.net/Master/api/V1.0/Nationality/GetAll',
+          'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Nationality/GetAll',
           config
         )
           .then((todo) => {
@@ -341,7 +341,7 @@ const PersonalInfo = forwardRef((props, ref) => {
       setOccupationList(JSON.parse(localStorage.occupations));
       if (occupationList.length === 0) {
         API.get(
-          'https://epassportservices.azurewebsites.net/Master/api/V1.0/Occupation/GetAll',
+          'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Occupation/GetAll',
           config
         )
           .then((todo) => {
@@ -381,13 +381,13 @@ const PersonalInfo = forwardRef((props, ref) => {
                   name="middleName"
                   onBlur={handleChange}
                   type="text"
-                  label="Middle name"
+                  label="Father Name"
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.middleName == true &&
                     personalInfo.dataSaved == true
-                    ? 'Middle name ' + isRequired
+                    ? 'Father Name ' + isRequired
                     : null}
                 </span>
               </MDBCol>
@@ -397,13 +397,13 @@ const PersonalInfo = forwardRef((props, ref) => {
                   name="lastName"
                   onBlur={handleChange}
                   type="text"
-                  label="Last name"
+                  label="Grand Father Name"
                 />
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.lastName == true &&
                     personalInfo.dataSaved == true
-                    ? 'Last name ' + isRequired
+                    ? 'Grand Father Name ' + isRequired
                     : null}
                 </span>
               </MDBCol>

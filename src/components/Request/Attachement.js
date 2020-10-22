@@ -48,7 +48,7 @@ const Fileupload = forwardRef((props, ref) => {
       headers: { Authorization: 'Bearer ' + accesstoken },
       method: 'get',
       url:
-        'https://epassportservices.azurewebsites.net/Master/api/V1.0/Attachement/GetRequiredAttachementsByPersonRequest',
+        'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Attachement/GetRequiredAttachementsByPersonRequest',
       params: {
         requestPersonId: requestPersonId,
       },
@@ -158,7 +158,7 @@ const Fileupload = forwardRef((props, ref) => {
         console.log(files[key]);
       }
       const url =
-        'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadAttachment';
+        'https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadAttachment';
 
       const config = {
         headers: {
@@ -202,7 +202,7 @@ const Fileupload = forwardRef((props, ref) => {
   for (let i = 0; i < requiredFile; i++) {
     inputs.push(
       <div class="row my-5" id="attachmentmargin">
-        <div class="col-lg-5 passport-text-right">
+        <div class="col-lg-6 passport-text-right">
           <MDBBadge color="primary smallPadding ">
             {' '}
             {attachmentNames[i]}{' '}

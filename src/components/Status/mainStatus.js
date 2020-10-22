@@ -9,6 +9,7 @@ import ViewAppointment from './viewAppointment';
 import HorizontalLabelPositionBelowStepper from './EditApplicationList/PersonslInfoStepper';
 import RescheduleAppointment from './Rescheduleappointment/appointmentDate';
 import GetContent from '../UrgentAppointment/Payment/PaymentSelection';
+import Spinner from '../common/Spinner';
 
 const Errorstyle = {
   fontSize: '1.2rem',
@@ -110,11 +111,10 @@ const MainStatus = () => {
         debugger;
         axios
           .get(
-            `https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/GetRequestsByApplicationNumber?applicationNumber=${ApplicationNumber}`,
+            `https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/GetRequestsByApplicationNumber?applicationNumber=${ApplicationNumber}`,
             config
           )
           .then((response) => {
-            debugger;
             setApplicationNumberData(response.data.serviceRequest);
             setAllError('');
             if (response.data.status !== 0) {
@@ -132,7 +132,7 @@ const MainStatus = () => {
       } else if (ConfirmationNumber) {
         axios
           .get(
-            `https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/GetRequestsByConfirmationNumber?confirmationNumber=${ConfirmationNumber}`,
+            `https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/GetRequestsByConfirmationNumber?confirmationNumber=${ConfirmationNumber}`,
             config
           )
           .then((response) => {
@@ -187,7 +187,8 @@ const MainStatus = () => {
       />
     );
   } else {
-    return (
+    return (<div>
+      {loading?<Spinner />:
       <Status
         ApplicationNumberData={ApplicationNumberData}
         ShowForm={ShowForm}
@@ -210,7 +211,8 @@ const MainStatus = () => {
         handleEdit={handleEdit}
         handleReschedule={handleReschedule}
         handlePayment={handlePayment}
-      />
+      />}
+      </div>
     );
   }
 };
