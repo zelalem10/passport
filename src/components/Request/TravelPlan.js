@@ -134,14 +134,14 @@ const compareDates=(changedDate,isIssue)=>{
     // To calculate the time difference of two dates 
     let Difference_In_Time='';
     if(isIssue){
-     Difference_In_Time  = selectedexpirationDate.getTime() - changedDate.getTime();
+     Difference_In_Time  = (changedDate.getTime()+ 157784760000)-selectedexpirationDate.getTime() ;
     }else{
-      Difference_In_Time  = changedDate.getTime() - selectedissueDate.getTime();
+      Difference_In_Time  =  (selectedissueDate.getTime() + 157784760000)-changedDate.getTime();
     }
  
- let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24); 
+ let Difference_In_Days = Difference_In_Time  / (1000 * 3600 * 24); 
  if(Difference_In_Days>182.5){
-   setNotifyUser('You may pay an extra payment');
+   setNotifyUser('Your Passport is not expired you may required to pay an extra payment!');
  }else{setNotifyUser('');}
  
  }
