@@ -59,7 +59,13 @@ export default function ViewAppointment(props) {
   const data = useSelector((state) => state);
   const appList = data.applicationList[data.applicationList.length - 1];
   let displayedApplication = {};
-
+  const dateFormatter=(date)=>{
+    let selectDays = new Date(date);
+    let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(selectDays);
+   let mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(selectDays);
+   let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(selectDays);
+   return (`${mo} ${da}, ${ye}`);
+   }
   const tokenValue = () => {
     const UserToken = localStorage.userToken;
 
@@ -192,9 +198,7 @@ export default function ViewAppointment(props) {
               &nbsp;&nbsp;&nbsp;&nbsp;
               <b>
                 <label class="font-weight-bold">
-                  {new Date(displayedApplication.requestDate)
-                    .toISOString()
-                    .substr(0, 10)}
+                  {dateFormatter(displayedApplication.requestDate)}
                 </label>
               </b>
             </div>
@@ -206,7 +210,7 @@ export default function ViewAppointment(props) {
               <b>
                 <label class="font-weight-bold">
                   {displayedApplication.appointmentResponse
-                    ? displayedApplication.appointmentResponse.date
+                    ? dateFormatter(displayedApplication.appointmentResponse.date)
                     : null}
                 </label>
               </b>
@@ -310,9 +314,8 @@ export default function ViewAppointment(props) {
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {new Date(personalInformation.dateOfBirth)
-                        .toISOString()
-                        .substr(0, 10)}
+                    {dateFormatter(personalInformation.dateOfBirth)}
+                      
                     </label>
                   </b>
                 </div>

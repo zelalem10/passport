@@ -71,7 +71,13 @@ const ViewAppointment = forwardRef((props, ref) => {
   const requestMode = serviceData.isUrgent;
 let requests=data.request;
 
-
+const dateFormatter=(date)=>{
+ let selectDays = new Date(date);
+ let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(selectDays);
+let mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(selectDays);
+let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(selectDays);
+return (`${mo} ${da}, ${ye}`);
+}
 
 
 let attachementResponse =  data.attachement[data.attachement.length - 1];
@@ -162,9 +168,8 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {new Date(requests[0].requestDate)
-                        .toISOString()
-                        .substr(0, 10)}
+                    
+                      {dateFormatter(requests[0].requestDate)}
                     </label>
                   </b>
                 </div>
@@ -175,7 +180,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {appointmentResponse ? appointmentResponse.date :personalInformation?personalInformation.deliveryAppointment:null}
+                      {appointmentResponse ? dateFormatter(appointmentResponse.date) :personalInformation?dateFormatter(personalInformation.deliveryAppointment):null}
                     </label>
                   </b>
                 </div>
@@ -323,9 +328,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {new Date(personalInformation.dateOfBirth)
-                            .toISOString()
-                            .substr(0, 10)}
+                          {dateFormatter(personalInformation.dateOfBirth)}
                         </label>
                       </b>
                     </div>

@@ -57,14 +57,13 @@ const PersonalInfo = forwardRef((props, ref) => {
     geezMiddleName: personalInformation.geezMiddleName,
     geezLastName: personalInformation.geezLastName,
     birthPlace: personalInformation.birthPlace,
-    dateOfBirth: personalInformation.dateOfBirth,
+    dateOfBirth: new Date(personalInformation.dateOfBirth),
     gender: personalInformation.gender,
     height: personalInformation.height,
     eyeColor: personalInformation.eyeColor,
     hairColor: personalInformation.hairColor,
     communicationMethod: personalInformation.communicationMethod,
     occupationId: personalInformation.occupationId,
-    isHalfCast: personalInformation.isHalfCast,
     nationalityId: personalInformation.nationalityId,
     maritalStatusEnum: personalInformation.passportRes.maritalStatusEnum,
     isUnder18: personalInformation.isUnder18,
@@ -93,7 +92,6 @@ const PersonalInfo = forwardRef((props, ref) => {
     eyeColor: personalInformation.eyeColor ? false : true,
     hairColor: personalInformation.hairColor ? false : true,
     occupationId: personalInformation.occupationId ? false : true,
-    isHalfCast: personalInformation.isHalfCast ? false : true,
     isUnder18: personalInformation.isUnder18 ? false : true,
     isAdoption: personalInformation.isAdoption ? false : true,
     nationalityId: personalInformation.nationalityId ? false : true,
@@ -192,7 +190,6 @@ const PersonalInfo = forwardRef((props, ref) => {
         eyeColor: prevInfo.eyeColor,
         hairColor: prevInfo.hairColor,
         occupationId: prevInfo.occupationId,
-        isHalfCast: prevInfo.isHalfCast,
         isAdoption: prevInfo.isAdoption,
         isUnder18: prevInfo.isUnder18,
         nationalityId: prevInfo.nationalityId,
@@ -221,7 +218,6 @@ const PersonalInfo = forwardRef((props, ref) => {
         eyeColor: personalInfo.eyeColor ? false : true,
         hairColor: personalInfo.hairColor ? false : true,
         occupationId: personalInfo.occupationId && personalInfo.occupationId !== 0 ? false : true,
-        isHalfCast: personalInfo.isHalfCast,
         isUnder18: personalInfo.isUnder18,
         isAdoption: personalInfo.isAdoption,
         nationalityId:personalInfo.nationalityId && personalInfo.nationalityId !== 0 ? false : true,
@@ -766,25 +762,7 @@ const PersonalInfo = forwardRef((props, ref) => {
           </MDBCol>
         </MDBRow>
         <MDBRow>
-          <MDBCol md="3">
-            <MDBCol>
-              <div class="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  defaultChecked={prevInfo ? prevInfo.isHalfCast : false}
-                  name="isHalfCast"
-                  id="isHalfCast"
-                  onChange={(e) =>
-                    handleCheck('isHalfCast', e.target.checked)
-                  }
-                />
-                <label class="custom-control-label" for="isHalfCast">
-                  Is Halfcast
-                </label>
-              </div>
-            </MDBCol>
-          </MDBCol>
+        
           <MDBCol md="3">
             <MDBCol>
               <div class="custom-control custom-checkbox">
