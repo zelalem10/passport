@@ -86,7 +86,7 @@ const PersonalInfo = forwardRef((props, ref) => {
     geezMiddleName: personalInformation.geezMiddleName,
     geezLastName: personalInformation.geezLastName,
     birthPlace: personalInformation.birthPlace,
-    dateOfBirth: new Date(personalInformation.dateOfBirth),
+    dateOfBirth: personalInformation.dateOfBirth?new Date(personalInformation.dateOfBirth):new Date(),
     gender: personalInformation.gender,
     height: personalInformation.height,
     eyeColor: personalInformation.eyeColor,
@@ -293,7 +293,7 @@ const [isEmailValid,setIsEmailValid]=useState(true);
       }
     }, []);
   const [selectedDate, setSelectedDate] = React.useState(
-    new Date(prevInfo ? prevInfo.dateOfBirth : new Date())
+    new Date(prevInfo ?(prevInfo.dateOfBirth?prevInfo.dateOfBirth:personalInformation.dateOfBirth) : new Date())
   );
 
   const handleDateChange = (date) => {
@@ -615,12 +615,16 @@ const [isEmailValid,setIsEmailValid]=useState(true);
                   name="maritalStatusEnum"
                   onChange={handleChange}
                   className="browser-default custom-select"
-                  defaultValue={prevInfo ? prevInfo.maritalStatusEnum?prevInfo.maritalStatusEnum:prevInfo.maritalStatusEnum==0?0:9 : 9}
+                  defaultValue={prevInfo ?
+                     (prevInfo.maritalStatusEnum && typeof(prevInfo.maritalStatusEnum)=='undefined' ?(prevInfo.maritalStatusEnum==0?prevInfo.maritalStatusEnum:0)
+                     :9
+                      ): 
+                      9}
                 >
-                  <option value="9">Choose Marital Status</option>
-                  <option value="0" >Single</option>
-                  <option value="1" >Married</option>
-                  <option value="2" >Divorced</option>
+                  <option value="9" selected={prevInfo.maritalStatusEnum==9}>Choose Marital Status</option>
+                  <option value="0" selected={prevInfo.maritalStatusEnum==0}>Single</option>
+                  <option value="1" selected={prevInfo.maritalStatusEnum==1}>Married</option>
+                  <option value="2" selected={prevInfo.maritalStatusEnum==2}>Divorced</option>
                 </select>
               </div>
               <span style={{ color: 'red' }}>
@@ -652,7 +656,7 @@ const [isEmailValid,setIsEmailValid]=useState(true);
                 >
                   <option value='0' >select Occupation</option>
                   {occupationList.map((occupation) => (
-                    <option value={occupation.id}>{occupation.title}</option>
+                    <option value={occupation.id} selected={occupation.id==prevInfo.occupationId?true:false }>{occupation.title}</option>
                   ))}
                 </select>
               </div>
