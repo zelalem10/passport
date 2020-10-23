@@ -102,7 +102,7 @@ const PersonalInfo = forwardRef((props, ref) => {
     dataSaved: false,
     formCompleted: false,
   });
-
+const [isEmailValid,setIsEmailValid]=useState(true);
   const [notCompleted, setNotCompleted] = useState({
   
     firstName: personalInformation.firstName ? false : true,
@@ -145,7 +145,6 @@ const PersonalInfo = forwardRef((props, ref) => {
       dispatch(addPersonalInfo(personalInfo));
     },
     Validate() {
-      debugger;
       if (
         notCompleted.firstName === true ||
         notCompleted.lastName === true ||
@@ -177,31 +176,6 @@ const PersonalInfo = forwardRef((props, ref) => {
       [name]: checked,
     }));
   };
-
-  const handleChange = (event) => {
-  
-    const { name, value } = event.target;
-    if(name==='email'){
-      validateEmail(value);
-    }
-    setPersonalInfo((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-
-    if (value != '') {
-      setNotCompleted((prevState) => ({
-        ...prevState,
-        [name]: false,
-      }));
-    }
-    else{
-      setNotCompleted((prevState) => ({
-        ...prevState,
-        [name]: true,
-      }));
-    }
-  };
   var prevInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
   if (prevInfo !== null && typeof prevInfo !== 'undefined') {
     if (personalInfo.formCompleted === false) {
@@ -231,6 +205,53 @@ const PersonalInfo = forwardRef((props, ref) => {
       }));
     }
   }
+  const validateEmail=(email)=>{
+    let isCorrectEmail= new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(email);
+    if(email.length!==0){
+    if(isCorrectEmail){
+      setEmailErrorMessage('');
+    }else{
+      setEmailErrorMessage('Please enter valid email address')
+    }
+  }
+    if(prevInfo?prevInfo.email.length===0:true){
+      setEmailErrorMessage('');
+    }
+   }
+  
+  const handleChange = (event) => {
+  debugger;
+    const { name, value } = event.target;
+    
+    setPersonalInfo((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    if(name==='email'){
+      if(value.length===0 || value==''){
+        setIsEmailValid(true);
+      }else{
+    let emailChecker = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(value);
+    setIsEmailValid(emailChecker);
+  }
+    }else{
+    setNotCompleted((prevState) => ({
+      ...prevState,
+      [name]: false,
+    }));
+  }
+    if (value != '') {
+      
+    }
+    else{
+      
+      setNotCompleted((prevState) => ({
+        ...prevState,
+        [name]: true,
+      }));
+    }
+  };
+  
  
     useEffect(() => {
       debugger;
@@ -795,10 +816,8 @@ const PersonalInfo = forwardRef((props, ref) => {
               />
               <span style={{ color: 'red' }}>
                 {' '}
-                {notCompleted.email === false &&
-                isEmail(personalInfo.email) === false &&
-                personalInfo.dataSaved == true
-                  ? 'Please insert the correct email format'
+                {!isEmailValid
+                  ? 'Please enter valid email address'
                   : null}
               </span>
             </MDBCol>
