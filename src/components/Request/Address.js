@@ -226,7 +226,7 @@ const Address = forwardRef((props, ref) => {
 
     if (regionList.length === 0) {
 
-      API.get('https://epassportservices.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
+      API.get('https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
 
         .then((todo) => {
 
@@ -379,26 +379,17 @@ const Address = forwardRef((props, ref) => {
           </MDBRow>
 
           <MDBRow>
-
-            <MDBCol md="3">
-
-              <MDBInput
-
-                valueDefault={prevInfo ? prevInfo.woreda : null}
-
-                name="woreda"
-
-                className="form-control"
-
-                onBlur={handleChange}
-
-                type="text"
-
-                label={t('requestForm.zone')}
-
-              />
-
-            </MDBCol>
+            
+          <MDBCol md="3">
+                <MDBInput
+                  valueDefault={prevInfo ? prevInfo.woreda : null}
+                  name="woreda"
+                  className="form-control"
+                  onBlur={handleChange}
+                  type="text"
+                  label="Woreda"
+                />
+              </MDBCol>
 
             <MDBCol md="3">
 
@@ -484,25 +475,6 @@ const Address = forwardRef((props, ref) => {
 
             </MDBCol>
 
-            <MDBCol md="3">
-
-              <MDBInput
-
-                valueDefault={prevInfo ? prevInfo.requestPlace : null}
-
-                name="requestPlace"
-
-                className="form-control"
-
-                onBlur={handleChange}
-
-                type="text"
-
-                label={t('requestForm.poBox')}
-
-              />
-
-            </MDBCol>
 
           </MDBRow>
 

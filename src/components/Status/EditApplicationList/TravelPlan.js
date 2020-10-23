@@ -92,7 +92,7 @@ const dispatch = useDispatch();
     setPassportTypeList(JSON.parse(localStorage.PassportPageQuantity))
     if(passportTypeList.length===0){
       API.get(
-        'https://epassportservices.azurewebsites.net/Master/api/V1.0/PassportPage/GetAll',
+        'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/PassportPage/GetAll',
         config
       )
         .then((todo) => {
@@ -182,7 +182,7 @@ const dispatch = useDispatch();
                     className="browser-default custom-select"
                     defaultValue={prevInfo ? prevInfo.passportPageId : 0}
                   >
-                    <option disabled>Select Passport Page</option>
+                    <option >Select Passport Page</option>
                     {passportTypeList.map((passportType) => (
                       <option value={passportType.id}>{passportType.passportPage}</option>
                     ))}

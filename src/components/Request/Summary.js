@@ -175,11 +175,11 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {appointmentResponse ? appointmentResponse.date : null}
+                      {appointmentResponse ? appointmentResponse.date :personalInformation?personalInformation.deliveryAppointment:null}
                     </label>
                   </b>
                 </div>
-                {appointmentResponse?appointmentResponse.duration ? (
+                {appointmentResponse ?appointmentResponse.duration ? (
                   <div class="form-group form-inline passport-display">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                     {requests[0].type==='New'?'Appointment':'Delivery'} Time:{' '}
@@ -261,7 +261,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                     </div>
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        Last Name
+                      Father Name
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
@@ -272,7 +272,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                     </div>
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                        Middle Name
+                      Grand Father Name
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
@@ -420,17 +420,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                     </div>
                     
 
-                    <div class="form-group form-inline">
-                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Is HalfCast
-                      </label>
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                      <b>
-                        <label class="font-weight-bold">
-                          {personalInformation.isHalfCast?'True':'False'}
-                        </label>
-                      </b>
-                    </div>
+                    
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                       Is Adoption
@@ -438,7 +428,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {personalInformation.isAdoption?'True':'False'}
+                          {personalInformation.isAdoption?'YES':'NO'}
                         </label>
                       </b>
                     </div>
@@ -449,7 +439,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
                         <label class="font-weight-bold">
-                          {personalInformation.isUnder18?'True':'False'}
+                          {personalInformation.isUnder18?'YES':'NO'}
                         </label>
                       </b>
                     </div>

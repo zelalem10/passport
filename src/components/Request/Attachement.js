@@ -48,7 +48,7 @@ const Fileupload = forwardRef((props, ref) => {
       headers: { Authorization: 'Bearer ' + accesstoken },
       method: 'get',
       url:
-        'https://epassportservices.azurewebsites.net/Master/api/V1.0/Attachement/GetRequiredAttachementsByPersonRequest',
+        'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Attachement/GetRequiredAttachementsByPersonRequest',
       params: {
         requestPersonId: requestPersonId,
       },
@@ -155,10 +155,11 @@ const Fileupload = forwardRef((props, ref) => {
         formData.append('personRequestId', requestPersonId);
         formData.append(key, files[key]);
         console.log(key);
+        console.log(requestPersonId);
         console.log(files[key]);
       }
       const url =
-        'https://epassportservices.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadAttachment';
+        'https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/RequestAttachments/UploadAttachment';
 
       const config = {
         headers: {
@@ -176,8 +177,10 @@ const Fileupload = forwardRef((props, ref) => {
         props.showBack();
         props.VerticalNext();
       } catch (error) {
+        debugger;
         console.log('error' + error.message);
-        setserverErrorMessage(error.data.message)
+        const errorMessage = error.response.data.Message
+        setserverErrorMessage(errorMessage) 
         setloading(false);
         //props.showBack();
       }
@@ -202,7 +205,7 @@ const Fileupload = forwardRef((props, ref) => {
   for (let i = 0; i < requiredFile; i++) {
     inputs.push(
       <div class="row my-5" id="attachmentmargin">
-        <div class="col-lg-5 passport-text-right">
+        <div class="col-lg-6 passport-text-right">
           <MDBBadge color="primary smallPadding ">
             {' '}
             {attachmentNames[i]}{' '}
@@ -261,10 +264,13 @@ const Fileupload = forwardRef((props, ref) => {
                     ))
                   : null}
 
-                  {
-                  serverErrorMessage?
-                  serverErrorMessage : null
-                  }
+                    { 
+                    serverErrorMessage? 
+                    <h5 class="text-danger text-center">
+                      {serverErrorMessage}
+                    </h5> : null
+                    }
+
               </div>
             </div>
 

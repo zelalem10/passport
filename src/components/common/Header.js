@@ -196,11 +196,11 @@ const NavbarPage = (props) => {
         <MDBCollapse id="navbarCollapse3" isOpen={navOpen} navbar>
           <MDBContainer className="passport-container" fluid>
             <MDBNavbarNav className="d-flex " left>
-              {/* <MDBNavItem className={navPath == '/' ? 'active' : ''}>
+              <MDBNavItem className={navPath == '/' ? 'active' : ''}>
                 <MDBNavLink to="/" activeClassName="active">
                   Home
                 </MDBNavLink>
-              </MDBNavItem> */}
+              </MDBNavItem>
               <MDBNavItem
                 className={navPath == '/request-appointment' ? 'active' : ''}
               >

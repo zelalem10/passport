@@ -21,6 +21,7 @@ import addCommonData from '../../redux/actions/addCommonDataAction';
 import newRequest from '../../redux/actions/addNewRequestAction';
 import API from '../Utils/API';
 import addPriceInfo from '../../redux/actions/priceInfoAction';
+import Spinner from '../common/Spinner';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -53,6 +54,8 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
   const [isUploading, setIsUploading] = useState(false);
   const [responseMessage, setResponseMessage] = useState('');
   const [response, setResponse] = useState({});
+  const [personId, setPersonId] = useState(0);
+  const [loading, setloading] = useState(false);
 
   const steps = getSteps();
   const dispatch = useDispatch();
@@ -86,151 +89,290 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     setActiveStep(0);
   };
   const handleSubmit = () => {
+    setloading(true);
     const travelPlan= childRef.current.saveData();
+    
     const isVilid = childRef.current.Validate();
     if (isVilid) {
-      let personalInfo =
-        counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
+      let personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
       let addressInfo = counter.address[counter.address.length - 1];
       let familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
-      //let travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
-      let appointment =
-        counter.appointmentDate[counter.appointmentDate.length - 1];
-      let siteInfo =
-        counter.siteInformation[counter.siteInformation.length - 1];
+      let appointment = counter.appointmentDate[counter.appointmentDate.length - 1];
+      let siteInfo = counter.siteInformation[counter.siteInformation.length - 1];
       let serviceInfo = counter.service[counter.service.length - 1];
       let replacementReason = counter.replacment[counter.replacment.length - 1];
       const requestInfo = counter.request[counter.request.length - 1];
-      debugger;
-      const requestBody = {
-        requestId: requestInfo ? Number.parseInt(requestInfo.requestId) : 0,
-        requestMode: serviceInfo && serviceInfo.isUrgent === true ? 1 : 0,
-        officeId: siteInfo ? Number.parseInt(siteInfo.offceId, 10) : 0,
-        deliverySiteId: siteInfo
-          ? Number.parseInt(siteInfo.deliverySiteId, 10)
-          : 0,
-        requestTypeId: serviceInfo
-          ? Number.parseInt(serviceInfo.appointemntType, 10)
-          : 0,
-        appointmentIds: appointment ? [appointment[0].id] : [],
-        userName: localStorage.logedInUsedData?JSON.parse(localStorage.logedInUsedData).username:'',
-        status: 0,
-        confirmationNumber: '',
-        applicants: [
-          {
-            personId: 0,
-            firstName: personalInfo
-              ? personalInfo.firstName.toUpperCase()
-              : null,
-            middleName: personalInfo
-              ? personalInfo.middleName.toUpperCase()
-              : null,
-            lastName: personalInfo ? personalInfo.lastName.toUpperCase() : null,
-            geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
-            geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
-            geezLastName: personalInfo ? personalInfo.geezLastName : null,
-            dateOfBirth: personalInfo ? personalInfo.birthDate : null,
-            gender: personalInfo
-              ? Number.parseInt(personalInfo.gender, 10)
-              : null,
-            nationalityId: personalInfo
-              ? Number.parseInt(personalInfo.nationalityId, 10)
-              : null,
-            height: personalInfo ? personalInfo.height : null,
-            eyeColor: personalInfo ? personalInfo.eyeColor : null,
-            hairColor: personalInfo ? personalInfo.hairColor : null,
-            occupationId: personalInfo
-              ? Number.parseInt(personalInfo.occupationId, 10)
-              : null,
-            halfCast: personalInfo ? personalInfo.halfCast : null,
-            enrolmentDate: personalInfo ? personalInfo.birthDate : null,
-            birthCertificateId: personalInfo
-              ? personalInfo.birthCertificatNo
-              : '',
-            photoPath: '',
-            employeeID: '',
-            applicationNumber: '',
-            organizationID: '',
-            isUnder18: personalInfo ? personalInfo.isUnder18 : false,
-            isAdoption: personalInfo ? personalInfo.isAdoption : false,
-            passportNumber: travelPlan ? travelPlan.passportNumber : null,
-            issueDate: new Date(),
-            expireDate: new Date(),
-            passportType: travelPlan ? travelPlan.passportType : null,
-            isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
-            passportPageId: travelPlan
-              ? Number.parseInt(travelPlan.pageQuantity, 10)
-              : 0,
-            correctionType: travelPlan
-              ? travelPlan.correctionReason && travelPlan.correctionReason != ''
-                ? Number.parseInt(travelPlan.correctionReason, 10)
-                : 0
-              : 0,
-            maritalStatus: personalInfo
-              ? Number.parseInt(personalInfo.martialStatus, 10)
-              : 0,
-            birthCertificateId: personalInfo
-              ? personalInfo.birthCertificatNo
-              : null,
-            phoneNumber: personalInfo ? personalInfo.phoneNumber : null,
-            email: personalInfo ? personalInfo.email : null,
-            requestReason: replacementReason
-              ? Number.parseInt(replacementReason.reasonForReplacment)
-              : 0,
-            address: {
-              personId: 0,
-              addressId: 0,
-              city: addressInfo ? addressInfo.city : null,
-              region: addressInfo ? addressInfo.region : null,
-              state: addressInfo ? addressInfo.state : null,
-              zone: addressInfo ? addressInfo.zone : null,
-              wereda: addressInfo ? addressInfo.woreda : null,
-              kebele: addressInfo ? addressInfo.kebele : null,
-              street: addressInfo ? addressInfo.street : null,
-              houseNo: addressInfo ? addressInfo.houseNo : null,
-              poBox: addressInfo ? addressInfo.poBox : null,
-              requestPlace: addressInfo ? addressInfo.requestPlace : null,
+      debugger
+      if ((serviceInfo ? Number.parseInt(serviceInfo.appointemntType, 10) : 0) === 2) {
+        const requestBody = {
+          requestId: requestInfo ? Number.parseInt(requestInfo.requestId, 10) : 0,
+          requestMode: serviceInfo && serviceInfo.isUrgent === true ? 1 : 0,
+          officeId: siteInfo ? Number.parseInt(siteInfo.offceId, 10) : 0,
+          deliverySiteId: siteInfo
+            ? Number.parseInt(siteInfo.deliverySiteId, 10)
+            : 0,
+          requestTypeId: serviceInfo
+            ? Number.parseInt(serviceInfo.appointemntType, 10)
+            : 0,
+          appointmentIds: appointment ? [appointment[0].id] : [],
+          userName: localStorage.logedInUsedData ? JSON.parse(localStorage.logedInUsedData).username : '',
+          deliveryDate: "",
+          status: 0,
+          confirmationNumber: '',
+          applicants: [
+            {
+              personId: requestInfo ? Number.parseInt(requestInfo.personResponses.id, 10) : 0,
+              firstName: personalInfo
+                ? personalInfo.firstName.toUpperCase()
+                : null,
+              middleName: personalInfo
+                ? personalInfo.middleName.toUpperCase()
+                : null,
+              lastName: personalInfo ? personalInfo.lastName.toUpperCase() : null,
+              geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
+              geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
+              geezLastName: personalInfo ? personalInfo.geezLastName : null,
+              dateOfBirth: personalInfo ? personalInfo.birthDate : null,
+              gender: personalInfo
+                ? Number.parseInt(personalInfo.gender, 10)
+                : null,
+              nationalityId: personalInfo
+                ? Number.parseInt(personalInfo.nationalityId, 10)
+                : null,
+              height: personalInfo ? personalInfo.height : null,
+              eyeColor: personalInfo ? personalInfo.eyeColor : null,
+              hairColor: personalInfo ? personalInfo.hairColor : null,
+              occupationId: personalInfo
+                ? Number.parseInt(personalInfo.occupationId, 10)
+                : null,
+              halfCast: personalInfo ? personalInfo.halfCast : null,
+              enrolmentDate: personalInfo ? personalInfo.birthDate : null,
+              birthCertificateId: personalInfo
+                ? personalInfo.birthCertificatNo
+                : '',
+              photoPath: '',
+              employeeID: '',
+              applicationNumber: '',
+              organizationID: '',
+              isUnder18: personalInfo ? personalInfo.isUnder18 : false,
+              isAdoption: personalInfo ? personalInfo.isAdoption : false,
+              passportNumber: travelPlan ? travelPlan.passportNumber : null,
+              issueDate: new Date(),
+              expireDate: new Date(),
+              passportType: travelPlan ? travelPlan.passportType : null,
+              isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
+              passportPageId: travelPlan
+                ? Number.parseInt(travelPlan.pageQuantity, 10)
+                : 0,
+              correctionType: travelPlan
+                ? travelPlan.correctionReason && travelPlan.correctionReason != ''
+                  ? Number.parseInt(travelPlan.correctionReason, 10)
+                  : 0
+                : 0,
+              maritalStatus: personalInfo
+                ? Number.parseInt(personalInfo.martialStatus, 10)
+                : 0,
+              birthCertificateId: personalInfo
+                ? personalInfo.birthCertificatNo
+                : null,
+              phoneNumber: personalInfo ? personalInfo.phoneNumber : null,
+              email: personalInfo ? personalInfo.email : null,
+              requestReason: replacementReason
+                ? Number.parseInt(replacementReason.reasonForReplacment)
+                : 0,
+              address: {
+                personId: 0,
+                addressId: 0,
+                city: addressInfo ? addressInfo.city : null,
+                region: addressInfo ? addressInfo.region : null,
+                state: addressInfo ? addressInfo.state : null,
+                zone: addressInfo ? addressInfo.zone : null,
+                wereda: addressInfo ? addressInfo.woreda : null,
+                kebele: addressInfo ? addressInfo.kebele : null,
+                street: addressInfo ? addressInfo.street : null,
+                houseNo: addressInfo ? addressInfo.houseNo : null,
+                poBox: addressInfo ? addressInfo.poBox : null,
+                requestPlace: addressInfo ? addressInfo.requestPlace : null,
+              },
+              familyRequests: familyInfo,
             },
-            familyRequests: familyInfo,
-          },
-        ],
-      };
-      API.post(
-        'https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest',
-        requestBody,
-        config
-      )
-        .then((todo) => {
-          setResponseMessage(todo.data.message);
-          setResponseAlert(true);
-          setIsSuccess(true);
-          const commonData = {
-            requestPersonId:
-              todo.data.serviceResponseList[0].personResponses.requestPersonId,
-          };
-          dispatch(addCommonData(commonData));
-          setActiveStep((prevActiveStep) => prevActiveStep + 1);
-          dispatch(newRequest(todo.data.serviceResponseList[0]))
-          API.get("https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
-            .then((todo) => {
-              dispatch(addPriceInfo(todo.data));
-            })
-            .catch((err) => {
-              console.log("AXIOS ERROR: ", err.response);
-            })
-        
-          })
-        .catch((err) => {
-           ;
-          console.log('Body: ', JSON.stringify(requestBody));
-          console.log('AXIOS ERROR: ', err.response);
-          if (err.response != null) setResponseMessage(err.response.data.title);
-          else setResponseMessage('something goes wrong!');
-          setResponseAlert(true);
-        });
-    } 
-    else {
+          ],
+        };
+        console.log(JSON.stringify(requestBody));
+        API.post(
+          'https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest',
+          requestBody,
+          config
+        )
+          .then((todo) => {
+            debugger
+            setResponseMessage(todo.data.message);
+            setResponseAlert(true);
+            setIsSuccess(true);
+            const commonData = {
+              requestPersonId:
+                todo.data.serviceResponseList[0].personResponses.requestPersonId,
+            };
+            setPersonId(todo.data.serviceResponseList[0].personResponses.id)
+            dispatch(addCommonData(commonData));
+            dispatch(newRequest(todo.data.serviceResponseList[0]))
+            API.get("https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
+              .then((todo) => {
+                dispatch(addPriceInfo(todo.data));
+              })
+              .catch((err) => {
+                console.log("AXIOS ERROR: ", err.response);
+              })
+              setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
+          })
+          .catch((err) => {
+            debugger
+            console.log('Body: ', JSON.stringify(requestBody));
+            console.log('AXIOS ERROR: ', err.response);
+            if (err.response != null && err.response != "undefined") setResponseMessage(err.response.data.Message);
+            else setResponseMessage('something goes wrong!');
+            setResponseAlert(true);
+            setloading(false);
+          });
+
+      }
+      else {
+        const requestBody = {
+          requestId: requestInfo ? Number.parseInt(requestInfo.requestId, 10) : 0,
+          requestMode: serviceInfo && serviceInfo.isUrgent === true ? 1 : 0,
+          officeId: siteInfo ? Number.parseInt(siteInfo.offceId, 10) : 0,
+          deliverySiteId: siteInfo
+            ? Number.parseInt(siteInfo.deliverySiteId, 10)
+            : 0,
+          requestTypeId: serviceInfo
+            ? Number.parseInt(serviceInfo.appointemntType, 10)
+            : 0,
+          appointmentIds: [],
+          userName: localStorage.logedInUsedData ? JSON.parse(localStorage.logedInUsedData).username : '',
+          deliveryDate: appointment ? appointment.date : "",
+          deliveryDateFormat:"yyyy-MM-dd",
+          status: 0,
+          confirmationNumber: '',
+          applicants: [
+            {
+              personId: requestInfo ? Number.parseInt(requestInfo.personResponses.id, 10) : 0,
+              firstName: personalInfo
+                ? personalInfo.firstName.toUpperCase()
+                : null,
+              middleName: personalInfo
+                ? personalInfo.middleName.toUpperCase()
+                : null,
+              lastName: personalInfo ? personalInfo.lastName.toUpperCase() : null,
+              geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
+              geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
+              geezLastName: personalInfo ? personalInfo.geezLastName : null,
+              dateOfBirth: personalInfo ? personalInfo.birthDate : null,
+              gender: personalInfo
+                ? Number.parseInt(personalInfo.gender, 10)
+                : null,
+              nationalityId: personalInfo
+                ? Number.parseInt(personalInfo.nationalityId, 10)
+                : null,
+              height: personalInfo ? personalInfo.height : null,
+              eyeColor: personalInfo ? personalInfo.eyeColor : null,
+              hairColor: personalInfo ? personalInfo.hairColor : null,
+              occupationId: personalInfo
+                ? Number.parseInt(personalInfo.occupationId, 10)
+                : null,
+              halfCast: personalInfo ? personalInfo.halfCast : null,
+              enrolmentDate: personalInfo ? personalInfo.birthDate : null,
+              birthCertificateId: personalInfo
+                ? personalInfo.birthCertificatNo
+                : '',
+              photoPath: '',
+              employeeID: '',
+              applicationNumber: '',
+              organizationID: '',
+              isUnder18: personalInfo ? personalInfo.isUnder18 : false,
+              isAdoption: personalInfo ? personalInfo.isAdoption : false,
+              passportNumber: travelPlan ? travelPlan.passportNumber : null,
+              issueDate: new Date(),
+              expireDate: new Date(),
+              passportType: travelPlan ? travelPlan.passportType : null,
+              isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
+              passportPageId: travelPlan
+                ? Number.parseInt(travelPlan.pageQuantity, 10)
+                : 0,
+              correctionType: travelPlan
+                ? travelPlan.correctionReason && travelPlan.correctionReason != ''
+                  ? Number.parseInt(travelPlan.correctionReason, 10)
+                  : 0
+                : 0,
+              maritalStatus: personalInfo
+                ? Number.parseInt(personalInfo.martialStatus, 10)
+                : 0,
+              birthCertificateId: personalInfo
+                ? personalInfo.birthCertificatNo
+                : null,
+              phoneNumber: personalInfo ? personalInfo.phoneNumber : null,
+              email: personalInfo ? personalInfo.email : null,
+              requestReason: replacementReason
+                ? Number.parseInt(replacementReason.reasonForReplacment)
+                : 0,
+              address: {
+                personId: 0,
+                addressId: 0,
+                city: addressInfo ? addressInfo.city : null,
+                region: addressInfo ? addressInfo.region : null,
+                state: addressInfo ? addressInfo.state : null,
+                zone: addressInfo ? addressInfo.zone : null,
+                wereda: addressInfo ? addressInfo.woreda : null,
+                kebele: addressInfo ? addressInfo.kebele : null,
+                street: addressInfo ? addressInfo.street : null,
+                houseNo: addressInfo ? addressInfo.houseNo : null,
+                poBox: addressInfo ? addressInfo.poBox : null,
+                requestPlace: addressInfo ? addressInfo.requestPlace : null,
+              },
+              familyRequests: familyInfo,
+            },
+          ],
+        };
+        console.log(JSON.stringify(requestBody));
+        API.post(
+          'https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest',
+          requestBody,
+          config
+        )
+          .then((todo) => {
+            setResponseMessage(todo.data.message);
+            setResponseAlert(true);
+            setIsSuccess(true);
+            setloading(false);
+            const commonData = {
+              requestPersonId:
+                todo.data.serviceResponseList[0].personResponses.requestPersonId,
+            };
+            setPersonId(todo.data.serviceResponseList[0].personResponses.id)
+            dispatch(addCommonData(commonData));
+            setActiveStep(4);
+            dispatch(newRequest(todo.data.serviceResponseList[0]))
+            API.get("https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
+              .then((todo) => {
+                dispatch(addPriceInfo(todo.data));
+              })
+              .catch((err) => {
+                console.log("AXIOS ERROR: ", err.response);
+              })
+
+          })
+          .catch((err) => {
+            console.log('Body: ', JSON.stringify(requestBody));
+            console.log('AXIOS ERROR: ', err.response);
+            if (err.response != null && err.response != "undefined") setResponseMessage(err.response.data.message);
+            else setResponseMessage('something goes wrong!');
+            setResponseAlert(true);
+            setloading(false);
+          });
+      }
+      } 
+    else {
+      setloading(false);
       }
   };
   const handelUploading = () => {
@@ -240,6 +382,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     setIsUploading(false);
   };
   function getStepContent(stepIndex) {
+    
     switch (stepIndex) {
       case 0:
         return <PersonalInfo ref={childRef} />;
@@ -249,12 +392,14 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
         return <FamilyInformation ref={childRef} />;
       case 3:
         return (
+          
           <TravelPlan
             ref={childRef}
             resMessage={responseMessage}
             isSucces={isSuccess}
             respnseGet={responseAlert}
           />
+            
         );
       case 4:
         return (
@@ -278,6 +423,8 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     },
   }));
   return (
+    <div>
+            {loading?<Spinner />:
     <div className={classes.root} style={{ marginBottom: '5rem' }}>
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
@@ -337,6 +484,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
         ) : null}
       </div>
     </div>
-  );
+ }
+ </div> );
 });
 export default PersonalInfoStepper;

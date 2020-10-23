@@ -62,6 +62,8 @@ const MainStatus = () => {
 
   const [handlePaymentId, setHandlePaymentId] = useState('');
   const [goToPayment, setGoToPayment] = useState(false);
+  const [internalServerError, setinternalServerError] = useState('');
+
 
   const handleDisplay = (id) => {
     setDisplayRequestId(id);
@@ -81,6 +83,7 @@ const MainStatus = () => {
   };
   //validate form
   const validate = () => {
+    
     if (!ApplicationNumber && !ConfirmationNumber) {
       AllError = 'Please fill at least one field.';
     } else {
@@ -100,17 +103,19 @@ const MainStatus = () => {
   };
 
   const handleSubmit = (e) => {
+    debugger;
     e.preventDefault();
     setloading(true);
     const isValid = validate();
     if (isValid) {
+      AllError = '';
       setApplicationNumber(ApplicationNumber);
       setConfirmationNumber(ConfirmationNumber);
       if (ApplicationNumber) {
         debugger;
         axios
           .get(
-            `https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/GetRequestsByApplicationNumber?applicationNumber=${ApplicationNumber}`,
+            `https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/GetRequestsByApplicationNumber?applicationNumber=${ApplicationNumber}`,
             config
           )
           .then((response) => {
@@ -128,11 +133,14 @@ const MainStatus = () => {
           .catch((error) => {
             debugger;
             console.log('error' + error);
+            const errorMessage = error.response.data.message;
+            setinternalServerError(errorMessage);
+            setloading(false);
           });
       } else if (ConfirmationNumber) {
         axios
           .get(
-            `https://epassportservices.azurewebsites.net/Request/api/V1.0/Request/GetRequestsByConfirmationNumber?confirmationNumber=${ConfirmationNumber}`,
+            `https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/GetRequestsByConfirmationNumber?confirmationNumber=${ConfirmationNumber}`,
             config
           )
           .then((response) => {
@@ -148,6 +156,9 @@ const MainStatus = () => {
           })
           .catch((error) => {
             console.log('error' + error);
+            const errorMessage = error.response.data.message;
+            setinternalServerError(errorMessage);
+            setloading(false);
           });
       }
     }
@@ -210,6 +221,7 @@ const MainStatus = () => {
         handleEdit={handleEdit}
         handleReschedule={handleReschedule}
         handlePayment={handlePayment}
+        internalServerError={internalServerError}
       />
     );
   }

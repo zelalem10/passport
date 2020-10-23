@@ -218,7 +218,7 @@ const PersonalInfo = forwardRef((props, ref) => {
       setOccupationList(JSON.parse(localStorage.occupations));
       if (occupationList.length === 0) {
         API.get(
-          'https://epassportservices.azurewebsites.net/Master/api/V1.0/Occupation/GetAll',
+          'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Occupation/GetAll',
           config
         )
           .then((todo) => {
@@ -272,7 +272,7 @@ const PersonalInfo = forwardRef((props, ref) => {
               {' '}
               <MDBCol className="required-field">
                 <MDBInput
-                  label="Middle Name"
+                  label="Father Name"
                   group
                   type="text"
                   name="middleName"
@@ -286,7 +286,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                   {' '}
                   {notCompleted.middleName == true &&
                   personalInfo.dataSaved == true
-                    ? 'Middle name ' + isRequired
+                    ? 'Father Name ' + isRequired
                     : null}
                 </span>
               </MDBCol>
@@ -294,7 +294,7 @@ const PersonalInfo = forwardRef((props, ref) => {
             <MDBCol md="3">
               <MDBCol className="required-field">
                 <MDBInput
-                  label="Last Name"
+                  label="Grand Father Name"
                   group
                   type="text"
                   name="lastName"
@@ -308,7 +308,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                   {' '}
                   {notCompleted.lastName == true &&
                   personalInfo.dataSaved == true
-                    ? 'Last name ' + isRequired
+                    ? 'Grand Father Name ' + isRequired
                     : null}
                 </span>
               </MDBCol>

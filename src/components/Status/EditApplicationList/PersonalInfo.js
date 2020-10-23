@@ -18,9 +18,11 @@ import addPersonalInfo from '../../../redux/actions/addPersonalInfoAction';
 import isEmail from 'validator/es/lib/isEmail';
 import API from '../../Utils/API';
 
+
 const PersonalInfo = forwardRef((props, ref) => {
   const [nationalityList, setNationalityList] = useState([]);
   const [occupationList, setOccupationList] = useState([]);
+  const [emailErrorMessage,setEmailErrorMessage]=useState('');
   const { personalInformation } = props;
   const tokenValue = () => {
     const UserToken = localStorage.userToken;
@@ -36,6 +38,15 @@ const PersonalInfo = forwardRef((props, ref) => {
   const config = {
     headers: { Authorization: 'Bearer ' + token },
   };
+
+  const validateEmail=(email)=>{
+    let isCorrectEmail= new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(email);
+    if(isCorrectEmail){
+      setEmailErrorMessage('');
+    }else{
+      setEmailErrorMessage('Please enter valid email address')
+    }
+   }
 
   const [personalInfo, setPersonalInfo] = useState({
     id: personalInformation.id,
@@ -119,11 +130,11 @@ const PersonalInfo = forwardRef((props, ref) => {
         notCompleted.geezLastName === true ||
         personalInfo.nationalityId === 0 ||
         notCompleted.gender === true ||
-        notCompleted.occupationId === true ||
+        //notCompleted.occupationId === true ||
         notCompleted.phoneNumber === true ||
         notCompleted.gender === true ||
-        notCompleted.maritalStatusEnum === true ||
-        notCompleted.birthCertificateId === true ||
+        //notCompleted.maritalStatusEnum === true ||
+        //notCompleted.birthCertificateId === true ||
         notCompleted.birthPlace===true
       )
         return false;
@@ -141,6 +152,9 @@ const PersonalInfo = forwardRef((props, ref) => {
   const handleChange = (event) => {
   
     const { name, value } = event.target;
+    if(name==='email'){
+      validateEmail(value);
+    }
     setPersonalInfo((prevState) => ({
       ...prevState,
       [name]: value,
@@ -218,7 +232,7 @@ const PersonalInfo = forwardRef((props, ref) => {
       setOccupationList(JSON.parse(localStorage.occupations));
       if (occupationList.length === 0) {
         API.get(
-          'https://epassportservices.azurewebsites.net/Master/api/V1.0/Occupation/GetAll',
+          'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Occupation/GetAll',
           config
         )
           .then((todo) => {
@@ -273,7 +287,7 @@ const PersonalInfo = forwardRef((props, ref) => {
             {' '}
             <MDBCol className="required-field">
               <MDBInput
-                label="Middle Name"
+                label="Father Name"
                 group
                 type="text"
                 name="middleName"
@@ -287,7 +301,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 {' '}
                 {notCompleted.middleName == true &&
                 personalInfo.dataSaved == true
-                  ? 'Middle name ' + isRequired
+                  ? 'Father Name ' + isRequired
                   : null}
               </span>
             </MDBCol>
@@ -295,7 +309,7 @@ const PersonalInfo = forwardRef((props, ref) => {
           <MDBCol md="3">
             <MDBCol className="required-field">
               <MDBInput
-                label="Last Name"
+                label="Grand Father Name"
                 group
                 type="text"
                 name="lastName"
@@ -309,7 +323,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 {' '}
                 {notCompleted.lastName == true &&
                 personalInfo.dataSaved == true
-                  ? 'Last name ' + isRequired
+                  ? 'Grand Father Name ' + isRequired
                   : null}
               </span>
             </MDBCol>
@@ -459,7 +473,7 @@ const PersonalInfo = forwardRef((props, ref) => {
           </MDBCol>
           <MDBCol md="3">
             {' '}
-            <MDBCol className="required-field">
+            <MDBCol>
               <MDBInput
                 valueDefault={prevInfo ? prevInfo.birthCertificateId : null}
                 name="birthCertificateId"
@@ -471,7 +485,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 error="wrong"
                 success="right"
               />
-              <span style={{ color: 'red' }}>
+              {/* <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.birthCertificateId == true &&
                     personalInfo.dataSaved == true
@@ -484,7 +498,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                     personalInfo.dataSaved === true &&personalInfo.birthCertificateId !=="")
                     ? 'Birth Reg. Unique Id must be 16 digit numeric'
                     : null}
-                </span>
+                </span> */}
             </MDBCol>
           </MDBCol>
           <MDBCol md="3">
@@ -529,12 +543,7 @@ const PersonalInfo = forwardRef((props, ref) => {
               >
                 <label class="passport-selectList-label">
                   Marital Status
-                  <i
-                    class="required-for-select-list"
-                    style={{ color: 'red' }}
-                  >
-                    *
-                  </i>{' '}
+                  
                 </label>
                 <select
                   name="maritalStatusEnum"
@@ -542,7 +551,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                   className="browser-default custom-select"
                   defaultValue={prevInfo ? prevInfo.maritalStatusEnum?prevInfo.maritalStatusEnum:9 : 9}
                 >
-                  <option disabled value="9">Choose Marital Status</option>
+                  <option value="9">Choose Marital Status</option>
                   <option value="0" >Single</option>
                   <option value="1" >Married</option>
                   <option value="2" >Divorced</option>
@@ -567,12 +576,7 @@ const PersonalInfo = forwardRef((props, ref) => {
               >
                 <label class="passport-selectList-label">
                   Occupation
-                  <i
-                    class="required-for-select-list"
-                    style={{ color: 'red' }}
-                  >
-                    *
-                  </i>{' '}
+                  
                 </label>
                 <select
                   name="occupationId"
@@ -580,19 +584,19 @@ const PersonalInfo = forwardRef((props, ref) => {
                   className="browser-default custom-select"
                   defaultValue={prevInfo ? prevInfo.occupationId : 0}
                 >
-                  <option disabled>select Occupation</option>
+                  <option value='0' >select Occupation</option>
                   {occupationList.map((occupation) => (
                     <option value={occupation.id}>{occupation.title}</option>
                   ))}
                 </select>
               </div>
-              <span style={{ color: 'red' }}>
+              {/* <span style={{ color: 'red' }}>
                 {' '}
                 {notCompleted.occupationId == true &&
                 personalInfo.dataSaved == true
                   ? 'Occupation ' + isRequired
                   : null}
-              </span>
+              </span> */}
             </MDBCol>
           </MDBCol>
           <MDBCol md="3">

@@ -103,7 +103,7 @@ export default function ViewAppointment(props) {
     }
   };
   const token = tokenValue();
-  const BaseUri="https://epassportservices.azurewebsites.net";
+  const BaseUri="https://epassportservicesaddt.azurewebsites.net";
   const config = {
     headers: { Authorization: `Bearer ` + token },
   };
@@ -202,14 +202,13 @@ export default function ViewAppointment(props) {
           </div>
           <div class="form-group form-inline passport-display">
             <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-              Appointement Date:{' '}
+            {displayedApplication.type==='New'?'Appointment':'Delivery'} Date:{' '}
             </label>
             &nbsp;&nbsp;&nbsp;&nbsp;
             <b>
               <label class="font-weight-bold">
-                {displayedApplication.appointmentResponse
-                  ? displayedApplication.appointmentResponse.date
-                  : null}
+              {displayedApplication.appointmentResponse ? displayedApplication.appointmentResponse.date :personalInformation?personalInformation.deliveryAppointment:null}
+                
               </label>
             </b>
           </div>
@@ -224,6 +223,28 @@ export default function ViewAppointment(props) {
               </label>
             </b>
           </div>
+          <div class="form-group form-inline passport-display">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Office
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {displayedApplication.office}
+                    </label>
+                  </b>
+                </div>
+                <div class="form-group form-inline passport-display">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Delivery Site
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {displayedApplication.deliverySite}
+                    </label>
+                  </b>
+                </div>
       
         </div>
       </div>
@@ -251,27 +272,27 @@ export default function ViewAppointment(props) {
                 </b>
               </div>
               <div class="form-group form-inline">
-                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                  Last Name
-                </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <b>
-                  <label class="font-weight-bold">
-                    {personalInformation.middleName}
+                      <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                        Father Name
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                        <label class="font-weight-bold">
+                          {personalInformation.middleName}
+                        </label>
+                      </b>
+                    </div>
+                    <div class="form-group form-inline">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                    Grand Father Name
                   </label>
-                </b>
-              </div>
-              <div class="form-group form-inline">
-                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                  Middle Name
-                </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <b>
-                  <label class="font-weight-bold">
-                    {personalInformation.lastName}
-                  </label>
-                </b>
-              </div>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {personalInformation.lastName}
+                    </label>
+                  </b>
+                </div>
               <div class="form-group form-inline">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                       Geez First Name
@@ -286,7 +307,7 @@ export default function ViewAppointment(props) {
 
                   <div class="form-group form-inline">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Geez Middle Name
+                      Geez Father Name
                     </label>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
@@ -297,7 +318,7 @@ export default function ViewAppointment(props) {
                   </div>
                   <div class="form-group form-inline">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                      Geez Last Name
+                      Geez Grand Father Name
                     </label>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
@@ -410,17 +431,7 @@ export default function ViewAppointment(props) {
                   </label>
                 </b>
               </div>
-              <div class="form-group form-inline">
-                    <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Is HalfCast
-                    </label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>
-                      <label class="font-weight-bold">
-                        {personalInformation.isHalfCast?'True':'False'}
-                      </label>
-                    </b>
-                  </div>
+              
                   <div class="form-group form-inline">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                     Is Adoption
@@ -428,7 +439,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {personalInformation.isAdoption?'True':'False'}
+                        {personalInformation.isAdoption?'YES':'NO'}
                       </label>
                     </b>
                   </div>
@@ -439,7 +450,7 @@ export default function ViewAppointment(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <b>
                       <label class="font-weight-bold">
-                        {personalInformation.isUnder18?'True':'False'}
+                        {personalInformation.isUnder18?'YES':'NO'}
                       </label>
                     </b>
                   </div>

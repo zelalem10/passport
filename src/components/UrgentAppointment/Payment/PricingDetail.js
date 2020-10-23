@@ -37,7 +37,7 @@ const BasicTable = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
     API.get(
-      `https://epassportservices.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=${handlePaymentId}`,
+      `https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=${handlePaymentId}`,
       config
     )
       .then((todo) => {

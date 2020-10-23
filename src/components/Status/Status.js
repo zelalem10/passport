@@ -24,6 +24,7 @@ function Status(props) {
     handleEdit,
     handleReschedule,
     handlePayment,
+    internalServerError,
   } = props;
   const addDays = (date) => {
     var date = new Date(date);
@@ -47,7 +48,12 @@ function Status(props) {
                         </h4>
                       </MDBRow>
                     </div>
-
+                    { 
+                    internalServerError? 
+                    <h5 class="text-danger text-center">
+                      {internalServerError}
+                    </h5> : null
+                    }
                     <input
                       type="text"
                       className="form-control"

@@ -159,7 +159,7 @@ function ConfirmationPage() {
                       <tr>
                         <th>#</th>
                         <th>First Name</th>
-                        <th>Last Name</th>
+                        <th>Grand Father Name</th>
                         <th>Application Id</th>
                       </tr>
                     </MDBTableHead>

@@ -9,7 +9,7 @@ import {
   MDBCardBody,
   MDBContainer,
 } from 'mdbreact';
-import newApplication from '../../images/icons/new passport-01.svg';
+import newApplication from '../../images/icons/new passport 1-01.svg';
 import alreadyHavePassport from '../../images/icons/register -01.svg';
 import checkStatusImage from '../../images/icons/passport status .svg';
 import alreadyHavePassportWhite from '../../images/icons/register 1 .svg';

@@ -19,7 +19,6 @@ import {
   BsFillInfoCircleFill,
 } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
-import addPaymentOptionId from '../../redux/actions/addPaymentOptionIdAction';
 
 export default function RequestStepper() {
   const [indexValue, setIndexValue] = useState(0);
@@ -31,7 +30,7 @@ export default function RequestStepper() {
     false,
     false,
   ]);
-  const activeKey = ['first', 'second', 'third', 'fourth', 'Fivth', 'Sixth'];
+  const activeKey = ['first', 'second', 'third', 'fourth', 'Fivth'];
   const counter = useSelector((state) => state);
   const isGroup = counter.service[counter.service.length - 1].isGroup;
   const personalRef = useRef();
@@ -43,7 +42,8 @@ export default function RequestStepper() {
   function handelNext() {
     if (indexValue === 0) {
       siteRef.current.saveData();
-      if (siteRef.current.isCompleted() === true) {
+      let isValid= siteRef.current.isCompleted();
+      if (isValid === true) {
         setIndexValue((prevActiveStep) => prevActiveStep + 1);
         formCompleted[indexValue] = true;
       }
@@ -95,12 +95,6 @@ export default function RequestStepper() {
   function handelConfirmation() {
     setIndexValue(5);
   }
-  useEffect(() => {
-    if (counter.commonData.length === 0) {
-      const selectedId = { optionId: 0 };
-      dispatch(addPaymentOptionId(selectedId));
-    }
-  }, []);
   return (
     <Tab.Container defaultActiveKey="first" activeKey={activeKey[indexValue]}>
       <div style={{ margin: '2rem' }}>
@@ -161,17 +155,7 @@ export default function RequestStepper() {
                     <BsWallet /> Payment{formCompleted[4] ? <BsCheck /> : null}
                   </Nav.Link>
                 </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link
-                    eventKey={activeKey[5]}
-                    onClick={handelConfirmation}
-                    disabled={formCompleted[5] === true ? false : true}
-                  >
-                    <BsFillInfoCircleFill /> Confirmation
-                    {formCompleted[5] ? <BsCheck /> : null}
-                  </Nav.Link>
-                </Nav.Item>
-              </Nav>
+                </Nav>
             </Card>
           </Col>
           <Col lg={9}>
@@ -194,9 +178,6 @@ export default function RequestStepper() {
               </Tab.Pane>
               <Tab.Pane eventKey={activeKey[4]}>
                 <PaymentSelection ref={paymentRef} />
-              </Tab.Pane>
-              <Tab.Pane eventKey={activeKey[5]}>
-                <Confirmation />
               </Tab.Pane>
             </Tab.Content>
           </Col>

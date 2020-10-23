@@ -27,6 +27,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import Spinner from '../../common/Spinner';
 
 const MyApp = forwardRef((props, ref) => {
+  debugger;
   const { t, i18n } = useTranslation();
   const [state, setState] = useState({ date: new Date(), time: '' });
   const [respone, setResponse] = useState({});
@@ -62,7 +63,11 @@ const MyApp = forwardRef((props, ref) => {
       setOfficeInformation(siteInfo);
     }
   }
-  const durationLength = siteInfo ? siteInfo.durationDays : null;
+  const [durationLength,setDurationLength]=useState(0);
+  const [estimatedDate, setEstimatedDate] = useState('');
+  if(siteInfo && durationLength===0){
+    setDurationLength(siteInfo.durationDays)
+  }
   if (
     counter.service.length !== 0 &&
     Object.keys(data).length === 0 &&
@@ -70,8 +75,7 @@ const MyApp = forwardRef((props, ref) => {
   ) {
     setData(counter.service[counter.service.length - 1]);
   }
-  let selectDays = siteInfo?new Date(siteInfo.currentDate):new Date();
-  let estimatedDays = selectDays.setDate(selectDays.getDate() + durationLength);
+  
 
   const handleIsUrgent = () => {
     setShowAvailableTimeSlots(false);
@@ -162,18 +166,7 @@ const MyApp = forwardRef((props, ref) => {
   };
   if((data.appointemntType===3 || data.appointemntType===4 ||data.appointemntType===8) && formCompleted===false){
     setFormCompleted(true);
-    if(selectDays){
-      let formatedYear = selectDays.getFullYear();
-      let formatedMonth = (1 + selectDays.getMonth()).toString();
-      formatedMonth =
-        formatedMonth.length > 1 ? formatedMonth : '0' + formatedMonth;
-      let formatedDay = selectDays.getDate().toString();
-      formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
-      let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
-    dispatch(
-      addAppointmentDate({date:stringDateValue})
-    )
-    }
+
   }
   const token = tokenValue();
   useImperativeHandle(ref, () => ({
@@ -293,17 +286,18 @@ const MyApp = forwardRef((props, ref) => {
 setErrorMessage('Please Select Date.')
       }}else if(data.appointemntType===3 || data.appointemntType===4 ||data.appointemntType===8){
         setFormCompleted(true);
-       
+        
       }
     },
     isCompleted() {
       debugger;
+     
       return formCompleted;
     },
   }));
 
   
-  const baseUrl = 'https://epassportservices.azurewebsites.net/';
+  const baseUrl = 'https://epassportservicesaddt.azurewebsites.net/';
   const availableDates = [];
   let advancedRestrictionData = {};
   let disabledDates = [];
@@ -320,8 +314,14 @@ setErrorMessage('Please Select Date.')
 
 
   };
+  let selectDays = '';
+  let ye = '';
+let mo = '';
+let da = '';
+
   useEffect(() => {
     if (officeInformation.hasOwnProperty('offceId') && data.appointemntType===2) {
+      debugger;
       axios({
         headers: {
           Authorization: 'Bearer ' + token,
@@ -558,7 +558,37 @@ setErrorMessage('Please Select Date.')
           console.log('error' + error);
         });
     }else if(data.appointemntType===3 || data.appointemntType===4 ||data.appointemntType===8){
-      setloading(false);
+      debugger;
+      if(siteInfo){
+
+      
+      axios({
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+        method: 'post',
+        url: baseUrl + '/Schedule/api/V1.0/Schedule/GetAvailableDeliveryAppointment',
+        data:{
+            "requestTypeId": data.appointemntType,
+            "officeId": parseInt(siteInfo.offceId),
+            "daysForProcess": durationLength
+          
+        }
+      }).then((response)=>{
+        setloading(false);
+         selectDays = siteInfo?new Date(response.data.date):new Date();
+   ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(selectDays);
+ mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(selectDays);
+ da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(selectDays);
+ setEstimatedDate(`${mo} ${da}, ${ye}`)
+ dispatch(
+  addAppointmentDate({date:response.data.date,id:0})
+)
+
+      }).catch((error)=>{
+setloading(false);
+      })
+    }
     }
   }, [isUrgentAppointment, officeInformation]);
   const onChange = (date) => {
@@ -653,14 +683,12 @@ setErrorMessage('Please Select Date.')
         <MDBTypography
                 note
                 noteColor="info"
-                noteTitle={`Notification:`}
+                noteTitle={`Notification: `}
               >
-                Estimated Delivery date is after {durationLength} days{' '}
-                  <b>({`${selectDays.getFullYear()} 
-                  -
-                  ${selectDays.getMonth() + 1}
-                  -
-                  ${selectDays.getDate()}`})</b>
+                
+                Estimated Delivery date is {' '}
+                 
+                  <b>{estimatedDate}</b>
               </MDBTypography>
 :null}
               {data.appointemntType===2?(<>
