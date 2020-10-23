@@ -20,6 +20,7 @@ import API from '../../Utils/API';
 
 
 const PersonalInfo = forwardRef((props, ref) => {
+  debugger;
   const [nationalityList, setNationalityList] = useState([]);
   const [occupationList, setOccupationList] = useState([]);
   const [emailErrorMessage,setEmailErrorMessage]=useState('');
@@ -67,14 +68,14 @@ const PersonalInfo = forwardRef((props, ref) => {
     }
            
   }
-  const validateEmail=(email)=>{
-    let isCorrectEmail= new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(email);
-    if(isCorrectEmail){
-      setEmailErrorMessage('');
-    }else{
-      setEmailErrorMessage('Please enter valid email address')
-    }
-   }
+  // const validateEmail=(email)=>{
+  //   let isCorrectEmail= new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(email);
+  //   if(isCorrectEmail){
+  //     setEmailErrorMessage('');
+  //   }else{
+  //     setEmailErrorMessage('Please enter valid email address')
+  //   }
+  //  }
 
   const [personalInfo, setPersonalInfo] = useState({
     id: personalInformation.id,
@@ -102,7 +103,7 @@ const PersonalInfo = forwardRef((props, ref) => {
     dataSaved: false,
     formCompleted: false,
   });
-
+const [isEmailValid,setIsEmailValid]=useState(true);
   const [notCompleted, setNotCompleted] = useState({
   
     firstName: personalInformation.firstName ? false : true,
@@ -113,7 +114,7 @@ const PersonalInfo = forwardRef((props, ref) => {
     geezLastName: personalInformation.geezLastName ? false : true,
     birthPlace: personalInformation.birthPlace ? false : true,
     birthCertificateId: personalInformation.birthCertificateId ? false : true,
-    maritalStatusEnum: personalInformation.passportRes.maritalStatusEnum ? false : true,
+    maritalStatusEnum: personalInformation.passportRes.maritalStatusEnum ? false : personalInformation.passportRes.maritalStatusEnum==0?false:true,
     dateOfBirth: personalInformation.dateOfBirth ? false : true,
     gender: personalInformation.gender ? false : true,
     height: personalInformation.height ? false : true,
@@ -145,7 +146,6 @@ const PersonalInfo = forwardRef((props, ref) => {
       dispatch(addPersonalInfo(personalInfo));
     },
     Validate() {
-      debugger;
       if (
         notCompleted.firstName === true ||
         notCompleted.lastName === true ||
@@ -177,31 +177,6 @@ const PersonalInfo = forwardRef((props, ref) => {
       [name]: checked,
     }));
   };
-
-  const handleChange = (event) => {
-  
-    const { name, value } = event.target;
-    if(name==='email'){
-      validateEmail(value);
-    }
-    setPersonalInfo((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-
-    if (value != '') {
-      setNotCompleted((prevState) => ({
-        ...prevState,
-        [name]: false,
-      }));
-    }
-    else{
-      setNotCompleted((prevState) => ({
-        ...prevState,
-        [name]: true,
-      }));
-    }
-  };
   var prevInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
   if (prevInfo !== null && typeof prevInfo !== 'undefined') {
     if (personalInfo.formCompleted === false) {
@@ -231,6 +206,53 @@ const PersonalInfo = forwardRef((props, ref) => {
       }));
     }
   }
+  const validateEmail=(email)=>{
+    let isCorrectEmail= new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(email);
+    if(email.length!==0){
+    if(isCorrectEmail){
+      setEmailErrorMessage('');
+    }else{
+      setEmailErrorMessage('Please enter valid email address')
+    }
+  }
+    if(prevInfo?prevInfo.email.length===0:true){
+      setEmailErrorMessage('');
+    }
+   }
+  
+  const handleChange = (event) => {
+  debugger;
+    const { name, value } = event.target;
+    
+    setPersonalInfo((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    if(name==='email'){
+      if(value.length===0 || value==''){
+        setIsEmailValid(true);
+      }else{
+    let emailChecker = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(value);
+    setIsEmailValid(emailChecker);
+  }
+    }else{
+    setNotCompleted((prevState) => ({
+      ...prevState,
+      [name]: false,
+    }));
+  }
+    if (value != '') {
+      
+    }
+    else{
+      
+      setNotCompleted((prevState) => ({
+        ...prevState,
+        [name]: true,
+      }));
+    }
+  };
+  
  
     useEffect(() => {
       debugger;
@@ -252,7 +274,7 @@ const PersonalInfo = forwardRef((props, ref) => {
         isUnder18: personalInfo.isUnder18,
         isAdoption: personalInfo.isAdoption,
         nationalityId:personalInfo.nationalityId && personalInfo.nationalityId !== 0 ? false : true,
-        maritalStatusEnum: personalInfo.maritalStatusEnum ? false : true,
+        maritalStatusEnum: personalInfo.maritalStatusEnum ? false : personalInfo.maritalStatusEnum==0?false:true,
         phoneNumber: personalInfo.phoneNumber ? false : true,
         email: personalInfo.email ? false : true,
       });
@@ -582,13 +604,18 @@ const PersonalInfo = forwardRef((props, ref) => {
               >
                 <label class="passport-selectList-label">
                   Marital Status
-                  
+                  <i
+                    class="required-for-select-list"
+                    style={{ color: 'red' }}
+                  >
+                    *
+                  </i>{' '}
                 </label>
                 <select
                   name="maritalStatusEnum"
                   onChange={handleChange}
                   className="browser-default custom-select"
-                  defaultValue={prevInfo ? prevInfo.maritalStatusEnum?prevInfo.maritalStatusEnum:9 : 9}
+                  defaultValue={prevInfo ? prevInfo.maritalStatusEnum?prevInfo.maritalStatusEnum:prevInfo.maritalStatusEnum==0?0:9 : 9}
                 >
                   <option value="9">Choose Marital Status</option>
                   <option value="0" >Single</option>
@@ -795,10 +822,8 @@ const PersonalInfo = forwardRef((props, ref) => {
               />
               <span style={{ color: 'red' }}>
                 {' '}
-                {notCompleted.email === false &&
-                isEmail(personalInfo.email) === false &&
-                personalInfo.dataSaved == true
-                  ? 'Please insert the correct email format'
+                {!isEmailValid
+                  ? 'Please enter valid email address'
                   : null}
               </span>
             </MDBCol>

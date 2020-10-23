@@ -9,7 +9,7 @@ import ViewAppointment from './viewAppointment';
 import HorizontalLabelPositionBelowStepper from './EditApplicationList/PersonslInfoStepper';
 import RescheduleAppointment from './Rescheduleappointment/appointmentDate';
 import GetContent from '../UrgentAppointment/Payment/PaymentSelection';
-
+import Spinner from '../common/Spinner';
 const Errorstyle = {
   fontSize: '1.2rem',
 };
@@ -198,7 +198,12 @@ const MainStatus = () => {
       />
     );
   } else {
+    
     return (
+      <div>
+    {loading ? (
+      <Spinner />
+    ) : (
       <Status
         ApplicationNumberData={ApplicationNumberData}
         ShowForm={ShowForm}
@@ -223,6 +228,10 @@ const MainStatus = () => {
         handlePayment={handlePayment}
         internalServerError={internalServerError}
       />
+   
+    )
+  }
+    </div>
     );
   }
 };
