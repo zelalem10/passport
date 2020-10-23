@@ -29,6 +29,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import API from '../../Utils/API';
 import { MDBContainer, MDBCard, MDBAlert } from 'mdbreact';
 import { isValid, parse } from 'date-fns';
+import Spinner from '../../common/Spinner';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,6 +63,8 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   const [activeStep, setActiveStep] = useState(0);
   const [displayAlert, setDisplayAlert] = useState('');
   const [responseMessage, setResponseMessage] = useState('');
+  const [loading, setloading] = useState(false);
+
 
   const steps = getSteps();
 
@@ -101,6 +104,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setResponseMessage('');
   };
 
   const handleReset = () => {
@@ -110,9 +114,13 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   const handleFinish = () => {
     const travelPlan= childRef.current.saveData();
     const isValid = childRef.current.Validate();
+    setloading(true);
+
     if (isValid != true) {
       //setResponseMessage("Ple")
+      setloading(false);
     } else {
+
       var personalInfo =
         counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
 
@@ -137,7 +145,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
         confirmationNumber: displayedApplication.confirmationNumber,
 
-        personRequest: [
+        applicants: [
           {
             personId: personalInfo ? personalInfo.id : null,
 
@@ -235,6 +243,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
           },
         ],
       };
+      debugger;
       console.log(JSON.stringify(requestBody));
       API.put(
         'https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/UpdateRequest',
@@ -243,12 +252,15 @@ export default function HorizontalLabelPositionBelowStepper(props) {
       )
 
         .then((todo) => {
+          setloading(false);
           handleNext();
           setResponseMessage('');
+          
         })
 
         .catch((err) => {
-          setResponseMessage(err.response.data.title);
+          setloading(false);
+          setResponseMessage(err.response.data.Message);
         });
     }
   };
@@ -302,6 +314,8 @@ export default function HorizontalLabelPositionBelowStepper(props) {
   }
 
   return (
+    <div>
+    {loading?<Spinner />:
     <MDBContainer className="passport-container pt-3" fluid>
       <div class="div-title text-center mywizardcss pt-3 pb-3">
         <div className="header-display">
@@ -412,8 +426,9 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
                   <hr></hr>
 
-                  <Grid item xs={1}>
+                  
                     {activeStep === steps.length - 2 ? (
+                      <Grid item xs={1}>
                       <div className="multistep-form__step">
                         <a
                           class="specialty-next-step button float-right vertical-margin-2"
@@ -423,7 +438,9 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                           Finish
                         </a>
                       </div>
-                    ) : (
+                      </Grid>
+                    ) :activeStep !== steps.length - 1? (
+                      <Grid item xs={1}>
                       <div className="multistep-form__step">
                         <a
                           class="specialty-next-step button float-right vertical-margin-2"
@@ -433,14 +450,28 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                           Next <i class="fas fa-arrow-right"></i>
                         </a>
                       </div>
-                    )}
+                      </Grid>
+                    ):<Grid item xs={3}>
+                    <div className="multistep-form__step">
+                        <a
+                          class="button hollow gray vertical-margin-2 ng-star-inserted"
+                          onClick={backToList}
+                        >
+                          <i class="fas fa-arrow-right"></i> Back
+                              <span class="show-for-medium">
+                                {' '}
+                                To My Application List
+                              </span>
+                        </a>
+                      </div>
+                    </Grid>}
                   </Grid>
-                </Grid>
+                
               </div>
             )}
           </div>
         </div>
       </MDBCard>
     </MDBContainer>
-  );
+ }</div> );
 }
