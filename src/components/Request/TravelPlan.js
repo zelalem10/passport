@@ -151,6 +151,13 @@ const compareDates=(changedDate,isIssue)=>{
         dataSaved: prevInfo ? prevInfo.dataSaved : null,
         formCompleted: true,
       }));
+      setNotCompleted({
+        pageQuantity: Number.parseInt(travelPlan.pageQuantity, 10) === 0 ? true : false,
+        passportNumber: travelPlan.passportNumber === '' ? true : false,
+        expirationDate: travelPlan.expirationDate === '' ? true : false,
+        issueDate: travelPlan.issueDate === '' ? true : false,
+        correctionReason: travelPlan.correctionReason === '' ? true : false,
+      });
     
     }
     }
@@ -198,7 +205,6 @@ const compareDates=(changedDate,isIssue)=>{
         expirationDate: travelPlan.expirationDate === '' ? true : false,
         issueDate: travelPlan.issueDate === '' ? true : false,
         correctionReason: travelPlan.correctionReason === '' ? true : false,
-        passportNumber: travelPlan.passportNumber === '' ? true : false,
       });
       if (notCompleted.pageQuantity === true) 
       {
