@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import Spinner from '../common/Spinner';
 import axios from 'axios';
 import { useTranslation, Trans } from 'react-i18next';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const ContactUs = (props) => {
   const { t, i18n } = useTranslation();
@@ -29,8 +30,25 @@ const ContactUs = (props) => {
   let [noteError, setnoteError] = useState('');
   const [loading, setloading] = useState(false);
   const [Message, setMessage] = useState(false);
+  const [data,setData]=useState({
+    human:false,
+    humanKey:'',
+    ReCAPTCHAError:'',
+  })
+ const verifyCaptcha = (res) => {
+    if (res) {
+      setData({ human: true, humanKey: res });
+    }
+  };
 
+  // ReCAPTCHA Expired
+ const expireCaptcha = () => {
+    setData({ human: false, humanKey: null });
+  };
   const validate = () => {
+    if (!data.human) {
+      data.ReCAPTCHAError = 'Please verify you are human.';
+    }
     if (!firstName) {
       firstNameError = 'First name is required.';
     } else firstNameError = '';
@@ -237,6 +255,21 @@ const ContactUs = (props) => {
                         />
                       </div>
                     </div>
+                    <ReCAPTCHA
+                          class="m-3"
+                          //prod
+                          sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
+
+                          //local
+                          // sitekey="6Ld1odEZAAAAAC_M4JbsRXzapA5aSZXUd5ukXuBV"
+                          onChange={verifyCaptcha}
+                          onExpired={expireCaptcha}
+                        />
+                        {data.ReCAPTCHAError ? (
+                          <div className="red-text ml-5">
+                            {data.ReCAPTCHAError}
+                          </div>
+                        ) : null}
                     <div class="col-12 medium text-center">
                       <MDBBtn type="submit" class="btn btnBlu">
                       <Trans>contactUs.submit</Trans> 

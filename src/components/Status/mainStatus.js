@@ -9,7 +9,6 @@ import ViewAppointment from './viewAppointment';
 import HorizontalLabelPositionBelowStepper from './EditApplicationList/PersonslInfoStepper';
 import RescheduleAppointment from './Rescheduleappointment/appointmentDate';
 import GetContent from '../UrgentAppointment/Payment/PaymentSelection';
-import Spinner from '../common/Spinner';
 
 const Errorstyle = {
   fontSize: '1.2rem',
@@ -63,6 +62,8 @@ const MainStatus = () => {
 
   const [handlePaymentId, setHandlePaymentId] = useState('');
   const [goToPayment, setGoToPayment] = useState(false);
+  const [internalServerError, setinternalServerError] = useState('');
+
 
   const handleDisplay = (id) => {
     setDisplayRequestId(id);
@@ -82,6 +83,7 @@ const MainStatus = () => {
   };
   //validate form
   const validate = () => {
+    
     if (!ApplicationNumber && !ConfirmationNumber) {
       AllError = 'Please fill at least one field.';
     } else {
@@ -101,10 +103,12 @@ const MainStatus = () => {
   };
 
   const handleSubmit = (e) => {
+    debugger;
     e.preventDefault();
     setloading(true);
     const isValid = validate();
     if (isValid) {
+      AllError = '';
       setApplicationNumber(ApplicationNumber);
       setConfirmationNumber(ConfirmationNumber);
       if (ApplicationNumber) {
@@ -115,6 +119,7 @@ const MainStatus = () => {
             config
           )
           .then((response) => {
+            debugger;
             setApplicationNumberData(response.data.serviceRequest);
             setAllError('');
             if (response.data.status !== 0) {
@@ -128,6 +133,9 @@ const MainStatus = () => {
           .catch((error) => {
             debugger;
             console.log('error' + error);
+            const errorMessage = error.response.data.message;
+            setinternalServerError(errorMessage);
+            setloading(false);
           });
       } else if (ConfirmationNumber) {
         axios
@@ -148,6 +156,9 @@ const MainStatus = () => {
           })
           .catch((error) => {
             console.log('error' + error);
+            const errorMessage = error.response.data.message;
+            setinternalServerError(errorMessage);
+            setloading(false);
           });
       }
     }
@@ -187,8 +198,7 @@ const MainStatus = () => {
       />
     );
   } else {
-    return (<div>
-      {loading?<Spinner />:
+    return (
       <Status
         ApplicationNumberData={ApplicationNumberData}
         ShowForm={ShowForm}
@@ -211,8 +221,8 @@ const MainStatus = () => {
         handleEdit={handleEdit}
         handleReschedule={handleReschedule}
         handlePayment={handlePayment}
-      />}
-      </div>
+        internalServerError={internalServerError}
+      />
     );
   }
 };

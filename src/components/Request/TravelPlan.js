@@ -40,7 +40,7 @@ const TravelPlan = forwardRef((props, ref) => {
   const { t, i18n } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
   const [travelPlan, setTravelPlan] = useState({
-    pageQuantity: 0,
+    pageQuantity: '',
     passportNumber: '',
     expirationDate: '',
     issueDate: '',
@@ -80,7 +80,7 @@ const TravelPlan = forwardRef((props, ref) => {
       ...prevState,
       [name]: value,
     }));
-    if (value != '') {
+    if (value !== '') {
       setNotCompleted((prevState) => ({
         ...prevState,
         [name]: false,
@@ -94,8 +94,6 @@ const TravelPlan = forwardRef((props, ref) => {
     }
     dispatch(addTravelPlan(travelPlan))
   };
-
-
   const handleCheck = (name, checked) => {
     setTravelPlan((prevState) => ({
       ...prevState,
@@ -167,9 +165,9 @@ const compareDates=(changedDate,isIssue)=>{
     prevInfo ? prevInfo.expirationDate : new Date()
   );
   useEffect(() => {
-    // if (counter.travelPlan.length === 0) {
-    //   dispatch(addTravelPlan(travelPlan));
-    // }
+    if (counter.travelPlan.length === 0) {
+      dispatch(addTravelPlan(travelPlan));
+    }
     setPassportTypeList(JSON.parse(localStorage.PassportPageQuantity))
     if(passportTypeList.length===0){
       API.get(
@@ -203,8 +201,15 @@ const compareDates=(changedDate,isIssue)=>{
         passportNumber: travelPlan.passportNumber === '' ? true : false,
       });
       if (notCompleted.pageQuantity === true) 
-      return false;
-      else return true;
+      {
+        return false;
+      }
+      else if(requestTypeStr != 'New' && notCompleted.passportNumber===true)
+      {
+        return false;
+      }
+      else 
+      return true;
     },
   }));
   return (
@@ -241,7 +246,7 @@ const compareDates=(changedDate,isIssue)=>{
                 <span style={{ color: 'red' }}>
                   {' '}
                   {notCompleted.pageQuantity === true &&
-                  travelPlan.dataSaved == true
+                  travelPlan.dataSaved === true
                     ? 'Passport page ' + isRequired
                     : null}
                 </span>{' '}
@@ -256,6 +261,13 @@ const compareDates=(changedDate,isIssue)=>{
                     type="text"
                     label="Old Passport Number"
                   />
+                  <span style={{ color: 'red' }}>
+                  {' '}
+                  {notCompleted.passportNumber === true &&
+                  travelPlan.dataSaved === true
+                    ? 'Old Passport Number ' + isRequired
+                    : null}
+                </span>{' '}
                 </MDBCol>
               ):(null)}
             

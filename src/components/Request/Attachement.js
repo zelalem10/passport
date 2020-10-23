@@ -155,6 +155,7 @@ const Fileupload = forwardRef((props, ref) => {
         formData.append('personRequestId', requestPersonId);
         formData.append(key, files[key]);
         console.log(key);
+        console.log(requestPersonId);
         console.log(files[key]);
       }
       const url =
@@ -176,8 +177,10 @@ const Fileupload = forwardRef((props, ref) => {
         props.showBack();
         props.VerticalNext();
       } catch (error) {
+        debugger;
         console.log('error' + error.message);
-        setserverErrorMessage(error.data.message)
+        const errorMessage = error.response.data.Message
+        setserverErrorMessage(errorMessage) 
         setloading(false);
         //props.showBack();
       }
@@ -261,10 +264,13 @@ const Fileupload = forwardRef((props, ref) => {
                     ))
                   : null}
 
-                  {
-                  serverErrorMessage?
-                  serverErrorMessage : null
-                  }
+                    { 
+                    serverErrorMessage? 
+                    <h5 class="text-danger text-center">
+                      {serverErrorMessage}
+                    </h5> : null
+                    }
+
               </div>
             </div>
 
