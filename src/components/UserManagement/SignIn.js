@@ -307,9 +307,9 @@ function SignIn() {
                 <MDBModalFooter className="mx-5 pt-3 mb-1">
                   <p className="font-medium grey-text d-flex justify-content-end">
                   <Trans>register.notMemeber</Trans>
-                    <a href="/SignUp" color="cyan" className="blue-text mx-2">
+                    <Link to="/SignUp" color="cyan" className="blue-text mx-2">
                     <Trans>register.signUp</Trans>
-                    </a>
+                    </Link>
                   </p>
                 </MDBModalFooter>
               </MDBCard>
