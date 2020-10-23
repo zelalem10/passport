@@ -144,8 +144,8 @@ const compareDates=(changedDate,isIssue)=>{
         ...prevState,
         pageQuantity: prevInfo ? prevInfo.pageQuantity : 0,
         passportNumber: prevInfo ? prevInfo.passportNumber : null,
-        expirationDate: prevInfo ? prevInfo.expirationDate.toString() : null,
-        issueDate: prevInfo ? prevInfo.issueDate.toString() : null,
+        expirationDate: prevInfo ? prevInfo.expirationDate: new Date,
+        issueDate: prevInfo ? prevInfo.issueDate : new Date(),
         correctionReason: prevInfo ? prevInfo.correctionReason : null,
         isDatacorrected: prevInfo ? prevInfo.isDatacorrected : false,
         dataSaved: prevInfo ? prevInfo.dataSaved : null,
@@ -165,9 +165,7 @@ const compareDates=(changedDate,isIssue)=>{
     prevInfo ? prevInfo.expirationDate : new Date()
   );
   useEffect(() => {
-    if (counter.travelPlan.length === 0) {
-      dispatch(addTravelPlan(travelPlan));
-    }
+   
     setPassportTypeList(JSON.parse(localStorage.PassportPageQuantity))
     if(passportTypeList.length===0){
       API.get(

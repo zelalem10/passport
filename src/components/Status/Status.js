@@ -137,12 +137,12 @@ function Status(props) {
                                   </div>
                                   <div>
                                     <strong className="d-inline">
-                                      Appointment Date :{' '}
+                                     {ApplicationNumberData.type=='New'?'Appointment ':'Delivery '} Date :{' '}
                                     </strong>
-                                    {ApplicationNumberData.appointmentResponse
+                                    {ApplicationNumberData.type=='New'?(ApplicationNumberData.appointmentResponse
                                       ? ApplicationNumberData
                                           .appointmentResponse.date
-                                      : null}
+                                      : null):(ApplicationNumberData.personResponses?ApplicationNumberData.personResponses.deliveryAppointment:null)}
                                   </div>
                                   <div>
                                     <strong className="d-inline">

@@ -336,17 +336,17 @@ export default function HorizontalLabelPositionBelowStepper(props) {
           </div>
           <div class="form-group form-inline passport-display">
             <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-              Appointement Date:{' '}
+            {displayedApplication.type==='New'?'Appointment':'Delivery'} Date:{' '}
             </label>
             &nbsp;&nbsp;&nbsp;&nbsp;
             <b>
               <label class="font-weight-bold">
-                {displayedApplication.appointmentResponse
-                  ? displayedApplication.appointmentResponse.date
-                  : null}
+              {displayedApplication.appointmentResponse ? displayedApplication.appointmentResponse.date :personalInformation?personalInformation.deliveryAppointment:null}
+                
               </label>
             </b>
           </div>
+         
         </div>
       </div>
       <MDBCard style={{ marginBottom: '1rem' }}>
