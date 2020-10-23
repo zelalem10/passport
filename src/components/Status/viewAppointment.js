@@ -44,7 +44,13 @@ const AccordionSummary = withStyles({
   },
   expanded: {},
 })(MuiAccordionSummary);
-
+const dateFormatter=(date)=>{
+  let selectDays = new Date(date);
+  let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(selectDays);
+ let mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(selectDays);
+ let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(selectDays);
+ return (`${mo} ${da}, ${ye}`);
+ }
 const AccordionDetails = withStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
@@ -194,12 +200,12 @@ export default function ViewAppointment(props) {
             &nbsp;&nbsp;&nbsp;&nbsp;
             <b>
               <label class="font-weight-bold">
-                {new Date(displayedApplication.requestDate)
-                  .toISOString()
-                  .substr(0, 10)}
+              {dateFormatter(displayedApplication.requestDate)}
+               
               </label>
             </b>
           </div>
+          
           <div class="form-group form-inline passport-display">
             <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
             {displayedApplication.type==='New'?'Appointment':'Delivery'} Date:{' '}
@@ -207,7 +213,7 @@ export default function ViewAppointment(props) {
             &nbsp;&nbsp;&nbsp;&nbsp;
             <b>
               <label class="font-weight-bold">
-              {displayedApplication.appointmentResponse ? displayedApplication.appointmentResponse.date :personalInformation?personalInformation.deliveryAppointment:null}
+              {displayedApplication.appointmentResponse ? dateFormatter(displayedApplication.appointmentResponse.date) :personalInformation?dateFormatter(personalInformation.deliveryAppointment):null}
                 
               </label>
             </b>
@@ -335,9 +341,8 @@ export default function ViewAppointment(props) {
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <b>
                   <label class="font-weight-bold">
-                    {new Date(personalInformation.dateOfBirth)
-                      .toISOString()
-                      .substr(0, 10)}
+                  {dateFormatter(personalInformation.dateOfBirth)}
+                   
                   </label>
                 </b>
               </div>

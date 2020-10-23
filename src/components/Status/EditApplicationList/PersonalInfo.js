@@ -23,6 +23,11 @@ const PersonalInfo = forwardRef((props, ref) => {
   const [nationalityList, setNationalityList] = useState([]);
   const [occupationList, setOccupationList] = useState([]);
   const [emailErrorMessage,setEmailErrorMessage]=useState('');
+  const [nameErrorMessage,setNameErrorMessage]=useState({
+    firstName: '',
+    middleName: '',
+    lastName: '',
+});
   const { personalInformation } = props;
   const tokenValue = () => {
     const UserToken = localStorage.userToken;
@@ -38,7 +43,30 @@ const PersonalInfo = forwardRef((props, ref) => {
   const config = {
     headers: { Authorization: 'Bearer ' + token },
   };
+  const validateName=(name)=>{
+    var isValidName = true;
+    if(/[!@#$%^&*(),.?":{}|<>]/g.test(name) ||  /\d+/g.test(name)) {
+      isValidName = false;
+    }
+    return isValidName;
+  }
 
+  const handleNameChange=(e)=>{
+    const { name, value } = e.target;
+    let isNameValid=validateName(value);
+    if(isNameValid){
+        setNameErrorMessage((prevState) => ({
+            ...prevState,
+            [name]: '',
+        }))
+    }else{
+        setNameErrorMessage((prevState) => ({
+            ...prevState,
+            [name]: 'Please enter characters A-Z only',
+        }))
+    }
+           
+  }
   const validateEmail=(email)=>{
     let isCorrectEmail= new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(email);
     if(isCorrectEmail){
@@ -133,7 +161,10 @@ const PersonalInfo = forwardRef((props, ref) => {
         notCompleted.gender === true ||
         //notCompleted.maritalStatusEnum === true ||
         //notCompleted.birthCertificateId === true ||
-        notCompleted.birthPlace===true
+        notCompleted.birthPlace===true||
+        nameErrorMessage.firstName||
+                nameErrorMessage.lastName||
+                nameErrorMessage.middleName
       )
         return false;
       else return true;
@@ -268,7 +299,8 @@ const PersonalInfo = forwardRef((props, ref) => {
                 error="wrong"
                 success="right"
                 valueDefault={prevInfo ? prevInfo.firstName : null}
-                onChange={handleChange}
+                onBlur={handleChange}
+                onChange={handleNameChange}
               />
               <span style={{ color: 'red' }}>
                 {' '}
@@ -276,6 +308,9 @@ const PersonalInfo = forwardRef((props, ref) => {
                 personalInfo.dataSaved == true
                   ? 'First name ' + isRequired
                   : null}
+                  {
+                                            nameErrorMessage.firstName?nameErrorMessage.firstName:null
+                                        }
               </span>
             </MDBCol>
           </MDBCol>
@@ -291,7 +326,8 @@ const PersonalInfo = forwardRef((props, ref) => {
                 error="wrong"
                 success="right"
                 valueDefault={prevInfo ? prevInfo.middleName : null}
-                onChange={handleChange}
+                onBlur={handleChange}
+                onChange={handleNameChange}
               />
               <span style={{ color: 'red' }}>
                 {' '}
@@ -299,6 +335,9 @@ const PersonalInfo = forwardRef((props, ref) => {
                 personalInfo.dataSaved == true
                   ? 'Father Name ' + isRequired
                   : null}
+                  {
+                                            nameErrorMessage.middleName?nameErrorMessage.middleName:null
+                                        }
               </span>
             </MDBCol>
           </MDBCol>
@@ -313,7 +352,8 @@ const PersonalInfo = forwardRef((props, ref) => {
                 error="wrong"
                 success="right"
                 valueDefault={prevInfo ? prevInfo.lastName : null}
-                onChange={handleChange}
+                onBlur={handleChange}
+                onChange={handleNameChange}
               />
               <span style={{ color: 'red' }}>
                 {' '}
@@ -321,6 +361,9 @@ const PersonalInfo = forwardRef((props, ref) => {
                 personalInfo.dataSaved == true
                   ? 'Grand Father Name ' + isRequired
                   : null}
+                  {
+                                            nameErrorMessage.lastName?nameErrorMessage.lastName:null
+                                        }
               </span>
             </MDBCol>
           </MDBCol>

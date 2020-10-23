@@ -31,6 +31,13 @@ function Status(props) {
     date.setDate(date.getDate() + 1);
     return date;
   };
+  const dateFormatter=(date)=>{
+    let selectDays = new Date(date);
+    let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(selectDays);
+   let mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(selectDays);
+   let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(selectDays);
+   return (`${mo} ${da}, ${ye}`);
+   }
   return (
     <>
       {
@@ -137,12 +144,12 @@ function Status(props) {
                                   </div>
                                   <div>
                                     <strong className="d-inline">
-                                      Appointment Date :{' '}
+                                    {ApplicationNumberData.type==='New'?'Appointment':'Delivery'} Date :{' '}
                                     </strong>
-                                    {ApplicationNumberData.appointmentResponse
-                                      ? ApplicationNumberData
-                                          .appointmentResponse.date
-                                      : null}
+                                    {ApplicationNumberData.type==='New'?(ApplicationNumberData.appointmentResponse
+                                      ?dateFormatter(ApplicationNumberData
+                                        .appointmentResponse.date) 
+                                      : null):ApplicationNumberData.personResponses?dateFormatter(ApplicationNumberData.personResponses.deliveryAppointment):null}
                                   </div>
                                   <div>
                                     <strong className="d-inline">
