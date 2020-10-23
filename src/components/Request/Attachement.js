@@ -117,7 +117,7 @@ const Fileupload = forwardRef((props, ref) => {
             )}`);
       }
   
-      if (files[key].size > 4000000) {
+      if (files[key].size > 1000000) {
         fileError.push(`  
         ${files[key].name ? (
           files[key].name + " is Invalid size, Please upload correct file size!"
@@ -253,7 +253,7 @@ const Fileupload = forwardRef((props, ref) => {
             <div class="row ">
               <div class="col-md-10 " id="attachmentmargin">
               <MDBBadge color="primary smallPadding " className='mb-2'>
-                Size of the image should be less than 4MB and in JPEG, JPG, PNG, GIF format
+                Size of the image should be less than 1MB and in JPEG, JPG, PNG, GIF format
                 </MDBBadge>
 
                 {errorMessage.length
