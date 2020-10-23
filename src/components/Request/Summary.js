@@ -225,6 +225,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                     </label>
                   </b>
                 </div>
+                {requests[0].type==='New'?
                 <div class="form-group form-inline passport-display">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                   Delivery Site
@@ -235,7 +236,7 @@ let attachementResponse =  data.attachement[data.attachement.length - 1];
                       {requests[0].deliverySite}
                     </label>
                   </b>
-                </div>
+                </div>:null}
               </div>
             </div>
             <div

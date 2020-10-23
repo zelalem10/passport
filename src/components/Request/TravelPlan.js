@@ -42,10 +42,12 @@ const TravelPlan = forwardRef((props, ref) => {
   const [travelPlan, setTravelPlan] = useState({
     pageQuantity: '',
     passportNumber: '',
-    expirationDate: '',
-    issueDate: '',
+    expirationDate: new Date(),
+    issueDate: new Date(),
     correctionReason: '',
     isDatacorrected: false,
+    isIssueDateChanged:false,
+    isExpirationDateChanged:false,
     dataSaved: false,
     formCompleted: false,
   });
@@ -69,9 +71,9 @@ const TravelPlan = forwardRef((props, ref) => {
   let requestTypefromRedux = useSelector((state) => state.service);
   let personalInfoReducer = useSelector((state) => state.personalInfoReducer);
 
-  // if (counter.travelPlan.length === 0) {
-  //   dispatch(addTravelPlan(travelPlan));
-  // }
+  if (counter.travelPlan.length === 0) {
+    dispatch(addTravelPlan(travelPlan));
+  }
   
 
   const handleChange = (event) => {
@@ -85,6 +87,7 @@ const TravelPlan = forwardRef((props, ref) => {
         ...prevState,
         [name]: false,
       }));
+      dispatch(addTravelPlan({...travelPlan,[name]: value}));
     }
     else{
       setNotCompleted((prevState) => ({
@@ -92,7 +95,6 @@ const TravelPlan = forwardRef((props, ref) => {
         [name]: true,
       }));
     }
-    dispatch(addTravelPlan(travelPlan))
   };
   const handleCheck = (name, checked) => {
     setTravelPlan((prevState) => ({
@@ -109,19 +111,22 @@ const TravelPlan = forwardRef((props, ref) => {
     setTravelPlan((prevState) => ({
       ...prevState,
       issueDate: date,
+      isIssueDateChanged:true,
     }));
   };
   const handleexpirationDateChange = (date) => {
     compareDates(date,false);
     setSelectedexpirationDate(date);
+    
+    
     setTravelPlan((prevState) => ({
       ...prevState,
       expirationDate: date,
+      isExpirationDateChanged:true,
     }));
   };
   // check date difference between two dates
 const compareDates=(changedDate,isIssue)=>{
-  debugger;
     // To calculate the time difference of two dates 
     let Difference_In_Time='';
     if(isIssue){
@@ -144,14 +149,13 @@ const compareDates=(changedDate,isIssue)=>{
         ...prevState,
         pageQuantity: prevInfo ? prevInfo.pageQuantity : 0,
         passportNumber: prevInfo ? prevInfo.passportNumber : null,
-        expirationDate: prevInfo ? prevInfo.expirationDate.toString() : null,
-        issueDate: prevInfo ? prevInfo.issueDate.toString() : null,
+        expirationDate: prevInfo ? prevInfo.expirationDate: new Date(),
+        issueDate: prevInfo ? prevInfo.issueDate : new Date(),
         correctionReason: prevInfo ? prevInfo.correctionReason : null,
         isDatacorrected: prevInfo ? prevInfo.isDatacorrected : false,
         dataSaved: prevInfo ? prevInfo.dataSaved : null,
         formCompleted: true,
       }));
-    
     }
     }
   const serviceSelcetion = counter.service[counter.service.length - 1];
@@ -165,9 +169,13 @@ const compareDates=(changedDate,isIssue)=>{
     prevInfo ? prevInfo.expirationDate : new Date()
   );
   useEffect(() => {
-    if (counter.travelPlan.length === 0) {
-      dispatch(addTravelPlan(travelPlan));
-    }
+    setNotCompleted({
+      pageQuantity: travelPlan.pageQuantity === '' ? true : false,
+      passportNumber: travelPlan.passportNumber === '' ? true : false,
+      expirationDate: travelPlan.expirationDate === '' ? true : false,
+      issueDate: travelPlan.issueDate === '' ? true : false,
+      correctionReason: travelPlan.correctionReason === '' ? true : false,
+    });
     setPassportTypeList(JSON.parse(localStorage.PassportPageQuantity))
     if(passportTypeList.length===0){
       API.get(
@@ -192,14 +200,13 @@ const compareDates=(changedDate,isIssue)=>{
       return travelPlan;
     },
     Validate() {
-      setNotCompleted({
-        pageQuantity: Number.parseInt(travelPlan.pageQuantity, 10) === 0 ? true : false,
-        passportNumber: travelPlan.passportNumber === '' ? true : false,
-        expirationDate: travelPlan.expirationDate === '' ? true : false,
-        issueDate: travelPlan.issueDate === '' ? true : false,
-        correctionReason: travelPlan.correctionReason === '' ? true : false,
-        passportNumber: travelPlan.passportNumber === '' ? true : false,
-      });
+      // setNotCompleted({
+      //   pageQuantity: Number.parseInt(travelPlan.pageQuantity, 10) === 0 ? true : false,
+      //   passportNumber: travelPlan.passportNumber === '' ? true : false,
+      //   expirationDate: travelPlan.expirationDate === '' ? true : false,
+      //   issueDate: travelPlan.issueDate === '' ? true : false,
+      //   correctionReason: travelPlan.correctionReason === '' ? true : false,
+      // });
       if (notCompleted.pageQuantity === true) 
       {
         return false;

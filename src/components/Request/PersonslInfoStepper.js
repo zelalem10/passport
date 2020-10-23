@@ -145,6 +145,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
               occupationId: personalInfo
                 ? Number.parseInt(personalInfo.occupationId, 10)
                 : null,
+              birthPlace: personalInfo ? personalInfo.birthPlace : null,
               halfCast: personalInfo ? personalInfo.halfCast : null,
               enrolmentDate: personalInfo ? personalInfo.birthDate : null,
               birthCertificateId: personalInfo
@@ -157,8 +158,8 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
               isUnder18: personalInfo ? personalInfo.isUnder18 : false,
               isAdoption: personalInfo ? personalInfo.isAdoption : false,
               passportNumber: travelPlan ? travelPlan.passportNumber : null,
-              issueDate: new Date(),
-              expireDate: new Date(),
+              issueDate: travelPlan ?(travelPlan.isIssueDateChanged||travelPlan.isExpirationDateChanged? travelPlan.issueDate:null) : null,
+              expireDate:travelPlan ? (travelPlan.isExpirationDateChanged||travelPlan.isIssueDateChanged?travelPlan.expirationDate:null) : null,
               passportType: travelPlan ? travelPlan.passportType : null,
               isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
               passportPageId: travelPlan
@@ -268,6 +269,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
               geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
               geezLastName: personalInfo ? personalInfo.geezLastName : null,
               dateOfBirth: personalInfo ? personalInfo.birthDate : null,
+              birthPlace: personalInfo ? personalInfo.birthPlace : null,
               gender: personalInfo
                 ? Number.parseInt(personalInfo.gender, 10)
                 : null,
