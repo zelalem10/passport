@@ -169,13 +169,7 @@ const compareDates=(changedDate,isIssue)=>{
     prevInfo ? prevInfo.expirationDate : new Date()
   );
   useEffect(() => {
-    setNotCompleted({
-      pageQuantity: travelPlan.pageQuantity === '' ? true : false,
-      passportNumber: travelPlan.passportNumber === '' ? true : false,
-      expirationDate: travelPlan.expirationDate === '' ? true : false,
-      issueDate: travelPlan.issueDate === '' ? true : false,
-      correctionReason: travelPlan.correctionReason === '' ? true : false,
-    });
+   
     setPassportTypeList(JSON.parse(localStorage.PassportPageQuantity))
     if(passportTypeList.length===0){
       API.get(

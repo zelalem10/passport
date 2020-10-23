@@ -20,6 +20,7 @@ import API from '../../Utils/API';
 
 
 const PersonalInfo = forwardRef((props, ref) => {
+  debugger;
   const [nationalityList, setNationalityList] = useState([]);
   const [occupationList, setOccupationList] = useState([]);
   const [emailErrorMessage,setEmailErrorMessage]=useState('');
@@ -113,7 +114,7 @@ const [isEmailValid,setIsEmailValid]=useState(true);
     geezLastName: personalInformation.geezLastName ? false : true,
     birthPlace: personalInformation.birthPlace ? false : true,
     birthCertificateId: personalInformation.birthCertificateId ? false : true,
-    maritalStatusEnum: personalInformation.passportRes.maritalStatusEnum ? false : true,
+    maritalStatusEnum: personalInformation.passportRes.maritalStatusEnum ? false : personalInformation.passportRes.maritalStatusEnum==0?false:true,
     dateOfBirth: personalInformation.dateOfBirth ? false : true,
     gender: personalInformation.gender ? false : true,
     height: personalInformation.height ? false : true,
@@ -273,7 +274,7 @@ const [isEmailValid,setIsEmailValid]=useState(true);
         isUnder18: personalInfo.isUnder18,
         isAdoption: personalInfo.isAdoption,
         nationalityId:personalInfo.nationalityId && personalInfo.nationalityId !== 0 ? false : true,
-        maritalStatusEnum: personalInfo.maritalStatusEnum ? false : true,
+        maritalStatusEnum: personalInfo.maritalStatusEnum ? false : personalInfo.maritalStatusEnum==0?false:true,
         phoneNumber: personalInfo.phoneNumber ? false : true,
         email: personalInfo.email ? false : true,
       });
@@ -603,13 +604,18 @@ const [isEmailValid,setIsEmailValid]=useState(true);
               >
                 <label class="passport-selectList-label">
                   Marital Status
-                  
+                  <i
+                    class="required-for-select-list"
+                    style={{ color: 'red' }}
+                  >
+                    *
+                  </i>{' '}
                 </label>
                 <select
                   name="maritalStatusEnum"
                   onChange={handleChange}
                   className="browser-default custom-select"
-                  defaultValue={prevInfo ? prevInfo.maritalStatusEnum?prevInfo.maritalStatusEnum:9 : 9}
+                  defaultValue={prevInfo ? prevInfo.maritalStatusEnum?prevInfo.maritalStatusEnum:prevInfo.maritalStatusEnum==0?0:9 : 9}
                 >
                   <option value="9">Choose Marital Status</option>
                   <option value="0" >Single</option>
