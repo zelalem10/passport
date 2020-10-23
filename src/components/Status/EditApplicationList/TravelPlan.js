@@ -25,7 +25,6 @@ const TravelPlan = forwardRef((props, ref) => {
   const [travelPlan, setTravelPlan] = useState({
     filledBy: passportRes.filledBy,
     passportPageId: parseInt(passportRes.passportPageId),
-    passportType: passportRes.passportType,
     passportNumber: passportRes.passportNumber,
     expireDate: passportRes.expireDate,
     issueDate: passportRes.issueDate,

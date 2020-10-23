@@ -31,7 +31,7 @@ const FamilyInformation = forwardRef((props, ref) => {
     familtyTypeId: '',
     personId: '',
   });
-
+debugger;
   if (
     familiesInfo.length === 0 &&
     isOnLoad === true &&
