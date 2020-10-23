@@ -68,14 +68,14 @@ const PersonalInfo = forwardRef((props, ref) => {
     }
            
   }
-  const validateEmail=(email)=>{
-    let isCorrectEmail= new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(email);
-    if(isCorrectEmail){
-      setEmailErrorMessage('');
-    }else{
-      setEmailErrorMessage('Please enter valid email address')
-    }
-   }
+  // const validateEmail=(email)=>{
+  //   let isCorrectEmail= new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(email);
+  //   if(isCorrectEmail){
+  //     setEmailErrorMessage('');
+  //   }else{
+  //     setEmailErrorMessage('Please enter valid email address')
+  //   }
+  //  }
 
   const [personalInfo, setPersonalInfo] = useState({
     id: personalInformation.id,
