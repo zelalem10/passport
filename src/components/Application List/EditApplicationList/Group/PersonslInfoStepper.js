@@ -58,8 +58,20 @@ export default function HorizontalLabelPositionBelowStepperGroup(props) {
       // } else {
       //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
-  };
-  const accesstoken = localStorage.systemToken;
+    };
+
+    const tokenValue = () => {
+        const UserToken = localStorage.userToken;
+
+        if (UserToken) {
+            return UserToken;
+        } else {
+            const SystemToken = localStorage.systemToken;
+            return SystemToken;
+        }
+    };
+
+    const accesstoken = tokenValue();
 
   const config = {
     headers: {

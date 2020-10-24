@@ -55,11 +55,23 @@ import React, {
       correctionReason: true,
       isDatacorrected: true,
     });
+
+      const tokenValue = () => {
+          const UserToken = localStorage.userToken;
+
+          if (UserToken) {
+              return UserToken;
+          } else {
+              const SystemToken = localStorage.systemToken;
+              return SystemToken;
+          }
+      };
+
     const [passportTypeList, setPassportTypeList] = useState([]);
     const dispatch = useDispatch();
     const counter = useSelector((state) => state);
     const isRequired = 'is required!';
-    const accesstoken = localStorage.systemToken;
+      const accesstoken = tokenValue();
     const usertoken = localStorage.userToken;
     const config = {
       headers: { Authorization: 'Bearer ' + accesstoken },

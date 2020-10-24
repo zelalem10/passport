@@ -72,7 +72,19 @@ const SuccessResponse = (props) => {
   var selectedOption = counter.paymentOption[counter.paymentOption.length - 1];
   console.log(selectedOption);
   //useEffect(() => {
-  const accesstoken = localStorage.systemToken;
+
+    const tokenValue = () => {
+        const UserToken = localStorage.userToken;
+
+        if (UserToken) {
+            return UserToken;
+        } else {
+            const SystemToken = localStorage.systemToken;
+            return SystemToken;
+        }
+    };
+
+    const accesstoken = tokenValue();
   const config = {
     headers: { Authorization: 'Bearer ' + accesstoken },
   };

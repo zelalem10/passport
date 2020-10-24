@@ -55,7 +55,19 @@ const SiteSelection = forwardRef((props, ref) => {
     reagionId: true,
     deliverySiteId: true,
   });
-  const accesstoken = localStorage.systemToken;
+
+    const tokenValue = () => {
+        const UserToken = localStorage.userToken;
+
+        if (UserToken) {
+            return UserToken;
+        } else {
+            const SystemToken = localStorage.systemToken;
+            return SystemToken;
+        }
+    };
+
+    const accesstoken = tokenValue();
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const serviceSelcetion = counter.service[counter.service.length - 1];

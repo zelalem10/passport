@@ -87,7 +87,19 @@ const PersonalInfo = forwardRef((props, ref) => {
     const dispatch = useDispatch();
     const counter = useSelector((state) => state);
     const isRequired = 'is required!';
-    const accesstoken = localStorage.systemToken;
+
+    const tokenValue = () => {
+        const UserToken = localStorage.userToken;
+
+        if (UserToken) {
+            return UserToken;
+        } else {
+            const SystemToken = localStorage.systemToken;
+            return SystemToken;
+        }
+    };
+
+    const accesstoken = tokenValue();
     const usertoken = localStorage.userToken;
     const digitPattern = new RegExp(/^[0-9\b]+$/);
     const config = {
