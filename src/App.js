@@ -8,17 +8,17 @@ import SystemToken from './components/common/route/systemToken';
 import pss from './components/Payment/PaymentSelection'
 
 function App() {
-  const location = useLocation();
+    const location = useLocation();
 
-  return (
-    <>
-      <SystemToken />
-      <NavbarPage location={location} />
-      <PassportRoute /> 
-      <FooterPage />
-    
-    </>
-  );
+    return (
+        <>
+            <SystemToken />
+            <NavbarPage location={location} />
+            <PassportRoute />
+            <FooterPage />
+
+        </>
+    );
 }
 
 export default App;

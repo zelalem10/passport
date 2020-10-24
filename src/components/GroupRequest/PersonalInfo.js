@@ -76,6 +76,18 @@ const PersonalInfo = forwardRef((props, ref) => {
     phoneNumber: true,
     email: true,
   });
+
+    const tokenValue = () => {
+        const UserToken = localStorage.userToken;
+
+        if (UserToken) {
+            return UserToken;
+        } else {
+            const SystemToken = localStorage.systemToken;
+            return SystemToken;
+        }
+    };
+
   const [age, setAge] = useState(0);
   const [invalidEmail, setInvalidEmail] = useState(false);
   const [invalidPhone, setInvalidPhone] = useState(false);
@@ -83,7 +95,7 @@ const PersonalInfo = forwardRef((props, ref) => {
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const isRequired = "is required!"
-  const accesstoken = localStorage.systemToken;
+    const accesstoken = tokenValue();
   const usertoken = localStorage.userToken;
   const digitPattern = new RegExp(/^[0-9\b]+$/);
   const config = {

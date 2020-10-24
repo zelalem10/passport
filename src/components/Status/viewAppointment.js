@@ -57,9 +57,20 @@ const AccordionDetails = withStyles((theme) => ({
   },
 }))(MuiAccordionDetails);
 
+const tokenValue = () => {
+    const UserToken = localStorage.userToken;
+
+    if (UserToken) {
+        return UserToken;
+    } else {
+        const SystemToken = localStorage.systemToken;
+        return SystemToken;
+    }
+};
+
 export default function ViewAppointment(props) {
   debugger;
-  const accesstoken = localStorage.systemToken;
+    const accesstoken = tokenValue();
   const [expanded, setExpanded] = React.useState('panel1');
   const data = useSelector((state) => state);
   const [barcodeData,setBarcodeData]=useState({});

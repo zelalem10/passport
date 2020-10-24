@@ -1,12 +1,12 @@
 import React, {
 
-  useEffect,
+    useEffect,
 
-  useState,
+    useState,
 
-  useImperativeHandle,
+    useImperativeHandle,
 
-  forwardRef,
+    forwardRef,
 
 } from 'react';
 
@@ -21,470 +21,481 @@ import { useTranslation, Trans } from 'react-i18next';
 
 
 const Address = forwardRef((props, ref) => {
-  const { t, i18n } = useTranslation();
-  const [addressInfo, setAddressInfo] = useState({
+    const { t, i18n } = useTranslation();
+    const [addressInfo, setAddressInfo] = useState({
 
-    region: '',
+        region: '',
 
-    city: '',
+        city: '',
 
-    state: '',
+        state: '',
 
-    zone: '',
+        zone: '',
 
-    woreda: '',
+        woreda: '',
 
-    kebele: '',
+        kebele: '',
 
-    street: '',
+        street: '',
 
-    houseNo: '',
+        houseNo: '',
 
-    poBox: '',
+        poBox: '',
 
-    requestPlace: '',
+        requestPlace: '',
 
-    dataSaved: false,
+        dataSaved: false,
 
-    formCompleted: false,
-
-  });
-
-  const [notCompleted, setNotCompleted] = useState({
-
-    region: true,
-
-    city: true,
-
-    state: true,
-
-    zone: true,
-
-    woreda: true,
-
-    kebele: true,
-
-    street: true,
-
-    houseNo: true,
-
-    poBox: true,
-
-    phoneNumber: true,
-
-  });
-
-  const [regionList, setRegionList] = useState([]);
-
-  const dispatch = useDispatch();
-
-  const counter = useSelector((state) => state);
-
-  const accesstoken = localStorage.systemToken;
-
-  const usertoken = localStorage.userToken;
-
-  const config = {
-
-    headers: { Authorization: 'Bearer ' + accesstoken },
-
-  };
-
-  useImperativeHandle(ref, () => ({
-
-    saveData() {
-
-      setAddressInfo((prevState) => ({
-
-        ...prevState,
-
-        dataSaved: true,
-
-      }));
-
-      dispatch(addAddressInfo(addressInfo));
-
-    },
-
-    Validate() {
-
-      if (notCompleted.region == true || notCompleted.city == true)
-
-        return false;
-
-      else return true;
-
-    },
-
-  }));
-
-  const handleChange = (event) => {
-
-    const { name, value } = event.target;
-
-    setAddressInfo((prevState) => ({
-
-      ...prevState,
-
-      [name]: value,
-
-    }));
-
-    if (value != '') {
-
-      setNotCompleted((prevState) => ({
-
-        ...prevState,
-
-        [name]: false,
-
-      }));
-
-    }
-
-    else{
-
-      setNotCompleted((prevState) => ({
-
-        ...prevState,
-
-        [name]: true,
-
-      }));
-
-    }
-
-    // dispatch(addAddressInfo(addressInfo));
-
-  };
-
-  var prevInfo = counter.address[counter.address.length - 1];
-
-  const isRequired = 'is required!';
-
-  if (prevInfo !== null && typeof prevInfo !== 'undefined') {
-
-    if (addressInfo.formCompleted === false) {
-
-      setAddressInfo((prevState) => ({
-
-        ...prevState,
-
-        region: prevInfo.region,
-
-        city: prevInfo.city,
-
-        state: prevInfo.state,
-
-        zone: prevInfo.zone,
-
-        woreda: prevInfo.woreda,
-
-        street: prevInfo.street,
-
-        houseNo: prevInfo.houseNo,
-
-        poBox: prevInfo.poBox,
-
-        requestPlace: prevInfo.requestPlace,
-
-        formCompleted: true,
-
-      }));
-
-    }
-
-  }
-
-  useEffect(() => {
-
-    setNotCompleted({
-
-      region: addressInfo.region === '' ? true : false,
-
-      city: addressInfo.city === '' ? true : false,
-
-      state:addressInfo.state === '' ? true : false,
-
-      zone: addressInfo.zone === '' ? true : false,
-
-      woreda: addressInfo.woreda === '' ? true : false,
-
-      kebele: addressInfo.kebele === '' ? true : false,
-
-      street: addressInfo.street === '' ? true : false,
-
-      houseNo: addressInfo.houseNo === '' ? true : false,
-
-      poBox: addressInfo.poBox === '' ? true : false,
-
-      requestPlace: addressInfo.requestPlace === '' ? true : false,
+        formCompleted: false,
 
     });
 
-    setRegionList(JSON.parse(localStorage.countryRegions))
+    const [notCompleted, setNotCompleted] = useState({
 
-    if (regionList.length === 0) {
+        region: true,
 
-      API.get('https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
+        city: true,
 
-        .then((todo) => {
+        state: true,
 
-          setRegionList(todo.data.countryRegions);
+        zone: true,
 
-        })
+        woreda: true,
 
-        .catch((err) => {
+        kebele: true,
 
-          console.log('AXIOS ERROR: ', err.response);
+        street: true,
 
-        });
+        houseNo: true,
+
+        poBox: true,
+
+        phoneNumber: true,
+
+    });
+
+    const tokenValue = () => {
+        const UserToken = localStorage.userToken;
+
+        if (UserToken) {
+            return UserToken;
+        } else {
+            const SystemToken = localStorage.systemToken;
+            return SystemToken;
+        }
+    };
+
+    const [regionList, setRegionList] = useState([]);
+
+    const dispatch = useDispatch();
+
+    const counter = useSelector((state) => state);
+
+    const accesstoken = tokenValue();
+
+    const usertoken = localStorage.userToken;
+
+    const config = {
+
+        headers: { Authorization: 'Bearer ' + accesstoken },
+
+    };
+
+    useImperativeHandle(ref, () => ({
+
+        saveData() {
+
+            setAddressInfo((prevState) => ({
+
+                ...prevState,
+
+                dataSaved: true,
+
+            }));
+
+            dispatch(addAddressInfo(addressInfo));
+
+        },
+
+        Validate() {
+
+            if (notCompleted.region == true || notCompleted.city == true)
+
+                return false;
+
+            else return true;
+
+        },
+
+    }));
+
+    const handleChange = (event) => {
+
+        const { name, value } = event.target;
+
+        setAddressInfo((prevState) => ({
+
+            ...prevState,
+
+            [name]: value,
+
+        }));
+
+        if (value != '') {
+
+            setNotCompleted((prevState) => ({
+
+                ...prevState,
+
+                [name]: false,
+
+            }));
+
+        }
+
+        else {
+
+            setNotCompleted((prevState) => ({
+
+                ...prevState,
+
+                [name]: true,
+
+            }));
+
+        }
+
+        // dispatch(addAddressInfo(addressInfo));
+
+    };
+
+    var prevInfo = counter.address[counter.address.length - 1];
+
+    const isRequired = 'is required!';
+
+    if (prevInfo !== null && typeof prevInfo !== 'undefined') {
+
+        if (addressInfo.formCompleted === false) {
+
+            setAddressInfo((prevState) => ({
+
+                ...prevState,
+
+                region: prevInfo.region,
+
+                city: prevInfo.city,
+
+                state: prevInfo.state,
+
+                zone: prevInfo.zone,
+
+                woreda: prevInfo.woreda,
+
+                street: prevInfo.street,
+
+                houseNo: prevInfo.houseNo,
+
+                poBox: prevInfo.poBox,
+
+                requestPlace: prevInfo.requestPlace,
+
+                formCompleted: true,
+
+            }));
+
+        }
 
     }
 
-    
+    useEffect(() => {
 
-  }, []);
+        setNotCompleted({
 
-  return (
+            region: addressInfo.region === '' ? true : false,
 
-    <MDBCard>
+            city: addressInfo.city === '' ? true : false,
 
-      <MDBCardBody>
+            state: addressInfo.state === '' ? true : false,
 
-        <form>
+            zone: addressInfo.zone === '' ? true : false,
 
-          <MDBRow>
+            woreda: addressInfo.woreda === '' ? true : false,
 
-            <MDBCol md="3" className="required-field">
+            kebele: addressInfo.kebele === '' ? true : false,
 
-              <div>
+            street: addressInfo.street === '' ? true : false,
 
-                <label>
+            houseNo: addressInfo.houseNo === '' ? true : false,
 
-                {t('requestForm.region')}<i style={{ color: 'red' }}>*</i>{' '}
+            poBox: addressInfo.poBox === '' ? true : false,
 
-                </label>
+            requestPlace: addressInfo.requestPlace === '' ? true : false,
 
-                <select
+        });
 
-                  className="browser-default custom-select"
+        setRegionList(JSON.parse(localStorage.countryRegions))
 
-                  name="region"
+        if (regionList.length === 0) {
 
-                  onChange={handleChange}
+            API.get('https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
 
-                >
+                .then((todo) => {
 
-                  <option>Select region</option>
+                    setRegionList(todo.data.countryRegions);
 
-                  {regionList.map((region) => (
+                })
 
-                    <option value={region.name} selected={prevInfo !=null && (region.name===prevInfo.region)}>{region.name}</option>
+                .catch((err) => {
 
-                  ))}
+                    console.log('AXIOS ERROR: ', err.response);
 
-                </select>
+                });
 
-              </div>
+        }
 
-              <span style={{ color: 'red' }}>
 
-                {' '}
 
-                {notCompleted.region == true && addressInfo.dataSaved == true
+    }, []);
 
-                  ? 'Region ' + isRequired
+    return (
 
-                  : null}
+        <MDBCard>
 
-              </span>{' '}
+            <MDBCardBody>
 
-            </MDBCol>
+                <form>
 
+                    <MDBRow>
 
+                        <MDBCol md="3" className="required-field">
 
-            <MDBCol md="3" className="required-field">
+                            <div>
 
-              <MDBInput
+                                <label>
 
-                valueDefault={prevInfo ? prevInfo.city : null}
+                                    {t('requestForm.region')}<i style={{ color: 'red' }}>*</i>{' '}
 
-                name="city"
+                                </label>
 
-                className="form-control"
+                                <select
 
-                onBlur={handleChange}
+                                    className="browser-default custom-select"
 
-                type="text"
+                                    name="region"
 
-                label= {t('requestForm.city')}
+                                    onChange={handleChange}
 
-              />
+                                >
 
-              <span style={{ color: 'red' }}>
+                                    <option>Select region</option>
 
-                {' '}
+                                    {regionList.map((region) => (
 
-                {notCompleted.city == true && addressInfo.dataSaved == true
+                                        <option value={region.name} selected={prevInfo != null && (region.name === prevInfo.region)}>{region.name}</option>
 
-                  ? 'City ' + isRequired
+                                    ))}
 
-                  : null}
+                                </select>
 
-              </span>
+                            </div>
 
-            </MDBCol>
+                            <span style={{ color: 'red' }}>
 
-            <MDBCol md="3">
+                                {' '}
 
-              <MDBInput
+                                {notCompleted.region == true && addressInfo.dataSaved == true
 
-                valueDefault={prevInfo ? prevInfo.state : null}
+                                    ? 'Region ' + isRequired
 
-                name="state"
+                                    : null}
 
-                className="form-control"
+                            </span>{' '}
 
-                onBlur={handleChange}
+                        </MDBCol>
 
-                type="text"
 
-                label={t('requestForm.State')}
 
-              />
+                        <MDBCol md="3" className="required-field">
 
-            </MDBCol>
+                            <MDBInput
 
-            <MDBCol md="3">
+                                valueDefault={prevInfo ? prevInfo.city : null}
 
-              <MDBInput
+                                name="city"
 
-                valueDefault={prevInfo ? prevInfo.zone : null}
+                                className="form-control"
 
-                name="zone"
+                                onBlur={handleChange}
 
-                className="form-control"
+                                type="text"
 
-                onBlur={handleChange}
+                                label={t('requestForm.city')}
 
-                type="text"
+                            />
 
-                label={t('requestForm.zone')}
+                            <span style={{ color: 'red' }}>
 
-              />
+                                {' '}
 
-            </MDBCol>
+                                {notCompleted.city == true && addressInfo.dataSaved == true
 
-          </MDBRow>
+                                    ? 'City ' + isRequired
 
-          <MDBRow>
-            
-          <MDBCol md="3">
-                <MDBInput
-                  valueDefault={prevInfo ? prevInfo.woreda : null}
-                  name="woreda"
-                  className="form-control"
-                  onBlur={handleChange}
-                  type="text"
-                  label="Woreda"
-                />
-              </MDBCol>
+                                    : null}
 
-            <MDBCol md="3">
+                            </span>
 
-              <MDBInput
+                        </MDBCol>
 
-                valueDefault={prevInfo ? prevInfo.kebele : null}
+                        <MDBCol md="3">
 
-                name="kebele"
+                            <MDBInput
 
-                className="form-control"
+                                valueDefault={prevInfo ? prevInfo.state : null}
 
-                onBlur={handleChange}
+                                name="state"
 
-                type="text"
+                                className="form-control"
 
-                label={t('requestForm.kebele')}
+                                onBlur={handleChange}
 
-              />
+                                type="text"
 
-            </MDBCol>
+                                label={t('requestForm.State')}
 
-            <MDBCol md="3">
+                            />
 
-              <MDBInput
+                        </MDBCol>
 
-                valueDefault={prevInfo ? prevInfo.street : null}
+                        <MDBCol md="3">
 
-                name="street"
+                            <MDBInput
 
-                className="form-control"
+                                valueDefault={prevInfo ? prevInfo.zone : null}
 
-                onBlur={handleChange}
+                                name="zone"
 
-                type="text"
+                                className="form-control"
 
-                label={t('requestForm.street')}
+                                onBlur={handleChange}
 
-              />
+                                type="text"
 
-            </MDBCol>
+                                label={t('requestForm.zone')}
 
-            <MDBCol md="3">
+                            />
 
-              <MDBInput
+                        </MDBCol>
 
-                valueDefault={prevInfo ? prevInfo.houseNo : null}
+                    </MDBRow>
 
-                name="houseNo"
+                    <MDBRow>
 
-                className="form-control"
+                        <MDBCol md="3">
+                            <MDBInput
+                                valueDefault={prevInfo ? prevInfo.woreda : null}
+                                name="woreda"
+                                className="form-control"
+                                onBlur={handleChange}
+                                type="text"
+                                label="Woreda"
+                            />
+                        </MDBCol>
 
-                onBlur={handleChange}
+                        <MDBCol md="3">
 
-                type="text"
+                            <MDBInput
 
-                label={t('requestForm.houseNo')}
+                                valueDefault={prevInfo ? prevInfo.kebele : null}
 
-              />
+                                name="kebele"
 
-            </MDBCol>
+                                className="form-control"
 
-          </MDBRow>
+                                onBlur={handleChange}
 
-          <MDBRow>
+                                type="text"
 
-            <MDBCol md="3">
+                                label={t('requestForm.kebele')}
 
-              <MDBInput
+                            />
 
-                valueDefault={prevInfo ? prevInfo.poBox : null}
+                        </MDBCol>
 
-                name="poBox"
+                        <MDBCol md="3">
 
-                className="form-control"
+                            <MDBInput
 
-                onBlur={handleChange}
+                                valueDefault={prevInfo ? prevInfo.street : null}
 
-                type="text"
+                                name="street"
 
-                label={t('requestForm.poBox')}
+                                className="form-control"
 
-              />
+                                onBlur={handleChange}
 
-            </MDBCol>
+                                type="text"
 
+                                label={t('requestForm.street')}
 
-          </MDBRow>
+                            />
 
-        </form>
+                        </MDBCol>
 
-      </MDBCardBody>
+                        <MDBCol md="3">
 
-    </MDBCard>
+                            <MDBInput
 
-  );
+                                valueDefault={prevInfo ? prevInfo.houseNo : null}
+
+                                name="houseNo"
+
+                                className="form-control"
+
+                                onBlur={handleChange}
+
+                                type="text"
+
+                                label={t('requestForm.houseNo')}
+
+                            />
+
+                        </MDBCol>
+
+                    </MDBRow>
+
+                    <MDBRow>
+
+                        <MDBCol md="3">
+
+                            <MDBInput
+
+                                valueDefault={prevInfo ? prevInfo.poBox : null}
+
+                                name="poBox"
+
+                                className="form-control"
+
+                                onBlur={handleChange}
+
+                                type="text"
+
+                                label={t('requestForm.poBox')}
+
+                            />
+
+                        </MDBCol>
+
+
+                    </MDBRow>
+
+                </form>
+
+            </MDBCardBody>
+
+        </MDBCard>
+
+    );
 
 });
 
