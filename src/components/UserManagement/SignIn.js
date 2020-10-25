@@ -25,7 +25,20 @@ const Errorstyle = {
   marginTop: '-1rem',
   marginLeft: '2.5rem',
 };
-const accesstoken = localStorage.systemToken;
+
+const tokenValue = () => {
+    const UserToken = localStorage.userToken;
+
+    if (UserToken) {
+        return UserToken;
+    } else {
+        const SystemToken = localStorage.systemToken;
+        return SystemToken;
+    }
+};
+
+const accesstoken = tokenValue();
+
 const config = {
   headers: { Authorization: `Bearer ` + accesstoken },
 };
@@ -33,6 +46,7 @@ const config = {
 function SignIn() {
   const { t, i18n } = useTranslation();
   let [Email, setEmail] = useState('');
+
   let [Password, setPassword] = useState('');
   let [EmailError, setEmailError] = useState('');
   let [PasswordError, setPasswordError] = useState('');
@@ -260,7 +274,7 @@ function SignIn() {
                           sitekey="6Ld4CtkZAAAAAEiEoslw25wHdYBNkkRjQJrJ29KI"
 
                           //local
-                          // sitekey="6Ld1odEZAAAAAC_M4JbsRXzapA5aSZXUd5ukXuBV"
+                          //sitekey="6Ld1odEZAAAAAC_M4JbsRXzapA5aSZXUd5ukXuBV"
                           onChange={verifyCaptcha}
                           onExpired={expireCaptcha}
                         />

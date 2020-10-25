@@ -18,13 +18,13 @@ import API from '../../Utils/API';
 import axios from 'axios';
 
 const TravelPlan = forwardRef((props, ref) => {
+  debugger;
   const [passportPages, setPassportPages] = useState([]);
   const { passportRes, displayedApplication, personalInformation } = props;
   const [passportTypeList,setPassportTypeList]=useState([]);
   const [travelPlan, setTravelPlan] = useState({
     filledBy: passportRes.filledBy,
     passportPageId: parseInt(passportRes.passportPageId),
-    passportType: passportRes.passportType,
     passportNumber: passportRes.passportNumber,
     expireDate: passportRes.expireDate,
     issueDate: passportRes.issueDate,
@@ -82,8 +82,8 @@ const dispatch = useDispatch();
       ...prevState,
       passportPageId: prevInfo ? prevInfo.passportPageId : 0,
       passportNumber: prevInfo ? prevInfo.passportNumber : null,
-      expirationDate: prevInfo ? new Date(prevInfo.expirationDate) : null,
-      issueDate: prevInfo ? new Date(prevInfo.issueDate) : null,
+      expirationDate: prevInfo ? new Date(prevInfo.expirationDate) : new Date(),
+      issueDate: prevInfo ? new Date(prevInfo.issueDate) : new Date(),
       correctionReason: prevInfo ? prevInfo.correctionReason : null,
       isDatacorrected: prevInfo ? prevInfo.isDatacorrected : false,
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
@@ -162,7 +162,7 @@ const dispatch = useDispatch();
         <form>
           <div className="grey-text">
             <MDBRow>
-            <MDBCol md="4">
+            <MDBCol md="3">
                 <div
                   className="md-form form-group passport-select"
                   style={{ 'margin-bottom': '2.5rem' }}
@@ -196,12 +196,8 @@ const dispatch = useDispatch();
                     : null}
                 </span>{' '}
               </MDBCol>
-            
-            </MDBRow>
-            <hr />
-            {requestTypeStr != 'New' ? (
-              <MDBRow>
-                <MDBCol md="3">
+              {requestTypeStr != 'New' ? (
+              <MDBCol md="3">
                   <MDBInput
                     valueDefault={prevInfo ? prevInfo.passportNumber : null}
                     name="passportNumber"
@@ -211,6 +207,12 @@ const dispatch = useDispatch();
                     label="Old Passport Number"
                   />
                 </MDBCol>
+              ):null}
+            </MDBRow>
+            <hr />
+            {requestTypeStr != 'New' ? (
+              <MDBRow>
+              
                 <MDBCol md="3" className="date-picker">
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker

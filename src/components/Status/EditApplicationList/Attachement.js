@@ -4,9 +4,20 @@ import Spinner from '../../common/Spinner';
 import { MDBCol, MDBRow, MDBBadge } from 'mdbreact';
 import { useSelector } from 'react-redux';
 
+const tokenValue = () => {
+    const UserToken = localStorage.userToken;
+
+    if (UserToken) {
+        return UserToken;
+    } else {
+        const SystemToken = localStorage.systemToken;
+        return SystemToken;
+    }
+};
+
 const Fileupload = forwardRef((props, ref) => {
   const { personalInformation } = props;
-  const accesstoken = localStorage.systemToken;
+    const accesstoken = tokenValue();
   debugger;
   const formData = new FormData();
   let requestPersonId = personalInformation.requestPersonId;

@@ -57,9 +57,9 @@ const AccordionDetails = withStyles((theme) => ({
   },
 }))(MuiAccordionDetails);
 
+
+
 export default function ViewAppointment(props) {
-  debugger;
-  const accesstoken = localStorage.systemToken;
   const [expanded, setExpanded] = React.useState('panel1');
   const data = useSelector((state) => state);
   const [barcodeData,setBarcodeData]=useState({});

@@ -82,11 +82,24 @@ const PersonalInfo = forwardRef((props, ref) => {
     const [invalidEmail, setInvalidEmail] = useState(false);
     const [invalidPhone, setInvalidPhone] = useState(false);
     const [invalidUniqueId, setInvalidUniqueId] = useState(false);
+    const [isEmailValid,setIsEmailValid]=useState(true);
 
     const dispatch = useDispatch();
     const counter = useSelector((state) => state);
     const isRequired = 'is required!';
-    const accesstoken = localStorage.systemToken;
+
+    const tokenValue = () => {
+        const UserToken = localStorage.userToken;
+
+        if (UserToken) {
+            return UserToken;
+        } else {
+            const SystemToken = localStorage.systemToken;
+            return SystemToken;
+        }
+    };
+
+    const accesstoken = tokenValue();
     const usertoken = localStorage.userToken;
     const digitPattern = new RegExp(/^[0-9\b]+$/);
     const config = {
@@ -132,7 +145,19 @@ const PersonalInfo = forwardRef((props, ref) => {
                 ...prevState,
                 [name]: value,
             }));
-       
+            if(name==='email'){
+                if(value.length===0 || value==''){
+                  setIsEmailValid(true);
+                }else{
+              let emailChecker = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(value);
+              setIsEmailValid(emailChecker);
+            }
+              }else{
+              setNotCompleted((prevState) => ({
+                ...prevState,
+                [name]: false,
+              }));
+            }
 
         if (value != '') {
             setNotCompleted((prevState) => ({
@@ -385,7 +410,8 @@ const PersonalInfo = forwardRef((props, ref) => {
                 nameErrorMessage.firstName||
                 nameErrorMessage.lastName||
                 nameErrorMessage.middleName||
-                (age < 18 && personalInfo.isUnder18 === false)
+                (age < 18 && personalInfo.isUnder18 === false)||
+                isEmailValid===false
             )
                 return false;
             else return true;
@@ -611,13 +637,11 @@ const PersonalInfo = forwardRef((props, ref) => {
                                     label={t('requestForm.email')}
                                 />
                                 <span style={{ color: 'red' }}>
-                                    {' '}
-                                    {notCompleted.email === false &&
-                                        isEmail(personalInfo.email) === false &&
-                                        personalInfo.dataSaved == true
-                                        ? 'Please insert the correct email formatt'
-                                        : null}
-                                </span>
+                {' '}
+                {!isEmailValid
+                  ? 'Please enter valid email address'
+                  : null}
+              </span>
                             </MDBCol>
 
                             <MDBCol md="3" className="required-field">

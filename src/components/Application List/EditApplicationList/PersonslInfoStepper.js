@@ -103,7 +103,18 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
   const handleReset = () => {
     setActiveStep(0);
-  };
+    };
+
+    const tokenValue = () => {
+        const UserToken = localStorage.userToken;
+
+        if (UserToken) {
+            return UserToken;
+        } else {
+            const SystemToken = localStorage.systemToken;
+            return SystemToken;
+        }
+    };
 
   const handleFinish = () => {
     const travelPlan= childRef.current.saveData();
@@ -118,7 +129,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
       var familyInfo =
         counter.editFamilyData[counter.editFamilyData.length - 1];
       //var travelPlanInfo = counter.travelPlan[counter.travelPlan.length - 1];
-      const accesstoken = localStorage.systemToken;
+        const accesstoken = tokenValue();
 
       const config = {
         headers: {
