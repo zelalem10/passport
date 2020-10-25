@@ -154,7 +154,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                             geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
                             geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
                             geezLastName: personalInfo ? personalInfo.geezLastName : null,
-                            dateOfBirth: personalInfo ? personalInfo.birthDate : null,
+                            dateOfBirth: personalInfo ? getFormatedDate(personalInfo.birthDate) : null,
                             gender: personalInfo
                                 ? Number.parseInt(personalInfo.gender, 10)
                                 : null,
@@ -291,7 +291,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                             geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
                             geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
                             geezLastName: personalInfo ? personalInfo.geezLastName : null,
-                            dateOfBirth: personalInfo ? personalInfo.birthDate : null,
+                            dateOfBirth: personalInfo ? getFormatedDate(personalInfo.birthDate) : null,
                             birthPlace: personalInfo ? personalInfo.birthPlace : null,
                             gender: personalInfo
                                 ? Number.parseInt(personalInfo.gender, 10)
