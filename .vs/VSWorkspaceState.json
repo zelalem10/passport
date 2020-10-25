@@ -1,11 +1,13 @@
 {
   "ExpandedNodes": [
     "",
+    "\\src",
     "\\src\\components",
     "\\src\\components\\GroupRequest",
     "\\src\\components\\Payment",
     "\\src\\components\\Request",
     "\\src\\components\\RequestStepper"
   ],
+  "SelectedNode": "\\src\\components\\Request\\PersonslInfoStepper.js",
   "PreviewInSolutionExplorer": false
 }
