@@ -45,6 +45,16 @@ function getSteps() {
     'Attachment',
   ];
 }
+function getFormatedDate(date){
+  let formatedYear = date.getFullYear();
+  let formatedMonth = (1 + date.getMonth()).toString();
+  formatedMonth =
+    formatedMonth.length > 1 ? formatedMonth : '0' + formatedMonth;
+  let formatedDay = date.getDate().toString();
+  formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
+  let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
+  return stringDateValue
+}
 const PersonalInfoStepper = forwardRef((props, ref) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
