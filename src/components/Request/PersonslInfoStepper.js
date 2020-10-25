@@ -46,6 +46,9 @@ function getSteps() {
     ];
 }
 function getFormatedDate(date){
+    if(date && typeof(date)!=='undefined'){
+
+    
   let formatedYear = date.getFullYear();
   let formatedMonth = (1 + date.getMonth()).toString();
   formatedMonth =
@@ -53,7 +56,8 @@ function getFormatedDate(date){
   let formatedDay = date.getDate().toString();
   formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
   let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
-  return stringDateValue
+  return stringDateValue;
+    }
 }
 const PersonalInfoStepper = forwardRef((props, ref) => {
     const classes = useStyles();
