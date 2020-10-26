@@ -119,7 +119,7 @@ const Fileupload = forwardRef((props, ref) => {
       {
 
         for (var key in files) {
-          if (!files[key].name.match(/\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/)) {
+          if (!files[key].name.match(/\.(jpg|jpeg|png|gif||pdf|JPG|JPEG|PNG|GIF||PDF)$/)) {
             fileError.push(`  
             ${files[key].name ? (
               files[key].name + " is Invalid format, Please upload correct file type!"
@@ -128,7 +128,7 @@ const Fileupload = forwardRef((props, ref) => {
             )}`);
       }
   
-      if (files[key].size > 1000000) {
+      if (files[key].size > 2000000) {
         fileError.push(`  
         ${files[key].name ? (
           files[key].name + " is Invalid size, Please upload correct file size!"
@@ -189,8 +189,8 @@ const Fileupload = forwardRef((props, ref) => {
         props.VerticalNext();
       } catch (error) {
         debugger;
-        console.log('error' + error.message);
-        const errorMessage = error.response.data.Message
+        console.log('AttechmentError :' + error.response.data.message);
+        const errorMessage = error.response.data.message
         setserverErrorMessage(errorMessage) 
         setloading(false);
         //props.showBack();
@@ -264,7 +264,7 @@ const Fileupload = forwardRef((props, ref) => {
             <div class="row ">
               <div class="col-md-10 " id="attachmentmargin">
               <MDBBadge color="primary smallPadding " className='mb-2'>
-                Size of the image should be less than 1MB and in JPEG, JPG, PNG, GIF format
+                Size of the image should be less than 1MB and in JPEG, JPG, PNG, GIF, and PDF format
                 </MDBBadge>
 
                 {errorMessage.length
