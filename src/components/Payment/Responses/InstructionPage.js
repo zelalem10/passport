@@ -9,8 +9,8 @@ import { Alert } from 'react-bootstrap';
 
 
 function InstructionPage() {
-  debugger;
-  let paymentInformation = useSelector((state) => state.paymentOption[state.paymentOption.length-1]);
+  const data = useSelector((state) => state);
+  let paymentInformation = data.paymentOption[data.paymentOption.length-1];
   let personRequestdata = useSelector((state) => state.request[state.request.length - 1]);
 
   const personalInformation = personRequestdata

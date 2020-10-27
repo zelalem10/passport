@@ -86,10 +86,12 @@ const PaymentSelection = forwardRef((props, ref) => {
             config
         )
             .then((todo) => {
+                debugger;
                 setPaymentOptions(todo.data.paymentOptions)
                 setloading(false);
             })
             .catch((err) => {
+                debugger;
                 console.log('AXIOS ERROR: ', err);
                 setloading(false);
             });
@@ -105,6 +107,7 @@ const PaymentSelection = forwardRef((props, ref) => {
     useImperativeHandle(ref, () => ({
 
         saveData() {
+            debugger;
             const priceInfo = counter.priceInfo[counter.priceInfo.length - 1];
             setDataSaved(true)
             if (confirmed === true) {
@@ -120,18 +123,21 @@ const PaymentSelection = forwardRef((props, ref) => {
                         Country: "ET",
                         Channel: "Mobile",
                         PaymentOptionsId: selectedOption,
-                        username: "ETHIOUSER",
-                        password: "123456",
                         requestId: requestId,
                     };
+                    console.log(body);
+                    console.log(JSON.stringify(body));
                     setloading(true);
                     API.post("https://epassportservicesaddt.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
                         .then((resopnse) => {
+                            console.log(resopnse);
+                            debugger;
                             dispatch(addPaymentOptionId(resopnse.data));
                             history.push('/InstructionPage')
                             setloading(false);
                         })
                         .catch((err) => {
+                            debugger;
                             console.log("AXIOS ERROR: ", err.response);
                             setMessage(err.response.statusText);
                             setShowError(true);

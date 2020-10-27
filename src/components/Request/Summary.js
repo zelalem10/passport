@@ -301,7 +301,7 @@ const ViewAppointment = forwardRef((props, ref) => {
                                         </div>
                                         <div class="form-group form-inline">
                                             <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                                                የአመልካቹ ስም
+                                                ስም
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <b>
