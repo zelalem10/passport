@@ -48,16 +48,17 @@ function getSteps() {
 function getFormatedDate(date){
     if(date && typeof(date)!=='undefined'){
 
-    
-  let formatedYear = date.getFullYear();
-  let formatedMonth = (1 + date.getMonth()).toString();
+    let dateToFormat= new Date(date);
+  let formatedYear = dateToFormat.getFullYear();
+  let formatedMonth = (1 + dateToFormat.getMonth()).toString();
   formatedMonth =
     formatedMonth.length > 1 ? formatedMonth : '0' + formatedMonth;
-  let formatedDay = date.getDate().toString();
+  let formatedDay = dateToFormat.getDate().toString();
   formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
   let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
   return stringDateValue;
     }
+    return null;
 }
 const PersonalInfoStepper = forwardRef((props, ref) => {
     const classes = useStyles();
@@ -128,7 +129,6 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
             let serviceInfo = counter.service[counter.service.length - 1];
             let replacementReason = counter.replacment[counter.replacment.length - 1];
             const requestInfo = counter.request[counter.request.length - 1];
-            debugger
             if ((serviceInfo ? Number.parseInt(serviceInfo.appointemntType, 10) : 0) === 2) {
                 const requestBody = {
                     requestId: requestInfo ? Number.parseInt(requestInfo.requestId, 10) : 0,
@@ -158,7 +158,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                             geezFirstName: personalInfo ? personalInfo.geezFirstName : null,
                             geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
                             geezLastName: personalInfo ? personalInfo.geezLastName : null,
-                            dateOfBirth: personalInfo ? getFormatedDate(personalInfo.birthDate) : null,
+                            dateOfBirth: personalInfo ? personalInfo.birthDate?getFormatedDate(personalInfo.birthDate):null : null,
                             gender: personalInfo
                                 ? Number.parseInt(personalInfo.gender, 10)
                                 : null,
@@ -184,8 +184,8 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                             isUnder18: personalInfo ? personalInfo.isUnder18 : false,
                             isAdoption: personalInfo ? personalInfo.isAdoption : false,
                             passportNumber: travelPlan ? travelPlan.passportNumber : null,
-                            issueDate: travelPlan ? (travelPlan.isIssueDateChanged || travelPlan.isExpirationDateChanged ? travelPlan.issueDate : null) : null,
-                            expireDate: travelPlan ? (travelPlan.isExpirationDateChanged || travelPlan.isIssueDateChanged ? travelPlan.expirationDate : null) : null,
+                            issueDate: travelPlan ? (travelPlan.isIssueDateChanged || travelPlan.isExpirationDateChanged ?(travelPlan.issueDate?getFormatedDate(travelPlan.issueDate):null) : null) : null,
+                            expireDate: travelPlan ? (travelPlan.isExpirationDateChanged || travelPlan.isIssueDateChanged ? (travelPlan.expirationDate?getFormatedDate(travelPlan.expirationDate):null) : null) : null,
                             passportType: travelPlan ? travelPlan.passportType : null,
                             isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
                             passportPageId: travelPlan
