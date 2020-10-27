@@ -184,7 +184,7 @@ const dispatch = useDispatch();
                   >
                     <option >Select Passport Page</option>
                     {passportTypeList.map((passportType) => (
-                      <option value={passportType.id}>{passportType.passportPage}</option>
+                      <option value={passportType.id} selected={prevInfo.passportPageId==passportType.id}>{passportType.passportPage}</option>
                     ))}
                   </select>
                 </div>
