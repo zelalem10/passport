@@ -87,7 +87,7 @@ const TravelPlan = forwardRef((props, ref) => {
     if (counter.travelPlan.length === 0) {
         dispatch(addTravelPlan(travelPlan));
     }
-
+    const [isOldPassportValid, setIsOldPassportValid] = useState(true);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -102,11 +102,26 @@ const TravelPlan = forwardRef((props, ref) => {
             }));
             dispatch(addTravelPlan({ ...travelPlan, [name]: value }));
         }
+
         else {
             setNotCompleted((prevState) => ({
                 ...prevState,
                 [name]: true,
             }));
+        }
+
+
+        if (name === 'passportNumber') {
+            debugger;
+            let checkPassport = new RegExp(/^[a-zA-Z]{2}\d{7}$/).test(value);
+            if(checkPassport){
+                setIsOldPassportValid(true);
+            } 
+            else {
+                setIsOldPassportValid(false);
+            }
+           
+
         }
     };
     const handleCheck = (name, checked) => {
@@ -284,7 +299,18 @@ const TravelPlan = forwardRef((props, ref) => {
                                             travelPlan.dataSaved === true
                                             ? 'Old Passport Number ' + isRequired
                                             : null}
+
                                     </span>{' '}
+
+                                    <span style={{ color: 'red' }}>
+                                        {' '}
+                                        {
+                                            !isOldPassportValid
+                                                ? 'Please Enter Valid Passport Number'
+                                                : null
+                                        }
+                                    </span>
+
                                 </MDBCol>
                             ) : (null)}
 

@@ -461,6 +461,17 @@ export default function ViewAppointment(props) {
                 </b>
               </div>
               
+              <div class="form-group form-inline">
+                                            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                                            Birth Certificate Id
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                                                <label class="font-weight-bold">
+                                                    {personalInformation.passportRes.birthCertificateId}
+                                                </label>
+                                            </b>
+                                        </div>
                   <div class="form-group form-inline">
                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                     Is Adoption
@@ -600,17 +611,6 @@ export default function ViewAppointment(props) {
                 </b>
               </div>
 
-              <div class="form-group form-inline">
-                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                  Request Place
-                </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <b>
-                  <label class="font-weight-bold">
-                    {addressInformation.requestPlace}
-                  </label>
-                </b>
-              </div>
             </fieldset>
             
             <fieldset>

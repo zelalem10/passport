@@ -142,7 +142,7 @@ const ViewAppointment = forwardRef((props, ref) => {
                 const personalInformation = requests[0].personResponses;
                 const addressInformation = personalInformation.address;
                 const familyInformation = personalInformation.familyResponses;
-
+                console.log(personalInformation.passportRes.birthCertificateId)
                 const handleChange = (panel) => (event, newExpanded) => {
                     setExpanded(newExpanded ? panel : false);
                 };
@@ -435,6 +435,18 @@ const ViewAppointment = forwardRef((props, ref) => {
                                             </b>
                                         </div>
 
+                                        <div class="form-group form-inline">
+                                            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                                            Birth Certificate Id
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                                                <label class="font-weight-bold">
+                                                    {personalInformation.passportRes.birthCertificateId}
+                                                </label>
+                                            </b>
+                                        </div>
+
 
 
                                         <div class="form-group form-inline">
@@ -578,7 +590,7 @@ const ViewAppointment = forwardRef((props, ref) => {
                                             </b>
                                         </div>
 
-                                        <div class="form-group form-inline">
+                                        {/* <div class="form-group form-inline">
                                             <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                                                 Request Place
                       </label>
@@ -588,7 +600,7 @@ const ViewAppointment = forwardRef((props, ref) => {
                                                     {addressInformation.requestPlace}
                                                 </label>
                                             </b>
-                                        </div>
+                                        </div> */}
                                     </fieldset>
 
                                     <fieldset>

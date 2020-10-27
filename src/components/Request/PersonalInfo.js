@@ -497,6 +497,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                                         KeyboardButtonProps={{
                                             'aria-label': 'change date',
                                         }}
+                                        maxDate={new Date()} 
                                     />
                                 </MuiPickersUtilsProvider>
                                 <span style={{ color: 'red' }}>
@@ -663,9 +664,10 @@ const PersonalInfo = forwardRef((props, ref) => {
                             </MDBCol>
                             <MDBCol md="3">
                                 <MDBInput
-                                    valueDefault={personalInfo.birthCertificatNo}
+                                 valueDefault={prevInfo ? prevInfo.birthCertificateId : null}
+                                
                                     name="birthCertificatNo"
-                                    onBlur={handleUniqueIdChange}
+                                    onBlur={handleChange}
                                     type="text"
                                     label={t('requestForm.birthCertificatNo')}
                                 />

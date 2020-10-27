@@ -65,7 +65,6 @@ export default function ViewAppointment(props) {
     //     }
     // };
 
-  const accesstoken = tokenValue();
   const [expanded, setExpanded] = React.useState('panel1');
   const [barcodeData,setBarcodeData]=useState({});
   const data = useSelector((state) => state);
@@ -89,6 +88,7 @@ export default function ViewAppointment(props) {
     }
   };
   const token = tokenValue();
+  const accesstoken = tokenValue();
   const BaseUri="https://epassportservicesaddt.azurewebsites.net";
   const config = {
     headers: { Authorization: `Bearer ` + token },
@@ -421,6 +421,19 @@ export default function ViewAppointment(props) {
                     </label>
                   </b>
                 </div>
+
+                
+                <div class="form-group form-inline">
+                                            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                                            Birth Certificate Id
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>
+                                                <label class="font-weight-bold">
+                                                    {personalInformation.passportRes.birthCertificateId}
+                                                </label>
+                                            </b>
+                                        </div>
                
                     <div class="form-group form-inline">
                       <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
@@ -557,18 +570,6 @@ export default function ViewAppointment(props) {
                   <b>
                     <label class="font-weight-bold">
                       {addressInformation.poBox}
-                    </label>
-                  </b>
-                </div>
-
-                <div class="form-group form-inline">
-                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                    Request Place
-                  </label>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>
-                    <label class="font-weight-bold">
-                      {addressInformation.requestPlace}
                     </label>
                   </b>
                 </div>
