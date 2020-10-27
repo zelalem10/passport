@@ -75,7 +75,7 @@ export default function Faq() {
     </AccordionSummary>
     <AccordionDetails>
       <Typography>
-      You need to set an online appointment via http://www.epassport.gov, Passport appointments cannot be made on Facebook or any other social media platform. Appointments not made through http://epassport are not legitimate appointments.
+      You need to set an online appointment via  https://www.ethiopianpassportservices.gov.et, Passport appointments cannot be made on Facebook or any other social media platform.
 
 If you are not able to show up at schedule date, you shall cancel your appointment by sending SMS (Cancel to 8611)
 
@@ -110,7 +110,10 @@ If you are not able to show up at schedule date, you shall cancel your appointme
     </AccordionSummary>
     <AccordionDetails>
       <Typography>
-      The appointment code / reference number would be sent to the email / phone number you used in the application process. Please also check for the appointment code / reference number in the spam folder or trash folder in your email, as your email provider may direct it to these folders. For SMS please check your message box. If you have not received it, you may contact the Appointment Hotline for assistance at (251) xxx-xxxx.
+      The appointment code / reference number would be sent to the email / phone number you used in the application process. 
+      Please also check for the appointment code / reference number in the spam folder or trash folder in your email, 
+      as your email provider may direct it to these folders. For SMS please check your message box. If you have not received it, 
+      you may contact the Appointment Hotline for assistance at 8133.
       </Typography>
     </AccordionDetails>
   </Accordion>
@@ -217,7 +220,7 @@ Non-emergency applicants must secure an online appointment at Ethiopian passport
 New / Renewal
 Regular – ETB 600
 Expedite – ETB 1200
-Penalty for Lost and Mutilated-xxxxxxx
+Penalty for Lost and Mutilated
 
 For passports applied for foreign, please refer to the consular fees as stated in the Ethiopian Embassy or Consulate websites (Refer).
 
@@ -477,7 +480,7 @@ For passports applied for foreign, please refer to the consular fees as stated i
     </AccordionSummary>
     <AccordionDetails>
       <Typography>
-      (+251) xxxx-xxxx / (+251) xxxx-xxxx (Passport Appointment Concerns)
+      8133 (Passport Appointment Concerns)
       </Typography>
     </AccordionDetails>
   </Accordion>
