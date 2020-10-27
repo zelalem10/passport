@@ -218,6 +218,30 @@ export default function ViewAppointment(props) {
               </label>
             </b>
           </div>
+          {displayedApplication.appointmentResponse ? displayedApplication.appointmentResponse.duration ? (
+                                    <div class="form-group form-inline passport-display">
+                                        <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                                            {displayedApplication.type === 'New' ? 'Appointment' : 'Delivery'} Time:{' '}
+                                        </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <b>
+                                            <label class="font-weight-bold">
+                                                {displayedApplication.appointmentResponse
+                                                    ? displayedApplication.appointmentResponse.duration.startTime
+                                                    : null}
+                                                {'-'}
+                                                {displayedApplication.appointmentResponse
+                                                    ? displayedApplication.appointmentResponse.duration.endTime
+                                                    : null}
+                                                {displayedApplication.appointmentResponse
+                                                    ? displayedApplication.appointmentResponse.duration.isMorning
+                                                        ? 'AM'
+                                                        : 'PM'
+                                                    : null}
+                                            </label>
+                                        </b>
+                                    </div>
+                                ) : null : null}
           <div class="form-group form-inline passport-display">
             <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
             Application Number :{' '}

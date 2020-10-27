@@ -8,27 +8,27 @@ function SystemToken() {
     const baseUrl = 'https://epassportservicesaddt.azurewebsites.net/';
     let history = useHistory();
 
-    function logout() {
+    // function logout() {
 
-        localStorage.removeItem('userToken');
-        localStorage.removeItem('personalDetail');
-        localStorage.removeItem('userId');
-        history.push('/signIn');
-    }
+    //     localStorage.removeItem('userToken');
+    //     localStorage.removeItem('personalDetail');
+    //     localStorage.removeItem('userId');
+    //     history.push('/signIn');
+    // }
 
     useEffect(() => {
 
-        debugger;
-        var personalDetail = localStorage.getItem('logedInUsedData');
-        debugger;
+        // debugger;
+        // var personalDetail = localStorage.getItem('logedInUsedData');
+        // debugger;
 
-        if (personalDetail) {
-            let personalDetailJson = JSON.parse(personalDetail);
+        // if (personalDetail) {
+        //     let personalDetailJson = JSON.parse(personalDetail);
 
-            if (!personalDetailJson.hasOwnProperty('isOldUser')) {
-                logout();
-            }
-        }
+        //     if (!personalDetailJson.hasOwnProperty('isOldUser')) {
+        //         logout();
+        //     }
+        // }
 
         const accesstoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQW5vbnltb3VzQGV0aGlvcGlhbmFpcmxpbmVzLmNvbSIsIm5iZiI6MTYwMzUzMTkyNiwiZXhwIjoxNjEzODk5OTI2LCJpYXQiOjE2MDM1MzE5MjZ9.9sfNh1--xqspHt0jgdOLvTuQBpheVbStaiOsNaA755A';
         localStorage.setItem('systemToken', accesstoken);
