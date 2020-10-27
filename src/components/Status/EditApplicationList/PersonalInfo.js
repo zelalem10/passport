@@ -615,13 +615,9 @@ const [isEmailValid,setIsEmailValid]=useState(true);
                   name="maritalStatusEnum"
                   onChange={handleChange}
                   className="browser-default custom-select"
-                  // defaultValue={prevInfo ?
-                  //    (prevInfo.maritalStatusEnum && typeof(prevInfo.maritalStatusEnum)=='undefined' ?(prevInfo.maritalStatusEnum==0?prevInfo.maritalStatusEnum:0)
-                  //    :9
-                  //     ): 
-                  //     9}
+                
                 >
-                  <option value="9" selected={prevInfo?prevInfo.maritalStatusEnum==9:true}>Choose Marital Status</option>
+                  <option value="9" selected={prevInfo?prevInfo.maritalStatusEnum?false:true:true}>Choose Marital Status</option>
                   <option value="0" selected={prevInfo?prevInfo.maritalStatusEnum==0:false}>Single</option>
                   <option value="1" selected={prevInfo?prevInfo.maritalStatusEnum==1:false}>Married</option>
                   <option value="2" selected={prevInfo?prevInfo.maritalStatusEnum==2:false}>Divorced</option>
