@@ -240,6 +240,9 @@ const TravelPlan = forwardRef((props, ref) => {
             else if (requestTypeStr != 'New' && notCompleted.passportNumber === true) {
                 return false;
             }
+            else if (isOldPassportValid === false) {
+                return false;
+            }
             else
                 return true;
         },
