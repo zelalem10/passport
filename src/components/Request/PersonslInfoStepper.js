@@ -173,7 +173,6 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                                 : null,
                             birthPlace: personalInfo ? personalInfo.birthPlace : null,
                             halfCast: personalInfo ? personalInfo.halfCast : null,
-                            enrolmentDate: personalInfo ? personalInfo.birthDate : null,
                             birthCertificateId: personalInfo
                                 ? personalInfo.birthCertificatNo
                                 : '',
@@ -310,7 +309,6 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                                 ? Number.parseInt(personalInfo.occupationId, 10)
                                 : null,
                             halfCast: personalInfo ? personalInfo.halfCast : null,
-                            enrolmentDate: personalInfo ? personalInfo.birthDate : null,
                             birthCertificateId: personalInfo
                                 ? personalInfo.birthCertificatNo
                                 : '',
