@@ -321,8 +321,8 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                             isUnder18: personalInfo ? personalInfo.isUnder18 : false,
                             isAdoption: personalInfo ? personalInfo.isAdoption : false,
                             passportNumber: travelPlan ? travelPlan.passportNumber : null,
-                            issueDate: new Date(),
-                            expireDate: new Date(),
+                            issueDate: travelPlan ? (travelPlan.isIssueDateChanged || travelPlan.isExpirationDateChanged ?(travelPlan.issueDate?getFormatedDate(travelPlan.issueDate):null) : null) : null,
+                            expireDate: travelPlan ? (travelPlan.isExpirationDateChanged || travelPlan.isIssueDateChanged ? (travelPlan.expirationDate?getFormatedDate(travelPlan.expirationDate):null) : null) : null,
                             passportType: travelPlan ? travelPlan.passportType : null,
                             isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
                             passportPageId: travelPlan
