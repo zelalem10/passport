@@ -110,6 +110,21 @@ export default function HorizontalLabelPositionBelowStepper(props) {
     const handleReset = () => {
         setActiveStep(0);
     };
+    function getFormatedDate(date){
+        if(date && typeof(date)!=='undefined'){
+    
+        let dateToFormat= new Date(date);
+      let formatedYear = dateToFormat.getFullYear();
+      let formatedMonth = (1 + dateToFormat.getMonth()).toString();
+      formatedMonth =
+        formatedMonth.length > 1 ? formatedMonth : '0' + formatedMonth;
+      let formatedDay = dateToFormat.getDate().toString();
+      formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
+      let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
+      return stringDateValue;
+        }
+        return null;
+    }
 
     const handleFinish = () => {
         const travelPlan = childRef.current.saveData();
@@ -174,7 +189,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                         geezMiddleName: personalInfo ? personalInfo.geezMiddleName : null,
                         geezLastName: personalInfo ? personalInfo.geezLastName : null,
 
-                        dateOfBirth: personalInfo ? personalInfo.dateOfBirth : null,
+                        dateOfBirth: personalInfo ? (personalInfo.dateOfBirth?getFormatedDate(personalInfo.dateOfBirth):null) : null,
 
                         gender: personalInfo ? parseInt(personalInfo.gender) : null,
 
@@ -219,8 +234,8 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                         passportNumber: travelPlan
                             ? travelPlan.passportNumber
                             : null,
-                        issueDate: travelPlan ? travelPlan.issueDate : null,
-                        expireDate: travelPlan ? travelPlan.expireDate : null,
+                        issueDate: travelPlan ? travelPlan.issueDate?getFormatedDate(travelPlan.issueDate):null : null,
+                        expireDate: travelPlan ? travelPlan.expireDate?getFormatedDate(travelPlan.expireDate):null : null,
                         passportType: travelPlan ? travelPlan.passportType : null,
                         isDatacorrected: travelPlan
                             ? travelPlan.isDatacorrected
