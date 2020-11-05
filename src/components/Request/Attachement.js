@@ -9,16 +9,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import Spinner from '../common/Spinner';
 import { MDBCol, MDBRow, MDBBadge } from 'mdbreact';
 import addAttachement from '../../redux/actions/AddAttachementAction';
+import Cookies from 'universal-cookie';
+
+
+
+const cookies = new Cookies();
 
 const tokenValue = () => {
-    const UserToken = localStorage.userToken;
+  const UserToken = cookies.get('AC_TO');
 
-    if (UserToken) {
-        return UserToken;
-    } else {
-        const SystemToken = localStorage.systemToken;
-        return SystemToken;
-    }
+  if (UserToken) {
+    return UserToken;
+  } else {
+    const SystemToken = cookies.get('SY_TO');
+    return SystemToken;
+  }
 };
 
 const Fileupload = forwardRef((props, ref) => {
@@ -27,7 +32,7 @@ const Fileupload = forwardRef((props, ref) => {
    
   const formData = new FormData();
   let requestPersonId = useSelector(
-    (state) => state.commonData[0].requestPersonId
+    (state) => state.commonData[state.commonData.length-1].requestPersonId
   );
   const [files, setfiles] = useState({});
   const [requiredFile, setrequiredFile] = useState('');

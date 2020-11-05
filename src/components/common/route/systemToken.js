@@ -2,9 +2,11 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import API from '../../Utils/API';
 import { useHistory } from 'react-router-dom';
+import axiosInstance from '../../Utils/axios';
+import Cookies from 'universal-cookie';
 
 function SystemToken() {
-
+    const cookies = new Cookies();
     const baseUrl = 'https://epassportservicesaddt.azurewebsites.net/';
     let history = useHistory();
 
@@ -16,7 +18,7 @@ function SystemToken() {
     //     history.push('/signIn');
     // }
 
-    useEffect(() => {
+    useEffect(async () => {
 
         // debugger;
         // var personalDetail = localStorage.getItem('logedInUsedData');
@@ -31,7 +33,7 @@ function SystemToken() {
         // }
 
         const accesstoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQW5vbnltb3VzQGV0aGlvcGlhbmFpcmxpbmVzLmNvbSIsIm5iZiI6MTYwMzUzMTkyNiwiZXhwIjoxNjEzODk5OTI2LCJpYXQiOjE2MDM1MzE5MjZ9.9sfNh1--xqspHt0jgdOLvTuQBpheVbStaiOsNaA755A';
-        localStorage.setItem('systemToken', accesstoken);
+         cookies.set('SY_TO', accesstoken);
         const config = {
             headers: { Authorization: 'Bearer ' + accesstoken },
         };
@@ -50,13 +52,7 @@ function SystemToken() {
         //        const config = {
         //            headers: { Authorization: 'Bearer ' + accesstoken },
         //        };
-
-        axios({
-            headers: { Authorization: 'Bearer ' + accesstoken },
-            method: 'get',
-            url:
-                'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll',
-        })
+axiosInstance.get('/Master/api/V1.0/CountryRegion/GetAll')
             .then((response) => {
                 localStorage.setItem(
                     'countryRegions',
@@ -67,10 +63,7 @@ function SystemToken() {
             .catch((error) => {
                 console.log(error);
             });
-        API.get(
-            'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Nationality/GetAll',
-            config
-        )
+        axiosInstance.get('/Master/api/V1.0/Nationality/GetAll')
             .then((todo) => {
                 localStorage.setItem(
                     'nationalitys',
@@ -80,10 +73,7 @@ function SystemToken() {
             .catch((err) => {
                 console.log('AXIOS ERROR: ', err.response);
             });
-        API.get(
-            'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Occupation/GetAll',
-            config
-        )
+        axiosInstance.get('/Master/api/V1.0/Occupation/GetAll')
             .then((todo) => {
                 localStorage.setItem(
                     'occupations',
@@ -93,13 +83,7 @@ function SystemToken() {
             .catch((err) => {
                 console.log('AXIOS ERROR: ', err.response);
             });
-        axios({
-            headers: {
-                Authorization: 'Bearer ' + accesstoken,
-            },
-            method: 'get',
-            url: baseUrl + '/Person/api/V1.0/Person/GetAllFamilyType',
-        })
+        axiosInstance.get('/Person/api/V1.0/Person/GetAllFamilyType')
             .then(async (response) => {
                 localStorage.setItem(
                     'familyTypesResponse',
@@ -109,10 +93,7 @@ function SystemToken() {
             .catch((error) => {
                 console.log('error' + error);
             });
-        API.get(
-            'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll',
-            config
-        )
+        axiosInstance.get('/Master/api/V1.0/CountryRegion/GetAll')
             .then((todo) => {
                 localStorage.setItem(
                     'countryRegions',
@@ -122,11 +103,7 @@ function SystemToken() {
             .catch((error) => {
                 console.log('error' + error);
             });
-
-        API.get(
-            'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/PassportPage/GetAll',
-            config
-        )
+axiosInstance.get('/Master/api/V1.0/PassportPage/GetAll')
             .then((todo) => {
                 localStorage.setItem(
                     'PassportPageQuantity',
@@ -136,13 +113,7 @@ function SystemToken() {
             .catch((error) => {
                 console.log('error' + error);
             });
-
-        axios({
-            headers: { Authorization: 'Bearer ' + accesstoken },
-            method: 'get',
-            url:
-                'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAllMasterData',
-        })
+axiosInstance.get('/Master/api/V1.0/CountryRegion/GetAllMasterData')
             .then((response) => {
                 console.log(response.data);
                 localStorage.setItem('MasterData', JSON.stringify(response.data));

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { MDBContainer, MDBRow, MDBCol, MDBAlert } from 'mdbreact';
-import axios from 'axios';
+import axiosInstance from '../../Utils/axios';
 import AvailableTimeSlot from './appointmetTimeSlots';
 import { useDispatch, useSelector } from 'react-redux';
 import addAppointmentDate from '../../../redux/actions/addAppointmetntDate';
@@ -62,18 +62,8 @@ function RescheduleAppointment(props) {
   };
 
   const dispatch = useDispatch();
-  const tokenValue = () => {
-    const UserToken = localStorage.userToken;
 
-    if (UserToken) {
-      return UserToken;
-    } else {
-      const SystemToken = localStorage.systemToken;
-      return SystemToken;
-    }
-  };
-  const accesstoken = tokenValue();
-  const baseUrl = 'https://epassportservicesaddt.azurewebsites.net/';
+ 
   const availableDates = [];
   let advancedRestrictionData = {};
   let disabledDates = [];
@@ -86,20 +76,11 @@ function RescheduleAppointment(props) {
     dispatch(addAppointmentDate({ ...state, time: e.target.value }));
   };
   useEffect((two = 2) => {
-    axios({
-      headers: {
-        Authorization: 'Bearer ' + accesstoken,
-      },
-      method: 'get',
-      url: baseUrl + '/Master/api/V1.0/AdvancedRestriction/GetAll',
-    })
+    axiosInstance.get('/Master/api/V1.0/AdvancedRestriction/GetAll')
       .then(async (response) => {
         advancedRestrictionData = response.data.advancedRestrictions[0];
         setResponse(response.data.advancedRestrictions[0]);
-        const headers = {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + accesstoken,
-        };
+   
         let data = {
           startDate: new Date(
             new Date().setTime(
@@ -118,29 +99,22 @@ function RescheduleAppointment(props) {
           noOfApplicants: 1,
         };
         if (isUrgentAppointment) {
-          axios({
-            headers: headers,
-            method: 'post',
-            url:
-              baseUrl +
-              '/Schedule/api/V1.0/Schedule/GetUrgentAvailableDateAndTimes',
-            data: {
-              startDate: new Date(
-                new Date().setTime(
-                  new Date().getTime() +
-                    response.data.advancedRestrictions[0].minDays * 86400000
-                )
-              ),
-              endDate: new Date(
-                new Date().setTime(
-                  new Date().getTime() +
-                    response.data.advancedRestrictions[0].maxDays * 86400000
-                )
-              ),
-              requestTypeId: requestTypeId,
-              officeId: officeId,
-              noOfApplicants: 1,
-            },
+          axiosInstance.post('/Schedule/api/V1.0/Schedule/GetUrgentAvailableDateAndTimes',{
+            startDate: new Date(
+              new Date().setTime(
+                new Date().getTime() +
+                  response.data.advancedRestrictions[0].minDays * 86400000
+              )
+            ),
+            endDate: new Date(
+              new Date().setTime(
+                new Date().getTime() +
+                  response.data.advancedRestrictions[0].maxDays * 86400000
+              )
+            ),
+            requestTypeId: requestTypeId,
+            officeId: officeId,
+            noOfApplicants: 1,
           })
             .then((responses) => {
               setavailableDateAndQota(responses.data.availableDateAndTimes);
@@ -209,28 +183,22 @@ function RescheduleAppointment(props) {
               console.log('error' + error.data.message);
             });
         } else {
-          axios({
-            headers: headers,
-            method: 'post',
-            url:
-              baseUrl + '/Schedule/api/V1.0/Schedule/GetAvailableDateAndTimes',
-            data: {
-              startDate: new Date(
-                new Date().setTime(
-                  new Date().getTime() +
-                    response.data.advancedRestrictions[0].minDays * 86400000
-                )
-              ),
-              endDate: new Date(
-                new Date().setTime(
-                  new Date().getTime() +
-                    response.data.advancedRestrictions[0].maxDays * 86400000
-                )
-              ),
-              requestTypeId: requestTypeId,
-              officeId: officeId,
-              noOfApplicants: 1,
-            },
+          axiosInstance.post('/Schedule/api/V1.0/Schedule/GetAvailableDateAndTimes',{
+            startDate: new Date(
+              new Date().setTime(
+                new Date().getTime() +
+                  response.data.advancedRestrictions[0].minDays * 86400000
+              )
+            ),
+            endDate: new Date(
+              new Date().setTime(
+                new Date().getTime() +
+                  response.data.advancedRestrictions[0].maxDays * 86400000
+              )
+            ),
+            requestTypeId: requestTypeId,
+            officeId: officeId,
+            noOfApplicants: 1,
           })
             .then((responses) => {
               for (
@@ -379,21 +347,13 @@ function RescheduleAppointment(props) {
           }
         }
       }
-
-      axios({
-        headers: {
-          Authorization: 'Bearer ' + accesstoken,
-        },
-        method: 'post',
-        url: baseUrl + '/Schedule/api/V1.0/Schedule/SubmitUrgentAppointment',
-        data: {
-          id: 0,
-          date: stringDateValue,
-          dateTimeFormat: 'yyyy-MM-dd',
-          urgentQuotaId: urgentQuotaId,
-          noOfApplicants: 1,
-        },
-      })
+axiosInstance.post('/Schedule/api/V1.0/Schedule/SubmitUrgentAppointment',{
+  id: 0,
+  date: stringDateValue,
+  dateTimeFormat: 'yyyy-MM-dd',
+  urgentQuotaId: urgentQuotaId,
+  noOfApplicants: 1,
+})
         .then((response) => {
           console.log(response.data);
           dispatch(
@@ -424,20 +384,12 @@ function RescheduleAppointment(props) {
         durationId: parseInt(selectTime),
         dateTimeFormat: 'yyyy-MM-dd',
       };
-      console.log(sampleData);
-      axios({
-        headers: {
-          Authorization: 'Bearer ' + accesstoken,
-        },
-        method: 'post',
-        url: baseUrl + '/Schedule/api/V1.0/Schedule/RescheduleAppointment',
-        data: {
-          id: appointmentDetails.id,
-          date: stringDateValue,
-          requestId: displayedApplication.requestId,
-          durationId: parseInt(selectTime),
-          dateTimeFormat: 'yyyy-MM-dd',
-        },
+      axiosInstance.post('/Schedule/api/V1.0/Schedule/RescheduleAppointment',{
+        id: appointmentDetails.id,
+        date: stringDateValue,
+        requestId: displayedApplication.requestId,
+        durationId: parseInt(selectTime),
+        dateTimeFormat: 'yyyy-MM-dd',
       })
         .then((response) => {
           let newdate = new Date(response.data.date);

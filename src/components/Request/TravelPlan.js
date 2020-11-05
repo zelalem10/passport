@@ -20,7 +20,7 @@ import {
     KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import API from '../Utils/API';
+import axiosInstance from '../Utils/axios';
 import { useTranslation, Trans } from 'react-i18next';
 function requestTypeGetter(requetTypeId) {
     switch (requetTypeId) {
@@ -64,23 +64,6 @@ const TravelPlan = forwardRef((props, ref) => {
     const counter = useSelector((state) => state);
     const isRequired = 'is required!';
 
-    const tokenValue = () => {
-        const UserToken = localStorage.userToken;
-
-        if (UserToken) {
-            return UserToken;
-        } else {
-            const SystemToken = localStorage.systemToken;
-            return SystemToken;
-        }
-    };
-
-    const accesstoken = tokenValue();
-
-    const usertoken = localStorage.userToken;
-    const config = {
-        headers: { Authorization: 'Bearer ' + accesstoken },
-    };
     let requestTypefromRedux = useSelector((state) => state.service);
     let personalInfoReducer = useSelector((state) => state.personalInfoReducer);
 
@@ -156,6 +139,7 @@ const TravelPlan = forwardRef((props, ref) => {
     // check date difference between two dates
     const compareDates = (changedDate, isIssue) => {
         // To calculate the time difference of two dates 
+        if(changedDate){
         let Difference_In_Time = '';
         if (isIssue) {
             Difference_In_Time = (changedDate.getTime() + 157784760000) - selectedexpirationDate.getTime();
@@ -167,7 +151,7 @@ const TravelPlan = forwardRef((props, ref) => {
         if (Difference_In_Days > 182.5) {
             setNotifyUser('Your Passport is not expired you may required to pay an extra payment!');
         } else { setNotifyUser(''); }
-
+    }
     }
     var prevInfo = counter.travelPlan[counter.travelPlan.length - 1];
     if (prevInfo !== null && typeof prevInfo !== 'undefined') {
@@ -205,10 +189,7 @@ const TravelPlan = forwardRef((props, ref) => {
         });
         setPassportTypeList(JSON.parse(localStorage.PassportPageQuantity))
         if (passportTypeList.length === 0) {
-            API.get(
-                'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/PassportPage/GetAll',
-                config
-            )
+            axiosInstance.get('/Master/api/V1.0/PassportPage/GetAll')
                 .then((todo) => {
                     setPassportTypeList(todo.data.pagePassports);
                 })

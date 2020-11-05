@@ -8,7 +8,7 @@ import { MDBContainer, MDBCol, MDBInput, MDBRow } from 'mdbreact';
 import { Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import addAddressInfo from '../../../redux/actions/addAddressInfoAction';
-import API from '../../Utils/API';
+import axiosInstance from '../../Utils/axios';
 
 const Address = forwardRef((props, ref) => {
   const [regionList, setRegionList] = useState([]);
@@ -38,20 +38,7 @@ const Address = forwardRef((props, ref) => {
     houseNo: addressInformation.houseNo ? false : true,
     poBox: addressInformation.poBox ? false : true,
   });
-  const tokenValue = () => {
-    const UserToken = localStorage.userToken;
 
-    if (UserToken) {
-      return UserToken;
-    } else {
-      const SystemToken = localStorage.systemToken;
-      return SystemToken;
-    }
-  };
-  const token = tokenValue();
-  const config = {
-    headers: { Authorization: 'Bearer ' + token },
-  };
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   if (counter.address.length === 0) {
@@ -158,9 +145,7 @@ const Address = forwardRef((props, ref) => {
     setRegionList(JSON.parse(localStorage.countryRegions))
 
     if (regionList.length === 0) {
-
-      API.get('https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
-
+axiosInstance.get('/Master/api/V1.0/CountryRegion/GetAll')
         .then((todo) => {
 
           setRegionList(todo.data.countryRegions);

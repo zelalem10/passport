@@ -1,13 +1,11 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState} from 'react';
 import { MDBBtn, MDBCard, MDBContainer, MDBCardHeader, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBRow } from 'mdbreact';
 import { Button, Form } from 'react-bootstrap';
 import PaymentSelection from '../Payment/PaymentSelection'
 import SuccessPage from './Responses/Confirmation'
 import ErrorPage from './Responses/ErrorPage'
 import WarningPage from './Responses/WarningPage'
-import API from '../Utils/API'
-import token from '../common/accessToken'
-import loader from '../common/loader'
+import axiosInstance from '../Utils/axios';
 
 
 const CardExample = () => {
@@ -39,9 +37,7 @@ const CardExample = () => {
         setReturnBack(true)
     }
     function handelRequest(){
-        const config = {
-            headers: { Authorization: token }
-        };
+
         const body = {
             firstName: 'Atalay',
             lastName: 'Tilahun',
@@ -60,7 +56,7 @@ const CardExample = () => {
             requestId: 3,
         };
         setIsLoading(true)
-        API.post("https://epassportservicesaddt.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
+        axiosInstance.post('/Payment/api/V1.0/Payment/OrderRequest',body)
             .then((todo) => 
             {
                 setIsLoading(false)
@@ -72,9 +68,7 @@ const CardExample = () => {
         setResquestSent(true)
     }
     function handelSubmit(){
-        const config = {
-            headers: { Authorization: token }
-        };
+
         const body = {
             firstName: 'Atalay',
             lastName: 'Tilahun',
@@ -93,7 +87,7 @@ const CardExample = () => {
             requestId: 3,
         };
         setIsLoading(true)
-        API.post("http://svdrbas03:2222/Payment/api/V1.0/Payment/OrderRequest", body, config)
+        axiosInstance.post('/Payment/api/V1.0/Payment/OrderRequest',body)
             .then((todo) => 
             {
                 setIsLoading(false)

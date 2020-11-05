@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import axios from 'axios';
+import axiosInstance from '../Utils/axios';
 
 import { useDispatch, useSelector } from 'react-redux';
 import addApplicationList from '../../redux/actions/addApplicationLIst';
@@ -16,20 +16,7 @@ const Errorstyle = {
 
 const MainStatus = () => {
   const dispatch = useDispatch();
-  const tokenValue = () => {
-    const UserToken = localStorage.userToken;
 
-    if (UserToken) {
-      return UserToken;
-    } else {
-      const SystemToken = localStorage.systemToken;
-      return SystemToken;
-    }
-  };
-  const token = tokenValue();
-  const config = {
-    headers: { Authorization: `Bearer ` + token },
-  };
   const [loading, setloading] = useState(false);
 
   const [showPassportNumberResults, setShowPassportNumberResults] = useState(
@@ -112,14 +99,8 @@ const MainStatus = () => {
       setApplicationNumber(ApplicationNumber);
       setConfirmationNumber(ConfirmationNumber);
       if (ApplicationNumber) {
-        debugger;
-        axios
-          .get(
-            `https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/GetRequestsByApplicationNumber?applicationNumber=${ApplicationNumber}`,
-            config
-          )
+        axiosInstance.get(`/Request/api/V1.0/Request/GetRequestsByApplicationNumber?applicationNumber=${ApplicationNumber}`)
           .then((response) => {
-            debugger;
             setApplicationNumberData(response.data.serviceRequest);
             setAllError('');
             if (response.data.status !== 0) {
@@ -131,18 +112,13 @@ const MainStatus = () => {
             }
           })
           .catch((error) => {
-            debugger;
             console.log('error' + error);
             const errorMessage = error.response.data.message;
             setinternalServerError(errorMessage);
             setloading(false);
           });
       } else if (ConfirmationNumber) {
-        axios
-          .get(
-            `https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/GetRequestsByConfirmationNumber?confirmationNumber=${ConfirmationNumber}`,
-            config
-          )
+        axiosInstance.get(`/Request/api/V1.0/Request/GetRequestsByConfirmationNumber?confirmationNumber=${ConfirmationNumber}`)
           .then((response) => {
             setConfirmationNumberData(response.data.serviceResponseList);
             setAllError('');

@@ -20,7 +20,7 @@ import {
 } from '@material-ui/pickers';
 import '../Application List/viewAppointment.css';
 import DateFnsUtils from '@date-io/date-fns';
-import API from '../Utils/API';
+import axiosInstance from '../Utils/axios';
 import isEmail from 'validator/es/lib/isEmail';
 
 const PersonalInfo = forwardRef((props, ref) => {
@@ -77,16 +77,7 @@ const PersonalInfo = forwardRef((props, ref) => {
     email: true,
   });
 
-    const tokenValue = () => {
-        const UserToken = localStorage.userToken;
 
-        if (UserToken) {
-            return UserToken;
-        } else {
-            const SystemToken = localStorage.systemToken;
-            return SystemToken;
-        }
-    };
 
   const [age, setAge] = useState(0);
   const [invalidEmail, setInvalidEmail] = useState(false);
@@ -95,12 +86,9 @@ const PersonalInfo = forwardRef((props, ref) => {
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const isRequired = "is required!"
-    const accesstoken = tokenValue();
-  const usertoken = localStorage.userToken;
+
   const digitPattern = new RegExp(/^[0-9\b]+$/);
-  const config = {
-        headers: { Authorization: 'Bearer ' + accesstoken },
-    };
+
     useImperativeHandle(ref, () => ({
       saveData() {
         setPersonalInfo((prevState) => ({
@@ -301,10 +289,7 @@ const PersonalInfo = forwardRef((props, ref) => {
                 }));
       }
       if (personalInfo.nationalityId=== 0) {
-        API.get(
-          'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Nationality/GetAll',
-          config
-        )
+        axiosInstance.get('/Master/api/V1.0/Nationality/GetAll')
           .then((todo) => {
             setNationalityList(todo.data.nationalitys);
             let defaultNationality=todo.data.nationalitys.filter((nationality) => nationality.code === 'ET');
@@ -352,10 +337,7 @@ const PersonalInfo = forwardRef((props, ref) => {
       });
       setOccupationList(JSON.parse(localStorage.occupations));
       if (occupationList.length === 0) {
-        API.get(
-          'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Occupation/GetAll',
-          config
-        )
+        axiosInstance.get('/Master/api/V1.0/Occupation/GetAll')
           .then((todo) => {
             setOccupationList(todo.data.occupations);
           })

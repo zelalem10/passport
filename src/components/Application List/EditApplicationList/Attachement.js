@@ -3,18 +3,25 @@ import axios from 'axios';
 import Spinner from '../../common/Spinner';
 import { MDBCol, MDBRow, MDBBadge } from 'mdbreact';
 import { useSelector } from 'react-redux';
+import Cookies from 'universal-cookie';
+
+
+
+const cookies = new Cookies();
+
+
 
 const Fileupload = forwardRef((props, ref) => {
-    const tokenValue = () => {
-        const UserToken = localStorage.userToken;
-
-        if (UserToken) {
-            return UserToken;
-        } else {
-            const SystemToken = localStorage.systemToken;
-            return SystemToken;
-        }
-    };
+  const tokenValue = () => {
+    const UserToken = cookies.get('AC_TO');
+  
+    if (UserToken) {
+      return UserToken;
+    } else {
+      const SystemToken = cookies.get('SY_TO');
+      return SystemToken;
+    }
+  };
 
   const { personalInformation } = props;
     const accesstoken = tokenValue();
@@ -43,7 +50,6 @@ const Fileupload = forwardRef((props, ref) => {
     11: '',
     12: '',
   });
-  debugger;
   let attachmentList = personalInformation.attachmentList;
   console.log(attachmentList)
   let requiredFile = attachmentList? attachmentList.length : 0;

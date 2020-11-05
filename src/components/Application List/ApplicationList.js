@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../Utils/axios';
 
 import addApplicationList from '../../redux/actions/addApplicationLIst';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import ListOfApplications from './listOfApplications';
 import ViewAppointment from './viewAppointment';
 import HorizontalLabelPositionBelowStepper from './EditApplicationList/PersonslInfoStepper';
@@ -12,23 +12,9 @@ import { useHistory } from 'react-router-dom';
 import GetContent from '../UrgentAppointment/Payment/PaymentSelection';
 
 function ApplicationList() {
-  const tokenValue = () => {
-    const UserToken = localStorage.userToken;
 
-    if (UserToken) {
-      return UserToken;
-    } else {
-      const SystemToken = localStorage.systemToken;
-      return SystemToken;
-    }
-  };
-  const accesstoken = tokenValue();
   const dispatch = useDispatch();
-  const config = {
-    headers: {
-      Authorization: 'Bearer ' + accesstoken,
-    },
-  };
+
 
   const [users, setusers] = useState([]);
   const [open, setOpen] = useState(false);
@@ -66,16 +52,8 @@ function ApplicationList() {
     setOpen(false);
   }
   useEffect(() => {
-    debugger;
-    axios({
-      headers: { Authorization: 'Bearer ' + accesstoken },
-      method: 'get',
-      url:
-        'https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/GetMyApplications',
-    })
+    axiosInstance.get('/Request/api/V1.0/Request/GetMyApplications')
       .then((Response) => {
-        debugger;
-        console.log(Response.data);
         setloading(false);
         setusers(Response.data.serviceResponseList);
         dispatch(addApplicationList(Response.data.serviceResponseList));
@@ -87,7 +65,6 @@ function ApplicationList() {
         }
       })
       .catch((err) => {
-        debugger;
         setloading(false);
       });
   }, [relodList]);
@@ -106,21 +83,13 @@ function ApplicationList() {
   };
   //cancel a single schedule
   function cancelSchedule(requestId) {
-    axios({
-      headers: { Authorization: 'Bearer ' + accesstoken },
-      method: 'post',
-      url:
-        'https://epassportservicesaddt.azurewebsites.net//Schedule/api/V1.0/Schedule/CancelAppointment',
-      params: { requestId: requestId },
-    })
+    axiosInstance.post(`/Schedule/api/V1.0/Schedule/CancelAppointment/?requestId= ${requestId}` )
       .then((Response) => {
-        console.log(Response);
         setOpen(false);
         history.push('/Application-List');
         setisCancelSchedule(!isCancelSchedule);
       })
       .catch((err) => {
-        console.log(err);
         setOpen(false);
         history.push('/Application-List');
       });

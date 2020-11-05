@@ -1,77 +1,19 @@
 import React, {
     useState,
-    useEffect,
     forwardRef,
     useImperativeHandle,
 } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import MuiAccordion from '@material-ui/core/Accordion';
-import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
-import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
 import { MDBContainer, MDBTypography, MDBBox } from 'mdbreact';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useSelector } from 'react-redux';
-import { de, fi } from 'date-fns/locale';
 import ViewGroupAppointment from './GroupSummary';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
 
-const Accordion = withStyles({
-    root: {
-        border: '1px solid rgba(0, 0, 0, .125)',
-        boxShadow: 'none',
-        '&:not(:last-child)': {
-            borderBottom: 0,
-        },
-        '&:before': {
-            display: 'none',
-        },
-        '&$expanded': {
-            margin: 'auto',
-        },
-    },
-    expanded: {},
-})(MuiAccordion);
 
-const AccordionSummary = withStyles({
-    root: {
-        backgroundColor: 'rgba(0, 0, 0, .03)',
-        borderBottom: '1px solid rgba(0, 0, 0, .125)',
-        marginBottom: -1,
-        minHeight: 56,
-        '&$expanded': {
-            minHeight: 56,
-        },
-    },
-    content: {
-        '&$expanded': {
-            margin: '12px 0',
-        },
-    },
-    expanded: {},
-})(MuiAccordionSummary);
 
-const AccordionDetails = withStyles((theme) => ({
-    root: {
-        padding: theme.spacing(2),
-    },
-}))(MuiAccordionDetails);
 
-const tokenValue = () => {
-    const UserToken = localStorage.userToken;
-
-    if (UserToken) {
-        return UserToken;
-    } else {
-        const SystemToken = localStorage.systemToken;
-        return SystemToken;
-    }
-};
 
 const ViewAppointment = forwardRef((props, ref) => {
-    debugger;
-    const accesstoken = tokenValue();
+
 
     const history = useHistory();
     const [expanded, setExpanded] = React.useState('panel1');
@@ -138,8 +80,8 @@ const ViewAppointment = forwardRef((props, ref) => {
                 ? requests[0].personResponses
                 : null;
             if (personalInfo) {
-                const appointmentResponse = requests[0].appointmentResponse;
-                const personalInformation = requests[0].personResponses;
+                const appointmentResponse = requests[requests.length-1].appointmentResponse;
+                const personalInformation = requests[requests.length-1].personResponses;
                 const addressInformation = personalInformation.address;
                 const familyInformation = personalInformation.familyResponses;
                 console.log(personalInformation.passportRes.birthCertificateId)
@@ -158,7 +100,7 @@ const ViewAppointment = forwardRef((props, ref) => {
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                                         <label class="font-weight-bold">
-                                            {requests[0].type}
+                                            {requests[requests.length-1].type}
                                         </label>
                                     </b>
                                 </div>
@@ -169,7 +111,7 @@ const ViewAppointment = forwardRef((props, ref) => {
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                                         <label class="font-weight-bold">
-                                            {requests[0].requestStatus}
+                                            {requests[requests.length-1].requestStatus}
                                         </label>
                                     </b>
                                 </div>
@@ -181,13 +123,13 @@ const ViewAppointment = forwardRef((props, ref) => {
                   <b>
                                         <label class="font-weight-bold">
 
-                                            {dateFormatter(requests[0].requestDate)}
+                                            {dateFormatter(requests[requests.length-1].requestDate)}
                                         </label>
                                     </b>
                                 </div>
                                 <div class="form-group form-inline passport-display">
                                     <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                                        {requests[0].type === 'New' ? 'Appointment' : 'Delivery'} Date:{' '}
+                                        {requests[requests.length-1].type === 'New' ? 'Appointment' : 'Delivery'} Date:{' '}
                                     </label>
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
@@ -199,7 +141,7 @@ const ViewAppointment = forwardRef((props, ref) => {
                                 {appointmentResponse ? appointmentResponse.duration ? (
                                     <div class="form-group form-inline passport-display">
                                         <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
-                                            {requests[0].type === 'New' ? 'Appointment' : 'Delivery'} Time:{' '}
+                                            {requests[requests.length-1].type === 'New' ? 'Appointment' : 'Delivery'} Time:{' '}
                                         </label>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                                         <b>
@@ -238,11 +180,11 @@ const ViewAppointment = forwardRef((props, ref) => {
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                                         <label class="font-weight-bold">
-                                            {requests[0].office}
+                                            {requests[requests.length-1].office}
                                         </label>
                                     </b>
                                 </div>
-                                {requests[0].type === 'New' ?
+                                {requests[requests.length-1].type === 'New' ?
                                     <div class="form-group form-inline passport-display">
                                         <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                                             Delivery Site
@@ -250,7 +192,7 @@ const ViewAppointment = forwardRef((props, ref) => {
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                                             <label class="font-weight-bold">
-                                                {requests[0].deliverySite}
+                                                {requests[requests.length-1].deliverySite}
                                             </label>
                                         </b>
                                     </div> : null}

@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
 import Spinner from '../common/Spinner';
+import axiosInstance from '../Utils/axios';
+import deleteRequestInfo from '../../redux/actions/deleteRequestInfo';
 
 function AppointmetType(props) {
     const { t, i18n } = useTranslation();
@@ -14,34 +16,19 @@ function AppointmetType(props) {
     const [requestTypes, setRequestTypes] = useState([]);
     const [loading, setloading] = useState(true);
     const baseUrl = 'https://epassportservicesaddt.azurewebsites.net/';
-    const tokenValue = () => {
-        const UserToken = localStorage.userToken;
 
-        if (UserToken) {
-            return UserToken;
-        } else {
-            const SystemToken = localStorage.systemToken;
-            return SystemToken;
-        }
-    };
-    const accesstoken = tokenValue();
     useEffect(() => {
-        axios({
-            headers: {
-                Authorization: 'Bearer ' + accesstoken,
-            },
-            method: 'get',
-            url: baseUrl + '/Master/api/V1.0/OfficeRequestType/GetAllRequestTypes',
+        axiosInstance.get('/Master/api/V1.0/OfficeRequestType/GetAllRequestTypes')
+        .then(async (response) => {
+            dispatch(addAppointmentType(response.data.requestTypes));
+            setRequestTypes(response.data.requestTypes);
+            setloading(false);
         })
-            .then(async (response) => {
-                dispatch(addAppointmentType(response.data.requestTypes));
-                setRequestTypes(response.data.requestTypes);
-                setloading(false);
-            })
-            .catch((error) => {
-                console.log('error' + error.response);
-                setloading(false);
-            });
+        .catch((error) => {
+            console.log('error' + error.response);
+            setloading(false);
+        });
+        
     }, []);
     const continueTo = (e) => {
         e.preventDefault();
@@ -54,6 +41,13 @@ function AppointmetType(props) {
     const { handleAppointmentType, handleIsUrgent } = props;
     const { isItGroup } = props;
     const { values } = props;
+    if(counter.request){
+        if(counter.request[counter.request.length-1]){
+ 
+        
+    dispatch(deleteRequestInfo([]));
+        }
+    }
     return (<div>{loading ? (
         <Spinner />
       ) : (

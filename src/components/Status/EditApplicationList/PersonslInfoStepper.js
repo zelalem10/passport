@@ -30,6 +30,7 @@ import API from '../../Utils/API';
 import { MDBContainer, MDBCard, MDBAlert } from 'mdbreact';
 import { isValid, parse } from 'date-fns';
 import Spinner from '../../common/Spinner';
+import axiosInstance from '../../Utils/axios';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -69,14 +70,14 @@ export default function HorizontalLabelPositionBelowStepper(props) {
     const steps = getSteps();
 
     const dispatch = useDispatch();
-
+debugger;
     const counter = useSelector((state) => state);
     const appList = counter.applicationList[counter.applicationList.length - 1];
     let displayedApplication = {};
     const { displayRequestId, backToList, status } = props;
 
     displayedApplication = appList;
-
+debugger;
     const personalInformation = displayedApplication
         ? displayedApplication.personResponses
         : null;
@@ -144,23 +145,8 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                 counter.editFamilyData[counter.editFamilyData.length - 1];
             //var travelPlanInfo = counter.travelPlan[counter.travelPlan.length - 1];
 
-            const tokenValue = () => {
-                const UserToken = localStorage.userToken;
 
-                if (UserToken) {
-                    return UserToken;
-                } else {
-                    const SystemToken = localStorage.systemToken;
-                    return SystemToken;
-                }
-            };
-            const accesstoken = tokenValue();
-
-            const config = {
-                headers: {
-                    Authorization: 'Bearer ' + accesstoken,
-                },
-            };
+          
 
             const requestBody = {
                 requestId: displayedApplication.requestId,
@@ -269,13 +255,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                     },
                 ],
             };
-            debugger;
-            console.log(JSON.stringify(requestBody));
-            API.put(
-                'https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/UpdateRequest',
-                requestBody,
-                config
-            )
+            axiosInstance.put('https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/UpdateRequest',requestBody)
 
                 .then((todo) => {
                     setloading(false);

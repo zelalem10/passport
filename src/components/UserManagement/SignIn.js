@@ -12,36 +12,21 @@ import {
   MDBAlert
 } from 'mdbreact';
 import axios from 'axios';
-import { Link, Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import * as authenticationAction from '../../redux/actions/authenticationAction';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 //import PropTypes from 'prop-types';
 import Spinner from '../common/Spinner';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useTranslation, Trans } from 'react-i18next';
+import axiosInstance from '../Utils/axios';
 
 const Errorstyle = {
   marginTop: '-1rem',
   marginLeft: '2.5rem',
 };
 
-const tokenValue = () => {
-    const UserToken = localStorage.userToken;
 
-    if (UserToken) {
-        return UserToken;
-    } else {
-        const SystemToken = localStorage.systemToken;
-        return SystemToken;
-    }
-};
-
-const accesstoken = tokenValue();
-
-const config = {
-  headers: { Authorization: `Bearer ` + accesstoken },
-};
 
 function SignIn() {
   const { t, i18n } = useTranslation();
@@ -97,13 +82,9 @@ function SignIn() {
 
   const personalDetail = () => {
     let userId = localStorage.userId;
-    axios
-      .get(
-        `https://epassportservicesaddt.azurewebsites.net/Person/api/V1.0/Person/GetByUserId?userId=${userId}`,
-        config
-      )
+    axiosInstance.get(`/Person/api/V1.0/Person/GetByUserId?userId=${userId}`)
+    
       .then((response) => {
-        console.log(response.data.person);
         localStorage.setItem(
           'personalDetail',
           JSON.stringify(response.data.person)
@@ -118,14 +99,9 @@ function SignIn() {
     e.preventDefault();
  
       setloading(true);
-      axios({
-        method: 'post',
-        url:
-          'https://epassportservicesaddt.azurewebsites.net/User/api/V1.0/Account/ForgotPassword',
-        data: {
-          username: Email,
-          callBackUrl:`${window.origin}#/resetForgotedPassword/${Email}`
-        },
+      axiosInstance.post('/User/api/V1.0/Account/ForgotPassword',{
+        username: Email,
+        callBackUrl:`${window.origin}#/resetForgotedPassword/${Email}`
       })
         .then((response) => {
           if(response.data.status==1){
@@ -149,18 +125,13 @@ function SignIn() {
     const isValid = validate();
     if (isValid) {
       setloading(true);
-      axios({
-        method: 'post',
-        url:
-          'https://epassportservicesaddt.azurewebsites.net/User/api/V1.0/Account/SignIn',
-        data: {
-          username: Email,
-          password: Password,
-        },
+      axiosInstance.post('/User/api/V1.0/Account/SignIn',
+      {
+        username: Email,
+        password: Password,
       })
         .then((response) => {
           setState(response.data);
-          console.log(response.data);
           if (response.data.accessToken) {
             localStorage.setItem('userToken', response.data.accessToken);
             localStorage.setItem(

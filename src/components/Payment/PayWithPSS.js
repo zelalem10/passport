@@ -1,26 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import {
-    MDBBtn,
-    MDBCard,
-    MDBContainer,
-    MDBCardHeader,
-    MDBNavLink,
-    MDBCardBody,
-    MDBLink,
-    MDBCardTitle,
-    MDBCardText,
-    MDBCol,
-    MDBRow,
-} from 'mdbreact';
+
 import PaymentSelection from '../Payment/PaymentSelection';
 import API from '../Utils/API';
 import ReactHtmlParser, {
     processNodes,
     convertNodeToElement,
-    htmlparser2,
 } from 'react-html-parser';
-
-import { Link } from 'react-router-dom';
+import axiosInstance from '../Utils/axios';
 
 const PayWithPSS = () => {
     const [contentResponse, setContentResponse] = useState('');
@@ -31,29 +17,8 @@ const PayWithPSS = () => {
         setReturnBack(true);
     }
 
-    const tokenValue = () => {
-        const UserToken = localStorage.userToken;
 
-        if (UserToken) {
-            return UserToken;
-        } else {
-            const SystemToken = localStorage.systemToken;
-            return SystemToken;
-        }
-    };
 
-    const accesstoken = tokenValue();
-    const config = {
-        headers: { Authorization: 'Bearer ' + accesstoken },
-    };
-    const localConfig = {
-        headers: {
-            Authorization:
-                'Bearer ' + accesstoken,
-            'content-type': 'application/json',
-            Accept: 'application/json',
-        },
-    };
     const prodURL =
         'https://epassportservicesaddt.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest';
 
@@ -130,8 +95,7 @@ const PayWithPSS = () => {
             otp: '',
             requestId: 7465,
         };
-
-        API.post(prodURL, body, config)
+axiosInstance('/Payment/api/V1.0/Payment/OrderRequest',body)
             .then((todo) => {
                 setContentResponse(todo.data.redirectMSG);
                 setResponseGot(true);

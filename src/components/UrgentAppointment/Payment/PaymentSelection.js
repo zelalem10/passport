@@ -2,7 +2,6 @@ import React, {
     useState,
     useEffect,
     forwardRef,
-    useImperativeHandle,
 } from 'react';
 import { MDBContainer, MDBCol, MDBRow } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,7 +12,7 @@ import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import BasicTable from './PricingDetail';
 
-import API from '../../Utils/API';
+import axiosInstance from '../../Utils/axios';
 
 const useStyles = makeStyles({
     root: {
@@ -63,24 +62,11 @@ const PaymentSelection = forwardRef((props, ref) => {
     }
     const personalInformation = displayedApplication.personResponses;
 
-    const tokenValue = () => {
-        const UserToken = localStorage.userToken;
 
-        if (UserToken) {
-            return UserToken;
-        } else {
-            const SystemToken = localStorage.systemToken;
-            return SystemToken;
-        }
-    };
-
-    const accesstoken = tokenValue();
 
     const requestType = displayedApplication.requestTypeId;
     const requestTypeStr = requestTypeGetter(requestType);
-    const config = {
-        headers: { Authorization: 'Bearer ' + accesstoken },
-    };
+
     const priceDetail = data.priceInfo[data.priceInfo.length - 1];
     const handleProcced = () => {
         if (formCompleted && optionSelected) {
@@ -101,11 +87,7 @@ const PaymentSelection = forwardRef((props, ref) => {
                 otp: '',
                 requestId: displayedApplication.requestId,
             };
-            API.post(
-                'https://epassportservicesaddt.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest',
-                body,
-                config
-            )
+            axiosInstance.post('/Payment/api/V1.0/Payment/OrderRequest',body)
                 .then((resopnse) => {
                     dispatch(addPaymentOptionId(resopnse.data));
                     setProcced(true);
@@ -126,10 +108,7 @@ const PaymentSelection = forwardRef((props, ref) => {
     const classes = useStyles();
 
     useEffect(() => {
-        API.get(
-            'https://epassportservicesaddt.azurewebsites.net/Payment/api/V1.0/Payment/GetPaymentOptions',
-            config
-        )
+        axiosInstance.get('/Payment/api/V1.0/Payment/GetPaymentOptions')
             .then((todo) => setPaymentOptions(todo.data.paymentOptions))
             .catch((err) => {
                 console.log('AXIOS ERROR: ', err);

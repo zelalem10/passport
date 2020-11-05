@@ -7,10 +7,10 @@ import React, {
 import FamilyForm from './familyForm';
 import { useDispatch, useSelector } from 'react-redux';
 import editAddFamilyData from '../../../../../redux/actions/editAddFamilyAction';
-import axios from 'axios';
+import axiosInstance from '../../../Utils/axios';
 const FamilyInformation = forwardRef((props, ref) => {
   const counter = useSelector((family) => family);
-  const { familyInformation, personId, applicants } = props;
+  const { applicants } = props;
 
   const dispatch = useDispatch();
   const [state, setState] = useState({
@@ -85,27 +85,10 @@ const FamilyInformation = forwardRef((props, ref) => {
   }
 
   const [familyType, setFamilyType] = useState([]);
-  const baseUrl = 'https://epassportservicesaddt.azurewebsites.net/';
-  const tokenValue = () => {
-    const UserToken = localStorage.userToken;
 
-    if (UserToken) {
-      return UserToken;
-    } else {
-      const SystemToken = localStorage.systemToken;
-      return SystemToken;
-    }
-  };
-  const accesstoken = tokenValue();
 
   useEffect(() => {
-    axios({
-      headers: {
-        Authorization: 'Bearer ' + accesstoken,
-      },
-      method: 'get',
-      url: baseUrl + '/Person/api/V1.0/Person/GetAllFamilyType',
-    })
+    axiosInstance.get('/Person/api/V1.0/Person/GetAllFamilyType')
       .then((response) => {
         setFamilyType(response.data.familyTypesResponse);
       })
@@ -164,22 +147,15 @@ const FamilyInformation = forwardRef((props, ref) => {
     addFamilyInformationToArray();
   };
   const addFamilyInformationToArray = () => {
-    axios({
-      headers: {
-        Authorization: 'Bearer ' + accesstoken,
+    axiosInstance.post('/Person/api/V1.0/Person/AddFamily',[
+      {
+        id: 0,
+        personId: props.applicantNumber,
+        familtyTypeId: parseInt(state.famType),
+        firstName: state.fname,
+        lastName: state.lname,
       },
-      method: 'post',
-      url: baseUrl + '/Person/api/V1.0/Person/AddFamily',
-      data: [
-        {
-          id: 0,
-          personId: props.applicantNumber,
-          familtyTypeId: parseInt(state.famType),
-          firstName: state.fname,
-          lastName: state.lname,
-        },
-      ],
-    })
+    ])
       .then((response) => {
         setFamiliesInfo([
           ...familiesInfo,
@@ -198,14 +174,7 @@ const FamilyInformation = forwardRef((props, ref) => {
       });
   };
   const removeFamilyMember = (ids, index) => {
-    axios({
-      headers: {
-        Authorization: 'Bearer ' + accesstoken,
-      },
-      method: 'delete',
-      url: baseUrl + '/Person/api/V1.0/Person/DeleteFamily',
-      params: { familyId: ids },
-    })
+    axiosInstance.delete('/Person/api/V1.0/Person/DeleteFamily',{params: { familyId: ids }})
       .then((response) => {
         var array = [...familiesInfo];
         array.splice(index, 1);

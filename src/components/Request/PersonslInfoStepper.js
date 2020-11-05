@@ -19,9 +19,9 @@ import FamilyInformation from '../Request Appointment/family/familyInformation';
 import { useDispatch, useSelector } from 'react-redux';
 import addCommonData from '../../redux/actions/addCommonDataAction';
 import newRequest from '../../redux/actions/addNewRequestAction';
-import API from '../Utils/API';
 import addPriceInfo from '../../redux/actions/priceInfoAction';
 import Spinner from '../common/Spinner';
+import axiosInstance from '../Utils/axios';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -77,22 +77,6 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     const counter = useSelector((state) => state);
     const childRef = useRef();
 
-    const tokenValue = () => {
-        const UserToken = localStorage.userToken;
-
-        if (UserToken) {
-            return UserToken;
-        } else {
-            const SystemToken = localStorage.systemToken;
-            return SystemToken;
-        }
-    };
-
-    const accesstoken = tokenValue();
-    const usertoken = localStorage.userToken;
-    const config = {
-        headers: { Authorization: 'Bearer ' + accesstoken },
-    };
     const VerticalNext = () => {
         props.Next();
     };
@@ -224,15 +208,9 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                         },
                     ],
                 };
-                console.log(JSON.stringify(requestBody));
-                API.post(
-                    'https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest',
-                    requestBody,
-                    config
-                )
+                axiosInstance.post('/Request/api/V1.0/Request/SubmitRequest',requestBody)
                     .then((todo) => {
                         setloading(false);
-                        debugger
                         setResponseMessage(todo.data.message);
                         setResponseAlert(true);
                         setIsSuccess(true);
@@ -243,7 +221,8 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                         setPersonId(todo.data.serviceResponseList[0].personResponses.id)
                         dispatch(addCommonData(commonData));
                         dispatch(newRequest(todo.data.serviceResponseList[0]))
-                        API.get("https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
+                        axiosInstance.get('/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=' + todo.data.serviceResponseList[0].requestId)
+                       
                             .then((todo) => {
                                 dispatch(addPriceInfo(todo.data));
                             })
@@ -254,7 +233,6 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
 
                     })
                     .catch((err) => {
-                        debugger
                         setloading(false);
                         console.log('Body: ', JSON.stringify(requestBody));
                         console.log('AXIOS ERROR: ', err.response);
@@ -360,12 +338,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                         },
                     ],
                 };
-                console.log(JSON.stringify(requestBody));
-                API.post(
-                    'https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest',
-                    requestBody,
-                    config
-                )
+                axiosInstance.post('/Request/api/V1.0/Request/SubmitRequest',requestBody)
                     .then((todo) => {
                         setResponseMessage(todo.data.message);
                         setResponseAlert(true);
@@ -379,7 +352,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                         dispatch(addCommonData(commonData));
                         setActiveStep(4);
                         dispatch(newRequest(todo.data.serviceResponseList[0]))
-                        API.get("https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
+                        axiosInstance.get('/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId='+ todo.data.serviceResponseList[0].requestId)
                             .then((todo) => {
                                 dispatch(addPriceInfo(todo.data));
                             })

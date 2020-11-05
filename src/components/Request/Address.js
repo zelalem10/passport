@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import addAddressInfo from '../../redux/actions/addAddressInfoAction';
 
-import API from '../Utils/API';
+import axiosInstance from '../Utils/axios';
 import { useTranslation, Trans } from 'react-i18next';
 
 
@@ -74,16 +74,7 @@ const Address = forwardRef((props, ref) => {
 
     });
 
-    const tokenValue = () => {
-        const UserToken = localStorage.userToken;
 
-        if (UserToken) {
-            return UserToken;
-        } else {
-            const SystemToken = localStorage.systemToken;
-            return SystemToken;
-        }
-    };
 
     const [regionList, setRegionList] = useState([]);
 
@@ -91,15 +82,6 @@ const Address = forwardRef((props, ref) => {
 
     const counter = useSelector((state) => state);
 
-    const accesstoken = tokenValue();
-
-    const usertoken = localStorage.userToken;
-
-    const config = {
-
-        headers: { Authorization: 'Bearer ' + accesstoken },
-
-    };
 
     useImperativeHandle(ref, () => ({
 
@@ -236,8 +218,7 @@ const Address = forwardRef((props, ref) => {
         setRegionList(JSON.parse(localStorage.countryRegions))
 
         if (regionList.length === 0) {
-
-            API.get('https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
+axiosInstance.get('/Master/api/V1.0/CountryRegion/GetAll')
 
                 .then((todo) => {
 

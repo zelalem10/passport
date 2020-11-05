@@ -6,28 +6,17 @@ import {
     MDBInput,
     MDBTable,
     MDBTableBody,
-    MDBTableHead,
 } from 'mdbreact';
-import { Link } from 'react-router-dom';
 import Spinner from '../common/Spinner';
-import axios from 'axios';
+import axiosInstance from '../Utils/axios';
 import { useTranslation, Trans } from 'react-i18next';
 import ReCAPTCHA from 'react-google-recaptcha';
 
-const tokenValue = () => {
-    const UserToken = localStorage.userToken;
 
-    if (UserToken) {
-        return UserToken;
-    } else {
-        const SystemToken = localStorage.systemToken;
-        return SystemToken;
-    }
-};
 
 const ContactUs = (props) => {
     const { t, i18n } = useTranslation();
-    const accesstoken = tokenValue();
+   
 
     let [firstName, setfirstName] = useState('');
     let [firstNameError, setfirstNameError] = useState('');
@@ -107,18 +96,12 @@ const ContactUs = (props) => {
         const isValid = validate();
         if (isValid) {
             setloading(true);
-            axios({
-                headers: { Authorization: `Bearer ` + accesstoken },
-                method: 'post',
-                url:
-                    'https://epassportservicesaddt.azurewebsites.net/Transactional/api/V1.0/Feedback/Create',
-                data: {
-                    firstName: firstName,
-                    lastName: lastName,
-                    phonenumber: phoneNumber,
-                    email: email,
-                    feedbackNote: note,
-                },
+            axiosInstance.post('/Transactional/api/V1.0/Feedback/Create',{
+                firstName: firstName,
+                lastName: lastName,
+                phonenumber: phoneNumber,
+                email: email,
+                feedbackNote: note,
             })
                 .then((response) => {
                     console.log(response);

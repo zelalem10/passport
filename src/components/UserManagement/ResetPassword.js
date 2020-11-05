@@ -7,10 +7,9 @@ import {
     MDBCardBody,
     MDBInput,
     MDBBtn,
-    MDBIcon,
     MDBModalFooter,
 } from 'mdbreact';
-import axios from 'axios';
+import axiosInstance from '../Utils/axios';
 
 
 
@@ -59,34 +58,13 @@ function ResetPassword() {
         return "Very Week";
     }
 
-    const tokenValue = () => {
-        const UserToken = localStorage.userToken;
 
-        if (UserToken) {
-            return UserToken;
-        } else {
-            const SystemToken = localStorage.systemToken;
-            return SystemToken;
-        }
-    };
-
-    const accesstoken = tokenValue();
-
-    const config = {
-        headers: { Authorization: `Bearer ` + accesstoken },
-    };
     const submitNewPassword = (e) => {
         e.preventDefault();
-        axios({
-            method: 'post',
-            url:
-                'https://epassportservicesaddt.azurewebsites.net/User/api/V1.0/Account/ResetForgotedPassword',
-            config,
-            data: {
-                username: (window.location.hash).substr(24),
-                newPassword: Password,
-            },
-        })
+axiosInstance.post('/User/api/V1.0/Account/ResetForgotedPassword',{
+    username: (window.location.hash).substr(24),
+    newPassword: Password,
+})
             .then((response) => {
                 console.log(response.data);
 

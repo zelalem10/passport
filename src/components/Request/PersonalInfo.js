@@ -20,8 +20,7 @@ import {
 } from '@material-ui/pickers';
 import '../Application List/viewAppointment.css';
 import DateFnsUtils from '@date-io/date-fns';
-import API from '../Utils/API';
-import isEmail from 'validator/es/lib/isEmail';
+import axiosInstance from '../Utils/axios';
 import { useTranslation, Trans } from 'react-i18next';
 
 
@@ -88,23 +87,8 @@ const PersonalInfo = forwardRef((props, ref) => {
     const counter = useSelector((state) => state);
     const isRequired = 'is required!';
 
-    const tokenValue = () => {
-        const UserToken = localStorage.userToken;
-
-        if (UserToken) {
-            return UserToken;
-        } else {
-            const SystemToken = localStorage.systemToken;
-            return SystemToken;
-        }
-    };
-
-    const accesstoken = tokenValue();
-    const usertoken = localStorage.userToken;
     const digitPattern = new RegExp(/^[0-9\b]+$/);
-    const config = {
-        headers: { Authorization: 'Bearer ' + accesstoken },
-    };
+
     const [nameErrorMessage,setNameErrorMessage]=useState({
         firstName: '',
         middleName: '',
@@ -112,7 +96,6 @@ const PersonalInfo = forwardRef((props, ref) => {
     });
     
     function calculateAge(date1, date2) {
-        debugger
         var diff = Math.floor(date1.getTime() - date2.getTime());
         var day = 1000 * 60 * 60 * 24;
 
@@ -275,7 +258,6 @@ const PersonalInfo = forwardRef((props, ref) => {
     const [selectedDate, setSelectedDate] = React.useState(
         prevInfo ? prevInfo.birthDate : new Date()
     );
-    console.log(selectedDate);
     if (isLoading) {
         if (localStorage.getItem("nationalitys") !== null) {
             let localNatio = JSON.parse(localStorage.nationalitys);
@@ -291,10 +273,7 @@ const PersonalInfo = forwardRef((props, ref) => {
             }));
         }
         if (personalInfo.nationalityId === 0) {
-            API.get(
-                'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Nationality/GetAll',
-                config
-            )
+            axiosInstance.get('/Master/api/V1.0/Nationality/GetAll')
                 .then((todo) => {
                     setNationalityList(todo.data.nationalitys);
                     let defaultNationality = todo.data.nationalitys.filter((nationality) => nationality.code === 'ET');
@@ -370,10 +349,7 @@ const PersonalInfo = forwardRef((props, ref) => {
         });
         setOccupationList(JSON.parse(localStorage.occupations));
         if (occupationList.length === 0) {
-            API.get(
-                'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Occupation/GetAll',
-                config
-            )
+            axiosInstance.get('/Master/api/V1.0/Occupation/GetAll')
                 .then((todo) => {
                     setOccupationList(todo.data.occupations);
                 })

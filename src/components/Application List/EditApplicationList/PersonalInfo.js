@@ -6,8 +6,8 @@ import React, {
 } from 'react';
 
 // import 'react-datepicker/dist/react-datepicker.css';
-import { MDBRow, MDBCol, MDBContainer, MDBInput } from 'mdbreact';
-import { Form, Card, Row } from 'react-bootstrap';
+import { MDBRow, MDBCol, MDBInput } from 'mdbreact';
+import {Card } from 'react-bootstrap';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -15,8 +15,8 @@ import {
 import DateFnsUtils from '@date-io/date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import addPersonalInfo from '../../../redux/actions/addPersonalInfoAction';
-import isEmail from 'validator/es/lib/isEmail';
-import API from '../../Utils/API';
+
+import axiosInstance from '../../Utils/axios';
 
 
 const PersonalInfo = forwardRef((props, ref) => {
@@ -30,20 +30,7 @@ const PersonalInfo = forwardRef((props, ref) => {
     lastName: '',
 });
   const { personalInformation } = props;
-  const tokenValue = () => {
-    const UserToken = localStorage.userToken;
 
-    if (UserToken) {
-      return UserToken;
-    } else {
-      const SystemToken = localStorage.systemToken;
-      return SystemToken;
-    }
-  };
-  const token = tokenValue();
-  const config = {
-    headers: { Authorization: 'Bearer ' + token },
-  };
   const validateName=(name)=>{
     var isValidName = true;
     if(/[!@#$%^&*(),.?":{}|<>]/g.test(name) ||  /\d+/g.test(name)) {
@@ -280,10 +267,7 @@ const [isEmailValid,setIsEmailValid]=useState(true);
       });
       setOccupationList(JSON.parse(localStorage.occupations));
       if (occupationList.length === 0) {
-        API.get(
-          'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Occupation/GetAll',
-          config
-        )
+        axiosInstance.get('/Master/api/V1.0/Occupation/GetAll')
           .then((todo) => {
             setOccupationList(todo.data.occupations);
           })

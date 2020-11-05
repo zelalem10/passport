@@ -7,8 +7,8 @@ import React, {
 import FamilyForm from './familyForm';
 import { useDispatch, useSelector } from 'react-redux';
 import addFamily from '../../../redux/actions/addFamilyAction';
+import axiosInstance from '../../Utils/axios';
 
-import axios from 'axios';
 const FamilyInformation = forwardRef((props, ref) => {
     const counter = useSelector((family) => family);
     const { applicantNumber } = props;
@@ -34,29 +34,11 @@ const FamilyInformation = forwardRef((props, ref) => {
         personId: 0,
     });
     const [familyType, setFamilyType] = useState([]);
-    const baseUrl = 'https://epassportservicesaddt.azurewebsites.net/';
 
-    const tokenValue = () => {
-        const UserToken = localStorage.userToken;
 
-        if (UserToken) {
-            return UserToken;
-        } else {
-            const SystemToken = localStorage.systemToken;
-            return SystemToken;
-        }
-    };
-
-    const accesstoken = tokenValue();
 
     useEffect(() => {
-        axios({
-            headers: {
-                Authorization: 'Bearer ' + accesstoken,
-            },
-            method: 'get',
-            url: baseUrl + '/Person/api/V1.0/Person/GetAllFamilyType',
-        })
+        axiosInstance.get('/Person/api/V1.0/Person/GetAllFamilyType')
             .then(async (response) => {
                 setFamilyType(response.data.familyTypesResponse);
             })

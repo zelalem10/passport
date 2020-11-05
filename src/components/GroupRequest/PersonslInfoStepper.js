@@ -19,7 +19,7 @@ import TravelPlan from './TravelPlan';
 import FamilyInformation from './family/familyInformation';
 import { useDispatch, useSelector } from 'react-redux';
 import newRequest from '../../redux/actions/addNewRequestAction';
-import API from '../Utils/API';
+import axiosInstance from '../Utils/axios';
 import addCommonData from '../../redux/actions/addCommonDataAction';
 import addPriceInfo from '../../redux/actions/priceInfoAction';
 
@@ -54,28 +54,14 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     const [isUploading, setIsUploading] = useState(false);
     const [responseMessage, setResponseMessage] = useState('');
 
-    const tokenValue = () => {
-        const UserToken = localStorage.userToken;
 
-        if (UserToken) {
-            return UserToken;
-        } else {
-            const SystemToken = localStorage.systemToken;
-            return SystemToken;
-        }
-    };
 
 
     const steps = getSteps();
     const dispatch = useDispatch();
     const counter = useSelector((state) => state);
     const childRef = useRef();
-    const accesstoken = tokenValue();
 
-    const usertoken = localStorage.userToken;
-    const config = {
-        headers: { Authorization: 'Bearer ' + accesstoken },
-    };
     const VerticalNext = () => {
         props.Next();
     };
@@ -238,7 +224,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                         },
                     ],
                 };
-                API.post('https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/SubmitRequest', requestBody, config)
+                axiosInstance.post('/Request/api/V1.0/Request/SubmitRequest',requestBody)
                     .then((todo) => {
                         setResponseMessage(todo.data.message);
                         setResponseAlert(true);
@@ -249,8 +235,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                         dispatch(newRequest(todo.data.serviceResponseList[0]));
                         dispatch(addCommonData(commonData));
                         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-
-                        API.get("https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + todo.data.serviceResponseList[0].requestId, config)
+axiosInstance.get(`/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId="${todo.data.serviceResponseList[0].requestId}`)
                             .then((todo) => {
                                 dispatch(addPriceInfo(todo.data));
                             })
@@ -329,7 +314,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                         },
                     ],
                 };
-                API.post('https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/AddPerson', requestBody, config)
+                axiosInstance.post('/Request/api/V1.0/Request/AddPerson',requestBody)
                     .then((todo) => {
                         ;
                         //console.log("body ", JSON.parse(requestBody))
@@ -342,7 +327,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                         dispatch(newRequest(todo.data.serviceResponseList[0]));
                         dispatch(addCommonData(commonData));
                         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-                        API.get("https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId=" + Number.parseInt(requestInfo.requestId), config)
+                        axiosInstance.get(`/Master/api/V1.0/ServicePrice/GetPriceForRequest?requestId="${Number.parseInt(requestInfo.requestId)}`)
                             .then((todo) => {
                                 dispatch(addPriceInfo(todo.data));
                             })
@@ -351,8 +336,6 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                             })
                     })
                     .catch((err) => {
-                        ;
-                        // console.log('Body: ', requestBody);
                         console.log('AXIOS ERROR: ', err.response);
                         if (err.response != null)
                             setResponseMessage(err.response.data.title);

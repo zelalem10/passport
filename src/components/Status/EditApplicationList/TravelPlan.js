@@ -13,9 +13,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import API from '../../Utils/API';
-
-import axios from 'axios';
+import axiosInstance from '../../Utils/axios';
 
 const TravelPlan = forwardRef((props, ref) => {
   debugger;
@@ -26,8 +24,8 @@ const TravelPlan = forwardRef((props, ref) => {
     filledBy: passportRes.filledBy,
     passportPageId: parseInt(passportRes.passportPageId),
     passportNumber: passportRes.passportNumber,
-    expireDate: passportRes.expireDate,
-    issueDate: passportRes.issueDate,
+    expireDate: passportRes.expireDate?passportRes.expireDate:null,
+    issueDate: passportRes.issueDate?passportRes.issueDate:null,
     correctionReason: passportRes.correctionReason,
     isDatacorrected: passportRes.isDatacorrected,
     dataSaved: false,
@@ -42,20 +40,8 @@ const TravelPlan = forwardRef((props, ref) => {
     correctionReason: true,
     isDatacorrected: true,
   });
-  const tokenValue = () => {
-    const UserToken = localStorage.userToken;
 
-    if (UserToken) {
-      return UserToken;
-    } else {
-      const SystemToken = localStorage.systemToken;
-      return SystemToken;
-    }
-  };
-  const token = tokenValue();
-  const config = {
-    headers: { Authorization: 'Bearer ' + token },
-  };
+
 
 const dispatch = useDispatch();
   const counter = useSelector((state) => state);
@@ -91,10 +77,7 @@ const dispatch = useDispatch();
 
     setPassportTypeList(JSON.parse(localStorage.PassportPageQuantity))
     if(passportTypeList.length===0){
-      API.get(
-        'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/PassportPage/GetAll',
-        config
-      )
+      axiosInstance.get('/Master/api/V1.0/PassportPage/GetAll')
         .then((todo) => {
           setPassportTypeList(todo.data.pagePassports);
         })

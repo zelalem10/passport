@@ -20,7 +20,13 @@ function InstructionPage() {
   const appointmentInformation = personRequestdata
   ? personRequestdata.appointmentResponse
   : null;
-
+  const dateFormatter = (date) => {
+    let selectDays = new Date(date);
+    let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(selectDays);
+    let mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(selectDays);
+    let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(selectDays);
+    return (`${mo} ${da}, ${ye}`);
+}
   return (
     <>
       <div id="share-section" class="bg-light text-muted py-5">
@@ -111,7 +117,7 @@ function InstructionPage() {
 
                     <li class="list-group-item d-flex justify-content-between">
                       <h6>{personRequestdata.type==='New'? 'Appointment':'Delivery'} Date</h6>
-                      <strong>{personRequestdata?(personRequestdata.type==='New'?(appointmentInformation?(appointmentInformation.date):null):personalInformation?personalInformation.deliveryAppointment:null):null}</strong>
+                      <strong>{personRequestdata?(personRequestdata.type==='New'?(appointmentInformation?(dateFormatter(appointmentInformation.date)):null):personalInformation?dateFormatter(personalInformation.deliveryAppointment):null):null}</strong>
                     </li>
                  
                    {personRequestdata.type==='New'? <li class="list-group-item d-flex justify-content-between">

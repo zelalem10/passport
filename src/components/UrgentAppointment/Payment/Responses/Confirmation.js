@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
 import {
     MDBCard,
     MDBCardBody,
     MDBCardTitle,
     MDBCardText,
     MDBCardHeader,
-    MDBCardFooter,
     MDBContainer,
     MDBRow,
     MDBCol,
@@ -14,7 +13,7 @@ import { FcApproval } from 'react-icons/fc';
 import { FcDisapprove } from 'react-icons/fc';
 import { useDispatch, useSelector } from 'react-redux';
 import addPaymentOptionId from '../../../../redux/actions/addPaymentOptionIdAction';
-import API from '../../../Utils/API';
+import axiosInstance from '../../../Utils/axios';
 import Spinner from '../../../common/Spinner';
 
 const SuccessResponse = (props) => {
@@ -70,23 +69,7 @@ const SuccessResponse = (props) => {
     const counter = useSelector((state) => state);
     const selectedId = { optionId: 0 };
     var selectedOption = counter.paymentOption[counter.paymentOption.length - 1];
-    console.log(selectedOption);
-    //useEffect(() => {
 
-    const tokenValue = () => {
-        const UserToken = localStorage.userToken;
-
-        if (UserToken) {
-            return UserToken;
-        } else {
-            const SystemToken = localStorage.systemToken;
-            return SystemToken;
-        }
-    };
-    const accesstoken = tokenValue();
-    const config = {
-        headers: { Authorization: 'Bearer ' + accesstoken },
-    };
     const body = {
         firstName: 'Atalay',
         lastName: 'Tilahun',
@@ -104,11 +87,7 @@ const SuccessResponse = (props) => {
         otp: '',
         requestId: 3,
     };
-    API.post(
-        'https://epassportservicesaddt.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest',
-        body,
-        config
-    )
+    axiosInstance.post('/Payment/api/V1.0/Payment/OrderRequest',body)
         .then((todo) => {
             //console.log(todo.data)
             setStatus(todo.data.status);

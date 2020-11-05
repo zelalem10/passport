@@ -13,7 +13,7 @@ import Attachment from './Attachement';
 import TravelPlan from './TravelPlan';
 import FamilyInformation from './family/familyInformation';
 import { useDispatch, useSelector } from 'react-redux';
-import API from '../../../Utils/API';
+import axiosInstance from '../../../Utils/axios';
 import '../../viewAppointment.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -60,24 +60,7 @@ export default function HorizontalLabelPositionBelowStepperGroup(props) {
     }
     };
 
-    const tokenValue = () => {
-        const UserToken = localStorage.userToken;
 
-        if (UserToken) {
-            return UserToken;
-        } else {
-            const SystemToken = localStorage.systemToken;
-            return SystemToken;
-        }
-    };
-
-    const accesstoken = tokenValue();
-
-  const config = {
-    headers: {
-      Authorization: 'Bearer ' + accesstoken,
-    },
-  };
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
@@ -209,13 +192,7 @@ export default function HorizontalLabelPositionBelowStepperGroup(props) {
       ],
     };
     console.log(requestBody);
-
-    API.put(
-      'https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/UpdateRequest',
-      requestBody,
-      config
-    )
-
+axiosInstance.put('/Request/api/V1.0/Request/UpdateRequest',requestBody)
       .then((todo) => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       })

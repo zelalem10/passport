@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
-import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBBadge } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
 import { useSelector } from 'react-redux';
-import { fi } from 'date-fns/locale';
 import ViewGroupAppointment from './viewGroupAppointment';
-import axios from 'axios';
+import axiosInstance from '../Utils/axios';
 
 const Accordion = withStyles({
   root: {
@@ -73,14 +71,6 @@ export default function ViewAppointment(props) {
       }
     }
   };
-  // const getCountryRegion = (id) => {
-  //   let countryRegion = JSON.parse(localStorage.countryRegions);
-  //   for (let index = 0; index < countryRegion.length; index++) {
-  //     if (countryRegion[index].id == id) {
-  //       return countryRegion[index].type;
-  //     }
-  //   }
-  // };
   const getFamilyType = (id) => {
     let FamilyTypes = JSON.parse(localStorage.familyTypesResponse);
     for (let index = 0; index < FamilyTypes.length; index++) {
@@ -98,29 +88,9 @@ export default function ViewAppointment(props) {
     }
   };
 
-  const tokenValue = () => {
-    const UserToken = localStorage.userToken;
-
-    if (UserToken) {
-      return UserToken;
-    } else {
-      const SystemToken = localStorage.systemToken;
-      return SystemToken;
-    }
-  };
-  const token = tokenValue();
-  const BaseUri="https://epassportservicesaddt.azurewebsites.net";
-  const config = {
-    headers: { Authorization: `Bearer ` + token },
-  };
   
     const getBarcode=(requestId)=>{
-    debugger;
-      axios
-            .get(
-              BaseUri+`/Request/api/V1.0/Request/GetBarCode?requestId=${requestId}`,
-              config
-            )
+    axiosInstance.get(`/Request/api/V1.0/Request/GetBarCode?requestId=${requestId}`)
             .then((response)=>{
               if(response.data.status===1){
                 setBarcodeData(response.data);
@@ -142,7 +112,7 @@ export default function ViewAppointment(props) {
     }
   }
   
-    if(displayedApplication.requestStatus==="PaymentCompleted" && !barcodeData.hasOwnProperty('barCode')){
+    if(displayedApplication.requestStatus==="Payment Completed" && !barcodeData.hasOwnProperty('barCode')){
       
       getBarcode(displayedApplication.requestId);
     }

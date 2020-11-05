@@ -5,28 +5,15 @@ import React, {
     useImperativeHandle,
 } from 'react';
 import {
-    MDBBtn,
-    MDBInput,
-    MDBListGroup,
-    MDBListGroupItem,
-    MDBBadge,
-    MDBCard,
-    MDBCardHeader,
     MDBContainer,
-    MDBCardBody,
-    MDBCardImage,
-    MDBCardTitle,
-    MDBCardText,
     MDBCol,
     MDBRow,
     MDBAlert,
 } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addPaymentOptionId from '../../redux/actions/addPaymentOptionIdAction';
-import { makeStyles } from '@material-ui/core/styles';
-import API from '../Utils/API';
-import token from '../common/accessToken';
-import Response from './Responses/Confirmation';
+import axiosInstance from '../Utils/axios';
+
 import PricingInfo from './PricingDetail'
 import { useHistory } from 'react-router-dom';
 import Spinner from '../common/Spinner';
@@ -46,16 +33,7 @@ function requestTypeGetter(requetTypeId) {
     }
 }
 
-const tokenValue = () => {
-    const UserToken = localStorage.userToken;
 
-    if (UserToken) {
-        return UserToken;
-    } else {
-        const SystemToken = localStorage.systemToken;
-        return SystemToken;
-    }
-};
 
 const PaymentSelection = forwardRef((props, ref) => {
     const [selectedOption, setSelectedOption] = useState(0);
@@ -68,30 +46,22 @@ const PaymentSelection = forwardRef((props, ref) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const counter = useSelector((state) => state);
-    const accesstoken = tokenValue();
     const serviceSelcetion = counter.service[counter.service.length - 1];
     const travelPlan = counter.travelPlan[counter.travelPlan.length - 1];
     const requestType = serviceSelcetion.appointemntType;
     const requestInfo = counter.request[counter.request.length - 1];
     const personalInformation = requestInfo ? requestInfo.personResponses : null;
     let requestId = requestInfo ? requestInfo.requestId : 0;
-    const config = {
-        headers: { Authorization: 'Bearer ' + accesstoken },
-    };
+
 
     const [loading, setloading] = useState(true);
     useEffect(() => {
-        API.get(
-            'https://epassportservicesaddt.azurewebsites.net/Payment/api/V1.0/Payment/GetPaymentOptions',
-            config
-        )
+        axiosInstance.get('/Payment/api/V1.0/Payment/GetPaymentOptions')
             .then((todo) => {
-                debugger;
                 setPaymentOptions(todo.data.paymentOptions)
                 setloading(false);
             })
             .catch((err) => {
-                debugger;
                 console.log('AXIOS ERROR: ', err);
                 setloading(false);
             });
@@ -125,19 +95,14 @@ const PaymentSelection = forwardRef((props, ref) => {
                         PaymentOptionsId: selectedOption,
                         requestId: requestId,
                     };
-                    console.log(body);
-                    console.log(JSON.stringify(body));
                     setloading(true);
-                    API.post("https://epassportservicesaddt.azurewebsites.net/Payment/api/V1.0/Payment/OrderRequest", body, config)
+                    axiosInstance.post('/Payment/api/V1.0/Payment/OrderRequest',body)
                         .then((resopnse) => {
-                            console.log(resopnse);
-                            debugger;
                             dispatch(addPaymentOptionId(resopnse.data));
                             history.push('/InstructionPage')
                             setloading(false);
                         })
                         .catch((err) => {
-                            debugger;
                             console.log("AXIOS ERROR: ", err.response);
                             setMessage(err.response.statusText);
                             setShowError(true);

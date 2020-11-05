@@ -1,8 +1,7 @@
 import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import * as ReactBootstrap from 'react-bootstrap';
-import { MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody } from 'mdbreact';
-import API from '../Utils/API';
+import { MDBRow, MDBCol, MDBCard, MDBCardBody } from 'mdbreact';
+import axiosInstance from '../Utils/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import saveSiteInformation from '../../redux/actions/siteInformationAction';
 import { Link } from 'react-router-dom';
@@ -56,32 +55,11 @@ const SiteSelection = forwardRef((props, ref) => {
     deliverySiteId: true,
   });
 
-    const tokenValue = () => {
-        const UserToken = localStorage.userToken;
-
-        if (UserToken) {
-            return UserToken;
-        } else {
-            const SystemToken = localStorage.systemToken;
-            return SystemToken;
-        }
-    };
-
-    const accesstoken = tokenValue();
   const dispatch = useDispatch();
   const counter = useSelector((state) => state);
   const serviceSelcetion = counter.service[counter.service.length - 1];
   const requestType = serviceSelcetion.appointemntType;
   const requestTypeStr = requestTypeGetter(requestType);
-
-
-  const deliverySiteURL = "https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/DeliverySite/GetAll?OfficeId="
-  const officeURL = 'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Office/GetByCityId?id=';
-  const config = {
-    headers: {
-      Authorization: `Bearer ` + accesstoken,
-    },
-  };
 
   const handleRegionChange = (event) => {
     setCityList([]);
@@ -95,7 +73,7 @@ const SiteSelection = forwardRef((props, ref) => {
       ...prevState,
       reagionId: false,
     }));
-    API.get('https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/CountryRegion/GetCityListByRegion?regionId='+id, config)
+    axiosInstance.get('/Master/api/V1.0/CountryRegion/GetCityListByRegion?regionId='+id)
         .then((todo) => {
           setCityList(todo.data.cities);
         })
@@ -210,7 +188,7 @@ const SiteSelection = forwardRef((props, ref) => {
   useEffect(() => {
     setRegionList(JSON.parse(localStorage.countryRegions))
     if (regionList.length === 0) {
-      API.get('https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/CountryRegion/GetAll', config)
+      axiosInstance.get('/Master/api/V1.0/CountryRegion/GetAll')
         .then((todo) => {
           setRegionList(todo.data.countryRegions);
         })

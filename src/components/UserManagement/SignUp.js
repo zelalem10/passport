@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import axiosInstance from '../Utils/axios';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 import {
@@ -10,29 +10,15 @@ import {
   MDBBtn,
   MDBCard,
   MDBCardBody,
-  MDBIcon,
 } from 'mdbreact';
 import { Translation, useTranslation, Trans, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-
-import { withRouter } from 'react-router-dom';
 const Errorstyle = {
   marginTop: '-2rem',
   marginLeft: '2.5rem',
 };
 
-const tokenValue = () => {
-    const UserToken = localStorage.userToken;
 
-    if (UserToken) {
-        return UserToken;
-    } else {
-        const SystemToken = localStorage.systemToken;
-        return SystemToken;
-    }
-};
-
-const accesstoken = tokenValue();
 
 // intial state
 const intialState = {
@@ -171,13 +157,7 @@ class SignUp extends Component {
     console.log(this.state);
     const isValid = this.validate();
     if (isValid) {
-      axios({
-        headers: { Authorization: 'Bearer ' + accesstoken },
-        method: 'post',
-        url:
-          'https://epassportservicesaddt.azurewebsites.net/api/Register/V1.0/UserRegistration/RegisterUser',
-        data: this.state,
-      })
+      axiosInstance.post('/api/Register/V1.0/UserRegistration/RegisterUser',this.state)
         .then((Response) => {
           console.log(Response);
         

@@ -5,13 +5,9 @@ import {
     MDBIcon, MDBListGroup, MDBListGroupItem, MDBCol, MDBCard
 } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
-import API from '../Utils/API'
 import addPriceInfo from '../../redux/actions/priceInfoAction';
 
-const accesstoken = localStorage.userToken;
-const config = {
-    headers: { Authorization: "Bearer " + accesstoken }
-};
+
 
 const PricingDetail = (props) => {
     const [isOppened, setIsOppened] = useState(false);

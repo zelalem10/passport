@@ -13,7 +13,6 @@ import {
   MDBTypography,
   MDBAlert,
 } from 'mdbreact';
-import axios from 'axios';
 import AvailableTimeSlot from './appointmetTimeSlots';
 import './disabledates.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,10 +20,9 @@ import addAppointmentDate from '../../../redux/actions/addAppointmetntDate';
 import * as serviceActions from '../../../redux/actions/serviceActions';
 import Switch from '@material-ui/core/Switch';
 import { withStyles } from '@material-ui/core/styles';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { faBrush } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation, Trans } from 'react-i18next';
 import Spinner from '../../common/Spinner';
+import axiosInstance from '../../Utils/axios';
 
 const MyApp = forwardRef((props, ref) => {
   debugger;
@@ -154,21 +152,11 @@ const MyApp = forwardRef((props, ref) => {
       e.target.className === 'btn_select active' ? true : false;
     setActiveTImeSlot({ key: e.target.id, active: !currentState });
   };
-  const tokenValue = () => {
-    const UserToken = localStorage.userToken;
 
-    if (UserToken) {
-      return UserToken;
-    } else {
-      const SystemToken = localStorage.systemToken;
-      return SystemToken;
-    }
-  };
   if((data.appointemntType===3 || data.appointemntType===4 ||data.appointemntType===8) && formCompleted===false){
     setFormCompleted(true);
 
   }
-  const token = tokenValue();
   useImperativeHandle(ref, () => ({
    
 
@@ -205,20 +193,13 @@ const MyApp = forwardRef((props, ref) => {
           }
         }
         if (state.date){
-        axios({
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-          method: 'post',
-          url: baseUrl + '/Schedule/api/V1.0/Schedule/SubmitUrgentAppointment',
-          data: {
+          axiosInstance.post('/Schedule/api/V1.0/Schedule/SubmitUrgentAppointment',{
             id: 0,
             date: stringDateValue,
             dateTimeFormat: 'yyyy-MM-dd',
             urgentQuotaId: urgentQuotaId,
             noOfApplicants: 1,
-          },
-        })
+          })
           .then((response) => {
             dispatch(
               addAppointmentDate(response.data.urgentAppointmentResponses)
@@ -242,20 +223,13 @@ const MyApp = forwardRef((props, ref) => {
       } else {
         if(state.date && selectTime){
           setloading(true);
-        axios({
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-          method: 'post',
-          url: baseUrl + '/Schedule/api/V1.0/Schedule/SubmitAppointment',
-          data: {
+          axiosInstance.post('/Schedule/api/V1.0/Schedule/SubmitAppointment',{
             id: 0,
             date: stringDateValue,
             durationId: parseInt(selectTime),
             dateTimeFormat: 'yyyy-MM-dd',
             noOfApplicants: parseInt(data.numberOfApplicants),
-          },
-        })
+          })
           .then((response) => {
             dispatch(addAppointmentDate(response.data.appointmentResponses));
             if (response.data.appointmentResponses) {
@@ -321,14 +295,7 @@ let da = '';
 
   useEffect(() => {
     if (officeInformation.hasOwnProperty('offceId') && data.appointemntType===2) {
-      debugger;
-      axios({
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-        method: 'get',
-        url: baseUrl + '/Master/api/V1.0/AdvancedRestriction/GetAll',
-      })
+      axiosInstance.get('/Master/api/V1.0/AdvancedRestriction/GetAll')
         .then(async (response) => {
           advancedRestrictionData = siteInfo
             ? response.data.advancedRestrictions.filter(
@@ -340,34 +307,25 @@ let da = '';
             ? advancedRestrictionData
             : response.data.advancedRestrictions[0];
           setResponse(advancedRestrictionData);
-          const headers = {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token,
-          };
+
           if (isUrgentAppointment) {
-            axios({
-              headers: headers,
-              method: 'post',
-              url:
-                baseUrl +
-                '/Schedule/api/V1.0/Schedule/GetUrgentAvailableDateAndTimes',
-              data: {
-                startDate: new Date(
-                  new Date().setTime(
-                    new Date().getTime() +
-                      advancedRestrictionData.minDays * 86400000
-                  )
-                ),
-                endDate: new Date(
-                  new Date().setTime(
-                    new Date().getTime() +
-                      advancedRestrictionData.maxDays * 86400000
-                  )
-                ),
-                requestTypeId: data.appointemntType,
-                officeId: parseInt(siteInfo.offceId),
-                noOfApplicants: 1,
-              },
+            axiosInstance.post('/Schedule/api/V1.0/Schedule/GetUrgentAvailableDateAndTimes',
+            {
+              startDate: new Date(
+                new Date().setTime(
+                  new Date().getTime() +
+                    advancedRestrictionData.minDays * 86400000
+                )
+              ),
+              endDate: new Date(
+                new Date().setTime(
+                  new Date().getTime() +
+                    advancedRestrictionData.maxDays * 86400000
+                )
+              ),
+              requestTypeId: data.appointemntType,
+              officeId: parseInt(siteInfo.offceId),
+              noOfApplicants: 1,
             })
               .then((responses) => {
                 setavailableDateAndQota(responses.data.availableDateAndTimes);
@@ -457,34 +415,25 @@ let da = '';
               officeId: parseInt(siteInfo.offceId),
               noOfApplicants: parseInt(data.numberOfApplicants),
             };
-            console.log(sampleData);
-            axios({
-              headers: headers,
-              method: 'post',
-              url:
-                baseUrl +
-                '/Schedule/api/V1.0/Schedule/GetAvailableDateAndTimes',
-              data: {
-                startDate: new Date(
-                  new Date().setTime(
-                    new Date().getTime() +
-                      advancedRestrictionData.minDays * 86400000
-                  )
-                ),
-                endDate: new Date(
-                  new Date().setTime(
-                    new Date().getTime() +
-                      advancedRestrictionData.maxDays * 86400000
-                  )
-                ),
-                requestTypeId: data.appointemntType,
-                officeId: parseInt(siteInfo.offceId),
-                noOfApplicants: parseInt(data.numberOfApplicants),
-              },
+            axiosInstance.post('/Schedule/api/V1.0/Schedule/GetAvailableDateAndTimes',{
+              startDate: new Date(
+                new Date().setTime(
+                  new Date().getTime() +
+                    advancedRestrictionData.minDays * 86400000
+                )
+              ),
+              endDate: new Date(
+                new Date().setTime(
+                  new Date().getTime() +
+                    advancedRestrictionData.maxDays * 86400000
+                )
+              ),
+              requestTypeId: data.appointemntType,
+              officeId: parseInt(siteInfo.offceId),
+              noOfApplicants: parseInt(data.numberOfApplicants),
             })
               .then((responses) => {
                 
-                console.log(responses.data.availableDateAndTimes);
                 for (
                   let i = 0;
                   i < responses.data.availableDateAndTimes.length;
@@ -561,20 +510,12 @@ let da = '';
       debugger;
       if(siteInfo){
 
+      axiosInstance.post('/Schedule/api/V1.0/Schedule/GetAvailableDeliveryAppointment',{
+        "requestTypeId": data.appointemntType,
+        "officeId": parseInt(siteInfo.offceId),
+        "daysForProcess": durationLength
       
-      axios({
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-        method: 'post',
-        url: baseUrl + '/Schedule/api/V1.0/Schedule/GetAvailableDeliveryAppointment',
-        data:{
-            "requestTypeId": data.appointemntType,
-            "officeId": parseInt(siteInfo.offceId),
-            "daysForProcess": durationLength
-          
-        }
-      }).then((response)=>{
+    }).then((response)=>{
         setloading(false);
          selectDays = siteInfo?new Date(response.data.date):new Date();
    ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(selectDays);
