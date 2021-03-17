@@ -28,6 +28,13 @@ export default function ListOfApplications(props) {
     date.setDate(date.getDate() + 1);
     return date;
   };
+  const dateFormatter = (date) => {
+    let selectDays = new Date(date);
+    let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(selectDays);
+    let mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(selectDays);
+    let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(selectDays);
+    return (`${mo} ${da}, ${ye}`);
+}
   return (
     <div>
       <MDBContainer>
@@ -90,13 +97,11 @@ export default function ListOfApplications(props) {
                                     <strong className="d-inline">
                                       Appointment Date :{' '}
                                     </strong>
-                                    {new Date(
+                                    {dateFormatter(new Date(
                                       user.appointmentResponse
                                         ? user.appointmentResponse.date
                                         : null
-                                    )
-                                      .toISOString()
-                                      .substr(0, 10)}
+                                    ))}
                                   </div>
                                   <div>
                                     <strong className="d-inline">

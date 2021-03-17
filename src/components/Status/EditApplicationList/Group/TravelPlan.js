@@ -66,7 +66,7 @@ const TravelPlan = forwardRef((props, ref) => {
         (item) => item.applicantNumber == props.applicantNumber
       )[resultLength - 1];
     } else {
-      const applicantsInformation = counter.travelPlan[0];
+      const applicantsInformation = counter.travelPlan[counter.travelPlan.length - 1];
       for (let applicant in applicantsInformation) {
         if (
           applicantsInformation[applicant].applicantNumber ==

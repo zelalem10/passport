@@ -218,7 +218,7 @@ axiosInstance.get('/Master/api/V1.0/CountryRegion/GetAll')
                   validate
                   error="wrong"
                   success="right"
-                  valueDefault={prevInfo ? prevInfo.city : null}
+                  valueDefault={prevInfo ? prevInfo.city : addressInfo.city?addressInfo.city:null}
                   onChange={handleChange}
                 />
                 <span style={{ color: 'red' }}>

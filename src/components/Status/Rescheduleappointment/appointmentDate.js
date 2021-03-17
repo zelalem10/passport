@@ -15,7 +15,13 @@ function RescheduleAppointment(props) {
   const [availableDateAndQota, setavailableDateAndQota] = useState([]);
   let displayedApplication = {};
   const { displayRequestId } = props;
-
+  const dateFormatter = (date) => {
+    let selectDays = new Date(date);
+    let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(selectDays);
+    let mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(selectDays);
+    let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(selectDays);
+    return (`${mo} ${da}, ${ye}`);
+}
   displayedApplication = appList;
 
   let appointmentDetails = displayedApplication?displayedApplication.appointmentResponse:null
@@ -399,7 +405,7 @@ axiosInstance.post('/Schedule/api/V1.0/Schedule/SubmitUrgentAppointment',{
           let newDay = newdate.getDate().toString();
           newDay = newDay.length > 1 ? newDay : '0' + newDay;
           setNewAppointment(newdate);
-          setNewDisplayTime(`${newdate.toISOString().substr(0, 10)} ${
+          setNewDisplayTime(`${dateFormatter(newdate)} ${
             response.data.duration.startTime
           } - ${response.data.duration.endTime} ${
             response.data.duration.isMorning ? 'AM' : 'PM'

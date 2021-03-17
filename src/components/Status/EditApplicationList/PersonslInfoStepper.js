@@ -193,7 +193,6 @@ debugger;
                         hairColor: personalInfo ? personalInfo.hairColor : null,
 
                         isHalfCast: personalInfo ? personalInfo.isHalfCast : null,
-
                         birthPlace: personalInfo ? personalInfo.birthPlace : null,
 
                         phoneNumber: personalInfo ? personalInfo.phoneNumber : null,
@@ -214,9 +213,10 @@ debugger;
 
                         isAdoption: personalInfo ? personalInfo.isAdoption : false,
                         maritalStatus: personalInfo ? parseInt(personalInfo.maritalStatusEnum) : 0,
-                        passportPageId: travelPlan
-                            ? parseInt(travelPlan.passportPageId)
-                            : null,
+                        // passportPageId: travelPlan
+                        //     ? parseInt(travelPlan.passportPageId)
+                        //     : null,
+                        passportPageId:1,
                         passportNumber: travelPlan
                             ? travelPlan.passportNumber
                             : null,
@@ -255,9 +255,11 @@ debugger;
                     },
                 ],
             };
-            axiosInstance.put('https://epassportservicesaddt.azurewebsites.net/Request/api/V1.0/Request/UpdateRequest',requestBody)
+            console.log(JSON.stringify(requestBody));
+            axiosInstance.put('/Request/api/V1.0/Request/UpdateRequest',requestBody)
 
                 .then((todo) => {
+                    debugger;
                     setloading(false);
                     handleNext();
                     setResponseMessage('');
@@ -265,6 +267,8 @@ debugger;
                 })
 
                 .catch((err) => {
+                    debugger;
+                    
                     setloading(false);
                     setResponseMessage(err.response.data.Message);
                 });
@@ -354,9 +358,7 @@ debugger;
             &nbsp;&nbsp;&nbsp;&nbsp;
             <b>
                                     <label class="font-weight-bold">
-                                        {new Date(displayedApplication.requestDate)
-                                            .toISOString()
-                                            .substr(0, 10)}
+                                        {dateFormatter(new Date(displayedApplication.requestDate))}
                                     </label>
                                 </b>
                             </div>

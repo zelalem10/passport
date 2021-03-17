@@ -218,7 +218,7 @@ function Status(props) {
                                   </div>
                                 </a>
                                 {ApplicationNumberData.requestStatus ==
-                                  'PaymentCompleted' &&ApplicationNumberData.appointmentResponse?
+                                  'Payment Completed' &&ApplicationNumberData.appointmentResponse?
                                 (addDays(ApplicationNumberData.currentDate) <
                                   new Date(
                                     ApplicationNumberData.appointmentResponse.date

@@ -7,14 +7,13 @@ import React, {
 import { MDBRow, MDBCol, MDBInput, MDBCardBody, MDBCard,MDBAlert } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import addTravelPlan from '../../../redux/actions/addTravelPlanAction';
+import { Card } from 'react-bootstrap';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import axiosInstance from '../../Utils/axios';
-
-import axios from 'axios';
 
 const TravelPlan = forwardRef((props, ref) => {
   debugger;
@@ -23,7 +22,8 @@ const TravelPlan = forwardRef((props, ref) => {
   const [passportTypeList,setPassportTypeList]=useState([]);
   const [travelPlan, setTravelPlan] = useState({
     filledBy: passportRes.filledBy,
-    passportPageId: parseInt(passportRes.passportPageId),
+    //passportPageId: parseInt(passportRes.passportPageId),
+    passportPageId:1,
     passportNumber: passportRes.passportNumber,
     expireDate: passportRes.expireDate?passportRes.expireDate:null,
     issueDate: passportRes.issueDate?passportRes.issueDate:null,
@@ -41,6 +41,7 @@ const TravelPlan = forwardRef((props, ref) => {
     correctionReason: true,
     isDatacorrected: true,
   });
+
 
 
 const dispatch = useDispatch();
@@ -66,10 +67,11 @@ const dispatch = useDispatch();
     }
     setTravelPlan((prevState) => ({
       ...prevState,
-      passportPageId: prevInfo ? prevInfo.passportPageId : 0,
+      //passportPageId: prevInfo ? prevInfo.passportPageId : 0,
+      passportPageId:1,
       passportNumber: prevInfo ? prevInfo.passportNumber : null,
-      expirationDate: prevInfo ? new Date(prevInfo.expirationDate) : new Date(),
-      issueDate: prevInfo ? new Date(prevInfo.issueDate) : new Date(),
+      expirationDate: prevInfo ? new Date(prevInfo.expirationDate) : travelPlan.expireDate,
+      issueDate: prevInfo ? new Date(prevInfo.issueDate) : travelPlan.issueDate,
       correctionReason: prevInfo ? prevInfo.correctionReason : null,
       isDatacorrected: prevInfo ? prevInfo.isDatacorrected : false,
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
@@ -87,10 +89,10 @@ const dispatch = useDispatch();
     }
   }, []);
   const [selectedissueDate, setSelectedissueDate] = React.useState(
-    new Date(prevInfo ? prevInfo.issueDate : new Date())
+    new Date(prevInfo ? prevInfo.issueDate : travelPlan.issueDate?travelPlan.issueDate:null)
   );
   const [selectedexpirationDate, setSelectedexpirationDate] = React.useState(
-    new Date(prevInfo ? prevInfo.expireDate : new Date())
+    new Date(prevInfo ? prevInfo.expireDate : travelPlan.expireDate?travelPlan.expireDate:null)
   );
 
   const handleissueDateChange = (date) => {
@@ -124,7 +126,8 @@ const dispatch = useDispatch();
     },
     Validate() {
       setNotCompleted({
-        passportPageId:travelPlan.passportPageId&& travelPlan.passportPageId !== 0 ? false : true,
+        //passportPageId:travelPlan.passportPageId&& travelPlan.passportPageId !== 0 ? false : true,
+        passportPageId:1,
         passportNumber: travelPlan.passportNumber ? false : true,
         expirationDate: travelPlan.expirationDate ? false : true,
         issueDate: travelPlan.issueDate ? false : true,
@@ -182,7 +185,7 @@ const dispatch = useDispatch();
               {requestTypeStr != 'New' ? (
               <MDBCol md="3">
                   <MDBInput
-                    valueDefault={prevInfo ? prevInfo.passportNumber : null}
+                    valueDefault={prevInfo ? prevInfo.passportNumber : travelPlan.passportNumber?travelPlan.passportNumber:null}
                     name="passportNumber"
                     className="form-control"
                     onBlur={handleChange}

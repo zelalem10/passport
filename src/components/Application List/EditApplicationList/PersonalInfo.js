@@ -7,7 +7,7 @@ import React, {
 
 // import 'react-datepicker/dist/react-datepicker.css';
 import { MDBRow, MDBCol, MDBInput } from 'mdbreact';
-import {Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -15,7 +15,6 @@ import {
 import DateFnsUtils from '@date-io/date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import addPersonalInfo from '../../../redux/actions/addPersonalInfoAction';
-
 import axiosInstance from '../../Utils/axios';
 
 
@@ -55,16 +54,8 @@ const PersonalInfo = forwardRef((props, ref) => {
     }
            
   }
-  // const validateEmail=(email)=>{
-  //   let isCorrectEmail= new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(email);
-  //   if(isCorrectEmail){
-  //     setEmailErrorMessage('');
-  //   }else{
-  //     setEmailErrorMessage('Please enter valid email address')
-  //   }
-  //  }
-
-  const [personalInfo, setPersonalInfo] = useState({
+  
+  const [personalInfo, setPersonalInfo] =useState({
     id: personalInformation.id,
     firstName: personalInformation.firstName,
     middleName: personalInformation.middleName,
@@ -253,7 +244,7 @@ const [isEmailValid,setIsEmailValid]=useState(true);
         birthPlace: personalInfo.birthPlace ? false : true,
         birthCertificateId: personalInfo.birthCertificateId ? false : true,
         dateOfBirth: personalInfo.dateOfBirth ? false : true,
-        gender: personalInfo.gender ? false : true,
+        gender: personalInfo.gender ? false : personalInfo.gender===0?false:true,
         height: personalInfo.height ? false : true,
         eyeColor: personalInfo.eyeColor ? false : true,
         hairColor: personalInfo.hairColor ? false : true,
@@ -277,7 +268,7 @@ const [isEmailValid,setIsEmailValid]=useState(true);
       }
     }, []);
   const [selectedDate, setSelectedDate] = React.useState(
-    new Date(prevInfo ?(prevInfo.dateOfBirth?prevInfo.dateOfBirth:personalInformation.dateOfBirth) : new Date())
+    new Date(prevInfo ?(prevInfo.dateOfBirth?prevInfo.dateOfBirth:personalInformation.dateOfBirth) : personalInfo.dateOfBirth)
   );
 
   const handleDateChange = (date) => {
@@ -304,7 +295,7 @@ const [isEmailValid,setIsEmailValid]=useState(true);
                 validate
                 error="wrong"
                 success="right"
-                valueDefault={prevInfo ? prevInfo.firstName : null}
+                valueDefault={prevInfo ? prevInfo.firstName : personalInfo?personalInfo.firstName:null}
                 onBlur={handleChange}
                 onChange={handleNameChange}
               />
@@ -331,7 +322,7 @@ const [isEmailValid,setIsEmailValid]=useState(true);
                 validate
                 error="wrong"
                 success="right"
-                valueDefault={prevInfo ? prevInfo.middleName : null}
+                valueDefault={prevInfo ? prevInfo.middleName : personalInfo?personalInfo.middleName:null}
                 onBlur={handleChange}
                 onChange={handleNameChange}
               />
@@ -357,7 +348,7 @@ const [isEmailValid,setIsEmailValid]=useState(true);
                 validate
                 error="wrong"
                 success="right"
-                valueDefault={prevInfo ? prevInfo.lastName : null}
+                valueDefault={prevInfo ? prevInfo.lastName : personalInfo?personalInfo.lastName:null}
                 onBlur={handleChange}
                 onChange={handleNameChange}
               />
@@ -404,7 +395,7 @@ const [isEmailValid,setIsEmailValid]=useState(true);
           <MDBCol md="3">
             <MDBCol className="required-field">
               <MDBInput
-                valueDefault={prevInfo ? prevInfo.geezFirstName : null}
+                valueDefault={prevInfo ? prevInfo.geezFirstName : personalInfo?personalInfo.geezFirstName:null}
                 name="geezFirstName"
                 className="form-control"
                 onBlur={handleChange}
@@ -423,7 +414,7 @@ const [isEmailValid,setIsEmailValid]=useState(true);
           <MDBCol md="3">
             <MDBCol className="required-field">
               <MDBInput
-                valueDefault={prevInfo ? prevInfo.geezMiddleName : null}
+                valueDefault={prevInfo ? prevInfo.geezMiddleName : personalInfo?personalInfo.geezMiddleName:null}
                 name="geezMiddleName"
                 onBlur={handleChange}
                 type="text"
@@ -441,7 +432,7 @@ const [isEmailValid,setIsEmailValid]=useState(true);
           <MDBCol md="3">
             <MDBCol className="required-field">
               <MDBInput
-                valueDefault={prevInfo ? prevInfo.geezLastName : null}
+                valueDefault={prevInfo ? prevInfo.geezLastName : personalInfo?personalInfo.geezLastName:null}
                 name="geezLastName"
                 onBlur={handleChange}
                 type="text"
@@ -475,7 +466,7 @@ const [isEmailValid,setIsEmailValid]=useState(true);
                   name="nationalityId"
                   onChange={handleChange}
                   className="browser-default custom-select"
-                  defaultValue={prevInfo ? prevInfo.nationalityId : 0}
+                  defaultValue={prevInfo ? prevInfo.nationalityId : personalInfo?personalInfo.nationalityId:null}
                 >
                   <option disabled>select Nationality</option>
                   {nationalityList.map((nationality) => (
@@ -504,7 +495,7 @@ const [isEmailValid,setIsEmailValid]=useState(true);
                 validate
                 error="wrong"
                 success="right"
-                valueDefault={prevInfo ? prevInfo.birthPlace : null}
+                valueDefault={prevInfo ? prevInfo.birthPlace : personalInfo?personalInfo.birthPlace:null}
                 onChange={handleChange}
               />
               <span style={{ color: 'red' }}>
@@ -565,7 +556,7 @@ const [isEmailValid,setIsEmailValid]=useState(true);
                   name="gender"
                   onChange={handleChange}
                   className="browser-default custom-select"
-                  defaultValue={prevInfo ? prevInfo.gender : null}
+                  defaultValue={prevInfo ? prevInfo.gender : personalInfo?personalInfo.gender:null}
                 >
                   <option disabled>Gender</option>
                   <option value="1">Male</option>

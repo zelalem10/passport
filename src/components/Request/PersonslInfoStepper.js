@@ -167,13 +167,12 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                             isUnder18: personalInfo ? personalInfo.isUnder18 : false,
                             isAdoption: personalInfo ? personalInfo.isAdoption : false,
                             passportNumber: travelPlan ? travelPlan.passportNumber : null,
-                            issueDate: travelPlan ? (travelPlan.isIssueDateChanged || travelPlan.isExpirationDateChanged ?(travelPlan.issueDate?getFormatedDate(travelPlan.issueDate):null) : null) : null,
-                            expireDate: travelPlan ? (travelPlan.isExpirationDateChanged || travelPlan.isIssueDateChanged ? (travelPlan.expirationDate?getFormatedDate(travelPlan.expirationDate):null) : null) : null,
                             passportType: travelPlan ? travelPlan.passportType : null,
                             isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
-                            passportPageId: travelPlan
-                                ? Number.parseInt(travelPlan.pageQuantity, 10)
-                                : 0,
+                            passportPageId: 1,
+                            // passportPageId: travelPlan
+                            //     ? Number.parseInt(travelPlan.pageQuantity, 10)
+                            //     : 0,
                             correctionType: travelPlan
                                 ? travelPlan.correctionReason && travelPlan.correctionReason != ''
                                     ? Number.parseInt(travelPlan.correctionReason, 10)
@@ -210,6 +209,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                 };
                 axiosInstance.post('/Request/api/V1.0/Request/SubmitRequest',requestBody)
                     .then((todo) => {
+                        debugger;
                         setloading(false);
                         setResponseMessage(todo.data.message);
                         setResponseAlert(true);
@@ -227,12 +227,14 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                                 dispatch(addPriceInfo(todo.data));
                             })
                             .catch((err) => {
+                                
                                 console.log("AXIOS ERROR: ", err.response);
                             })
                         setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
                     })
                     .catch((err) => {
+                        debugger;
                         setloading(false);
                         console.log('Body: ', JSON.stringify(requestBody));
                         console.log('AXIOS ERROR: ', err.response);
@@ -301,9 +303,10 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                             expireDate: travelPlan ? (travelPlan.isExpirationDateChanged || travelPlan.isIssueDateChanged ? (travelPlan.expirationDate?getFormatedDate(travelPlan.expirationDate):null) : null) : null,
                             passportType: travelPlan ? travelPlan.passportType : null,
                             isDatacorrected: travelPlan ? travelPlan.isDatacorrected : false,
-                            passportPageId: travelPlan
-                                ? Number.parseInt(travelPlan.pageQuantity, 10)
-                                : 0,
+                            passportPageId:1,
+                            // passportPageId: travelPlan
+                            //     ? Number.parseInt(travelPlan.pageQuantity, 10)
+                            //     : 0,
                             correctionType: travelPlan
                                 ? travelPlan.correctionReason && travelPlan.correctionReason != ''
                                     ? Number.parseInt(travelPlan.correctionReason, 10)
@@ -340,6 +343,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                 };
                 axiosInstance.post('/Request/api/V1.0/Request/SubmitRequest',requestBody)
                     .then((todo) => {
+                        debugger;
                         setResponseMessage(todo.data.message);
                         setResponseAlert(true);
                         setIsSuccess(true);
@@ -362,6 +366,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
 
                     })
                     .catch((err) => {
+                        debugger;
                         console.log('Body: ', JSON.stringify(requestBody));
                         console.log('AXIOS ERROR: ', err.response);
                         if (err.response != null && err.response != "undefined") setResponseMessage(err.response.data.message);

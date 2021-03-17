@@ -231,11 +231,16 @@ button.print-button:hover .print-icon::after {
 .confirmation-page fieldset {
   width: 100% !important;
 }
+.printable {
+  display: none;
+}
 @media print {
   .no-print {
     display: none !important;
   }
-
+  .printable {
+    display: block !important;
+  }
   body * {
     visibility: hidden;
   }

@@ -76,8 +76,8 @@ const ViewAppointment = forwardRef((props, ref) => {
     };
     if (requests) {
         if (!data.service[data.service.length - 1].isGroup) {
-            const personalInfo = requests[0]
-                ? requests[0].personResponses
+            const personalInfo = requests[requests.length - 1]
+                ? requests[requests.length - 1].personResponses
                 : null;
             if (personalInfo) {
                 const appointmentResponse = requests[requests.length-1].appointmentResponse;

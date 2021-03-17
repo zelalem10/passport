@@ -105,6 +105,9 @@
       "expiredPassportDetial": " Expired passport, applicants are requested to schedule forappointment. You receive confirmation via email or SMS.Print the last page which has your appointment date andtime. Take the paper with you to your appointment consular.",
       "replacmentofValidPageRunout": "Replacment of Valid Page Runout",
       "replacmentofValidPageRunoutDetail": "Page runout (not expired) passport, applicants are requested to schedule for appointment. You receive confirmation via email or SMS. Print the last page which has your appointment date and time. Take the paper with you to your appointment consular.",
+      "replacmentofValid": "Replacment of Valid",
+      "replacmentofValidDetail": "Applicants are requested to schedule for appointment. You receive confirmation via email or SMS. Print the last page which has your appointment date and time. Take the paper with you to your appointment consular.",
+      
       "damagedPassport": "Damaged Passport",
       "damagedPassportDetail": "Damaged passport, applicants are requested to schedule for appointment. You receive confirmation via email or SMS. Print the last page which has your appointment date and time. Take the paper with you to your appointment consular."
       

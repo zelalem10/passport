@@ -36,8 +36,9 @@ function SystemToken() {
          cookies.set('SY_TO', accesstoken);
         const config = {
             headers: { Authorization: 'Bearer ' + accesstoken },
+            "Access-Control-Allow-Credentials": true
         };
-        //axios({
+        // axios({
         //    method: 'post',
         //    url:
         //        'https://epassportservicesaddt.azurewebsites.net/User/api/V1.0/Account/SignIn',
@@ -45,9 +46,10 @@ function SystemToken() {
         //        username: 'Anonymous@ethiopianairlines.com',
         //        password: 'PassCode#AnoPass%43',
         //    },
-        //})
+        // })
         //    .then(async (response) => {
-        //        await localStorage.setItem('systemToken', response.data.accessToken);
+        //        await cookies.set('SY_TO', response.data.accessToken);
+        //        cookies.set('RF_TO', response.data.refreshToken);
         //        const accesstoken = localStorage.systemToken;
         //        const config = {
         //            headers: { Authorization: 'Bearer ' + accesstoken },
@@ -141,7 +143,8 @@ axiosInstance.get('/Master/api/V1.0/CountryRegion/GetAllMasterData')
 
 
     }, []);
-
+    // )}
     return <div></div>;
 }
+
 export default SystemToken;

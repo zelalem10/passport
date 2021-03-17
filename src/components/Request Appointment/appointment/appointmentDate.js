@@ -222,6 +222,14 @@ const MyApp = forwardRef((props, ref) => {
           }
       } else {
         if(state.date && selectTime){
+          let sampleData={
+            id: 0,
+            date: stringDateValue,
+            durationId: parseInt(selectTime),
+            dateTimeFormat: 'yyyy-MM-dd',
+            noOfApplicants: parseInt(data.numberOfApplicants),
+          };
+          console.log(JSON.stringify(sampleData));
           setloading(true);
           axiosInstance.post('/Schedule/api/V1.0/Schedule/SubmitAppointment',{
             id: 0,
@@ -231,6 +239,7 @@ const MyApp = forwardRef((props, ref) => {
             noOfApplicants: parseInt(data.numberOfApplicants),
           })
           .then((response) => {
+            console.log(response.data.appointmentResponses);
             dispatch(addAppointmentDate(response.data.appointmentResponses));
             if (response.data.appointmentResponses) {
               setFormCompleted(true);
@@ -433,7 +442,7 @@ let da = '';
               noOfApplicants: parseInt(data.numberOfApplicants),
             })
               .then((responses) => {
-                
+                console.log(JSON.stringify(responses.data.availableDateAndTimes));
                 for (
                   let i = 0;
                   i < responses.data.availableDateAndTimes.length;

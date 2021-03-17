@@ -10,6 +10,7 @@ import {
   authentication,
 } from '../../redux/actions/authenticationAction';
 
+
 import {
   MDBNavbar,
   MDBNavbarNav,
@@ -26,8 +27,10 @@ import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation, Trans } from 'react-i18next';
+import Cookies from 'universal-cookie';
 
 const NavbarPage = (props) => {
+  const cookies = new Cookies();
   const { t, i18n } = useTranslation();
   const navPath = props.location.pathname;
   const [navOpen, toggleOpen] = useState(false);
@@ -61,7 +64,7 @@ const NavbarPage = (props) => {
     color: 'black',
     'font-weight': '400',
   };
-  let token = localStorage.userToken;
+  let token = cookies.get('AC_TO');
   let firstName;
   let middelName;
   let lastName;

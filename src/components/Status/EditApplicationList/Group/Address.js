@@ -120,7 +120,7 @@ const Address = forwardRef((props, ref) => {
           (item) => item.applicantNumber == props.applicantNumber
         )[resultLength - 1];
       } else {
-        const applicantsInformation = counter.address[0];
+        const applicantsInformation = counter.address[ounter.address.length - 1];
         for (let applicant in applicantsInformation) {
           if (
             applicantsInformation[applicant].applicantNumber ==

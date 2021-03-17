@@ -116,6 +116,7 @@ const Fileupload = forwardRef((props, ref) => {
         headers: {
           'content-type': 'multipart/form-data',
           Authorization: 'Bearer ' + accesstoken,
+          "Access-Control-Allow-Credentials": true
         },
       };
 

@@ -13,6 +13,13 @@ function RescheduleAppointment(props) {
   const appList = counter.applicationList[counter.applicationList.length - 1];
   const [isUrgentAppointment, setIsUrgentAppointment] = useState(false);
   const [availableDateAndQota, setavailableDateAndQota] = useState([]);
+  const dateFormatter = (date) => {
+    let selectDays = new Date(date);
+    let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(selectDays);
+    let mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(selectDays);
+    let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(selectDays);
+    return (`${mo} ${da}, ${ye}`);
+}
   let displayedApplication = {};
  
     for (let item in appList) {
@@ -415,7 +422,7 @@ function RescheduleAppointment(props) {
             let newDay = newdate.getDate().toString();
             newDay = newDay.length > 1 ? newDay : '0' + newDay;
             setNewAppointment(newdate);
-            setNewDisplayTime(`${newdate.toISOString().substr(0, 10)} ${
+            setNewDisplayTime(`${dateFormatter(newdate)} ${
               response.data.duration.startTime
             } - ${response.data.duration.endTime} ${
               response.data.duration.isMorning ? 'AM' : 'PM'

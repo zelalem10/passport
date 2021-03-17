@@ -61,7 +61,9 @@ const Fileupload = forwardRef((props, ref) => {
 
   useEffect(() => {
     axios({
-      headers: { Authorization: 'Bearer ' + accesstoken },
+      headers: { Authorization: 'Bearer ' + accesstoken,
+      "Access-Control-Allow-Credentials": true
+    },
       method: 'get',
       url:
         'https://epassportservicesaddt.azurewebsites.net/Master/api/V1.0/Attachement/GetRequiredAttachementsByPersonRequest',
@@ -181,6 +183,7 @@ const Fileupload = forwardRef((props, ref) => {
         headers: {
           'content-type': 'multipart/form-data',
           Authorization: 'Bearer ' + accesstoken,
+          "Access-Control-Allow-Credentials": true
         },
       };
 

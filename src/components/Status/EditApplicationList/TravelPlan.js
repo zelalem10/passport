@@ -66,10 +66,11 @@ const dispatch = useDispatch();
     }
     setTravelPlan((prevState) => ({
       ...prevState,
-      passportPageId: prevInfo ? prevInfo.passportPageId : 0,
+      //passportPageId: prevInfo ? prevInfo.passportPageId : 0,
+      passportPageId:1,
       passportNumber: prevInfo ? prevInfo.passportNumber : null,
-      expirationDate: prevInfo ? new Date(prevInfo.expirationDate) : new Date(),
-      issueDate: prevInfo ? new Date(prevInfo.issueDate) : new Date(),
+      expirationDate: prevInfo ? new Date(prevInfo.expirationDate) : travelPlan.expireDate,
+      issueDate: prevInfo ? new Date(prevInfo.issueDate) : travelPlan.issueDate,
       correctionReason: prevInfo ? prevInfo.correctionReason : null,
       isDatacorrected: prevInfo ? prevInfo.isDatacorrected : false,
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
@@ -87,10 +88,10 @@ const dispatch = useDispatch();
     }
   }, []);
   const [selectedissueDate, setSelectedissueDate] = React.useState(
-    new Date(prevInfo ? prevInfo.issueDate : new Date())
+    new Date(prevInfo ? prevInfo.issueDate : travelPlan.issueDate?travelPlan.issueDate:null)
   );
   const [selectedexpirationDate, setSelectedexpirationDate] = React.useState(
-    new Date(prevInfo ? prevInfo.expireDate : new Date())
+    new Date(prevInfo ? prevInfo.expireDate : travelPlan.expireDate?travelPlan.expireDate:null)
   );
 
   const handleissueDateChange = (date) => {
@@ -124,7 +125,8 @@ const dispatch = useDispatch();
     },
     Validate() {
       setNotCompleted({
-        passportPageId:travelPlan.passportPageId&& travelPlan.passportPageId !== 0 ? false : true,
+        //passportPageId:travelPlan.passportPageId&& travelPlan.passportPageId !== 0 ? false : true,
+        passportPageId: false,
         passportNumber: travelPlan.passportNumber ? false : true,
         expirationDate: travelPlan.expirationDate ? false : true,
         issueDate: travelPlan.issueDate ? false : true,
@@ -182,7 +184,7 @@ const dispatch = useDispatch();
               {requestTypeStr != 'New' ? (
               <MDBCol md="3">
                   <MDBInput
-                    valueDefault={prevInfo ? prevInfo.passportNumber : null}
+                    valueDefault={prevInfo ? prevInfo.passportNumber : travelPlan.passportNumber?travelPlan.passportNumber:null}
                     name="passportNumber"
                     className="form-control"
                     onBlur={handleChange}

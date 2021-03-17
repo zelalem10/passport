@@ -11,6 +11,7 @@ import {
   MDBModalFooter,
   MDBAlert
 } from 'mdbreact';
+import Cookies from 'universal-cookie';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -29,6 +30,7 @@ const Errorstyle = {
 
 
 function SignIn() {
+  const cookies = new Cookies();
   const { t, i18n } = useTranslation();
   let [Email, setEmail] = useState('');
 
@@ -132,27 +134,57 @@ function SignIn() {
       })
         .then((response) => {
           setState(response.data);
+
+          console.log(response.data);
+
           if (response.data.accessToken) {
-            localStorage.setItem('userToken', response.data.accessToken);
-            localStorage.setItem(
-              'logedInUsedData',
-              JSON.stringify(response.data)
-            );
+
+            let date = new Date();
+
+            date.setTime(date.getTime() + 60 * 1000000000);
+
+            const options = { expires: date }
+
+            localStorage.setItem('logedInUsedData', JSON.stringify(response.data));
+
+            cookies.set('AC_TO', response.data.accessToken, options);
+
+            cookies.set('REF_TO', response.data.refreshToken);
+
+
+
+
+
+
+
           }
+
           personalDetail();
+
           setloading(false);
+
           let status = response.data.status;
+
           let errorname = response.data.message;
+
           if (status == 0) {
+
             setMessage(true);
+
             setMessage(errorname);
+
           }
+
           // redirect if user logged in
+
           if (response.data.accessToken) {
-            //return <Redirect to="/Home" />
+
             history.push('/');
+
           }
+
         })
+
         .catch((error) => {
           setloading(false);
           console.log('error' + error);

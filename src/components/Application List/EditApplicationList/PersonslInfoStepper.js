@@ -212,9 +212,10 @@ export default function HorizontalLabelPositionBelowStepper(props) {
 
                         isAdoption: personalInfo ? personalInfo.isAdoption : false,
                         maritalStatus: personalInfo ? parseInt(personalInfo.maritalStatusEnum) : 0,
-                        passportPageId: travelPlan
-                            ? parseInt(travelPlan.passportPageId)
-                            : null,
+                        passportPageId:1,
+                        // passportPageId: travelPlan
+                        //     ? parseInt(travelPlan.passportPageId)
+                        //     : null,
                         passportNumber: travelPlan
                             ? travelPlan.passportNumber
                             : null,
@@ -256,6 +257,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             axiosInstance.put('/Request/api/V1.0/Request/UpdateRequest',requestBody)
 
                 .then((todo) => {
+                    debugger;
                     setloading(false);
                     handleNext();
                     setResponseMessage('');
@@ -263,6 +265,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                 })
 
                 .catch((err) => {
+                    debugger;
                     setloading(false);
                     setResponseMessage(err.response.data.Message);
                 });
@@ -352,9 +355,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             &nbsp;&nbsp;&nbsp;&nbsp;
             <b>
                                     <label class="font-weight-bold">
-                                        {new Date(displayedApplication.requestDate)
-                                            .toISOString()
-                                            .substr(0, 10)}
+                                        {dateFormatter(new Date(displayedApplication.requestDate))}
                                     </label>
                                 </b>
                             </div>

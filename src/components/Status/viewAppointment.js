@@ -100,6 +100,7 @@ export default function ViewAppointment(props) {
 
   
     const getBarcode=(requestId)=>{
+      debugger;
     axiosInstance.get(`/Request/api/V1.0/Request/GetBarCode?requestId=${requestId}`)
             .then((response)=>{
               if(response.data.status===1){
@@ -119,7 +120,7 @@ export default function ViewAppointment(props) {
   if (appList ? appList.requestId == displayRequestId : false) {
     displayedApplication = appList;
   }
-  
+  debugger;
     if(displayedApplication.requestStatus==="Payment Completed" && !barcodeData.hasOwnProperty('barCode')){
       
       getBarcode(displayedApplication.requestId);
@@ -143,7 +144,15 @@ export default function ViewAppointment(props) {
 
     return (
       <MDBContainer className="passport-container" id="section-to-print" fluid>
+        <div class="printable">
+          <img
+                src={require('../../images/default-source/shared/INVEA-logo.png')}
+                className="img-fluid logo-img w-100 p-2"
+                alt="Ethiopian ePassport logo"
+              />
+          </div>
         <MDBRow className="confirmation-print-btn no-print">
+          
               <button class="print-button " onClick={() => window.print()}>
                 <span class="pr-2">Print</span>
                 <span class="print-icon"></span>
@@ -255,6 +264,18 @@ export default function ViewAppointment(props) {
                     </label>
                   </b>
                 </div>
+                {displayedApplication.type === 'New' ?
+                <div class="form-group form-inline passport-display">
+                  <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Delivery Date
+                  </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>
+                    <label class="font-weight-bold">
+                      {displayedApplication?displayedApplication.personResponses?dateFormatter(displayedApplication.personResponses.deliveryAppointment):null:null}
+                    </label>
+                  </b>
+                </div> :null}
       
         </div>
       </div>

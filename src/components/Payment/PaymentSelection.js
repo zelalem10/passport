@@ -96,6 +96,7 @@ const PaymentSelection = forwardRef((props, ref) => {
                         requestId: requestId,
                     };
                     setloading(true);
+                    console.log(JSON.stringify(body));
                     axiosInstance.post('/Payment/api/V1.0/Payment/OrderRequest',body)
                         .then((resopnse) => {
                             dispatch(addPaymentOptionId(resopnse.data));

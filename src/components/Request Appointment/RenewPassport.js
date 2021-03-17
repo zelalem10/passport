@@ -59,6 +59,22 @@ function RenewPassport(props) {
                     </p>
                   </div>
                 </a>
+                <a
+                  class="small-12 column row card--link vertical-margin-1"
+                  onClick={() => props.handleReplacmentReason(2)}
+                >
+                  <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
+                    <strong><Trans>renewPassport.replacmentofValid</Trans></strong>
+                    <div class="text-center vertical-margin-half">
+                      <i class="fas fa-arrow-circle-right fa-lg"></i>
+                    </div>
+                  </div>
+                  <div class="small-12 medium-8 column card card--small-gutters card--gray rtf rtf--small bold">
+                    <p class="text-justify">
+                    <Trans>renewPassport.replacmentofValidDetail</Trans>
+                    </p>
+                  </div>
+                </a>
 
                 <a
                   class="small-12 column row card--link vertical-margin-1"

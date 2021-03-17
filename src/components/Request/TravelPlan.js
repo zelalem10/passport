@@ -40,7 +40,7 @@ const TravelPlan = forwardRef((props, ref) => {
     const { t, i18n } = useTranslation();
     const [isLoading, setIsLoading] = useState(true);
     const [travelPlan, setTravelPlan] = useState({
-        pageQuantity: '',
+        pageQuantity: 1,
         passportNumber: '',
         expirationDate: new Date(),
         issueDate: new Date(),
@@ -52,7 +52,7 @@ const TravelPlan = forwardRef((props, ref) => {
         formCompleted: false,
     });
     const [notCompleted, setNotCompleted] = useState({
-        pageQuantity: true,
+        pageQuantity: false,
         passportNumber: true,
         expirationDate: true,
         issueDate: true,
@@ -71,8 +71,11 @@ const TravelPlan = forwardRef((props, ref) => {
         dispatch(addTravelPlan(travelPlan));
     }
     const [isOldPassportValid, setIsOldPassportValid] = useState(true);
-
+    const [isIssueDateValid, setIsIssueDateValid] = useState(false);
+    const [isExpireDateValid, setIsExpireDateValid] = useState(false);
+    const [isOnLoad, setIsOnLoad] = useState(true);
     const handleChange = (event) => {
+        
         const { name, value } = event.target;
         setTravelPlan((prevState) => ({
             ...prevState,
@@ -95,7 +98,6 @@ const TravelPlan = forwardRef((props, ref) => {
 
 
         if (name === 'passportNumber') {
-            debugger;
             let checkPassport = new RegExp(/^[a-zA-Z]{2}\d{7}$/).test(value);
             if(checkPassport){
                 setIsOldPassportValid(true);
@@ -107,6 +109,28 @@ const TravelPlan = forwardRef((props, ref) => {
 
         }
     };
+    function getFormatedDate(date){
+        if(date && typeof(date)!=='undefined'){
+    
+        let dateToFormat= new Date(date);
+      let formatedYear = dateToFormat.getFullYear();
+      let formatedMonth = (1 + dateToFormat.getMonth()).toString();
+      formatedMonth =
+        formatedMonth.length > 1 ? formatedMonth : '0' + formatedMonth;
+      let formatedDay = dateToFormat.getDate().toString();
+      formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
+      let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
+      return stringDateValue;
+        }
+        return null;
+    }
+
+    if(isLoading && !isIssueDateValid){
+        if(getFormatedDate(travelPlan.issueDate) !==getFormatedDate(new Date())){
+            setIsIssueDateValid(true);
+            setIsExpireDateValid(true);
+        }
+    }
     const handleCheck = (name, checked) => {
         setTravelPlan((prevState) => ({
             ...prevState,
@@ -124,6 +148,8 @@ const TravelPlan = forwardRef((props, ref) => {
             issueDate: date,
             isIssueDateChanged: true,
         }));
+
+        setIsIssueDateValid(true);
     };
     const handleexpirationDateChange = (date) => {
         compareDates(date, false);
@@ -135,6 +161,7 @@ const TravelPlan = forwardRef((props, ref) => {
             expirationDate: date,
             isExpirationDateChanged: true,
         }));
+        setIsExpireDateValid(true);
     };
     // check date difference between two dates
     const compareDates = (changedDate, isIssue) => {
@@ -158,7 +185,8 @@ const TravelPlan = forwardRef((props, ref) => {
         if (travelPlan.formCompleted === false) {
             setTravelPlan((prevState) => ({
                 ...prevState,
-                pageQuantity: prevInfo ? prevInfo.pageQuantity : 0,
+                //pageQuantity: prevInfo ? prevInfo.pageQuantity : 1,
+                pageQuantity:1,
                 passportNumber: prevInfo ? prevInfo.passportNumber : null,
                 expirationDate: prevInfo ? prevInfo.expirationDate : new Date(),
                 issueDate: prevInfo ? prevInfo.issueDate : new Date(),
@@ -181,7 +209,8 @@ const TravelPlan = forwardRef((props, ref) => {
     );
     useEffect(() => {
         setNotCompleted({
-            pageQuantity: travelPlan.pageQuantity === '' ? true : false,
+            //pageQuantity: travelPlan.pageQuantity === '' ? true : false,
+            pageQuantity:false,
             passportNumber: travelPlan.passportNumber === '' ? true : false,
             expirationDate: travelPlan.expirationDate === '' ? true : false,
             issueDate: travelPlan.issueDate === '' ? true : false,
@@ -208,6 +237,8 @@ const TravelPlan = forwardRef((props, ref) => {
             return travelPlan;
         },
         Validate() {
+            debugger;
+            setIsOnLoad(false);
             // setNotCompleted({
             //   pageQuantity: Number.parseInt(travelPlan.pageQuantity, 10) === 0 ? true : false,
             //   passportNumber: travelPlan.passportNumber === '' ? true : false,
@@ -221,7 +252,7 @@ const TravelPlan = forwardRef((props, ref) => {
             else if (requestTypeStr != 'New' && notCompleted.passportNumber === true) {
                 return false;
             }
-            else if (isOldPassportValid === false) {
+            else if (requestTypeStr != 'New' && (isOldPassportValid === false ||isIssueDateValid===false||isExpireDateValid===false)) {
                 return false;
             }
             else
@@ -253,7 +284,7 @@ const TravelPlan = forwardRef((props, ref) => {
                                     >
                                         <option>  {t('requestForm.selectPassportPage')}</option>
                                         {passportTypeList.map((passportType) => (
-                                            <option value={passportType.id} selected={passportType.id === Number.parseInt(travelPlan.pageQuantity, 10)}>
+                                            <option value={passportType.id} selected={passportType.id==1}>
                                                 {passportType.passportPage}
                                             </option>
                                         ))}
@@ -289,7 +320,7 @@ const TravelPlan = forwardRef((props, ref) => {
                                     <span style={{ color: 'red' }}>
                                         {' '}
                                         {
-                                            !isOldPassportValid
+                                            !isOldPassportValid 
                                                 ? 'Please Enter Valid Passport Number'
                                                 : null
                                         }
@@ -316,6 +347,14 @@ const TravelPlan = forwardRef((props, ref) => {
                                             }}
                                         />
                                     </MuiPickersUtilsProvider>
+                                    <span style={{ color: 'red' }}>
+                                        {' '}
+                                        {
+                                            !isIssueDateValid && !isOnLoad
+                                                ? 'Please Enter Old Passport Issue Date'
+                                                : null
+                                        }
+                                    </span>
                                 </MDBCol>
                                 <MDBCol md="4" className="date-picker">
                                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -331,6 +370,14 @@ const TravelPlan = forwardRef((props, ref) => {
                                             }}
                                         />
                                     </MuiPickersUtilsProvider>
+                                    <span style={{ color: 'red' }}>
+                                        {' '}
+                                        {
+                                            !isExpireDateValid && !isOnLoad
+                                                ? 'Please Enter Old Passport Expiration Date'
+                                                : null
+                                        }
+                                    </span>
                                 </MDBCol>
                             </MDBRow>
                         ) : null}

@@ -27,7 +27,7 @@ const Fileupload = forwardRef((props, ref) => {
   
   const formData = new FormData();
   let requestPersonId = useSelector(
-    (state) => state.commonData[0].requestPersonId
+    (state) => state.commonData[state.commonData.length - 1].requestPersonId
   );
   const [files, setfiles] = useState({});
   const [requiredFile, setrequiredFile] = useState('');
