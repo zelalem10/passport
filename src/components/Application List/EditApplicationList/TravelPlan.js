@@ -16,7 +16,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import axiosInstance from '../../Utils/axios';
 
 const TravelPlan = forwardRef((props, ref) => {
-  debugger;
+  
   const [passportPages, setPassportPages] = useState([]);
   const { passportRes, displayedApplication, personalInformation } = props;
   const [passportTypeList,setPassportTypeList]=useState([]);

@@ -10,6 +10,8 @@ export default function family(family = [], action) {
         ...family.filter((family) => family.id !== action.family.id),
         Object.assign({}, action.family),
       ];
+      case types.DELET_FAMILY_INFO:
+        return family=[];
 
     default:
       return family;

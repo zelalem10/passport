@@ -96,18 +96,19 @@ const PersonalInfo = forwardRef((props, ref) => {
     });
     
     function calculateAge(date1, date2) {
+        
         var diff = Math.floor(date1.getTime() - date2.getTime());
-        var day = 1000 * 60 * 60 * 24;
+        //var day = 1000 * 60 * 60 * 24;
 
-        var days = Math.floor(diff / day);
-        var months = Math.floor(days / 31);
-        var years = Math.floor(months / 12);
+        //var days = Math.floor(diff / day);
+        //var months = Math.floor(days / 31);
+        //var years = Math.floor(months / 12);
+        var years=Math.floor(diff/(1000 * 60 * 60 * 24 * 365.25));
         setAge(years)
-        return years
+        return years;
     }
     const handleDateChange = (date) => {
         setSelectedDate(date);
-        debugger
         const currentDate = new Date();
         const diffYear = calculateAge(currentDate, new Date(date))
         setPersonalInfo((prevState) => ({
@@ -118,6 +119,13 @@ const PersonalInfo = forwardRef((props, ref) => {
             setNotCompleted((prevState) => ({
                 ...prevState,
                 birthDate: false,
+            }));
+        }
+        if(diffYear>18){
+            setPersonalInfo((prevState) => ({
+                ...prevState,
+                isAdoption: false,
+                isUnder18:false
             }));
         }
     };
@@ -900,6 +908,8 @@ const PersonalInfo = forwardRef((props, ref) => {
                                         class="custom-control-input"
                                         name="isUnder18"
                                         id="isUnder18"
+                                        checked={age<18?personalInfo.isUnder18:false}
+                                        disabled={age >= 18}
                                         onChange={(e) => handleCheck('isUnder18', e.target.checked)}
                                     />
                                     <label class="custom-control-label" for="isUnder18">
@@ -921,6 +931,8 @@ const PersonalInfo = forwardRef((props, ref) => {
                                         class="custom-control-input"
                                         name="isAdoption"
                                         id="isAdoption"
+                                        disabled={age >= 18}
+                                        checked={age<18?personalInfo.isAdoption:false}
                                         onChange={(e) =>
                                             handleCheck('isAdoption', e.target.checked)
                                         }

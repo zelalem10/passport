@@ -126,7 +126,6 @@ const PersonalInfo = forwardRef((props, ref) => {
       new Date(prevInfo ? prevInfo.dateOfBirth : new Date())
     );
     function calculateAge(date1, date2) {
-      debugger
       var diff = Math.floor(date1.getTime() - date2.getTime());
       var day = 1000 * 60 * 60 * 24;
     

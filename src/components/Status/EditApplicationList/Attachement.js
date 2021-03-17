@@ -21,9 +21,10 @@ const tokenValue = () => {
 };
 
 const Fileupload = forwardRef((props, ref) => {
-  const { personalInformation } = props;
+
+  const { personalInformation,requiredAttachements } = props;
     const accesstoken = tokenValue();
-  debugger;
+  
   const formData = new FormData();
   let requestPersonId = personalInformation.requestPersonId;
   const [files, setfiles] = useState([]);
@@ -48,20 +49,31 @@ const Fileupload = forwardRef((props, ref) => {
     11: '',
     12: '',
   });
-  debugger;
+  
   let attachmentList = personalInformation.attachmentList;
-  console.log(attachmentList)
+  let requiredFileAttachments=requiredAttachements?requiredAttachements.length:0;
   let requiredFile = attachmentList? attachmentList.length : 0;
   let attachmentPath = [];
   let attachmentNames = [];
   let requiredFileType = [];
-
+  let attachmentTypeId=[];
+let requiredFileAttachmentsNumber=requiredFileAttachments;
   for (let i = 0; i < requiredFile; i++) {
     attachmentPath.push(attachmentList[i].attachmentPath);
     attachmentNames.push(attachmentList[i].attachmentType);
     requiredFileType.push(attachmentList[i].attachmentId);
+    attachmentTypeId.push(attachmentList[i].attchmentTypeId);
   }
-
+  for(let i=0;i <requiredFileAttachments;i++){
+    if(attachmentTypeId.indexOf(requiredAttachements[i].attachmentTypeId)==-1){
+ attachmentPath.push(null);
+    attachmentNames.push(requiredAttachements[i].attachmentType);
+    requiredFileType.push(requiredAttachements[i].attachmentTypeId);
+    }else{
+      requiredFileAttachmentsNumber=requiredFileAttachmentsNumber-1;
+    }
+   
+  }
 
 
   useImperativeHandle(ref, () => ({
@@ -77,7 +89,7 @@ const Fileupload = forwardRef((props, ref) => {
   }));
 
   // const validate = (files) => {
-  //   debugger;
+  //   
 
   //   if (files.length < requiredFile) {
   //     fileError.push('You Should have to Choose all files');
@@ -94,7 +106,6 @@ const Fileupload = forwardRef((props, ref) => {
 
   const submit = async (e) => {
     //props.hideBack();
-    debugger;
     e.preventDefault();
     setsuccessMessage(false);
     seterrorMessage(false);
@@ -106,7 +117,6 @@ const Fileupload = forwardRef((props, ref) => {
       for (let i = 0; i < files.length; i++) {
         formData.append('personRequestId', requestPersonId);
         formData.append(fileType[i], files[i]);
-        console.log(files[i]);
         console.log(fileType[i]);
       }
 
@@ -148,7 +158,7 @@ const Fileupload = forwardRef((props, ref) => {
     }));
   };
 
-  for (let i = 0; i < requiredFile; i++) {
+  for (let i = 0; i < requiredFile+requiredFileAttachmentsNumber; i++) {
     inputs.push(
       <div class="row my-5" id="attachmentmargin">
         <div class="col-lg-5 passport-text-right">
@@ -160,7 +170,8 @@ const Fileupload = forwardRef((props, ref) => {
         <div class="col-lg-6 mb-2 pr-3">
           <div class="row">
             <div class="col-lg-3">
-            <a href={attachmentPath[i]} >View File</a>
+              {attachmentPath[i]?<a href={attachmentPath[i]} >@View File</a>:null}
+            
             </div>
             <div class="col-lg-9">
             <div className="input-group">

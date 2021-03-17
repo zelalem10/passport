@@ -17,19 +17,24 @@ import axiosInstance from '../../Utils/axios';
 
 const TravelPlan = forwardRef((props, ref) => {
   debugger;
+  
   const [passportPages, setPassportPages] = useState([]);
   const { passportRes, displayedApplication, personalInformation } = props;
   const [passportTypeList,setPassportTypeList]=useState([]);
+
   const [travelPlan, setTravelPlan] = useState({
     filledBy: passportRes.filledBy,
     passportPageId: parseInt(passportRes.passportPageId),
     passportNumber: passportRes.passportNumber,
     expireDate: passportRes.expireDate?passportRes.expireDate:null,
     issueDate: passportRes.issueDate?passportRes.issueDate:null,
-    correctionReason: passportRes.correctionReason,
+    correctionReason: personalInformation?personalInformation.correctionTypeEnum:0,
     isDatacorrected: passportRes.isDatacorrected,
     dataSaved: false,
   });
+  const [isOldPassportValid, setIsOldPassportValid] = useState(passportRes.passportNumber?true:false);
+  const [isIssueDateValid, setIsIssueDateValid] = useState(passportRes.issueDate?true:false);
+  const [isExpireDateValid, setIsExpireDateValid] = useState(passportRes.expireDate?true:false);
   const [notCompleted, setNotCompleted] = useState({
     filledBy: true,
     passportPageId: false,
@@ -58,6 +63,21 @@ const dispatch = useDispatch();
       ...prevState,
       [name]: value,
     }));
+    setNotCompleted((prevState)=>({
+      ...prevState,
+      [name]: false,
+    }))
+    if (name === 'passportNumber') {
+      let checkPassport = new RegExp(/^[a-zA-Z]{2}\d{7}$/).test(value);
+      if(checkPassport){
+          setIsOldPassportValid(true);
+      } 
+      else {
+          setIsOldPassportValid(false);
+      }
+     
+
+  }
   };
   var prevInfo = counter.travelPlan[counter.travelPlan.length - 1];
   useEffect(() => {
@@ -69,12 +89,21 @@ const dispatch = useDispatch();
       //passportPageId: prevInfo ? prevInfo.passportPageId : 0,
       passportPageId:1,
       passportNumber: prevInfo ? prevInfo.passportNumber : null,
-      expirationDate: prevInfo ? new Date(prevInfo.expirationDate) : travelPlan.expireDate,
+      expirationDate: prevInfo ? new Date(prevInfo.expireDate) : travelPlan.expireDate,
       issueDate: prevInfo ? new Date(prevInfo.issueDate) : travelPlan.issueDate,
-      correctionReason: prevInfo ? prevInfo.correctionReason : null,
+      correctionReason: prevInfo ? prevInfo.correctionReason : 0,
       isDatacorrected: prevInfo ? prevInfo.isDatacorrected : false,
       dataSaved: prevInfo ? prevInfo.dataSaved : null,
     }));
+    setNotCompleted({
+      //passportPageId:travelPlan.passportPageId&& travelPlan.passportPageId !== 0 ? false : true,
+      passportPageId: false,
+      passportNumber: passportRes.passportNumber ? false : true,
+      expirationDate: passportRes.expireDate ? false : true,
+      issueDate: passportRes.issueDate ? false : true,
+      correctionReason: personalInformation.correctionTypeEnum?false:true,
+      passportNumber: passportRes.passportNumber ? false : true,
+    });
 
     setPassportTypeList(JSON.parse(localStorage.PassportPageQuantity))
     if(passportTypeList.length===0){
@@ -97,17 +126,24 @@ const dispatch = useDispatch();
   const handleissueDateChange = (date) => {
     setSelectedissueDate(date);
     setTravelPlan((prevState) => ({
-      ...prevState,
-      issueDate: date,
+        ...prevState,
+        issueDate: date,
+        isIssueDateChanged: true,
     }));
-  };
-  const handleexpirationDateChange = (date) => {
+
+    setIsIssueDateValid(true);
+};
+const handleexpirationDateChange = (date) => {
     setSelectedexpirationDate(date);
+
+
     setTravelPlan((prevState) => ({
-      ...prevState,
-      expireDate: date,
+        ...prevState,
+        expirationDate: date,
+        isExpirationDateChanged: true,
     }));
-  };
+    setIsExpireDateValid(true);
+};
   const handleCheck = (name, checked) => {
     setTravelPlan((prevState) => ({
       ...prevState,
@@ -124,18 +160,22 @@ const dispatch = useDispatch();
       return travelPlan;
     },
     Validate() {
-      setNotCompleted({
-        //passportPageId:travelPlan.passportPageId&& travelPlan.passportPageId !== 0 ? false : true,
-        passportPageId: false,
-        passportNumber: travelPlan.passportNumber ? false : true,
-        expirationDate: travelPlan.expirationDate ? false : true,
-        issueDate: travelPlan.issueDate ? false : true,
-        correctionReason: travelPlan.correctionReason ? false : true,
-        passportNumber: travelPlan.passportNumber ? false : true,
-      });
-      if (notCompleted.passportPageId === true) return false;
-      else return true;
-    },
+      debugger;
+    //   if(requestTypeStr=='Correction' && notCompleted.correctionReason===true){
+    //     return false;
+    // }
+    if (notCompleted.pageQuantity === true) {
+        return false;
+    }
+    else if (requestTypeStr != 'New' && notCompleted.passportNumber === true) {
+        return false;
+    }
+    else if (requestTypeStr != 'New' && (isOldPassportValid === false ||isIssueDateValid===false||isExpireDateValid===false)) {
+        return false;
+    }
+    else
+        return true;
+},
   }));
   return (
     <MDBCard>
@@ -195,7 +235,7 @@ const dispatch = useDispatch();
               ):null}
             </MDBRow>
             <hr />
-            {requestTypeStr != 'New' ? (
+            {/* {requestTypeStr != 'New' ? (
               <MDBRow>
               
                 <MDBCol md="3" className="date-picker">
@@ -229,31 +269,36 @@ const dispatch = useDispatch();
                   </MuiPickersUtilsProvider>
                 </MDBCol>
               </MDBRow>
-            ) : null}
-            <MDBRow>
+            ) : null} */}
+             <MDBRow>
               {requestTypeStr === 'Correction' ||
               travelPlan.isDatacorrected === true ? (
                 <MDBCol md="3">
-                  <label>Correction type</label>
+                  <label>Correction type<i
+                      class="required-for-select-list"
+                      style={{ color: 'red' }}
+                    >
+                      *
+                    </i>{' '}</label>
                   <select
                     className="browser-default custom-select"
                     name="correctionReason"
                     onChange={handleChange}
                   >
-                    <option value="">select correction type</option>
-                    <option value="1">NameCorrection</option>
-                    <option value="2">Birth Date Correction</option>
-                    <option value="3">
+                    <option value="" disabled>select correction type</option>
+                    <option value="1" selected={prevInfo ? prevInfo.correctionReason==1?true:false:false}>Name Correction</option>
+                    <option value="2" selected={prevInfo ? prevInfo.correctionReason==2?true:false:false}>Birth Date Correction</option>
+                    <option value="3" selected={prevInfo ? prevInfo.correctionReason==3?true:false:false}>
                       Both Name and Birth Date Correction
                     </option>
                   </select>
                   <span style={{ color: 'red' }}>
-                    {' '}
-                    {notCompleted.correctionReason == true &&
-                    travelPlan.dataSaved == true
-                      ? 'correction reason ' + isRequired
-                      : null}
-                  </span>
+                                            {' '}
+                                            {notCompleted.correctionReason == true &&
+                                                travelPlan.dataSaved == true
+                                                ? 'correction reason ' + isRequired
+                                                : null}
+                                        </span>
                 </MDBCol>
               ) : null}
 
@@ -276,7 +321,7 @@ const dispatch = useDispatch();
                   </div>
                 </MDBCol>
               ) : null}
-            </MDBRow>
+            </MDBRow> 
           </div>
         </form>
       </MDBCardBody>

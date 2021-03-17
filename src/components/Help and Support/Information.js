@@ -234,12 +234,12 @@ export default function Information() {
                                             <tbody>
                                                 <tr>
                                                     <td><Trans>requirments.passportRunout.64pageRunout</Trans></td>
-                                                    <td>2186 + 50% =3279</td>
+                                                    <td>2186 + 100% =4372</td>
                                                 </tr>
                                                 <tr>
 
                                                     <td scope="col"><Trans>requirments.passportRunout.32pageRunout</Trans></td>
-                                                    <td scope="col">600+ 50% =900</td>
+                                                    <td scope="col">600+ 100% =1200</td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2" class='font-weight-bold'><Trans>requirments.common.forUrgent</Trans></td>
@@ -323,12 +323,12 @@ export default function Information() {
                                                 <tr>
                                                     <td rowspan="2">   <Trans>requirments.damagedPassport.notExpired</Trans>  </td>
                                                     <td ><Trans>requirments.common.64page</Trans></td>
-                                                    <td>2186+ 50% =3279</td>
+                                                    <td>2186+ 100% =4372</td>
                                                 </tr>
                                                 <tr>
 
                                                     <td scope="col"><Trans>requirments.common.32page</Trans></td>
-                                                    <td scope="col">600+ 50% =900</td>
+                                                    <td scope="col">600+ 100% =1200</td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2" class='font-weight-bold'><Trans>requirments.common.forUrgent</Trans></td>
@@ -413,7 +413,7 @@ export default function Information() {
                                                 <tr>
 
                                                     <td scope="col"><Trans>requirments.common.32page</Trans></td>
-                                                    <td scope="col">600+ 50% =900</td>
+                                                    <td scope="col">600+ 100% =1200</td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2" class='font-weight-bold'><Trans>requirments.common.forUrgent</Trans></td>
@@ -498,13 +498,13 @@ export default function Information() {
                                                 <tr>
 
                                                     <td scope="col"><Trans>requirments.common.32page</Trans> </td>
-                                                    <td scope="col">600+50%=900                                                                                           </td>
+                                                    <td scope="col">600+100%=1200                                                                                           </td>
                                                 </tr>
                                                 <tr>
                                                     <td rowspan="2"><Trans>requirments.changeofPassportData.correction</Trans></td>
                                                     <td rowspan="2"><Trans>requirments.changeofPassportData.requestsForCorrection</Trans></td>
                                                     <td ><Trans>requirments.common.64page</Trans> </td>
-                                                    <td>2186+ 50% =3279</td>
+                                                    <td>2186+ 100% =4372</td>
 
                                                 </tr>
                                                 <tr>
@@ -584,12 +584,12 @@ export default function Information() {
                                                 <tr>
                                                     <td rowspan="2"><Trans>requirments.validPassport.validPassport</Trans></td>
                                                     <td ><Trans>requirments.common.64page</Trans> </td>
-                                                    <td>2186+ 50% = 3279</td>
+                                                    <td>2186+ 100% = 4372</td>
                                                 </tr>
                                                 <tr>
 
                                                     <td scope="col"><Trans>requirments.common.32page</Trans> </td>
-                                                    <td scope="col">600+50% = 900                                                                                           </td>
+                                                    <td scope="col">600+100% = 1200                                                                                           </td>
                                                 </tr>
 
 

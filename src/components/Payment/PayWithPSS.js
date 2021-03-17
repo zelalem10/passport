@@ -109,6 +109,7 @@ axiosInstance('/Payment/api/V1.0/Payment/OrderRequest',body)
         <PaymentSelection />
     ) : responseGot === true ? (
         <div>{ReactHtmlParser(contentResponse, options)}</div>
+        
     ) : null;
 };
 

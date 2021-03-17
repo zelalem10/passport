@@ -209,7 +209,7 @@
       "common": {
         "passportType": "Passport type",
         "price": "price",
-        "forUrgent": " For Urgent : Additional 50% Payment of the requested document",
+        "forUrgent": " For Urgent : Additional 100% Payment of the requested document",
         "32page": "32 page passport",
         "64page": "64 page passport",
         "passportStatus": "Passport status",
@@ -224,7 +224,7 @@
         "itemTwoL7": "Travel for compassionate reason",        
         "itemTwo": "If you are applying for Urgent Services, you must have: ",
         "itemThree": "Check the service fee for new Passport",
-        "itemThreeParagraph": "If your passport has more than 6 month’s validity, the payment will have additional 50% of the requested passport.",
+        "itemThreeParagraph": "If your passport has more than 6 month’s validity, the payment will have additional 100% of the requested passport.",
         "itemFour": "Scan all the required documents and resize them according to the guidelines.",
         "itemFive": "Payment will be through online and banks using the payment code generated after the application form submitted.",
         "itemSix": "After you apply for the service, you must print the last page which has your appointment and delivery date and time. Take the paper with you to your appointment.",

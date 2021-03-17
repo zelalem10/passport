@@ -48,11 +48,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 const dateFormatter = (date) => {
+    if(date && typeof(date)!=='undefined'){
     let selectDays = new Date(date);
     let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(selectDays);
     let mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(selectDays);
     let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(selectDays);
     return (`${mo} ${da}, ${ye}`);
+    }
 }
 function getSteps() {
     return ['Personal Detail', 'Address', 'Family', 'Travel plan', 'Attachment'];
@@ -70,14 +72,14 @@ export default function HorizontalLabelPositionBelowStepper(props) {
     const steps = getSteps();
 
     const dispatch = useDispatch();
-debugger;
+
     const counter = useSelector((state) => state);
     const appList = counter.applicationList[counter.applicationList.length - 1];
     let displayedApplication = {};
     const { displayRequestId, backToList, status } = props;
 
     displayedApplication = appList;
-debugger;
+const requiredAttachements=displayedApplication?displayedApplication.requiredAttachements:null;
     const personalInformation = displayedApplication
         ? displayedApplication.personResponses
         : null;
@@ -223,6 +225,7 @@ debugger;
                         issueDate: travelPlan ? travelPlan.issueDate?getFormatedDate(travelPlan.issueDate):null : null,
                         expireDate: travelPlan ? travelPlan.expireDate?getFormatedDate(travelPlan.expireDate):null : null,
                         passportType: travelPlan ? travelPlan.passportType : null,
+                        correctionType:travelPlan?parseInt(travelPlan.correctionReason):null,
                         isDatacorrected: travelPlan
                             ? travelPlan.isDatacorrected
                             : false,
@@ -268,7 +271,6 @@ debugger;
 
                 .catch((err) => {
                     debugger;
-                    
                     setloading(false);
                     setResponseMessage(err.response.data.Message);
                 });
@@ -315,6 +317,7 @@ debugger;
                         ref={childRef}
                         displayedApplication={displayedApplication}
                         personalInformation={personalInformation}
+                        requiredAttachements={requiredAttachements}
                     />
                 );
 

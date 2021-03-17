@@ -68,6 +68,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
     const [isSuccess, setIsSuccess] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     const [responseMessage, setResponseMessage] = useState('');
+    const [badRequestErrorMessage,setBadRequestErrorMessage]=useState([]);
     const [response, setResponse] = useState({});
     const [personId, setPersonId] = useState(0);
     const [loading, setloading] = useState(false);
@@ -105,6 +106,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
 
         const isVilid = childRef.current.Validate();
         if (isVilid) {
+            debugger;
             let personalInfo = counter.personalInfoReducer[counter.personalInfoReducer.length - 1];
             let addressInfo = counter.address[counter.address.length - 1];
             let familyInfo = counter.familyReducer[counter.familyReducer.length - 1];
@@ -209,7 +211,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                 };
                 axiosInstance.post('/Request/api/V1.0/Request/SubmitRequest',requestBody)
                     .then((todo) => {
-                        debugger;
+                        
                         setloading(false);
                         setResponseMessage(todo.data.message);
                         setResponseAlert(true);
@@ -238,6 +240,9 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                         setloading(false);
                         console.log('Body: ', JSON.stringify(requestBody));
                         console.log('AXIOS ERROR: ', err.response);
+                        if(err.response.data.status==400){
+                            setBadRequestErrorMessage(err.response.data.errors);
+                        }else
                         if (err.response != null && err.response != "undefined") setResponseMessage(err.response.data.Message);
                         else setResponseMessage('something goes wrong!');
                         setResponseAlert(true);
@@ -245,6 +250,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
 
             }
             else {
+                debugger;
                 const requestBody = {
                     requestId: requestInfo ? Number.parseInt(requestInfo.requestId, 10) : 0,
                     requestMode: serviceInfo && serviceInfo.isUrgent === true ? 1 : 0,
@@ -255,7 +261,7 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                     requestTypeId: serviceInfo
                         ? Number.parseInt(serviceInfo.appointemntType, 10)
                         : 0,
-                    appointmentIds: [],
+                        appointmentIds: appointment ? [appointment[0].id] : [],
                     userName: localStorage.logedInUsedData ? JSON.parse(localStorage.logedInUsedData).username : '',
                     deliveryDate: appointment ? appointment.date : "",
                     deliveryDateFormat: "yyyy-MM-dd",
@@ -341,9 +347,10 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                         },
                     ],
                 };
+                
                 axiosInstance.post('/Request/api/V1.0/Request/SubmitRequest',requestBody)
                     .then((todo) => {
-                        debugger;
+                        
                         setResponseMessage(todo.data.message);
                         setResponseAlert(true);
                         setIsSuccess(true);
@@ -369,7 +376,11 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                         debugger;
                         console.log('Body: ', JSON.stringify(requestBody));
                         console.log('AXIOS ERROR: ', err.response);
-                        if (err.response != null && err.response != "undefined") setResponseMessage(err.response.data.message);
+                        if(err.response.data.status==400){
+                            setBadRequestErrorMessage(err.response.data.errors);
+                        }
+                        else if (err.response != null && err.response != "undefined") {setResponseMessage(err.response.data.message);}
+
                         else setResponseMessage('something goes wrong!');
                         setResponseAlert(true);
                         setloading(false);
@@ -401,8 +412,10 @@ const PersonalInfoStepper = forwardRef((props, ref) => {
                     <TravelPlan
                         ref={childRef}
                         resMessage={responseMessage}
+                        badRequestErrorMessage={badRequestErrorMessage}
                         isSucces={isSuccess}
                         respnseGet={responseAlert}
+                        
                     />
 
                 );

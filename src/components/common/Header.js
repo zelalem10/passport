@@ -55,6 +55,7 @@ const NavbarPage = (props) => {
   function logout(e) {
     e.preventDefault();
     localStorage.removeItem('userToken');
+    cookies.remove('AC_TO')
     localStorage.removeItem('personalDetail');
     localStorage.removeItem('userId');
     history.push('/signIn');
@@ -111,7 +112,7 @@ const NavbarPage = (props) => {
     </ul>
   );
   const onLanguageHandle = (e) => {
-    debugger;
+    
     
     let newLang = e.currentTarget.dataset.id ;
     setvalue({ value: newLang });
@@ -144,7 +145,7 @@ const NavbarPage = (props) => {
     );
   };
 
-  return (
+  return ( 
     <Fragment>
       <MDBNavbar className="headerOne">
         <MDBContainer className="passport-container" fluid>

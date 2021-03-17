@@ -77,7 +77,7 @@ const PaymentSelection = forwardRef((props, ref) => {
     useImperativeHandle(ref, () => ({
 
         saveData() {
-            debugger;
+            
             const priceInfo = counter.priceInfo[counter.priceInfo.length - 1];
             setDataSaved(true)
             if (confirmed === true) {

@@ -25,7 +25,7 @@ import Spinner from '../../common/Spinner';
 import axiosInstance from '../../Utils/axios';
 
 const MyApp = forwardRef((props, ref) => {
-  debugger;
+  
   const { t, i18n } = useTranslation();
   const [state, setState] = useState({ date: new Date(), time: '' });
   const [respone, setResponse] = useState({});
@@ -73,7 +73,39 @@ const MyApp = forwardRef((props, ref) => {
   ) {
     setData(counter.service[counter.service.length - 1]);
   }
-  
+  function getFormatedDate(date){
+    debugger;
+    if(date && typeof(date)!=='undefined'){
+    let dateToFormat= new Date(date);
+    let utc_offset=dateToFormat.getTimezoneOffset();
+    // new Date(dateToFormat.getTime()-utc_offset);
+    dateToFormat.setMinutes(dateToFormat.getMinutes()-utc_offset);
+  let formatedYear = dateToFormat.getFullYear();
+  let formatedMonth = (1 + dateToFormat.getMonth()).toString();
+  formatedMonth =
+    formatedMonth.length > 1 ? formatedMonth : '0' + formatedMonth;
+  let formatedDay = dateToFormat.getDate().toString();
+  formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
+  let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
+  console.log(stringDateValue);
+  return stringDateValue;
+    }
+    return null;
+}
+const newDateWithFormattedTimeZone=(date)=>{
+  if(date && typeof(date)!=='undefined'){
+        let dateToFormat= new Date(date);
+        let utc_offset=dateToFormat.getTimezoneOffset();
+        // new Date(dateToFormat.getTime()-utc_offset);
+        dateToFormat.setMinutes(dateToFormat.getMinutes()+utc_offset);
+        dateToFormat.setHours(0,0,0,0);
+        return dateToFormat;
+  }
+  else{
+    return null;
+  }
+
+}
 
   const handleIsUrgent = () => {
     setShowAvailableTimeSlots(false);
@@ -153,40 +185,22 @@ const MyApp = forwardRef((props, ref) => {
     setActiveTImeSlot({ key: e.target.id, active: !currentState });
   };
 
-  if((data.appointemntType===3 || data.appointemntType===4 ||data.appointemntType===8) && formCompleted===false){
-    setFormCompleted(true);
 
-  }
   useImperativeHandle(ref, () => ({
    
 
     
     saveData() {
       debugger;
-      if(data.appointemntType===2){
+     
       if(state.date){
       let urgentQuotaId = 0;
-      let formatedYear = state.date.getFullYear();
-      let formatedMonth = (1 + state.date.getMonth()).toString();
-      formatedMonth =
-        formatedMonth.length > 1 ? formatedMonth : '0' + formatedMonth;
-      let formatedDay = state.date.getDate().toString();
-      formatedDay = formatedDay.length > 1 ? formatedDay : '0' + formatedDay;
-      let stringDateValue = `${formatedYear}-${formatedMonth}-${formatedDay}`;
+      let stringDateValue=getFormatedDate(state.date);
       if (isUrgentAppointment) {
         if (availableDateAndQota) {
           for (let i = 0; i < availableDateAndQota.length; i++) {
-            let dateTobeformated = new Date(availableDateAndQota[i].date);
-            let formatedAvYear = dateTobeformated.getFullYear();
-            let formatedAvMonth = (1 + dateTobeformated.getMonth()).toString();
-            formatedAvMonth =
-              formatedAvMonth.length > 1
-                ? formatedAvMonth
-                : '0' + formatedAvMonth;
-            let formatedAvDay = dateTobeformated.getDate().toString();
-            formatedAvDay =
-              formatedAvDay.length > 1 ? formatedAvDay : '0' + formatedAvDay;
-            let stringAvailableDateValue = `${formatedAvYear}-${formatedAvMonth}-${formatedAvDay}`;
+            let dateTobeformated = newDateWithFormattedTimeZone(availableDateAndQota[i].date);
+              let stringAvailableDateValue=getFormatedDate(dateTobeformated);
             if (stringDateValue == stringAvailableDateValue) {
               urgentQuotaId = availableDateAndQota[i].urgentQuotaId;
             }
@@ -223,11 +237,13 @@ const MyApp = forwardRef((props, ref) => {
       } else {
         if(state.date && selectTime){
           let sampleData={
-            id: 0,
+              id: 0,
             date: stringDateValue,
             durationId: parseInt(selectTime),
             dateTimeFormat: 'yyyy-MM-dd',
             noOfApplicants: parseInt(data.numberOfApplicants),
+            officeId:parseInt(siteInfo.offceId),
+            requestTypeId:data.appointemntType,
           };
           console.log(JSON.stringify(sampleData));
           setloading(true);
@@ -237,6 +253,8 @@ const MyApp = forwardRef((props, ref) => {
             durationId: parseInt(selectTime),
             dateTimeFormat: 'yyyy-MM-dd',
             noOfApplicants: parseInt(data.numberOfApplicants),
+            officeId:parseInt(siteInfo.offceId),
+            requestTypeId:data.appointemntType,
           })
           .then((response) => {
             console.log(response.data.appointmentResponses);
@@ -250,6 +268,7 @@ const MyApp = forwardRef((props, ref) => {
             setloading(false);
           })
           .catch((error) => {
+            debugger;
             setloading(false);
             if (state.date && selectTime) {
               setErrorMessage(error.message);
@@ -267,13 +286,10 @@ const MyApp = forwardRef((props, ref) => {
       }
     }else{
 setErrorMessage('Please Select Date.')
-      }}else if(data.appointemntType===3 || data.appointemntType===4 ||data.appointemntType===8){
-        setFormCompleted(true);
-        
       }
     },
     isCompleted() {
-      debugger;
+      
      
       return formCompleted;
     },
@@ -320,13 +336,13 @@ let da = '';
           if (isUrgentAppointment) {
             axiosInstance.post('/Schedule/api/V1.0/Schedule/GetUrgentAvailableDateAndTimes',
             {
-              startDate: new Date(
+              startDate: newDateWithFormattedTimeZone(
                 new Date().setTime(
                   new Date().getTime() +
                     advancedRestrictionData.minDays * 86400000
                 )
               ),
-              endDate: new Date(
+              endDate: newDateWithFormattedTimeZone(
                 new Date().setTime(
                   new Date().getTime() +
                     advancedRestrictionData.maxDays * 86400000
@@ -344,7 +360,7 @@ let da = '';
                   i++
                 ) {
                   availabletIMES.push(responses.data.availableDateAndTimes[i]);
-                  let dateAV = new Date(
+                  let dateAV = newDateWithFormattedTimeZone(
                     responses.data.availableDateAndTimes[i].date
                   );
                   let formatedavDate =
@@ -353,27 +369,22 @@ let da = '';
                     (dateAV.getMonth() + 1) +
                     ',' +
                     dateAV.getDate();
-                  availableDates.push(new Date(formatedavDate).toString());
+                  availableDates.push(newDateWithFormattedTimeZone(formatedavDate).toString());
                 }
                 setAvailableTimes(availabletIMES);
 
-                let startDate = new Date(
+                let startDate = newDateWithFormattedTimeZone(
                   new Date().setTime(
                     new Date().getTime() +
                       advancedRestrictionData.minDays * 86400000
                   )
                 );
-                let formatedDate =
-                  startDate.getFullYear() +
-                  ',' +
-                  (startDate.getMonth() + 1) +
-                  ',' +
-                  startDate.getDate();
+                let formatedDate =getFormatedDate(startDate);
 
                 setAvailableDates(availableDates);
 
-                let currentDate = new Date(formatedDate);
-                let stopDate = new Date(
+                let currentDate = newDateWithFormattedTimeZone(formatedDate);
+                let stopDate = newDateWithFormattedTimeZone(
                   new Date().setTime(
                     new Date().getTime() +
                       advancedRestrictionData.maxDays * 86400000
@@ -382,20 +393,21 @@ let da = '';
                 while (currentDate <= stopDate) {
                   let formatedCurrentDateString = currentDate.toString();
                   if(availableDates.length===0){
-                    disabledDates.push(new Date(currentDate));
+                    disabledDates.push(newDateWithFormattedTimeZone(currentDate));
                   }
                   for (let i = 0; i < availableDates.length; i++) {
                    
                     if (
                       availableDates.indexOf(
-                        new Date(formatedCurrentDateString).toString()
+                        newDateWithFormattedTimeZone(formatedCurrentDateString).toString()
                       ) === -1
                     ) {
-                      disabledDates.push(new Date(currentDate));
+                      disabledDates.push(newDateWithFormattedTimeZone(currentDate));
                     }
                   }
+                  
                   setDisabledDate(disabledDates);
-                  currentDate = new Date(
+                  currentDate = newDateWithFormattedTimeZone(
                     new Date().setTime(currentDate.getTime() + 1 * 86400000)
                   );
                 }
@@ -407,31 +419,16 @@ let da = '';
                 console.log('error' + error);
               });
           } else {
-            let sampleData={
-              startDate: new Date(
-                new Date().setTime(
-                  new Date().getTime() +
-                    advancedRestrictionData.minDays * 86400000
-                )
-              ),
-              endDate: new Date(
-                new Date().setTime(
-                  new Date().getTime() +
-                    advancedRestrictionData.maxDays * 86400000
-                )
-              ),
-              requestTypeId: data.appointemntType,
-              officeId: parseInt(siteInfo.offceId),
-              noOfApplicants: parseInt(data.numberOfApplicants),
-            };
+            
             axiosInstance.post('/Schedule/api/V1.0/Schedule/GetAvailableDateAndTimes',{
-              startDate: new Date(
+              
+              startDate: newDateWithFormattedTimeZone(
                 new Date().setTime(
                   new Date().getTime() +
                     advancedRestrictionData.minDays * 86400000
                 )
               ),
-              endDate: new Date(
+              endDate: newDateWithFormattedTimeZone(
                 new Date().setTime(
                   new Date().getTime() +
                     advancedRestrictionData.maxDays * 86400000
@@ -442,43 +439,30 @@ let da = '';
               noOfApplicants: parseInt(data.numberOfApplicants),
             })
               .then((responses) => {
-                console.log(JSON.stringify(responses.data.availableDateAndTimes));
+                debugger;
                 for (
                   let i = 0;
                   i < responses.data.availableDateAndTimes.length;
                   i++
                 ) {
                   availabletIMES.push(responses.data.availableDateAndTimes[i]);
-                  let dateAV = new Date(
-                    responses.data.availableDateAndTimes[i].date
-                  );
-                  let formatedavDate =
-                    dateAV.getFullYear() +
-                    ',' +
-                    (dateAV.getMonth() + 1) +
-                    ',' +
-                    dateAV.getDate();
-                  availableDates.push(new Date(formatedavDate).toString());
+                  let formatedavDate=responses.data.availableDateAndTimes[i].date;
+                  availableDates.push(newDateWithFormattedTimeZone(formatedavDate).toString());
                 }
                 setAvailableTimes(availabletIMES);
 
-                let startDate = new Date(
+                let startDate = newDateWithFormattedTimeZone(
                   new Date().setTime(
                     new Date().getTime() +
                       advancedRestrictionData.minDays * 86400000
                   )
                 );
-                let formatedDate =
-                  startDate.getFullYear() +
-                  ',' +
-                  (startDate.getMonth() + 1) +
-                  ',' +
-                  startDate.getDate();
+                debugger;
 
                 setAvailableDates(availableDates);
 
-                let currentDate = new Date(formatedDate);
-                let stopDate = new Date(
+                let currentDate = startDate;
+                let stopDate = newDateWithFormattedTimeZone(
                   new Date().setTime(
                     new Date().getTime() +
                       advancedRestrictionData.maxDays * 86400000
@@ -489,14 +473,16 @@ let da = '';
                     let formatedCurrentDateString = currentDate.toString();
                     if (
                       availableDates.indexOf(
-                        new Date(formatedCurrentDateString).toString()
+                        newDateWithFormattedTimeZone(formatedCurrentDateString).toString()
                       ) === -1
                     ) {
-                      disabledDates.push(new Date(currentDate));
+                      disabledDates.push(newDateWithFormattedTimeZone(currentDate));
+                      break;
                     }
+                    break;
                   }
                   setDisabledDate(disabledDates);
-                  currentDate = new Date(
+                  currentDate =new Date(
                     new Date().setTime(currentDate.getTime() + 1 * 86400000)
                   );
                 }
@@ -512,28 +498,30 @@ let da = '';
           }
         })
         .catch((error) => {
-          debugger;
+          
           console.log('error' + error);
         });
     }else if(data.appointemntType===3 || data.appointemntType===4 ||data.appointemntType===8){
-      debugger;
+      
       if(siteInfo){
 
       axiosInstance.post('/Schedule/api/V1.0/Schedule/GetAvailableDeliveryAppointment',{
         "requestTypeId": data.appointemntType,
         "officeId": parseInt(siteInfo.offceId),
-        "daysForProcess": durationLength
+        "noOfApplicants": 1
       
     }).then((response)=>{
         setloading(false);
-         selectDays = siteInfo?new Date(response.data.date):new Date();
+         selectDays = siteInfo?newDateWithFormattedTimeZone(response.data.date):new Date();
    ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(selectDays);
  mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(selectDays);
  da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(selectDays);
  setEstimatedDate(`${mo} ${da}, ${ye}`)
- dispatch(
-  addAppointmentDate({date:response.data.date,id:0})
-)
+ setState({ ...state, date: response.data.date });
+ setSelectTime(response.data.duration.id);
+//  dispatch(
+//   addAppointmentDate({date:response.data.date,id:response.data.duration.id})
+// )
 
       }).catch((error)=>{
 setloading(false);
@@ -550,20 +538,10 @@ setloading(false);
   const showTimeSlots = (date) => {
     if (!isUrgentAppointment) {
       let timeSlotsForSpecificDate = [];
-      let formatedSelectedDate =
-        date.getFullYear() + ',' + (date.getMonth() + 1) + ',' + date.getDate();
       
       for (let i = 0; i < availableTimes.length; i++) {
-        let dateAV = new Date(availableTimes[i].date);
-        let formatedavDate =
-          dateAV.getFullYear() +
-          ',' +
-          (dateAV.getMonth() + 1) +
-          ',' +
-          dateAV.getDate();
-        let stringDate = new Date(formatedSelectedDate).toString();
-        let stringFormatedavDate = new Date(formatedavDate).toString();
-        if (stringFormatedavDate === stringDate) {
+        let dateAV = newDateWithFormattedTimeZone(availableTimes[i].date);
+        if (dateAV.getTime() === date.getTime()) {
           if (availableTimes[i]) {
             if (availableTimes[i].hasOwnProperty('durations')) {
               for (let l = 0; l < availableTimes[i].durations.length; l++) {
@@ -660,7 +638,7 @@ setloading(false);
                 maxDate={
                   new Date(
                     new Date().setTime(
-                      new Date().getTime() + respone.maxDays * 86400000
+                      new Date().getTime() + (respone.maxDays-1) * 86400000
                     )
                   )
                 }

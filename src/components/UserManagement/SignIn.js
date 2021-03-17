@@ -73,7 +73,7 @@ function SignIn() {
       PasswordError = 'Please Enter Your Password.';
     } else PasswordError = '';
 
-    if (EmailError || PasswordError) {
+    if (EmailError || PasswordError || data.ReCAPTCHAError) {
       setEmailError(EmailError);
       setPasswordError(PasswordError);
       return false;

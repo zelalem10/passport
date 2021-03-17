@@ -105,7 +105,7 @@ const Fileupload = forwardRef((props, ref) => {
   }));
 
   const validate = (files) => {
-    debugger;
+    
     var fileCount = 0;
     var i;
 
@@ -198,7 +198,7 @@ const Fileupload = forwardRef((props, ref) => {
     }
   };
   const onChange = (e) => {
-    debugger;
+    
     const { id, value } = e.target;
 
     setfilename((prevState) => ({

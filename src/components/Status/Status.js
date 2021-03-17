@@ -32,11 +32,13 @@ function Status(props) {
     return date;
   };
   const dateFormatter=(date)=>{
+    if(date && typeof(date)!=='undefined'){
     let selectDays = new Date(date);
     let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(selectDays);
    let mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(selectDays);
    let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(selectDays);
    return (`${mo} ${da}, ${ye}`);
+    }
    }
   return (
     <>
@@ -185,8 +187,8 @@ function Status(props) {
                                     </div>
                                   </a>
                                 ) : null}
-                                {ApplicationNumberData.personResponses.personStatus ==
-                                  'SendforCorrection' ||
+                                {ApplicationNumberData.personResponses.isApplicantNotified ==
+                                  true ||
                                 ApplicationNumberData.personResponses.personStatus ==
                                   'Initial' ? (
                                   <a
@@ -204,7 +206,7 @@ function Status(props) {
                                       <i class="fas fa-edit fa-lg"></i>
                                     </div>
                                   </a>
-                                 ) : null}  
+                                 ) : null}   
                                 <a
                                   onClick={() =>
                                     handleDisplay(

@@ -61,7 +61,7 @@ function RenewPassport(props) {
                 </a>
                 <a
                   class="small-12 column row card--link vertical-margin-1"
-                  onClick={() => props.handleReplacmentReason(2)}
+                  onClick={() => props.handleReplacmentReason(4)}
                 >
                   <div class="small-12 medium-4 column card card--small-gutters card--teal flex flex--column align-center text-center">
                     <strong><Trans>renewPassport.replacmentofValid</Trans></strong>

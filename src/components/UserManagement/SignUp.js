@@ -164,7 +164,7 @@ class SignUp extends Component {
           this.redirectToLogIn();
         })
         .catch((err) => {
-          debugger;
+          
           console.log(err);
            this.state.internalErrorMessage = err.response.data.message;
            this.redirectToSignUp()

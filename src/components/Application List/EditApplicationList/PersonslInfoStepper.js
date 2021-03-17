@@ -45,11 +45,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 const dateFormatter = (date) => {
+    if(date && typeof(date)!=='undefined'){
     let selectDays = new Date(date);
     let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(selectDays);
     let mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(selectDays);
     let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(selectDays);
     return (`${mo} ${da}, ${ye}`);
+    }
 }
 function getSteps() {
     return ['Personal Detail', 'Address', 'Family', 'Travel plan', 'Attachment'];
@@ -257,7 +259,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             axiosInstance.put('/Request/api/V1.0/Request/UpdateRequest',requestBody)
 
                 .then((todo) => {
-                    debugger;
+                    
                     setloading(false);
                     handleNext();
                     setResponseMessage('');
@@ -265,7 +267,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                 })
 
                 .catch((err) => {
-                    debugger;
+                    
                     setloading(false);
                     setResponseMessage(err.response.data.Message);
                 });

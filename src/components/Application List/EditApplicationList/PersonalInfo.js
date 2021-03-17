@@ -19,7 +19,7 @@ import axiosInstance from '../../Utils/axios';
 
 
 const PersonalInfo = forwardRef((props, ref) => {
-  debugger;
+  
   const [nationalityList, setNationalityList] = useState([]);
   const [occupationList, setOccupationList] = useState([]);
   const [emailErrorMessage,setEmailErrorMessage]=useState('');
@@ -199,7 +199,7 @@ const [isEmailValid,setIsEmailValid]=useState(true);
    }
   
   const handleChange = (event) => {
-  debugger;
+  
     const { name, value } = event.target;
     
     setPersonalInfo((prevState) => ({
@@ -233,7 +233,7 @@ const [isEmailValid,setIsEmailValid]=useState(true);
   
  
     useEffect(() => {
-      debugger;
+      
       setNotCompleted({
         firstName: personalInfo.firstName ? false : true,
         middleName: personalInfo.middleName ? false : true,

@@ -44,11 +44,13 @@ const AccordionSummary = withStyles({
   expanded: {},
 })(MuiAccordionSummary);
 const dateFormatter=(date)=>{
+  if(date && typeof(date)!=='undefined'){
   let selectDays = new Date(date);
   let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(selectDays);
  let mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(selectDays);
  let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(selectDays);
  return (`${mo} ${da}, ${ye}`);
+  }
  }
 const AccordionDetails = withStyles((theme) => ({
   root: {
@@ -100,7 +102,7 @@ export default function ViewAppointment(props) {
 
   
     const getBarcode=(requestId)=>{
-      debugger;
+      
     axiosInstance.get(`/Request/api/V1.0/Request/GetBarCode?requestId=${requestId}`)
             .then((response)=>{
               if(response.data.status===1){
@@ -120,7 +122,7 @@ export default function ViewAppointment(props) {
   if (appList ? appList.requestId == displayRequestId : false) {
     displayedApplication = appList;
   }
-  debugger;
+  
     if(displayedApplication.requestStatus==="Payment Completed" && !barcodeData.hasOwnProperty('barCode')){
       
       getBarcode(displayedApplication.requestId);
@@ -184,12 +186,24 @@ export default function ViewAppointment(props) {
           </div>
           <div class="form-group form-inline passport-display">
             <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+              Application Status:
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>
+              <label class="font-weight-bold">
+                {personalInformation?personalInformation.personStatus:null}
+              </label>
+            </b>
+          </div>
+          
+          <div class="form-group form-inline passport-display">
+            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
               Request Date:{' '}
             </label>
             &nbsp;&nbsp;&nbsp;&nbsp;
             <b>
               <label class="font-weight-bold">
-              {dateFormatter(displayedApplication.requestDate)}
+              {displayedApplication.requestedDateDisplay}
                
               </label>
             </b>
@@ -202,7 +216,7 @@ export default function ViewAppointment(props) {
             &nbsp;&nbsp;&nbsp;&nbsp;
             <b>
               <label class="font-weight-bold">
-              {displayedApplication.appointmentResponse ? dateFormatter(displayedApplication.appointmentResponse.date) :personalInformation?dateFormatter(personalInformation.deliveryAppointment):null}
+              {displayedApplication.appointmentResponse ? displayedApplication.appointmentDateDisplay :personalInformation?displayedApplication.deliveryDateDisplay:null}
                 
               </label>
             </b>
@@ -243,6 +257,17 @@ export default function ViewAppointment(props) {
             </b>
           </div>
           <div class="form-group form-inline passport-display">
+            <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+            Order Code :{' '}
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>
+              <label class="font-weight-bold">
+              {displayedApplication.personResponses.orderCode}
+              </label>
+            </b>
+          </div>
+          <div class="form-group form-inline passport-display">
                   <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                     Office
                   </label>
@@ -272,7 +297,7 @@ export default function ViewAppointment(props) {
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <b>
                     <label class="font-weight-bold">
-                      {displayedApplication?displayedApplication.personResponses?dateFormatter(displayedApplication.personResponses.deliveryAppointment):null:null}
+                      {displayedApplication?displayedApplication.personResponses?displayedApplication.deliveryDateDisplay:null:null}
                     </label>
                   </b>
                 </div> :null}
@@ -358,7 +383,7 @@ export default function ViewAppointment(props) {
                       </label>
                     </b>
                   </div>
-                 
+                  
               <div class="form-group form-inline">
                 <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                   Date of Birth
@@ -366,7 +391,19 @@ export default function ViewAppointment(props) {
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <b>
                   <label class="font-weight-bold">
-                  {dateFormatter(personalInformation.dateOfBirth)}
+                  {displayedApplication.birthDateDisplay}
+                   
+                  </label>
+                </b>
+              </div>
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                Birth place
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                  {personalInformation.birthPlace}
                    
                   </label>
                 </b>
@@ -580,6 +617,17 @@ export default function ViewAppointment(props) {
               </div>
               <div class="form-group form-inline">
                 <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Kebele
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {addressInformation.kebele}
+                  </label>
+                </b>
+              </div>
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
                   Street
                 </label>
                 &nbsp;&nbsp;&nbsp;&nbsp;
@@ -608,6 +656,17 @@ export default function ViewAppointment(props) {
                 <b>
                   <label class="font-weight-bold">
                     {addressInformation.poBox}
+                  </label>
+                </b>
+              </div>
+              <div class="form-group form-inline">
+                <label class="control-label col-sm-4 p-0 pr-2 justify-content-end">
+                  Price
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>
+                  <label class="font-weight-bold">
+                    {displayedApplication.totalPrice}
                   </label>
                 </b>
               </div>

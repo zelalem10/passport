@@ -10,6 +10,11 @@ import HorizontalLabelPositionBelowStepper from './EditApplicationList/PersonslI
 import RescheduleAppointment from './Rescheduleappointment/appointmentDate';
 import GetContent from '../UrgentAppointment/Payment/PaymentSelection';
 import Spinner from '../common/Spinner';
+import deletePersonalInfo from '../../redux/actions/deletePersonalInfo';
+import deleteAddressInfo from '../../redux/actions/deleteAddress';
+import clearFamily from '../../redux/actions/clearFamilyAction';
+import deleteTravelInfo from '../../redux/actions/deleteTravelPlan';
+import deleteApplicationList from '../../redux/actions/deleteApplicationList';
 const Errorstyle = {
   fontSize: '1.2rem',
 };
@@ -90,7 +95,7 @@ const MainStatus = () => {
   };
 
   const handleSubmit = (e) => {
-    debugger;
+    
     e.preventDefault();
     setloading(true);
     const isValid = validate();
@@ -139,11 +144,58 @@ const MainStatus = () => {
       }
     }
   };
+  const counter = useSelector((state) => state);
   const backToList = () => {
     setGoToPayment(false);
     sethandleDisplayId('');
     setDisplayRequestId('');
     setIsEdit('');
+if(counter.applicationList){
+  if(counter.applicationList[counter.applicationList.length-1]){
+    dispatch(deleteApplicationList([]));
+  }
+  axiosInstance.get(`/Request/api/V1.0/Request/GetRequestsByApplicationNumber?applicationNumber=${ApplicationNumber}`)
+          .then((response) => {
+            setApplicationNumberData(response.data.serviceRequest);
+            setAllError('');
+            if (response.data.status !== 0) {
+              setShowForm(false);
+              setShowApplicationNumberResults(true);
+              setclearbutton(true);
+              setloading(false);
+              dispatch(addApplicationList(response.data.serviceRequest));
+            }
+          })
+          .catch((error) => {
+            console.log('error' + error);
+            const errorMessage = error.response.data.message;
+            setinternalServerError(errorMessage);
+            setloading(false);
+          });
+}
+    if(counter.personalInfoReducer){
+      if(counter.personalInfoReducer[counter.personalInfoReducer.length-1]){
+
+  dispatch(deletePersonalInfo([]));
+      }
+      
+      if(counter.address){
+        if(counter.address[counter.address.length-1]){
+          dispatch(deleteAddressInfo([]));
+        }
+      }
+      
+      if(counter.familyReducer){
+        if(counter.familyReducer[counter.familyReducer.length-1]){
+          dispatch(clearFamily([]));
+        }
+      }
+      if(counter.travelPlan){
+        if(counter.travelPlan[counter.travelPlan.length-1]){
+          dispatch(deleteTravelInfo([]));
+        }
+      }
+  }
   };
 
   // clear Serch Items
@@ -154,7 +206,7 @@ const MainStatus = () => {
     setShowConfirmationNumberDataResults(false);
     setShowForm(true);
   };
-  debugger;
+  
   if (goToPayment) {
     return <GetContent handlePaymentId={handlePaymentId} status={true} backToList={backToList} />;
   } else if (handleDisplayId) {

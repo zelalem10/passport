@@ -37,6 +37,7 @@ function requestTypeGetter(requetTypeId) {
     }
 }
 const TravelPlan = forwardRef((props, ref) => {
+    debugger;
     const { t, i18n } = useTranslation();
     const [isLoading, setIsLoading] = useState(true);
     const [travelPlan, setTravelPlan] = useState({
@@ -73,6 +74,7 @@ const TravelPlan = forwardRef((props, ref) => {
     const [isOldPassportValid, setIsOldPassportValid] = useState(true);
     const [isIssueDateValid, setIsIssueDateValid] = useState(false);
     const [isExpireDateValid, setIsExpireDateValid] = useState(false);
+    const [isCorrectionTypeValid,setIsCorrectionTypeValid]=useState(false);
     const [isOnLoad, setIsOnLoad] = useState(true);
     const handleChange = (event) => {
         
@@ -141,6 +143,7 @@ const TravelPlan = forwardRef((props, ref) => {
 
     const [notifyUser, setNotifyUser] = useState('');
     const handleissueDateChange = (date) => {
+        debugger;
         compareDates(date, true);
         setSelectedissueDate(date);
         setTravelPlan((prevState) => ({
@@ -152,7 +155,6 @@ const TravelPlan = forwardRef((props, ref) => {
         setIsIssueDateValid(true);
     };
     const handleexpirationDateChange = (date) => {
-        compareDates(date, false);
         setSelectedexpirationDate(date);
 
 
@@ -164,18 +166,17 @@ const TravelPlan = forwardRef((props, ref) => {
         setIsExpireDateValid(true);
     };
     // check date difference between two dates
-    const compareDates = (changedDate, isIssue) => {
+    const compareDates = (changedDate) => {
         // To calculate the time difference of two dates 
+        debugger;
+        let appointmentDateTime=appointmentDate?new Date(appointmentDate.date):new Date();
         if(changedDate){
         let Difference_In_Time = '';
-        if (isIssue) {
-            Difference_In_Time = (changedDate.getTime() + 157784760000) - selectedexpirationDate.getTime();
-        } else {
-            Difference_In_Time = (selectedissueDate.getTime() + 157784760000) - changedDate.getTime();
-        }
+            Difference_In_Time = (changedDate.getTime() + 157784760000) - appointmentDateTime.getTime();
+        
 
         let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-        if (Difference_In_Days > 182.5) {
+        if (Difference_In_Days > 365.5) {
             setNotifyUser('Your Passport is not expired you may required to pay an extra payment!');
         } else { setNotifyUser(''); }
     }
@@ -198,6 +199,7 @@ const TravelPlan = forwardRef((props, ref) => {
         }
     }
     const serviceSelcetion = counter.service[counter.service.length - 1];
+    const appointmentDate= counter.appointmentDate[counter.appointmentDate.length-1][0];
     const requestType = serviceSelcetion.appointemntType;
     const requestTypeStr = requestTypeGetter(requestType);
 
@@ -237,7 +239,7 @@ const TravelPlan = forwardRef((props, ref) => {
             return travelPlan;
         },
         Validate() {
-            debugger;
+            
             setIsOnLoad(false);
             // setNotCompleted({
             //   pageQuantity: Number.parseInt(travelPlan.pageQuantity, 10) === 0 ? true : false,
@@ -246,7 +248,10 @@ const TravelPlan = forwardRef((props, ref) => {
             //   issueDate: travelPlan.issueDate === '' ? true : false,
             //   correctionReason: travelPlan.correctionReason === '' ? true : false,
             // });
-            if (notCompleted.pageQuantity === true) {
+            if(requestTypeStr=='Correction' && notCompleted.correctionReason===true){
+                return false;
+            }
+           else if (notCompleted.pageQuantity === true) {
                 return false;
             }
             else if (requestTypeStr != 'New' && notCompleted.passportNumber === true) {
@@ -265,8 +270,23 @@ const TravelPlan = forwardRef((props, ref) => {
                 {props.respnseGet === true ? (
                     props.isSucces === true ? (
                         null
-                    ) : (
+                    ) : (<>
                             <MDBAlert color="danger">{props.resMessage}</MDBAlert>
+                            {props.badRequestErrorMessage.length!=0?
+                            <MDBTypography note noteColor='danger' noteTitle='Please fix the errors below'>
+                                <ul>
+                             {Object.keys(props.badRequestErrorMessage).map((key)=>{
+                                 return(
+                                     <li>{props.badRequestErrorMessage[key]}</li>
+                                 )
+                             })}
+                            
+                            </ul>
+                                </MDBTypography>
+                    
+                            
+                           :null}
+                          </>
                         )
                 ) : null}
                 <form>

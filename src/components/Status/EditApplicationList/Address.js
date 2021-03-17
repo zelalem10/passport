@@ -239,7 +239,7 @@ axiosInstance.get('/Master/api/V1.0/CountryRegion/GetAll')
                   validate
                   error="wrong"
                   success="right"
-                  valueDefault={prevInfo ? prevInfo.state : null}
+                  valueDefault={prevInfo ? prevInfo.state : addressInfo.state?addressInfo.state:null}
                   onChange={handleChange}
                 />
               </MDBCol>
@@ -256,7 +256,7 @@ axiosInstance.get('/Master/api/V1.0/CountryRegion/GetAll')
                   validate
                   error="wrong"
                   success="right"
-                  valueDefault={prevInfo ? prevInfo.zone : null}
+                  valueDefault={prevInfo ? prevInfo.zone : addressInfo.zone?addressInfo.zone:null}
                   onChange={handleChange}
                 />
               </MDBCol>
@@ -271,7 +271,7 @@ axiosInstance.get('/Master/api/V1.0/CountryRegion/GetAll')
                   validate
                   error="wrong"
                   success="right"
-                  valueDefault={prevInfo ? prevInfo.wereda : null}
+                  valueDefault={prevInfo ? prevInfo.wereda : addressInfo.wereda?addressInfo.wereda:null}
                   onChange={handleChange}
                 />
               </MDBCol>
@@ -286,7 +286,7 @@ axiosInstance.get('/Master/api/V1.0/CountryRegion/GetAll')
                   validate
                   error="wrong"
                   success="right"
-                  valueDefault={prevInfo ? prevInfo.street : null}
+                  valueDefault={prevInfo ? prevInfo.street : addressInfo.street?addressInfo.street:null}
                   onChange={handleChange}
                 />
               </MDBCol>
@@ -303,7 +303,7 @@ axiosInstance.get('/Master/api/V1.0/CountryRegion/GetAll')
                   validate
                   error="wrong"
                   success="right"
-                  valueDefault={prevInfo ? prevInfo.kebele : null}
+                  valueDefault={prevInfo ? prevInfo.kebele : addressInfo.kebele?addressInfo.kebele:null}
                   onChange={handleChange}
                 />
               </MDBCol>
@@ -319,7 +319,7 @@ axiosInstance.get('/Master/api/V1.0/CountryRegion/GetAll')
                   validate
                   error="wrong"
                   success="right"
-                  valueDefault={prevInfo ? prevInfo.houseNo : null}
+                  valueDefault={prevInfo ? prevInfo.houseNo : addressInfo.houseNo?addressInfo.houseNo:null}
                   onChange={handleChange}
                 />
               </MDBCol>
@@ -334,7 +334,7 @@ axiosInstance.get('/Master/api/V1.0/CountryRegion/GetAll')
                   validate
                   error="wrong"
                   success="right"
-                  valueDefault={prevInfo ? prevInfo.poBox : null}
+                  valueDefault={prevInfo ? prevInfo.poBox : addressInfo.poBox?addressInfo.poBox:null}
                   onChange={handleChange}
                 />
               </MDBCol>

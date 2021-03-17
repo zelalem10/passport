@@ -21,11 +21,13 @@ function InstructionPage() {
   ? personRequestdata.appointmentResponse
   : null;
   const dateFormatter = (date) => {
+    if(date && typeof(date)!=='undefined'){
     let selectDays = new Date(date);
     let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(selectDays);
     let mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(selectDays);
     let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(selectDays);
     return (`${mo} ${da}, ${ye}`);
+    }
 }
   return (
     <>
@@ -67,9 +69,9 @@ function InstructionPage() {
           </p>
           <div class="alert alert-danger my-4 p-3" role="alert">
               <h6 class=" m3-5">     
-               N.B : Please ensure that you make the exact payment within 2 hours after making the request order. 
+               N.B : Please ensure that you make the exact payment within 48 hours after making the request order. 
                {/* If you do not get your request order in 2 days after marking payment, please contact by using this email address. */}
-               If you do not get any SMS or email confirmation in 2 hours after marking the payment, please contact us by this email address: 
+               If you do not get any SMS or email confirmation in 2 hours after making the payment, please contact us by this email address: 
                <a href="mailto:support@ethiopianpassportservices.gov.et">
             <strong>
              support@ethiopianpassportservices.gov.et
@@ -77,6 +79,9 @@ function InstructionPage() {
              </a>
              <br></br>
              Phone Number : 8133
+             <br></br>
+             Only payment through payment order is acceptable (direct depositing and transferring a payment to the account is not acceptable)
+
                 </h6>
               </div>
           <p>

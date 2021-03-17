@@ -7,7 +7,7 @@ import React, {
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from '../common/Spinner';
-import { MDBCol, MDBRow, MDBBadge } from 'mdbreact';
+import { MDBCol, MDBRow, MDBBadge,MDBTypography } from 'mdbreact';
 import addAttachement from '../../redux/actions/AddAttachementAction';
 import Cookies from 'universal-cookie';
 
@@ -109,7 +109,7 @@ const Fileupload = forwardRef((props, ref) => {
   }));
 
   const validate = (files) => {
-    debugger;
+    
     var fileCount = 0;
     var i;
     
@@ -206,7 +206,7 @@ const Fileupload = forwardRef((props, ref) => {
     }
   };
   const onChange = (e) => {
-    debugger;
+    
     const { id, value } = e.target;
 
     setfilename((prevState) => ({
@@ -271,9 +271,17 @@ const Fileupload = forwardRef((props, ref) => {
           <form onSubmit={(e) => submit(e)}>
             <div class="row ">
               <div class="col-md-10 " id="attachmentmargin">
-              <MDBBadge color="primary smallPadding " className='mb-2'>
+              <MDBTypography note noteColor='info' noteTitle='Note info: '>
+              <ul>
+  <li>Size of the image should be less than 1MB and in JPEG, JPG, PNG, GIF, and PDF format</li>
+  <li>ONLY clear, A4 color photocopies of your supporting documents will be accepted.</li>
+  <li>Applicants should present all original documents on a scheduled date and time of the appointment</li>
+</ul>              
+    </MDBTypography>
+              {/* <MDBBadge color="primary smallPadding " className='mb-2'>
                 Size of the image should be less than 1MB and in JPEG, JPG, PNG, GIF, and PDF format
-                </MDBBadge>
+                ONLY clear, A4 color photocopies of your supporting documents will be accepted.
+                </MDBBadge> */}
 
                 {errorMessage.length
                   ? errorMessage.map((error) => (

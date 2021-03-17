@@ -25,7 +25,7 @@ const Fileupload = forwardRef((props, ref) => {
 
   const { personalInformation } = props;
     const accesstoken = tokenValue();
-  debugger;
+  
   const formData = new FormData();
   let requestPersonId = personalInformation.requestPersonId;
   const [files, setfiles] = useState([]);
@@ -78,7 +78,7 @@ const Fileupload = forwardRef((props, ref) => {
   }));
 
   // const validate = (files) => {
-  //   debugger;
+  //   
 
   //   if (files.length < requiredFile) {
   //     fileError.push('You Should have to Choose all files');
@@ -95,7 +95,7 @@ const Fileupload = forwardRef((props, ref) => {
 
   const submit = async (e) => {
     //props.hideBack();
-    debugger;
+    
     e.preventDefault();
     setsuccessMessage(false);
     seterrorMessage(false);

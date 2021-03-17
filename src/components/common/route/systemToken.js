@@ -20,9 +20,9 @@ function SystemToken() {
 
     useEffect(async () => {
 
-        // debugger;
+        // 
         // var personalDetail = localStorage.getItem('logedInUsedData');
-        // debugger;
+        // 
 
         // if (personalDetail) {
         //     let personalDetailJson = JSON.parse(personalDetail);
@@ -32,7 +32,7 @@ function SystemToken() {
         //     }
         // }
 
-        const accesstoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQW5vbnltb3VzQGV0aGlvcGlhbmFpcmxpbmVzLmNvbSIsIm5iZiI6MTYwMzUzMTkyNiwiZXhwIjoxNjEzODk5OTI2LCJpYXQiOjE2MDM1MzE5MjZ9.9sfNh1--xqspHt0jgdOLvTuQBpheVbStaiOsNaA755A';
+        const accesstoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJKV1RfQ1VSUkVOVF9VU0VSIjoiQW5vbnltb3VzQGV0aGlvcGlhbmFpcmxpbmVzLmNvbSIsIm5iZiI6MTYxMzk3MTg0MiwiZXhwIjoxNjI0MzM5ODQyLCJpYXQiOjE2MTM5NzE4NDJ9.0cvpJ5pPxFvzGBVhkjapHd0kskTwh9bUa4NWXGicV3Y';
          cookies.set('SY_TO', accesstoken);
         const config = {
             headers: { Authorization: 'Bearer ' + accesstoken },
@@ -48,12 +48,14 @@ function SystemToken() {
         //    },
         // })
         //    .then(async (response) => {
-        //        await cookies.set('SY_TO', response.data.accessToken);
+        //        debugger;
+        //        cookies.set('SY_TO', response.data.accessToken);
         //        cookies.set('RF_TO', response.data.refreshToken);
-        //        const accesstoken = localStorage.systemToken;
         //        const config = {
         //            headers: { Authorization: 'Bearer ' + accesstoken },
         //        };
+        //     });
+        //     const accesstoken=cookies.get('SY_TO');
 axiosInstance.get('/Master/api/V1.0/CountryRegion/GetAll')
             .then((response) => {
                 localStorage.setItem(
